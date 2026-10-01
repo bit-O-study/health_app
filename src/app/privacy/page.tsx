@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/seo";
 // ⚠️ 사용자(운영자)가 채워야 하는 값 — Play 콘솔 등록 전에 실제 정보로 교체하세요.
 const OPERATOR = "[회사/운영자명]";
 const CONTACT_EMAIL = "[문의 이메일]";
-const EFFECTIVE_DATE = "2026-07-13";
+const EFFECTIVE_DATE = "2026-09-30";
 
 export const metadata: Metadata = {
   title: "개인정보처리방침",
@@ -43,11 +43,13 @@ export default function PrivacyPage() {
           <li>
             <b>건강·운동 데이터</b>: 걸음 수·체중·체성분(Android Health Connect 를 통해
             사용자가 허용한 경우에만 읽음), 운동 기록·루틴, 식단 기록, 체성분(인바디)
-            기록 및 사용자가 허용한 경우 Health Connect 로 내보내는 운동 세션.
+            기록, 수분 섭취 기록, 운동 전 컨디션(수면·근육통·피로)과 이용자가 입력한 통증
+            부위, 사용자가 허용한 경우 Health Connect 로 내보내는 운동 세션.
           </li>
           <li>
             <b>이미지</b>: 이용자가 촬영/업로드한 식단 사진, 운동 자세 영상, 인바디 결과지
-            사진(AI 분석 목적).
+            사진(AI 분석 목적). 「카메라로 횟수 세기」의 카메라 영상은 이용자의 기기 안에서만
+            자세 인식에 쓰이고, 저장하거나 서버로 전송하지 않습니다.
           </li>
           <li>
             <b>서비스 이용 정보</b>: 접속 로그, 기기·브라우저 정보, 오류 로그 등 서비스
@@ -61,6 +63,11 @@ export default function PrivacyPage() {
           <li>회원 식별 및 로그인, 서비스 제공(운동 루틴 추천·기록·통계).</li>
           <li>걸음 수·운동·식단·체성분 데이터 기반의 개인 맞춤 기록/분석 제공.</li>
           <li>업로드한 이미지의 AI 분석(식단 인식, 자세 코칭, 인바디 인식).</li>
+          <li>
+            AI 맞춤 추천(운동·식단·다짐): 운동·식단·수분·체중·체성분 기록을 숫자 요약으로 만들어
+            AI 에 보내 추천을 받습니다. 이름·이메일·연락처는 보내지 않으며, 처음 이용할 때 별도로
+            동의를 받습니다.
+          </li>
           <li>서비스 개선, 오류 대응, 문의 응대, 부정 이용 방지.</li>
         </ul>
       </Section>
@@ -98,10 +105,19 @@ export default function PrivacyPage() {
             <b>Kakao</b> — 카카오 로그인 및 공유 기능(이용 시).
           </li>
           <li>
-            <b>NVIDIA / Anthropic</b> — 업로드 이미지의 AI 분석(식단·자세·인바디). 분석에
-            필요한 이미지가 해당 AI 처리 서버로 전송될 수 있습니다.
+            <b>Google(Gemini) / NVIDIA / Anthropic</b> — AI 분석. 업로드 이미지(식단·자세·인바디)와
+            AI 맞춤 추천에 필요한 기록 요약(이름·연락처 제외)이 해당 AI 처리 서버로 전송될 수
+            있으며, 각 사업자의 API 이용약관에 따라 처리됩니다.
+          </li>
+          <li>
+            <b>Solapi</b> — 트레이너 알림톡 발송(트레이너가 입력한 휴대폰 번호).
           </li>
         </ul>
+        <p className="mt-2">
+          <b>국외 이전</b>: 위 AI 사업자(Google·NVIDIA·Anthropic)의 처리 서버는 국외(미국 등)에
+          있어, AI 분석을 요청할 때 위 항목이 네트워크로 전송됩니다. 이용자는 AI 기능을 쓰지 않거나
+          AI 맞춤 추천 동의를 철회해 전송을 거부할 수 있으며, 이 경우 AI 기능만 이용할 수 없습니다.
+        </p>
       </Section>
 
       <Section title="5. 보유 및 이용 기간, 파기">

@@ -45,6 +45,11 @@ import {
   isDayBlockId,
 } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { DailyCheckinCard } from "@/features/routine/components/daily-checkin-card";
+import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
+import { painConflicts, type Checkin } from "@/features/routine/checkin";
+import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import {
   getLastExerciseValues,
   getTodayCompletedItems,
@@ -141,15 +146,19 @@ export default async function Home() {
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
   // '이번 주' 카드는 홈에만 둔다(2026-09-15 깔끔·촘촘 — 운동탭에서 같은 카드를 두 번 보지 않게).
-  const [profile, routine, dailyPlan, trainerComments] = user
+  const [profile, routine, dailyPlan, trainerComments, todayCheckin, painAreas, todayIds] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
         getDailyPlanForDate(todayYmd),
         // 트레이너 코멘트도 같은 물결에. 대부분 0건이라 화면에 아무것도 안 그린다.
         getMyTrainerComments(3),
+        // 오늘 컨디션·아픈 부위(무료, 2026-09-30) — 운동 전 카드. 같은 물결에.
+        getTodayCheckin(),
+        getPainAreas(),
+        todayExerciseIds(),
       ])
-    : [null, null, [], []];
+    : [null, null, [], [], null, [], new Set<string>()];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -188,6 +197,9 @@ export default async function Home() {
             routine={routine}
             profile={profile}
             dailyPlan={dailyPlan}
+            todayCheckin={todayCheckin}
+            painAreas={painAreas}
+            todayIds={todayIds}
           />
         )}
       </main>
@@ -260,7 +272,13 @@ function TodayWorkout({
   routine,
   profile,
   dailyPlan,
+  todayCheckin,
+  painAreas,
+  todayIds,
 }: {
+  todayCheckin: Checkin | null;
+  painAreas: BodyPart[];
+  todayIds: ReadonlySet<string>;
   routine: {
     splits: number;
     variantId: string;
@@ -283,6 +301,8 @@ function TodayWorkout({
     routine.customWeek,
   );
   const todayYmd = seoulYmd();
+  // 오늘 컨디션·아픈 부위(무료, 2026-09-30) — 운동 전 카드.
+  const todayPain = painConflicts([...todayIds], painAreas);
 
   // (체형 목표·내다짐 카드는 홈탭으로 옮김 — 운동탭은 오늘 운동에 집중. #12/#19)
 
@@ -500,6 +520,10 @@ function TodayWorkout({
 
       {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
           '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
+      {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
+        <DailyCheckinCard today={todayYmd} initial={todayCheckin} painConflicts={todayPain} />
+      ) : null}
+
       <TodayEditScope>
         {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법. 밀린 빈 날(emptyChangedDay)도
             기존 빈 상태 UI(워밍업/본운동/마무리 각 섹션)를 그대로 띄운다. */}

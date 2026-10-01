@@ -10,6 +10,8 @@ import { myStateLines } from "@/features/coach/my-state";
 import { loadDietContext } from "@/features/coach/diet-coach-data";
 import { suggestTrainerCommitmentsAction } from "@/features/coach/ai-trainer-actions";
 import { EXERCISES } from "@/features/routine/exercise-catalog";
+import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
+import { trainerStateLines } from "@/features/routine/checkin";
 import { seoulYmd } from "@/features/routine/data";
 import { AiTrainerPanel } from "@/features/coach/components/ai-trainer-panel";
 import { DietCoachSection } from "@/features/coach/components/diet-coach-section";
@@ -30,14 +32,21 @@ export default async function AiTrainerPage() {
   // 아직 공개 전 — 자기 스위치(기본: 디버그 계정만). 관리자 화면에서 공개 범위를 바꾼다.
   if (!(await isDebugFeatureEnabled("ai-trainer"))) notFound();
 
-  const [state, consent, quota, diet, dietQuota] = await Promise.all([
+  const [state, consent, quota, diet, dietQuota, checkin, painAreas] = await Promise.all([
     loadMyState(),
     hasAiConsent(),
     readAiUsage("trainer"),
     loadDietContext(),
     readAiUsage("diet-coach"),
+    getTodayCheckin(),
+    getPainAreas(),
   ]);
-  const lines = state ? myStateLines(state, (id) => EXERCISES[id]?.name ?? id) : [];
+  // AI 에 보내는 줄과 같은 줄(오늘 컨디션·아픈 부위 포함)을 보여 준다.
+  const lines = trainerStateLines(
+    state ? myStateLines(state, (id) => EXERCISES[id]?.name ?? id) : [],
+    checkin,
+    painAreas,
+  );
   const today = seoulYmd();
 
   return (

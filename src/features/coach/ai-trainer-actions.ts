@@ -50,6 +50,9 @@ import {
 import { deferRoutineOneDayAction } from "@/features/routine/actions";
 import { seoulYmd } from "@/features/routine/data";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
+import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
+import { trainerStateLines } from "@/features/routine/checkin";
+import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
 
 export type GenerateTodayPlanResult =
   | { ok: true; plan: TodayPlan }
@@ -61,7 +64,7 @@ async function trainerEnabled(): Promise<boolean> {
 }
 
 /** 후보 운동 — 부위별 대표 운동을 먼저, 그다음 나머지. 내 헬스장에서 할 수 있는 것만. */
-async function loadCandidates(): Promise<Candidate[]> {
+async function loadCandidates(painAreas: readonly BodyPart[] = []): Promise<Candidate[]> {
   const gym = await getCurrentGym().catch(() => null);
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
   const byPart: Parameters<typeof buildCandidates>[0] = {};
@@ -75,7 +78,8 @@ async function loadCandidates(): Promise<Candidate[]> {
       equipment: pickAvailableEquipment(ex, gymSet),
     }));
   }
-  return buildCandidates(byPart);
+  // 아픈 부위(설정)는 후보에서 통째로 뺀다 — AI 가 아예 고를 수 없게.
+  return buildCandidates(byPart, painAreas);
 }
 
 /**
@@ -92,14 +96,15 @@ export async function generateTodayPlanAction(minutesInput?: unknown): Promise<G
   if (!(await hasAiConsent())) {
     return { ok: false, error: "AI 맞춤 추천 동의가 필요해요.", needsConsent: true };
   }
-  const [state, candidates] = await Promise.all([loadMyState(), loadCandidates()]);
+  const [state, painAreas, checkin] = await Promise.all([loadMyState(), getPainAreas(), getTodayCheckin()]);
+  const candidates = await loadCandidates(painAreas);
   if (!state || candidates.length === 0) {
     return { ok: false, error: "추천에 필요한 정보를 읽지 못했어요. 잠시 뒤 다시 시도해 주세요." };
   }
   const quota = await consumeAiQuota("trainer");
   if (!quota.ok) return { ok: false, error: quota.message };
 
-  const lines = myStateLines(state, (id) => EXERCISES[id]?.name ?? id);
+  const lines = trainerStateLines(myStateLines(state, (id) => EXERCISES[id]?.name ?? id), checkin, painAreas);
   const res = await callAI(TRAINER_SYSTEM, buildTrainerUserText(lines, candidates, minutes), { maxTokens: 700 });
   if (!res.ok) {
     // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).

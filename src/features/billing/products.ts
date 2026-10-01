@@ -7,6 +7,10 @@
 
 /** 프리미엄 월 구독. Play Console → 수익 창출 → 구독에서 같은 id 로 만든다. */
 export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
+export const COACH_PRODUCT_ID = "helssu_coach_monthly";
+export const COACH_PRICE_KRW = 990;
+export const COACH_PLAN_LABEL = "짐꾼 코칭";
+export const PREMIUM_OPEN = false;
 
 /**
  * 표시 가격(원, 부가세 포함) — 2026-09-09.
@@ -15,12 +19,10 @@ export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
  * 뿐이라, 콘솔에서 가격을 바꾸면 **여기도 같이 바꿔야 한다**(안 그러면 화면에 적힌 값과
  * 결제창 값이 달라진다 — 사용자는 이걸 사기로 받아들인다).
  *
- * 3,900원으로 잡은 근거는 원가다. `ai-quota.ts` 의 한도를 다 써도 최악 원가가
- * 1,940원이고, 아래 `netRevenueKrw` 로 계산한 실수령이 3,013원이다 —
- * **어떤 사용자도 적자가 나지 않는 선**에서 가장 낮은 가격대를 골랐다.
- * (이 관계는 `tests/be/logic/pricing.test.ts` 가 지킨다.)
+ * 개인 프리미엄은 3,990원으로 표시하며 신규 판매는 오픈 준비 중이다.
+ * 수수료 계산은 추정치이며 운영 인건비와 실제 AI 사용 원가는 별도다.
  */
-export const PREMIUM_PRICE_KRW = 3_900;
+export const PREMIUM_PRICE_KRW = 3_990;
 
 /** 구글 플레이 수수료. 연 100만 달러까지는 15%. */
 export const PLAY_FEE_RATE = 0.15;

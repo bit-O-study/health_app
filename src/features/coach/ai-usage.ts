@@ -4,7 +4,7 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
-import { isEntitled } from "@/features/billing/subscription";
+import { isPremiumEntitled } from "@/features/billing/subscription";
 import { getMySubscription } from "@/features/billing/subscription-store";
 import { hasTeamPremium } from "@/features/billing/team-store";
 import { consumeRate } from "@/lib/rate-limit/consume";
@@ -42,7 +42,7 @@ export async function resolveTier(): Promise<AiTier> {
       getMySubscription(),
       hasTeamPremium(),
     ]);
-    return isEntitled(personal) || team ? "premium" : "free";
+    return isPremiumEntitled(personal) || team ? "premium" : "free";
   } catch {
     return "free";
   }

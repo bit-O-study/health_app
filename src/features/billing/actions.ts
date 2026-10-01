@@ -12,7 +12,7 @@ import {
   getMySubscription,
   saveSubscription,
 } from "@/features/billing/subscription-store";
-import { isEntitled, statusLabel } from "@/features/billing/subscription";
+import { isCoachEntitled, isPremiumEntitled, statusLabel } from "@/features/billing/subscription";
 
 /**
  * 구매 확인·복원 — 로드맵 7.1.
@@ -22,6 +22,8 @@ import { isEntitled, statusLabel } from "@/features/billing/subscription";
  */
 
 export type BillingStatus = {
+  coaching: boolean;
+  coachingReady: boolean;
   premium: boolean;
   label: string;
   /** 검증이 가능한 환경인가(설정이 다 됐는가). */
@@ -32,7 +34,9 @@ export type BillingStatus = {
 export async function getBillingStatusAction(): Promise<BillingStatus> {
   const sub = await getMySubscription();
   return {
-    premium: isEntitled(sub),
+    premium: isPremiumEntitled(sub),
+    coaching: isCoachEntitled(sub),
+    coachingReady: billingSetup().ready && process.env.MANUAL_COACH_BILLING_ENABLED === "true",
     label: statusLabel(sub),
     ready: billingSetup().ready,
     expiresAt: sub?.expiresAt ?? null,

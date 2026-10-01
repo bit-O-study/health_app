@@ -65,7 +65,8 @@ export async function dispatchSupport(options: { recipientId?: string; ticketId?
       const single = count === 1 ? items?.[0]?.ticket_id : null;
       const link = supportConsoleUrl(single);
       const text = options.test ? "[짐꾼 고객센터] 무료 카카오 연결 테스트입니다." : `[짐꾼 고객센터] 확인할 문의 알림 ${count}건이 있습니다. 통합 관리자 콘솔에서 확인해 주세요.`;
-      const form = new URLSearchParams({ template_object: JSON.stringify({ object_type: "text", text: `${text}\n${link}`, link: { web_url: link, mobile_web_url: link }, button_title: "통합 관리자에서 확인" }) });
+      const webLink = { web_url: link, mobile_web_url: link };
+      const form = new URLSearchParams({ template_object: JSON.stringify({ object_type: "text", text: `${text}\n${link}`, link: webLink, buttons: [{ title: "통합 관리자에서 확인", link: webLink }] }) });
       const response = await fetch("https://kapi.kakao.com/v2/api/talk/memo/default/send", { method: "POST", headers: { Authorization: `Bearer ${tokens.access_token}` }, body: form, signal: AbortSignal.timeout(8000) });
       result = kakaoResult(response.status, await response.json());
     } catch { /* No raw token/provider response in logs; an uncertain send is never retried automatically. */ }

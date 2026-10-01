@@ -64,7 +64,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             key={id}
             id={id}
             active={status.plan === id}
-            canBuy={status.ready && status.personalPlan === "free"}
+            canBuy={status.ready && status.personalPlan === "free" && PLANS[id].onSale}
             pending={pending}
             onBuy={() => {
               const productId = PLANS[id].productId;
@@ -174,6 +174,13 @@ function PlanCard({
           {active ? (
             <span className="ml-1.5 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
               이용 중
+            </span>
+          ) : !plan.onSale ? (
+            <span
+              data-testid={`plan-${id}-soon`}
+              className="ml-1.5 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400"
+            >
+              오픈 준비 중
             </span>
           ) : null}
         </h3>

@@ -31,6 +31,12 @@ export type PlanMeta = {
   tagline: string;
   /** 이 요금제에서 **새로** 생기는 혜택(아래 요금제 것은 다시 적지 않는다). */
   benefits: readonly PlanBenefit[];
+  /**
+   * 지금 새로 살 수 있나. false 면 구독 화면에 "오픈 준비 중"만 보이고 시작 버튼이 없다.
+   * 이미 구독 중인 사람·트레이너 연결 회원의 혜택은 그대로다(판매만 멈춤).
+   * 사용자 결정(2026-10-01): 지금은 라이트(990원)만 판매 — 나머지는 나중에 연다.
+   */
+  onSale: boolean;
 };
 
 export const PLANS: Record<PlanId, PlanMeta> = {
@@ -40,6 +46,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     priceKrw: 0,
     productId: null,
     tagline: "기록하고 규칙으로 추천받기",
+    onSale: false,
     benefits: [
       { text: "운동·식단·수분·몸무게 기록", ready: true },
       { text: "규칙 기반 루틴 추천", ready: true },
@@ -57,6 +64,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     priceKrw: 990,
     productId: "helssu_lite_monthly",
     tagline: "내 기록으로 보는 세부 부위 리포트",
+    onSale: true,
     benefits: [
       { text: "세부 부위 27개 점수 리포트·4주 추이", ready: false },
       // 사용자 결정(2026-10-01): 라이트 추천은 **오늘만 운동 변경으로만** 적용 — 루틴은 안 바꾼다.
@@ -70,6 +78,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     priceKrw: 3_900,
     productId: "helssu_premium_monthly",
     tagline: "매일 오늘 운동을 짜 주는 AI 트레이너",
+    onSale: false,
     benefits: [
       { text: "AI 기능 사용 횟수 늘리기", ready: true },
       { text: "AI 트레이너 탭: 오늘의 운동 제안 → 적용하면 오늘만 변경", ready: false },
@@ -83,6 +92,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     priceKrw: 6_900,
     productId: "helssu_plus_monthly",
     tagline: "루틴까지 손보는 AI 트레이너",
+    onSale: false,
     benefits: [
       { text: "주 1회 루틴 점검(확인하면 루틴에 반영)", ready: false },
       { text: "4주 목표 리포트", ready: false },
@@ -94,6 +104,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     priceKrw: 9_900,
     productId: "helssu_pro_monthly",
     tagline: "자세까지 봐 주는 AI 트레이너",
+    onSale: false,
     benefits: [{ text: "AI 자세 코칭 상세(구간별 교정, 글·음성)", ready: false }],
   },
 };

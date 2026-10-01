@@ -50,6 +50,11 @@ test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", asyn
   await expect(page.getByTestId("plan-plus")).toContainText("월 6,900원");
   await expect(page.getByTestId("plan-pro")).toContainText("월 9,900원");
   await expect(page.getByTestId("plan-pro")).toContainText("곧 제공");
+  // 지금은 라이트만 판매 — 나머지는 오픈 준비 중(2026-10-01).
+  await expect(page.getByTestId("plan-lite-soon")).toHaveCount(0);
+  await expect(page.getByTestId("plan-basic-soon")).toHaveText("오픈 준비 중");
+  await expect(page.getByTestId("plan-plus-soon")).toHaveText("오픈 준비 중");
+  await expect(page.getByTestId("plan-pro-soon")).toHaveText("오픈 준비 중");
 
   // 아직 아무것도 안 샀으면 무료.
   const status = page.getByTestId("subscription-status");

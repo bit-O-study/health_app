@@ -112,3 +112,12 @@ describe("혜택·단가", () => {
     expect(planNetRevenueKrw("free")).toBe(0);
   });
 });
+
+describe("판매 중인 요금제 (2026-10-01 사용자 결정)", () => {
+  it("🔴 지금은 라이트(990원)만 판매 — 베이직·플러스·프로는 오픈 준비 중", () => {
+    expect(PLANS.lite.onSale).toBe(true);
+    expect(PLANS.basic.onSale).toBe(false);
+    expect(PLANS.plus.onSale).toBe(false);
+    expect(PLANS.pro.onSale).toBe(false);
+  });
+});

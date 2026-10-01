@@ -10,10 +10,10 @@
 import { netRevenueKrw } from "@/features/billing/products";
 import type { AiTier } from "@/features/coach/ai-quota";
 
-export type PlanId = "free" | "basic" | "plus" | "pro";
+export type PlanId = "free" | "lite" | "basic" | "plus" | "pro";
 
 /** 싼 것부터 — 순서가 곧 등급이다(위 요금제는 아래 요금제 혜택을 모두 가진다). */
-export const PLAN_ORDER: readonly PlanId[] = ["free", "basic", "plus", "pro"];
+export const PLAN_ORDER: readonly PlanId[] = ["free", "lite", "basic", "plus", "pro"];
 
 export type PlanBenefit = {
   text: string;
@@ -44,6 +44,23 @@ export const PLANS: Record<PlanId, PlanMeta> = {
       { text: "운동·식단·수분·몸무게 기록", ready: true },
       { text: "규칙 기반 루틴 추천", ready: true },
       { text: "카메라로 횟수 세기", ready: true },
+    ],
+  },
+  /**
+   * 라이트 990원(2026-10-01, `docs/sub-muscle-score-lite-plan-2026-10-01.html`).
+   * **AI 없이** 내 기록으로 만드는 리포트·규칙 추천만 — 원가 0원. AI 사용 횟수는 무료와 같다
+   * (`aiTierForPlan` 참고). 무료와 베이직(AI) 사이에서 '처음 결제해 보는' 입구.
+   */
+  lite: {
+    id: "lite",
+    label: "라이트",
+    priceKrw: 990,
+    productId: "helssu_lite_monthly",
+    tagline: "내 기록으로 보는 세부 부위 리포트",
+    benefits: [
+      { text: "세부 부위 27개 점수 리포트·4주 추이", ready: false },
+      { text: "모자란 세부 부위를 채우는 맞춤 운동 추천", ready: false },
+      { text: "균형 리포트(밀기:당기기·앞:뒤)·월간 리포트", ready: false },
     ],
   },
   basic: {
@@ -80,7 +97,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
   },
 };
 
-export const PAID_PLANS: readonly PlanId[] = ["basic", "plus", "pro"];
+export const PAID_PLANS: readonly PlanId[] = ["lite", "basic", "plus", "pro"];
 
 export function isPlanId(v: unknown): v is PlanId {
   return typeof v === "string" && (PLAN_ORDER as readonly string[]).includes(v);
@@ -120,9 +137,10 @@ export function planForProduct(productId: string | null | undefined): PlanId {
  */
 export const SPONSORED_PLAN: PlanId = "plus";
 
-/** 기존 AI 사용 한도(무료/프리미엄 두 칸)에 어느 칸을 쓰는가. 유료는 모두 프리미엄 칸이다. */
+/** 기존 AI 사용 한도(무료/프리미엄 두 칸)에 어느 칸을 쓰는가. 베이직부터 프리미엄 칸이다. */
 export function aiTierForPlan(p: PlanId): AiTier {
-  return p === "free" ? "free" : "premium";
+  // 라이트는 AI 를 팔지 않는다 — 무료와 같은 칸(원가 0원 유지).
+  return p === "free" || p === "lite" ? "free" : "premium";
 }
 
 /** 요금제의 실수령(원) — 부가세 빼고 플레이 수수료 뗀 값. 무료는 0. */

@@ -12,7 +12,7 @@ import {
   purchaseSubscription,
   restorePurchase,
 } from "@/features/billing/play-billing-native";
-import { PAID_PLANS, PLANS, type PlanId } from "@/features/billing/plans";
+import { PAID_PLANS, PLANS, PLAN_ORDER, type PlanId } from "@/features/billing/plans";
 import { AI_FEATURES, MONTHLY_LIMITS } from "@/features/coach/ai-quota";
 import { MembershipCard } from "@/features/billing/components/membership-card";
 
@@ -183,9 +183,9 @@ function PlanCard({
       </div>
       <p className="text-xs text-zinc-500 dark:text-zinc-400">{plan.tagline}</p>
       <ul className="space-y-1">
-        {id !== "basic" ? (
+        {PLAN_ORDER.indexOf(id) > 1 ? (
           <li className="text-xs text-zinc-500 dark:text-zinc-400">
-            {PLANS[id === "pro" ? "plus" : "basic"].label} 혜택 전부 +
+            {PLANS[PLAN_ORDER[PLAN_ORDER.indexOf(id) - 1]].label} 혜택 전부 +
           </li>
         ) : null}
         {plan.benefits.map((b) => (

@@ -34,5 +34,6 @@ export const VAT_RATE = 0.1;
  * 비교하는 숫자라 그 차이가 흑자·적자를 가른다.
  */
 export function netRevenueKrw(priceKrw: number = PREMIUM_PRICE_KRW): number {
-  return Math.floor((priceKrw / (1 + VAT_RATE)) * (1 - PLAY_FEE_RATE));
+  // 1e-9: 990 ÷ 1.1 이 부동소수로 899.999… 가 되어 1원 덜 나오는 것을 막는다.
+  return Math.floor((priceKrw / (1 + VAT_RATE)) * (1 - PLAY_FEE_RATE) + 1e-9);
 }

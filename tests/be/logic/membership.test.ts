@@ -63,10 +63,11 @@ describe("해지 안내", () => {
     expect(n.lose).toEqual(["AI 기능 사용 횟수 늘리기"]);
   });
 
-  it("한 단계 낮은 요금제를 권한다(베이직은 없음)", () => {
+  it("한 단계 낮은 요금제를 권한다(라이트는 없음)", () => {
     expect(downgradeOf("pro")).toBe("plus");
     expect(downgradeOf("plus")).toBe("basic");
-    expect(downgradeOf("basic")).toBeNull();
+    expect(downgradeOf("basic")).toBe("lite");
+    expect(downgradeOf("lite")).toBeNull();
     expect(cancelNotice("plus", null).downgrade).toBe("basic");
   });
 });

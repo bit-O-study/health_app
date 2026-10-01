@@ -45,6 +45,7 @@ test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", asyn
   await expect(page.getByText("100", { exact: true }).first()).toBeVisible();
 
   // 요금제 세 개가 가격과 함께 보이고, 아직 없는 혜택은 '곧 제공'이라고 밝힌다(2026-09-30).
+  await expect(page.getByTestId("plan-lite")).toContainText("월 990원");
   await expect(page.getByTestId("plan-basic")).toContainText("월 3,900원");
   await expect(page.getByTestId("plan-plus")).toContainText("월 6,900원");
   await expect(page.getByTestId("plan-pro")).toContainText("월 9,900원");

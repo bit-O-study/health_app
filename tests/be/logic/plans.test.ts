@@ -17,9 +17,11 @@ import { PREMIUM_PRICE_KRW, PREMIUM_PRODUCT_ID } from "@/features/billing/produc
 import { worstCaseMonthlyCostKrw } from "@/features/coach/ai-quota";
 
 describe("요금제 표 (2026-09-30 사용자 결정)", () => {
-  it("무료 · 베이직 3,900 · 플러스 6,900 · 프로 9,900", () => {
-    expect(PLAN_ORDER).toEqual(["free", "basic", "plus", "pro"]);
+  it("무료 · 라이트 990 · 베이직 3,900 · 플러스 6,900 · 프로 9,900", () => {
+    expect(PLAN_ORDER).toEqual(["free", "lite", "basic", "plus", "pro"]);
     expect(PLANS.free.priceKrw).toBe(0);
+    expect(PLANS.lite.priceKrw).toBe(990);
+    expect(PLANS.lite.productId).toBe("helssu_lite_monthly");
     expect(PLANS.basic.priceKrw).toBe(3_900);
     expect(PLANS.plus.priceKrw).toBe(6_900);
     expect(PLANS.pro.priceKrw).toBe(9_900);
@@ -46,6 +48,7 @@ describe("요금제 표 (2026-09-30 사용자 결정)", () => {
 
 describe("상품 → 요금제", () => {
   it("상품 id 로 요금제를 찾는다", () => {
+    expect(planForProduct("helssu_lite_monthly")).toBe("lite");
     expect(planForProduct("helssu_premium_monthly")).toBe("basic");
     expect(planForProduct("helssu_plus_monthly")).toBe("plus");
     expect(planForProduct("helssu_pro_monthly")).toBe("pro");
@@ -75,9 +78,10 @@ describe("등급 비교", () => {
     expect(SPONSORED_PLAN).toBe("plus");
   });
 
-  it("유료는 모두 AI 프리미엄 한도 칸을 쓴다", () => {
+  it("🔴 라이트는 AI 를 팔지 않는다 — 무료 칸. 베이직부터 프리미엄 칸", () => {
     expect(aiTierForPlan("free")).toBe("free");
-    for (const p of PAID_PLANS) expect(aiTierForPlan(p)).toBe("premium");
+    expect(aiTierForPlan("lite")).toBe("free");
+    for (const p of ["basic", "plus", "pro"] as const) expect(aiTierForPlan(p)).toBe("premium");
   });
 
   it("isPlanId", () => {
@@ -94,14 +98,14 @@ describe("혜택·단가", () => {
     expect(pro.length).toBeGreaterThan(basic.length);
   });
 
-  it("🔴 유료 요금제 모두, 지금 AI 한도를 다 써도 실수령을 넘지 않는다", () => {
-    const worst = worstCaseMonthlyCostKrw("premium");
+  it("🔴 유료 요금제 모두, 그 요금제의 AI 한도를 다 써도 실수령을 넘지 않는다", () => {
     for (const p of PAID_PLANS) {
-      expect(worst, `${p}`).toBeLessThan(planNetRevenueKrw(p));
+      expect(worstCaseMonthlyCostKrw(aiTierForPlan(p)), `${p}`).toBeLessThan(planNetRevenueKrw(p));
     }
   });
 
-  it("실수령: 3,900→3,013 · 6,900→5,331 · 9,900→7,650", () => {
+  it("실수령: 990→765 · 3,900→3,013 · 6,900→5,331 · 9,900→7,650", () => {
+    expect(planNetRevenueKrw("lite")).toBe(765);
     expect(planNetRevenueKrw("basic")).toBe(3013);
     expect(planNetRevenueKrw("plus")).toBe(5331);
     expect(planNetRevenueKrw("pro")).toBe(7650);

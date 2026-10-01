@@ -1,0 +1,351 @@
+<title>짐꾼 라이트 혜택 후보</title>
+<meta name="description" content="AI 없이 990원 라이트 요금제에 넣을 수 있는 혜택 후보 20개 — 지금 앱 상태 조사, 원칙, 단계별 순서, 결정할 것">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 지금 상태 → 원칙 → 후보 20(묶음별) → 넣지 않을 것 → 순서 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start;font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
+.item h3{font-size:15.5px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+h2 .n{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:500;margin-left:8px}
+@media (max-width:520px){body{padding-inline:16px}h1{font-size:25px}.item{grid-template-columns:1fr}.item .tag{grid-row:auto}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 요금제 · 검수보고서 · 2026-10-01</p>
+  <h1>990원 라이트, AI 없이 줄 수 있는 혜택</h1>
+  <p class="lede">지금 앱에서 라이트만 쓰는 건 <b>맞춤 운동 앱 하나</b>뿐이에요. AI는 닫혀 있고(<code>AI_OPEN=false</code>), 나머지 기능은 거의 다 무료라서 라이트 혜택은 <b>새로 만들어야</b> 해요. 이미 모으고 있는데 화면에 안 보여 주는 데이터가 많아서, 서버 비용 없이 만들 수 있는 후보가 20개 나왔어요.</p>
+  <div class="meta">
+    <span>근거: 앱 전체 화면·제한·데이터 조사(코드 기준)</span>
+    <span>사용자 결정: AI는 990원 회원이 모이면 그때 연다</span>
+  </div>
+</header>
+
+<section>
+  <div class="stats">
+    <div class="stat"><b>1개</b><span>지금 라이트 전용 기능(맞춤 운동)</span></div>
+    <div class="stat"><b>20개</b><span>AI 없이 넣을 수 있는 후보</span></div>
+    <div class="stat"><b>765원</b><span>990원의 실수령(부가세·수수료 뺀 값)</span></div>
+    <div class="stat"><b>≈0원</b><span>후보 대부분의 회당 서버 비용(기기 안·DB 계산)</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>지금 앱 상태</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3><span class="pill ok">무료로 다 열려 있음</span></h3>
+      <ul class="clean">
+        <li>운동: 오늘 운동·계획·기록·러닝·가이드 운동(휴식 타이머·음성·<b>카메라 횟수 세기</b>·신기록 알림)</li>
+        <li>식단·수분·캘린더·생리 주기·그룹·커뮤니티·다짐</li>
+        <li>설정: 체성분 입력·점수·성장·내보내기(전체 백업)·테마(밝게/어둡게)</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">라이트로 잠긴 것</span></h3>
+      <ul class="clean">
+        <li>맞춤 운동 앱 전체(무료는 추천 1개 맛보기 + 잠금)</li>
+        <li>그 외 요금제를 보는 곳은 결제·AI 한도뿐 — <b>무료 회원에게 걸린 횟수·기간 제한이 사실상 없다</b></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">모으지만 안 보여 주는 데이터</span></h3>
+      <ul class="clean">
+        <li>체성분 측정 기록 전체 — 화면엔 <b>최근 1회</b>만</li>
+        <li>컨디션 체크인(잠·근육통·기운) — 오늘 권하기에만 쓰고 추이 없음</li>
+        <li>수분·걸음·수면·심박 — 그날 숫자만, 주간·월간 리포트 없음</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">이미 있는 계산</span></h3>
+      <ul class="clean">
+        <li>종목별 예상 1RM 추이·정체·신기록(<code>fit-growth.ts</code>)</li>
+        <li>세부 근육 25개 주간 자극·목표 비율(<code>fit.ts</code>)</li>
+        <li>점수·연속 기록(캘린더·그룹)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>원칙</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><b>무료에서 빼앗지 않는다.</b> 지금 무료인 걸 잠가 라이트로 돌리면 결제보다 이탈이 난다. 라이트 혜택은 <b>더 얹는 것</b>으로만.</li>
+      <li><b>990원 = 커피 한 모금 값에 "내 기록이 더 똑똑해진다".</b> 데이터 리포트·운동 도구처럼 매주 다시 열게 되는 것 위주.</li>
+      <li><b>비용이 거의 0원</b>이어야 한다(실수령 765원). AI·외부 API·큰 저장소는 피한다. 진행 사진만 저장소 비용이 조금 든다.</li>
+      <li><b>추천은 오늘만 운동 변경으로만</b> 적용(사용자 결정 그대로). 루틴 전체 변경은 높은 요금제 몫.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>A. 내 데이터 리포트 <span class="n">6</span></h2>
+  <p class="cap">이미 모으는 데이터라 화면만 만들면 된다. 가장 빠르고 "돈 낸 보람"이 바로 보인다.</p>
+  <div class="items">
+    <div class="item"><span class="tag">A1</span>
+      <h3>체성분 변화 리포트 <span class="pill ok">1단계 추천</span><span class="size">1~2일</span></h3>
+      <p class="why">인바디를 몇 번 재도 지금은 최근 1회만 보인다. 골격근·체지방이 어떻게 변했는지가 가장 궁금한 숫자다.</p>
+      <p class="how">측정일별 골격근량·체지방량·체지방률 그래프, 지난 측정 대비 변화(+0.8kg 근육 등), 그 사이 운동량 한 줄.</p>
+      <p class="where">데이터: <code>body_compositions</code>(전체 기록 있음)</p>
+    </div>
+    <div class="item"><span class="tag">A2</span>
+      <h3>컨디션 리포트 <span class="pill ok">1단계 추천</span><span class="size">1일</span></h3>
+      <p class="why">매일 누른 잠·근육통·기운이 어디에도 안 쌓여 보인다. "잠 못 잔 날 운동 기록이 떨어진다" 같은 패턴은 스스로 못 본다.</p>
+      <p class="how">최근 4주 컨디션 달력, 컨디션 좋은 날과 나쁜 날의 평균 볼륨 비교, 자주 아픈 부위.</p>
+      <p class="where">데이터: <code>daily_checkins</code>, <code>exercise_completions</code>, <code>profiles.pain_areas</code></p>
+    </div>
+    <div class="item"><span class="tag">A3</span>
+      <h3>식단 월간 리포트 <span class="pill ok">1단계 추천</span><span class="size">1~2일</span></h3>
+      <p class="why">식단은 매일 기록하는 습관 기능인데 돌아보는 화면이 짧다.</p>
+      <p class="how">한 달 단백질 목표 달성일 수, 평균 칼로리·탄단지, 가장 많이 먹은 음식 5개, 운동한 날과 쉰 날의 단백질 비교.</p>
+      <p class="where">데이터: <code>food_logs</code>(영양 화면이 이미 기간 값을 받는다)</p>
+    </div>
+    <div class="item"><span class="tag">A4</span>
+      <h3>수분·걸음·수면 주간 리포트 <span class="pill info">2단계</span><span class="size">2일</span></h3>
+      <p class="why">헬스 연결로 들어오는 걸음·수면이 그날 숫자로만 쓰인다.</p>
+      <p class="how">주간 평균과 지난주 대비, 목표 달성일, 수면이 짧은 주의 운동 기록 변화.</p>
+      <p class="where">데이터: <code>water_logs</code>, <code>daily_steps</code>, 기기 안 수면(<code>sleep-recovery.ts</code>)</p>
+    </div>
+    <div class="item"><span class="tag">A5</span>
+      <h3>1년 돌아보기(운동 잔디) <span class="pill info">2단계</span><span class="size">2일</span></h3>
+      <p class="why">길게 쓴 사람일수록 "얼마나 했나"를 보고 싶어 한다. 공유하기 좋아 홍보도 된다.</p>
+      <p class="how">GitHub 잔디처럼 1년 운동한 날, 총 볼륨·총 세트·가장 많이 한 운동·최고 신기록, 공유 이미지.</p>
+      <p class="where">데이터: <code>workout_completions</code>, <code>exercise_completions</code>, 캘린더 공유 이미지 경로 재사용</p>
+    </div>
+    <div class="item"><span class="tag">A6</span>
+      <h3>체중·체성분과 운동량 한 장 비교 <span class="pill info">3단계</span><span class="size">2일</span></h3>
+      <p class="why">"운동 늘린 달에 근육이 늘었나"를 한 화면에서. A1·맞춤 운동 리포트를 묶는 상위 화면.</p>
+      <p class="how">월별 막대(운동 볼륨) + 선(체중·골격근).</p>
+      <p class="where">데이터: <code>weight_logs</code>, <code>body_compositions</code>, 운동 기록</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>B. 운동 도구(규칙 기반) <span class="n">6</span></h2>
+  <p class="cap">AI가 아니라 정해진 규칙으로 계산한다. 앱에 아직 없는 기능들이다(조사 결과 '다음 무게 제안·디로드'는 없음).</p>
+  <div class="items">
+    <div class="item"><span class="tag">B1</span>
+      <h3>다음 무게 제안(점진적 과부하) <span class="pill ok">1단계 추천</span><span class="size">2일</span></h3>
+      <p class="why">헬스장에서 가장 자주 하는 고민이 "오늘 몇 kg?"이다. 매 운동마다 쓰는 기능이라 체감이 크다.</p>
+      <p class="how">지난 기록이 목표 반복을 다 채웠으면 +2.5kg(하체 +5kg), 못 채웠으면 유지, 두 번 연속 실패면 −10%. 운동 화면 무게 칸 옆에 "다음: 62.5kg".</p>
+      <p class="where">데이터: <code>exercise_completions</code>(지난 값 180일 창이 이미 있음)</p>
+    </div>
+    <div class="item"><span class="tag">B2</span>
+      <h3>정체 알림과 탈출 방법 <span class="pill info">2단계</span><span class="size">1일</span></h3>
+      <p class="why">맞춤 운동의 성장 탭이 이미 정체를 찾는데, 들어가야만 보인다.</p>
+      <p class="how">3주 넘게 1RM이 안 오른 종목을 알림으로, 방법 3개(반복 바꾸기·변형 운동·세트 추가) 중 하나를 오늘만 운동 변경으로 적용.</p>
+      <p class="where">데이터: <code>fit-growth.ts</code>의 정체 판정 재사용</p>
+    </div>
+    <div class="item"><span class="tag">B3</span>
+      <h3>디로드(쉬어 가는 주) 권하기 <span class="pill info">2단계</span><span class="size">1일</span></h3>
+      <p class="why">계속 무겁게만 하면 다치고 정체된다. 컨디션 체크인이 나쁜 날이 몰리면 알려 줄 근거가 있다.</p>
+      <p class="how">6~8주 연속 운동 + 근육통·기운 나쁨이 잦으면 "이번 주는 무게 −40%"를 오늘만 운동 변경으로.</p>
+      <p class="where">데이터: <code>daily_checkins</code>, 운동 기록</p>
+    </div>
+    <div class="item"><span class="tag">B4</span>
+      <h3>3개월 목표와 진행률 <span class="pill info">2단계</span><span class="size">2일</span></h3>
+      <p class="why">"벤치 100kg" 같은 목표가 있으면 990원을 계속 낼 이유가 생긴다.</p>
+      <p class="how">종목·목표 무게·날짜를 정하면 지금 예상 1RM 대비 진행률과 이 속도면 언제 닿는지.</p>
+      <p class="where">새 테이블 필요(목표 한 줄) · 예상 1RM은 이미 계산</p>
+    </div>
+    <div class="item"><span class="tag">B5</span>
+      <h3>아픈 부위 대체 운동 <span class="pill info">2단계</span><span class="size">1일</span></h3>
+      <p class="why">지금은 아픈 부위 운동을 추천에서 빼고 알려 주기만 한다.</p>
+      <p class="how">오늘 운동에 아픈 부위 운동이 있으면 덜 부담되는 대체 운동(머신·가벼운 변형)을 오늘만 바꾸기로.</p>
+      <p class="where">데이터: <code>pain_areas</code>, 세부 근육 점수표(같은 근육을 쓰는 운동 찾기)</p>
+    </div>
+    <div class="item"><span class="tag">B6</span>
+      <h3>트레이너 검수 루틴 팩 <span class="pill warn">3단계</span><span class="size">트레이너 필요</span></h3>
+      <p class="why">"검증된 루틴"은 돈 낼 이유가 분명하다.</p>
+      <p class="how">목표별(다이어트·벌크·하체 라인 등) 4주 프로그램, 매일 오늘만 운동 변경으로 넣어 줌.</p>
+      <p class="where">콘텐츠는 트레이너가 · 적용 경로는 이미 있음(<code>applyItemsTodayOnly</code>)</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>C. 기록·사진 <span class="n">2</span></h2>
+  <div class="items">
+    <div class="item"><span class="tag">C1</span>
+      <h3>몸 사진 비교(진행 사진) <span class="pill warn">3단계</span><span class="size">3일 · 저장소 비용</span></h3>
+      <p class="why">체중계 숫자보다 사진 변화가 동기 부여가 크다. 다른 앱의 대표 유료 기능.</p>
+      <p class="how">같은 자세로 찍은 사진을 날짜별로 나란히, 비공개 저장. 라이트 회원만 무제한(무료는 몇 장).</p>
+      <p class="where">새 비공개 버킷 필요 · 사진 1장 약 300KB로 줄여 저장(1인 월 수 원 이하)</p>
+    </div>
+    <div class="item"><span class="tag">C2</span>
+      <h3>운동 메모·기록 검색 <span class="pill info">2단계</span><span class="size">1일</span></h3>
+      <p class="why">"지난번 데드 그립 어떻게 했지?"를 찾을 길이 없다.</p>
+      <p class="how">종목·메모·날짜로 내 기록 검색.</p>
+      <p class="where">데이터: 루틴·오늘 계획의 메모, 운동 기록</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>D. 편의·표시 <span class="n">4</span></h2>
+  <div class="items">
+    <div class="item"><span class="tag">D1</span>
+      <h3>홈 배너 없음 <span class="pill ok">1단계 추천</span><span class="size">반나절</span></h3>
+      <p class="why">홈에 다른 앱(IQ 테스트·위스키) 홍보 배너가 무료 회원 모두에게 뜬다. 끄는 건 바로 체감된다.</p>
+      <p class="where"><code>src/features/cross-promo/*</code> — 라이트면 안 그리기</p>
+    </div>
+    <div class="item"><span class="tag">D2</span>
+      <h3>라이트 배지 <span class="pill ok">1단계 추천</span><span class="size">반나절</span></h3>
+      <p class="why">커뮤니티·그룹에서 이름 옆 작은 배지. 비용 0원, 다른 회원에게 라이트를 알리는 홍보 효과.</p>
+      <p class="where">작성자 표시 컴포넌트 · 요금제는 서버에서 판정</p>
+    </div>
+    <div class="item"><span class="tag">D3</span>
+      <h3>강조 색 고르기 <span class="pill info">2단계</span><span class="size">1일</span></h3>
+      <p class="why">지금 테마는 밝게/어둡게뿐. 브랜드 초록 말고 내가 고른 색.</p>
+      <p class="where"><code>src/features/theme/theme.ts</code> — 색 토큰 몇 개만 바꾸면 된다</p>
+    </div>
+    <div class="item"><span class="tag">D4</span>
+      <h3>공유 이미지 꾸미기 <span class="pill info">2단계</span><span class="size">1일</span></h3>
+      <p class="why">달력·신기록·1년 돌아보기 공유 이미지에 고를 수 있는 틀(라이트 전용).</p>
+      <p class="where">달력 공유 이미지 경로(<code>/api/calendar/month-image</code>) 재사용</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>E. 함께·운영 <span class="n">2</span></h2>
+  <div class="items">
+    <div class="item"><span class="tag">E1</span>
+      <h3>새 기능 먼저 써 보기 <span class="pill ok">1단계 추천</span><span class="size">반나절</span></h3>
+      <p class="why">이미 디버그 스위치 구조가 있다. 라이트 회원에게 공개 전 기능(예: 펫·새 리포트)을 먼저 열면 개발 중인 걸 혜택으로 바꿀 수 있다.</p>
+      <p class="where"><code>debug_feature_enabled</code>에 '라이트 이상' 공개 단계 추가</p>
+    </div>
+    <div class="item"><span class="tag">E2</span>
+      <h3>문의 먼저 답변 <span class="pill info">2단계</span><span class="size">반나절</span></h3>
+      <p class="why">운영 비용 없이 주는 신뢰. 고객센터 목록에서 라이트 문의를 위로.</p>
+      <p class="where">고객센터(<code>/settings/support</code>, 관리자 콘솔)</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>넣지 않는 것</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>후보</th><th>왜 안 넣나</th></tr></thead>
+      <tbody>
+        <tr><td>내보내기(백업)를 라이트 전용으로</td><td>내 데이터를 가져갈 권리 — 무료에서 빼면 안 된다.</td></tr>
+        <tr><td>무료 기록 기간 줄이기(예: 30일만)</td><td>무료에서 빼앗는 것. 이탈이 결제보다 크다.</td></tr>
+        <tr><td>늑대 펫 꾸미기 아이템</td><td>사용자 판단(2026-09-30): 꾸미기는 핵심 혜택이 아니다. 펫을 열면 E1(먼저 써 보기)로만.</td></tr>
+        <tr><td>그룹·커뮤니티 기본 기능 제한</td><td>사람이 모여야 990원 회원도 모인다 — 오히려 무료로 넓힌다.</td></tr>
+        <tr><td>카메라 횟수 세기 잠그기</td><td>이미 무료로 안내했다. 다시 잠그면 뺏는 것.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>추천 순서</h2>
+  <div class="phase">
+    <div class="box">
+      <h3><span class="pill ok">1단계</span> 바로 체감 · 1~2주</h3>
+      <ul class="clean">
+        <li>A1 체성분 변화 · A2 컨디션 · A3 식단 월간</li>
+        <li>B1 다음 무게 제안</li>
+        <li>D1 배너 없음 · D2 라이트 배지 · E1 먼저 써 보기</li>
+      </ul>
+      <p class="cap">구독 화면 라이트 카드 혜택이 3개 → 10개.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">2단계</span> 다시 열게 · 2~3주</h3>
+      <ul class="clean">
+        <li>A4 주간 리포트 · A5 1년 돌아보기</li>
+        <li>B2 정체 알림 · B3 디로드 · B4 목표 · B5 대체 운동</li>
+        <li>C2 기록 검색 · D3 강조 색 · D4 공유 틀 · E2 문의 먼저</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">3단계</span> 준비가 필요한 것</h3>
+      <ul class="clean">
+        <li>A6 체성분·운동 한 장 비교</li>
+        <li>B6 트레이너 검수 루틴 팩(콘텐츠)</li>
+        <li>C1 몸 사진 비교(저장소)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>결정할 것</h2>
+  <div class="decide">
+    <p><b>1.</b> 1단계 7개로 시작해도 될까요? (빼거나 더할 것)</p>
+    <p><b>2.</b> 무료 회원에게 리포트 맛보기를 줄까요? 맞춤 운동처럼 "1개만 보이고 나머지 잠금"이 결제 전환에 좋습니다.</p>
+    <p><b>3.</b> 다음 무게 제안(B1)을 라이트 전용으로 할지, 무료에도 "1종목만" 줄지.</p>
+    <p><b>4.</b> 몸 사진 비교(C1)는 저장 비용이 조금 듭니다. 무료 몇 장 / 라이트 무제한으로 갈까요?</p>
+  </div>
+</section>
+</div>

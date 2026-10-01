@@ -51,6 +51,7 @@ export function AiTrainerPanel({
   remaining: initialRemaining,
   limit,
   tier,
+  initialMinutes = null,
 }: {
   userId: string;
   today: string;
@@ -59,6 +60,8 @@ export function AiTrainerPanel({
   remaining: number;
   limit: number;
   tier: AiTier;
+  /** 설문의 1회 운동 시간(2026-10-01) — 시간 칩의 처음 값. */
+  initialMinutes?: TimeBudget;
 }) {
   const router = useRouter();
   const key = todayPlanStorageKey(userId, today);
@@ -70,7 +73,7 @@ export function AiTrainerPanel({
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, start] = useTransition();
   // 시간 맞춤(2026-09-30) — "오늘 30분만". null = 제한 없음.
-  const [minutes, setMinutes] = useState<TimeBudget>(null);
+  const [minutes, setMinutes] = useState<TimeBudget>(initialMinutes);
 
   const show = (p: TodayPlan) => {
     setPlan(p);

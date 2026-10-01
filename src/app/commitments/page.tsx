@@ -13,6 +13,7 @@ import { getUserRoutine } from "@/features/routine/data-access";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { toSurveyGoal, weeklyWorkoutDays } from "@/features/commitments/survey";
 import { CommitmentManager } from "@/features/commitments/components/commitment-manager";
+import { ageOf } from "@/features/profile/survey-extra";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "다짐" };
@@ -39,6 +40,7 @@ export default async function CommitmentsPage() {
           gender: profile.gender,
           weightKg: profile.weightKg,
           heightCm: profile.heightCm,
+          age: ageOf(profile.ageGroup),
         }).kcal,
       } as const)
     : undefined;

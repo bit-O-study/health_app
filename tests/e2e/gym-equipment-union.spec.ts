@@ -1,7 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import {
+  answerSurveyExtra,
   freshEmail,
+  rememberSignedUpEmail,
   seedRecommendedExercises,
   signUpAndOnboard,
   TEST_PASSWORD,
@@ -32,6 +34,7 @@ async function signUpToGymStep(page: Page) {
   await page.getByRole("button", { name: "다음" }).click();
   await page.getByRole("button", { name: /현재 유지/ }).click();
   await page.getByRole("button", { name: "다음" }).click();
+  await answerSurveyExtra(page);
   return email;
 }
 
@@ -88,6 +91,7 @@ test("내 헬스장에 없는 기구의 운동은 추천에 안 들어온다", a
 
   await page.goto("/login", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "회원가입" }).click();
+  rememberSignedUpEmail(email);
   await page.fill("#name", "기구검증");
   await page.fill("#phone", "010-1234-5678");
   await page.fill("#email", email);
@@ -104,6 +108,7 @@ test("내 헬스장에 없는 기구의 운동은 추천에 안 들어온다", a
   await page.getByRole("button", { name: "다음" }).click();
   await page.getByRole("button", { name: /현재 유지/ }).click();
   await page.getByRole("button", { name: "다음" }).click();
+  await answerSurveyExtra(page);
 
   // 가입 단계에서 바로 헬스장을 등록한다 — 바벨·덤벨만 있는 곳.
   await page.getByLabel("헬스장 검색").fill(gymName);

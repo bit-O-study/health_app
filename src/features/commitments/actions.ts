@@ -27,6 +27,7 @@ import {
 } from "@/features/commitments/survey";
 import { getUserProfile } from "@/features/profile/data-access";
 import { dailyTarget } from "@/features/diet/calorie-target";
+import { ageOf } from "@/features/profile/survey-extra";
 
 export type CommitmentActionResult =
   | { ok: true; id?: string }
@@ -189,6 +190,7 @@ export async function addSurveyCommitmentV2Action(input: {
       gender: profile.gender,
       weightKg: profile.weightKg,
       heightCm: profile.heightCm,
+      age: ageOf(profile.ageGroup),
     }).kcal,
   };
 

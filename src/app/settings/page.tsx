@@ -79,6 +79,7 @@ export default async function SettingsPage() {
     { href: "/settings/trainer-pass", title: "트레이너 정액권", icon: UsersRound },
     { href: "/settings/trainers", title: "트레이너 연결", icon: UsersRound },
     { href: "/settings/gym", title: "내 헬스장", icon: Building2 },
+    { href: "/settings/fit", title: "맞춤 운동 설정", icon: SlidersHorizontal },
     { href: "/settings/pain", title: "아픈 부위", icon: HeartPulse },
     { href: "/settings/score", title: "운동 점수", icon: Trophy },
     { href: "/settings/progress", title: "성장 그래프", icon: TrendingUp },

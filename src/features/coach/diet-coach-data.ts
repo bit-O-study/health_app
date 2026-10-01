@@ -5,6 +5,7 @@ import { seoulYmd } from "@/features/routine/data";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { dailyWaterTargetMl } from "@/features/diet/water";
 import { isGoal, type Goal } from "@/features/profile/goal";
+import { ageOf, isAgeGroup } from "@/features/profile/survey-extra";
 import {
   goalKcal,
   summarizeToday,
@@ -30,7 +31,7 @@ export async function loadDietContext(): Promise<DietContext | null> {
     const supabase = await createSupabaseServerClient();
     const today = seoulYmd();
     const [profile, food, water] = await Promise.all([
-      supabase.from("profiles").select("gender, weight_kg, height_cm, goal").eq("user_id", user.id).maybeSingle(),
+      supabase.from("profiles").select("gender, weight_kg, height_cm, goal, age_group").eq("user_id", user.id).maybeSingle(),
       supabase.from("food_logs").select("name, meal, kcal, protein_g").eq("user_id", user.id).eq("for_date", today),
       supabase.from("water_logs").select("ml").eq("user_id", user.id).eq("for_date", today).maybeSingle(),
     ]);
@@ -38,7 +39,8 @@ export async function loadDietContext(): Promise<DietContext | null> {
     const gender = p.gender === "female" ? "female" : "male";
     const weightKg = n(p.weight_kg) || null;
     const goal = isGoal(p.goal) ? p.goal : null;
-    const base = dailyTarget({ gender, weightKg, heightCm: n(p.height_cm) || null });
+    const age = ageOf(isAgeGroup(p.age_group) ? p.age_group : null);
+    const base = dailyTarget({ gender, weightKg, heightCm: n(p.height_cm) || null, age });
     const targets: DietTargets = {
       kcal: goalKcal(base, goal, gender),
       proteinG: base.protein,

@@ -93,8 +93,10 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
       <main className="app-container space-y-3" data-testid="fit-page" data-full={full ? "1" : "0"}>
         <div className="flex items-center justify-between gap-2 px-1 text-xs text-zinc-500 dark:text-zinc-400">
           <span>
-            {view.style === "female" ? "여성 · 하체·둔근 중심" : view.style === "male" ? "남성 · V자" : "고르게"} ·{" "}
-            {view.experienceLabel}
+            {view.style === "female" ? "하체 위주" : view.style === "male" ? "상체 위주 · V자" : "고르게"} · {view.experienceLabel}{" "}
+            <Link href="/settings/fit" className="font-semibold text-brand" data-testid="fit-style-change">
+              바꾸기
+            </Link>
           </span>
           <span className={`rounded-full px-2 py-0.5 font-semibold ${full ? "bg-brand-soft text-brand" : "bg-zinc-100 dark:bg-white/[0.08]"}`}>
             {full ? "라이트" : "무료 맛보기"}

@@ -13,6 +13,7 @@ import { EXERCISES } from "@/features/routine/exercise-catalog";
 import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { trainerStateLines } from "@/features/routine/checkin";
 import { seoulYmd } from "@/features/routine/data";
+import { getUserProfile } from "@/features/profile/data-access";
 import { AiTrainerPanel } from "@/features/coach/components/ai-trainer-panel";
 import { DietCoachSection } from "@/features/coach/components/diet-coach-section";
 import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
@@ -32,7 +33,7 @@ export default async function AiTrainerPage() {
   // 아직 공개 전 — 자기 스위치(기본: 디버그 계정만). 관리자 화면에서 공개 범위를 바꾼다.
   if (!(await isDebugFeatureEnabled("ai-trainer"))) notFound();
 
-  const [state, consent, quota, diet, dietQuota, checkin, painAreas] = await Promise.all([
+  const [state, consent, quota, diet, dietQuota, checkin, painAreas, profile] = await Promise.all([
     loadMyState(),
     hasAiConsent(),
     readAiUsage("trainer"),
@@ -40,6 +41,7 @@ export default async function AiTrainerPage() {
     readAiUsage("diet-coach"),
     getTodayCheckin(),
     getPainAreas(),
+    getUserProfile(),
   ]);
   // AI 에 보내는 줄과 같은 줄(오늘 컨디션·아픈 부위 포함)을 보여 준다.
   const lines = trainerStateLines(
@@ -61,6 +63,7 @@ export default async function AiTrainerPage() {
           remaining={quota.remaining}
           limit={quota.limit}
           tier={quota.tier}
+          initialMinutes={profile?.sessionMinutes ?? null}
         />
         {diet ? (
           <DietCoachSection

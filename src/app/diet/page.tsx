@@ -16,6 +16,7 @@ import { DietBoard } from "@/features/diet/components/diet-board";
 import { WaterCard } from "@/features/diet/components/water-card";
 import { dailyWaterTargetMl } from "@/features/diet/water";
 import { QUICK_FOOD_DAYS } from "@/features/diet/quick-add";
+import { ageOf } from "@/features/profile/survey-extra";
 
 export const dynamic = "force-dynamic";
 
@@ -66,6 +67,7 @@ export default async function DietPage({
     gender: profile.gender === "female" ? "female" : "male",
     weightKg: profile.weightKg,
     heightCm: profile.heightCm,
+    age: ageOf(profile.ageGroup),
   });
 
   return (

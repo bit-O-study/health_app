@@ -5,7 +5,8 @@ import { seoulYmd } from "@/features/routine/data";
 import { addDaysYmd } from "@/features/groups/ranking";
 import { subMuscleWeightsForExercise } from "@/features/routine/muscle-detail";
 import { BEGINNER_SKIP, EXERCISE_STIMULUS, stimulusFor, type Stimulus } from "@/features/routine/exercise-stimulus";
-import { defaultStyle, weeklyTargets, type BodyStyle } from "@/features/routine/body-targets";
+import { weeklyTargets, type BodyStyle } from "@/features/routine/body-targets";
+import { fitPickCount, targetStyleFor } from "@/features/profile/survey-extra";
 import {
   balanceRows,
   mostLacking,
@@ -109,7 +110,8 @@ export async function loadFitView(): Promise<FitView | null> {
   }));
 
   const stimulusOf = makeStimulusOf();
-  const style = defaultStyle(profile?.gender);
+  // 몸 목표 스타일(설정·가입 설문) — 안 골랐으면 성별 표.
+  const style = targetStyleFor(profile?.bodyStyle, profile?.gender);
   const targets = weeklyTargets(style, profile?.experience);
   const stim = weeklyStimulus(records, stimulusOf);
   const rows = subRows(targets, stim);
@@ -125,7 +127,8 @@ export async function loadFitView(): Promise<FitView | null> {
     candidates.push({ exerciseId: id, name: ex.name, equipment: pickAvailableEquipment(ex, gymSet) });
   }
   const picks = pickExercises(candidates, targets, stim, stimulusOf, {
-    n: 3,
+    // 1회 운동 시간에 맞춰 추천 개수(30분 2 · 45분 3 · 60분 4).
+    n: fitPickCount(profile?.sessionMinutes),
     exclude: todayIds,
     recovering: recoveringSubs(records, stimulusOf, today, addDaysYmd(today, -1)),
   });
@@ -188,7 +191,7 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
   const parts = monthParts(
     records,
     month,
-    weeklyTargets(defaultStyle(profile?.gender), profile?.experience),
+    weeklyTargets(targetStyleFor(profile?.bodyStyle, profile?.gender), profile?.experience),
     Math.ceil(day / 7),
     makeStimulusOf(),
   );

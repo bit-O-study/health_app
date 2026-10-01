@@ -87,7 +87,8 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await openTab(page, "추천", "recommend");
   await expect(page.getByTestId("fit-add")).toHaveText("오늘 운동에 3개 더하기", { timeout: 10_000 });
   await page.getByTestId("fit-add").click();
-  await page.waitForURL("**/routine", { timeout: 20_000 });
+  // 오늘 루틴 고정 + 담기라 개발 서버에선 20초를 넘기기도 한다.
+  await page.waitForURL("**/routine", { timeout: 45_000 });
 
   const daily = await dbQuery<{ n: string }>(
     `select count(*) n from public.daily_plan where user_id=$1 and for_date=$2 and exercise_id <> 'squat'`,

@@ -89,7 +89,7 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
 
   return (
     <div className="app-page">
-      <PageHeader branded title="맞춤 운동" back />
+      <PageHeader title="맞춤 운동" back />
       <main className="app-container space-y-3" data-testid="fit-page" data-full={full ? "1" : "0"}>
         <div className="flex items-center justify-between gap-2 px-1 text-xs text-zinc-500 dark:text-zinc-400">
           <span>

@@ -200,3 +200,18 @@ export function stimulusFor(
   }
   return out;
 }
+
+/**
+ * 초급자에게는 추천하지 않는 운동 — 매달리기·자기 체중을 다 드는 동작·균형이 어려운 동작.
+ * 화면 확인(2026-10-01)에서 초급 회원에게 '토스 투 바'가 나와 넣었다. 기구로 같은 근육을 채우는
+ * 쉬운 운동(랫풀다운·케이블 크런치 등)이 대신 고른다.
+ */
+export const BEGINNER_SKIP: ReadonlySet<string> = new Set([
+  "toes-to-bar",
+  "hanging-leg-raise",
+  "pull-up",
+  "chin-up",
+  "dips",
+  "front-squat",
+  "sumo-deadlift",
+]);

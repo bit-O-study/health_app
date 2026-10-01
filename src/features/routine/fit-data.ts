@@ -4,7 +4,7 @@ import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/serve
 import { seoulYmd } from "@/features/routine/data";
 import { addDaysYmd } from "@/features/groups/ranking";
 import { subMuscleWeightsForExercise } from "@/features/routine/muscle-detail";
-import { EXERCISE_STIMULUS, stimulusFor, type Stimulus } from "@/features/routine/exercise-stimulus";
+import { BEGINNER_SKIP, EXERCISE_STIMULUS, stimulusFor, type Stimulus } from "@/features/routine/exercise-stimulus";
 import { defaultStyle, weeklyTargets, type BodyStyle } from "@/features/routine/body-targets";
 import {
   balanceRows,
@@ -121,6 +121,7 @@ export async function loadFitView(): Promise<FitView | null> {
     const ex = getCatalogExercise(id);
     if (!ex || !isExerciseAvailable(ex, gymSet)) continue;
     if (pain.includes(primaryBodyPart(id))) continue;
+    if (profile?.experience === "beginner" && BEGINNER_SKIP.has(id)) continue;
     candidates.push({ exerciseId: id, name: ex.name, equipment: pickAvailableEquipment(ex, gymSet) });
   }
   const picks = pickExercises(candidates, targets, stim, stimulusOf, {

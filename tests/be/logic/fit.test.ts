@@ -185,3 +185,12 @@ describe("균형", () => {
     expect(rows.every((r) => r.hint === "")).toBe(true);
   });
 });
+
+describe("초급자 제외 운동", () => {
+  it("매달리기·자기 체중 동작은 초급자에게 추천하지 않는다(화면 확인에서 토스 투 바가 나왔다)", async () => {
+    const { BEGINNER_SKIP } = await import("@/features/routine/exercise-stimulus");
+    for (const id of ["toes-to-bar", "hanging-leg-raise", "pull-up", "dips"]) expect(BEGINNER_SKIP.has(id)).toBe(true);
+    expect(BEGINNER_SKIP.has("lat-pulldown")).toBe(false);
+    for (const id of BEGINNER_SKIP) expect(EXERCISE_STIMULUS[id], id).toBeTruthy();
+  });
+});

@@ -35,8 +35,7 @@ describe("한도 표", () => {
   it("🔴 AI 없음(라이트) 칸은 모든 기능이 0회", () => {
     for (const f of AI_FEATURES) expect(MONTHLY_LIMITS.none[f.id]).toBe(0);
     expect(Object.keys(MONTHLY_LIMITS.none).length).toBe(AI_FEATURES.length);
-    expect(NO_AI_MESSAGE).toMatch(/라이트.*AI 기능이 없어요/);
-    expect(NO_AI_MESSAGE).toMatch(/준비 중/);
+    expect(NO_AI_MESSAGE).toBe("AI 기능은 아직 준비 중이에요.");
   });
 
   it("표에 없는 기능 키가 한도 표에 남아 있지 않다", () => {

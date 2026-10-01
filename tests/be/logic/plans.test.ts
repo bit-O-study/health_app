@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  AI_OPEN,
   PAID_PLANS,
   PLANS,
   PLAN_ORDER,
@@ -78,11 +79,16 @@ describe("등급 비교", () => {
     expect(SPONSORED_PLAN).toBe("plus");
   });
 
-  it("🔴 라이트(990원)엔 AI 가 없다 — 무료 맛보기 칸도 아니다(2026-10-01). 베이직부터 프리미엄 칸", () => {
-    expect(aiTierForPlan("free")).toBe("free");
-    expect(aiTierForPlan("lite")).toBe("none");
-    expect(worstCaseMonthlyCostKrw(aiTierForPlan("lite"))).toBe(0);
-    for (const p of ["basic", "plus", "pro"] as const) expect(aiTierForPlan(p)).toBe("premium");
+  it("🔴 지금은 AI 를 열지 않는다(2026-10-01) — 무료 맛보기·트레이너 연결 플러스까지 모두 none", () => {
+    expect(AI_OPEN).toBe(false);
+    for (const p of PLAN_ORDER) expect(aiTierForPlan(p)).toBe("none");
+  });
+
+  it("AI 를 열면: 라이트(990원)엔 여전히 AI 가 없다 — 무료 맛보기 칸도 아니다. 베이직부터 프리미엄 칸", () => {
+    expect(aiTierForPlan("free", true)).toBe("free");
+    expect(aiTierForPlan("lite", true)).toBe("none");
+    expect(worstCaseMonthlyCostKrw(aiTierForPlan("lite", true))).toBe(0);
+    for (const p of ["basic", "plus", "pro"] as const) expect(aiTierForPlan(p, true)).toBe("premium");
   });
 
   it("라이트 카드엔 AI 없음·나머지 준비 중 안내가 따로 있고, 혜택(해지 시 잃는 것)엔 안 들어간다", () => {
@@ -108,7 +114,7 @@ describe("혜택·단가", () => {
 
   it("🔴 유료 요금제 모두, 그 요금제의 AI 한도를 다 써도 실수령을 넘지 않는다", () => {
     for (const p of PAID_PLANS) {
-      expect(worstCaseMonthlyCostKrw(aiTierForPlan(p)), `${p}`).toBeLessThan(planNetRevenueKrw(p));
+      expect(worstCaseMonthlyCostKrw(aiTierForPlan(p, true)), `${p}`).toBeLessThan(planNetRevenueKrw(p));
     }
   });
 

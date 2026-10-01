@@ -74,7 +74,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
       { text: "균형·종목별 성장·월간 리포트", ready: true },
     ],
     // 🔴 라이트엔 AI 가 없다 — 무료 회원의 AI 맛보기도 없다(2026-10-01 사용자 결정).
-    note: "AI 기능은 들어 있지 않아요. AI가 들어간 요금제(베이직·플러스·프로)는 아직 준비 중이에요.",
+    note: "AI 기능은 들어 있지 않아요. AI 기능과 AI가 들어간 요금제(베이직·플러스·프로)는 아직 준비 중이에요.",
   },
   basic: {
     id: "basic",
@@ -153,8 +153,16 @@ export function planForProduct(productId: string | null | undefined): PlanId {
  */
 export const SPONSORED_PLAN: PlanId = "plus";
 
-/** AI 사용 한도 칸. 무료=맛보기, 라이트=AI 없음, 베이직부터 프리미엄. */
-export function aiTierForPlan(p: PlanId): AiTier {
+/**
+ * 🔴 AI 오픈 스위치(2026-10-01 사용자 결정): "지금은 AI 오픈 안 하고, 990원 사람이 많이 모이면 그걸로 오픈".
+ * false 인 동안은 **누구도**(무료 맛보기·트레이너/팀 연결 플러스 포함) AI 를 못 쓴다 — 버튼은 숨고 서버가 막는다.
+ * 열 때는 이 값만 true 로 바꾸면 아래 요금제별 칸(무료=맛보기, 라이트=없음, 베이직부터 프리미엄)이 살아난다.
+ */
+export const AI_OPEN = false;
+
+/** AI 사용 한도 칸. AI 가 닫혀 있으면 모두 none. 열리면 무료=맛보기, 라이트=AI 없음, 베이직부터 프리미엄. */
+export function aiTierForPlan(p: PlanId, open: boolean = AI_OPEN): AiTier {
+  if (!open) return "none";
   // 🔴 라이트(990원)에는 AI 가 없다(2026-10-01 사용자 결정) — 무료 맛보기 칸도 아니다.
   if (p === "lite") return "none";
   return p === "free" ? "free" : "premium";

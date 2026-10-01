@@ -203,11 +203,10 @@ export function overLimitMessage(state: QuotaState): string {
 }
 
 /**
- * AI 가 없는 요금제(라이트)에서 AI 를 누르면 — "0회 다 쓰셨어요"가 아니라 왜 없는지와 앞으로를 말한다.
+ * AI 가 닫혀 있거나(AI_OPEN=false) AI 없는 요금제(라이트)에서 AI 를 누르면 — "0회 다 쓰셨어요"가 아니라 왜 없는지와 앞으로를 말한다.
  * 사용자 결정(2026-10-01): 나머지 요금제(AI 포함)는 아직 준비 중.
  */
-export const NO_AI_MESSAGE =
-  "990원 라이트 요금제에는 AI 기능이 없어요. AI가 들어간 요금제는 아직 준비 중이에요.";
+export const NO_AI_MESSAGE = "AI 기능은 아직 준비 중이에요.";
 
 /** 남은 횟수 안내 — 얼마 안 남았을 때만 띄운다(멀쩡할 때 숫자를 보여줄 이유가 없다). */
 export const LOW_QUOTA_RATIO = 0.2;

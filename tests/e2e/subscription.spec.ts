@@ -29,7 +29,7 @@ async function seedSubscription(
   );
 }
 
-test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", async ({ page }) => {
+test("구독 화면: 요금제 가격·준비 중, AI 가 닫혀 있으면 AI 횟수 표는 없다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
@@ -39,10 +39,8 @@ test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", asyn
     timeout: 10_000,
   });
 
-  // 낼 만한지 판단하려면 숫자가 보여야 한다.
-  await expect(page.getByText("한 달에 쓸 수 있는 AI 횟수")).toBeVisible();
-  await expect(page.getByText("식단 사진 분석", { exact: true })).toBeVisible();
-  await expect(page.getByText("100", { exact: true }).first()).toBeVisible();
+  // 지금은 AI 를 열지 않는다(2026-10-01, AI_OPEN=false) — 못 쓰는 AI 횟수를 보여 주지 않는다.
+  await expect(page.getByTestId("premium-benefits")).toHaveCount(0);
 
   // 요금제 세 개가 가격과 함께 보이고, 아직 없는 혜택은 '곧 제공'이라고 밝힌다(2026-09-30).
   await expect(page.getByTestId("plan-lite")).toContainText("월 990원");

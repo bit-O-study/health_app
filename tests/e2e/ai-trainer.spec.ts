@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { createTestAccount } from "./helpers/account-fixture";
+import { AI_OPEN } from "./helpers/ai-open";
 import { dbQuery, hasDb } from "./helpers/db";
 import { silenceDevOverlay } from "./helpers/dev-overlay";
 
@@ -93,6 +94,7 @@ async function openWithPlan(page: Page) {
 }
 
 test("AI 트레이너: [더하기]는 오늘만 담고(이미 할 운동은 빼고), 루틴은 그대로", async ({ page, baseURL }) => {
+  test.skip(!AI_OPEN, "AI 가 닫혀 있다(AI_OPEN=false, 2026-10-01)");
   test.skip(!hasDb, "needs .env.test.local DB creds");
   test.setTimeout(150_000);
   const { user_id, today, cleanup } = await setup(page, baseURL!);
@@ -128,6 +130,7 @@ test("AI 트레이너: [더하기]는 오늘만 담고(이미 할 운동은 빼�
 });
 
 test("AI 트레이너: [바꾸기]는 오늘 원래 운동을 내일로 미루고 제안으로 채운다", async ({ page, baseURL }) => {
+  test.skip(!AI_OPEN, "AI 가 닫혀 있다(AI_OPEN=false, 2026-10-01)");
   test.skip(!hasDb, "needs .env.test.local DB creds");
   test.setTimeout(150_000);
   const { user_id, today, cleanup } = await setup(page, baseURL!);

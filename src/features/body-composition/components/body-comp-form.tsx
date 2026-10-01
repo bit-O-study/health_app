@@ -307,7 +307,7 @@ export function BodyCompForm({
         </div>
         {aiScanEnabled ? null : (
           <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400" data-testid="body-comp-no-ai">
-            사진에서 숫자를 자동으로 읽는 AI 기능은 AI 요금제(준비 중)에 들어가요. 지금은 숫자를 직접 입력해 주세요.
+            사진에서 숫자를 자동으로 읽는 AI 기능은 아직 준비 중이에요. 지금은 숫자를 직접 입력해 주세요.
           </p>
         )}
 

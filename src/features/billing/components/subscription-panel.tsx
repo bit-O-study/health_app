@@ -12,7 +12,7 @@ import {
   purchaseSubscription,
   restorePurchase,
 } from "@/features/billing/play-billing-native";
-import { PAID_PLANS, PLANS, PLAN_ORDER, type PlanId } from "@/features/billing/plans";
+import { AI_OPEN, PAID_PLANS, PLANS, PLAN_ORDER, type PlanId } from "@/features/billing/plans";
 import { AI_FEATURES, MONTHLY_LIMITS } from "@/features/coach/ai-quota";
 import { MembershipCard } from "@/features/billing/components/membership-card";
 
@@ -79,6 +79,8 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         ) : null}
       </section>
 
+      {/* AI 가 닫혀 있는 동안(AI_OPEN=false)엔 AI 횟수 표를 안 보인다 — 못 쓰는 걸 숫자로 팔지 않는다. */}
+      {AI_OPEN ? (
       <section data-testid="premium-benefits">
         <div className="flex items-baseline justify-between">
           <h2 className="app-section-label">한 달에 쓸 수 있는 AI 횟수</h2>
@@ -110,6 +112,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
           ))}
         </ul>
       </section>
+      ) : null}
 
       {!status.ready ? (
         // 설정이 안 된 걸 오류처럼 보여주면 사용자가 자기 잘못인 줄 안다.

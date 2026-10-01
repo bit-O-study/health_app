@@ -4,10 +4,12 @@ import {
   adviceFor,
   checkinLine,
   cleanPainAreas,
+  emptiedByPain,
   isCheckin,
   lightenRow,
   painConflicts,
   painLine,
+  withoutPainExercises,
 } from "@/features/routine/checkin";
 
 describe("오늘 컨디션 → 권하는 강도", () => {
@@ -73,5 +75,26 @@ describe("AI 트레이너가 보는 줄", () => {
       "아픈 부위(추천에서 뺌): 어깨",
     ]);
     expect(trainerStateLines(["a"], null, [])).toEqual(["a"]);
+  });
+});
+
+describe("규칙 추천에서 아픈 부위 빼기(2026-10-01)", () => {
+  const list = [{ id: "bench-press" }, { id: "lat-pulldown" }, { id: "squat" }, { id: "ohp" }];
+
+  it("🔴 아픈 부위가 주로 쓰는 운동만 빠지고 나머지는 순서 그대로", () => {
+    expect(withoutPainExercises(list, ["chest"]).map((e) => e.id)).toEqual(["lat-pulldown", "squat", "ohp"]);
+    expect(withoutPainExercises(list, ["lower", "shoulder"]).map((e) => e.id)).toEqual(["bench-press", "lat-pulldown"]);
+  });
+
+  it("아픈 곳이 없으면 그대로(복사본)", () => {
+    const out = withoutPainExercises(list, []);
+    expect(out).toEqual(list);
+    expect(out).not.toBe(list);
+  });
+
+  it("🔴 원래 있던 칸이 아파서 0개가 되면 쉬는 칸 — 처음부터 없던 칸(기구 부족)은 아니다", () => {
+    expect(emptiedByPain(5, 0)).toBe(true);
+    expect(emptiedByPain(0, 0)).toBe(false);
+    expect(emptiedByPain(5, 2)).toBe(false);
   });
 });

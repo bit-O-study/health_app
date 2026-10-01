@@ -117,3 +117,21 @@ export function trainerStateLines(
   if (painAreas.length) out.push(painLine(painAreas));
   return out;
 }
+
+/**
+ * 규칙 추천(추천 채우기 3경로)에서 아픈 부위 운동을 뺀다 — 주로 쓰는 부위(primaryBodyPart) 기준,
+ * 맞춤 운동·AI 트레이너와 같은 규칙(2026-10-01).
+ * 그 부위 운동만 있던 칸(예: 가슴 아픈 날의 가슴 칸)은 비게 되는데, 그건 실패가 아니라 '쉬기'다.
+ */
+export function withoutPainExercises<T extends { id: string }>(
+  list: readonly T[],
+  painAreas: readonly BodyPart[],
+): T[] {
+  if (!painAreas.length) return [...list];
+  return list.filter((ex) => !painAreas.includes(primaryBodyPart(ex.id)));
+}
+
+/** 아픈 부위 때문에 통째로 빈 칸인가 — 원래는 추천이 있었는데 빼고 나니 0개. */
+export function emptiedByPain(beforeCount: number, afterCount: number): boolean {
+  return beforeCount > 0 && afterCount === 0;
+}

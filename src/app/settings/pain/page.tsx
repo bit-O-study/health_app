@@ -8,7 +8,7 @@ import { PainAreaPicker } from "@/features/routine/components/pain-area-picker";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "아픈 부위" };
 
-/** 아픈 부위(무료, 2026-09-30) — AI 트레이너 추천에서 빼고, 오늘 운동 화면에서 알린다. */
+/** 아픈 부위(무료, 2026-09-30) — 추천(루틴 추천 채우기·맞춤 운동·AI 트레이너)에서 빼고, 오늘 운동 화면에서 알린다. */
 export default async function PainAreasPage() {
   if (!(await getCurrentUser())) redirect("/login?redirect=/settings/pain");
   const initial = await getPainAreas();
@@ -17,7 +17,7 @@ export default async function PainAreasPage() {
       <PageHeader title="아픈 부위" back="설정" />
       <main className="app-container space-y-3">
         <p className="px-1 text-sm text-zinc-600 dark:text-zinc-300">
-          아픈 곳을 고르면 AI 트레이너가 그 부위 운동을 추천하지 않고, 오늘 운동에 그 부위가 있으면 알려 드려요.
+          아픈 곳을 고르면 루틴 추천·맞춤 운동·AI 트레이너가 그 부위 운동을 추천하지 않고, 오늘 운동에 그 부위가 있으면 알려 드려요. 이미 담긴 운동은 그대로예요.
           통증이 계속되면 운동보다 진료가 먼저예요.
         </p>
         <PainAreaPicker initial={initial} />

@@ -1,6 +1,8 @@
 "use server";
 
 import { getRecommendationContext } from "./recommendation-data";
+import { getPainAreas } from "./checkin-data";
+import { emptiedByPain, withoutPainExercises } from "./checkin";
 import { personalizeExercises } from "./recommend-personalization";
 
 import { revalidatePath } from "next/cache";
@@ -194,7 +196,7 @@ async function fillMissingFocusesAction(
   variantId: string,
   customWeek: DayBlockId[][] | null,
 ): Promise<SaveRoutineResult> {
-  const [profile, gym, recommendationContext, signals] = await Promise.all([getUserProfile(), getCurrentGym(), getRecommendationContext(), getRecommendSignals()]);
+  const [profile, gym, recommendationContext, signals, pain] = await Promise.all([getUserProfile(), getCurrentGym(), getRecommendationContext(), getRecommendSignals(), getPainAreas()]);
   if (!profile) return { ok: true };
   // 추천 운동도, 그 운동에 붙일 기구도 내 헬스장 보유 기구를 본다.
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
@@ -236,10 +238,14 @@ async function fillMissingFocusesAction(
           variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
           ...signals,
         });
-    const list = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
+    // 아픈 부위 운동은 추천 후보에서 뺀다(설정 › 아픈 부위, 2026-10-01).
+    const before = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
+    const list = withoutPainExercises(personalizeExercises(withoutPainExercises(base, pain), withoutPainExercises(allExercisesForSlot(slot.focus, slot.blockIds), pain), gymSet, recommendationContext, slot.isSide, slot.focus), pain);
+    const skipped = emptiedByPain(before.length, list.length);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
+      skipped,
       rows: list.map((ex, index) => {
         const equipment = pickAvailableEquipment(ex, gymSet);
         const p = prescribe(ex.id, { ...opts, equipment });
@@ -256,12 +262,14 @@ async function fillMissingFocusesAction(
       }),
     };
   });
-  if (groups.some(group => group.rows.length === 0)) return {ok:false,error:"보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 운동을 직접 선택해 주세요."};
+  // 아픈 부위 때문에 빈 칸은 쉬는 칸 — 실패가 아니라 그냥 비워 둔다.
+  const toWrite = groups.filter((g) => !g.skipped).map((g) => ({ dayIndex: g.dayIndex, focus: g.focus, rows: g.rows }));
+  if (toWrite.some(group => group.rows.length === 0)) return {ok:false,error:"보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 운동을 직접 선택해 주세요."};
   const replacement = await replaceRoutineExerciseGroups(
     supabase,
     expectedRoutineUpdatedAt,
     false,
-    groups,
+    toWrite,
   );
   return replacement.ok ? { ok: true } : replacement;
 }

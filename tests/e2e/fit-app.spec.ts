@@ -32,7 +32,21 @@ async function setup(page: Page, baseURL: string) {
     exercise_id: "bench-press", equipment: "barbell", focus: "chest", sets: 10, reps: 8, weight_kg: 60,
   });
   if (c.error) throw c.error;
+  // 8일 전 벤치 55kg — 지난 7일 자극에는 안 들어가고, 어제 60kg 이 신기록이 된다.
+  const older = new Date(Date.parse(`${today}T00:00:00Z`) - 8 * 86_400_000).toISOString().slice(0, 10);
+  const o = await supabase.from("exercise_completions").insert({
+    user_id, for_date: older, exercise_row_id: crypto.randomUUID(), status: "done",
+    exercise_id: "bench-press", equipment: "barbell", focus: "chest", sets: 4, reps: 8, weight_kg: 55,
+  });
+  if (o.error) throw o.error;
   return { email, user_id, today };
+}
+
+/** 탭 이동 — 누르고 그 탭 주소가 될 때까지 기다린다(앞 탭을 그리는 중에 누르면 이동이 씹힌다). */
+async function openTab(page: Page, name: string, id: string) {
+  await expect(page.getByTestId("fit-page")).toBeVisible({ timeout: 15_000 });
+  await page.getByRole("link", { name, exact: true }).click();
+  await page.waitForURL(`**/fit?tab=${id}`, { timeout: 15_000 });
 }
 
 async function grantLite(email: string) {
@@ -59,12 +73,18 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   // 가슴은 이미 넘쳤으니 벤치프레스는 추천하지 않는다.
   await expect(page.getByTestId("fit-pick-bench-press")).toHaveCount(0);
 
-  await page.getByRole("link", { name: "부위" }).click();
+  await openTab(page, "부위", "parts");
   await expect(page.getByTestId("fit-part-chest")).toContainText("중부 대흉근");
-  await page.getByRole("link", { name: "균형" }).click();
+  await openTab(page, "균형", "balance");
   await expect(page.getByTestId("fit-balance-push-pull")).toContainText("당기기 쪽이 모자라요");
 
-  await page.getByRole("link", { name: "추천" }).click();
+  await openTab(page, "성장", "growth");
+  await expect(page.getByTestId("fit-growth-bench-press")).toContainText("벤치프레스", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스");
+  await openTab(page, "리포트", "report");
+  await expect(page.getByTestId("fit-report")).toContainText("운동한 날", { timeout: 15_000 });
+
+  await openTab(page, "추천", "recommend");
   await expect(page.getByTestId("fit-add")).toHaveText("오늘 운동에 3개 더하기", { timeout: 10_000 });
   await page.getByTestId("fit-add").click();
   await page.waitForURL("**/routine", { timeout: 20_000 });
@@ -101,8 +121,14 @@ test("무료(공개 스위치 켜진 계정): 맛보기 추천 1개 + 잠금", a
     await expect(page.getByTestId("fit-page")).toHaveAttribute("data-full", "0", { timeout: 15_000 });
     await expect(page.getByTestId("fit-picks").locator("li")).toHaveCount(1);
     await expect(page.getByTestId("fit-locked")).toBeVisible();
-    await page.getByRole("link", { name: "균형" }).click();
+    await openTab(page, "균형", "balance");
     await expect(page.getByTestId("fit-locked")).toContainText("내 몸 균형");
+    // 무료 맛보기: 신기록은 보이고 종목별 추이는 잠금.
+    await openTab(page, "성장", "growth");
+    await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스", { timeout: 15_000 });
+    await expect(page.getByTestId("fit-growth-bench-press")).toHaveCount(0);
+    await openTab(page, "리포트", "report");
+    await expect(page.getByTestId("fit-locked")).toContainText("월간 리포트");
   } finally {
     await dbQuery(
       `update public.app_settings set value = coalesce((select jsonb_agg(e) from jsonb_array_elements_text(value) e where e <> $1), '[]'::jsonb) where key='debug.accounts'`,

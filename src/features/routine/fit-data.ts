@@ -27,6 +27,19 @@ import { isExerciseAvailable, pickAvailableEquipment, toGymEquipmentSet } from "
 import { getPainAreas } from "@/features/routine/checkin-data";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import { getUserProfile } from "@/features/profile/data-access";
+import type { ProgressRecord } from "@/features/routine/progress";
+import type { SetDetail } from "@/features/routine/set-details";
+import {
+  growthRows,
+  monthParts,
+  monthStats,
+  prEvents,
+  prevMonth,
+  sparkPoints,
+  type GrowthRow,
+  type MonthStats,
+  type PrEvent,
+} from "@/features/routine/fit-growth";
 
 /** 운동 → 세부 근육 점수(손 점수, 없으면 기존 매핑 + 보조근 규칙). 요청 안에서만 캐시. */
 export function makeStimulusOf(): (id: string) => Stimulus {
@@ -125,5 +138,66 @@ export async function loadFitView(): Promise<FitView | null> {
     picks,
     balance: balanceRows(targets, stim),
     daysThisWeek: new Set(records.map((r) => r.forDate)).size,
+  };
+}
+
+export type FitGrowthView = {
+  growth: (GrowthRow & { name: string; points: string })[];
+  prs: (PrEvent & { name: string })[];
+  month: string;
+  thisMonth: MonthStats;
+  lastMonth: MonthStats;
+  topPart: string | null;
+  lackingPart: string | null;
+};
+
+/**
+ * 성장·월간 리포트 — 지난달 1일부터 오늘까지 기록. 무게 있는 기록만 1RM 에 쓰인다.
+ */
+export async function loadFitGrowth(): Promise<FitGrowthView | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const supabase = await createSupabaseServerClient();
+  const today = seoulYmd();
+  const month = today.slice(0, 7);
+  const last = prevMonth(month);
+  const [{ data }, profile] = await Promise.all([
+    supabase
+      .from("exercise_completions")
+      .select("exercise_id, for_date, sets, reps, weight_kg, set_details, equipment")
+      .eq("user_id", user.id)
+      .eq("status", "done")
+      .gte("for_date", `${last}-01`)
+      .lte("for_date", today),
+    getUserProfile().catch(() => null),
+  ]);
+  const records: ProgressRecord[] = ((data ?? []) as Record<string, unknown>[]).map((r) => ({
+    forDate: String(r.for_date),
+    exerciseId: (r.exercise_id as string | null) ?? null,
+    status: "done",
+    sets: r.sets == null ? null : Number(r.sets),
+    reps: r.reps == null ? null : Number(r.reps),
+    weightKg: r.weight_kg == null ? null : Number(r.weight_kg),
+    setDetails: Array.isArray(r.set_details) ? (r.set_details as SetDetail[]) : null,
+    equipment: (r.equipment as string | null) ?? null,
+  }));
+  const name = (id: string) => getCatalogExercise(id)?.name ?? id;
+  const prs = prEvents(records, 5);
+  const day = Number(today.slice(8, 10));
+  const parts = monthParts(
+    records,
+    month,
+    weeklyTargets(defaultStyle(profile?.gender), profile?.experience),
+    Math.ceil(day / 7),
+    makeStimulusOf(),
+  );
+  return {
+    growth: growthRows(records, 4).map((g) => ({ ...g, name: name(g.exerciseId), points: sparkPoints(g.series) })),
+    prs: prs.map((p) => ({ ...p, name: name(p.exerciseId) })),
+    month,
+    thisMonth: monthStats(records, month, prs),
+    lastMonth: monthStats(records, last, prs),
+    topPart: parts.top,
+    lackingPart: parts.lacking,
   };
 }

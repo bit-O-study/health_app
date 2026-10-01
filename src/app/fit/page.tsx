@@ -5,7 +5,7 @@ import { Lock } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getFitAccess } from "@/features/routine/fit-access";
-import { loadFitView } from "@/features/routine/fit-data";
+import { loadFitGrowth, loadFitView } from "@/features/routine/fit-data";
 import { SUB_STATUS_LABEL, type SubStatus } from "@/features/routine/fit";
 import { ALL_SUB_MUSCLES } from "@/features/routine/sub-muscles";
 import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
@@ -21,6 +21,8 @@ const TABS = [
   { id: "recommend", label: "추천" },
   { id: "parts", label: "부위" },
   { id: "balance", label: "균형" },
+  { id: "growth", label: "성장" },
+  { id: "report", label: "리포트" },
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
@@ -61,7 +63,7 @@ function Locked({ what }: { what: string }) {
 }
 
 /**
- * 맞춤 운동 앱(라이트 990원, 2026-10-01) — 추천 · 부위 · 균형.
+ * 맞춤 운동 앱(라이트 990원, 2026-10-01) — 추천 · 부위 · 균형 · 성장 · 리포트.
  * 내 기록(지난 7일) + 가입 설문(성별·경력)으로 세부 근육 25개를 목표 비율과 비교해, 모자란 곳을
  * 채우는 운동을 고른다. AI 없음(원가 0원). 적용은 **오늘만 운동 변경으로만**(사용자 결정).
  */
@@ -82,6 +84,8 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
     fills: p.fills.map((f) => ({ label: subLabel(f.sub), add: f.add })),
   }));
   const lacking = full ? view.lacking : view.lacking.slice(0, 1);
+  // 성장·리포트 탭에서만 두 달 치 기록을 읽는다.
+  const growth = tab === "growth" || tab === "report" ? await loadFitGrowth() : null;
 
   return (
     <div className="app-page">
@@ -103,7 +107,7 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
               key={t.id}
               href={`/fit?tab=${t.id}`}
               aria-current={tab === t.id ? "page" : undefined}
-              className={`h-9 flex-1 rounded-full text-center text-sm font-semibold leading-9 ${
+              className={`h-9 flex-1 rounded-full text-center text-xs font-semibold leading-9 ${
                 tab === t.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
               }`}
             >
@@ -202,6 +206,92 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
             ))
           ) : (
             <Locked what="내 몸 균형" />
+          )
+        ) : null}
+
+        {tab === "growth" && growth ? (
+          <>
+            {full ? (
+              growth.growth.length ? (
+                growth.growth.map((g) => (
+                  <section key={g.exerciseId} className="app-card space-y-1.5 p-3" data-testid={`fit-growth-${g.exerciseId}`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{g.name}</h2>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                          g.stalled ? "bg-danger/10 text-danger" : "bg-brand-soft text-brand"
+                        }`}
+                      >
+                        {g.stalled ? "3번 연속 그대로" : `예상 1RM ${g.latestKg}kg`}
+                      </span>
+                    </div>
+                    <svg viewBox="0 0 200 36" className="h-9 w-full" role="img" aria-label={`${g.name} 예상 1RM 추이`}>
+                      <polyline points={g.points} fill="none" className="stroke-brand" strokeWidth="2" />
+                    </svg>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      {g.trend === null ? "기록이 더 쌓이면 추이를 보여 드려요." : `지난달부터 ${g.trend > 0 ? "+" : ""}${g.trend}%`}
+                      {g.stalled ? " · 무게를 한 단계 올리거나 세트 방식을 바꿔 볼 때예요." : ""}
+                    </p>
+                  </section>
+                ))
+              ) : (
+                <p className="app-card p-3 text-sm text-zinc-600 dark:text-zinc-300">무게를 기록한 운동이 쌓이면 추이를 보여 드려요.</p>
+              )
+            ) : null}
+            <section className="app-card space-y-1.5 p-3" data-testid="fit-prs">
+              <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">신기록</h2>
+              {growth.prs.length ? (
+                growth.prs.map((p) => (
+                  <div key={`${p.date}-${p.exerciseId}`} className="flex justify-between text-xs text-zinc-700 dark:text-zinc-200">
+                    <span>
+                      {p.date.slice(5).replace("-", "/")} {p.name}
+                    </span>
+                    <span className="tabular-nums">
+                      {p.oneRmKg}kg (+{p.gainKg})
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">아직 신기록이 없어요. 지난 최고보다 무겁게 하면 여기에 쌓여요.</p>
+              )}
+            </section>
+            {!full ? <Locked what="종목별 성장 추이" /> : null}
+          </>
+        ) : null}
+
+        {tab === "report" && growth ? (
+          full ? (
+            <section className="app-card space-y-2 p-3" data-testid="fit-report">
+              <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                {Number(growth.month.slice(5))}월 리포트
+              </h2>
+              {[
+                { label: "운동한 날", now: `${growth.thisMonth.days}일`, prev: `${growth.lastMonth.days}일` },
+                {
+                  label: "총 볼륨",
+                  now: `${growth.thisMonth.volumeKg.toLocaleString("ko-KR")}kg`,
+                  prev: `${growth.lastMonth.volumeKg.toLocaleString("ko-KR")}kg`,
+                },
+                { label: "신기록", now: `${growth.thisMonth.prs}개`, prev: `${growth.lastMonth.prs}개` },
+              ].map((r) => (
+                <div key={r.label} className="flex justify-between text-sm text-zinc-800 dark:text-zinc-100">
+                  <span>{r.label}</span>
+                  <span className="tabular-nums">
+                    {r.now} <span className="text-xs text-zinc-500">(지난달 {r.prev})</span>
+                  </span>
+                </div>
+              ))}
+              {growth.topPart && growth.lackingPart ? (
+                <p className="text-sm text-zinc-700 dark:text-zinc-200" data-testid="fit-report-next">
+                  이번 달은 <b>{BODY_PART_LABEL[growth.topPart as keyof typeof BODY_PART_LABEL]}</b>을 가장 많이 했어요. 다음 달은{" "}
+                  <b>{BODY_PART_LABEL[growth.lackingPart as keyof typeof BODY_PART_LABEL]}</b>을 더 해 보세요.
+                </p>
+              ) : (
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">이번 달 기록이 쌓이면 다음 달 목표를 알려 드려요.</p>
+              )}
+            </section>
+          ) : (
+            <Locked what="월간 리포트" />
           )
         ) : null}
 

@@ -189,6 +189,11 @@ function PlanCard({
         </span>
       </div>
       <p className="text-xs text-zinc-500 dark:text-zinc-400">{plan.tagline}</p>
+      {plan.note ? (
+        <p data-testid={`plan-${id}-note`} className="text-xs text-zinc-600 dark:text-zinc-300">
+          {plan.note}
+        </p>
+      ) : null}
       <ul className="space-y-1">
         {PLAN_ORDER.indexOf(id) > 1 ? (
           <li className="text-xs text-zinc-500 dark:text-zinc-400">

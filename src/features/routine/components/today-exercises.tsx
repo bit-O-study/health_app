@@ -18,7 +18,7 @@ import {
 import { exerciseSummary } from "@/features/workout-timer/exercise-guides";
 import { getPlanForDayTones } from "@/features/routine/plan";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import { showsDailyCooldownBadge } from "@/features/routine/daily-override";
@@ -176,8 +176,8 @@ export async function TodayExercises({
     getRecentDoneRecords(),
     // 목표 횟수 기준(경력)을 처방과 맞추기 위해. 상위 page 가 이미 부른 cache() 라 왕복 0.
     getUserProfile(),
-    isDebugFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
-    isDebugFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
+    isAiFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
+    isAiFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
     getCurrentGym(),
   ]);
 

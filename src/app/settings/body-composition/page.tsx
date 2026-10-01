@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/page-header";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getLatestBodyComposition } from "@/features/body-composition/data-access";
 import { BodyCompForm } from "@/features/body-composition/components/body-comp-form";
+import { aiAvailableForMe } from "@/features/coach/ai-access.server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export default async function BodyCompositionPage() {
   const profile = await getUserProfile();
   if (!profile) redirect("/onboarding");
 
-  const latest = await getLatestBodyComposition();
+  const [latest, aiScanEnabled] = await Promise.all([getLatestBodyComposition(), aiAvailableForMe()]);
 
   // 공통 머리글 + 한 줄 안내(2026-09-16 8단계) — 긴 설명은 뺐다. 진단이 아니라는 고지는 한 줄로 남긴다.
   return (
@@ -24,7 +25,7 @@ export default async function BodyCompositionPage() {
           ) : null}
           의학적 진단이 아닌 운동 가이드용이에요.
         </p>
-        <BodyCompForm hasExistingImage={Boolean(latest?.imagePath)} />
+        <BodyCompForm hasExistingImage={Boolean(latest?.imagePath)} aiScanEnabled={aiScanEnabled} />
       </main>
     </div>
   );

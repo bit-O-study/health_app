@@ -11,6 +11,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { limitMessage } from "@/lib/rate-limit/policy";
 import {
   limitFor,
+  NO_AI_MESSAGE,
   overLimitMessage,
   quotaState,
   usageMonth,
@@ -61,6 +62,10 @@ export async function consumeAiQuota(
   now: Date = new Date(),
 ): Promise<ConsumeResult> {
   const tier = await resolveTier();
+  // 🔴 AI 없는 요금제(라이트)는 세기 전에 막는다 — 집계 실패 시 통과 규칙에도 안 걸리게.
+  if (tier === "none") {
+    return { ok: false, state: quotaState(feature, tier, 0), message: NO_AI_MESSAGE };
+  }
   const limit = limitFor(tier, feature);
   const passThrough = (used: number): ConsumeResult => ({
     ok: true,

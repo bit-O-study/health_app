@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Check, Loader2, ShieldCheck, Sparkles } from "lucide-react";
 
@@ -204,9 +203,10 @@ export function AiTrainerPanel({
             이번 달 {remaining}회 남았어요 (월 {limit}회)
           </p>
           {outOfQuota && tier === "free" ? (
-            <Link href="/settings/subscription" className="block text-center text-sm font-semibold text-brand">
-              베이직이면 매일 받아요 · 월 3,900원 →
-            </Link>
+            // 베이직(AI)은 아직 판매 전(2026-10-01) — 사라고 하지 않고 준비 중이라고만.
+            <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
+              매일 쓰는 AI 요금제는 아직 준비 중이에요.
+            </p>
           ) : null}
         </section>
       )}

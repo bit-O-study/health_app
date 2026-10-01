@@ -29,6 +29,8 @@ export type PlanMeta = {
   /** 플레이 콘솔 구독 상품 id. 글자 하나까지 같아야 한다. 무료는 null. */
   productId: string | null;
   tagline: string;
+  /** 카드에 따로 적는 안내 — 혜택이 아니라서(해지 안내의 '잃는 것'에 들어가면 안 된다) 따로 둔다. */
+  note?: string;
   /** 이 요금제에서 **새로** 생기는 혜택(아래 요금제 것은 다시 적지 않는다). */
   benefits: readonly PlanBenefit[];
   /**
@@ -55,8 +57,8 @@ export const PLANS: Record<PlanId, PlanMeta> = {
   },
   /**
    * 라이트 990원(2026-10-01, `docs/sub-muscle-score-lite-plan-2026-10-01.html`).
-   * **AI 없이** 내 기록으로 만드는 리포트·규칙 추천만 — 원가 0원. AI 사용 횟수는 무료와 같다
-   * (`aiTierForPlan` 참고). 무료와 베이직(AI) 사이에서 '처음 결제해 보는' 입구.
+   * **AI 없이** 내 기록으로 만드는 리포트·규칙 추천만 — 원가 0원. AI 는 아예 못 쓴다
+   * (2026-10-01 사용자 결정, `aiTierForPlan` → "none"). 무료와 베이직(AI) 사이에서 '처음 결제해 보는' 입구.
    */
   lite: {
     id: "lite",
@@ -71,6 +73,8 @@ export const PLANS: Record<PlanId, PlanMeta> = {
       { text: "모자란 세부 부위를 채우는 맞춤 운동 추천(오늘만 운동 변경으로 적용)", ready: true },
       { text: "균형·종목별 성장·월간 리포트", ready: true },
     ],
+    // 🔴 라이트엔 AI 가 없다 — 무료 회원의 AI 맛보기도 없다(2026-10-01 사용자 결정).
+    note: "AI 기능은 들어 있지 않아요. AI가 들어간 요금제(베이직·플러스·프로)는 아직 준비 중이에요.",
   },
   basic: {
     id: "basic",
@@ -149,10 +153,11 @@ export function planForProduct(productId: string | null | undefined): PlanId {
  */
 export const SPONSORED_PLAN: PlanId = "plus";
 
-/** 기존 AI 사용 한도(무료/프리미엄 두 칸)에 어느 칸을 쓰는가. 베이직부터 프리미엄 칸이다. */
+/** AI 사용 한도 칸. 무료=맛보기, 라이트=AI 없음, 베이직부터 프리미엄. */
 export function aiTierForPlan(p: PlanId): AiTier {
-  // 라이트는 AI 를 팔지 않는다 — 무료와 같은 칸(원가 0원 유지).
-  return p === "free" || p === "lite" ? "free" : "premium";
+  // 🔴 라이트(990원)에는 AI 가 없다(2026-10-01 사용자 결정) — 무료 맛보기 칸도 아니다.
+  if (p === "lite") return "none";
+  return p === "free" ? "free" : "premium";
 }
 
 /** 요금제의 실수령(원) — 부가세 빼고 플레이 수수료 뗀 값. 무료는 0. */

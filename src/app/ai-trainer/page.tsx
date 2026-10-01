@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { hasAiConsent } from "@/features/coach/ai-consent";
 import { readAiUsage } from "@/features/coach/ai-usage";
 import { loadMyState } from "@/features/coach/my-state-data";
@@ -31,7 +31,7 @@ export default async function AiTrainerPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/ai-trainer");
   // 아직 공개 전 — 자기 스위치(기본: 디버그 계정만). 관리자 화면에서 공개 범위를 바꾼다.
-  if (!(await isDebugFeatureEnabled("ai-trainer"))) notFound();
+  if (!(await isAiFeatureEnabled("ai-trainer"))) notFound();
 
   const [state, consent, quota, diet, dietQuota, checkin, painAreas, profile] = await Promise.all([
     loadMyState(),

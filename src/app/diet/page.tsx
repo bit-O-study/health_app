@@ -9,7 +9,7 @@ import {
   getWaterEntries,
   getWaterForDate,
 } from "@/features/diet/data-access";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { addDaysYmd, seoulYmd } from "@/features/routine/data";
 import { DietBoard } from "@/features/diet/components/diet-board";
@@ -60,7 +60,7 @@ export default async function DietPage({
     getWaterEntries(date),
     // 보고 있는 날 **이전** 2주 — 그날 이미 담은 걸 다시 추천하지 않으려고 date 미만.
     getRecentFoodLogs(addDaysYmd(date, -QUICK_FOOD_DAYS), date),
-    isDebugFeatureEnabled("diet-photo-ai"),
+    isAiFeatureEnabled("diet-photo-ai"),
   ]);
   if (!profile) redirect("/onboarding");
   const target = dailyTarget({

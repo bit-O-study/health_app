@@ -78,10 +78,18 @@ describe("등급 비교", () => {
     expect(SPONSORED_PLAN).toBe("plus");
   });
 
-  it("🔴 라이트는 AI 를 팔지 않는다 — 무료 칸. 베이직부터 프리미엄 칸", () => {
+  it("🔴 라이트(990원)엔 AI 가 없다 — 무료 맛보기 칸도 아니다(2026-10-01). 베이직부터 프리미엄 칸", () => {
     expect(aiTierForPlan("free")).toBe("free");
-    expect(aiTierForPlan("lite")).toBe("free");
+    expect(aiTierForPlan("lite")).toBe("none");
+    expect(worstCaseMonthlyCostKrw(aiTierForPlan("lite"))).toBe(0);
     for (const p of ["basic", "plus", "pro"] as const) expect(aiTierForPlan(p)).toBe("premium");
+  });
+
+  it("라이트 카드엔 AI 없음·나머지 준비 중 안내가 따로 있고, 혜택(해지 시 잃는 것)엔 안 들어간다", () => {
+    expect(PLANS.lite.note).toMatch(/AI 기능은 들어 있지 않아요/);
+    expect(PLANS.lite.note).toMatch(/준비 중/);
+    expect(PLANS.lite.benefits.some((b) => b.text.includes("AI"))).toBe(false);
+    for (const p of ["basic", "plus", "pro"] as const) expect(PLANS[p].onSale).toBe(false);
   });
 
   it("isPlanId", () => {

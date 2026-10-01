@@ -3,7 +3,7 @@ import { Camera, Dumbbell, Salad } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import {
   analyzeWorkoutAction,
   analyzeDietAction,
@@ -22,7 +22,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/coach");
   // 아직 디버그 기능 — 짐꾼쌤이 켜진 계정만.
-  if (!(await isDebugFeatureEnabled("helssu-coach"))) notFound();
+  if (!(await isAiFeatureEnabled("helssu-coach"))) notFound();
 
   // 지난 분석을 먼저 띄운다 — 화면을 다시 여는 것만으로 AI 를 부르면 읽으려고 돈을 낸다.
   // 둘은 서로 독립이라 한 번에 읽는다(직렬 2파 → 1파).

@@ -25,7 +25,11 @@ export type AiFeatureId =
   /** AI 트레이너 탭 — 오늘 식단 피드백(2026-09-30 2단계). */
   | "diet-coach";
 
-export type AiTier = "free" | "premium";
+/**
+ * none = AI 를 아예 안 쓰는 칸(2026-10-01 사용자 결정: 990원 라이트엔 AI 없음).
+ * 무료 회원은 맛보기(free), 베이직부터 premium.
+ */
+export type AiTier = "none" | "free" | "premium";
 
 export type AiFeatureMeta = {
   id: AiFeatureId;
@@ -97,6 +101,16 @@ export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
  *  - 코치·자세·체성분은 3회 = "어떤 건지 보고 판단할 만큼". 이게 결제 이유가 된다.
  */
 export const MONTHLY_LIMITS: Record<AiTier, Record<AiFeatureId, number>> = {
+  // 라이트 — AI 없음. 0회라 원가도 0원.
+  none: {
+    coach: 0,
+    "meal-scan": 0,
+    "body-scan": 0,
+    "equipment-scan": 0,
+    posture: 0,
+    trainer: 0,
+    "diet-coach": 0,
+  },
   free: {
     coach: 3,
     "meal-scan": 100,
@@ -187,6 +201,13 @@ export function featureLabel(feature: AiFeatureId): string {
 export function overLimitMessage(state: QuotaState): string {
   return `이번 달 ${featureLabel(state.feature)} 사용 횟수(${state.limit}회)를 다 쓰셨어요. 다음 달 1일에 다시 채워져요.`;
 }
+
+/**
+ * AI 가 없는 요금제(라이트)에서 AI 를 누르면 — "0회 다 쓰셨어요"가 아니라 왜 없는지와 앞으로를 말한다.
+ * 사용자 결정(2026-10-01): 나머지 요금제(AI 포함)는 아직 준비 중.
+ */
+export const NO_AI_MESSAGE =
+  "990원 라이트 요금제에는 AI 기능이 없어요. AI가 들어간 요금제는 아직 준비 중이에요.";
 
 /** 남은 횟수 안내 — 얼마 안 남았을 때만 띄운다(멀쩡할 때 숫자를 보여줄 이유가 없다). */
 export const LOW_QUOTA_RATIO = 0.2;

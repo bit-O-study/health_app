@@ -13,6 +13,7 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
 import { getFitAccess } from "@/features/routine/fit-access";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { AppGrid } from "@/features/launcher/components/app-grid";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
@@ -40,11 +41,11 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     getWeeklyReport(),
     getMyWeeklyTraining(),
     // 짐꾼쌤 앱 타일은 디버그 기능이 켜진 사용자에게만 — 예전엔 하단바가 읽던 값이다.
-    isDebugFeatureEnabled("helssu-coach"),
+    isAiFeatureEnabled("helssu-coach"),
     isDebugFeatureEnabled("pet"),
     hasTrainerPass(),
     // AI 트레이너 탭(2026-09-30) — 공개 전, 자기 스위치.
-    isDebugFeatureEnabled("ai-trainer"),
+    isAiFeatureEnabled("ai-trainer"),
     // 맞춤 운동(라이트) — 라이트 이상이면 스위치와 상관없이 보인다.
     getFitAccess(),
   ]);

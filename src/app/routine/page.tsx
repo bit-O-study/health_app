@@ -57,7 +57,7 @@ import {
 import { getTodayCompletedConditioning } from "@/features/routine/conditioning-completions";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import { getExerciseMediaMapAll } from "@/features/exercises/exercise-media";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
@@ -135,8 +135,8 @@ function warmTodayExercisesData(todayYmd: string) {
   void getLastExerciseValues().catch(swallow);
   void getDailyConditioning(todayYmd).catch(swallow);
   void getExerciseMediaMapAll().catch(swallow);
-  void isDebugFeatureEnabled("helssu-coach").catch(swallow);
-  void isDebugFeatureEnabled("equipment-scan").catch(swallow);
+  void isAiFeatureEnabled("helssu-coach").catch(swallow);
+  void isAiFeatureEnabled("equipment-scan").catch(swallow);
 }
 
 export default async function Home() {

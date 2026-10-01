@@ -65,8 +65,11 @@ function todayYmd(): string {
 
 export function BodyCompForm({
   hasExistingImage,
+  aiScanEnabled = true,
 }: {
   hasExistingImage: boolean;
+  /** 요금제에 AI 가 있는가 — 990원 라이트는 없다(2026-10-01). 없으면 사진은 올리되 자동 추출은 숨긴다. */
+  aiScanEnabled?: boolean;
 }) {
   const router = useRouter();
   const [measuredAt, setMeasuredAt] = useState(todayYmd());
@@ -262,7 +265,7 @@ export function BodyCompForm({
       ))}
 
       <section>
-        <h3 className="app-section-label">분석지 사진 + 자동 추출</h3>
+        <h3 className="app-section-label">{aiScanEnabled ? "분석지 사진 + 자동 추출" : "분석지 사진"}</h3>
         <div className="app-card p-3">
         <div className="flex flex-wrap items-center gap-2">
           <label
@@ -286,6 +289,7 @@ export function BodyCompForm({
             />
           </label>
 
+          {aiScanEnabled ? (
           <button
             type="button"
             disabled={ocrRunning || !imageFile}
@@ -299,7 +303,13 @@ export function BodyCompForm({
             )}
             사진에서 자동 추출
           </button>
+          ) : null}
         </div>
+        {aiScanEnabled ? null : (
+          <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400" data-testid="body-comp-no-ai">
+            사진에서 숫자를 자동으로 읽는 AI 기능은 AI 요금제(준비 중)에 들어가요. 지금은 숫자를 직접 입력해 주세요.
+          </p>
+        )}
 
         {ocrRunning ? (
           <div className="mt-3 space-y-1">

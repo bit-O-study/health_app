@@ -1,0 +1,325 @@
+<title>짐꾼 라이트 2단계 설계</title>
+<meta name="description" content="990원 라이트 2단계 혜택 6개(목표·주간 정리 알림·몸 사진·1년 돌아보기·아픈 부위 대체·정체 탈출)의 화면·계산·데이터·경계·테스트 설계">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 요약 → 한눈에 표 → 혜택 6개 설계 → 순서 → 위험 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start;font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
+.item h3{font-size:15.5px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+h2 .n{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:500;margin-left:8px}
+@media (max-width:520px){body{padding-inline:16px}h1{font-size:25px}.item{grid-template-columns:1fr}.item .tag{grid-row:auto}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 라이트 990원 · 설계 검수보고서 · 2026-10-02</p>
+  <h1>라이트 2단계 혜택 설계</h1>
+  <p class="lede">1단계(리포트 4종·배너 없음·배지·먼저 써 보기)는 "보는 것"이었어요. 2단계는 <b>990원을 계속 낼 이유</b>를 만들어요. 목표가 있어서 오래 쓰고, 매주 알림이 와서 다시 열고, 사진처럼 쌓이는 것이 있어서 해지하기 아까운 조합이에요. 6개 모두 AI 없이 만들고, 운동을 바꾸는 건 <b>오늘만 운동 변경으로만</b> 해요.</p>
+  <div class="meta">
+    <span>근거: 지금 코드(알림 cron·비공개 버킷·정체 계산·공유 이미지) 확인</span>
+    <span>앞 보고서: 라이트 혜택 후보(1단계 완료 <code>e1a3adae</code>)</span>
+  </div>
+</header>
+
+<section>
+  <div class="stats">
+    <div class="stat"><b>6개</b><span>2단계 혜택</span></div>
+    <div class="stat"><b>약 11일</b><span>개발 합계(테스트 포함)</span></div>
+    <div class="stat"><b>DB 표 2개</b><span>목표 · 몸 사진(+ 비공개 버킷 1개)</span></div>
+    <div class="stat"><b>1원 미만</b><span>몸 사진 저장 비용(1인·월) — 나머지는 0원</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>한눈에</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>#</th><th>혜택</th><th>어디서</th><th>무료 회원</th><th>DB 변경</th><th>크기</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>3개월 목표와 진행률</b></td><td>맞춤 운동 › 성장 탭 맨 위</td><td>목표 1개(진행률만)</td><td>새 표 <code>lift_goals</code></td><td>2일</td></tr>
+        <tr><td>2</td><td><b>이번 주 정리 알림</b>(일요일 20시)</td><td>푸시 → 맞춤 운동 › 리포트</td><td>없음</td><td>없음(알림 종류 1개 추가, 코드만)</td><td>1.5일</td></tr>
+        <tr><td>3</td><td><b>몸 사진 비교</b></td><td>설정 › 몸 사진 · 리포트 탭 카드</td><td>3장까지</td><td>새 표 <code>body_photos</code> + 비공개 버킷</td><td>3일</td></tr>
+        <tr><td>4</td><td><b>1년 돌아보기(운동 잔디)</b></td><td>리포트 탭 맨 아래 → <code>/fit/year</code></td><td>잔디만(숫자·공유 잠금)</td><td>없음</td><td>2일</td></tr>
+        <tr><td>5</td><td><b>아픈 부위 대체 운동</b></td><td>오늘 운동 › 컨디션 카드의 아픈 부위 알림</td><td>알림만(지금 그대로)</td><td>없음</td><td>1.5일</td></tr>
+        <tr><td>6</td><td><b>정체 탈출</b></td><td>맞춤 운동 › 성장 탭의 정체 종목</td><td>정체 표시만(지금 그대로)</td><td>없음</td><td>1일</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">원칙: 지금 무료로 보이는 건 그대로 두고 그 위에 얹는다. 무료 칸은 "맛보기 + 잠금 한 줄"로 라이트에서 뭐가 더 되는지 그 자리에서 보여 준다.</p>
+</section>
+
+<section>
+  <h2>1. 3개월 목표와 진행률 <span class="n">2일</span></h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>화면</h3>
+      <ul class="clean">
+        <li>성장 탭 맨 위 <b>"내 목표"</b> 카드. 비어 있으면 [목표 정하기].</li>
+        <li>정하기 시트: 종목(내가 해 본 무게 운동 중 볼륨 상위 8개 + 검색) · 목표 무게(예상 1RM, 지금 값 +10%가 미리 채워짐) · 날짜(기본 3개월 뒤, 4주~12개월).</li>
+        <li>카드: <b>벤치프레스 82.5 → 100kg</b> · 진행 막대 <b>47%</b> · "지금 속도면 <b>12월 20일</b>쯤 · 목표보다 2주 빠름" 또는 "주 1.2kg씩 올려야 해요".</li>
+        <li>목표에 닿으면 축하 한 줄 + [다음 목표].</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>계산(순수 함수 <code>goal-progress.ts</code>)</h3>
+      <ul class="clean">
+        <li>지금 값 = 그 종목 최근 예상 1RM(성장 탭과 같은 <code>oneRMSeries</code>).</li>
+        <li>진행률 = (지금 − 시작) ÷ (목표 − 시작). 시작 = 목표를 정한 날의 값(저장).</li>
+        <li>예상 도달일 = 최근 6주 1RM 기울기(최소제곱)로 직선 연장. 기울기가 0 이하면 "정체 중" → 6번 정체 탈출로 연결.</li>
+        <li>필요 속도 = (목표 − 지금) ÷ 남은 주.</li>
+        <li>기록 4번 미만이면 날짜 대신 "기록이 더 쌓이면 알려 드려요".</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box">
+    <h3>데이터 · 경계 · 테스트</h3>
+    <ul class="clean">
+      <li>새 표 <code>lift_goals</code>(id, user_id, exercise_id, start_kg, target_kg, start_date, target_date, achieved_at, created_at) · RLS 본인만. 라이브 DB 적용 + 스키마 동기화 테스트.</li>
+      <li>무료: 목표 1개(진행률만, 예상 도달일 잠금). 라이트: 목표 3개 + 예상 도달일·필요 속도.</li>
+      <li>테스트: 진행률·도달일·정체 판정 단위 테스트, 목표 저장 → 성장 탭 표시 E2E.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>2. 이번 주 정리 알림 <span class="n">1.5일</span></h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>보내는 것</h3>
+      <ul class="clean">
+        <li><b>일요일 20시</b> 푸시 한 통: "이번 주 4일 운동 · 볼륨 18,200kg(+12%) · 신기록 1개 · 단백질 채운 날 3일".</li>
+        <li>누르면 맞춤 운동 › 리포트 탭.</li>
+        <li>운동 0일인 주는 다그치지 않는 문장: "이번 주는 쉬었어요. 다음 주 첫 운동을 잡아 볼까요?"</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>어떻게(새 cron 없이)</h3>
+      <ul class="clean">
+        <li>Vercel cron 은 지금 2개로 꽉 차 새로 못 둔다 → 매일 20시(KST)에 도는 <code>/api/cron/daily-reminders</code> 에 "일요일이면 주간 정리"를 붙인다(토요일 부위 균형 알림과 같은 방식).</li>
+        <li>중복 방지: 기존 <code>sent-log</code> 에 <code>weekly-summary:주 시작일</code> 키.</li>
+        <li>알림 종류 <code>weekly-summary</code> 추가 → 설정 › 알림에서 끌 수 있게, 야간 금지 시간도 지킴.</li>
+        <li>대상: 라이트 이상 + 기기 등록 + 그 종류 켜짐. 숫자는 1단계 리포트 계산을 재사용.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="cap">테스트: 문장 만들기(운동 0일·신기록 있음 등) 단위 테스트, 일요일에만·라이트에게만·한 번만 보내는지 단위 테스트(기기 발송은 가짜로).</p>
+</section>
+
+<section>
+  <h2>3. 몸 사진 비교 <span class="n">3일</span></h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>화면</h3>
+      <ul class="clean">
+        <li>설정 › 기록 › <b>몸 사진</b>(새 화면) · 맞춤 운동 리포트 탭에 "몸 사진" 카드(최근 2장 나란히).</li>
+        <li>[사진 추가] → 앞·옆·뒤 중 고르고 찍기/고르기 → 날짜(기본 오늘).</li>
+        <li>비교: 날짜 두 개를 고르면 좌우 나란히(같은 방향끼리), 아래에 그 사이 체중·골격근 변화(체성분 리포트 재사용).</li>
+        <li>사진마다 지우기. "이 사진은 나만 봐요" 문구 고정.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>저장 · 개인정보</h3>
+      <ul class="clean">
+        <li>새 <b>비공개</b> 버킷 <code>body-photos</code>(체성분 분석지 버킷과 같은 규칙: 본인 폴더만, 공개 URL 없음, 볼 때만 짧은 서명 URL).</li>
+        <li>기기에서 긴 변 1280px · 약 300KB 로 줄여 올린다(기존 사진 축소 재사용).</li>
+        <li>표 <code>body_photos</code>(id, user_id, taken_on, pose 앞/옆/뒤, path, created_at) · RLS 본인만 · 계정 삭제 시 함께 삭제.</li>
+        <li>처리방침에 "몸 사진(선택)" 추가 — 민감할 수 있어 <b>처음 올릴 때 한 번 동의</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box">
+    <h3>경계 · 비용 · 테스트</h3>
+    <ul class="clean">
+      <li>무료 3장 / 라이트 무제한(남용 방지로 하루 10장).</li>
+      <li>비용: 1인 월 10장 × 300KB = 3MB → 1인 월 1원 미만.</li>
+      <li>테스트: 올리기·목록·비교·지우기 E2E, 다른 사람 사진이 안 열리는지 보안 E2E, 무료 4장째 막힘.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>4. 1년 돌아보기 <span class="n">2일</span></h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>화면</h3>
+      <ul class="clean">
+        <li>리포트 탭 맨 아래 "올해 돌아보기" → 전체 화면 <code>/fit/year</code>.</li>
+        <li>GitHub 잔디처럼 52주 × 7일 칸(운동한 날 진하게, 볼륨이 클수록 진하게).</li>
+        <li>숫자: 운동한 날 · 총 볼륨 · 가장 많이 한 운동 · 최고 신기록 · 가장 길게 이어 간 연속 기록.</li>
+        <li>[이미지로 공유] — 기존 달력 공유 이미지(<code>/api/calendar/month-image</code>)와 같은 방식으로 1장.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>계산 · 경계 · 테스트</h3>
+      <ul class="clean">
+        <li>순수 함수 <code>year-review.ts</code>: 날짜별 볼륨 → 칸 단계(0~4), 연속 기록, 상위 종목.</li>
+        <li>1년치 조회는 리포트 탭이 아니라 <code>/fit/year</code> 에서만.</li>
+        <li>무료: 잔디만 보이고 숫자·공유는 잠금. 라이트: 전부.</li>
+        <li>테스트: 잔디 단계·연속 기록 단위 테스트, 화면·공유 이미지 E2E.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>5. 아픈 부위 대체 운동 <span class="n">1.5일</span></h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>지금 → 바뀌는 것</h3>
+      <ul class="clean">
+        <li>지금: 오늘 운동 컨디션 카드에 "어깨 운동 2개가 오늘 있어요"라고 <b>알리기만</b> 한다.</li>
+        <li>라이트: 그 아래 [<b>오늘만 다른 운동으로 바꾸기</b>] → 미리보기 시트에 "숄더 프레스 → 레그 컬"처럼 짝을 보여 주고 적용.</li>
+        <li>무료: 알림 그대로 + "라이트에서 바로 바꿀 수 있어요" 한 줄.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>규칙 · 테스트</h3>
+      <ul class="clean">
+        <li>대체 후보 = 맞춤 운동 추천(<code>pickExercises</code>) — 이미 아픈 부위·내 헬스장 기구·초급자 제외·회복 중 근육을 거른다. 아픈 운동 수만큼 고른다.</li>
+        <li>적용 = 아픈 부위 운동을 <b>오늘 계획에서만</b> 빼고 대체 운동을 오늘만 더한다(원칙 2: 내 루틴은 그대로).</li>
+        <li>새로 필요한 것: 오늘 계획에서 특정 줄만 빼는 '오늘만' 동작 — 오늘 계획(<code>daily_plan</code>)으로 복사한 뒤 그 줄 삭제(기존 오늘만 변경 경로 재사용).</li>
+        <li>테스트: 짝 고르기 단위 테스트, 적용 후 루틴 불변·오늘 계획만 바뀜 E2E.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>6. 정체 탈출 <span class="n">1일</span></h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>화면</h3>
+      <ul class="clean">
+        <li>성장 탭에서 이미 "정체"가 붙는 종목(최근 3번 예상 1RM 안 오름, <code>stalledLifts</code>) 아래 <b>[정체 탈출]</b>.</li>
+        <li>방법 3개 중 고르기 → 오늘만 운동 변경으로 적용:
+          <ul class="clean">
+            <li>반복 바꾸기: 무게 −10%, 8~12회 3세트</li>
+            <li>변형 운동: 같은 세부 근육을 강하게 쓰는 다른 종목으로 오늘만 교체(벤치 → 인클라인 덤벨)</li>
+            <li>세트 추가: 같은 무게로 1세트 더</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>규칙 · 경계 · 테스트</h3>
+      <ul class="clean">
+        <li>변형 운동은 세부 근육 점수표로 고른다(같은 주동근 점수 70 이상, 내 헬스장 기구, 초급자 제외). 점수표가 트레이너 검수 전 초안이라는 점은 그대로 안내.</li>
+        <li>오늘 그 종목이 없으면 "오늘 운동에 더하기"로만.</li>
+        <li>무료: 정체 표시 그대로 + 잠금 한 줄. 라이트: 탈출 버튼.</li>
+        <li>5번에서 만드는 '오늘만 한 줄 빼기'를 재사용. 테스트: 변형 고르기 단위 테스트, 적용 E2E(루틴 불변).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>추천 순서</h2>
+  <div class="phase">
+    <div class="box">
+      <h3><span class="pill ok">먼저</span> 1 · 2 · 3 <span class="size">약 6.5일</span></h3>
+      <p>목표(오래 씀) · 주간 알림(다시 엶) · 몸 사진(쌓여서 해지가 아까움). 2번은 1단계 리포트를 재사용해 가장 빠르다.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">다음</span> 5 · 6 <span class="size">약 2.5일</span></h3>
+      <p>둘 다 "오늘만 운동 변경" 경로를 쓴다. 5번에서 만드는 '오늘만 한 줄 빼기'를 6번이 재사용.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">마지막</span> 4 <span class="size">2일</span></h3>
+      <p>기록이 쌓일수록 좋아지는 기능이라 늦게 열어도 손해가 적다. 연말에 맞춰 공개하면 공유 효과가 크다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>위험과 대응</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>위험</th><th>대응</th></tr></thead>
+      <tbody>
+        <tr><td>몸 사진은 민감 정보</td><td>비공개 버킷·서명 URL·본인 RLS, 처음 올릴 때 동의, 처리방침 갱신, 계정 삭제 시 함께 삭제. 보안 E2E 필수.</td></tr>
+        <tr><td>주간 알림이 귀찮음</td><td>주 1회만, 설정에서 끄기, 야간 금지 지킴, 운동 안 한 주에 다그치지 않는 문장.</td></tr>
+        <tr><td>예상 도달일이 틀림</td><td>기록 4번 미만이면 날짜 대신 안내 문장. 항상 "예상"이라고 표기.</td></tr>
+        <tr><td>대체·변형 운동이 부적절</td><td>세부 근육 점수표가 아직 초안 — 트레이너 검수 반영 후 정확해짐. 적용 전 미리보기로 사용자가 확인.</td></tr>
+        <tr><td>무료와 차이가 안 느껴짐</td><td>기능마다 무료 맛보기 + 잠금 한 줄을 그 자리에 둔다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>결정할 것</h2>
+  <div class="decide">
+    <p><b>1.</b> 순서: 1·2·3 먼저 → 5·6 → 4 로 갈까요?</p>
+    <p><b>2.</b> 주간 정리 알림 시간: 일요일 20시(지금 cron 에 붙이는 안)로 괜찮을까요? 월요일 아침을 원하면 기존 월요일 cron(그룹 MVP, 09시)에 붙일 수 있어요.</p>
+    <p><b>3.</b> 몸 사진 무료 한도: 3장으로 할까요?</p>
+    <p><b>4.</b> 목표 개수: 무료 1개 / 라이트 3개로 할까요?</p>
+  </div>
+</section>
+</div>

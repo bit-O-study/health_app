@@ -16,6 +16,7 @@ import {
   UserRound,
   UsersRound,
   type LucideIcon,
+  Camera,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
@@ -71,6 +72,7 @@ export default async function SettingsPage() {
     { href: "/settings/me", title: "마이페이지", icon: UserRound },
     { href: "/settings/profile", title: "체형 정보", icon: Scale },
     { href: "/settings/body-composition", title: "체성분 결과 등록", icon: ClipboardList },
+    { href: "/settings/body-photos", title: "몸 사진", icon: Camera },
     ...(profile?.gender === "female"
       ? [{ href: "/cycle", title: "생리 기록", icon: HeartPulse }]
       : []),

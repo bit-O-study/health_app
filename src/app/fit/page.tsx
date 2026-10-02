@@ -12,6 +12,10 @@ import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
 import { FitApplyCard, type FitPickView } from "@/features/routine/components/fit-apply-card";
 import { loadLiteReports } from "@/features/lite/reports-data";
 import { LiteReportCards } from "@/features/lite/components/lite-reports";
+import { loadGoals } from "@/features/lite/goals-data";
+import { GoalsCard } from "@/features/lite/components/goals-card";
+import { loadBodyPhotos } from "@/features/lite/body-photos-data";
+import { BodyPhotosCard } from "@/features/lite/components/body-photos-card";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "맞춤 운동" };
@@ -96,10 +100,14 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
   }));
   const lacking = full ? view.lacking : view.lacking.slice(0, 1);
   // 성장·리포트 탭에서만 두 달 치 기록을 읽는다.
-  const [growth, liteReports] = await Promise.all([
+  const [growth, liteReports, goals, photos] = await Promise.all([
     tab === "growth" || tab === "report" ? loadFitGrowth() : null,
     // 라이트 리포트 4종(체성분·컨디션·식단·수분/걸음, 2026-10-02) — 리포트 탭 + 라이트만 읽는다.
     tab === "report" && access.full ? loadLiteReports() : null,
+    // 3개월 목표(2026-10-02 라이트 2단계) — 성장 탭 맨 위. 무료 1개·라이트 3개.
+    tab === "growth" ? loadGoals() : null,
+    // 몸 사진 최근 3장(2026-10-02 라이트 2단계) — 리포트 탭 + 라이트.
+    tab === "report" && access.full ? loadBodyPhotos(3) : null,
   ]);
 
   return (
@@ -226,6 +234,7 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
           )
         ) : null}
 
+        {tab === "growth" && goals ? <GoalsCard view={goals} /> : null}
         {tab === "growth" && growth ? (
           <>
             {full ? (
@@ -312,6 +321,7 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
           )
         ) : null}
         {tab === "report" && liteReports ? <LiteReportCards r={liteReports} /> : null}
+        {tab === "report" && photos ? <BodyPhotosCard view={photos} /> : null}
 
         <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
           점수는 운동별 세부 근육 자극(초안)과 목표 비율로 계산해요. 지난 7일 기록 기준.

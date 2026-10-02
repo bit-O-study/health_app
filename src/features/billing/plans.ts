@@ -77,6 +77,10 @@ export const PLANS: Record<PlanId, PlanMeta> = {
       { text: "홈 홍보 배너 없음", ready: true },
       { text: "커뮤니티 이름 옆 라이트 배지", ready: true },
       { text: "새 기능 먼저 써 보기", ready: true },
+      // 혜택 2단계(2026-10-02, docs/lite-stage2-design-2026-10-02.html).
+      { text: "3개월 목표 3개 · 진행률·예상 도달일", ready: true },
+      { text: "몸 사진 비교(무제한, 나만 보기)", ready: true },
+      { text: "일요일 저녁 이번 주 정리 알림", ready: true },
     ],
     // 🔴 라이트엔 AI 가 없다 — 무료 회원의 AI 맛보기도 없다(2026-10-01 사용자 결정).
     note: "AI 기능은 들어 있지 않아요. AI 기능과 AI가 들어간 요금제(베이직·플러스·프로)는 아직 준비 중이에요.",

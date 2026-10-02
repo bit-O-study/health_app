@@ -106,7 +106,8 @@ describe("가드 — 알림 경로", () => {
   });
   it("좋아요 묶음은 하루 리마인더 크론이 부르고, 오늘 리마인더를 받는 사람에겐 푸시하지 않는다", () => {
     expect(cron).toContain("runLikeDigest(");
-    expect(cron).toContain("[...targets, ...balance.targets].map((t) => t.userId)");
+    // 일요일 이번 주 정리(라이트, 2026-10-02)를 받는 사람도 오늘 저녁 푸시를 받은 사람이다.
+    expect(cron).toContain("[...targets, ...balance.targets, ...summary.targets].map((t) => t.userId)");
   });
 });
 

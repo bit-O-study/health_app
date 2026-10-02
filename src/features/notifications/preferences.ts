@@ -35,6 +35,8 @@ export const NOTIFICATION_KINDS = [
   "rest-timer",
   /** 이번 주 아직 안 한 부위(주말에 한 번). */
   "weekly-balance",
+  /** 일요일 저녁 이번 주 정리(라이트 990원 혜택, 2026-10-02). */
+  "weekly-summary",
   /** 커뮤니티 — 내 글에 달린 댓글(매번) · 받은 좋아요(하루 한 번 묶음). */
   "community-activity",
 ] as const;
@@ -68,6 +70,10 @@ export const NOTIFICATION_LABEL: Record<
   "weekly-balance": {
     title: "주간 부위 균형",
     desc: "이번 주 아직 안 한 부위가 있으면 주말에 한 번 알려드려요.",
+  },
+  "weekly-summary": {
+    title: "이번 주 정리(라이트)",
+    desc: "일요일 저녁, 한 주 운동·신기록·단백질을 한 통으로 정리해 드려요.",
   },
   "group-activity": {
     title: "그룹 소식",
@@ -116,6 +122,7 @@ export const PUSH_TYPE_TO_KIND: Record<string, NotificationKind> = {
   "trainer-comment": "trainer-comment",
   "community-comment": "community-activity",
   "community-likes": "community-activity",
+  "weekly-summary": "weekly-summary",
 };
 
 export function kindForPushType(type: string): NotificationKind | null {
@@ -151,6 +158,7 @@ export const DEFAULT_PREFERENCES: NotificationPreferences = {
     "trainer-comment": true,
     "rest-timer": true,
     "weekly-balance": true,
+    "weekly-summary": true,
     "community-activity": true,
   },
   quietHours: true,
@@ -169,6 +177,7 @@ export type PreferenceRow = {
   trainer_comment?: unknown;
   rest_timer?: unknown;
   weekly_balance?: unknown;
+  weekly_summary?: unknown;
   community_activity?: unknown;
   quiet_hours?: unknown;
   quiet_start_hour?: unknown;
@@ -185,6 +194,7 @@ const ROW_KEY: Record<NotificationKind, keyof PreferenceRow> = {
   "trainer-comment": "trainer_comment",
   "rest-timer": "rest_timer",
   "weekly-balance": "weekly_balance",
+  "weekly-summary": "weekly_summary",
   "community-activity": "community_activity",
 };
 
@@ -242,6 +252,7 @@ export function toPreferenceRow(
     trainer_comment: prefs.kinds["trainer-comment"],
     rest_timer: prefs.kinds["rest-timer"],
     weekly_balance: prefs.kinds["weekly-balance"],
+    weekly_summary: prefs.kinds["weekly-summary"],
     community_activity: prefs.kinds["community-activity"],
     quiet_hours: prefs.quietHours,
     quiet_start_hour: prefs.quietStartHour,

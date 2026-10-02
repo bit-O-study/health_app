@@ -10,6 +10,8 @@ import { SUB_STATUS_LABEL, type SubStatus } from "@/features/routine/fit";
 import { ALL_SUB_MUSCLES } from "@/features/routine/sub-muscles";
 import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
 import { FitApplyCard, type FitPickView } from "@/features/routine/components/fit-apply-card";
+import { loadLiteReports } from "@/features/lite/reports-data";
+import { LiteReportCards } from "@/features/lite/components/lite-reports";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "맞춤 운동" };
@@ -49,12 +51,21 @@ function Bar({ pct, status }: { pct: number; status: SubStatus }) {
   );
 }
 
+/** 받침 있으면 "은", 없으면 "는" — "리포트는" · "균형은". */
+function eunNeun(word: string): string {
+  const code = word.charCodeAt(word.length - 1) - 0xac00;
+  return code >= 0 && code <= 11171 && code % 28 !== 0 ? "은" : "는";
+}
+
 function Locked({ what }: { what: string }) {
   return (
     <section className="app-card space-y-2 p-4 text-center" data-testid="fit-locked">
       <Lock aria-hidden="true" size={20} className="mx-auto text-zinc-400" />
-      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{what}은 라이트에서 볼 수 있어요</p>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">세부 부위 25개 · 맞춤 추천 전부 · 균형 · 월 990원</p>
+      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        {what}
+        {eunNeun(what)} 라이트에서 볼 수 있어요
+      </p>
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">세부 부위 25개 · 맞춤 추천 전부 · 균형 · 내 데이터 리포트 · 월 990원</p>
       <Link href="/settings/subscription" className="inline-block text-sm font-semibold text-brand">
         라이트 알아보기 →
       </Link>
@@ -85,7 +96,11 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
   }));
   const lacking = full ? view.lacking : view.lacking.slice(0, 1);
   // 성장·리포트 탭에서만 두 달 치 기록을 읽는다.
-  const growth = tab === "growth" || tab === "report" ? await loadFitGrowth() : null;
+  const [growth, liteReports] = await Promise.all([
+    tab === "growth" || tab === "report" ? loadFitGrowth() : null,
+    // 라이트 리포트 4종(체성분·컨디션·식단·수분/걸음, 2026-10-02) — 리포트 탭 + 라이트만 읽는다.
+    tab === "report" && access.full ? loadLiteReports() : null,
+  ]);
 
   return (
     <div className="app-page">
@@ -293,9 +308,10 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
               )}
             </section>
           ) : (
-            <Locked what="월간 리포트" />
+            <Locked what="월간·체성분·컨디션·식단 리포트" />
           )
         ) : null}
+        {tab === "report" && liteReports ? <LiteReportCards r={liteReports} /> : null}
 
         <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
           점수는 운동별 세부 근육 자극(초안)과 목표 비율로 계산해요. 지난 7일 기록 기준.

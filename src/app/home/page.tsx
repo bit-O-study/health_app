@@ -68,7 +68,8 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         </header>
 
         {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
-        <PromoBanner />
+        {/* 라이트(990원) 혜택 — 홈 홍보 배너 없음(2026-10-02). fitAccess.full = 라이트 이상. */}
+        {fitAccess.full ? null : <PromoBanner />}
         <PermissionNudge />
 
         {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}

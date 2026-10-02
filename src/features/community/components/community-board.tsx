@@ -533,6 +533,14 @@ function PostCard({
               isMine={post.isMine}
               blockTarget={{ kind: isTeaching ? "teaching_post" : "community_post", id: post.id }}
             />
+            {post.authorLite ? (
+              <span
+                data-testid="author-lite-badge"
+                className="ml-1.5 inline-flex items-center rounded-full bg-brand-soft px-1.5 py-px align-middle text-xs font-semibold text-brand"
+              >
+                라이트
+              </span>
+            ) : null}
           </p>
           <p className="text-xs leading-4 text-zinc-400">{when} · {post.visibility === "public" ? "전체 공개" : post.visibility === "group" ? "그룹만 공개" : "그룹 제외 공개"}</p>
         </div>

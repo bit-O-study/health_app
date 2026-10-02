@@ -13,6 +13,7 @@ import {
 } from "@/features/community/feed";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { pageComments } from "@/features/community/comment-page";
+import { paidMemberIds } from "@/features/billing/member-badges.server";
 
 /** 통합 피드 글(사진 인증 + 운동 티칭 영상). */
 export type FeedPost = {
@@ -46,6 +47,8 @@ export type FeedPost = {
   savedByMe: boolean;
   /** 신고가 쌓여 다른 사람에게 숨겨짐(내 글·관리자에게만 이 상태로 보인다). */
   hidden: boolean;
+  /** 글쓴이가 라이트 이상 — 이름 옆 배지(2026-10-02). */
+  authorLite?: boolean;
 };
 
 export type PostType = "photo" | "question";
@@ -218,7 +221,7 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
   const photoIds = cRows.map((r) => r.id);
   const teachIds = tRows.map((r) => r.id);
 
-  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }, { data: mySaves }, { data: myTSaves }] =
+  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }, { data: mySaves }, { data: myTSaves }, paid] =
     await Promise.all([
       groupIds.length > 0
         ? supabase.from("groups").select("id, name").in("id", groupIds)
@@ -245,6 +248,8 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
       teachIds.length > 0
         ? supabase.from("teaching_saves").select("post_id").eq("user_id", user.id).in("post_id", teachIds)
         : Promise.resolve({ data: [] as { post_id: string }[] }),
+      // 이름 옆 라이트 배지(2026-10-02) — 글쓴이가 라이트 이상인가만.
+      paidMemberIds([...cRows, ...tRows].map((r) => r.user_id)),
     ]);
   const tSavedByMe = new Set<string>(((myTSaves ?? []) as { post_id: string }[]).map((s) => s.post_id));
   const savedByMe = new Set<string>(((mySaves ?? []) as { post_id: string }[]).map((s) => s.post_id));
@@ -301,6 +306,7 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
     resolved: !!r.resolved_at,
     savedByMe: savedByMe.has(r.id),
     hidden: !!r.hidden_at,
+    authorLite: paid.has(r.user_id),
   }));
 
   const teachings: FeedPost[] = tRows.map((r) => ({
@@ -326,6 +332,7 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
     resolved: false,
     savedByMe: tSavedByMe.has(r.id),
     hidden: !!r.hidden_at,
+    authorLite: paid.has(r.user_id),
   }));
 
   return mergeByCreatedAt(photos, teachings).slice(0, limit);

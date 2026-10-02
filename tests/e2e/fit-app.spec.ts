@@ -129,7 +129,7 @@ test("무료(공개 스위치 켜진 계정): 맛보기 추천 1개 + 잠금", a
     await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스", { timeout: 15_000 });
     await expect(page.getByTestId("fit-growth-bench-press")).toHaveCount(0);
     await openTab(page, "리포트", "report");
-    await expect(page.getByTestId("fit-locked")).toContainText("월간 리포트");
+    await expect(page.getByTestId("fit-locked")).toContainText("월간·체성분·컨디션·식단 리포트는 라이트에서 볼 수 있어요");
   } finally {
     await dbQuery(
       `update public.app_settings set value = coalesce((select jsonb_agg(e) from jsonb_array_elements_text(value) e where e <> $1), '[]'::jsonb) where key='debug.accounts'`,

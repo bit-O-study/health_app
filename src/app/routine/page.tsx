@@ -48,6 +48,7 @@ import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { DailyCheckinCard } from "@/features/routine/components/daily-checkin-card";
 import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { painConflicts, type Checkin } from "@/features/routine/checkin";
+import { loadPainSwapPreview, type PainSwapPreview } from "@/features/lite/pain-swap-data";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import {
@@ -160,6 +161,9 @@ export default async function Home() {
       ])
     : [null, null, [], [], null, [], new Set<string>()];
 
+  // 아픈 부위 대체(라이트 2단계, 2026-10-02) — 아픈 부위를 정한 사람만 한 번 더 읽는다(대부분 0).
+  const painSwap = user && painAreas.length ? await loadPainSwapPreview().catch(() => null) : null;
+
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
     redirect("/onboarding");
@@ -200,6 +204,7 @@ export default async function Home() {
             todayCheckin={todayCheckin}
             painAreas={painAreas}
             todayIds={todayIds}
+            painSwap={painSwap}
           />
         )}
       </main>
@@ -275,10 +280,12 @@ function TodayWorkout({
   todayCheckin,
   painAreas,
   todayIds,
+  painSwap,
 }: {
   todayCheckin: Checkin | null;
   painAreas: BodyPart[];
   todayIds: ReadonlySet<string>;
+  painSwap: PainSwapPreview | null;
   routine: {
     splits: number;
     variantId: string;
@@ -521,7 +528,7 @@ function TodayWorkout({
       {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
           '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
       {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
-        <DailyCheckinCard today={todayYmd} initial={todayCheckin} painConflicts={todayPain} />
+        <DailyCheckinCard today={todayYmd} initial={todayCheckin} painConflicts={todayPain} painSwap={painSwap} />
       ) : null}
 
       <TodayEditScope>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { HeartPulse, Loader2 } from "lucide-react";
 
 import { lightenTodayAction, saveCheckinAction } from "@/features/routine/checkin-actions";
@@ -13,6 +14,8 @@ import {
   type Level,
 } from "@/features/routine/checkin";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { swapPainExercisesTodayAction } from "@/features/lite/pain-swap-actions";
+import type { PainSwapPreview } from "@/features/lite/pain-swap-data";
 
 const lightKey = (ymd: string) => `jimkkun.checkin-lightened.${ymd}`;
 
@@ -24,11 +27,15 @@ export function DailyCheckinCard({
   today,
   initial,
   painConflicts,
+  painSwap = null,
 }: {
   today: string;
   initial: Checkin | null;
   painConflicts: { part: BodyPart; count: number }[];
+  /** 아픈 부위 대체(라이트 2단계, 2026-10-02) — 라이트면 짝 미리보기 + 바꾸기, 무료면 안내 한 줄. */
+  painSwap?: PainSwapPreview | null;
 }) {
+  const router = useRouter();
   const [picked, setPicked] = useState<Partial<Checkin>>(initial ?? {});
   const [saved, setSaved] = useState<Checkin | null>(initial);
   const [editing, setEditing] = useState(initial === null);
@@ -153,6 +160,44 @@ export function DailyCheckinCard({
             아픈 부위 바꾸기
           </Link>
         </p>
+      ) : null}
+      {painConflicts.length && painSwap ? (
+        painSwap.full ? (
+          painSwap.pairs.length ? (
+            <div className="space-y-2 rounded-lg border border-line p-2.5" data-testid="pain-swap">
+              <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">오늘만 이렇게 바꿀 수 있어요</p>
+              <ul className="space-y-1 text-sm text-zinc-800 dark:text-zinc-100">
+                {painSwap.pairs.map((p) => (
+                  <li key={p.fromId}>
+                    <span className="text-zinc-500 line-through">{p.fromName}</span> → <b>{p.toName}</b>
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() =>
+                  start(async () => {
+                    const r = await swapPainExercisesTodayAction();
+                    setMsg(r.ok ? `오늘만 ${r.swapped}개 바꿨어요. 내 루틴은 그대로예요.` : r.error);
+                    if (r.ok) router.refresh();
+                  })
+                }
+                className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
+              >
+                {pending ? <Loader2 aria-hidden="true" size={14} className="animate-spin" /> : null}
+                오늘만 다른 운동으로 바꾸기
+              </button>
+            </div>
+          ) : null
+        ) : (
+          <p className="text-xs text-zinc-500 dark:text-zinc-400" data-testid="pain-swap-locked">
+            라이트에서는 아픈 부위 운동을 오늘만 다른 운동으로 바로 바꿀 수 있어요.{" "}
+            <Link href="/settings/subscription" className="font-semibold text-brand">
+              라이트 알아보기
+            </Link>
+          </p>
+        )
       ) : null}
 
       {msg ? <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{msg}</p> : null}

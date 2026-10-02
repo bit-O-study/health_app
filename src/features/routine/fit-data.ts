@@ -78,7 +78,8 @@ const EXP_LABEL: Record<string, string> = { beginner: "초급", intermediate: "�
  * 기록이 없으면 이번 주 자극이 전부 0이라 목표가 곧 모자람이다 → 설문 목표대로 추천된다
  * (가입 직후 · `docs/sub-muscle-score-lite-plan-2026-10-01.html` 2-2).
  */
-export async function loadFitView(): Promise<FitView | null> {
+/** @param opts.n 추천 개수를 직접 정할 때(아픈 부위 대체 — 바꿀 운동 수만큼). 없으면 1회 운동 시간대로. */
+export async function loadFitView(opts?: { n?: number }): Promise<FitView | null> {
   const user = await getCurrentUser();
   if (!user) return null;
   const supabase = await createSupabaseServerClient();
@@ -128,7 +129,7 @@ export async function loadFitView(): Promise<FitView | null> {
   }
   const picks = pickExercises(candidates, targets, stim, stimulusOf, {
     // 1회 운동 시간에 맞춰 추천 개수(30분 2 · 45분 3 · 60분 4).
-    n: fitPickCount(profile?.sessionMinutes),
+    n: opts?.n ?? fitPickCount(profile?.sessionMinutes),
     exclude: todayIds,
     recovering: recoveringSubs(records, stimulusOf, today, addDaysYmd(today, -1)),
   });

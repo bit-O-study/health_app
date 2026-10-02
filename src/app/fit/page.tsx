@@ -322,6 +322,12 @@ export default async function FitPage({ searchParams }: { searchParams: Promise<
         ) : null}
         {tab === "report" && liteReports ? <LiteReportCards r={liteReports} /> : null}
         {tab === "report" && photos ? <BodyPhotosCard view={photos} /> : null}
+        {tab === "report" ? (
+          <Link href="/fit/year" className="app-card flex items-center justify-between p-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-testid="fit-year-link">
+            올해 돌아보기 · 운동 잔디
+            <span className="text-brand">→</span>
+          </Link>
+        ) : null}
 
         <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
           점수는 운동별 세부 근육 자극(초안)과 목표 비율로 계산해요. 지난 7일 기록 기준.

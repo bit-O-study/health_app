@@ -81,6 +81,8 @@ export const PLANS: Record<PlanId, PlanMeta> = {
       { text: "3개월 목표 3개 · 진행률·예상 도달일", ready: true },
       { text: "몸 사진 비교(무제한, 나만 보기)", ready: true },
       { text: "일요일 저녁 이번 주 정리 알림", ready: true },
+      { text: "아픈 부위 운동을 오늘만 다른 운동으로 바로 바꾸기", ready: true },
+      { text: "1년 돌아보기(운동 잔디·한 해 숫자·공유 이미지)", ready: true },
     ],
     // 🔴 라이트엔 AI 가 없다 — 무료 회원의 AI 맛보기도 없다(2026-10-01 사용자 결정).
     note: "AI 기능은 들어 있지 않아요. AI 기능과 AI가 들어간 요금제(베이직·플러스·프로)는 아직 준비 중이에요.",

@@ -1,0 +1,346 @@
+<title>짐꾼 운동 점수 검수</title>
+<meta name="description" content="트레이너가 운동별 세부 근육 자극 점수(0~100)와 남녀 목표 비율을 직접 고치고 검수 완료를 표시하는 페이지">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥 — 안내 → 진행률·필터 → 운동 카드(세부 근육 점수 입력) / 목표 비율 탭 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:18px}
+header{padding-block:32px 8px;display:grid;gap:10px}
+h1{margin:0;font-size:26px;text-wrap:balance}
+h2{margin:0;font-size:17px}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.lede{color:var(--ink-2);max-width:68ch}
+.scale{display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px}
+.scale span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:2px 10px}
+.scale b{font-family:var(--mono)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--ground);padding-block:10px;display:grid;gap:8px;border-bottom:1px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tabs button,.chips button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:5px 12px;cursor:pointer}
+.tabs button[aria-pressed="true"],.chips button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--surface);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.progress{height:6px;border-radius:999px;background:var(--line-2);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--brand)}
+.status{font-size:12.5px;color:var(--muted)}
+.notice{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:8px 12px;font-size:13px}
+.cards{display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.card.done{border-color:var(--brand)}
+.card-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card-h h3{margin:0;font-size:16px}
+.id{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+table{border-collapse:collapse;width:100%}
+td{padding:4px 0;font-size:14px;vertical-align:middle}
+td.l{width:100%;padding-right:10px}
+td.v{white-space:nowrap}
+input[type=number]{width:72px;font:inherit;font-family:var(--mono);font-size:14px;text-align:right;border:1px solid var(--line);background:var(--ground);color:var(--ink);border-radius:8px;padding:4px 8px}
+input.changed{border-color:var(--warn);background:var(--warn-soft)}
+.draft{font-family:var(--mono);font-size:11.5px;color:var(--warn);margin-left:6px}
+.meter{display:inline-block;width:60px;height:5px;border-radius:999px;background:var(--line-2);margin-left:8px;vertical-align:middle;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--brand)}
+select,textarea{font:inherit;font-size:13.5px;border:1px solid var(--line);background:var(--ground);color:var(--ink);border-radius:8px;padding:5px 8px}
+textarea{width:100%;min-height:52px;resize:vertical}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
+label.done{display:inline-flex;gap:6px;align-items:center;font-weight:600;cursor:pointer}
+.who{font-size:12px;color:var(--muted)}
+.empty{color:var(--muted);font-size:14px;padding:16px;text-align:center}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 맞춤 운동 · 트레이너 검수</p>
+  <h1>짐꾼 운동 점수 검수</h1>
+  <p class="lede">운동 한 세트가 각 세부 근육을 얼마나 자극하는지 0~100점으로 적은 <b>초안</b>입니다. 숫자를 고치면 자동 저장되고, 앱의 추천(모자란 부위를 채우는 운동)이 이 점수로 계산됩니다. 다 봤으면 <b>검수 완료</b>를 체크해 주세요. 없는 근육은 "근육 추가"로 넣고, 0으로 두면 빠집니다.</p>
+  <div class="scale" aria-label="점수 기준">
+    <span><b>100</b> 주동근(운동마다 하나 이상)</span>
+    <span><b>70–90</b> 강하게 함께 쓰는 근육</span>
+    <span><b>40–60</b> 보조근</span>
+    <span><b>20–35</b> 조금 쓰임·안정화</span>
+    <span><b>0</b> 거의 안 씀(빼기)</span>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="row tabs" role="group" aria-label="보기">
+    <button type="button" id="tab-ex" aria-pressed="true">운동 점수</button>
+    <button type="button" id="tab-tg" aria-pressed="false">목표 비율</button>
+  </div>
+  <div class="row chips" id="filters" role="group" aria-label="부위"></div>
+  <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+  <p class="status" id="status">불러오는 중…</p>
+</div>
+
+<p class="notice" id="ro" hidden>읽기 전용으로 보고 있어요. 점수를 고치려면 이 페이지의 편집 권한(기여자 이상)이 필요해요.</p>
+
+<main class="cards" id="cards"></main>
+</div>
+
+<script id="data" type="application/json">{"exercises":[{"id":"bench-press","name":"벤치프레스","part":"chest","scores":{"chest-mid":100,"chest-lower":70,"chest-upper":45,"chest-inner":40,"shoulder-front":55,"arm-triceps-lateral":45,"arm-triceps-medial":40,"arm-triceps-long":25}},{"id":"dumbbell-bench-press","name":"덤벨 벤치프레스","part":"chest","scores":{"chest-mid":100,"chest-lower":65,"chest-upper":45,"chest-inner":50,"shoulder-front":55,"arm-triceps-lateral":35,"arm-triceps-medial":30,"arm-triceps-long":15}},{"id":"machine-chest-press","name":"머신 체스트 프레스","part":"chest","scores":{"chest-mid":100,"chest-lower":60,"chest-upper":40,"chest-inner":40,"shoulder-front":45,"arm-triceps-lateral":40,"arm-triceps-medial":35,"arm-triceps-long":20}},{"id":"incline-press","name":"인클라인 프레스","part":"chest","scores":{"chest-upper":100,"chest-mid":60,"chest-lower":20,"chest-inner":30,"shoulder-front":70,"arm-triceps-lateral":40,"arm-triceps-medial":35,"arm-triceps-long":20}},{"id":"incline-dumbbell-bench-press","name":"인클라인 덤벨 벤치프레스","part":"chest","scores":{"chest-upper":100,"chest-mid":55,"chest-lower":15,"chest-inner":40,"shoulder-front":65,"arm-triceps-lateral":30,"arm-triceps-medial":30,"arm-triceps-long":15}},{"id":"decline-press","name":"디클라인 벤치프레스","part":"chest","scores":{"chest-lower":100,"chest-mid":70,"chest-upper":15,"chest-inner":30,"shoulder-front":30,"arm-triceps-lateral":45,"arm-triceps-medial":40,"arm-triceps-long":25}},{"id":"dips","name":"딥스","part":"chest","scores":{"chest-lower":100,"chest-mid":60,"chest-inner":30,"shoulder-front":50,"arm-triceps-medial":70,"arm-triceps-lateral":65,"arm-triceps-long":40}},{"id":"push-up","name":"푸시업","part":"chest","scores":{"chest-mid":100,"chest-lower":60,"chest-upper":40,"chest-inner":35,"shoulder-front":50,"arm-triceps-lateral":40,"arm-triceps-medial":40,"arm-triceps-long":20,"core-upper-abs":25}},{"id":"close-grip-bench-press","name":"클로즈그립 벤치프레스","part":"chest","scores":{"arm-triceps-lateral":100,"arm-triceps-medial":90,"arm-triceps-long":55,"chest-inner":60,"chest-mid":55,"shoulder-front":45}},{"id":"chest-fly","name":"체스트 플라이","part":"chest","scores":{"chest-inner":100,"chest-mid":85,"chest-upper":40,"chest-lower":40,"shoulder-front":35}},{"id":"pec-deck","name":"펙덱 플라이","part":"chest","scores":{"chest-inner":100,"chest-mid":85,"chest-upper":35,"chest-lower":40,"shoulder-front":25}},{"id":"cable-crossover","name":"케이블 크로스오버","part":"chest","scores":{"chest-inner":100,"chest-lower":80,"chest-mid":60,"shoulder-front":25}},{"id":"dumbbell-pullover","name":"덤벨 풀오버","part":"chest","scores":{"chest-lower":80,"back-lats":100,"arm-triceps-long":40,"chest-mid":40}},{"id":"lat-pulldown","name":"랫풀다운","part":"back","scores":{"back-lats":100,"back-rhomboids":50,"back-traps":25,"shoulder-rear":35,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"pull-up","name":"풀업","part":"back","scores":{"back-lats":100,"back-rhomboids":50,"back-traps":30,"shoulder-rear":30,"arm-biceps-long":50,"arm-biceps-short":45,"arm-forearm":40,"core-lower-abs":20}},{"id":"chin-up","name":"친업","part":"back","scores":{"back-lats":100,"back-rhomboids":45,"arm-biceps-short":70,"arm-biceps-long":60,"arm-forearm":35,"shoulder-rear":25}},{"id":"assisted-pull-up","name":"어시스티드 풀업 머신","part":"back","scores":{"back-lats":100,"back-rhomboids":45,"shoulder-rear":30,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"straight-arm-pulldown","name":"스트레이트암 풀다운","part":"back","scores":{"back-lats":100,"arm-triceps-long":35,"shoulder-rear":20,"core-upper-abs":20}},{"id":"seated-cable-row","name":"시티드 케이블 로우","part":"back","scores":{"back-rhomboids":100,"back-lats":85,"back-traps":50,"shoulder-rear":50,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"low-row-machine","name":"롱풀","part":"back","scores":{"back-lats":100,"back-rhomboids":85,"back-traps":40,"shoulder-rear":40,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"t-bar-row","name":"티바 로우","part":"back","scores":{"back-lats":100,"back-rhomboids":90,"back-traps":55,"back-erector":45,"shoulder-rear":45,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"barbell-row","name":"로우","part":"back","scores":{"back-lats":100,"back-rhomboids":90,"back-traps":55,"back-erector":55,"shoulder-rear":45,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"one-arm-dumbbell-row","name":"원암 덤벨 로우","part":"back","scores":{"back-lats":100,"back-rhomboids":70,"back-traps":35,"shoulder-rear":40,"arm-biceps-long":40,"arm-biceps-short":35,"arm-forearm":25}},{"id":"deadlift","name":"데드리프트","part":"back","scores":{"back-erector":100,"lower-glutes":85,"lower-hamstrings":75,"back-lats":50,"back-traps":60,"lower-quads":45,"arm-forearm":55,"core-upper-abs":25}},{"id":"shrug","name":"슈러그","part":"back","scores":{"back-traps":100,"arm-forearm":40}},{"id":"hyperextension","name":"하이퍼익스텐션","part":"back","scores":{"back-erector":100,"lower-glutes":60,"lower-hamstrings":50}},{"id":"ohp","name":"오버헤드프레스","part":"shoulder","scores":{"shoulder-front":100,"shoulder-side":55,"chest-upper":25,"back-traps":30,"arm-triceps-lateral":45,"arm-triceps-medial":40,"arm-triceps-long":30,"core-upper-abs":20}},{"id":"machine-shoulder-press","name":"머신 숄더 프레스","part":"shoulder","scores":{"shoulder-front":100,"shoulder-side":55,"chest-upper":20,"arm-triceps-lateral":40,"arm-triceps-medial":35,"arm-triceps-long":25}},{"id":"smith-machine-shoulder-press","name":"스미스 머신 숄더 프레스","part":"shoulder","scores":{"shoulder-front":100,"shoulder-side":55,"chest-upper":25,"arm-triceps-lateral":45,"arm-triceps-medial":40,"arm-triceps-long":25}},{"id":"dumbbell-shoulder-press","name":"덤벨 숄더 프레스","part":"shoulder","scores":{"shoulder-front":100,"shoulder-side":60,"chest-upper":20,"arm-triceps-lateral":40,"arm-triceps-medial":35,"arm-triceps-long":25}},{"id":"arnold-press","name":"아놀드 프레스","part":"shoulder","scores":{"shoulder-front":100,"shoulder-side":70,"chest-upper":20,"arm-triceps-lateral":35,"arm-triceps-medial":30,"arm-triceps-long":20}},{"id":"lateral-raise","name":"사이드 레터럴 레이즈","part":"shoulder","scores":{"shoulder-side":100,"shoulder-front":30,"back-traps":30,"shoulder-rear":15}},{"id":"cable-lateral-raise","name":"케이블 사이드 레터럴","part":"shoulder","scores":{"shoulder-side":100,"shoulder-front":25,"back-traps":25,"shoulder-rear":15}},{"id":"upright-row","name":"업라이트 로우","part":"shoulder","scores":{"shoulder-side":100,"back-traps":80,"shoulder-front":50,"arm-biceps-long":25}},{"id":"front-raise","name":"프론트 레이즈","part":"shoulder","scores":{"shoulder-front":100,"shoulder-side":30,"chest-upper":30}},{"id":"rear-delt-fly","name":"리어 델트 플라이","part":"shoulder","scores":{"shoulder-rear":100,"back-rhomboids":55,"back-traps":40,"shoulder-side":25}},{"id":"machine-rear-delt-fly","name":"머신 리어 델트 플라이","part":"shoulder","scores":{"shoulder-rear":100,"back-rhomboids":55,"back-traps":35,"shoulder-side":20}},{"id":"single-arm-cable-rear-delt-fly","name":"싱글 암 케이블 리어 델트 플라이","part":"shoulder","scores":{"shoulder-rear":100,"back-rhomboids":45,"back-traps":30,"shoulder-side":25}},{"id":"reverse-pec-deck","name":"리버스 펙덱","part":"back","scores":{"shoulder-rear":100,"back-rhomboids":60,"back-traps":40}},{"id":"face-pull","name":"페이스풀","part":"shoulder","scores":{"shoulder-rear":100,"back-rhomboids":60,"back-traps":60,"shoulder-side":25,"arm-biceps-long":20}},{"id":"biceps-curl","name":"바이셉스 컬","part":"arm","scores":{"arm-biceps-short":100,"arm-biceps-long":90,"arm-forearm":35}},{"id":"ez-bar-curl","name":"이지바 컬","part":"arm","scores":{"arm-biceps-short":100,"arm-biceps-long":85,"arm-forearm":40}},{"id":"standing-cable-curl","name":"스탠딩 케이블 컬","part":"arm","scores":{"arm-biceps-short":100,"arm-biceps-long":90,"arm-forearm":30}},{"id":"cable-curl","name":"케이블 컬","part":"arm","scores":{"arm-biceps-short":100,"arm-biceps-long":90,"arm-forearm":30}},{"id":"incline-curl","name":"인클라인 덤벨 컬","part":"arm","scores":{"arm-biceps-long":100,"arm-biceps-short":60,"arm-forearm":25}},{"id":"preacher-curl","name":"프리처 컬","part":"arm","scores":{"arm-biceps-short":100,"arm-biceps-long":55,"arm-forearm":30}},{"id":"concentration-curl","name":"컨센트레이션 컬","part":"arm","scores":{"arm-biceps-short":100,"arm-biceps-long":60,"arm-forearm":25}},{"id":"hammer-curl","name":"해머컬","part":"arm","scores":{"arm-forearm":100,"arm-biceps-long":75,"arm-biceps-short":45}},{"id":"skull-crusher","name":"라잉 트라이셉스 익스텐션","part":"arm","scores":{"arm-triceps-long":100,"arm-triceps-lateral":70,"arm-triceps-medial":70}},{"id":"overhead-triceps-extension","name":"오버헤드 트라이셉스 익스텐션","part":"arm","scores":{"arm-triceps-long":100,"arm-triceps-medial":60,"arm-triceps-lateral":50}},{"id":"triceps-pushdown","name":"트라이셉스 푸시다운","part":"arm","scores":{"arm-triceps-lateral":100,"arm-triceps-medial":85,"arm-triceps-long":45}},{"id":"triceps-pushdown-2","name":"케이블 푸시다운","part":"arm","scores":{"arm-triceps-lateral":100,"arm-triceps-medial":85,"arm-triceps-long":45}},{"id":"triceps-kickback","name":"트라이셉스 킥백","part":"arm","scores":{"arm-triceps-lateral":100,"arm-triceps-long":60,"arm-triceps-medial":55}},{"id":"diamond-pushup","name":"다이아몬드 푸시업","part":"arm","scores":{"arm-triceps-medial":100,"arm-triceps-lateral":90,"arm-triceps-long":50,"chest-inner":55,"chest-mid":45,"shoulder-front":35}},{"id":"squat","name":"스쿼트","part":"lower","scores":{"lower-quads":100,"lower-glutes":75,"lower-adductors":55,"lower-hamstrings":30,"back-erector":45,"core-upper-abs":20}},{"id":"front-squat","name":"프론트 스쿼트","part":"lower","scores":{"lower-quads":100,"lower-glutes":60,"lower-adductors":45,"back-erector":40,"core-upper-abs":30}},{"id":"goblet-squat","name":"고블릿 스쿼트","part":"lower","scores":{"lower-quads":100,"lower-glutes":70,"lower-adductors":50,"core-upper-abs":25}},{"id":"hack-squat","name":"핵 스쿼트","part":"lower","scores":{"lower-quads":100,"lower-glutes":55,"lower-adductors":40}},{"id":"leg-press","name":"레그프레스","part":"lower","scores":{"lower-quads":100,"lower-glutes":65,"lower-adductors":45,"lower-hamstrings":20}},{"id":"leg-extension","name":"레그 익스텐션","part":"lower","scores":{"lower-quads":100}},{"id":"lunge","name":"런지","part":"lower","scores":{"lower-quads":100,"lower-glutes":85,"lower-adductors":45,"lower-hamstrings":30}},{"id":"walking-lunge","name":"워킹 런지","part":"lower","scores":{"lower-quads":100,"lower-glutes":90,"lower-adductors":45,"lower-hamstrings":30}},{"id":"bulgarian-split-squat","name":"불가리안 스플릿 스쿼트","part":"lower","scores":{"lower-quads":100,"lower-glutes":90,"lower-adductors":45,"lower-hamstrings":30}},{"id":"step-up","name":"스텝업","part":"lower","scores":{"lower-quads":100,"lower-glutes":85,"lower-hamstrings":25}},{"id":"rdl","name":"루마니안 데드리프트","part":"lower","scores":{"lower-hamstrings":100,"lower-glutes":85,"back-erector":55,"lower-adductors":30,"arm-forearm":30}},{"id":"sumo-deadlift","name":"스모 데드리프트","part":"lower","scores":{"lower-glutes":100,"lower-adductors":85,"lower-quads":65,"lower-hamstrings":60,"back-erector":70,"back-traps":45,"arm-forearm":45}},{"id":"leg-curl","name":"레그컬","part":"lower","scores":{"lower-hamstrings":100,"lower-calves":20}},{"id":"seated-leg-curl","name":"시티드 레그컬","part":"lower","scores":{"lower-hamstrings":100,"lower-calves":15}},{"id":"single-leg-curl","name":"싱글 레그 컬","part":"lower","scores":{"lower-hamstrings":100,"lower-calves":20}},{"id":"hip-thrust","name":"힙 스러스트","part":"lower","scores":{"lower-glutes":100,"lower-hamstrings":45,"lower-quads":30,"lower-adductors":25}},{"id":"hip-abduction","name":"힙 어브덕션 (아웃타이)","part":"lower","scores":{"lower-glutes":100}},{"id":"hip-adduction","name":"힙 어덕션 (이너타이)","part":"lower","scores":{"lower-adductors":100}},{"id":"standing-calf-raise","name":"스탠딩 카프 레이즈","part":"lower","scores":{"lower-calves":100}},{"id":"seated-calf-raise","name":"시티드 카프 레이즈","part":"lower","scores":{"lower-calves":100}},{"id":"plank","name":"플랭크","part":"core","scores":{"core-upper-abs":100,"core-lower-abs":90,"core-obliques":55,"shoulder-front":20}},{"id":"crunch","name":"크런치","part":"core","scores":{"core-upper-abs":100,"core-obliques":35,"core-lower-abs":30}},{"id":"cable-crunch","name":"케이블 크런치","part":"core","scores":{"core-upper-abs":100,"core-lower-abs":40,"core-obliques":35}},{"id":"hanging-leg-raise","name":"행잉 레그레이즈","part":"core","scores":{"core-lower-abs":100,"core-upper-abs":55,"core-obliques":45,"arm-forearm":40}},{"id":"toes-to-bar","name":"토스 투 바","part":"core","scores":{"core-lower-abs":100,"core-upper-abs":60,"core-obliques":45,"back-lats":30,"arm-forearm":45}},{"id":"mountain-climber","name":"마운틴 클라이머","part":"core","scores":{"core-lower-abs":100,"core-upper-abs":55,"core-obliques":45,"shoulder-front":30}},{"id":"russian-twist","name":"러시안 트위스트","part":"core","scores":{"core-obliques":100,"core-upper-abs":45}}],"subs":[{"id":"chest-upper","label":"상부 대흉근","part":"chest"},{"id":"chest-mid","label":"중부 대흉근","part":"chest"},{"id":"chest-lower","label":"하부 대흉근","part":"chest"},{"id":"chest-inner","label":"내측 대흉근","part":"chest"},{"id":"back-lats","label":"광배근","part":"back"},{"id":"back-traps","label":"승모근","part":"back"},{"id":"back-rhomboids","label":"능형근","part":"back"},{"id":"back-erector","label":"척추기립근","part":"back"},{"id":"shoulder-front","label":"전면 삼각근","part":"shoulder"},{"id":"shoulder-side","label":"측면 삼각근","part":"shoulder"},{"id":"shoulder-rear","label":"후면 삼각근","part":"shoulder"},{"id":"arm-biceps-long","label":"이두 장두","part":"arm"},{"id":"arm-biceps-short","label":"이두 단두","part":"arm"},{"id":"arm-triceps-long","label":"삼두 장두","part":"arm"},{"id":"arm-triceps-lateral","label":"삼두 외측두","part":"arm"},{"id":"arm-triceps-medial","label":"삼두 내측두","part":"arm"},{"id":"arm-forearm","label":"전완","part":"arm"},{"id":"lower-quads","label":"대퇴사두","part":"lower"},{"id":"lower-hamstrings","label":"햄스트링","part":"lower"},{"id":"lower-glutes","label":"둔근","part":"lower"},{"id":"lower-adductors","label":"내전근","part":"lower"},{"id":"lower-calves","label":"종아리","part":"lower"},{"id":"core-upper-abs","label":"상복부","part":"core"},{"id":"core-lower-abs","label":"하복부","part":"core"},{"id":"core-obliques","label":"복사근","part":"core"}],"targets":{"male":{"chest-upper":5,"chest-mid":4,"chest-lower":2,"chest-inner":1,"back-lats":7,"back-rhomboids":4,"back-traps":2,"back-erector":2,"shoulder-front":2,"shoulder-side":6,"shoulder-rear":4,"arm-triceps-long":4,"arm-triceps-lateral":2.5,"arm-triceps-medial":1.5,"arm-biceps-long":2.5,"arm-biceps-short":2,"arm-forearm":1.5,"lower-quads":6,"lower-hamstrings":4,"lower-glutes":4,"lower-adductors":1.5,"lower-calves":3,"core-upper-abs":2,"core-lower-abs":2,"core-obliques":1.5},"female":{"chest-upper":2,"chest-mid":2,"chest-lower":1,"chest-inner":0.5,"back-lats":5,"back-rhomboids":4,"back-traps":1,"back-erector":2,"shoulder-front":1.5,"shoulder-side":5,"shoulder-rear":4,"arm-triceps-long":3,"arm-triceps-lateral":1.5,"arm-triceps-medial":1.5,"arm-biceps-long":1.5,"arm-biceps-short":1.5,"arm-forearm":0.5,"lower-quads":5,"lower-hamstrings":5,"lower-glutes":8,"lower-adductors":2,"lower-calves":2,"core-upper-abs":2,"core-lower-abs":2.5,"core-obliques":2}}}</script>
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const SUBS = DATA.subs;
+  const SUB_LABEL = Object.fromEntries(SUBS.map((s) => [s.id, s.label]));
+  const PART_LABEL = { chest: "가슴", back: "등", shoulder: "어깨", arm: "팔", lower: "하체", core: "코어" };
+  const PARTS = ["chest", "back", "shoulder", "arm", "lower", "core"];
+  const SUB_ORDER = Object.fromEntries(SUBS.map((s, i) => [s.id, i]));
+
+  let db = null, user = null, myId = null, canWrite = false;
+  const reviews = {}; // exerciseId -> {scores, note, done, by, at}
+  const targets = {}; // male/female -> {values, note, done, by, at}
+  const pending = {}; // key -> timer
+  const working = {}; // key -> in-memory edit state
+  let view = "ex", part = "all", onlyOpen = false, names = {};
+
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs, ...kids) => {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (k === "class") e.className = v;
+      else if (k === "text") e.textContent = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+      else if (v !== false && v != null) e.setAttribute(k, v === true ? "" : v);
+    }
+    for (const k of kids) if (k != null) e.append(k);
+    return e;
+  };
+
+  function scoresOf(ex) {
+    const w = working["ex:" + ex.id];
+    if (w) return w.scores;
+    const r = reviews[ex.id];
+    return r && r.scores ? r.scores : ex.scores;
+  }
+  function stateOf(ex) {
+    const w = working["ex:" + ex.id];
+    const r = reviews[ex.id] || {};
+    return { note: w ? w.note : r.note || "", done: w ? w.done : !!r.done, by: r.by, at: r.at };
+  }
+
+  function renderFilters() {
+    const box = $("filters");
+    box.replaceChildren();
+    if (view !== "ex") return;
+    const mk = (id, label) =>
+      el("button", { type: "button", "aria-pressed": String(part === id), onclick: () => { part = id; render(); } }, label);
+    box.append(mk("all", "전체"));
+    for (const p of PARTS) box.append(mk(p, PART_LABEL[p]));
+    box.append(el("button", { type: "button", "aria-pressed": String(onlyOpen), onclick: () => { onlyOpen = !onlyOpen; render(); } }, "검수 안 한 것만"));
+  }
+
+  function renderProgress() {
+    const done = DATA.exercises.filter((e) => stateOf(e).done).length;
+    const changed = DATA.exercises.filter((e) => reviews[e.id] && reviews[e.id].scores && JSON.stringify(reviews[e.id].scores) !== JSON.stringify(e.scores)).length;
+    const tDone = ["male", "female"].filter((k) => (targets[k] || {}).done).length;
+    $("prog").style.width = Math.round((done / DATA.exercises.length) * 100) + "%";
+    $("status").textContent =
+      `운동 검수 완료 ${done}/${DATA.exercises.length} · 초안에서 바뀐 운동 ${changed}개 · 목표 비율 검수 ${tDone}/2` +
+      (db ? "" : " · 저장 기능을 쓸 수 없는 화면이라 읽기만 할 수 있어요");
+  }
+
+  function save(key, write) {
+    clearTimeout(pending[key]);
+    pending[key] = setTimeout(async () => {
+      try {
+        await write();
+        $("status").textContent = "저장했어요.";
+        setTimeout(renderProgress, 1200);
+      } catch (e) {
+        $("status").textContent = "저장하지 못했어요: " + ((e && e.message) || "알 수 없는 오류");
+        if (e && e.code === "invalid_argument") { canWrite = false; $("ro").hidden = false; render(); }
+      }
+    }, 700);
+  }
+
+  function saveExercise(ex) {
+    if (!db || !canWrite) return;
+    const w = working["ex:" + ex.id];
+    const clean = {};
+    for (const [k, v] of Object.entries(w.scores)) if (v > 0) clean[k] = Math.min(100, Math.max(0, Math.round(v)));
+    save("ex:" + ex.id, () => db.doc("reviews/" + ex.id).set({ scores: clean, note: w.note, done: w.done, by: myId, at: new Date().toISOString() }));
+  }
+
+  function exCard(ex) {
+    const key = "ex:" + ex.id;
+    if (!working[key]) {
+      const st = stateOf(ex);
+      working[key] = { scores: { ...scoresOf(ex) }, note: st.note, done: st.done };
+    }
+    const w = working[key];
+    const st = stateOf(ex);
+    const card = el("article", { class: "card" + (w.done ? " done" : ""), "data-ex": ex.id });
+    card.append(
+      el("div", { class: "card-h" },
+        el("h3", { text: ex.name }),
+        el("span", { class: "id", text: `${PART_LABEL[ex.part] || ex.part} · ${ex.id}` })),
+    );
+    const tb = el("tbody");
+    const subs = Object.keys(w.scores).sort((a, b) => SUB_ORDER[a] - SUB_ORDER[b]);
+    for (const sub of subs) {
+      const v = w.scores[sub];
+      const draft = ex.scores[sub] ?? 0;
+      const inp = el("input", {
+        type: "number", min: "0", max: "100", step: "5", value: String(v),
+        "aria-label": `${ex.name} ${SUB_LABEL[sub]} 점수`, disabled: !canWrite,
+        class: v !== draft ? "changed" : "",
+      });
+      const meter = el("span", { class: "meter" }, el("i", { style: `width:${Math.min(100, v)}%` }));
+      inp.addEventListener("input", () => {
+        const n = Number(inp.value);
+        w.scores[sub] = Number.isFinite(n) ? n : 0;
+        inp.className = w.scores[sub] !== draft ? "changed" : "";
+        meter.firstChild.style.width = Math.min(100, w.scores[sub]) + "%";
+        saveExercise(ex);
+      });
+      tb.append(el("tr", {},
+        el("td", { class: "l", text: SUB_LABEL[sub] || sub }),
+        el("td", { class: "v" }, inp, meter, v !== draft ? el("span", { class: "draft", text: `초안 ${draft}` }) : null)));
+    }
+    card.append(el("table", {}, tb));
+    if (canWrite) {
+      const left = SUBS.filter((s) => !(s.id in w.scores));
+      if (left.length) {
+        const sel = el("select", { "aria-label": `${ex.name}에 근육 추가` }, el("option", { value: "", text: "+ 근육 추가" }), ...left.map((s) => el("option", { value: s.id, text: `${PART_LABEL[s.part]} · ${s.label}` })));
+        sel.addEventListener("change", () => {
+          if (!sel.value) return;
+          w.scores[sel.value] = 30;
+          saveExercise(ex);
+          card.replaceWith(exCard(ex));
+        });
+        card.append(sel);
+      }
+    }
+    const note = el("textarea", { placeholder: "메모 (예: 그립을 넓히면 측면 어깨가 더 쓰임)", "aria-label": `${ex.name} 메모`, disabled: !canWrite });
+    note.value = w.note;
+    note.addEventListener("input", () => { w.note = note.value; saveExercise(ex); });
+    card.append(note);
+    const box = el("input", { type: "checkbox", disabled: !canWrite });
+    box.checked = w.done;
+    box.addEventListener("change", () => { w.done = box.checked; card.classList.toggle("done", w.done); saveExercise(ex); renderProgress(); });
+    const who = st.by ? el("span", { class: "who", text: `${names[st.by] || "누군가"} · ${(st.at || "").slice(0, 10)}` }) : el("span", { class: "who", text: "아직 아무도 안 봄" });
+    card.append(el("div", { class: "foot" }, el("label", { class: "done" }, box, "검수 완료"), who));
+    return card;
+  }
+
+  function tgCard(key, label) {
+    const base = DATA.targets[key];
+    const wk = "tg:" + key;
+    const r = targets[key] || {};
+    if (!working[wk]) working[wk] = { values: { ...(r.values || base) }, note: r.note || "", done: !!r.done };
+    const w = working[wk];
+    const card = el("article", { class: "card" + (w.done ? " done" : "") });
+    const sum = () => Math.round(Object.values(w.values).reduce((s, v) => s + (Number(v) || 0), 0) * 10) / 10;
+    const total = el("span", { class: "id", text: `주간 유효 세트 합계 ${sum()}` });
+    card.append(el("div", { class: "card-h" }, el("h3", { text: label }), total));
+    const doSave = () => {
+      if (!db || !canWrite) return;
+      save(wk, () => db.doc("targets/" + key).set({ values: w.values, note: w.note, done: w.done, by: myId, at: new Date().toISOString() }));
+    };
+    for (const p of PARTS) {
+      const tb = el("tbody");
+      for (const s of SUBS.filter((x) => x.part === p)) {
+        const draft = base[s.id];
+        const inp = el("input", { type: "number", min: "0", max: "20", step: "0.5", value: String(w.values[s.id]), "aria-label": `${label} ${s.label} 주간 목표`, disabled: !canWrite, class: w.values[s.id] !== draft ? "changed" : "" });
+        inp.addEventListener("input", () => {
+          const n = Number(inp.value);
+          w.values[s.id] = Number.isFinite(n) ? n : 0;
+          inp.className = w.values[s.id] !== draft ? "changed" : "";
+          total.textContent = `주간 유효 세트 합계 ${sum()}`;
+          doSave();
+        });
+        tb.append(el("tr", {}, el("td", { class: "l", text: s.label }), el("td", { class: "v" }, inp, w.values[s.id] !== draft ? el("span", { class: "draft", text: `초안 ${draft}` }) : null)));
+      }
+      card.append(el("h2", { text: PART_LABEL[p] }), el("table", {}, tb));
+    }
+    const note = el("textarea", { placeholder: "메모 (예: 여성 승모는 1이면 충분)", "aria-label": `${label} 메모`, disabled: !canWrite });
+    note.value = w.note;
+    note.addEventListener("input", () => { w.note = note.value; doSave(); });
+    const box = el("input", { type: "checkbox", disabled: !canWrite });
+    box.checked = w.done;
+    box.addEventListener("change", () => { w.done = box.checked; card.classList.toggle("done", w.done); doSave(); renderProgress(); });
+    card.append(note, el("div", { class: "foot" }, el("label", { class: "done" }, box, "검수 완료"), el("span", { class: "who", text: r.by ? `${names[r.by] || "누군가"} · ${(r.at || "").slice(0, 10)}` : "아직 아무도 안 봄" })));
+    return card;
+  }
+
+  function render() {
+    $("tab-ex").setAttribute("aria-pressed", String(view === "ex"));
+    $("tab-tg").setAttribute("aria-pressed", String(view === "tg"));
+    renderFilters();
+    renderProgress();
+    const box = $("cards");
+    box.replaceChildren();
+    if (view === "tg") {
+      box.append(
+        el("p", { class: "lede", text: "부위별 주간 목표(유효 세트 = 세트 × 점수 ÷ 100, 중급 기준). 초급 × 0.6 · 상급 × 1.25로 자동 조정돼요. 상체 위주 = 남성 표, 하체 위주 = 여성 표, 고르게 = 두 표의 평균." }),
+        tgCard("male", "상체 위주 (남성 기본 · V자)"),
+        tgCard("female", "하체 위주 (여성 기본 · 하체·둔근)"),
+      );
+      return;
+    }
+    const list = DATA.exercises.filter((e) => (part === "all" || e.part === part) && (!onlyOpen || !stateOf(e).done));
+    if (!list.length) box.append(el("p", { class: "empty", text: "보여 줄 운동이 없어요." }));
+    for (const ex of list) box.append(exCard(ex));
+  }
+
+  $("tab-ex").addEventListener("click", () => { view = "ex"; render(); });
+  $("tab-tg").addEventListener("click", () => { view = "tg"; render(); });
+  render();
+
+  async function resolveNames() {
+    if (!user) return;
+    const ids = [...new Set([...Object.values(reviews), ...Object.values(targets)].map((r) => r.by).filter(Boolean))];
+    if (!ids.length) return;
+    const ps = await user.profiles(ids);
+    for (const id of ids) names[id] = (ps[id] && ps[id].name) || "";
+  }
+
+  (async () => {
+    if (!window.claude || !window.claude.use) { renderProgress(); return; }
+    [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if (user) {
+      myId = await user.id();
+      const can = await user.can("data.write");
+      canWrite = !!db && can !== false;
+    }
+    if (!db) { canWrite = false; $("ro").hidden = false; render(); return; }
+    if (!canWrite) $("ro").hidden = false;
+    let first = true;
+    const apply = async () => { await resolveNames(); if (first) { first = false; render(); } else renderProgress(); };
+    db.collection("reviews").onSnapshot((snap) => {
+      for (const d of snap.docs) reviews[d.id] = d.data();
+      for (const c of snap.docChanges()) if (c.type === "removed") delete reviews[c.doc.id];
+      // 남이 고친 카드는 내가 지금 고치는 중이 아니면 새 값으로 다시 그린다.
+      for (const c of snap.docChanges()) {
+        if (c.type === "modified" && !pending["ex:" + c.doc.id]) {
+          delete working["ex:" + c.doc.id];
+        }
+      }
+      apply();
+    }, () => { $("status").textContent = "저장소 연결이 끊겼어요. 새로고침해 주세요."; });
+    db.collection("targets").onSnapshot((snap) => {
+      for (const d of snap.docs) targets[d.id] = d.data();
+      apply();
+    }, () => {});
+    render();
+  })();
+})();
+</script>

@@ -95,7 +95,9 @@ describe("구글 플레이 구독 관리 주소", () => {
 describe("받은 혜택 한 줄", () => {
   it("0회면 보여 주지 않는다", () => {
     expect(benefitsUsedLine(0)).toBe("");
-    expect(benefitsUsedLine(7)).toBe("이번 달 AI 트레이너·분석을 7번 썼어요.");
+    expect(benefitsUsedLine(7, true)).toBe("이번 달 AI 트레이너·분석을 7번 썼어요.");
+    // AI 가 닫혀 있으면(지금) 말하지 않는다.
+    expect(benefitsUsedLine(7)).toBe("");
   });
 
   it("첫 달 무료 일수는 플레이 콘솔 제안과 맞춘 값(30일)", () => {

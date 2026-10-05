@@ -18,6 +18,6 @@ export function WorkoutReviewCard({ review, onConsult }: { review: CoachReview; 
       </div>)}
     </div>}
     {review.workoutDays > 0 && review.exercises.length === 0 && <p className="text-xs text-zinc-500">운동 계획의 목표 횟수와 기구를 확인할 수 있는 기록이 쌓이면 중량·횟수를 안내해요. 조건이 다른 기록은 섞어서 계산하지 않아요.</p>}
-    {onConsult && <button type="button" className="text-sm font-semibold text-brand" onClick={() => onConsult([`[운동 기록 점검 ${review.from} ~ ${review.to}]`, review.observation, review.check, ...review.exercises.slice(0, 3).map(e => `${e.name}: ${e.reason}`), "이 기록을 기준으로 다음 운동에서 바꿀 점을 상담하고 싶어요."].join("\n").slice(0, 1700))}>이 기록으로 상담하기</button>}
+    {onConsult && <button type="button" className="app-press h-10 w-full rounded-full border border-brand text-sm font-semibold text-brand" onClick={() => onConsult([`[운동 기록 점검 ${review.from} ~ ${review.to}]`, review.observation, review.check, ...review.exercises.slice(0, 3).map(e => `${e.name}: ${e.reason}`), "이 기록을 기준으로 다음 운동에서 바꿀 점을 상담하고 싶어요."].join("\n").slice(0, 1700))}>상담하기</button>}
   </section>;
 }

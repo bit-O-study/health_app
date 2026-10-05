@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AI_OPEN } from "@/features/billing/plans";
 import {
   Bell,
   MessageCircle,
@@ -92,7 +93,8 @@ export default async function SettingsPage() {
     { href: "/settings/notifications", title: "알림 설정", icon: Bell },
     { href: "/settings/health", title: "건강 연동", icon: Smartphone },
     { href: "/settings/subscription", title: "구독", icon: Trophy },
-    { href: "/settings/ai", title: "AI 이용 동의", icon: ShieldCheck },
+    // AI 가 닫혀 있는 동안(AI_OPEN=false)엔 동의할 AI 가 없다 — 줄을 숨긴다.
+    ...(AI_OPEN ? [{ href: "/settings/ai", title: "AI 이용 동의", icon: ShieldCheck }] : []),
     { href: "/settings/export", title: "내 데이터 내보내기", icon: Download },
   ];
 

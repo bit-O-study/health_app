@@ -42,17 +42,11 @@ test("구독 화면: 요금제 가격·준비 중, AI 가 닫혀 있으면 AI �
   // 지금은 AI 를 열지 않는다(2026-10-01, AI_OPEN=false) — 못 쓰는 AI 횟수를 보여 주지 않는다.
   await expect(page.getByTestId("premium-benefits")).toHaveCount(0);
 
-  // 요금제 세 개가 가격과 함께 보이고, 아직 없는 혜택은 '곧 제공'이라고 밝힌다(2026-09-30).
+  // 파는 요금제(라이트)만 카드, 준비 중인 AI 요금제는 3,990원 한 줄(2026-10-05 병합·화면 정리).
   await expect(page.getByTestId("plan-lite")).toContainText("월 990원");
-  await expect(page.getByTestId("plan-basic")).toContainText("월 3,900원");
-  await expect(page.getByTestId("plan-plus")).toContainText("월 6,900원");
-  await expect(page.getByTestId("plan-pro")).toContainText("월 9,900원");
-  await expect(page.getByTestId("plan-pro")).toContainText("곧 제공");
-  // 지금은 라이트만 판매 — 나머지는 오픈 준비 중(2026-10-01).
   await expect(page.getByTestId("plan-lite-soon")).toHaveCount(0);
-  await expect(page.getByTestId("plan-basic-soon")).toHaveText("오픈 준비 중");
-  await expect(page.getByTestId("plan-plus-soon")).toHaveText("오픈 준비 중");
-  await expect(page.getByTestId("plan-pro-soon")).toHaveText("오픈 준비 중");
+  await expect(page.getByTestId("plan-ai-soon")).toContainText("월 3,990원 · 오픈 준비 중");
+  for (const id of ["basic", "plus", "pro"]) await expect(page.getByTestId(`plan-${id}`)).toHaveCount(0);
 
   // 아직 아무것도 안 샀으면 무료.
   const status = page.getByTestId("subscription-status");

@@ -38,7 +38,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
     <PageHeader branded title="헬쑤쌤" back />
     <main className="app-container">
       <div className="space-y-3">
-        <Link href="/coach/manual" className="app-card block p-4 text-sm font-semibold text-brand">헬쑤 코칭 · 추천·리포트·상담함</Link>
+        <Link href="/coach/manual" className="app-card flex items-center justify-between p-4 text-sm font-semibold"><span className="text-zinc-900 dark:text-zinc-100">상담함</span><span className="text-brand">열기</span></Link>
         {view !== "recommend" && <>
         <AnalysisSection
           icon={<Dumbbell aria-hidden="true" size={18} />}

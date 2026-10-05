@@ -9,17 +9,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const m = vi.hoisted(() => ({
   ops: [] as { table: string; op: string; data?: unknown }[],
   insertError: null as null | { code?: string; message: string },
-  runRows: [] as { distance_m: number }[],
+  runRows: [] as { distance_m: number; pace_sec_per_km?: number | null }[],
   cooldown: vi.fn(async () => ({ ok: true })),
 }));
 
 function builder(table: string) {
   const q: Record<string, unknown> = {};
-  for (const k of ["select", "eq", "limit", "order", "in", "is", "gte", "lte"]) q[k] = () => q;
+  for (const k of ["select", "eq", "neq", "limit", "order", "in", "is", "gte", "lte"]) q[k] = () => q;
   q.maybeSingle = async () => ({ data: table === "profiles" ? { weight_kg: 70 } : null, error: null });
-  q.insert = async (data: unknown) => {
+  // insert(...).select("id").single() — 저장된 id 를 돌려준다(3단계: 기록 자세히 보기 링크).
+  q.insert = (data: unknown) => {
     m.ops.push({ table, op: "insert", data });
-    return { error: m.insertError };
+    return { select: () => ({ single: async () => ({ data: m.insertError ? null : { id: "run-new" }, error: m.insertError }) }) };
   };
   q.upsert = async (data: unknown) => {
     m.ops.push({ table, op: "upsert", data });
@@ -59,7 +60,7 @@ beforeEach(() => {
 describe("recordRunSessionAction — 저장 한 곳", () => {
   it("처음 저장: 원본 → 운동 시간 → 마무리 완료 → 순위 거리(합계)", async () => {
     const r = await recordRunSessionAction(base);
-    expect(r.ok).toBe(true);
+    expect(r).toMatchObject({ ok: true, id: "run-new" });
     const insert = m.ops.find((o) => o.table === "run_sessions" && o.op === "insert")!.data as { for_date: string };
     expect(insert.for_date).toBe("2026-09-27");
     expect(m.ops.some((o) => o.table === "workout_sessions" && o.op === "upsert")).toBe(true);
@@ -89,5 +90,14 @@ describe("recordRunSessionAction — 저장 한 곳", () => {
     const r = await recordRunSessionAction(base);
     expect(r.ok).toBe(false);
     expect(m.cooldown).not.toHaveBeenCalled();
+  });
+
+  it("개인 최고 — 지난 런닝보다 길고 빠르면 배지, 첫 런닝이면 없음", async () => {
+    m.runRows = [{ distance_m: 4000, pace_sec_per_km: 400 }];
+    const r = await recordRunSessionAction(base); // 5km · 30분 → 360초/km
+    expect(r.ok && r.records).toEqual(["longest", "fastest"]);
+    m.runRows = [];
+    const first = await recordRunSessionAction(base);
+    expect(first.ok && first.records).toEqual([]);
   });
 });

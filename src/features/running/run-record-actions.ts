@@ -19,6 +19,7 @@ import {
   type RunSessionInput,
 } from "@/features/running/run-session";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { personalRecords, type RunRecordKind } from "@/features/running/run-guide";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -122,6 +123,10 @@ export async function recordRunSessionAction(input: RunSessionInput & {
       duplicate?: boolean;
       /** 저장할 수 없는 기록(너무 짧음 등) — 다시 보내도 같으므로 대기 큐에서 뺀다. */
       skipped?: string;
+      /** 저장된 run_sessions.id — 종료 화면의 '기록 자세히 보기'(2026-09-29 런닝 3단계). */
+      id?: string;
+      /** 이번 런닝이 세운 개인 최고(처음 저장일 때만). */
+      records?: RunRecordKind[];
       health?: { startedAt: string; endedAt: string; distanceM: number; caloriesKcal: number };
     }
   | { ok: false; error: string }
@@ -158,7 +163,7 @@ export async function recordRunSessionAction(input: RunSessionInput & {
   );
 
   const forDate = runSessionDate(session.startedAt) ?? seoulYmd();
-  const { error } = await supabase.from("run_sessions").insert({
+  const { data: inserted, error } = await supabase.from("run_sessions").insert({
     user_id: user.id,
     client_session_id: input.clientSessionId,
     for_date: forDate,
@@ -172,9 +177,19 @@ export async function recordRunSessionAction(input: RunSessionInput & {
     calories_kcal: caloriesKcal,
     incline: session.incline,
     route_points: session.route,
-  });
-  if (isDuplicateRunSessionError(error)) return { ok: true, duplicate: true };
+  }).select("id").single();
+  if (isDuplicateRunSessionError(error)) {
+    // 이미 저장된 런닝(큐 재전송) — 기록 링크용 id 만 찾아 준다. 배지·시간은 다시 더하지 않는다.
+    const { data: existing } = await supabase
+      .from("run_sessions")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("client_session_id", input.clientSessionId)
+      .maybeSingle();
+    return { ok: true, duplicate: true, id: (existing as { id?: string } | null)?.id };
+  }
   if (error) return { ok: false, error: error.message };
+  const runId = (inserted as { id: string } | null)?.id;
 
   // 처음 저장된 런닝만 — 운동 시간·완료(서버가 오늘/어제로 가둔 날짜)와 순위 거리에 반영.
   // 원본은 이미 저장됐으므로 여기서 실패해도 런닝 기록 자체는 남는다.
@@ -187,11 +202,32 @@ export async function recordRunSessionAction(input: RunSessionInput & {
 
   revalidatePath("/routine");
   revalidatePath("/settings/score");
+  // 개인 최고 — 지난 런닝들과 비교(첫 런닝이면 배지 없음). 실패해도 저장엔 영향 없음.
+  let records: RunRecordKind[] = [];
+  try {
+    const { data: previous } = await supabase
+      .from("run_sessions")
+      .select("distance_m, pace_sec_per_km")
+      .eq("user_id", user.id)
+      .neq("client_session_id", input.clientSessionId);
+    records = personalRecords(
+      { distanceM: session.distanceM, paceSecPerKm: session.paceSecPerKm },
+      ((previous ?? []) as { distance_m: number; pace_sec_per_km: number | null }[]).map((r) => ({
+        distanceM: Number(r.distance_m) || 0,
+        paceSecPerKm: r.pace_sec_per_km,
+      })),
+    );
+  } catch {
+    records = [];
+  }
+
   revalidatePath("/routine/running-records");
   revalidatePath("/settings/history");
   revalidatePath("/calendar");
   return {
     ok: true,
+    id: runId,
+    records,
     health: {
       startedAt: session.startedAt,
       endedAt: session.endedAt,

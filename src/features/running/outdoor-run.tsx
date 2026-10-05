@@ -43,7 +43,21 @@ import {
   writeRunCheckpoint,
   type RunCheckpoint,
 } from "@/features/running/run-checkpoint";
-import { runSaveMessage, saveFinishedRun, type RunSaveResult } from "@/features/running/run-save";
+import { saveFinishedRun, type RunSaveOutcome, type RunSaveResult } from "@/features/running/run-save";
+import {
+  FREE_GOAL,
+  GOAL_OPTIONS,
+  crossedKms,
+  goalLabel,
+  goalProgress,
+  goalReachedAnnouncement,
+  kmAnnouncement,
+  parseGoal,
+  sameGoal,
+  type RunGoal,
+} from "@/features/running/run-guide";
+import { buzz, readVoicePref, speak, writeVoicePref } from "@/features/running/voice";
+import { RunFinishSummary } from "@/features/running/components/run-finish-summary";
 
 // 무거운 3D 씬은 '시작' 이후에만 지연 로드(첫 진입 번들 가볍게 — PWA 안전).
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -92,6 +106,14 @@ export function OutdoorRun({
   const [signal, setSignal] = useState<0 | 1 | 2 | 3>(0);
   // 3D 캐릭터 — 배터리·발열 때문에 기본 끔, 켜면 기기에 기억(보고서 결정 3).
   const [showScene, setShowScene] = useState(false);
+  // ── 3단계(2026-09-29): 목표 · 1km 음성·진동 안내 · 종료 한 줄 요약 + 개인 최고 + 기록 링크
+  const [goal, setGoal] = useState<RunGoal>(FREE_GOAL);
+  const [voiceOn, setVoiceOn] = useState(true);
+  const [outcome, setOutcome] = useState<RunSaveOutcome | null>(null);
+  const goalRef = useRef<RunGoal>(FREE_GOAL);
+  const voiceRef = useRef(true);
+  const kmStartSecRef = useRef(0); // 마지막으로 km 를 넘은 순간의 달린 시간(구간 계산)
+  const goalReachedRef = useRef(false);
   useWakeLock(phase === "playing");
 
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
@@ -118,9 +140,14 @@ export function OutdoorRun({
     setCheckpoint(readRunCheckpoint("outdoor"));
     try {
       setShowScene(localStorage.getItem("heltch.running.scene") === "on");
+      const saved = parseGoal(localStorage.getItem("heltch.running.goal"));
+      setGoal(saved);
+      goalRef.current = saved;
     } catch {
       /* 저장소 막힘 — 기본(끔) */
     }
+    voiceRef.current = readVoicePref();
+    setVoiceOn(voiceRef.current);
     // 진입 시 위치 권한 AND 위치(GPS) 켜짐을 먼저 확인 — 하나라도 아니면 진입 차단.
     checkLocation();
     return () => stopAll();
@@ -202,6 +229,7 @@ export function OutdoorRun({
       return;
     }
 
+    const beforeMeters = trackRef.current.totalMeters;
     let instMps = 0;
     if (reanchorRef.current) {
       // 다시 시작한 뒤 첫 위치 — 멈춘 사이 이동한 거리는 넣지 않고 기준점만 옮긴다.
@@ -223,6 +251,7 @@ export function OutdoorRun({
       targetRef.current = 0;
     }
     setLivePace(recentPaceSecPerKm(track.points, p.t));
+    announceProgress(beforeMeters, track.totalMeters);
     setM((prev) => ({ ...prev, meters: track.totalMeters, kmh }));
     persistCheckpoint(kmh);
   }
@@ -252,6 +281,45 @@ export function OutdoorRun({
     if (anchor) trackRef.current = reanchorTrack(trackRef.current, anchor);
     else reanchorRef.current = true;
     setPaused(null);
+  }
+
+  /** 1km 를 넘을 때마다 짧게 말하고 진동. 거리 목표를 채우면 한 번 축하. */
+  function announceProgress(beforeMeters: number, meters: number) {
+    const sec = activeElapsedMs(startTsRef.current, Date.now(), pausedAtRef.current) / 1000;
+    for (const km of crossedKms(beforeMeters, meters)) {
+      const splitSec = sec - kmStartSecRef.current;
+      kmStartSecRef.current = sec;
+      buzz(200);
+      if (voiceRef.current) {
+        speak(kmAnnouncement({ km, splitSec, avgPaceSec: avgPaceSecPerKm(meters, sec), goal: goalRef.current, meters, sec }));
+      }
+    }
+    checkGoal(meters, sec);
+  }
+
+  function checkGoal(meters: number, sec: number) {
+    const progress = goalProgress(goalRef.current, meters, sec);
+    if (!progress?.reached || goalReachedRef.current) return;
+    goalReachedRef.current = true;
+    buzz([200, 100, 200]);
+    if (voiceRef.current) speak(goalReachedAnnouncement(goalRef.current));
+  }
+
+  function chooseGoal(next: RunGoal) {
+    setGoal(next);
+    goalRef.current = next;
+    try {
+      localStorage.setItem("heltch.running.goal", JSON.stringify(next));
+    } catch {
+      /* 저장 못 해도 이번엔 적용 */
+    }
+  }
+
+  function toggleVoice() {
+    const next = !voiceRef.current;
+    voiceRef.current = next;
+    setVoiceOn(next);
+    writeVoicePref(next);
   }
 
   function toggleScene() {
@@ -302,6 +370,10 @@ export function OutdoorRun({
     setPaused(null);
     setLivePace(null);
     setSignal(0);
+    setOutcome(null);
+    // 이어하기면 지금까지 넘은 km 다음부터 안내(이미 달성한 목표는 다시 말하지 않는다).
+    kmStartSecRef.current = restored?.elapsedSec ?? 0;
+    goalReachedRef.current = !!goalProgress(goalRef.current, restored?.distanceM ?? 0, restored?.elapsedSec ?? 0)?.reached;
     setM({
       meters: restored?.distanceM ?? 0,
       kmh: restored?.speedKmh ?? 0,
@@ -344,6 +416,7 @@ export function OutdoorRun({
       if (shouldAutoPause(now, lastMoveTsRef.current, pausedAtRef.current, hasMovedRef.current)) pause("auto");
       const lastFix = lastFixRef.current;
       setSignal(gpsSignalLevel(lastFix?.acc ?? null, lastFix ? now - lastFix.at : null));
+      checkGoal(trackRef.current.totalMeters, activeElapsedMs(startTsRef.current, now, pausedAtRef.current) / 1000);
       setM((prev) => ({
         ...prev,
         elapsedSec: activeElapsedMs(startTsRef.current, now, pausedAtRef.current) / 1000,
@@ -372,6 +445,7 @@ export function OutdoorRun({
       writeRunCheckpoint(null);
       setRecorded(false);
       setSaveState(null);
+      setOutcome(null);
       setPhase("done");
       return;
     }
@@ -396,7 +470,10 @@ export function OutdoorRun({
         })),
       },
       `야외 런닝 ${formatDistanceKm(meters)}km`,
-    ).then(setSaveState);
+    ).then((result) => {
+      setOutcome(result);
+      setSaveState(result.state);
+    });
   }
 
   const pace = avgPaceSecPerKm(m.meters, m.elapsedSec);
@@ -438,6 +515,24 @@ export function OutdoorRun({
               <Metric label="시간" value={formatDuration(m.elapsedSec)} />
               <Metric label="평균 페이스" value={formatPace(pace)} />
             </div>
+            {(() => {
+              const progress = goalProgress(goal, m.meters, m.elapsedSec);
+              return progress ? (
+                <div data-testid="run-goal" className="mt-2 w-full max-w-xs">
+                  <div
+                    role="progressbar"
+                    aria-label={`목표 ${goalLabel(goal)}`}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.round(progress.ratio * 100)}
+                    className="h-2 overflow-hidden rounded-full bg-white/20"
+                  >
+                    <span className="block h-full rounded-full bg-emerald-400" style={{ width: `${progress.ratio * 100}%` }} />
+                  </div>
+                  <p className="mt-1 text-xs font-semibold text-white/85">{progress.remaining}</p>
+                </div>
+              ) : null;
+            })()}
           </div>
         </>
       ) : null}
@@ -466,6 +561,14 @@ export function OutdoorRun({
             className="h-11 rounded-full bg-black/40 px-3 text-xs font-semibold text-white"
           >
             {showScene ? "캐릭터 끄기" : "캐릭터 켜기"}
+          </button>
+          <button
+            type="button"
+            onClick={toggleVoice}
+            aria-pressed={voiceOn}
+            className="h-11 rounded-full bg-black/40 px-3 text-xs font-semibold text-white"
+          >
+            {voiceOn ? "음성 끄기" : "음성 켜기"}
           </button>
         </div>
       ) : null}
@@ -528,6 +631,31 @@ export function OutdoorRun({
             ⚠ 위치(GPS) 권한을 허용해야 작동해요. 시작을 누르면 권한을 요청하고,
             거부하면 야외 런닝이 실행되지 않아요.
           </p>
+          {phase === "intro" ? (
+            <div className="w-full max-w-xs space-y-3 text-left">
+              <p className="text-sm font-bold">오늘은 어떻게 달릴까요?</p>
+              <div role="group" aria-label="런닝 목표" className="flex flex-wrap gap-2">
+                {GOAL_OPTIONS.map((option) => {
+                  const on = sameGoal(option, goal);
+                  return (
+                    <button
+                      key={goalLabel(option)}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => chooseGoal(option)}
+                      className={`min-h-11 rounded-full px-4 text-sm font-bold ${on ? "bg-emerald-700 text-white" : "bg-white/70 text-emerald-900"}`}
+                    >
+                      {goalLabel(option)}
+                    </button>
+                  );
+                })}
+              </div>
+              <label className="flex min-h-11 items-center gap-2 text-sm font-semibold">
+                <input type="checkbox" checked={voiceOn} onChange={toggleVoice} className="h-5 w-5" />
+                1km마다 음성 안내 · 진동
+              </label>
+            </div>
+          ) : null}
           {error ? (
             <p className="max-w-xs rounded-lg bg-red-500/20 px-3 py-2 text-sm font-semibold text-red-800">
               {error}
@@ -594,32 +722,16 @@ export function OutdoorRun({
       ) : null}
 
       {phase === "done" ? (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-          <h2 className="text-2xl font-bold">
-            {recorded ? "런닝 완료 🏁" : "런닝 종료"}
-          </h2>
-          {/* 종료 화면의 '기록 요약'(거리·시간·페이스, 기록됨 안내)은 표시하지 않는다 — 런닝
-              기록은 헬스탭 운동목록·캘린더·기록에서 확인. 단, '기록 안 됨' 경고는 남겨 사용자가
-              저장 안 된 걸 알 수 있게 한다. (사용자 요청: 런닝모드 종료화면의 기록 요약만 제거) */}
-          {!recorded ? (
-            <p className="text-sm text-zinc-300">
-              이동이 거의 없어 기록하지 않았어요.
-            </p>
-          ) : null}
-          {/* 저장 상태 한 줄 — 요약은 넣지 않는다(사용자 요청). 기록이 사라지지 않았다는 확인만. */}
-          {recorded && runSaveMessage(saveState) ? (
-            <p role="status" data-testid="run-save-state" data-state={saveState ?? ""} className="text-sm text-zinc-200">
-              {runSaveMessage(saveState)}
-            </p>
-          ) : null}
-          <button
-            type="button"
-            onClick={() => setPhase("intro")}
-            className="rounded-full bg-emerald-500 px-8 py-3 text-lg font-bold text-white active:scale-95"
-          >
-            확인
-          </button>
-        </div>
+        <RunFinishSummary
+          recorded={recorded}
+          notRecordedText="이동이 거의 없어 기록하지 않았어요."
+          meters={m.meters}
+          sec={m.elapsedSec}
+          saveState={saveState}
+          runId={outcome?.runId}
+          records={outcome?.records}
+          onConfirm={() => setPhase("intro")}
+        />
       ) : null}
     </div>
   );

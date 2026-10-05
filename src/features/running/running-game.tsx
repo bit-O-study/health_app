@@ -17,7 +17,8 @@ import {
   writeRunCheckpoint,
   type RunCheckpoint,
 } from "@/features/running/run-checkpoint";
-import { runSaveMessage, saveFinishedRun, type RunSaveResult } from "@/features/running/run-save";
+import { saveFinishedRun, type RunSaveOutcome, type RunSaveResult } from "@/features/running/run-save";
+import { RunFinishSummary } from "@/features/running/components/run-finish-summary";
 import { activeElapsedMs, resumedStart } from "@/features/running/run-pause";
 import { HoldToEnd } from "@/features/running/components/hold-to-end";
 import { RunCountdown } from "@/features/running/components/run-countdown";
@@ -70,6 +71,9 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const [recorded, setRecorded] = useState(true);
   // 종료 뒤 저장 상태 — 저장됨 / 기기에 보관(연결되면 자동 저장). (2026-09-28 런닝 1단계)
   const [saveState, setSaveState] = useState<RunSaveResult | "saving" | null>(null);
+  // 3단계(2026-09-29): 종료 한 줄 요약 + 개인 최고 + 기록 링크
+  const [outcome, setOutcome] = useState<RunSaveOutcome | null>(null);
+  const [finalStats, setFinalStats] = useState({ meters: 0, sec: 0 });
   const [checkpoint, setCheckpoint] = useState<RunCheckpoint | null>(null);
   // ── 2단계(2026-09-28): 카메라·모델 준비가 끝나면 3초 카운트다운 뒤 시작 · 일시정지 · 화면 켜짐 유지
   const [countdown, setCountdown] = useState<{ restored?: RunCheckpoint } | null>(null);
@@ -341,6 +345,8 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     const sec = activeMs / 1000;
     pausedAtRef.current = null;
     setPaused(false);
+    setOutcome(null);
+    setFinalStats({ meters: sessionMetersRef.current, sec });
     // 실제로 뛰지 않고 잠깐 들어왔다 나간 경우(짧은 세션)엔 기록하지 않는다.
     // (예전엔 최소 1분으로 강제 기록돼 안 뛰어도 ~14kcal 가 잡혔다.)
     if (sec < MIN_RUN_DURATION_SEC) {
@@ -366,7 +372,10 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         incline: inclineRef.current,
       },
       `실내 런닝 ${(sessionMetersRef.current / 1000).toFixed(2)}km`,
-    ).then(setSaveState);
+    ).then((result) => {
+      setOutcome(result);
+      setSaveState(result.state);
+    });
   }
 
   return (
@@ -542,28 +551,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       ) : null}
 
       {phase === "done" ? (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-          <h2 className="text-2xl font-bold">
-            {recorded ? "런닝 완료 🏁" : "런닝 종료"}
-          </h2>
-          {/* 종료 화면의 '기록 요약'(기록됨 안내)은 표시하지 않는다 — 런닝 기록은 헬스탭
-              운동목록·캘린더·기록에서 확인. '기록 안 됨' 경고만 남긴다. */}
-          {!recorded ? (
-            <p className="text-sm text-zinc-300">너무 짧아 기록하지 않았어요.</p>
-          ) : null}
-          {recorded && runSaveMessage(saveState) ? (
-            <p role="status" data-testid="run-save-state" data-state={saveState ?? ""} className="text-sm text-zinc-200">
-              {runSaveMessage(saveState)}
-            </p>
-          ) : null}
-          <button
-            type="button"
-            onClick={() => setPhase("intro")}
-            className="rounded-full bg-emerald-500 px-8 py-3 text-lg font-bold text-white active:scale-95"
-          >
-            확인
-          </button>
-        </div>
+        <RunFinishSummary
+          recorded={recorded}
+          notRecordedText="너무 짧아 기록하지 않았어요."
+          meters={finalStats.meters}
+          sec={finalStats.sec}
+          saveState={saveState}
+          runId={outcome?.runId}
+          records={outcome?.records}
+          onConfirm={() => setPhase("intro")}
+        />
       ) : null}
     </div>
   );

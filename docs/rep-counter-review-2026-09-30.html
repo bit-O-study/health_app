@@ -1,0 +1,269 @@
+<title>짐꾼 운동 횟수 자동 세기</title>
+<meta name="description" content="다른 앱의 운동 반복 횟수 자동 세기 방식을 분석하고, 폰 카메라·관절 각도로 스쿼트·푸시업부터 세는 짐꾼 적용안을 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 다른 앱 → 원리(그림) → 우리 앱 → 추천 → 위험 → 결정 → 출처 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<style>
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:520px;height:auto}
+.fig .curve{fill:none;stroke:var(--brand);stroke-width:3}
+.fig .th-up{stroke:var(--info);stroke-dasharray:6 5;stroke-width:1.5}
+.fig .th-dn{stroke:var(--warn);stroke-dasharray:6 5;stroke-width:1.5}
+.fig .axis{stroke:var(--line);stroke-width:1}
+.fig text{font-family:var(--sans);font-size:12px;fill:var(--muted)}
+.fig .lab-up{fill:var(--info)}
+.fig .lab-dn{fill:var(--warn)}
+.fig .cnt{fill:var(--brand);font-weight:600}
+.fig .dot{fill:var(--brand)}
+.fig .gdot{fill:var(--warn)}
+ol.steps{margin:0;padding-left:20px;display:grid;gap:6px}
+</style>
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 운동 기능 · 검수보고서</p>
+  <h1>짐꾼 운동 횟수 자동 세기</h1>
+  <p class="lede">다른 앱들이 운동 반복 횟수를 어떻게 자동으로 세는지 조사하고, 우리 앱에 넣을 방법을 정리했습니다. 결론은 <b>폰 카메라로 몸의 관절 각도를 보고 세는 방식</b>이고, 먼저 <b>스쿼트와 푸시업</b>부터 만드는 것입니다. 필요한 도구(MediaPipe)와 카메라 권한이 이미 앱에 있어 약 1~1.5주면 됩니다. 코드는 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 ccafd66b + 웹 조사</span>
+    <span class="pill ok">재사용할 코드 3</span>
+    <span class="pill warn">위험 5</span>
+  </div>
+</header>
+
+<section>
+  <h2>다른 앱은 어떻게 세나</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>방식</th><th>예시</th><th>원리</th><th>약점</th></tr></thead>
+      <tbody>
+        <tr><td><b>폰 카메라 자세 인식</b></td><td>에이스쿼트, 스마트홈트(LG U+·카카오VX), Kemtai</td><td>화면에서 관절 위치(33개)를 찾아 무릎·팔꿈치 각도로 셈</td><td>몸 전체가 보여야 함, 폰을 세워 둬야 함, 조명·각도에 약함</td></tr>
+        <tr><td>손목 워치 센서</td><td>갤럭시 워치, 가민</td><td>손목 흔들림에서 반복 패턴(봉우리)을 찾음</td><td>스쿼트·런지 같은 하체와 머신 운동에서 자주 틀린다는 사용자 보고</td></tr>
+        <tr><td>3D 카메라 기기</td><td>Tempo</td><td>깊이 카메라 전용 기기</td><td>비싼 하드웨어, 배경과 몸을 헷갈려 더 세거나 빠뜨림</td></tr>
+        <tr><td>바벨 부착 센서</td><td>Enode, GymAware</td><td>바벨 속도를 초당 1,000번 잼</td><td>따로 사야 함</td></tr>
+        <tr><td>기타</td><td>음성·화면 탭</td><td>사용자가 말하거나 누름</td><td>사실상 직접 입력</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>카메라 방식이 세는 원리</h2>
+  <ol class="steps">
+    <li>영상의 매 장면에서 어깨·엉덩이·무릎·발목 같은 관절 위치를 찾습니다. 폰 안에서 처리하고 영상은 서버로 보내지 않습니다.</li>
+    <li>관절 각도를 계산합니다. 스쿼트는 엉덩이-무릎-발목, 푸시업은 어깨-팔꿈치-손목 각도입니다.</li>
+    <li>장면마다 흔들리는 값을 부드럽게 다듬습니다(지수이동평균).</li>
+    <li>각도가 <b>90° 아래</b>로 내려가면 "내려감", 다시 <b>160° 위</b>로 올라오면 "올라옴"으로 봅니다. 내려갔다 올라오면 1회입니다.</li>
+    <li>내려가는 기준과 올라오는 기준을 다르게 둡니다. 그래서 중간에 몸이 흔들려도 두 번 세지 않습니다.</li>
+  </ol>
+  <div class="fig" role="img" aria-label="스쿼트 무릎 각도 그래프. 각도가 90도 아래로 내려갔다가 160도 위로 올라올 때마다 1회씩 세어 3회를 센다. 중간에 130도까지만 내려간 동작은 세지 않는다.">
+    <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- y = 190 - (angle-60)*(160/120): 180°→30, 160°→56.7, 90°→150, 60°→190 -->
+      <line class="axis" x1="60" y1="190" x2="630" y2="190"/>
+      <line class="axis" x1="60" y1="20" x2="60" y2="190"/>
+      <text x="52" y="34" text-anchor="end">180°</text>
+      <text x="52" y="194" text-anchor="end">60°</text>
+      <line class="th-up" x1="60" y1="56.7" x2="630" y2="56.7"/>
+      <text class="lab-up" x="626" y="50" text-anchor="end">올라옴 기준 160°</text>
+      <line class="th-dn" x1="60" y1="150" x2="630" y2="150"/>
+      <text class="lab-dn" x="626" y="166" text-anchor="end">내려감 기준 90°</text>
+      <path class="curve" d="M70,36.7 C100,36.7 100,170 130,170 C160,170 160,36.7 190,36.7 C220,36.7 220,170 250,170 C280,170 280,36.7 310,36.7 C340,36.7 340,96.7 370,96.7 C400,96.7 400,36.7 430,36.7 C460,36.7 460,170 490,170 C520,170 520,36.7 550,36.7 L620,36.7"/>
+      <circle class="dot" cx="172" cy="56.7" r="5"/>
+      <text class="cnt" x="172" y="24" text-anchor="middle">1회</text>
+      <circle class="dot" cx="292" cy="56.7" r="5"/>
+      <text class="cnt" x="292" y="24" text-anchor="middle">2회</text>
+      <circle class="gdot" cx="370" cy="96.7" r="5"/>
+      <text class="lab-dn" x="370" y="118" text-anchor="middle">130°까지만 → 안 셈</text>
+      <circle class="dot" cx="532" cy="56.7" r="5"/>
+      <text class="cnt" x="532" y="24" text-anchor="middle">3회</text>
+      <text x="345" y="210" text-anchor="middle">시간 →</text>
+    </svg>
+  </div>
+  <p class="cap">그림은 원리를 보여 주는 예시입니다. 기준 각도는 운동마다 다르고, 실기기에서 조정합니다. 구글은 여기서 더 나아가 관절 사이 거리를 특징값으로 써서 "앉은 자세일 확률"을 구하는 방식(k-NN)도 씁니다.</p>
+</section>
+
+<section>
+  <h2>우리 앱에 이미 있는 것</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>재료</th><th>위치</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td><b>MediaPipe 인식 도구</b></td><td><code>src/features/running/running-game.tsx</code></td><td class="yes">있음. 실내 런닝 게임이 얼굴 인식(FaceLandmarker)을 GPU→CPU 순으로 돌리고, 화면을 떠나면 해제합니다. 모델만 몸 인식(PoseLandmarker)으로 바꾸면 됩니다.</td></tr>
+        <tr><td><b>카메라 권한</b></td><td><code>AndroidManifest.xml</code> · <code>MainActivity.java</code> · <code>lib/security/headers.ts</code></td><td class="yes">있음. 앱 안 카메라 권한 연결까지 되어 있습니다.</td></tr>
+        <tr><td><b>음성 안내</b></td><td><code>src/features/workout-timer/workout-voice.ts</code></td><td class="yes">있음. 1회마다 숫자를 불러 줄 때 씁니다.</td></tr>
+        <tr><td>폰 흔들림 센서</td><td><code>src/features/running/motion.ts</code></td><td class="part">달리기 강도만 계산합니다. 횟수는 세지 않습니다.</td></tr>
+        <tr><td>자세 분석</td><td><code>src/features/coach/components/posture-analyzer.tsx</code></td><td class="part">올린 영상을 서버 AI로 평가합니다. 실시간이 아니고 횟수를 세지 않습니다.</td></tr>
+        <tr><td>반복 횟수 입력</td><td><code>guided-workout.tsx</code> (<code>editReps</code>)</td><td class="no">전부 직접 입력입니다. 기본값 10.</td></tr>
+        <tr><td>워치 기록 가져오기</td><td><code>@kiwi-health/capacitor-health-connect</code> 0.0.42</td><td class="no">운동 세션을 쓰기만 합니다. 반복 횟수는 읽지 않습니다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>추천안</h2>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">방식</span>
+      <h3>폰 카메라 + 관절 각도</h3>
+      <p class="why">폰 안에서 MediaPipe 몸 인식(가벼운 모델)을 돌리고 관절 각도로 셉니다. 사용자가 원할 때만 켜는 기능으로 둡니다.</p>
+      <p class="how">세는 규칙(각도 계산, 부드럽게 다듬기, 내려감·올라옴 판정, 운동별 기준)은 화면과 떼어 순수 모듈 <code>rep-counter.ts</code>로 만들어 테스트합니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">범위</span>
+      <h3>스쿼트 · 푸시업부터</h3>
+      <p class="why">맨몸 운동이라 폰을 옆에 세워 두기 쉽고, 각도 변화가 커서 정확합니다.</p>
+      <p class="how">스쿼트는 무릎 각도, 푸시업은 팔꿈치 각도를 옆에서 봅니다. 잘 되면 크런치·점핑잭을 더합니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">흐름</span>
+      <h3>운동 모드에서 "카메라로 세기"</h3>
+      <p class="why">따로 화면을 만들지 않고 지금 쓰는 운동 모드 안에 둡니다.</p>
+      <p class="how">① "카메라로 세기"를 누르면 "몸 전체가 보이게 옆에 세워 주세요" 안내 → ② 몸이 다 보이면 시작 → ③ 1회마다 음성으로 숫자 → ④ 세트가 끝나면 센 횟수가 반복 칸에 자동으로 들어가고, 사용자가 확인하고 고칠 수 있습니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill crit tag">제외</span>
+      <h3>머신·바벨 운동, 워치 연동</h3>
+      <p class="why">헬스장에서는 폰을 세워 두기 어렵고, 주머니 속 폰이나 워치 방식은 이런 운동에서 자주 틀립니다.</p>
+      <p class="how">워치 기록 표준(Health Connect)에 반복 횟수 칸은 있지만, 삼성 헬스가 근력 운동을 거기로 넘기지 않는다는 보고가 있고 무게 정보도 없습니다.</p>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>작업</th><th class="num">기간</th><th>테스트</th></tr></thead>
+      <tbody>
+        <tr><td>세는 규칙 모듈 <code>rep-counter.ts</code></td><td class="num">1일</td><td>관절 좌표 기록 데이터로 단위 테스트</td></tr>
+        <tr><td>카메라 + 몸 인식 연결 (런닝 게임 구조 재사용)</td><td class="num">1~2일</td><td>가짜 카메라 영상(Y4M/MJPEG)으로 E2E</td></tr>
+        <tr><td>운동 모드 화면 연결, 음성, 자동 입력</td><td class="num">1~2일</td><td>E2E</td></tr>
+        <tr><td>실기기 조정 (기종·거리·조명)</td><td class="num">2~3일</td><td>실기기 직접 확인</td></tr>
+        <tr><td><b>합계</b></td><td class="num"><b>약 1~1.5주</b></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>위험 요소</h2>
+  <div class="grid2">
+    <div class="box"><h3><span class="pill warn">성능</span> 저사양 폰</h3><p>느려지고 열이 날 수 있습니다. 그래픽 가속이 안 되면 더 느려집니다. 너무 느리면 "이 폰에서는 정확하지 않을 수 있어요"라고 안내합니다.</p></div>
+    <div class="box"><h3><span class="pill warn">로딩</span> 모델 파일 5~9MB</h3><p>처음 한 번 받아야 하고, 인터넷이 없으면 안 됩니다. 앱에 모델을 같이 넣는 방법을 검토합니다.</p></div>
+    <div class="box"><h3><span class="pill warn">정확도</span> 옆에서 찍어야 함</h3><p>정면이나 비스듬하면 정확도가 떨어집니다. 시작 전에 위치 안내를 보여 줍니다.</p></div>
+    <div class="box"><h3><span class="pill warn">규칙</span> 덜 내려간 동작</h3><p>절반만 앉은 스쿼트를 셀지 정해야 합니다. 추천은 "안 셈"입니다. 그림의 130° 동작처럼 기준까지 내려가야 셉니다.</p></div>
+    <div class="box"><h3><span class="pill warn">안정성</span> 메모리</h3><p>인식 도구를 해제하지 않으면 앱이 튕길 수 있습니다. 런닝 게임처럼 화면을 떠날 때 반드시 해제합니다.</p></div>
+    <div class="box"><h3><span class="pill info">테스트</span> 실제 카메라</h3><p>자동 테스트로는 실제 카메라를 확인할 수 없습니다. 규칙은 데이터로 테스트하고, 실제 동작은 실기기로 확인합니다.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 만들까요?</h3>
+    <p>추천: <b>예, 스쿼트·푸시업 두 개로 먼저</b>.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 무료로 둘까요, 프리미엄에 넣을까요?</h3>
+    <p>추천: <b>무료</b>. 폰 안에서 처리해 비용이 0원이고, 사용자를 모으는 기능입니다.</p>
+  </div>
+  <div class="decide">
+    <h3>3. 덜 내려간 동작은 셀까요?</h3>
+    <p>추천: <b>안 셈</b>. 기준 각도까지 내려가야 1회로 셉니다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>출처</h2>
+  <ul class="clean cap">
+    <li>MediaPipe 자세 분류·반복 세기: github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/pose_classification.md</li>
+    <li>ML Kit 자세 분류: developers.google.com/ml-kit/vision/pose-detection/classifying-poses</li>
+    <li>기기 안 실시간 반복 세기 논문: arxiv.org/pdf/2308.02420</li>
+    <li>Tempo 3D 카메라 지원 문서: support.tempo.fit</li>
+    <li>가민 근력 운동 반복 세기 설명서·사용자 포럼: garmin.com, forums.garmin.com</li>
+    <li>갤럭시 워치 운동 추적: developer.samsung.com/health/blog/en/2022/02/16/tracking-exercises-with-galaxy-watch</li>
+    <li>Health Connect 반복 횟수 칸(ExerciseSegment repetitions): developer.android.com/jetpack/androidx/releases/health-connect</li>
+    <li>삼성 헬스 → Health Connect 운동 미전달 보고: eu.community.samsung.com</li>
+    <li>Enode(Vmaxpro) 연구: pmc.ncbi.nlm.nih.gov/articles/PMC11676481</li>
+    <li>에이스쿼트: apps.apple.com/kr/app/id1557831872 · AI 홈트 기사: mt.co.kr (2021-11-23)</li>
+  </ul>
+</section>
+</div>

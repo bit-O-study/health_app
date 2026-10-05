@@ -8,9 +8,9 @@
  * 없다. 한도가 없으면 사진 한 장을 스무 번 다시 스캔하는 사용자 몇 명이 비용을 통째로
  * 끌고 간다. 그때 가서 막으면 "되던 게 갑자기 안 되는" 경험이 되므로 지금 세워 둔다.
  *
- * 🔴 프리미엄 등급은 **표에만 있고 아직 아무도 아니다.** 결제가 붙기 전까지
- * `resolveTier` 는 모두 free 를 준다 — 결제 없이 프리미엄을 나눠 주는 가짜 등급을
- * 만들지 않는다(7.1 의 다음 칸에서 결제 상태를 붙인다).
+ * 한도 칸은 무료·프리미엄 둘이다. 요금제(무료·베이직·플러스·프로, `billing/plans.ts`)
+ * 중 유료는 모두 프리미엄 칸을 쓴다(`aiTierForPlan`). 누가 어느 요금제인지는
+ * `billing/plan-store.ts` 가 구독 만료 시각·팀 구독·트레이너 연결로 정한다.
  */
 
 /** AI 를 쓰는 기능. 한도를 기능별로 나눈 이유는 비용이 다르기 때문이다. */
@@ -19,9 +19,17 @@ export type AiFeatureId =
   | "meal-scan"
   | "body-scan"
   | "equipment-scan"
-  | "posture";
+  | "posture"
+  /** AI 트레이너 탭 — 오늘의 운동 제안(2026-09-30 2단계). */
+  | "trainer"
+  /** AI 트레이너 탭 — 오늘 식단 피드백(2026-09-30 2단계). */
+  | "diet-coach";
 
-export type AiTier = "free" | "premium";
+/**
+ * none = AI 를 아예 안 쓰는 칸(2026-10-01 사용자 결정: 990원 라이트엔 AI 없음).
+ * 무료 회원은 맛보기(free), 베이직부터 premium.
+ */
+export type AiTier = "none" | "free" | "premium";
 
 export type AiFeatureMeta = {
   id: AiFeatureId;
@@ -36,6 +44,8 @@ export const AI_FEATURES: readonly AiFeatureMeta[] = [
   { id: "body-scan", label: "체성분 분석지 읽기", vision: true },
   { id: "equipment-scan", label: "기구 스캔", vision: true },
   { id: "posture", label: "자세 분석", vision: true },
+  { id: "trainer", label: "AI 트레이너 오늘의 운동", vision: false },
+  { id: "diet-coach", label: "AI 트레이너 식단 피드백", vision: false },
 ] as const;
 
 export function isAiFeatureId(v: unknown): v is AiFeatureId {
@@ -63,6 +73,10 @@ export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
   "body-scan": 6,
   "equipment-scan": 5,
   posture: 5,
+  // 내 상태 요약 + 후보 운동 목록이 입력이라 코치와 비슷하다.
+  trainer: 7,
+  // 오늘 먹은 것 목록 + 목표 숫자라 입력이 짧다.
+  "diet-coach": 5,
 };
 
 /**
@@ -75,7 +89,8 @@ export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
  * **상품의 경계**다 — 무료는 맛보기, 프리미엄은 매일 써도 남는 선.
  *
  * 프리미엄 숫자의 근거 — **다 써도 적자가 안 나야 한다.**
- * 위 원가표로 최악을 계산하면 60×7 + 200×5 + 20×6 + 40×5 + 40×5 = **1,940원**이고,
+ * 위 원가표로 최악을 계산하면 60×7 + 160×5 + 20×6 + 40×5 + 40×5 + 30×7 + 30×5 = **2,100원**이고,
+ * (2026-09-30 AI 트레이너 운동 30·식단 30회를 넣으며 식단 사진 프리미엄을 200→160 으로 — 70% 선 유지)
  * 3,900원 구독의 실수령은 3,013원이다(부가세 10% 빼고 플레이 수수료 15% 뗀 값).
  * 예전 한도(합계 2,200회)로는 최악 13,200원이라 **얼마를 받아도 적자가 날 수 있었다.**
  * 이 관계는 `tests/be/logic/pricing.test.ts` 가 지킨다 — 한도만 올리면 실패한다.
@@ -86,19 +101,34 @@ export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
  *  - 코치·자세·체성분은 3회 = "어떤 건지 보고 판단할 만큼". 이게 결제 이유가 된다.
  */
 export const MONTHLY_LIMITS: Record<AiTier, Record<AiFeatureId, number>> = {
+  // 라이트 — AI 없음. 0회라 원가도 0원.
+  none: {
+    coach: 0,
+    "meal-scan": 0,
+    "body-scan": 0,
+    "equipment-scan": 0,
+    posture: 0,
+    trainer: 0,
+    "diet-coach": 0,
+  },
   free: {
     coach: 3,
     "meal-scan": 100,
     "body-scan": 3,
     "equipment-scan": 10,
     posture: 3,
+    // 맛보기 한 번 — 어떤 건지 보고 판단할 만큼.
+    trainer: 1,
+    "diet-coach": 1,
   },
   premium: {
     coach: 60, // 하루 2회
-    "meal-scan": 200, // 하루 6끼 이상
+    "meal-scan": 160, // 하루 5끼 이상
     "body-scan": 20,
     "equipment-scan": 40,
     posture: 40,
+    trainer: 30, // 매일 한 번
+    "diet-coach": 30, // 매일 저녁 한 번
   },
 };
 
@@ -171,6 +201,12 @@ export function featureLabel(feature: AiFeatureId): string {
 export function overLimitMessage(state: QuotaState): string {
   return `이번 달 ${featureLabel(state.feature)} 사용 횟수(${state.limit}회)를 다 쓰셨어요. 다음 달 1일에 다시 채워져요.`;
 }
+
+/**
+ * AI 가 닫혀 있거나(AI_OPEN=false) AI 없는 요금제(라이트)에서 AI 를 누르면 — "0회 다 쓰셨어요"가 아니라 왜 없는지와 앞으로를 말한다.
+ * 사용자 결정(2026-10-01): 나머지 요금제(AI 포함)는 아직 준비 중.
+ */
+export const NO_AI_MESSAGE = "AI 기능은 아직 준비 중이에요.";
 
 /** 남은 횟수 안내 — 얼마 안 남았을 때만 띄운다(멀쩡할 때 숫자를 보여줄 이유가 없다). */
 export const LOW_QUOTA_RATIO = 0.2;

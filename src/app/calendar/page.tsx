@@ -46,6 +46,7 @@ import { shortDateLabel } from "@/features/profile/body-chart-data";
 import { StepsSync } from "@/features/health/components/steps-sync";
 import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
 import {
@@ -115,7 +116,7 @@ export default async function CalendarPage({
     getLatestWeights(),
     getUserProfile(),
     isDebugFeatureEnabled("steps"),
-    isDebugFeatureEnabled("helssu-coach"),
+    isAiFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
     getUserRoutine(),
     // 연속 운동 일수 — 60일씩 필요한 만큼만(1년치 한 번에 → 1,000행 잘림).

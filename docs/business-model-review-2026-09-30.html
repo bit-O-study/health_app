@@ -1,0 +1,267 @@
+<title>짐꾼 수익 모델 점검</title>
+<meta name="description" content="짐꾼의 AI 기능·개인 구독·트레이너 정액권·팀 플랜 등 수익 관련 기능을 코드와 라이브 설정으로 점검하고, 넣을 만한 것을 우선순위로 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 지금 숫자 → 개발된 것(AI·구독·트레이너·팀·기타) → 빈틈 → 넣을 만한 것(단계) → 손익 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 수익 모델 · 검수보고서</p>
+  <h1>짐꾼 수익 모델 점검</h1>
+  <p class="lede">돈을 받는 코드는 거의 다 만들어져 있습니다. 하지만 <b>지금 수익은 0원</b>이고, 막혀 있는 곳이 세 군데입니다. ① 프리미엄이 파는 AI 기능이 라이브에서 대부분 숨겨져 있고 ② 구글 플레이 결제 설정이 보류돼 있으며 ③ 트레이너 정액권에는 가격과 결제 방법이 없습니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 420903bd + 라이브 DB 설정(app_settings)·집계</span>
+    <span class="pill crit">막힌 곳 3</span>
+    <span class="pill warn">빈틈 5</span>
+    <span class="pill info">넣을 만한 것 12</span>
+  </div>
+</header>
+
+<section>
+  <h2>지금 숫자 (라이브, 2026-09-30)</h2>
+  <div class="stats">
+    <div class="stat"><b>20</b><span>가입자(테스트 계정 제외)</span></div>
+    <div class="stat"><b>3</b><span>최근 30일 운동 기록한 사람</span></div>
+    <div class="stat"><b>0</b><span>AI 호출(누적)</span></div>
+    <div class="stat"><b>0</b><span>개인 구독</span></div>
+    <div class="stat"><b>0</b><span>팀 플랜</span></div>
+    <div class="stat"><b>1</b><span>트레이너 정액권(활성) · 연결 회원 1</span></div>
+  </div>
+  <p class="cap">서버 고정비(Vercel + Supabase)는 월 약 6만 원으로 잡혀 있습니다(<code>docs/requests/2026-09-09.md</code>). 이 규모에서는 광고·제휴로 버는 돈이 사실상 0이라는 결론도 그때 문서에 있습니다 — “본 모델은 트레이너/헬스장 B2B, 개인 구독은 보조”.</p>
+</section>
+
+<section>
+  <h2>지금 개발된 것 ① AI 기능</h2>
+  <p>AI 호출은 모두 서버 한 곳(<code>callAI</code>, <code>src/features/coach/ai.ts</code>)을 거칩니다. 순서는 <b>Gemini 2.5 Flash → NVIDIA Llama 3.2 비전 → Claude Haiku</b>(키가 있는 첫 번째). 앞의 둘은 무료 등급이라 지금 AI 비용은 0원이고, Claude는 마지막 대비책입니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>기능</th><th>하는 일</th><th>라이브 공개</th><th class="num">무료 / 프리미엄(월)</th><th>다시 볼 때</th></tr></thead>
+      <tbody>
+        <tr><td>짐꾼쌤 운동 분석</td><td>최근 30일 운동을 부위별로 보고 요약 + 조언 3~5개</td><td class="no">숨김</td><td class="num">3 / 60 <span class="cap">(코치 3개 공유)</span></td><td>저장된 결과(무료)</td></tr>
+        <tr><td>짐꾼쌤 식단 코칭</td><td>최근 14일 식단(칼로리·끼니·자주 먹는 것) 조언</td><td class="no">숨김</td><td class="num">코치 공유</td><td>저장된 결과</td></tr>
+        <tr><td>AI 다짐 제안</td><td>운동·식단 요약으로 측정 가능한 목표 2~3개, 한 번에 다짐으로 추가</td><td class="no">숨김</td><td class="num">코치 공유</td><td class="part">저장 안 함(누를 때마다 호출)</td></tr>
+        <tr><td>자세 분석</td><td>운동 영상 4장면 → 관절 정렬·가동범위·흔한 실수 교정</td><td class="no">숨김</td><td class="num">3 / 40</td><td>저장된 결과</td></tr>
+        <tr><td>기구 스캔</td><td>기구 사진 → 이름·타깃 근육·할 수 있는 운동(운동 사전 연결)</td><td class="no">숨김</td><td class="num">10 / 40</td><td>저장 안 함</td></tr>
+        <tr><td>식단 사진 AI</td><td>음식 사진 → 음식별 양·칼로리·탄단지, 고른 것만 기록</td><td class="no">숨김</td><td class="num">100 / 200</td><td>새 음식은 음식 목록에 쌓임</td></tr>
+        <tr><td>체성분(인바디) 결과지 읽기</td><td>결과지 사진 → 14개 수치 자동 입력, 확인 후 저장</td><td class="yes">전체 공개</td><td class="num">3 / 20</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box">
+    <h3>이미 있는 비용 안전장치</h3>
+    <ul class="clean">
+      <li>월 한도(서울 기준 월) — DB 함수가 확인과 증가를 한 번에(<code>consume_ai_quota</code>). 사용자는 자기 사용량만 읽고 직접 못 올림.</li>
+      <li>분당 6회 제한 · 사진은 폰에서 768px로 줄여 보냄 · 자세는 4장면을 한 장으로 합쳐 1회 호출.</li>
+      <li>분석 결과 저장(종류별 10개) — 다시 열면 AI를 다시 부르지 않음.</li>
+      <li>“한도 × 호출당 비용 &lt; 구독 순수익”을 테스트가 지킴(프리미엄 최악 1,940원 &lt; 순수익 3,013원).</li>
+    </ul>
+    <p class="cap">라이브 설정(app_settings): <code>debug.helssu-coach</code>·<code>debug.diet-photo-ai</code>·<code>debug.equipment-scan</code> 모두 <b>hidden(아무에게도 안 보임)</b>. AI 호출 누적 0회와 맞습니다.</p>
+  </div>
+  <div class="box">
+    <h3>AI처럼 보이지만 규칙으로 동작하는 것(AI 아님)</h3>
+    <ul class="clean">
+      <li>무게 추천(점진적 과부하·디로딩), 세트·횟수·무게 처방, 추천 운동 채우기, “나에게 맞춘 추천” 주간 루틴, 체성분·프로필 기반 루틴 추천.</li>
+      <li>운동 모드 “한 줄 코치”(영상에 맞춘 문구), 운동·러닝 음성 안내(폰의 음성 합성), 다짐 설문·미션, 식단 빠른 추가, 커뮤니티 “오늘 이 운동 해보기”, 트레이너 회원 리포트.</li>
+      <li>운동 동작 영상(ai-v2·ai-v3)은 AI로 미리 만든 파일 — 실행 중 AI 호출·비용 없음.</li>
+    </ul>
+    <p class="cap">규칙 기반이라 비용이 0이고 결과를 설명할 수 있는 게 장점입니다. 화면에서 “AI”라고 부르지 않는 지금 방식을 유지하는 걸 권합니다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>지금 개발된 것 ② 결제·B2B</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>무엇</th><th>가격</th><th>얻는 것</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td><b>개인 프리미엄</b><br><span class="cap">구글 플레이 정기결제 <code>helssu_premium_monthly</code></span></td><td class="num">월 3,900원<br><span class="cap">순수익 3,013원</span></td><td>AI 월 한도 증가만(위 표). 잠긴 화면은 없음.</td><td class="part">코드 완료 · 플레이 상품·환경변수·Pub/Sub <b>보류</b> → 화면에 “준비 중”</td></tr>
+        <tr><td><b>트레이너 정액권</b><br><span class="cap"><code>/settings/trainer-pass</code></span></td><td class="no">가격 없음</td><td>트레이너 앱: 회원 초대(알림톡·문자), 30일 리포트·주/월/년 통계, 운동 처방(영구·오늘만), 메모, 알림 기록. 기본 회원 15명.</td><td class="part">동작 중(1명 활성) · 결제는 앱 밖 · 알림톡 키 미설정</td></tr>
+        <tr><td><b>팀 플랜</b><br><span class="cap">그룹 단위, 무통장 입금 + 관리자 승인</span></td><td class="num">트레이너 39,000원<br>헬스장 149,000원<br><span class="cap">(부가세 별도, 안내용)</span></td><td>그룹원 전원 프리미엄</td><td class="no">신청 화면 도달 불가(주소가 <code>/trainer</code>로 돌아감) · 관리 목록 미사용</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid2">
+    <div class="box">
+      <h3>개인 프리미엄 결제 흐름(완성돼 있음)</h3>
+      <div class="flow"><span>앱에서 구매</span><i>→</i><span>토큰만 서버로</span><i>→</i><span>서버가 구글에 확인</span><i>→</i><span>저장·승인(3일 내 자동환불 방지)</span></div>
+      <p class="cap">환불·취소는 구글 실시간 알림(RTDN) 웹훅이 처리하고, 구매 1건을 여러 계정이 나눠 쓸 수 없게 막혀 있습니다. 구매 복원 버튼도 있습니다.</p>
+    </div>
+    <div class="box">
+      <h3>그 밖의 수익 관련</h3>
+      <ul class="clean">
+        <li>홈 상단 교차 홍보: 운영자의 다른 앱(IQ 테스트, 위스키다모아) — 효과 측정 없음.</li>
+        <li>펫 포인트(운동 1회 10점)·그룹 꾸미기 코인 — 실제 돈 아님, 펫은 숨김.</li>
+        <li>데이터 내보내기·고객센터 — 무료, 유료 등급과 무관.</li>
+        <li>광고·제휴 링크·쿠폰·추천인 보상 없음. 개인정보 처리방침에 “건강 데이터를 광고에 쓰거나 팔지 않음” 약속.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>막힌 곳과 빈틈</h2>
+  <div class="items">
+    <div class="item"><span class="pill crit tag">막힘 1</span><h3>프리미엄이 파는 AI가 라이브에서 숨겨져 있다</h3><p class="why">프리미엄의 혜택은 AI 한도뿐인데, 7개 중 6개가 숨김이라 일반 사용자는 체성분 결과지 읽기만 쓸 수 있습니다. 지금 결제를 열어도 사는 이유가 없습니다.</p><p class="where"><code>app_settings</code> debug.* = hidden · <code>coach-actions.ts:31</code> · <code>meal-scan-actions.ts:37</code></p></div>
+    <div class="item"><span class="pill crit tag">막힘 2</span><h3>플레이 결제 설정이 보류 중</h3><p class="why">플레이 콘솔 상품 등록, 서비스 계정, 환경변수, 실시간 알림(Pub/Sub), 라이선스 테스터 실기기 확인이 모두 [보류]입니다. 세금계산서 때문에 사업자등록도 필요합니다(사용자 몫).</p><p class="where"><code>docs/DEVELOPMENT-ROADMAP.md</code> 7순위 · <code>docs/PLAY-BILLING-SETUP.md</code></p></div>
+    <div class="item"><span class="pill crit tag">막힘 3</span><h3>트레이너 정액권에 가격·결제 방법이 없다</h3><p class="why">문서 결론상 주 수익원인데 코드·문서 어디에도 가격이 없고 “관리자가 결제 확인”만 있습니다. 게다가 정액권은 연결 회원에게 프리미엄을 주지 않아, 팀 플랜 문구(“담당 회원 전원 프리미엄”)와 다릅니다.</p><p class="where"><code>pt_request_pass</code>·<code>pt_admin_pass</code>(schema.sql) · <code>has_team_premium</code>은 그룹만 봄</p></div>
+    <div class="item"><span class="pill warn tag">빈틈</span><h3>갱신이 반영되는 길이 실시간 알림 하나뿐</h3><p class="why">구독 상태는 구매·복원 버튼이나 RTDN으로만 다시 확인합니다. RTDN이 안 붙으면 자동 갱신돼도 만료일이 안 늘어나 <b>첫 달이 지나면 돈 낸 사람의 프리미엄이 끊깁니다</b>.</p><p class="where"><code>rtdn-handler.ts</code> · 크론·앱 열 때 재확인 없음</p></div>
+    <div class="item"><span class="pill warn tag">빈틈</span><h3>B2B 결제 경로가 둘인데 하나는 죽어 있다</h3><p class="why">그룹 기반 팀 플랜(가격·무통장 안내 있음)은 화면에 못 가고, 살아 있는 트레이너 정액권은 가격이 없습니다. 하나로 합쳐야 합니다.</p><p class="where"><code>src/app/groups/[id]/trainer/layout.tsx</code> · <code>team-admin-list.tsx</code> 미사용</p></div>
+    <div class="item"><span class="pill warn tag">빈틈</span><h3>개인정보 처리방침에 Gemini가 빠져 있다</h3><p class="why">실제로 가장 먼저 쓰는 AI 업체가 처리방침의 위탁 목록에 없습니다(NVIDIA·Anthropic만). AI를 공개하기 전에 고쳐야 합니다.</p><p class="where"><code>src/app/privacy/page.tsx:63,101</code></p></div>
+    <div class="item"><span class="pill warn tag">빈틈</span><h3>한도가 거의 찼다는 안내가 없다</h3><p class="why">안내 함수는 만들어져 있지만 아무 데서도 안 씁니다. 한도를 다 쓴 순간이 구독을 권할 가장 좋은 때인데 그냥 막힙니다.</p><p class="where"><code>shouldWarnLowQuota</code>·<code>lowQuotaMessage</code>(ai-quota.ts) · <code>readAiUsage</code>(ai-usage.ts)</p></div>
+    <div class="item"><span class="pill info tag">참고</span><h3>작은 것들</h3><p class="why">무료 코치 3회를 운동·식단·다짐 제안이 나눠 씀(다짐 제안은 저장 안 해 매번 차감) · 사용량 기록이 실패하면 AI 호출을 통과시킴(일부러 — 비용 위험) · 교차 홍보 효과 측정 없음 · “전부 무료” 같은 옛 주석이 남아 있음(ai-quota.ts:11-13).</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>넣을 만한 것</h2>
+  <div class="phase">
+    <div class="box">
+      <h3><span class="pill crit">1단계</span> 돈 받을 준비 끝내기 <span class="size">작음~중간</span></h3>
+      <ul class="clean">
+        <li><b>AI 공개 순서 정하기</b> — 식단 사진 AI·기구 스캔은 전체 공개(무료 한도 넉넉, 습관용), 코치·자세는 공개하되 무료 3회로 맛보기.</li>
+        <li><b>한도 안내 + 구독 권유 화면</b> — 남은 횟수 표시, 다 쓰면 “프리미엄이면 월 60회” 안내.</li>
+        <li><b>갱신 재확인</b> — 이미 있는 하루 한 번 크론에서 만료 3일 안 구독을 구글에 다시 확인(RTDN이 빠져도 안 끊기게).</li>
+        <li><b>처리방침에 Gemini 추가</b>, 옛 주석 정리.</li>
+        <li><span class="cap">사용자 몫:</span> 플레이 상품 등록·서비스 계정·Pub/Sub, 사업자등록.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">2단계</span> 트레이너 B2B를 주 수익원으로 <span class="size">중간</span></h3>
+      <ul class="clean">
+        <li><b>정액권 가격표</b> — 이미 있는 팀 플랜 가격을 그대로: 트레이너 월 39,000원(회원 15명), 헬스장 월 149,000원(인원 협의).</li>
+        <li><b>연결 회원에게 프리미엄</b> — 정액권이 살아 있으면 연결된 회원 전원 프리미엄(회원이 트레이너를 쓸 이유 + 트레이너가 파는 가치).</li>
+        <li><b>결제</b> — 정액권 화면에 무통장 입금 안내(이미 있는 입금 정보 재사용) + 관리자 승인. 카드 정기결제는 다음.</li>
+        <li><b>14일 무료 체험</b>(회원 3명) — 신청하면 바로 체험 시작.</li>
+        <li><b>알림톡 비용 관리</b> — 트레이너별 월 발송 한도.</li>
+        <li><b>죽은 팀 플랜 경로 정리</b> — 정액권 하나로 합치기.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">3단계</span> 개인 구독 키우기·보조 수익 <span class="size">작음</span></h3>
+      <ul class="clean">
+        <li><b>7일 무료 체험 · 연간 구독</b>(예: 연 35,000원) — 플레이 콘솔 설정만으로, 코드는 표시만.</li>
+        <li><b>트레이너용 AI 월간 리포트</b> — 회원 기록을 AI가 요약해 트레이너가 회원에게 보냄(정액권 가치↑).</li>
+        <li><b>헬스장 페이지</b> — 이미 있는 헬스장 기구 목록으로 헬스장 소개·가입 연결(제휴 전 단계).</li>
+        <li><b>교차 홍보 효과 측정</b>(링크에 출처 표시).</li>
+      </ul>
+      <p class="cap">하지 않는 것: 광고(규모가 작아 수익 없음 + 처리방침 약속), 건강 데이터 판매·맞춤 광고.</p>
+    </div>
+  </div>
+  <p class="cap">⚠ 안드로이드 앱 안에서 디지털 기능(프리미엄)을 팔 때는 구글 플레이 결제를 써야 합니다. 트레이너 정액권을 앱 밖(무통장·웹)에서 파는 방식이 정책에 맞는지는 출시 전에 확인해야 합니다(업무용 서비스 예외 여부).</p>
+</section>
+
+<section>
+  <h2>손익 한눈에</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>무엇</th><th class="num">한 명(곳)당 월 순수익</th><th class="num">고정비 6만 원을 덮으려면</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td>개인 프리미엄</td><td class="num">약 1,000~3,000원</td><td class="num">약 20~60명</td><td>순수익 3,013원 − AI 비용(무료 등급이면 0, Claude로 넘어가면 최대 1,940원)</td></tr>
+        <tr><td>트레이너 정액권(39,000원 가정)</td><td class="num">약 35,000원</td><td class="num">2명</td><td>부가세 별도 가격 기준, 알림톡 비용 제외 — 연결 회원 AI 비용은 회원 수만큼 늘어남</td></tr>
+        <tr><td>헬스장(149,000원 가정)</td><td class="num">약 140,000원</td><td class="num">1곳</td><td>회원 수 협의</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">가정: 고정비 월 6만 원(문서 추정), AI는 지금처럼 무료 등급 우선. 실제 가격은 사용자가 정합니다.</p>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 1단계(돈 받을 준비)부터 진행할까요?</h3>
+    <p>추천: <b>1단계 → 2단계 → 3단계</b>. 1단계는 코드 변경이 작고, 안 하면 결제를 열어도 사는 이유가 없습니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. AI 기능 공개 범위</h3>
+    <p>추천: <b>식단 사진 AI·기구 스캔은 전체 공개, 코치·자세는 전체 공개 + 무료 3회</b>. (지금 설정은 관리자 화면에서 바로 바꿀 수 있습니다 — 처리방침 수정 후.)</p>
+  </div>
+  <div class="decide">
+    <h3>3. 트레이너 정액권 가격</h3>
+    <p>추천: <b>월 39,000원(회원 15명)</b> — 이미 정해 둔 팀 플랜 가격 재사용. 헬스장은 월 149,000원.</p>
+  </div>
+  <div class="decide">
+    <h3>4. 정액권 연결 회원에게 프리미엄을 줄까요?</h3>
+    <p>추천: <b>예</b>. 트레이너가 회원에게 “AI 분석 무제한에 가까운 혜택”을 줄 수 있어야 정액권을 살 이유가 생깁니다.</p>
+  </div>
+</section>
+</div>

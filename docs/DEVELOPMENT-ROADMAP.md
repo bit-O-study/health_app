@@ -1214,7 +1214,7 @@
   - [완료] 상품/권한 분리, 사용자 요청·답변 보관, 통합 어드민 `/admin/health/coaching` 작성·초안·전송 구현. 990원은 프리미엄 AI 한도를 열지 않으며 기존 프리미엄 권한은 유지.
   - [완료] 대상 단위·렌더링 5파일 66개 통과. 관리자 기존 176개 및 새 액션 4개 통과. 양쪽 변경 파일 ESLint 및 어드민 TypeScript 통과. DB 트랜잭션 검증: 회원 간 격리, 초안 비공개, 직접 쓰기·비관리자 전송 차단, 요청/전송 중복 방지, 만료 후 기존 답변 보존. 테스트 DDL·계정·데이터 전부 롤백.
   - [대기] 앱 `tsc --noEmit`: 기존 `.next/types/app/icon-{192,512,512-maskable}.png/route.ts`의 `contentType` export 오류 3건. 모바일 브라우저·Android 결제·전체 빌드 검증.
-  - [대기] 운영 DB에 `supabase/migrations/202610010001_manual_coach.sql` 적용 및 앱·통합 어드민 동시 배포. Google Play에 `helssu_coach_monthly` 월990원 상품과 네이티브 결제 동작 확인 후 서버 `MANUAL_COACH_BILLING_ENABLED=true`. 현재 결제는 기본 비활성화. 개인3990원 신규 구매 버튼은 비활성화 유지.
+  - [대기] 운영 DB에 `supabase/migrations/202610050001_manual_coach.sql` 적용 및 앱·통합 어드민 동시 배포. Google Play에 `helssu_coach_monthly` 월990원 상품과 네이티브 결제 동작 확인 후 서버 `MANUAL_COACH_BILLING_ENABLED=true`. 현재 결제는 기본 비활성화. 개인3990원 신규 구매 버튼은 비활성화 유지.
   - 운영: 통합 어드민에서 회원·종류 선택 → 작성 준비 → 초안 요청 내용 복사 → Codex에서 수동 작성 → 초안 저장 → 검토 완료·회원에게 전달. 상담은 비동기이며 자동 AI 호출/전송 없음. 추천 하루1건·리포트 주1건·상담 하루20건, 서울 날짜 기준. 목록은 대기100건·최근답변30건·활성회원500명까지 표시.
 
 - [완료] 무료·프리미엄 구분과 월 사용량/API 비용 제한

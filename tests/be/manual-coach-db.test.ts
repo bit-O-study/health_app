@@ -12,8 +12,8 @@ describe.skipIf(!hasDbCreds || process.env.MANUAL_COACH_DB_TEST !== "true")("man
     await db.connect();
     await db.query("begin");
     await db.query("set local lock_timeout='3s'; set local statement_timeout='15s'");
-    await db.query(readFileSync(new URL("../../supabase/migrations/202610010001_manual_coach.sql", import.meta.url), "utf8"));
-    await db.query(readFileSync(new URL("../../supabase/migrations/202610010002_manual_coach_context.sql", import.meta.url), "utf8"));
+    await db.query(readFileSync(new URL("../../supabase/migrations/202610050001_manual_coach.sql", import.meta.url), "utf8"));
+    await db.query(readFileSync(new URL("../../supabase/migrations/202610050002_manual_coach_context.sql", import.meta.url), "utf8"));
     for (const id of [owner, other, admin]) await db.query("insert into auth.users(id,email,raw_user_meta_data) values($1,$2,'{}')", [id, id === admin ? email : `verify_coach_${id}@example.invalid`]);
     await db.query("insert into public.admins(email) values($1)", [email]);
     await db.query("insert into subscriptions(user_id,product_id,purchase_token,state,expires_at) values($1,'helssu_coach_monthly',$2,'active',now()+interval '1 day')", [owner, randomUUID()]);

@@ -21,7 +21,7 @@ describe("페이지 서버 조회는 서로 의존이 없으면 한 묶음(Promi
         "getUserProfile()",
         "getFoodLogsForDate(date)",
         "getMealPhotosForDate(date)",
-        'isDebugFeatureEnabled("diet-photo-ai")',
+        'isAiFeatureEnabled("diet-photo-ai")',
       ],
     },
   ];

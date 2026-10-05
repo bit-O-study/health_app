@@ -2,17 +2,26 @@
 
 import { revalidatePath } from "next/cache";
 
-import { getCurrentUser } from "@/lib/supabase/server";
+import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import {
   acknowledgePurchase,
   billingSetup,
+  playPackageName,
   verifyPurchase,
 } from "@/features/billing/play-verify";
+import {
+  membershipView,
+  playManageUrl,
+  type MembershipView,
+} from "@/features/billing/membership";
+import { usageMonth } from "@/features/coach/ai-quota";
 import {
   getMySubscription,
   saveSubscription,
 } from "@/features/billing/subscription-store";
-import { isCoachEntitled, isPremiumEntitled, statusLabel } from "@/features/billing/subscription";
+import { isEntitled, statusLabel } from "@/features/billing/subscription";
+import { resolvePlanDetail } from "@/features/billing/plan-store";
+import { hasPlan, type PlanId } from "@/features/billing/plans";
 
 /**
  * 구매 확인·복원 — 로드맵 7.1.
@@ -22,24 +31,67 @@ import { isCoachEntitled, isPremiumEntitled, statusLabel } from "@/features/bill
  */
 
 export type BillingStatus = {
+  /** 운영자 상담함을 쓸 수 있나 — 라이트(990원) 이상(2026-10-05 병합: 코칭은 라이트 혜택). */
   coaching: boolean;
+  /** 라이트를 지금 살 수 있나(결제 설정 완료). */
   coachingReady: boolean;
+  /** 유료 요금제인가(개인·팀·트레이너 어느 쪽이든). */
   premium: boolean;
+  /** 지금 쓰는 요금제(개인 구독·팀·트레이너 중 높은 것). */
+  plan: PlanId;
+  /** 내가 직접 구독한 요금제(없으면 free). 결제 버튼은 이걸 기준으로 막는다. */
+  personalPlan: PlanId;
+  /** 트레이너·팀이 준 요금제인가. */
+  sponsored: boolean;
   label: string;
   /** 검증이 가능한 환경인가(설정이 다 됐는가). */
   ready: boolean;
   expiresAt: string | null;
+  /** 멤버십 카드(배민클럽식) — 다음 결제일·끝나는 날·해지 가능 여부. */
+  membership: MembershipView;
+  /** 구글 플레이 구독 관리(해지·결제 수단) 주소. */
+  manageUrl: string;
+  /** 이번 달 AI 이용 횟수(받은 혜택 표시용). */
+  aiUsesThisMonth: number;
 };
 
+/** 이번 달 AI 이용 합계. 실패하면 0 — 숫자를 못 읽었다고 구독 화면이 죽으면 안 된다. */
+async function aiUsesThisMonth(): Promise<number> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return 0;
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("ai_usage")
+      .select("used")
+      .eq("user_id", user.id)
+      .eq("month", usageMonth());
+    return ((data ?? []) as { used: number | null }[]).reduce((s, r) => s + (Number(r.used) || 0), 0);
+  } catch {
+    return 0;
+  }
+}
+
 export async function getBillingStatusAction(): Promise<BillingStatus> {
-  const sub = await getMySubscription();
+  const [sub, detail, uses] = await Promise.all([
+    getMySubscription(),
+    resolvePlanDetail(),
+    aiUsesThisMonth(),
+  ]);
+  const personalPlan = isEntitled(sub) ? detail.personal : "free";
   return {
-    premium: isPremiumEntitled(sub),
-    coaching: isCoachEntitled(sub),
-    coachingReady: billingSetup().ready && process.env.MANUAL_COACH_BILLING_ENABLED === "true",
+    premium: detail.plan !== "free",
+    plan: detail.plan,
+    personalPlan,
+    sponsored: detail.sponsored,
+    coaching: hasPlan(detail.plan, "lite"),
+    coachingReady: billingSetup().ready,
     label: statusLabel(sub),
     ready: billingSetup().ready,
     expiresAt: sub?.expiresAt ?? null,
+    membership: membershipView(sub, personalPlan),
+    manageUrl: playManageUrl(playPackageName(), sub?.productId ?? null),
+    aiUsesThisMonth: uses,
   };
 }
 

@@ -18,6 +18,7 @@ import {
   type DietExerciseNeed,
   type MacroRemaining,
 } from "@/features/home/dashboard-metrics";
+import { ageOf } from "@/features/profile/survey-extra";
 
 const CONTRIBUTION_WEEKS = 53;
 
@@ -112,6 +113,7 @@ export async function getHomeDashboard(): Promise<HomeDashboard> {
     gender: profile?.gender ?? "male",
     weightKg: profile?.weightKg ?? null,
     heightCm: profile?.heightCm ?? null,
+    age: ageOf(profile?.ageGroup),
   });
   const dietExerciseNeed = computeDietExerciseNeed({
     targetKcal: target.kcal,

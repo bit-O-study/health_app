@@ -1,29 +1,41 @@
 "use client";
 
 import { WorkoutShareCard } from "./workout-share-card";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Bookmark,
+  CheckCircle2,
+  EyeOff,
   Heart,
   Loader2,
   MessageCircle,
   MoreVertical,
   Pencil,
+  ThumbsUp,
   Trash2,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
-import { relativeTime, MAX_CAPTION } from "../community";
+import { relativeTime, captionLimit, MAX_QUESTION_TITLE, answerOrder, threadComments } from "../community";
+import { AuthorName } from "./author-sheet";
 import type { CommunityComment, CommunityPost } from "../data-access";
 import { ReportButton } from "./report-button";
+import { Notice, useNotice } from "./notice";
+import { commentAnchor, commentIdFromHash } from "../community-notifications";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import {
   addCommentAction,
   deleteCommentAction,
   deleteCommunityPostAction,
   editCommunityPostAction,
+  acceptAnswerAction,
   listCommentsAction,
+  setQuestionResolvedAction,
+  toggleCommentLikeAction,
   toggleLikeAction,
+  toggleSaveAction,
 } from "../community-actions";
 
 /**
@@ -33,10 +45,13 @@ import {
 export function PostDetail({
   post,
   initialComments,
+  initialHasMore = false,
   canManage,
 }: {
   post: CommunityPost;
   initialComments: CommunityComment[];
+  /** 이전 댓글이 더 있는지(댓글은 최신 50개부터 — 커뮤니티 2단계). */
+  initialHasMore?: boolean;
   canManage: boolean;
 }) {
   const router = useRouter();
@@ -46,11 +61,81 @@ export function PostDetail({
   const [liked, setLiked] = useState(post.likedByMe);
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [comments, setComments] = useState<CommunityComment[]>(initialComments);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  // 댓글 수는 서버 집계 + 이 화면에서 달고 지운 만큼(댓글을 다 읽지 않으므로 목록 길이로 셀 수 없다).
+  const [commentCount, setCommentCount] = useState(post.commentCount);
   const [body, setBody] = useState("");
+  // 답글(한 단계)과 답변 채택(커뮤니티 4-2).
+  const [replyTo, setReplyTo] = useState<{ id: string; name: string } | null>(null);
+  const [acceptedId, setAcceptedId] = useState<string | null>(post.acceptedCommentId);
+  const inputRef = useRef<HTMLInputElement>(null);
+  // 오류·확인은 앱 안에서(브라우저 alert/confirm 대신 — 커뮤니티 2단계).
+  const [notice, showNotice] = useNotice();
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [editing, setEditing] = useState(false);
   const [caption, setCaption] = useState(post.caption ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
+  // 알림에서 온 댓글(#c-<id>) — 그 댓글까지 가서 잠깐 노랗게(커뮤니티 4-1).
+  const [highlight, setHighlight] = useState<string | null>(null);
+  useEffect(() => {
+    const target = commentIdFromHash(window.location.hash);
+    if (!target) return;
+    let alive = true;
+    (async () => {
+      // 댓글은 최신 50개부터라 오래된 댓글이면 찾을 때까지 이전 페이지를 이어 읽는다(최대 5번).
+      let list = initialComments;
+      let more = initialHasMore;
+      for (let i = 0; i < 5 && more && !list.some((c) => c.id === target); i++) {
+        const page = await listCommentsAction(post.id, list[0]?.createdAt);
+        list = [...page.comments, ...list];
+        more = page.hasMore;
+      }
+      if (!alive) return;
+      setComments(list);
+      setHasMore(more);
+      if (list.some((c) => c.id === target)) setHighlight(target);
+      else showNotice("댓글이 지워졌어요.");
+    })();
+    return () => {
+      alive = false;
+    };
+    // 처음 들어올 때 한 번만.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (!highlight) return;
+    document.getElementById(commentAnchor(highlight))?.scrollIntoView({ block: "center" });
+    const t = window.setTimeout(() => setHighlight(null), 2500);
+    return () => window.clearTimeout(t);
+  }, [highlight]);
+
+  // 커뮤니티 3단계 — 질문 글(제목·해결됨)과 저장.
+  const isQuestion = post.postType === "question";
+  const [editTitle, setEditTitle] = useState(post.title ?? "");
+  const [resolved, setResolved] = useState(post.resolved);
+  const [saved, setSaved] = useState(post.savedByMe);
+
+  function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    start(async () => {
+      const r = await toggleSaveAction(post.id);
+      if (!r.ok) {
+        setSaved(!next);
+        showNotice(r.error);
+      } else setSaved(r.saved);
+    });
+  }
+
+  function toggleResolved() {
+    const next = !resolved;
+    start(async () => {
+      const r = await setQuestionResolvedAction(post.id, next);
+      if (r.ok) setResolved(next);
+      else showNotice(r.error);
+    });
+  }
 
   const when = relativeTime(new Date(post.createdAt).getTime(), now);
 
@@ -67,56 +152,110 @@ export function PostDetail({
     });
   }
 
+  /** 최신 한 페이지로 다시(댓글을 달거나 지운 뒤). */
   async function reloadComments() {
-    setComments(await listCommentsAction(post.id));
+    const page = await listCommentsAction(post.id);
+    setComments(page.comments);
+    setHasMore(page.hasMore);
+  }
+
+  function loadOlder() {
+    const oldest = comments[0]?.createdAt;
+    if (!oldest) return;
+    start(async () => {
+      const page = await listCommentsAction(post.id, oldest);
+      setComments((cur) => [...page.comments, ...cur]);
+      setHasMore(page.hasMore);
+    });
   }
 
   function addComment() {
     const text = body.trim();
-    if (!text) return;
+    // 🔴 보내는 중엔 다시 안 보낸다 — 엔터를 빨리 두 번 누르면 두 번 올라가던 문제.
+    if (!text || pending) return;
     start(async () => {
-      const r = await addCommentAction(post.id, text);
+      const r = await addCommentAction(post.id, text, replyTo?.id ?? null);
       if (r.ok) {
         setBody("");
+        setReplyTo(null);
+        setCommentCount((c) => c + 1);
         await reloadComments();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
+    });
+  }
+
+  /** 댓글 공감 — 누르는 즉시 바꾸고 실패하면 되돌린다(커뮤니티 4-3). 알림은 없다. */
+  function toggleCommentLike(c: CommunityComment) {
+    const next = !c.likedByMe;
+    const apply = (liked: boolean) =>
+      setComments((cur) =>
+        cur.map((x) =>
+          x.id === c.id ? { ...x, likedByMe: liked, likeCount: Math.max(0, x.likeCount + (liked === x.likedByMe ? 0 : liked ? 1 : -1)) } : x,
+        ),
+      );
+    apply(next);
+    void toggleCommentLikeAction(c.id)
+      .then((r) => {
+        if (!r.ok) {
+          apply(!next);
+          showNotice(r.error);
+        }
+      })
+      .catch(() => apply(!next));
+  }
+
+  function startReply(c: CommunityComment) {
+    setReplyTo({ id: c.id, name: c.authorName });
+    inputRef.current?.focus();
+  }
+
+  /** 채택 / 채택 취소 — 채택하면 DB 가 '해결됨' 으로 바꾼다(채택을 풀어도 해결됨은 그대로). */
+  function accept(commentId: string | null) {
+    start(async () => {
+      const r = await acceptAnswerAction(post.id, commentId);
+      if (r.ok) {
+        setAcceptedId(commentId);
+        if (commentId) setResolved(true);
+      } else showNotice(r.error);
     });
   }
 
   function removeComment(id: string) {
     start(async () => {
       const r = await deleteCommentAction(id);
-      if (r.ok) await reloadComments();
-      else alert(r.error);
+      if (r.ok) {
+        setCommentCount((c) => Math.max(0, c - 1));
+        await reloadComments();
+      } else showNotice(r.error);
     });
   }
 
   function saveCaption() {
     start(async () => {
-      const r = await editCommunityPostAction(post.id, caption);
+      const r = await editCommunityPostAction(post.id, caption, isQuestion ? editTitle : undefined);
       if (r.ok) {
         setEditing(false);
         router.refresh();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
 
   function removePost() {
-    if (!confirm("이 게시물을 삭제할까요?")) return;
+    setConfirmDelete(false);
     start(async () => {
       const r = await deleteCommunityPostAction(post.id);
       if (r.ok) router.push("/community");
-      else alert(r.error);
+      else showNotice(r.error);
     });
   }
 
   return (
     <div className="app-page">
-      <PageHeader title="게시물" back="커뮤니티">
+      <PageHeader title={isQuestion ? "질문" : "게시물"} back="커뮤니티">
         {canManage || !post.isMine ? (
           <div className="relative">
             <button
@@ -154,7 +293,7 @@ export function PostDetail({
                         type="button"
                         onClick={() => {
                           setMenuOpen(false);
-                          removePost();
+                          setConfirmDelete(true);
                         }}
                         disabled={pending}
                         className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-danger hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-white/[0.06]"
@@ -164,8 +303,12 @@ export function PostDetail({
                     </>
                   ) : null}
                   {!post.isMine ? (
-                    <div onClick={() => setMenuOpen(false)}>
+                    // 🔴 예전엔 감싼 div 가 누르는 즉시 메뉴를 닫아, 신고 시트가 메뉴와 함께 사라졌다
+                    //    (상세 화면에서 글 신고가 한 번도 안 됐다 — 2026-09-30 E2E 로 발견). 시트가 닫힐 때 메뉴를 닫는다.
+                    <div>
                       <ReportButton
+                        onClose={() => setMenuOpen(false)}
+                        leaveOnBlock={() => router.replace("/community")}
                         targetKind="community_post"
                         targetId={post.id}
                         targetUserId={post.userId}
@@ -195,7 +338,15 @@ export function PostDetail({
           {characterEmoji(post.authorName)}
         </span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold leading-5">{post.authorName}</p>
+          <p className="truncate text-sm font-semibold leading-5">
+            <AuthorName
+              userId={post.userId}
+              name={post.authorName}
+              isMine={post.isMine}
+              blockTarget={{ kind: "community_post", id: post.id }}
+              leaveOnBlock={() => router.replace("/community")}
+            />
+          </p>
           <p className="text-xs leading-4 text-zinc-400">{when}</p>
         </div>
         {post.groupName ? (
@@ -205,13 +356,56 @@ export function PostDetail({
         ) : null}
       </div>
 
+      {post.hidden && post.isMine ? (
+        <p className="mb-3 flex items-start gap-1.5 rounded-lg bg-amber-50 px-2.5 py-2 text-xs leading-relaxed text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+          <EyeOff aria-hidden="true" size={14} className="mt-0.5 shrink-0" />
+          신고가 여러 건 들어와 다른 사람에게는 잠시 숨겨졌어요. 관리자가 확인하고 있어요.
+        </p>
+      ) : null}
+
+      {/* 질문: 제목 + 해결 상태(작성자는 여기서 해결됨 표시) */}
+      {isQuestion && !editing ? (
+        <div className="mb-2">
+          <h2 className="text-lg font-bold leading-snug">{post.title}</h2>
+          <div className="mt-1 flex items-center gap-2">
+            <span
+              data-testid="question-status"
+              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                resolved ? "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400" : "bg-brand-soft text-brand"
+              }`}
+            >
+              {resolved ? "해결됨" : "답변 기다리는 중"}
+            </span>
+            {post.isMine ? (
+              <button
+                type="button"
+                onClick={toggleResolved}
+                disabled={pending}
+                className="inline-flex min-h-9 items-center gap-1 text-xs font-semibold text-brand disabled:opacity-60"
+              >
+                <CheckCircle2 aria-hidden="true" size={14} />
+                {resolved ? "해결 취소" : "해결됨으로 표시"}
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
       {/* 바로 밑: 글 내용 */}
       {editing ? (
         <div className="mb-3">
+          {isQuestion ? (
+            <input
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value.slice(0, MAX_QUESTION_TITLE))}
+              aria-label="질문 제목"
+              className="mb-2 h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base font-semibold outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+            />
+          ) : null}
           <textarea
             value={caption}
-            onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
-            rows={2}
+            onChange={(e) => setCaption(e.target.value.slice(0, captionLimit(post.postType)))}
+            rows={isQuestion ? 5 : 2}
             className="w-full resize-none rounded-[10px] bg-zinc-100 p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
           />
           <div className="mt-1 flex justify-end gap-2">
@@ -220,6 +414,7 @@ export function PostDetail({
               onClick={() => {
                 setEditing(false);
                 setCaption(post.caption ?? "");
+                setEditTitle(post.title ?? "");
               }}
               className="rounded-lg px-3 py-1 text-sm font-semibold text-zinc-500"
             >
@@ -241,13 +436,13 @@ export function PostDetail({
         </p>
       ) : null}
 
-      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} /> : null}
+      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} postId={post.id} /> : null}
       {/* 밑: 사진 */}
       {post.photoUrl ? <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={post.photoUrl}
-        alt="오운완 인증"
+        alt={isQuestion ? "질문 사진" : "오운완 인증"}
         className="w-full rounded-[14px] bg-zinc-100 object-cover dark:bg-zinc-800"
       />
 
@@ -258,6 +453,8 @@ export function PostDetail({
           type="button"
           onClick={toggleLike}
           disabled={pending}
+          aria-label="좋아요"
+          aria-pressed={liked}
           className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums disabled:opacity-60"
         >
           <Heart
@@ -268,19 +465,63 @@ export function PostDetail({
         </button>
         <span className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums text-zinc-500">
           <MessageCircle size={20} className="text-zinc-400" />
-          {comments.length}
+          {commentCount}
         </span>
+        <button
+          type="button"
+          onClick={toggleSave}
+          disabled={pending}
+          aria-label="저장"
+          aria-pressed={saved}
+          className="ml-auto inline-flex items-center disabled:opacity-60"
+        >
+          <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-zinc-400"} />
+        </button>
       </div>
 
-      {/* 댓글 */}
+      {/* 댓글 — 최신 50개부터, 위에 '이전 댓글 더 보기'. */}
       <div className="space-y-2.5 py-2.5">
+        {hasMore ? (
+          <button
+            type="button"
+            onClick={loadOlder}
+            disabled={pending}
+            data-testid="load-older-comments"
+            className="w-full py-1 text-center text-sm font-semibold text-zinc-500 disabled:opacity-50 dark:text-zinc-400"
+          >
+            이전 댓글 더 보기
+          </button>
+        ) : null}
+        {(() => {
+          // 채택한 답변은 맨 위에 고정(최신 50개 밖이어도 — 상세 로더가 따로 읽어 온다).
+          const pinned = acceptedId
+            ? (comments.find((c) => c.id === acceptedId) ?? (post.acceptedComment?.id === acceptedId ? post.acceptedComment : null))
+            : null;
+          return isQuestion && pinned ? (
+            <div data-testid="accepted-answer" className="rounded-xl bg-brand-soft px-3 py-2.5">
+              <p className="flex items-center gap-1 text-xs font-bold text-brand">
+                <CheckCircle2 aria-hidden="true" size={13} /> 채택된 답변 · {pinned.authorName}
+              </p>
+              <p className="mt-1 whitespace-pre-wrap break-words text-sm">{pinned.body}</p>
+            </div>
+          ) : null;
+        })()}
         {comments.length === 0 ? (
           <p className="py-3 text-center text-sm text-zinc-400">
-            아직 댓글이 없어요
+            {isQuestion ? "아직 답변이 없어요. 아는 걸 알려 주세요." : "아직 댓글이 없어요"}
           </p>
         ) : (
-          comments.map((c) => (
-            <div key={c.id} className="flex items-start gap-2">
+          // 질문은 공감 많은 답변이 위로(채택 답변은 위 칸에 고정). 일반 글은 대화 순서 그대로.
+          threadComments(comments, isQuestion ? answerOrder : undefined).map(({ item: c, reply }) => (
+            <div
+              key={c.id}
+              id={commentAnchor(c.id)}
+              data-highlight={highlight === c.id ? "true" : undefined}
+              data-reply={reply ? "true" : undefined}
+              className={`flex items-start gap-2 rounded-lg transition-colors duration-700 ${reply ? "ml-9" : ""} ${
+                highlight === c.id ? "bg-amber-100 dark:bg-amber-900/30" : ""
+              }`}
+            >
               <span
                 className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-full text-sm ${pastelClass(
                   c.authorName,
@@ -290,7 +531,18 @@ export function PostDetail({
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">
-                  {c.authorName}
+                  <AuthorName
+                    userId={c.userId}
+                    name={c.authorName}
+                    isMine={c.isMine}
+                    blockTarget={{ kind: "community_comment", id: c.id }}
+                    onBlocked={() => start(async () => { await reloadComments(); })}
+                  />
+                  {acceptedId === c.id ? (
+                    <span className="ml-1.5 inline-flex items-center gap-0.5 font-bold text-brand">
+                      <CheckCircle2 aria-hidden="true" size={12} /> 채택됨
+                    </span>
+                  ) : null}
                   <span className="ml-1.5 font-normal text-zinc-400">
                     {relativeTime(new Date(c.createdAt).getTime(), now)}
                   </span>
@@ -298,6 +550,31 @@ export function PostDetail({
                 <p className="whitespace-pre-wrap break-words text-sm">
                   {c.body}
                 </p>
+                <div className="flex gap-3 text-xs text-zinc-400">
+                  <button type="button" onClick={() => startReply(c)} className="min-h-8 font-semibold hover:text-brand">
+                    답글
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleCommentLike(c)}
+                    aria-label="공감"
+                    aria-pressed={c.likedByMe}
+                    className={`inline-flex min-h-8 items-center gap-1 font-semibold tabular-nums ${c.likedByMe ? "text-brand" : "hover:text-brand"}`}
+                  >
+                    <ThumbsUp aria-hidden="true" size={12} className={c.likedByMe ? "fill-current" : ""} />
+                    {c.likeCount > 0 ? c.likeCount : null}
+                  </button>
+                  {isQuestion && post.isMine && !c.isMine ? (
+                    <button
+                      type="button"
+                      disabled={pending}
+                      onClick={() => accept(acceptedId === c.id ? null : c.id)}
+                      className="min-h-8 font-semibold text-brand disabled:opacity-50"
+                    >
+                      {acceptedId === c.id ? "채택 취소" : "채택"}
+                    </button>
+                  ) : null}
+                </div>
               </div>
               {c.isMine || canManage ? (
                 <button
@@ -312,6 +589,8 @@ export function PostDetail({
               ) : (
                 <ReportButton
                   className="shrink-0 text-zinc-300 hover:text-danger"
+                  // 댓글 쓴 사람을 막으면 그 사람 댓글이 빠진 목록으로 다시 읽는다.
+                  onBlocked={() => start(async () => { await reloadComments(); })}
                   targetKind="community_comment"
                   targetId={c.id}
                   targetUserId={c.userId}
@@ -326,14 +605,24 @@ export function PostDetail({
       </div>
 
       {/* 댓글 입력 — 하단 고정탭(4rem) + 제스처바(safe-area) 위에 붙게 오프셋. */}
-      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] flex items-center gap-2 bg-background py-2">
+      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] bg-background py-2">
+      {replyTo ? (
+        <p className="mb-1.5 flex items-center gap-2 px-1 text-xs text-zinc-500" data-testid="reply-to">
+          <span className="min-w-0 flex-1 truncate">@{replyTo.name}에게 답글</span>
+          <button type="button" onClick={() => setReplyTo(null)} className="min-h-8 font-semibold">
+            취소
+          </button>
+        </p>
+      ) : null}
+      <div className="flex items-center gap-2">
         <input
+          ref={inputRef}
           value={body}
           onChange={(e) => setBody(e.target.value.slice(0, 300))}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
           }}
-          placeholder="댓글 달기…"
+          placeholder={replyTo ? `@${replyTo.name}에게 답글…` : isQuestion ? "답변 달기…" : "댓글 달기…"}
           className="h-10 min-w-0 flex-1 rounded-full bg-zinc-100 px-4 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
         />
         <button
@@ -345,7 +634,18 @@ export function PostDetail({
           {pending ? <Loader2 size={14} className="animate-spin" /> : null}등록
         </button>
       </div>
+      </div>
       </main>
+      <ConfirmDialog
+        open={confirmDelete}
+        title="게시물 삭제"
+        message="이 게시물을 삭제할까요?"
+        confirmLabel="삭제"
+        tone="danger"
+        onConfirm={removePost}
+        onCancel={() => setConfirmDelete(false)}
+      />
+      <Notice text={notice} />
     </div>
   );
 }

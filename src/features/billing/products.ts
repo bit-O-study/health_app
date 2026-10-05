@@ -7,9 +7,13 @@
 
 /** 프리미엄 월 구독. Play Console → 수익 창출 → 구독에서 같은 id 로 만든다. */
 export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
-export const COACH_PRODUCT_ID = "helssu_coach_monthly";
+/**
+ * 990원 상품 — 2026-10-05 병합 결정으로 '헬쑤 코칭'은 라이트 하나로 합쳤다(운영자 상담함은 라이트 혜택).
+ * 예전 코칭 상품 id(helssu_coach_monthly)는 DB 함수가 계속 받아 준다(혹시 산 사람이 있어도 권한 유지).
+ */
+export const COACH_PRODUCT_ID = "helssu_lite_monthly";
 export const COACH_PRICE_KRW = 990;
-export const COACH_PLAN_LABEL = "헬쑤 코칭";
+export const COACH_PLAN_LABEL = "라이트";
 export const PREMIUM_OPEN = false;
 
 /**
@@ -19,7 +23,8 @@ export const PREMIUM_OPEN = false;
  * 뿐이라, 콘솔에서 가격을 바꾸면 **여기도 같이 바꿔야 한다**(안 그러면 화면에 적힌 값과
  * 결제창 값이 달라진다 — 사용자는 이걸 사기로 받아들인다).
  *
- * 개인 프리미엄은 3,990원으로 표시하며 신규 판매는 오픈 준비 중이다.
+ * 3,990원(2026-10-05 병합 결정): 나중에 여는 AI 요금제 자리 — 지금은 오픈 준비 중(AI_OPEN=false).
+ * 990원은 라이트 하나(맞춤 운동·리포트·운영자 상담함 포함, AI 없음).
  * 수수료 계산은 추정치이며 운영 인건비와 실제 AI 사용 원가는 별도다.
  */
 export const PREMIUM_PRICE_KRW = 3_990;
@@ -36,5 +41,6 @@ export const VAT_RATE = 0.1;
  * 비교하는 숫자라 그 차이가 흑자·적자를 가른다.
  */
 export function netRevenueKrw(priceKrw: number = PREMIUM_PRICE_KRW): number {
-  return Math.floor((priceKrw / (1 + VAT_RATE)) * (1 - PLAY_FEE_RATE));
+  // 1e-9: 990 ÷ 1.1 이 부동소수로 899.999… 가 되어 1원 덜 나오는 것을 막는다.
+  return Math.floor((priceKrw / (1 + VAT_RATE)) * (1 - PLAY_FEE_RATE) + 1e-9);
 }

@@ -34,13 +34,22 @@ import {
   type Goal,
 } from "@/features/profile/goal";
 
-type Step = "gender" | "experience" | "body" | "goal" | "gym" | "recommend";
+import { SurveyExtraFields } from "@/features/profile/components/survey-extra-fields";
+import {
+  defaultBodyStyleChoice,
+  type AgeGroup,
+  type BodyStyleChoice,
+  type SessionMinutes,
+} from "@/features/profile/survey-extra";
+
+type Step = "gender" | "experience" | "body" | "goal" | "more" | "gym" | "recommend";
 
 const STEP_ORDER: Step[] = [
   "gender",
   "experience",
   "body",
   "goal",
+  "more",
   "gym",
   "recommend",
 ];
@@ -58,6 +67,10 @@ export function OnboardingFlow({
   const [bodyType, setBodyType] = useState<BodyType | null>(null);
   // 운동 목표 + 목표치(목표 종류에 맞는 입력만 사용).
   const [goal, setGoal] = useState<Goal | null>(null);
+  // 설문 3문항(2026-10-01) — 나이대·몸 목표 스타일·1회 운동 시간. 스타일은 성별 기본값을 미리 골라 둔다.
+  const [ageGroup, setAgeGroup] = useState<AgeGroup | null>(null);
+  const [bodyStyle, setBodyStyle] = useState<BodyStyleChoice | null>(null);
+  const [sessionMinutes, setSessionMinutes] = useState<SessionMinutes | null>(null);
   const [targetWeight, setTargetWeight] = useState("");
   const [targetBodyFat, setTargetBodyFat] = useState("");
   const [targetMuscle, setTargetMuscle] = useState("");
@@ -158,6 +171,7 @@ export function OnboardingFlow({
         bodyType,
       },
       buildGoalInput(),
+      { ageGroup, bodyStyle, sessionMinutes },
     );
     if (!profileResult.ok) {
       return profileResult;
@@ -362,7 +376,38 @@ export function OnboardingFlow({
 
             <StepNav>
               <PrevButton onClick={() => setStep("body")} />
-              <NextButton disabled={!goalValid} onClick={() => setStep("gym")} />
+              <NextButton
+                disabled={!goalValid}
+                onClick={() => {
+                  if (!bodyStyle) setBodyStyle(defaultBodyStyleChoice(gender));
+                  setStep("more");
+                }}
+              />
+            </StepNav>
+          </section>
+        ) : null}
+
+        {step === "more" ? (
+          <section className="mt-6" data-testid="onboarding-more">
+            <h1 className="app-title px-1">조금만 더 알려 주세요</h1>
+            <p className="mt-1 px-1 text-sm text-zinc-500 dark:text-zinc-400">
+              맞춤 운동 추천과 하루 칼로리 계산에 써요.
+            </p>
+            <div className="mt-4">
+              <SurveyExtraFields
+                ageGroup={ageGroup}
+                bodyStyle={bodyStyle}
+                sessionMinutes={sessionMinutes}
+                onChange={(p) => {
+                  if (p.ageGroup) setAgeGroup(p.ageGroup);
+                  if (p.bodyStyle) setBodyStyle(p.bodyStyle);
+                  if (p.sessionMinutes) setSessionMinutes(p.sessionMinutes);
+                }}
+              />
+            </div>
+            <StepNav>
+              <PrevButton onClick={() => setStep("goal")} />
+              <NextButton disabled={!ageGroup || !sessionMinutes} onClick={() => setStep("gym")} />
             </StepNav>
           </section>
         ) : null}
@@ -397,7 +442,7 @@ export function OnboardingFlow({
             </div>
 
             <StepNav>
-              <PrevButton onClick={() => setStep("goal")} />
+              <PrevButton onClick={() => setStep("more")} />
               <button
                 type="button"
                 onClick={() => {

@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
   // 이달 기록 이미지(캘린더 3단계)는 한글 글꼴을 파일에서 읽는다 — 배포 번들에 같이 싣는다.
   outputFileTracingIncludes: {
     "/api/calendar/month-image": ["./src/assets/fonts/Pretendard-Bold.otf"],
+    // 1년 기록 이미지(라이트, 2026-10-02) — 같은 한글 글꼴.
+    "/api/fit/year-image": ["./src/assets/fonts/Pretendard-Bold.otf"],
   },
   // X-Powered-By 헤더 제거 — 보안·바이트 절감
   poweredByHeader: false,

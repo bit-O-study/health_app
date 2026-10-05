@@ -11,10 +11,12 @@ import {
   SlidersHorizontal,
   Smartphone,
   TrendingUp,
+  ShieldCheck,
   Trophy,
   UserRound,
   UsersRound,
   type LucideIcon,
+  Camera,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
@@ -70,6 +72,7 @@ export default async function SettingsPage() {
     { href: "/settings/me", title: "마이페이지", icon: UserRound },
     { href: "/settings/profile", title: "체형 정보", icon: Scale },
     { href: "/settings/body-composition", title: "체성분 결과 등록", icon: ClipboardList },
+    { href: "/settings/body-photos", title: "몸 사진", icon: Camera },
     ...(profile?.gender === "female"
       ? [{ href: "/cycle", title: "생리 기록", icon: HeartPulse }]
       : []),
@@ -78,6 +81,8 @@ export default async function SettingsPage() {
     { href: "/settings/trainer-pass", title: "트레이너 정액권", icon: UsersRound },
     { href: "/settings/trainers", title: "트레이너 연결", icon: UsersRound },
     { href: "/settings/gym", title: "내 헬스장", icon: Building2 },
+    { href: "/settings/fit", title: "맞춤 운동 설정", icon: SlidersHorizontal },
+    { href: "/settings/pain", title: "아픈 부위", icon: HeartPulse },
     { href: "/settings/score", title: "운동 점수", icon: Trophy },
     { href: "/settings/progress", title: "성장 그래프", icon: TrendingUp },
   ];
@@ -87,6 +92,7 @@ export default async function SettingsPage() {
     { href: "/settings/notifications", title: "알림 설정", icon: Bell },
     { href: "/settings/health", title: "건강 연동", icon: Smartphone },
     { href: "/settings/subscription", title: "구독", icon: Trophy },
+    { href: "/settings/ai", title: "AI 이용 동의", icon: ShieldCheck },
     { href: "/settings/export", title: "내 데이터 내보내기", icon: Download },
   ];
 

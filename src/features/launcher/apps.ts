@@ -1,4 +1,5 @@
 import {
+  Activity,
   Apple,
   Bell, Star, ChartColumn, ClipboardList, MessageCircle, User, BookOpen,
   CalendarDays,
@@ -11,6 +12,7 @@ import {
   Newspaper,
   PawPrint,
   Search,
+  Sparkles,
   Target,
   Users,
   UsersRound,
@@ -189,6 +191,29 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     owns: ["/coach"],
     debugFlag: "helssu-coach",
     // 화면이 `/coach` 하나뿐이다.
+    tabs: [],
+  },
+  {
+    // 맞춤 운동(라이트 990원, 2026-10-01) — 세부 부위 추천·부위·균형. 라이트 이상이거나 `fit` 스위치가 켜졌을 때.
+    id: "fit",
+    label: "맞춤 운동",
+    icon: Activity,
+    tone: "bg-gradient-to-br from-brand to-sky-600",
+    home: "/fit",
+    owns: ["/fit"],
+    debugFlag: "fit",
+    tabs: [],
+  },
+  {
+    // AI 트레이너(2026-09-30 2단계) — 오늘의 운동을 짜 주고 [적용]으로 '오늘만 운동 변경'에 넘긴다.
+    // 아직 공개 전 — 자기 스위치(`ai-trainer`)를 따른다.
+    id: "ai-trainer",
+    label: "AI 트레이너",
+    icon: Sparkles,
+    tone: "bg-gradient-to-br from-brand to-teal-600",
+    home: "/ai-trainer",
+    owns: ["/ai-trainer"],
+    debugFlag: "ai-trainer",
     tabs: [],
   },
   {

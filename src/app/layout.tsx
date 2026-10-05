@@ -16,6 +16,7 @@ import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { hasTrainerPass } from "@/features/trainer/data";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
@@ -126,7 +127,7 @@ export default async function RootLayout({
 
 async function ConfiguredBottomNav() {
   const [user, groupMode, coach, pet, trainer] = await Promise.all([
-    getCurrentUser(), getGroupMode(), isDebugFeatureEnabled("helssu-coach"), isDebugFeatureEnabled("pet"), hasTrainerPass(),
+    getCurrentUser(), getGroupMode(), isAiFeatureEnabled("helssu-coach"), isDebugFeatureEnabled("pet"), hasTrainerPass(),
   ]);
   return <BottomNav userId={user?.id} groupTheme={groupMode === "gym"} enabledFlags={[...(coach ? ["helssu-coach"] : []), ...(pet ? ["pet"] : []), ...(trainer ? ["trainer-pass"] : [])]} />;
 }

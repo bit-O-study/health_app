@@ -11,7 +11,9 @@ import { PermissionNudge } from "@/features/notifications/components/permission-
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
+import { getFitAccess } from "@/features/routine/fit-access";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { AppGrid } from "@/features/launcher/components/app-grid";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
@@ -33,15 +35,19 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   if (!user) redirect("/login");
 
   // ⚡ 프로필과 대시보드·주간 집계를 **동시에** 시작한다(원거리 리전 왕복 줄이기).
-  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer] = await Promise.all([
+  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer, showAiTrainer, fitAccess] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
     getWeeklyReport(),
     getMyWeeklyTraining(),
     // 헬쑤쌤 앱 타일은 디버그 기능이 켜진 사용자에게만 — 예전엔 하단바가 읽던 값이다.
-    isDebugFeatureEnabled("helssu-coach"),
+    isAiFeatureEnabled("helssu-coach"),
     isDebugFeatureEnabled("pet"),
     hasTrainerPass(),
+    // AI 트레이너 탭(2026-09-30) — 공개 전, 자기 스위치.
+    isAiFeatureEnabled("ai-trainer"),
+    // 맞춤 운동(라이트) — 라이트 이상이면 스위치와 상관없이 보인다.
+    getFitAccess(),
   ]);
   if (!profile) redirect("/onboarding");
 
@@ -62,11 +68,12 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         </header>
 
         {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
-        <PromoBanner />
+        {/* 라이트(990원) 혜택 — 홈 홍보 배너 없음(2026-10-02). fitAccess.full = 라이트 이상. */}
+        {fitAccess.full ? null : <PromoBanner />}
         <PermissionNudge />
 
         {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
-        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : [])]} />
+        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : []), ...(showAiTrainer ? ["ai-trainer"] : []), ...(fitAccess.visible ? ["fit"] : [])]} />
 
             <Link
               href="/commitments"

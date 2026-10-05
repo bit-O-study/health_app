@@ -51,18 +51,45 @@ const SELECT =
  * 커뮤니티 '루틴' 피드. 공개범위는 RLS 가 거른다 — 여기선 정렬·개수만.
  * 좋아요는 한 번에 모아 읽는다(카드마다 왕복 금지).
  */
-export async function getRoutineShares(limit = 30): Promise<RoutineShareItem[]> {
+export async function getRoutineShares(
+  limit = 30,
+  /** savedOnly = 내가 저장한 루틴만(내 글 › 저장한 글 › 루틴 — 커뮤니티 4-3). */
+  opts: { savedOnly?: boolean } = {},
+): Promise<RoutineShareItem[]> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
 
-  const { data, error } = await supabase
+  let savedIds: string[] | null = null;
+  if (opts.savedOnly) {
+    if (!user) return [];
+    const { data: s } = await supabase
+      .from("routine_share_saves")
+      .select("share_id")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    savedIds = ((s ?? []) as { share_id: string }[]).map((x) => x.share_id);
+    if (savedIds.length === 0) return [];
+  }
+  let q = supabase
     .from("routine_shares")
     .select(SELECT)
     .order("created_at", { ascending: false })
     .limit(limit);
+  if (savedIds) q = q.in("id", savedIds);
+  const { data, error } = await q;
   if (error || !data) return [];
   const rows = data as Row[];
   if (rows.length === 0) return [];
+
+  const { data: mySaves } = user
+    ? await supabase
+        .from("routine_share_saves")
+        .select("share_id")
+        .eq("user_id", user.id)
+        .in("share_id", rows.map((r) => r.id))
+    : { data: [] };
+  const savedByMe = new Set(((mySaves ?? []) as { share_id: string }[]).map((x) => x.share_id));
 
   const { data: likes } = await supabase
     .from("routine_share_likes")
@@ -94,6 +121,7 @@ export async function getRoutineShares(limit = 30): Promise<RoutineShareItem[]> 
       saveCount: r.save_count,
       likeCount: countOf.get(r.id) ?? 0,
       likedByMe: mineLiked.has(r.id),
+      savedByMe: savedByMe.has(r.id),
       mine: user != null && r.user_id === user.id,
       createdAt: r.created_at,
       exercises: ex.map((e) => ({

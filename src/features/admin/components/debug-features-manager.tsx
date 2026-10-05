@@ -21,11 +21,12 @@ export type DebugFeatureView = {
 const HINT: Record<DebugVisibility, string> = {
   hidden: "숨김 — 아무에게도 표시 안 함",
   debug: "디버그 계정에만 표시 (테스트 중)",
+  lite: "디버그 계정 + 라이트(990원) 이상 회원에게 먼저 표시",
   public: "전체 공개 — 모든 사용자에게 표시",
 };
 
 /**
- * 관리자용 — 기능별 노출 범위를 3단계(숨김 / 디버그 계정만 / 전체 공개)로 고른다.
+ * 관리자용 — 기능별 노출 범위를 4단계(숨김 / 디버그 계정만 / 라이트 먼저 / 전체 공개)로 고른다.
  * '디버그 계정만' 이 기본. '전체 공개' 로 바꾸면 모든 사용자가 쓸 수 있다.
  */
 export function DebugFeaturesManager({
@@ -77,7 +78,9 @@ export function DebugFeaturesManager({
                   const activeCls =
                     v === "public"
                       ? "bg-emerald-600 text-white"
-                      : v === "debug"
+                      : v === "lite"
+                        ? "bg-sky-600 text-white"
+                        : v === "debug"
                         ? "bg-amber-500 text-white"
                         : "bg-zinc-500 text-white";
                   return (

@@ -56,6 +56,8 @@ export type RoutineShareItem = {
   saveCount: number;
   likeCount: number;
   likedByMe: boolean;
+  /** 내가 저장(북마크)했나 — 커뮤니티 4-3. ('담기' 수 saveCount 와 다르다.) */
+  savedByMe?: boolean;
   mine: boolean;
   createdAt: string;
   exercises: (ShareExercise & { name: string })[];

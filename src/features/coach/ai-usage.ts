@@ -4,13 +4,14 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
-import { isPremiumEntitled } from "@/features/billing/subscription";
-import { getMySubscription } from "@/features/billing/subscription-store";
-import { hasTeamPremium } from "@/features/billing/team-store";
+import { aiTierForPlan } from "@/features/billing/plans";
+import { resolvePlan } from "@/features/billing/plan-store";
 import { consumeRate } from "@/lib/rate-limit/consume";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { limitMessage } from "@/lib/rate-limit/policy";
 import {
   limitFor,
+  NO_AI_MESSAGE,
   overLimitMessage,
   quotaState,
   usageMonth,
@@ -34,18 +35,10 @@ import {
  * 한도 안내를 보고 다시 시도할 수 있다(권한을 영영 잃는 게 아니다).
  */
 export async function resolveTier(): Promise<AiTier> {
-  try {
-    // 🔴 개인 구독(플레이) **또는** 팀 구독(트레이너·헬스장) 둘 중 하나면 프리미엄이다.
-    //    헬스장이 회원 몫을 내는데 회원 화면에서 또 결제하라고 하면 그 계약은 깨진다.
-    //    둘은 서로 모르는 값이라 **한 묶음으로** 물어 왕복을 하나로 유지한다.
-    const [personal, team] = await Promise.all([
-      getMySubscription(),
-      hasTeamPremium(),
-    ]);
-    return isPremiumEntitled(personal) || team ? "premium" : "free";
-  } catch {
-    return "free";
-  }
+  // 🔴 개인 구독(플레이) · 팀 구독(트레이너·헬스장) · 트레이너 정액권 연결 중 하나라도
+  //    유료 요금제면 프리미엄 칸이다(2026-09-30 요금제 4단계 — 판정은 `plan-store.ts` 한 곳).
+  //    헬스장이 회원 몫을 내는데 회원 화면에서 또 결제하라고 하면 그 계약은 깨진다.
+  return aiTierForPlan(await resolvePlan());
 }
 
 export type ConsumeResult =
@@ -69,6 +62,10 @@ export async function consumeAiQuota(
   now: Date = new Date(),
 ): Promise<ConsumeResult> {
   const tier = await resolveTier();
+  // 🔴 AI 없는 요금제(라이트)는 세기 전에 막는다 — 집계 실패 시 통과 규칙에도 안 걸리게.
+  if (tier === "none") {
+    return { ok: false, state: quotaState(feature, tier, 0), message: NO_AI_MESSAGE };
+  }
   const limit = limitFor(tier, feature);
   const passThrough = (used: number): ConsumeResult => ({
     ok: true,
@@ -139,5 +136,38 @@ export async function readAiUsage(
     return quotaState(feature, tier, Number.isFinite(used) ? used : 0);
   } catch {
     return quotaState(feature, tier, 0);
+  }
+}
+
+/**
+ * AI 가 **실패했을 때** 센 한 번을 돌려준다(2026-09-30). 무료는 기능당 월 1~3회라, 서버 과부하
+ * 한 번에 맛보기 기회를 잃으면 안 된다.
+ *
+ * 🔴 서비스 롤로만 한다 — 사용자 권한으로 되돌릴 수 있게 하면 앱을 고친 사람이 한도를 무한히
+ *    되돌린다. 실패 판정은 서버 액션이 AI 응답을 보고 한다. 되돌리기에 실패해도 조용히 넘어간다.
+ */
+export async function refundAiQuota(feature: AiFeatureId, now: Date = new Date()): Promise<void> {
+  try {
+    const user = await getCurrentUser();
+    const admin = createSupabaseAdminClient();
+    if (!user || !admin) return;
+    const month = usageMonth(now);
+    const { data } = await admin
+      .from("ai_usage")
+      .select("used")
+      .eq("user_id", user.id)
+      .eq("month", month)
+      .eq("feature", feature)
+      .maybeSingle();
+    const used = Number((data as { used?: number } | null)?.used ?? 0);
+    if (!Number.isFinite(used) || used <= 0) return;
+    await admin
+      .from("ai_usage")
+      .update({ used: used - 1, updated_at: new Date().toISOString() })
+      .eq("user_id", user.id)
+      .eq("month", month)
+      .eq("feature", feature);
+  } catch {
+    /* 되돌리기 실패는 넘어간다 */
   }
 }

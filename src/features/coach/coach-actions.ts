@@ -2,7 +2,7 @@
 
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI, type ImageInput } from "@/features/coach/ai";
-import { consumeAiQuota } from "@/features/coach/ai-usage";
+import { consumeAiQuota, refundAiQuota } from "@/features/coach/ai-usage";
 import type { AiFeatureId } from "@/features/coach/ai-quota";
 import { saveAnalysis } from "@/features/coach/analysis-store";
 import { buildWorkoutSummary, buildDietSummary } from "@/features/coach/summary";
@@ -10,16 +10,14 @@ import {
   parseCoachAnalysis,
   parseCommitmentSuggestions,
   type CoachAnalysis,
-  type SuggestedCommitment,
 } from "@/features/coach/parse";
+import { COMMITMENT_SYSTEM, type CommitmentSuggestResult } from "@/features/coach/commitment-prompt";
 
 export type CoachAnalysisResult =
   | { ok: true; analysis: CoachAnalysis }
   | { ok: false; error: string };
 
-export type CommitmentSuggestResult =
-  | { ok: true; suggestions: SuggestedCommitment[] }
-  | { ok: false; error: string };
+export type { CommitmentSuggestResult } from "@/features/coach/commitment-prompt";
 
 /**
  * 부를 자격이 있나 — 기능 게이트 + **이번 달 사용량 한도**(로드맵 7.1).
@@ -47,7 +45,11 @@ export async function analyzeWorkoutAction(): Promise<CoachAnalysisResult> {
     `너는 헬스 트레이너 '헬쑤쌤'이다. 사용자의 최근 운동 데이터를 보고 부족한 부위, 근육 불균형, 다음에 집중하면 좋은 운동을 코치한다. ${ANALYSIS_JSON}`,
     `사용자 운동 데이터: ${summary}`,
   );
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("coach");
+    return { ok: false, error: res.error };
+  }
   const analysis = parseCoachAnalysis(res.text);
   if (!analysis) return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
   // 보관해 두면 다시 열어 볼 때 AI 를 또 부르지 않는다(한도를 안 먹는다).
@@ -64,7 +66,11 @@ export async function analyzeDietAction(): Promise<CoachAnalysisResult> {
     `너는 영양 코치 '헬쑤쌤'이다. 사용자의 최근 식단 데이터를 보고 칼로리·영양 균형·끼니 습관의 개선점을 코치한다. ${ANALYSIS_JSON}`,
     `사용자 식단 데이터: ${summary}`,
   );
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("coach");
+    return { ok: false, error: res.error };
+  }
   const analysis = parseCoachAnalysis(res.text);
   if (!analysis) return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
   await saveAnalysis("diet", analysis);
@@ -76,14 +82,12 @@ export async function suggestCommitmentsAction(): Promise<CommitmentSuggestResul
   const gate = await ensureCoach("coach");
   if (gate) return { ok: false, error: gate };
   const [w, d] = await Promise.all([buildWorkoutSummary(), buildDietSummary()]);
-  const res = await callAI(
-    `너는 코치 '헬쑤쌤'이다. 사용자 데이터를 보고 실천 가능한 '다짐'을 2~3개 제안한다.
-metric 은 다음 중 하나: workout_days(운동한 날), workout_count(운동 횟수), burn_kcal(소비 kcal), diet_days(식단 기록한 날), intake_avg_max(하루 평균 섭취 이하).
-target 은 숫자, days 는 다짐 기간(일수, 7~60 권장).
-반드시 JSON 객체 하나만: {"suggestions":[{"title":"한국어 다짐 제목","metric":"...","target":숫자,"days":숫자}]}`,
-    `운동: ${w}\n식단: ${d}`,
-  );
-  if (!res.ok) return { ok: false, error: res.error };
+  const res = await callAI(COMMITMENT_SYSTEM, `운동: ${w}\n식단: ${d}`);
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("coach");
+    return { ok: false, error: res.error };
+  }
   const suggestions = parseCommitmentSuggestions(res.text);
   if (suggestions.length === 0) {
     return { ok: false, error: "다짐 제안을 만들지 못했어요. 다시 시도해 주세요." };
@@ -107,7 +111,11 @@ export async function analyzePostureAction(input: {
     `운동: ${name || "미상"}. 격자의 1→4 순서로 동작을 보고 자세를 분석해줘.`,
     { images: frames.slice(0, 1), maxTokens: 1000 },
   );
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("posture");
+    return { ok: false, error: res.error };
+  }
   const analysis = parseCoachAnalysis(res.text);
   if (!analysis) return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
   // 어떤 운동을 분석한 것인지 같이 남긴다 — 나중에 보면 종목을 모른다.

@@ -15,6 +15,12 @@ import {
   type Gender,
 } from "@/features/profile/data";
 import { isGoal, type Goal } from "@/features/profile/goal";
+import {
+  cleanSurveyExtra,
+  type AgeGroup,
+  type BodyStyleChoice,
+  type SessionMinutes,
+} from "@/features/profile/survey-extra";
 import { parseWeightSteps } from "@/features/routine/weight-steps";
 
 export type UserProfile = {
@@ -54,6 +60,10 @@ export type UserProfile = {
   weightSteps: Record<string, number>;
   /** 가입일(프로필 생성 시각, ISO). 잔디 그래프 시작 기준 등에 사용. */
   createdAt: string;
+  /** 가입 설문 3문항(2026-10-01) — 나이대·몸 목표 스타일·1회 운동 시간. 안 골랐으면 null. */
+  ageGroup: AgeGroup | null;
+  bodyStyle: BodyStyleChoice | null;
+  sessionMinutes: SessionMinutes | null;
 };
 
 type ProfileRow = {
@@ -78,6 +88,9 @@ type ProfileRow = {
   lock_weight_reps: unknown;
   weight_steps: unknown;
   created_at: unknown;
+  age_group: unknown;
+  body_style: unknown;
+  session_minutes: unknown;
 };
 
 /**
@@ -94,7 +107,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, goal, target_weight_kg, target_body_fat_pct, target_muscle_kg, name, nickname, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps, weight_steps, created_at",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, goal, target_weight_kg, target_body_fat_pct, target_muscle_kg, name, nickname, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps, weight_steps, created_at, age_group, body_style, session_minutes",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -144,5 +157,10 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     weightSteps: parseWeightSteps(row.weight_steps),
     createdAt:
       typeof row.created_at === "string" ? row.created_at : new Date(0).toISOString(),
+    ...cleanSurveyExtra({
+      ageGroup: row.age_group,
+      bodyStyle: row.body_style,
+      sessionMinutes: row.session_minutes == null ? null : Number(row.session_minutes),
+    }),
   };
 });

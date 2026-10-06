@@ -75,3 +75,10 @@ export function cleanSurveyExtra(v: Partial<Record<keyof SurveyExtra, unknown>> 
     sessionMinutes: isSessionMinutes(v?.sessionMinutes) ? v.sessionMinutes : null,
   };
 }
+
+/** 1회 운동에 들어가는 운동 수 — 30분 4개 · 45분 6개 · 60분 8개(모르면 6개). 오늘 운동이 이만큼 차면 더 추천하지 않는다. */
+export function sessionCapacity(minutes: SessionMinutes | null | undefined): number {
+  if (minutes === 30) return 4;
+  if (minutes === 60) return 8;
+  return 6;
+}

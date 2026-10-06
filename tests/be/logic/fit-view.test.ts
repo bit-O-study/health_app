@@ -12,7 +12,8 @@ import {
   statusChip,
   worstBalance,
 } from "@/features/routine/fit-view";
-import type { BalanceRow, SubRow } from "@/features/routine/fit";
+import { withPlanned, type BalanceRow, type SubRow } from "@/features/routine/fit";
+import { sessionCapacity } from "@/features/profile/survey-extra";
 
 const row = (sub: string, pct: number): SubRow => ({ sub, stim: 0, target: 4, pct, status: pct < 50 ? "low" : "ok" });
 
@@ -69,5 +70,22 @@ describe("맞춤 운동 화면 규칙(2026-10-06 UI 개편)", () => {
     expect(partWithEulReul("chest")).toBe("가슴을");
     expect(partWithEulReul("back")).toBe("등을");
     expect(partWithEulReul("core")).toBe("코어를");
+  });
+});
+
+describe("오늘 할 운동을 추천 계산에 더한다(담은 뒤 또 담으라고 하지 않게)", () => {
+  const stimulusOf = (id: string): Record<string, number> => (id === "lat-pulldown" ? { "back-lats": 100, "arm-biceps-long": 30 } : { "chest-mid": 100 });
+  it("아직 안 끝낸 오늘 운동만 PLAN_SETS(3)로 더한다", () => {
+    const r = withPlanned({ "back-lats": 1 }, ["lat-pulldown", "bench-press"], new Set(["bench-press"]), stimulusOf);
+    expect(r.count).toBe(1);
+    expect(r.stim["back-lats"]).toBeCloseTo(4);
+    expect(r.stim["arm-biceps-long"]).toBeCloseTo(0.9);
+    expect(r.stim["chest-mid"]).toBeUndefined();
+  });
+  it("1회 분량 — 30분 4개 · 45분 6개 · 60분 8개", () => {
+    expect(sessionCapacity(30)).toBe(4);
+    expect(sessionCapacity(45)).toBe(6);
+    expect(sessionCapacity(60)).toBe(8);
+    expect(sessionCapacity(null)).toBe(6);
   });
 });

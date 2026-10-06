@@ -10,6 +10,7 @@ import {
   House,
   ListChecks,
   Newspaper,
+  PlusCircle,
   PawPrint,
   Search,
   Sparkles,
@@ -217,6 +218,21 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tabs: [],
   },
   {
+    // 다짐(2026-10-06 개편) — 앱이 기록으로 판정하는 행동 다짐. 리스트·생성·현황·그룹별.
+    id: "commitments",
+    label: "다짐",
+    icon: Target,
+    tone: "bg-gradient-to-br from-rose-400 to-orange-500",
+    home: "/commitments",
+    owns: ["/commitments"],
+    tabs: [
+      { href: "/commitments", label: "다짐 리스트", icon: ListChecks, match: (p) => p === "/commitments" || /^\/commitments\/[0-9a-f-]{36}/.test(p) },
+      { href: "/commitments/new", label: "다짐 생성", icon: PlusCircle },
+      { href: "/commitments/status", label: "다짐 현황", icon: ChartColumn },
+      { href: "/commitments/groups", label: "그룹별 다짐", icon: UsersRound },
+    ],
+  },
+  {
     id: "pet",
     debugFlag: "pet",
     label: "펫",
@@ -224,10 +240,8 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-pink-400 to-rose-600",
     home: "/pet",
     owns: ["/pet"],
-    tabs: [
-      { href: "/pet", label: "펫", icon: PawPrint, match: (p) => p.startsWith("/pet") },
-      { href: "/commitments", label: "다짐", icon: Target },
-    ],
+    // 다짐은 2026-10-06 자기 앱(다짐)으로 나갔다 — 펫은 화면이 하나뿐이라 런처 바를 쓴다.
+    tabs: [],
   },
 ];
 

@@ -10,6 +10,7 @@ import {
   CHECKIN_QUESTIONS,
   PAIN_LABEL,
   adviceFor,
+  isCheckin,
   type Checkin,
   type Level,
 } from "@/features/routine/checkin";
@@ -28,17 +29,20 @@ export function DailyCheckinCard({
   initial,
   painConflicts,
   painSwap = null,
+  onSaved,
 }: {
   today: string;
   initial: Checkin | null;
   painConflicts: { part: BodyPart; count: number }[];
   /** 아픈 부위 대체(라이트 2단계, 2026-10-02) — 라이트면 짝 미리보기 + 바꾸기, 무료면 안내 한 줄. */
   painSwap?: PainSwapPreview | null;
+  onSaved?: () => void;
 }) {
   const router = useRouter();
   const [picked, setPicked] = useState<Partial<Checkin>>(initial ?? {});
   const [saved, setSaved] = useState<Checkin | null>(initial);
   const [editing, setEditing] = useState(initial === null);
+  const [step, setStep] = useState(0);
   const [lightened, setLightened] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [pending, start] = useTransition();
@@ -52,19 +56,22 @@ export function DailyCheckinCard({
     }
   }, [today]);
 
-  function choose(key: keyof Checkin, v: Level) {
-    const next = { ...picked, [key]: v };
-    setPicked(next);
-    if (next.sleep && next.soreness && next.energy) {
-      const c = next as Checkin;
-      setMsg(null);
-      start(async () => {
-        const r = await saveCheckinAction(c);
-        if (!r.ok) return setMsg(r.error);
-        setSaved(c);
-        setEditing(false);
-      });
-    }
+  function choose(key: keyof Checkin, value: Level) {
+    setPicked(current => ({ ...current, [key]: value }));
+    setMsg(null);
+  }
+
+  function save() {
+    if (!isCheckin(picked)) return;
+    const checkin = picked;
+    setMsg(null);
+    start(async () => {
+      const result = await saveCheckinAction(checkin);
+      if (!result.ok) return setMsg(result.error);
+      setSaved(checkin);
+      setEditing(false);
+      onSaved?.();
+    });
   }
 
   function lighten() {
@@ -94,46 +101,50 @@ export function DailyCheckinCard({
           오늘 컨디션
         </h2>
         {saved && !editing ? (
-          <button type="button" onClick={() => setEditing(true)} className="text-xs font-semibold text-brand">
+          <button type="button" onClick={() => { setPicked(saved ?? {}); setStep(0); setEditing(true); }} className="text-xs font-semibold text-brand">
             다시 고르기
           </button>
         ) : null}
       </div>
 
       {editing ? (
-        <div className="space-y-2">
-          {CHECKIN_QUESTIONS.map((q) => (
-            <div key={q.key} role="group" aria-label={q.label} className="space-y-1">
-              <p className="text-xs text-zinc-600 dark:text-zinc-300">{q.label}</p>
-              <div className="flex gap-1.5">
-                {q.options.map((label, i) => {
-                  const v = (i + 1) as Level;
-                  const on = picked[q.key] === v;
-                  return (
-                    <button
-                      key={label}
-                      type="button"
-                      aria-pressed={on}
-                      disabled={pending}
-                      onClick={() => choose(q.key, v)}
-                      className={`h-9 flex-1 rounded-full text-sm font-semibold ${
-                        on
-                          ? "bg-brand text-white dark:text-zinc-950"
-                          : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  );
+        <div className="space-y-4">
+          <ol className="flex gap-2 text-xs text-zinc-500" aria-label="컨디션 체크 진행">
+            {['수면', '근육통', '기운', '확인'].map((label, index) => (
+              <li key={label} aria-current={step === index ? 'step' : undefined} className={`flex-1 border-t-2 pt-2 ${step >= index ? 'border-brand text-brand' : 'border-zinc-200 dark:border-zinc-700'}`}>{index + 1}. {label}</li>
+            ))}
+          </ol>
+          <div aria-live="polite" className="sr-only">{step < 3 ? CHECKIN_QUESTIONS[step].label : '선택한 컨디션 확인'}</div>
+          {step < 3 ? CHECKIN_QUESTIONS.filter((_, index) => index === step).map(q => (
+            <div key={q.key} role="group" aria-label={q.label} className="space-y-3">
+              <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{q.label}</p>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">지금 몸 상태에 가장 가까운 답을 골라 주세요.</p>
+              <div className="grid gap-2">
+                {q.options.map((label, index) => {
+                  const value = (index + 1) as Level;
+                  const selected = picked[q.key] === value;
+                  return <button key={label} type="button" aria-pressed={selected} disabled={pending} onClick={() => choose(q.key, value)} className={`min-h-12 rounded-xl border px-4 py-3 text-left text-sm font-semibold ${selected ? 'border-brand bg-brand/10 text-brand' : 'border-zinc-200 text-zinc-700 dark:border-zinc-700 dark:text-zinc-200'}`}>{label}<span aria-hidden="true" className="float-right">{selected ? '✓' : '○'}</span></button>;
                 })}
               </div>
             </div>
-          ))}
+          )) : isCheckin(picked) ? (
+            <div className="space-y-3" data-testid="checkin-review">
+              <h3 className="text-lg font-semibold">오늘은 이렇게 느끼고 있어요</h3>
+              <dl className="space-y-2 text-sm">{CHECKIN_QUESTIONS.map(q => <div key={q.key} className="flex items-center justify-between gap-3"><dt className="text-zinc-500">{q.label}</dt><dd className="font-semibold">{q.options[picked[q.key]! - 1]}</dd></div>)}</dl>
+              <p className="rounded-xl bg-brand/10 p-3 text-sm text-zinc-800 dark:text-zinc-100">{adviceFor(picked).text}</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">저장만으로 운동량이 바뀌지는 않아요. 저장 후 오늘 운동만 조절할 수 있어요.</p>
+            </div>
+          ) : null}
+          <div className="flex gap-2">
+            {step > 0 ? <button type="button" disabled={pending} onClick={() => setStep(step - 1)} className="min-h-11 rounded-full border border-zinc-200 px-5 text-sm font-semibold dark:border-zinc-700">이전</button> : null}
+            {step < 3 ? <button type="button" disabled={!picked[CHECKIN_QUESTIONS[step].key] || pending} onClick={() => setStep(step + 1)} className="min-h-11 flex-1 rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:opacity-40 dark:text-zinc-950">{step === 2 ? '선택 내용 확인' : '다음'}</button> : <button type="button" disabled={pending || !isCheckin(picked)} onClick={save} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:opacity-40 dark:text-zinc-950">{pending ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : null}{pending ? '저장 중…' : '컨디션 저장'}</button>}
+          </div>
         </div>
       ) : advice ? (
-        <p className="text-sm text-zinc-800 dark:text-zinc-100" data-testid="daily-checkin-advice">
-          {advice.text}
-        </p>
+        <div className="space-y-2" role="status">
+          <p className="text-xs font-semibold text-brand">오늘 컨디션을 저장했어요</p>
+          <p className="text-sm text-zinc-800 dark:text-zinc-100" data-testid="daily-checkin-advice">{advice.text}</p>
+        </div>
       ) : null}
 
       {!editing && advice?.kind === "light" && !lightened ? (
@@ -200,7 +211,7 @@ export function DailyCheckinCard({
         )
       ) : null}
 
-      {msg ? <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{msg}</p> : null}
+      {msg ? <p role="status" className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{msg}</p> : null}
     </section>
   );
 }

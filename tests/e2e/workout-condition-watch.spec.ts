@@ -10,6 +10,10 @@ test("컨디션 세트 조절·영상 높이·음성·워치 웹 안내", async 
  await dbQuery("delete from public.routine_conditioning where user_id="+uid,[email]);
  await dbQuery("insert into public.routine_exercises(user_id,day_index,focus,position,exercise_id,equipment,sets,reps,weight_kg) values ("+uid+",0,'back',0,'barbell-back-squat','barbell',4,10,20),("+uid+",0,'back',1,'wall-angel','bodyweight',3,10,null)",[email]);
  await page.goto('/routine');
+ const checkinModal=page.getByTestId('daily-checkin-modal');
+ await expect(checkinModal).toBeVisible();
+ await checkinModal.getByRole('button',{name:'나중에 체크할게요'}).click();
+ await expect(checkinModal).not.toBeVisible();
  await page.getByRole('button',{name:'운동 시작',exact:true}).click();
  const condition=page.getByTestId('workout-condition');
  await condition.locator('summary').click();
@@ -38,7 +42,7 @@ test("컨디션 세트 조절·영상 높이·음성·워치 웹 안내", async 
  await expect(page.getByTestId('voice-toggle')).toHaveAttribute('aria-pressed','true');
  const rows=await dbQuery<{sets:number}>("select sets from public.routine_exercises where user_id="+uid+" order by position",[email]);
  expect(rows.map(r=>r.sets)).toEqual([4,3]);
- await page.goto('/settings/health');
+ await page.goto('/settings/health', {waitUntil:'networkidle'});
  await page.getByTestId('watch-connections').getByRole('button',{name:'심박 확인'}).click();
  await expect(page.getByTestId('watch-connections').getByRole('alert')).toContainText('앱');
 });

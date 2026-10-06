@@ -45,7 +45,7 @@ import {
   isDayBlockId,
 } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
-import { DailyCheckinCard } from "@/features/routine/components/daily-checkin-card";
+import { DailyCheckinModal } from "@/features/routine/components/daily-checkin-modal";
 import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { painConflicts, type Checkin } from "@/features/routine/checkin";
 import { loadPainSwapPreview, type PainSwapPreview } from "@/features/lite/pain-swap-data";
@@ -198,6 +198,7 @@ export default async function Home() {
           <NoRoutinePrompt />
         ) : (
           <TodayWorkout
+            userId={user.id}
             routine={routine}
             profile={profile}
             dailyPlan={dailyPlan}
@@ -274,6 +275,7 @@ function NoRoutinePrompt() {
 }
 
 function TodayWorkout({
+  userId,
   routine,
   profile,
   dailyPlan,
@@ -282,6 +284,7 @@ function TodayWorkout({
   todayIds,
   painSwap,
 }: {
+  userId: string;
   todayCheckin: Checkin | null;
   painAreas: BodyPart[];
   todayIds: ReadonlySet<string>;
@@ -528,7 +531,7 @@ function TodayWorkout({
       {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
           '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
       {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
-        <DailyCheckinCard today={todayYmd} initial={todayCheckin} painConflicts={todayPain} painSwap={painSwap} />
+        <DailyCheckinModal key={`${userId}:${todayYmd}`} userId={userId} today={todayYmd} initial={todayCheckin} painConflicts={todayPain} painSwap={painSwap} />
       ) : null}
 
       <TodayEditScope>

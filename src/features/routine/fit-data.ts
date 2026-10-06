@@ -28,6 +28,8 @@ import { isExerciseAvailable, pickAvailableEquipment, toGymEquipmentSet } from "
 import { getPainAreas } from "@/features/routine/checkin-data";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import { getUserProfile } from "@/features/profile/data-access";
+import { prescribe, type Prescription } from "@/features/routine/prescription";
+import { isEquipmentId, type BodyPart } from "@/features/routine/exercise-catalog-labels";
 import type { ProgressRecord } from "@/features/routine/progress";
 import type { SetDetail } from "@/features/routine/set-details";
 import {
@@ -64,7 +66,8 @@ export type FitView = {
   rows: SubRow[];
   parts: ReturnType<typeof partRows>;
   lacking: SubRow[];
-  picks: FitPick[];
+  /** 추천 + 처방(세트·횟수·무게, 오늘만 담을 때와 같은 값). */
+  picks: (FitPick & { prescription: Prescription | null })[];
   balance: BalanceRow[];
   /** 지난 7일 운동한 날. 0 이면 설문(성별·경력) 목표만으로 추천한다. */
   daysThisWeek: number;
@@ -79,7 +82,7 @@ const EXP_LABEL: Record<string, string> = { beginner: "초급", intermediate: "�
  * (가입 직후 · `docs/sub-muscle-score-lite-plan-2026-10-01.html` 2-2).
  */
 /** @param opts.n 추천 개수를 직접 정할 때(아픈 부위 대체 — 바꿀 운동 수만큼). 없으면 1회 운동 시간대로. */
-export async function loadFitView(opts?: { n?: number }): Promise<FitView | null> {
+export async function loadFitView(opts?: { n?: number; part?: BodyPart | null }): Promise<FitView | null> {
   const user = await getCurrentUser();
   if (!user) return null;
   const supabase = await createSupabaseServerClient();
@@ -124,6 +127,8 @@ export async function loadFitView(opts?: { n?: number }): Promise<FitView | null
     const ex = getCatalogExercise(id);
     if (!ex || !isExerciseAvailable(ex, gymSet)) continue;
     if (pain.includes(primaryBodyPart(id))) continue;
+    // 내 몸 균형에서 '이 부위 채우는 운동 보기'로 들어오면 그 부위 운동만.
+    if (opts?.part && primaryBodyPart(id) !== opts.part) continue;
     if (profile?.experience === "beginner" && BEGINNER_SKIP.has(id)) continue;
     candidates.push({ exerciseId: id, name: ex.name, equipment: pickAvailableEquipment(ex, gymSet) });
   }
@@ -140,7 +145,18 @@ export async function loadFitView(opts?: { n?: number }): Promise<FitView | null
     rows,
     parts: partRows(targets, stim),
     lacking: mostLacking(rows, 3),
-    picks,
+    picks: picks.map((p) => ({
+      ...p,
+      prescription: profile
+        ? prescribe(p.exerciseId, {
+            gender: profile.gender === "female" ? "female" : "male",
+            experience: profile.experience,
+            bodyType: profile.bodyType ?? "average",
+            weightKg: profile.weightKg ?? 65,
+            equipment: isEquipmentId(p.equipment) ? p.equipment : undefined,
+          })
+        : null,
+    })),
     balance: balanceRows(targets, stim),
     daysThisWeek: new Set(records.map((r) => r.forDate)).size,
   };
@@ -204,5 +220,14 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
     lastMonth: monthStats(records, last, prs),
     topPart: parts.top,
     lackingPart: parts.lacking,
+  };
+}
+
+/** 맞춤 운동 머리글(몸 목표·경력) — 성장·리포트 화면은 추천 계산 없이 이것만 읽는다. */
+export async function loadFitHeaderInfo(): Promise<{ style: BodyStyle; experienceLabel: string }> {
+  const profile = await getUserProfile().catch(() => null);
+  return {
+    style: targetStyleFor(profile?.bodyStyle, profile?.gender),
+    experienceLabel: EXP_LABEL[profile?.experience ?? "intermediate"] ?? "중급",
   };
 }

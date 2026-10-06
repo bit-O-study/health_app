@@ -473,6 +473,21 @@
 ## P1 — 콘텐츠 작성 동선
 
 ### P1.4 [진행중] 운동모드 기구 세팅 가이드 영상
+- [진행중] 2026-10-06 누끼·축소 재개
+  - [완료] 최종 대상 ESLint·tsc --noEmit 통과. SSR 크기 검사는 테마 하이드레이션 대신 라이트 영상 src를 명시해 검증하며 전체 앱 E2E 재실행은 아님.
+  - [완료] compact 높이 50% 작업본 보존, 메모리 6.7GiB 및 기본 추론 기준 미달 확인
+  - [완료] 내장 imagegen 체스트딥 후보 2개 생성·검토: 1254×1254 PNG 실제 알파 존재. 머리/어깨 흰 테두리·색 잔여 및 기구 안쪽 배경 잔여로 rejected. imports/chest-dip-cutout-20261006/review.json 기록, 앱 자산 교체 없음.
+  - [완료] 실제 MediaEmbed 소스 SSR+Tailwind CSS+Edge 검증: 320px 기존320→축소192px, 390/768px 기존384→축소192px, 가로 넘침 없음. tools/testing/verify-media-compact.cjs 및 test-results/media-compact-resume/verification.json. 누끼 캐시 회귀1개 통과, 실파일/SHA 기준 등록146·렌더145·검토통과104/1351 유지.
+  - [대기] 신규 누끼 품질 통과본 확보 및 운영 배포·실기기 검증. 체스트딥 후보2개는 반영하지 않음.
+- [진행중] 2026-10-06 운동모드 영상·컨디션·워치·음성 요청
+  - [완료] 기존 구현 조사: 운동모드 음성/오늘 컨디션 감량/Android 건강 연동 존재, 월엔젤 카탈로그 없음, iOS 앱 타깃 없음.
+  - [완료] 운동모드 영상 높이 min(23dvh,12rem) 축소·비율 유지, 등/맨몸 월엔젤과 운동법 추가.
+  - [완료] 남은 운동 컨디션 세트 −1/계획대로/+1, 원래 계획 기준 재계산·진행한 세트/무게 보존·당일 기기 저장·영구 루틴 불변. 음성 켜짐/꺼짐 표기와 Android TTS 브리지, 끄기 이후 늦은 음성 차단.
+  - [완료] 항목별 워치 걸음 저장·심박 조회·운동 기록 조회 구현. Android 기존 Health Connect, iOS Capgo HealthKit. iOS 읽기 허용을 연결 완료로 단정하지 않음. 워치 원격 조작/실시간 심박은 범위에 포함하지 않음.
+  - [완료] 2026-10-06 단위 5파일32개, 타입 검사(신규 E2E DB 결과 타입 수정), 대상 린트 오류0/기존 경고9. mobile-edge E2E http://127.0.0.1:3122 최종1개21.7초 통과: 320/390/768px 높이·가로넘침, 감량 반복/증량/복원·영구 루틴 DB 불변·음성 토글·워치 웹 안내. 생성 계정 정리. 스크린샷 test-results/workout-mode-compact.png 육안 확인.
+  - [완료] Android compileDebugJavaWithJavac 및 assembleDebug 통과. APK android/app/build/outputs/apk/debug/app-debug.apk (1.0.5/6). iOS 프로젝트 생성·플러그인 동기화·HealthKit 목적 문자열/entitlement 설정 완료(tools/setup-ios-health.mjs).
+  - [대기] Android/iPhone/Watch 실기기·iOS 서명/Xcode 빌드·웹 전체 빌드·운영 배포. 현재 변경 미커밋/미푸시.
+  - [진행중] 누끼 후속: 작업 폴더에 Python3.12/rembg2.0.84 환경 복원·기존 캐시 회귀1개 통과. 체스트딥/데드리프트 원본·보류 사유 재검토, 기존 잔상 보류 유지. 기본 모델 실행은 여유 메모리 약5.3GiB, 검증 서버 종료 후 약7.3GiB로 10GB 기준 미달 재확인. 새 후보/공개 승인 없음.
   - [진행중] 2026-09-30 feat/exercise-video-smooth: 기존 영상 전체 품질 수정 후 미제작 운동 순차 제작
     - [진행중] 2026-09-30 커밋/푸시 준비: feat/exercise-video-smooth 영상 작업460파일 스테이징. Node24 직접 실행으로 단위2723개·라이브 스키마82개·ESLint 오류0(경고42)·TypeScript 통과. corepack/Node20 호환 오류 우회. 로컬3190 mobile-chromium E2E는 --max-failures=1 실행, page 생성120초 timeout 및 teardown DB ENOTFOUND로 1실패/367미실행. 권한 확장 재시도에서도 실패. 사용자가 E2E/빌드 미통과 사항을 확인한 뒤 커밋·푸시 예외를 명시적으로 승인함. Android 실기기 미검증. .gitattributes 원본 줄바꿈 보존, 스테이징 렌더 입력SHA72건 일치. 원본 LICENSE Setext 제목과 upstream 공백은 원본 보존을 위해 유지; 이를 제외한 diff --check 통과. 비밀정보/환경파일은 스테이징 제외. 프로덕션 next build --webpack은 컴파일 후 기존 src/app/icon-192.png/route.ts의 contentType export 타입 오류로 실패. 빌드 전 독립 tsc는 통과했으나 전체 빌드 검증은 미통과.
     - [완료: 미리보기] 3D 바벨 어깨4종(슈러그·프런트레이즈·기본/와이드 업라이트로우), 누적25종/50파일. 4개 병렬10분4초, 양 테마1080px60fps. 초기 와이드 도달 범위 오류 수정 후 481자세 검사, 총60개 테스트·대상ESLint·TypeScript 통과. 영상8개 전체480프레임 decode/SHA·390px Chromium 반복/탐색 및 갤러리25종 전환 통과. batch-6-reviews.json 증거. 앱/Android 통합 대기.
@@ -1763,3 +1778,12 @@
 - 커밋 직전 전체 로직: 253파일 2,785개 통과, 선택 브라우저 검사 1개 제외. 변경 파일 ESLint·tsc --noEmit 통과, git diff --check 통과.
 - 이번 변경은 DB/Android 변경 없음. 전체 스키마/E2E/배포 빌드 재검사는 미실행. 앞서 기록한 코칭 운영 DB 미적용 및 실제 AI 정확도 검증 미완료 상태 유지.
 - 인바디 원본 사진·환경변수·API 키·실행 로그는 커밋하지 않음. 실제 사진 검사는 경로를 명시했을 때만 실행하는 선택 검사로 남김.
+
+### 2026-10-06 운동모드 개선 커밋·푸시 검증
+- 사용자 커밋·푸시 요청 범위: 영상 높이 축소, 월엔젤, 컨디션별 당일 세트, 음성 코칭 및 워치 건강 데이터 연결, 누끼 후보 검토 기록. 탈락 후보 PNG·환경변수·APK는 제외. 실기기/배포 미완료 상태를 앞서 안내한 뒤 받은 요청에 따라 현재 작업본을 저장하며 전체 게이트 통과로 표시하지 않음.
+- 전체 단위 재검증: Node24 vitest run tests/be/logic --maxWorkers=2, 278파일 3,037개 통과·선택 검사1개 제외. 최초 월엔젤 아이콘 매핑1개 실패를 기존 WallSlideIcon 연결로 수정 후 전체 재통과.
+- 스키마: 최초 샌드박스 EACCES 후 네트워크 권한으로 재실행해 106개 통과. 전체 eslint 오류0·기존 경고43, tsc --noEmit 통과.
+- 전체 E2E: E2E_BASE_URL=http://127.0.0.1:3122 Node24 playwright test --config scripts/workout-edge.config.ts --max-failures=1. 최초 샌드박스 로그인 차단 후 재실행: 8개 통과/1개 실패/401개 미실행. admin-account.spec.ts 별도 관리자 서버 http://127.0.0.1:3120/admin 연결 거부. 테스트 계정10개 정리.
+- 대상 E2E workout-condition-watch.spec.ts: mobile-edge 1개 통과(27.4초), 테스트 계정1개 정리. 영상 높이·당일 세트/영구 루틴 불변·음성 토글·웹 워치 안내 검증.
+- next build --webpack 프로덕션 빌드 통과. Android assembleDebug --offline 성공(21초). 실제 휴대폰/워치 및 iOS 서명 빌드는 미검증.
+- 푸시 대상은 feat/manual-coach-plan. main 병합·운영 배포 작업은 수행하지 않음.

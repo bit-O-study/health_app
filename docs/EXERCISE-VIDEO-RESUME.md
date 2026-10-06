@@ -1,5 +1,21 @@
 # 운동별 연속 동작 영상 — 재개 기록
 
+## 2026-10-06 누끼·표시 크기 후속 검증
+- 최종 대상 ESLint·tsc --noEmit 통과. SSR 크기 검사는 테마 하이드레이션 대신 라이트 영상 src를 명시해 검증하며 전체 앱 E2E 재실행은 아님.
+- 내장 imagegen background-extraction 및 수정1회로 체스트딥 투명 후보2개 생성. 1254×1254 실제 알파 확인. 머리/어깨 가장자리·기구 안쪽 잔여가 남아 rejected, 앱 미반영. 후보/리뷰: tools/media/imports/chest-dip-cutout-20261006/.
+- 크기 수정은 기존 작업본에 유지. 실제 MediaEmbed SSR·실제 Tailwind·Edge 검사: 폭320px 높이320→192px, 폭390/768px 높이384→192px. 가로 넘침 없음. 크기 상한50%이며 좁은 화면에서 실제 높이는 너비에 따라 다름. tools/testing/verify-media-compact.cjs, test-results/media-compact-resume/.
+- 누끼 캐시 테스트1개 통과. 실제 자산 SHA 대조: 등록146/렌더145/검토통과104/전체1351. 새 공개 승인0, 기존 영상 보존.
+- 로컬 기본 추론은 여유6.7GiB로 10GB 기준 미달. 다음: 충분한 메모리에서 기본 모델의 별도 체스트딥 후보 제작 또는 원본 재제작 후 기구/가장자리/보간 재검토. 운영 배포·실기기는 미검증.
+
+
+## 2026-10-06 운동모드 크기 조정·누끼 재개 환경
+- 운동모드 MediaEmbed compact: 높이 상한 min(23dvh,12rem), 전신 비율 유지. mobile-edge 320/390/768px 및 시각 검증 통과.
+- Python: C:/git/Bit-O/video-tools/python312/python.exe, 기존 requirements-cutout.txt(rembg2.0.84) 복원. test_motion_cutout.py 1개 통과. 시스템 Python 설정 변경 없음.
+- 기존 coverage 기록은 등록146/렌더145/검토104/전체1351. 이 수치는 기존 파일 집계이며 이번 신규 승인 수가 아님.
+- 체스트딥/컨벤셔널 데드리프트 원본과 pending 사유 재확인: 목/몸통 보간 잔상 보류 유지. 프런트레이즈는 이미 승인된 rig 수정본이므로 자동 덮어쓰지 않음.
+- 새 누끼 후보 실행 승인 후 메모리 가드에서 중단(여유 약5.3GiB, 기준10GB). 검증 서버 종료 후 약7.3GiB로 증가했으나 기준 미달 재확인. 새 영상/후보 공개 없음. 다음은 여유 메모리 확보 후 chest-dip-review-20261006 별도 후보 생성과 라이트/다크 기구 보존·잔상 검토.
+
+
 ## 2026-09-30 커밋/푸시 요청 — 검증 및 스테이징
 - 영상 작업460파일 스테이징. 단위2723개, 스키마82개, 린트 오류0/경고42, TypeScript 통과. E2E 로컬3190에서 page 생성 timeout 및 DB ENOTFOUND로 1실패/367미실행. 사용자가 E2E/빌드 미통과 상태의 커밋·푸시를 명시적으로 승인함. 프로덕션 next build --webpack은 컴파일 후 기존 src/app/icon-192.png/route.ts의 contentType export 타입 오류로 실패. 빌드 전 독립 tsc는 통과했으나 전체 빌드 검증은 미통과.
 - .gitattributes는 렌더 원본 바이트 보존. 스테이징 입력SHA72건 일치. .env 계열은 원본 프로젝트에서 검증용으로 복사했으며 gitignored; 포함 금지. 임시 scripts/의 CommonJS 린트 설명 추가는 로컬에만 존재.

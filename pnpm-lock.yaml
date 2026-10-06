@@ -20,6 +20,9 @@ importers:
       '@capacitor/core':
         specifier: ^8.4.1
         version: 8.4.1
+      '@capacitor/ios':
+        specifier: 8.4.1
+        version: 8.4.1(@capacitor/core@8.4.1)
       '@capacitor/local-notifications':
         specifier: ^8.0.1
         version: 8.2.0(@capacitor/core@8.4.1)
@@ -29,6 +32,9 @@ importers:
       '@capacitor/share':
         specifier: ^8.0.1
         version: 8.0.1(@capacitor/core@8.4.1)
+      '@capgo/capacitor-health':
+        specifier: 8.11.4
+        version: 8.11.4(@capacitor/core@8.4.1)
       '@kiwi-health/capacitor-health-connect':
         specifier: ^0.0.42
         version: 0.0.42(patch_hash=3ccbd03e0e29ab6602fd28f32c4278bbfd2277d9cd0dd48dd4e01d5c41f58d96)(@capacitor/core@8.4.1)
@@ -262,6 +268,11 @@ packages:
   '@capacitor/core@8.4.1':
     resolution: {integrity: sha512-xqhOGLbTAYeOWK+IDUNSjQJAPapQjRHrIcgk9PYp52or9zFTaaMko31uNi16N6W+CRJ8VrRram6fOYILkBG2Hg==}
 
+  '@capacitor/ios@8.4.1':
+    resolution: {integrity: sha512-EgcAk7NYheHMTyP3CUrA65qKs4D2UEAKgw44HI6Uk3dTw6KjLQkdLOQWvbeRncHaZ2gklfOojUoc5DlSw2lhYg==}
+    peerDependencies:
+      '@capacitor/core': ^8.4.0
+
   '@capacitor/local-notifications@8.2.0':
     resolution: {integrity: sha512-fvLY0w2w4MiX+DD4+Wv4DOwOLdzKZsMDwAcRv/Juudd+QbKbn69s6cM3xVqPwAiDqfnqsY4/S8xtQD6M73wY2A==}
     peerDependencies:
@@ -274,6 +285,11 @@ packages:
 
   '@capacitor/share@8.0.1':
     resolution: {integrity: sha512-3cSBKBCJVon54rKDROP2rqGyeGks4pBh9TbaEk9S375Kbek/ZHe72N50zIa0Vn9Eac/SuhwgehO/mmA4CsUOiw==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
+  '@capgo/capacitor-health@8.11.4':
+    resolution: {integrity: sha512-mZ5fkpAMCeJIE/zyKMdHDxpEjUBZ+jTgj4zKrEgzxb/IF8BNxJMaxdK+PeZndfua3rxvVyGI9p0KV+DMpvO1Cw==}
     peerDependencies:
       '@capacitor/core': '>=8.0.0'
 
@@ -4606,6 +4622,10 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@capacitor/ios@8.4.1(@capacitor/core@8.4.1)':
+    dependencies:
+      '@capacitor/core': 8.4.1
+
   '@capacitor/local-notifications@8.2.0(@capacitor/core@8.4.1)':
     dependencies:
       '@capacitor/core': 8.4.1
@@ -4615,6 +4635,10 @@ snapshots:
       '@capacitor/core': 8.4.1
 
   '@capacitor/share@8.0.1(@capacitor/core@8.4.1)':
+    dependencies:
+      '@capacitor/core': 8.4.1
+
+  '@capgo/capacitor-health@8.11.4(@capacitor/core@8.4.1)':
     dependencies:
       '@capacitor/core': 8.4.1
 

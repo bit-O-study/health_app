@@ -7,7 +7,20 @@ import { Loader2 } from "lucide-react";
 
 import { saveManualBodyAction } from "@/features/commitments/pledge-actions";
 
-type Missing = ("height" | "weight" | "bodyFat" | "skeletalMuscle")[];
+/**
+ * 인바디 재는 조건 — 시작과 끝을 같은 조건으로 재야 비교가 된다(인바디는 수분에 크게 흔들린다).
+ * 다짐 생성·현황 화면이 같은 문구를 쓴다.
+ */
+export function InbodyTip({ className = "" }: { className?: string }) {
+  return (
+    <p className={`rounded-lg bg-zinc-50 px-3 py-2 text-xs leading-5 text-zinc-600 dark:bg-white/[0.04] dark:text-zinc-300 ${className}`} data-testid="inbody-tip">
+      <b>인바디 재는 법</b> — 아침 공복 · 화장실 다녀온 뒤 · 운동 전 · 같은 기계. 다짐이 끝날 때도 같은 조건으로 재야
+      변화를 비교할 수 있어요.
+    </p>
+  );
+}
+
+type Missing =("height" | "weight" | "bodyFat" | "skeletalMuscle")[];
 
 const LABEL: Record<Missing[number], string> = {
   height: "키",
@@ -79,6 +92,7 @@ export function BodySetup({
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           예상 체중·근육 변화가 내 몸으로 계산돼요. 비어 있는 값: {missing.map((m) => LABEL[m]).join(" · ")}
         </p>
+        <InbodyTip />
         <Link
           href="/settings/body-composition"
           className="inline-flex h-10 items-center rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950"

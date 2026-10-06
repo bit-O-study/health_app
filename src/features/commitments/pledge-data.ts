@@ -30,6 +30,7 @@ import {
   type PledgeDay,
   type PledgeEval,
 } from "@/features/commitments/evaluation";
+import { WEIGHT_AVG_DAYS, averageWeight, dataQuality } from "@/features/commitments/quality";
 import {
   calibrationFrom,
   missingBodyFields,
@@ -58,7 +59,9 @@ export type BodyContext = {
   source: {
     heightCm: number | null;
     weightKg: number | null;
-    weightFrom: "weight_log" | "inbody" | "profile" | null;
+    weightFrom: "weight_avg7" | "weight_log" | "inbody" | "profile" | null;
+    /** 최근 7일 체중 기록 수(평균에 쓴 점 수). */
+    weightPoints: number;
     inbodyDate: string | null;
   };
   calibration: Calibration | null;
@@ -100,7 +103,7 @@ export const getBodyContext = cache(async (): Promise<BodyContext> => {
   const empty: BodyContext = {
     body: null,
     missing: ["height", "weight", "bodyFat", "skeletalMuscle"],
-    source: { heightCm: null, weightKg: null, weightFrom: null, inbodyDate: null },
+    source: { heightCm: null, weightKg: null, weightFrom: null, weightPoints: 0, inbodyDate: null },
     calibration: null,
     plan: "free",
   };
@@ -151,8 +154,13 @@ export const getBodyContext = cache(async (): Promise<BodyContext> => {
       .maybeSingle();
     latestLogKg = num((data as { weight_kg: number | string } | null)?.weight_kg);
   }
-  const weightKg = latestLogKg ?? inbody?.weightKg ?? profile.weightKg ?? null;
-  const weightFrom = latestLogKg !== null ? "weight_log" : inbody?.weightKg ? "inbody" : profile.weightKg ? "profile" : null;
+  // 시작 체중은 **최근 7일 평균**(기록 2번 이상일 때) — 하루 수분 변동(±1~2kg)을 줄인다.
+  // 끝날 때도 같은 방식으로 재야 시작·끝을 비교할 수 있다(finalizeOutcome).
+  const last7 = weights.filter((w) => Date.parse(w.at) >= Date.parse(`${addDays(today, -WEIGHT_AVG_DAYS)}T00:00:00+09:00`));
+  const avg7 = last7.length >= 2 ? averageWeight(last7.map((w) => w.kg)) : null;
+  const weightKg = avg7 ?? latestLogKg ?? inbody?.weightKg ?? profile.weightKg ?? null;
+  const weightFrom =
+    avg7 !== null ? "weight_avg7" : latestLogKg !== null ? "weight_log" : inbody?.weightKg ? "inbody" : profile.weightKg ? "profile" : null;
   const heightCm = profile.heightCm ?? null;
   const missing = missingBodyFields({ heightCm, weightKg, inbody });
 
@@ -164,7 +172,7 @@ export const getBodyContext = cache(async (): Promise<BodyContext> => {
   );
 
   if (!weightKg) {
-    return { ...empty, missing, plan, source: { heightCm, weightKg, weightFrom, inbodyDate: inbody?.measuredAt ?? null } };
+    return { ...empty, missing, plan, source: { heightCm, weightKg, weightFrom, weightPoints: last7.length, inbodyDate: inbody?.measuredAt ?? null } };
   }
 
   const body: BodyInput = {
@@ -200,7 +208,7 @@ export const getBodyContext = cache(async (): Promise<BodyContext> => {
   return {
     body,
     missing,
-    source: { heightCm, weightKg, weightFrom, inbodyDate: inbody?.measuredAt ?? null },
+    source: { heightCm, weightKg, weightFrom, weightPoints: last7.length, inbodyDate: inbody?.measuredAt ?? null },
     calibration: calibration.samples > 0 ? calibration : null,
     plan,
   };
@@ -233,7 +241,7 @@ type Stamped<T> = T & { created_at: string };
 type RawDays = {
   ex: Stamped<{ for_date: string; exercise_id: string | null; sets: number | null }>[];
   cond: Stamped<{ for_date: string; item_id: string | null; duration_min: number | null; speed: number | string | null }>[];
-  food: Stamped<{ for_date: string; meal: string | null; kcal: number | string; protein_g: number | string | null }>[];
+  food: Stamped<{ for_date: string; meal: string | null; kcal: number | string; protein_g: number | string | null; photo_url: string | null }>[];
   steps: { for_date: string; steps: number }[];
   weight: number;
 };
@@ -242,7 +250,7 @@ async function loadRawDays(supabase: Supa, userId: string, from: string, to: str
   const [{ data: ex }, { data: cond }, { data: food }, { data: steps }] = await Promise.all([
     supabase.from("exercise_completions").select("for_date, exercise_id, sets, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
     supabase.from("conditioning_completions").select("for_date, item_id, duration_min, speed, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
-    supabase.from("food_logs").select("for_date, meal, kcal, protein_g, created_at").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
+    supabase.from("food_logs").select("for_date, meal, kcal, protein_g, photo_url, created_at").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
     supabase.from("daily_steps").select("for_date, steps").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
   ]);
   return {
@@ -420,8 +428,10 @@ export const getMyPledges = cache(async (): Promise<PledgeView[]> => {
 });
 
 /**
- * 결과 확정 — 상태·실패 사유·실천 기록(adherence)·종료 실측(성공 시, 종료일 ±3일 체중·InBody).
- * 실측이 없으면 비워 두고 학습에서 뺀다.
+ * 결과 확정 — 상태·실패 사유·실천 기록(adherence)·종료 실측·신뢰도(data_quality).
+ *
+ * 종료 체중은 **마지막 7일 체중 기록 평균**(2번 이상). 없으면 종료일 ±3일 중 가장 가까운 한 번.
+ * 근육은 종료일 ±3일 인바디. 학습에 쓸지는 `data_quality.usableFor*` 가 정한다.
  */
 async function finalizeOutcome(
   supabase: Supa,
@@ -436,15 +446,17 @@ async function finalizeOutcome(
   const dayOf = dayOfFromRaw(raw, () => null);
   const endSeen = ev.status === "failed" ? ev.failedBlock!.end : ev.endDate;
   const n = dayDiff(startDate, endSeen) + 1;
-  const days = Array.from({ length: n }, (_, i) => dayOf(addDays(startDate, i)));
+  const dates = Array.from({ length: n }, (_, i) => addDays(startDate, i));
+  const days = dates.map(dayOf);
   const fed = days.filter((d) => d.mealCount > 0);
   const partCounts: Record<string, number> = {};
   for (const d of days) for (const p of d.strengthParts) partCounts[p] = (partCounts[p] ?? 0) + 1;
+  const mealNeed = spec.mealsPerDay ?? 1;
   const adherence = {
     days: n,
     workoutDays: days.filter((d) => d.workedOut).length,
     burnDaysMet: spec.burnKcal ? days.filter((d) => d.burnKcal >= spec.burnKcal!).length : null,
-    mealDaysMet: spec.mealsPerDay ? days.filter((d) => d.mealCount >= spec.mealsPerDay!).length : null,
+    mealDaysMet: days.filter((d) => d.mealCount >= mealNeed).length,
     avgIntakeKcal: fed.length ? Math.round(fed.reduce((s, d) => s + d.intakeKcal, 0) / fed.length) : null,
     avgProteinG: fed.length ? Math.round(fed.reduce((s, d) => s + d.proteinG, 0) / fed.length) : null,
     avgBurnKcal: Math.round(days.reduce((s, d) => s + d.burnKcal, 0) / n),
@@ -464,10 +476,27 @@ async function finalizeOutcome(
     patch.failed_at = ev.failedBlock!.checkAt;
     patch.failed_block = ev.failedBlock!.index + 1;
   }
-  const measure = await measureNear(supabase, userId, ev.status === "failed" ? ev.failedBlock!.checkAt : ev.endDate);
-  if (measure) {
+
+  const base = (out.baseline ?? {}) as {
+    weightKg?: number;
+    weightPoints?: number;
+    skeletalMuscleKg?: number | null;
+    bmr?: number;
+    inbody?: { measuredAt?: string } | null;
+  };
+  const [measure, photoMeals, skippedMeals] = await Promise.all([
+    measureEnd(supabase, userId, endSeen),
+    countPhotoMeals(supabase, userId, startDate, endSeen, raw),
+    supabase
+      .from("meal_skips")
+      .select("meal", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .gte("for_date", startDate)
+      .lte("for_date", endSeen)
+      .then((r) => r.count ?? 0),
+  ]);
+  if (measure.weightKg !== null || measure.skeletalMuscleKg !== null) {
     patch.end_measure = measure;
-    const base = (out.baseline ?? {}) as { weightKg?: number; skeletalMuscleKg?: number | null };
     if (measure.weightKg !== null && typeof base.weightKg === "number") {
       patch.actual_weight_change_kg = Math.round((measure.weightKg - base.weightKg) * 100) / 100;
     }
@@ -475,33 +504,109 @@ async function finalizeOutcome(
       patch.actual_muscle_change_kg = Math.round((measure.skeletalMuscleKg - base.skeletalMuscleKg) * 100) / 100;
     }
   }
+  patch.data_quality = dataQuality({
+    days: n,
+    mealsPerDay: spec.mealsPerDay ?? null,
+    mealDaysMet: adherence.mealDaysMet,
+    loggedMeals: days.reduce((s, d) => s + d.mealCount, 0),
+    photoMeals,
+    skippedMeals,
+    avgIntakeKcal: adherence.avgIntakeKcal,
+    bmr: base.bmr ?? 0,
+    startWeightPoints: base.weightPoints ?? 0,
+    endWeightPoints: measure.weightPoints,
+    inbodyStart: base.inbody?.measuredAt ?? null,
+    inbodyEnd: measure.inbodyDate,
+  });
   await supabase.from("commitment_outcomes").update(patch).eq("commitment_id", commitmentId).eq("user_id", userId);
 }
 
-/** 기준일 ±3일 안의 체중 기록·InBody 중 가장 가까운 것. */
-async function measureNear(
-  supabase: Supa,
-  userId: string,
-  ymd: string,
-): Promise<{ weightKg: number | null; skeletalMuscleKg: number | null; bodyFatPct: number | null; source: string; date: string } | null> {
-  const from = addDays(ymd, -3);
-  const to = addDays(ymd, 3);
-  const [{ data: ib }, { data: wl }] = await Promise.all([
-    supabase.from("body_compositions").select("measured_at, weight_kg, skeletal_muscle_kg, body_fat_pct").eq("user_id", userId).gte("measured_at", from).lte("measured_at", to),
-    supabase.from("weight_logs").select("created_at, weight_kg, body_fat_pct").eq("user_id", userId).gte("created_at", `${from}T00:00:00+09:00`).lte("created_at", `${to}T23:59:59+09:00`),
-  ]);
-  const dist = (d: string) => Math.abs(dayDiff(ymd, d));
-  const ibBest = ((ib ?? []) as Record<string, string | number | null>[])
-    .map((r) => ({ date: String(r.measured_at), weightKg: num(r.weight_kg), skeletalMuscleKg: num(r.skeletal_muscle_kg), bodyFatPct: num(r.body_fat_pct), source: "inbody" }))
-    .sort((a, b) => dist(a.date) - dist(b.date))[0];
-  const wlBest = ((wl ?? []) as Record<string, string | number | null>[])
-    .map((r) => ({ date: seoulYmd(new Date(String(r.created_at))), weightKg: num(r.weight_kg), skeletalMuscleKg: null, bodyFatPct: num(r.body_fat_pct), source: "weight_log" }))
-    .sort((a, b) => dist(a.date) - dist(b.date))[0];
-  if (!ibBest && !wlBest) return null;
-  if (ibBest && (!wlBest || dist(ibBest.date) <= dist(wlBest.date))) {
-    return { ...ibBest, weightKg: ibBest.weightKg ?? wlBest?.weightKg ?? null };
+/** 사진이 붙은 끼니 칸 수 — 음식 사진(food_logs.photo_url) 또는 끼니 사진(meal_photos). */
+async function countPhotoMeals(supabase: Supa, userId: string, from: string, to: string, raw: RawDays): Promise<number> {
+  const slots = new Set<string>();
+  for (const r of raw.food) {
+    if (r.photo_url && r.for_date >= from && r.for_date <= to && r.meal) slots.add(`${r.for_date}:${r.meal}`);
   }
-  return { ...wlBest!, skeletalMuscleKg: ibBest?.skeletalMuscleKg ?? null };
+  const { data } = await supabase
+    .from("meal_photos")
+    .select("for_date, meal")
+    .eq("user_id", userId)
+    .gte("for_date", from)
+    .lte("for_date", to);
+  for (const r of (data ?? []) as { for_date: string; meal: string }[]) slots.add(`${r.for_date}:${r.meal}`);
+  return slots.size;
+}
+
+export type EndMeasure = {
+  weightKg: number | null;
+  /** 평균에 쓴 체중 기록 수(0 이면 평균 아님). */
+  weightPoints: number;
+  weightMethod: "avg7" | "nearest" | "inbody" | null;
+  skeletalMuscleKg: number | null;
+  bodyFatPct: number | null;
+  inbodyDate: string | null;
+};
+
+/**
+ * 종료 실측 — 체중은 마지막 7일 기록 평균(2번 이상), 아니면 종료일 ±3일 중 가장 가까운 한 번,
+ * 그것도 없으면 인바디 체중. 근육·체지방은 종료일 ±3일 인바디.
+ */
+async function measureEnd(supabase: Supa, userId: string, endYmd: string): Promise<EndMeasure> {
+  const from7 = addDays(endYmd, -(WEIGHT_AVG_DAYS - 1));
+  const from = addDays(endYmd, -3);
+  const to = addDays(endYmd, 3);
+  const [{ data: ib }, { data: wl }] = await Promise.all([
+    supabase
+      .from("body_compositions")
+      .select("measured_at, weight_kg, skeletal_muscle_kg, body_fat_pct")
+      .eq("user_id", userId)
+      .gte("measured_at", from)
+      .lte("measured_at", to),
+    supabase
+      .from("weight_logs")
+      .select("created_at, weight_kg")
+      .eq("user_id", userId)
+      .not("weight_kg", "is", null)
+      .gte("created_at", `${from7 < from ? from7 : from}T00:00:00+09:00`)
+      .lte("created_at", `${to}T23:59:59+09:00`),
+  ]);
+  const dist = (d: string) => Math.abs(dayDiff(endYmd, d));
+  const ibBest = ((ib ?? []) as Record<string, string | number | null>[])
+    .map((r) => ({
+      date: String(r.measured_at),
+      weightKg: num(r.weight_kg),
+      skeletalMuscleKg: num(r.skeletal_muscle_kg),
+      bodyFatPct: num(r.body_fat_pct),
+    }))
+    .sort((a, b) => dist(a.date) - dist(b.date))[0];
+  const logs = ((wl ?? []) as { created_at: string; weight_kg: number | string }[]).map((r) => ({
+    date: seoulYmd(new Date(r.created_at)),
+    kg: num(r.weight_kg) ?? 0,
+  }));
+  const last7 = logs.filter((l) => l.date >= from7 && l.date <= endYmd);
+  const avg = last7.length >= 2 ? averageWeight(last7.map((l) => l.kg)) : null;
+  const nearest = logs.filter((l) => l.date >= from).sort((a, b) => dist(a.date) - dist(b.date))[0];
+
+  let weightKg: number | null = null;
+  let weightMethod: EndMeasure["weightMethod"] = null;
+  if (avg !== null) {
+    weightKg = avg;
+    weightMethod = "avg7";
+  } else if (nearest) {
+    weightKg = nearest.kg;
+    weightMethod = "nearest";
+  } else if (ibBest?.weightKg) {
+    weightKg = ibBest.weightKg;
+    weightMethod = "inbody";
+  }
+  return {
+    weightKg,
+    weightPoints: last7.length,
+    weightMethod,
+    skeletalMuscleKg: ibBest?.skeletalMuscleKg ?? null,
+    bodyFatPct: ibBest?.bodyFatPct ?? null,
+    inbodyDate: ibBest?.date ?? null,
+  };
 }
 
 /* ── 그룹별 다짐 ────────────────────────────────────────────────────── */

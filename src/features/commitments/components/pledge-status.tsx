@@ -3,6 +3,7 @@ import { AlertTriangle } from "lucide-react";
 
 import { dayDiff, shortDates } from "@/features/commitments/evaluation";
 import type { PledgeView } from "@/features/commitments/pledge-data";
+import { InbodyTip } from "@/features/commitments/components/body-setup";
 
 /**
  * 다짐 현황 — 지금 7일 구간이 어디까지 왔는지. **식단 기록이 빠진 날짜를 먼저** 보여 준다
@@ -64,6 +65,16 @@ export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; to
                   </span>
                 </span>
               </Link>
+            ) : null}
+
+            {p.week === p.totalWeeks ? (
+              <div className="space-y-1.5 rounded-lg bg-brand-soft px-3 py-2 text-xs leading-5 text-brand" data-testid="end-measure-guide">
+                <p className="font-semibold">
+                  마무리 측정 — {fmt(p.endDate)}까지 체중을 2번 이상 기록하고, 근육 변화를 보려면 {fmt(p.endDate)} 전후
+                  3일 안에 인바디를 재 주세요.
+                </p>
+                <InbodyTip className="bg-transparent px-0 py-0 text-brand dark:bg-transparent dark:text-brand" />
+              </div>
             ) : null}
 
             <ul className="space-y-2.5">

@@ -168,3 +168,48 @@ test("식단 — 끼니 '안 먹었어요' 체크가 저장된다", async ({ pag
     })
     .toBe(1);
 });
+
+test("성공 확정 — 종료 체중은 마지막 7일 평균, 결과 신뢰도(data_quality)가 같이 저장된다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await createDefaultPledge(page, "E2E 성공 다짐");
+
+  // 31일 전에 시작한 '하루 3끼 기록' 다짐으로 바꾸고, 매일 3끼를 그날 올린 것처럼 넣는다
+  // (구간 판정 뒤에 올린 기록은 세지 않으므로 created_at 을 그 날짜로).
+  await dbQuery(
+    `update public.commitments set start_date = (now() at time zone 'Asia/Seoul')::date - 31,
+            deadline = (now() at time zone 'Asia/Seoul')::date - 2, pledge = '{"days":30,"mealsPerDay":3}'::jsonb
+      where user_id=${uid} and mode='pledge'`,
+    [email],
+  );
+  await dbQuery(
+    `insert into public.food_logs (user_id, for_date, meal, name, kcal, protein_g, created_at)
+     select ${uid}, d::date, m, '테스트 식사', 600, 30, d + interval '12 hours'
+       from generate_series((now() at time zone 'Asia/Seoul')::date - 31, (now() at time zone 'Asia/Seoul')::date - 2, interval '1 day') d,
+            unnest(array['breakfast','lunch','dinner']) m`,
+    [email],
+  );
+  // 마지막 7일 체중 3번(평균 69.0) + 범위 밖 1번(무시).
+  await dbQuery(
+    `insert into public.weight_logs (user_id, weight_kg, created_at)
+     select ${uid}, w, ((now() at time zone 'Asia/Seoul')::date - dd)::timestamp at time zone 'Asia/Seoul' + interval '8 hours'
+       from (values (69.4, 3), (68.8, 5), (68.8, 7), (75.0, 15)) v(w, dd)`,
+    [email],
+  );
+
+  await page.goto("/commitments", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("pledge-status").first()).toHaveText("다짐 성공");
+
+  await expect
+    .poll(async () => {
+      const r = await dbQuery<{ status: string; m: { weightKg: number; weightMethod: string; weightPoints: number } | null; q: { score: number; mealCompleteness: number; usableForMuscle: boolean } | null }>(
+        `select status, end_measure as m, data_quality as q from public.commitment_outcomes where user_id=${uid}`,
+        [email],
+      );
+      const o = r[0];
+      return o?.m && o.q
+        ? `${o.status}|${o.m.weightMethod}|${o.m.weightPoints}|${o.m.weightKg}|${o.q.mealCompleteness}|${o.q.usableForMuscle}`
+        : "";
+    }, { timeout: 15_000 })
+    .toBe("success|avg7|3|69|1|false");
+});

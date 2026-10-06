@@ -32,6 +32,9 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
             <Stat label="제지방(근육)" value={`${sign(pred.leanKg!)}kg`} />
             <Stat label="수분·글리코겐" value={`${sign(pred.waterKg!)}kg`} />
           </dl>
+          <p className="mt-1 text-xs text-zinc-500">
+            시작·끝 체중은 각각 7일 평균으로 비교해요 — 주 2번 이상 체중을 기록해 주세요.
+          </p>
           {pred.leanKg! < 0 ? (
             <p className="mt-1 text-xs font-semibold text-warn">
               근육도 같이 빠져요 — 근력운동과 단백질 다짐을 넣으면 지킬 수 있어요.
@@ -63,6 +66,12 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
                 </li>
               ))}
             </ul>
+          ) : null}
+          {pred.days < 60 ? (
+            <p className="mt-1 text-xs text-zinc-500" data-testid="muscle-noise-note">
+              {pred.days}일 근육 변화는 인바디 오차(±0.5~1kg)보다 작아 재도 잘 안 보일 수 있어요 — 60일 이상 다짐에서
+              확인해 보세요.
+            </p>
           ) : null}
           {pred.parts.length > 0 ? (
             <p className="mt-1 text-xs text-zinc-500">

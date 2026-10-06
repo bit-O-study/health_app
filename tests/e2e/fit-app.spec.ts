@@ -117,6 +117,15 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
     [user_id, today],
   );
   expect(Number(daily[0].n)).toBe(3);
+
+  // 담은 뒤 다시 와도 또 담으라고 하지 않는다 — 오늘 운동 하러 가기 + '더 추천 받기'.
+  await page.goto("/fit", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("fit-today-done")).toContainText("오늘 추천을 담았어요", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-planned")).toContainText("포함");
+  await expect(page.getByTestId("fit-picks")).toHaveCount(0);
+  await page.getByTestId("fit-more").click();
+  await page.waitForURL("**/fit?more=1", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-picks")).toBeVisible({ timeout: 15_000 });
   // 🔴 원칙 2 — 영구 루틴은 그대로.
   const kept = await dbQuery<{ exercise_id: string }>(`select exercise_id from public.routine_exercises where user_id=$1`, [user_id]);
   expect(kept.map((k) => k.exercise_id)).toEqual(["squat"]);

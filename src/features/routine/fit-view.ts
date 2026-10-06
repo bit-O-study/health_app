@@ -135,3 +135,6 @@ export function partWithEulReul(part: BodyPart): string {
   const label = BODY_PART_LABEL[part];
   return `${label}${eulReul(label)}`;
 }
+
+/** 오늘 맞춤 추천을 담은 날(YYYY-MM-DD)을 적는 쿠키 — 담은 뒤 다시 와도 또 담으라고 하지 않게. */
+export const FIT_APPLIED_COOKIE = "fit-applied";

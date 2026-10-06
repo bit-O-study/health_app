@@ -24,7 +24,7 @@ import { Logo } from "@/features/brand/logo";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "홈 · 짐꾼",
+  title: "홈 · 헬쑤",
   description: "앱을 골라 들어가고, 오늘 알아야 할 것만 한눈에.",
 };
 
@@ -40,7 +40,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     getHomeDashboard(),
     getWeeklyReport(),
     getMyWeeklyTraining(),
-    // 짐꾼쌤 앱 타일은 디버그 기능이 켜진 사용자에게만 — 예전엔 하단바가 읽던 값이다.
+    // 헬쑤쌤 앱 타일은 디버그 기능이 켜진 사용자에게만 — 예전엔 하단바가 읽던 값이다.
     isAiFeatureEnabled("helssu-coach"),
     isDebugFeatureEnabled("pet"),
     hasTrainerPass(),
@@ -58,7 +58,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     <div className="app-page overflow-x-clip">
       <main className="app-container space-y-4">
         <header className="flex items-center justify-between gap-3 py-2">
-          <Link href="/home" aria-label="짐꾼 홈"><Logo size={40} wordClassName="text-2xl" /></Link>
+          <Link href="/home" aria-label="헬쑤 홈"><Logo size={40} wordClassName="text-2xl" /></Link>
           <div className="flex items-center gap-1 pb-0.5">
             <NotificationBell />
             <Link href="/settings" aria-label="설정" className="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted transition hover:bg-zinc-100 dark:hover:bg-white/[0.08]">

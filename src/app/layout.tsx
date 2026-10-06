@@ -31,7 +31,7 @@ import { absoluteUrl, siteConfig } from "@/lib/seo";
 // 지금은 DB(Supabase ap-southeast-1)와 같은 sin1 에 함수를 둔다 → 쿼리 왕복
 // 70~90ms → ~5ms. 되돌리려면 vercel.json 의 "regions" 한 줄만 고치면 된다.
 
-const PWA_ICON_VERSION = "20260929";
+const PWA_ICON_VERSION = "20261001";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,7 +45,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: { default: siteConfig.title, template: "%s | 짐꾼" },
+  title: { default: siteConfig.title, template: "%s | 헬쑤" },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   manifest: "/manifest.webmanifest",

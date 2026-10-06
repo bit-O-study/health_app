@@ -6,7 +6,7 @@ import { ImageResponse } from "next/og";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getCurrentStreak, getMonthlyCalendar } from "@/features/calendar/data-access";
 import { activityLevel, monthStats } from "@/features/calendar/month-stats";
-import { BRAND_ICON_BG, BRAND_ICON_MINT, JimkkunMark } from "@/features/brand/mark";
+import { BRAND_ICON_BG, BRAND_ICON_MINT, HelssuMark } from "@/features/brand/mark";
 import { BRAND_NAME, BRAND_TAGLINE } from "@/features/brand/logo";
 import { seoulYmd } from "@/features/routine/data";
 
@@ -66,7 +66,7 @@ export async function GET(req: Request) {
       <div style={{ width: W, height: H, display: "flex", flexDirection: "column", background: "#ffffff", padding: 64, fontFamily: "Pretendard" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ display: "flex", width: 84, height: 84, borderRadius: 22, background: BRAND_ICON_BG, overflow: "hidden" }}>
-            {JimkkunMark({ size: 84 })}
+            {HelssuMark({ size: 84 })}
           </div>
           <div style={{ display: "flex", flexDirection: "column", marginLeft: 22 }}>
             <div style={{ fontSize: 44, color: "#14201a" }}>{BRAND_NAME}</div>
@@ -123,6 +123,6 @@ export async function GET(req: Request) {
   );
   // 본인 기록 — 공유 캐시에 남지 않게.
   res.headers.set("Cache-Control", "private, no-store");
-  res.headers.set("Content-Disposition", `inline; filename="jimkkun-${m}.png"`);
+  res.headers.set("Content-Disposition", `inline; filename="helssu-${m}.png"`);
   return res;
 }

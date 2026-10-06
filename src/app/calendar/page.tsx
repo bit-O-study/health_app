@@ -389,7 +389,7 @@ export default async function CalendarPage({
       {/* 이달 기록 이미지 — 운동한 날·연속·런닝을 한 장으로(3단계). 월간에서만. */}
       {isWeek ? null : <ShareMonthImage month={monthParam({ year, month0 })} />}
 
-      {/* AI 다짐 짜주기 — 디버그 계정(짐꾼쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
+      {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
       {coachEnabled ? <CommitmentSuggestions /> : null}
     </main>
     </div>

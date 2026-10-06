@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T07:19:25.645Z",
+  "finishedAt": "2026-09-30T07:20:10.093Z",
+  "concurrency": 4,
+  "results": [
+    {
+      "id": "zottman-curl",
+      "pid": 37356,
+      "code": 0,
+      "elapsedMs": 35337
+    },
+    {
+      "id": "wide-dumbbell-curl",
+      "pid": 38664,
+      "code": 0,
+      "elapsedMs": 40922
+    },
+    {
+      "id": "scaption",
+      "pid": 34400,
+      "code": 0,
+      "elapsedMs": 40483
+    },
+    {
+      "id": "alternating-dumbbell-front-raise",
+      "pid": 5048,
+      "code": 0,
+      "elapsedMs": 40739
+    }
+  ]
+}

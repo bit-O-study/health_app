@@ -1674,6 +1674,7 @@ export function GenericDumbbellIcon(p: ExerciseIconProps) {
 /* ─── lookup ────────────────────────────────────────────────────────── */
 
 const ICONS: Record<string, (p: ExerciseIconProps) => ReactNode> = {
+  "wall-angel": (props) => WallSlideIcon(props),
   // 가슴
   "bench-press": BenchPressIcon,
   "incline-press": InclinePressIcon,

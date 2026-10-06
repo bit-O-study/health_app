@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T08:12:06.669Z",
+  "finishedAt": "2026-09-30T08:22:13.375Z",
+  "concurrency": 4,
+  "results": [
+    {
+      "id": "barbell-shrug",
+      "pid": 35364,
+      "code": 0,
+      "elapsedMs": 545425
+    },
+    {
+      "id": "barbell-front-raise",
+      "pid": 6056,
+      "code": 0,
+      "elapsedMs": 547438
+    },
+    {
+      "id": "barbell-upright-row",
+      "pid": 35216,
+      "code": 0,
+      "elapsedMs": 546796
+    },
+    {
+      "id": "wide-grip-upright-row",
+      "pid": 37284,
+      "code": 0,
+      "elapsedMs": 604258
+    }
+  ]
+}

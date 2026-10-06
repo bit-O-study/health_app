@@ -1,4 +1,4 @@
-/** 짐꾼쌤(AI 코치) 응답 파서 — 순수 로직. 테스트 가능. */
+/** 헬쑤쌤(AI 코치) 응답 파서 — 순수 로직. 테스트 가능. */
 
 import { isCommitmentMetric } from "@/features/commitments/commitment";
 

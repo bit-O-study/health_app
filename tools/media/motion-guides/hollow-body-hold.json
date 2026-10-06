@@ -7,5 +7,7 @@
   "panels": 8,
   "cycle": "reverse",
   "id": "hollow-body-hold",
-  "registeredAt": "2026-09-16T08:29:49.873Z"
+  "registeredAt": "2026-09-16T08:29:49.873Z",
+  "renderer": "isometric-hold-v1",
+  "timing": "hold"
 }

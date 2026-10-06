@@ -17,6 +17,6 @@ export default async function InvitePage({ params }: { params: Promise<{ token: 
         <label className="flex min-h-11 items-center gap-3 text-sm"><input type="checkbox" name="consent" required />이 트레이너의 관리를 받는 데 동의합니다.</label>
       </TrainerForm>
     </section> : <p className="app-card p-5">만료되었거나 이미 사용한 초대예요. 트레이너에게 새 초대를 요청해 주세요.</p>}
-    <Link href="/settings/trainers" className="text-brand">내 트레이너 연결 보기</Link>
+    <Link href="/settings/trainers" className="text-brand">내 트레이너</Link>
   </main>;
 }

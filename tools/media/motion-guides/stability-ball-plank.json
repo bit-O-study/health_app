@@ -8,5 +8,7 @@
   "panels": 8,
   "cycle": "reverse",
   "id": "stability-ball-plank",
-  "registeredAt": "2026-09-15T13:36:11.815Z"
+  "registeredAt": "2026-09-15T13:36:11.815Z",
+  "renderer": "isometric-hold-v1",
+  "timing": "hold"
 }

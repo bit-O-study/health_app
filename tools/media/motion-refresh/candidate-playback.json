@@ -1,0 +1,74 @@
+[
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.306465,
+    "error": null,
+    "dropped": 1,
+    "total": 1223,
+    "id": "hollow-body-hold"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.295268,
+    "error": null,
+    "dropped": 1,
+    "total": 1222,
+    "id": "hollow-body-hold-dark"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.295608,
+    "error": null,
+    "dropped": 2,
+    "total": 1222,
+    "id": "plate-pinch"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.299169,
+    "error": null,
+    "dropped": 1,
+    "total": 1223,
+    "id": "plate-pinch-dark"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.301055,
+    "error": null,
+    "dropped": 1,
+    "total": 1224,
+    "id": "stability-ball-plank"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.296742,
+    "error": null,
+    "dropped": 1,
+    "total": 1226,
+    "id": "stability-ball-plank-dark"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.295537,
+    "error": null,
+    "dropped": 3,
+    "total": 1223,
+    "id": "dumbbell-shrug"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.305915,
+    "error": null,
+    "dropped": 1,
+    "total": 1223,
+    "id": "dumbbell-shrug-dark"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "id": "hammer-curl-2",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/hammer-curl-2.mp4",
+      "sha256": "937b78517e07638f41f8b005c8ecdb61f2f136227597a4b7434478cdc4cfc851",
+      "bytes": 353467
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/hammer-curl-2-dark.mp4",
+      "sha256": "036e73c54af2b14a7082918962d725d1273e25ab0789ce0474ee1858a3244816",
+      "bytes": 305358
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch.mjs",
+      "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+    },
+    {
+      "file": "exercise-motion.mjs",
+      "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

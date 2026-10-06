@@ -1,0 +1,82 @@
+[
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.295176,
+    "error": null,
+    "dropped": 2,
+    "total": 1226,
+    "id": "dumbbell-biceps-curl",
+    "sha256": "71c6333b54308c69661a649984e69394095255b7839eb179efe62acebbeadf6e"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.295719,
+    "error": null,
+    "dropped": 1,
+    "total": 1226,
+    "id": "dumbbell-biceps-curl-dark",
+    "sha256": "98fdb30df7ac1eda89221e3862cd73ff5bc231283bd99ec555bbd01d7bed3464"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.294992,
+    "error": null,
+    "dropped": 2,
+    "total": 1224,
+    "id": "hammer-curl-2",
+    "sha256": "94faffcb102295b587f4a4a534a5e7bc365cad91daa2e1fffe29d83007db48f5"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.294122,
+    "error": null,
+    "dropped": 2,
+    "total": 1222,
+    "id": "hammer-curl-2-dark",
+    "sha256": "1a2dd4ecd473b8939020efadbc191c274a1b0d19abb84fc51ec73e9a5a47ecdc"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.310515,
+    "error": null,
+    "dropped": 1,
+    "total": 1224,
+    "id": "dumbbell-front-raise",
+    "sha256": "bdbf9e539279cc89857164d602011ef9ec4dd1e28cf95c1c6f304f7f190291ec"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.293893,
+    "error": null,
+    "dropped": 2,
+    "total": 1226,
+    "id": "dumbbell-front-raise-dark",
+    "sha256": "4f573a934d0a62f0402f6cab78a56cb48428cb021748972aa303a1229919b81b"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.29504,
+    "error": null,
+    "dropped": 1,
+    "total": 1222,
+    "id": "triceps-kickback",
+    "sha256": "f7324ec799e8ea1524fe84f88b5c889389df5bf3c43f32a6afa0717640933b48"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.305153,
+    "error": null,
+    "dropped": 1,
+    "total": 1223,
+    "id": "triceps-kickback-dark",
+    "sha256": "fc24cf73d178d0925c88592bd58b8689f8045aa87c5992183965ce251db1b13f"
+  }
+]

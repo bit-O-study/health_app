@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
+import { conditionSets, WORKOUT_CONDITIONS, type WorkoutCondition } from "./condition-volume";
 import {
   Check,
   ChevronLeft,
@@ -128,7 +129,7 @@ import {
   speechForSetStart,
   writeWorkoutVoice,
 } from "@/features/workout-timer/workout-voice";
-import { speak } from "@/features/workout-timer/speech";
+import { speak, stopSpeaking } from "@/features/workout-timer/speech";
 import { RepCameraSheet } from "@/features/workout-timer/rep-camera-sheet";
 import { checkNewRecord, newRecordMessage } from "@/features/routine/personal-record";
 import { getPersonalBestsAction } from "@/features/routine/personal-record-actions";
@@ -621,20 +622,13 @@ export function GuidedOverlay({
     typeof window === "undefined" ? false : readWorkoutVoice(),
   );
   const toggleVoice = useCallback(() => {
-    setVoiceOn((prev) => {
-      const next = !prev;
-      writeWorkoutVoice(next);
-      // 켜면 바로 아래 효과가 지금 세트 요령을 읽는다(누른 직후라 WebView 도 음성을 허용한다).
-      if (!next) {
-        try {
-          window.speechSynthesis?.cancel();
-        } catch {
-          /* 무시 */
-        }
-      }
-      return next;
-    });
-  }, []);
+    const next = !voiceOn;
+    setVoiceOn(next);
+    writeWorkoutVoice(next);
+    if (next) speak("음성 코치를 켰어요. 세트 시작과 휴식 종료를 안내할게요.");
+    else stopSpeaking();
+  }, [voiceOn]);
+  useEffect(() => () => stopSpeaking(), []);
   const markIntroSeen = useCallback((exerciseId: string) => {
     setIntroSeen((prev) => {
       const next = new Set(prev).add(exerciseId);
@@ -846,6 +840,22 @@ export function GuidedOverlay({
       setEditCondReps(init.reps);
     }
   }, [index, sessionItems]);
+
+  const [conditionMessage, setConditionMessage] = useState("");
+  function applyCondition(condition: WorkoutCondition) {
+    if (lockWeightReps || working || resting) return;
+    let changed = 0;
+    for (const row of sessionItems) {
+      if (row.kind !== "main" || processed.has(row.rowId)) continue;
+      const done = row.rowId === item?.rowId ? setsDone : loadSetsDone(row.rowId, exerciseCompletionKey(row.focus, row.exerciseId));
+      const current = getMainEdit(row.rowId) ?? { w: row.weightKg, reps: row.reps, sets: row.sets };
+      const sets = conditionSets(row.sets, done, condition);
+      setMainEdit(row.rowId, { ...current, sets });
+      if (row.rowId === item?.rowId) setEditSets(sets);
+      changed += 1;
+    }
+    setConditionMessage("남은 운동 " + changed + "개에 적용했어요. 오늘 운동모드에만 반영돼요.");
+  }
 
   // 스크러버 값 변경 — 화면 state + 그날 보관소(localStorage)를 함께 갱신.
   function putEdit(patch: { w?: number | null; reps?: number; sets?: number }) {
@@ -1438,7 +1448,7 @@ export function GuidedOverlay({
 
       {/* 세션 운동 시간 + 일시정지/다시 시작 + 음성 코치 — 조용한 한 줄 */}
       {elapsedLabel !== undefined ? (
-        <div className="flex items-center justify-center gap-2 px-4 pb-2">
+        <div className="flex flex-wrap items-center justify-center gap-2 px-4 pb-2">
           <VoiceToggle on={voiceOn} onToggle={toggleVoice} />
           <span className="inline-flex items-center gap-1.5 text-sm font-medium tabular-nums text-zinc-300">
             <Timer
@@ -1469,6 +1479,19 @@ export function GuidedOverlay({
             </button>
           ) : null}
         </div>
+      ) : null}
+
+      {!lockWeightReps ? (
+        <details className="mx-4 mb-2 rounded-xl bg-white/5 px-3 py-2 text-sm text-zinc-200" data-testid="workout-condition">
+          <summary className="cursor-pointer py-1 font-semibold">오늘 컨디션으로 운동량 조절</summary>
+          <p className="my-2 text-xs text-zinc-400">원래 계획 기준으로 남은 운동의 세트를 바꿔요. 완료한 세트와 무게는 유지해요.</p>
+          <div className="flex flex-wrap gap-2">
+            {WORKOUT_CONDITIONS.map((option) => (
+              <button key={option.id} type="button" disabled={working || resting} onClick={() => applyCondition(option.id)} className="min-h-11 flex-1 rounded-xl bg-white/10 px-2 text-xs disabled:opacity-40">{option.label}</button>
+            ))}
+          </div>
+          <p role="status" className="mt-2 text-xs text-zinc-300">{conditionMessage}</p>
+        </details>
       ) : null}
 
       {/* 저장 실패 배너 — 액션이 실패하면(예: RLS/네트워크) 알리고 재시도 */}
@@ -2361,7 +2384,7 @@ function VoiceToggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
       }`}
     >
       {on ? <Volume2 aria-hidden="true" size={14} /> : <VolumeX aria-hidden="true" size={14} />}
-      음성
+      음성 코치 {on ? "켜짐" : "꺼짐"}
     </button>
   );
 }
@@ -2445,6 +2468,7 @@ function VideoWithCaption({
           darkUrl={media.darkUrl}
           kind={media.kind}
           autoPlay
+          compact
           onTime={spec ? (t) => setVideoSlot(slotOfPhase(motionPhaseAt(t, spec))) : undefined}
         />
         {overlay}

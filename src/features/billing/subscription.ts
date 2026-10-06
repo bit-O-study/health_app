@@ -1,3 +1,5 @@
+import { COACH_PRODUCT_ID, PREMIUM_PRODUCT_ID } from "./products";
+
 /**
  * 구독 권한 판정 — 로드맵 7.1(결제 상태 확인과 복원). 순수 모듈.
  *
@@ -84,6 +86,15 @@ export function isEntitled(
   return t > now.getTime();
 }
 
+/** A valid coaching purchase must never unlock the premium AI allowance. */
+export function isPremiumEntitled(rec: SubscriptionRecord | null, now = new Date()): boolean {
+  return rec?.productId === PREMIUM_PRODUCT_ID && isEntitled(rec, now);
+}
+
+export function isCoachEntitled(rec: SubscriptionRecord | null, now = new Date()): boolean {
+  return Boolean(rec && [COACH_PRODUCT_ID, PREMIUM_PRODUCT_ID].includes(rec.productId) && isEntitled(rec, now));
+}
+
 /** 화면에 보여줄 상태 한 줄. 사용자가 지금 뭘 해야 하는지 알 수 있어야 한다. */
 export function statusLabel(
   rec: SubscriptionRecord | null,
@@ -98,7 +109,7 @@ export function statusLabel(
       case "canceled":
         return `해지 예정 — ${formatUntil(rec.expiresAt)}까지 이용할 수 있어요.`;
       default:
-        return `프리미엄 이용 중 — ${formatUntil(rec.expiresAt)}까지`;
+        return `${rec.productId === COACH_PRODUCT_ID ? "헬쑤 코칭" : "프리미엄"} 이용 중 — ${formatUntil(rec.expiresAt)}까지`;
     }
   }
   switch (rec.state) {

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, type ReactNode } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, Loader2, RotateCcw } from "lucide-react";
+import { Check, ChevronRight, Loader2, MessageCircle, RotateCcw } from "lucide-react";
 
 import {
   verifyPurchaseAction,
@@ -59,19 +60,45 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       */}
       <section data-testid="plan-list" className="space-y-2">
         <h2 className="app-section-label">요금제</h2>
-        {PAID_PLANS.map((id) => (
+        {/* 파는 요금제만 카드로(지금은 라이트). 준비 중인 AI 요금제는 아래 한 줄 — 팔지 않는 카드가 화면을 덮었다(2026-10-05). */}
+        {PAID_PLANS.filter((id) => PLANS[id].onSale || status.plan === id).map((id) => (
           <PlanCard
             key={id}
             id={id}
             active={status.plan === id}
             canBuy={status.ready && status.personalPlan === "free" && PLANS[id].onSale}
             pending={pending}
+            extra={
+              // 상담함은 구독한 사람에게만 — 구독 전엔 버튼이 없다(누를 수 없는 버튼을 켜 두지 않는다).
+              id === "lite" && status.coaching ? (
+                <Link
+                  href="/coach/manual"
+                  data-testid="open-consult"
+                  className="app-press flex h-11 items-center justify-between rounded-xl bg-brand-soft px-3 text-sm font-semibold text-brand"
+                >
+                  <span className="inline-flex items-center gap-1.5">
+                    <MessageCircle aria-hidden="true" size={16} />
+                    상담함
+                  </span>
+                  <ChevronRight aria-hidden="true" size={16} />
+                </Link>
+              ) : null
+            }
             onBuy={() => {
               const productId = PLANS[id].productId;
               if (productId) run(() => purchaseSubscription(productId));
             }}
           />
         ))}
+        {!AI_OPEN ? (
+          <p
+            data-testid="plan-ai-soon"
+            className="flex items-center justify-between rounded-xl border border-dashed border-line px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400"
+          >
+            <span>AI 요금제</span>
+            <span className="tabular-nums">월 {PLANS.basic.priceKrw.toLocaleString("ko-KR")}원 · 오픈 준비 중</span>
+          </p>
+        ) : null}
         {status.personalPlan !== "free" ? (
           <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
             요금제를 바꾸려면 구글 플레이 구독 관리에서 지금 구독을 해지한 뒤 다시 골라 주세요.
@@ -158,12 +185,15 @@ function PlanCard({
   canBuy,
   pending,
   onBuy,
+  extra = null,
 }: {
   id: PlanId;
   active: boolean;
   canBuy: boolean;
   pending: boolean;
   onBuy: () => void;
+  /** 카드 아래 붙는 것(라이트 구독자에게 상담함). */
+  extra?: ReactNode;
 }) {
   const plan = PLANS[id];
   return (
@@ -229,6 +259,7 @@ function PlanCard({
           {plan.label} 시작하기
         </button>
       ) : null}
+      {extra}
     </article>
   );
 }

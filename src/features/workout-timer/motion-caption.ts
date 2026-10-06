@@ -12,7 +12,7 @@
 
 import MOTION_SPECS from "@/features/workout-timer/motion-specs.json";
 
-export type MotionSpec = { panels: 8 | 16; cycle: "reverse" | "full" };
+export type MotionSpec = { panels: 8 | 16; cycle: "reverse" | "full"; timing?: "smooth" | "hold" };
 export type MotionPhase = "start" | "move" | "peak" | "return";
 /** 자막 칸 — 0 준비(시작 자세) · 1 동작 · 2 정점·돌아오기. */
 export type CaptionSlot = 0 | 1 | 2;
@@ -24,7 +24,7 @@ const specs = MOTION_SPECS as Record<string, MotionSpec>;
 
 /** 이 영상 주소가 사양을 아는 ai-v3 영상이면 그 사양. 아니면 null(시간 기반 자막). */
 export function motionSpecForUrl(url: string | null | undefined): MotionSpec | null {
-  const m = url ? /\/exercise-guides\/ai-v3\/([a-z0-9-]+?)(?:-dark)?\.mp4$/.exec(url) : null;
+  const m = url ? /\/exercise-guides\/ai-v3\/([a-z0-9-]+?)(?:-dark)?\.mp4$/.exec(url.split(/[?#]/)[0]) : null;
   return m ? specs[m[1]] ?? null : null;
 }
 
@@ -44,8 +44,14 @@ export function motionOrder(spec: MotionSpec): number[] {
 
 /** 재생 시각(초) → 지금 동작 구간. 영상이 반복되므로 8초로 나눈 나머지를 본다. */
 export function motionPhaseAt(seconds: number, spec: MotionSpec): MotionPhase {
-  const order = motionOrder(spec);
   const t = ((seconds % MOTION_SECONDS) + MOTION_SECONDS) % MOTION_SECONDS;
+  if (spec.timing === "hold") return "move";
+  if (spec.timing === "smooth") {
+    if (t < 0.4 || t >= 7.6) return "start";
+    if (t >= 3.8 && t <= 4.2) return "peak";
+    return t < 4 ? "move" : "return";
+  }
+  const order = motionOrder(spec);
   const k = Math.min(order.length - 1, Math.floor((t / MOTION_SECONDS) * order.length));
   const p = order[k];
   const last = spec.panels - 1;

@@ -9,7 +9,7 @@ import { getMyNotificationPreferences } from "@/features/notifications/my-prefer
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "알림 설정 · 짐꾼",
+  title: "알림 설정 · 헬쑤",
   description: "받을 알림 종류와 야간 방해 금지 시간을 정합니다.",
 };
 

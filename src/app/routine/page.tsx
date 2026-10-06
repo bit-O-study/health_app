@@ -91,7 +91,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
       {/* 랜드마크 이름에 "운동"을 쓰지 않는다 — 운동 고르기 목록의 aria-label="운동"과
           겹쳐 접근성 트리에서 두 개로 잡힌다(2026-09-19 E2E 회귀). */}
       <nav aria-label="트레이닝 도구" className="flex min-h-11 items-center justify-between">
-        <Link href="/home" aria-label="짐꾼 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
+        <Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>

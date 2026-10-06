@@ -111,6 +111,7 @@ export function MediaEmbed({
   kind,
   className = "",
   autoPlay = false,
+  compact = false,
   onTime,
 }: {
   /** 직접 mp4 재생 시각(초) — 운동모드가 영상 동작에 맞춰 자막을 바꾸는 데 쓴다. */
@@ -121,6 +122,8 @@ export function MediaEmbed({
   kind: MediaKind;
   className?: string;
   autoPlay?: boolean;
+  /** 운동모드에서는 높이를 절반으로 줄이고 전신 비율은 유지한다. */
+  compact?: boolean;
 }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -138,6 +141,7 @@ export function MediaEmbed({
   //   폰에서 높이가 화면을 넘겨 "한눈에" 안 들어온다. 화면의 절반 이하로 상한을 두고
   //   object-contain 으로 (검은 배경 위에) 담는다. 가로 영상은 상한에 안 걸려 그대로.
   const MEDIA_CAP = "max-h-[46vh] sm:max-h-[24rem]";
+  const maxHeight = compact ? "min(23dvh, 12rem)" : "min(46dvh, 24rem)";
 
   // iframe 플레이어 준비 타이밍이 불확실 → 로드 후 여러 번 음소거해제+배속 전송.
   function onIframeLoad() {
@@ -149,7 +153,7 @@ export function MediaEmbed({
 
   if (embed) {
     return (
-      <div className={base} style={{ aspectRatio: "16 / 9" }}>
+      <div className={base} style={{ aspectRatio: "16 / 9", maxHeight }}>
         <iframe
           ref={iframeRef}
           src={embedSrc(embed, autoPlay)}
@@ -186,7 +190,7 @@ export function MediaEmbed({
           onError={() => setVideoError(true)}
           onTimeUpdate={onTime ? (e) => onTime(e.currentTarget.currentTime) : undefined}
           className={`h-auto w-full object-contain ${MEDIA_CAP}`}
-          style={{ maxHeight: "min(46dvh, 24rem)" }}
+          style={{ maxHeight }}
         />
         {videoError ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-950/90 px-5 text-center text-white">
@@ -215,7 +219,7 @@ export function MediaEmbed({
         src={url}
         alt="운동 시범 움짤"
         className={`h-auto w-full object-contain ${MEDIA_CAP}`}
-        style={{ maxHeight: "min(46dvh, 24rem)" }}
+        style={{ maxHeight }}
       />
     </div>
   );

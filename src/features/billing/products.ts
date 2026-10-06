@@ -7,6 +7,14 @@
 
 /** 프리미엄 월 구독. Play Console → 수익 창출 → 구독에서 같은 id 로 만든다. */
 export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
+/**
+ * 990원 상품 — 2026-10-05 병합 결정으로 '헬쑤 코칭'은 라이트 하나로 합쳤다(운영자 상담함은 라이트 혜택).
+ * 예전 코칭 상품 id(helssu_coach_monthly)는 DB 함수가 계속 받아 준다(혹시 산 사람이 있어도 권한 유지).
+ */
+export const COACH_PRODUCT_ID = "helssu_lite_monthly";
+export const COACH_PRICE_KRW = 990;
+export const COACH_PLAN_LABEL = "라이트";
+export const PREMIUM_OPEN = false;
 
 /**
  * 표시 가격(원, 부가세 포함) — 2026-09-09.
@@ -15,12 +23,11 @@ export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
  * 뿐이라, 콘솔에서 가격을 바꾸면 **여기도 같이 바꿔야 한다**(안 그러면 화면에 적힌 값과
  * 결제창 값이 달라진다 — 사용자는 이걸 사기로 받아들인다).
  *
- * 3,900원으로 잡은 근거는 원가다. `ai-quota.ts` 의 한도를 다 써도 최악 원가가
- * 2,100원(2026-09-30 AI 트레이너 운동·식단 포함)이고, 아래 `netRevenueKrw` 로 계산한 실수령이 3,013원이다 —
- * **어떤 사용자도 적자가 나지 않는 선**에서 가장 낮은 가격대를 골랐다.
- * (이 관계는 `tests/be/logic/pricing.test.ts` 가 지킨다.)
+ * 3,990원(2026-10-05 병합 결정): 나중에 여는 AI 요금제 자리 — 지금은 오픈 준비 중(AI_OPEN=false).
+ * 990원은 라이트 하나(맞춤 운동·리포트·운영자 상담함 포함, AI 없음).
+ * 수수료 계산은 추정치이며 운영 인건비와 실제 AI 사용 원가는 별도다.
  */
-export const PREMIUM_PRICE_KRW = 3_900;
+export const PREMIUM_PRICE_KRW = 3_990;
 
 /** 구글 플레이 수수료. 연 100만 달러까지는 15%. */
 export const PLAY_FEE_RATE = 0.15;

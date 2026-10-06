@@ -27,6 +27,7 @@ const PRIMARY_BODY_PART: Record<string, BodyPart> = {
   dips: "chest",
   "close-grip-bench-press": "chest",
   // 등
+  "wall-angel": "back",
   deadlift: "back",
   "barbell-row": "back",
   "t-bar-row": "back",

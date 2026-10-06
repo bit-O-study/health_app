@@ -1,0 +1,217 @@
+{
+  "verifiedAt": "2026-09-30T07:59:08.164Z",
+  "results": [
+    {
+      "id": "barbell-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-5.mjs",
+          "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+        },
+        {
+          "file": "exercise-motion-5.mjs",
+          "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/barbell-curl.mp4",
+          "sha256": "cdbe78bc6234e38ccdc09753ed069c51e70bc88ff821994c343d2926a4ca9cb7",
+          "bytes": 441344,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/barbell-curl-dark.mp4",
+          "sha256": "c586c1eb387edc21b40b90351b20f70f78d756317312c3f04294178a1bca84b5",
+          "bytes": 360186,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "reverse-barbell-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-5.mjs",
+          "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+        },
+        {
+          "file": "exercise-motion-5.mjs",
+          "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/reverse-barbell-curl.mp4",
+          "sha256": "ab600176a13ea14c519de80d6024f51d6e42b5c92766c0cf0ed4556e18662d72",
+          "bytes": 430019,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/reverse-barbell-curl-dark.mp4",
+          "sha256": "ce015e7ec1445df571adc37f3fda9f33de96cf279be4c09118be236ff713a902",
+          "bytes": 349473,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "wide-grip-barbell-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-5.mjs",
+          "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+        },
+        {
+          "file": "exercise-motion-5.mjs",
+          "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/wide-grip-barbell-curl.mp4",
+          "sha256": "b9b8b416a069579bb2b2349b445d5a33e8defd8942df432fa0913ec0a8520e36",
+          "bytes": 442621,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/wide-grip-barbell-curl-dark.mp4",
+          "sha256": "35b75eb9ee39c070b69d2c63e930319fab74c33abc9146c6142081052cafe18a",
+          "bytes": 361015,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "close-grip-barbell-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-5.mjs",
+          "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+        },
+        {
+          "file": "exercise-motion-5.mjs",
+          "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/close-grip-barbell-curl.mp4",
+          "sha256": "0ea601009a0bae624d56715c63c163de632519fafaf50f633cb763123f0355ac",
+          "bytes": 441552,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 6
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/close-grip-barbell-curl-dark.mp4",
+          "sha256": "eb5c44f6b976ecaa5b64f8be021a1bb8a5b2f36f1040dad0f376adb29eba2ace",
+          "bytes": 354168,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    }
+  ]
+}

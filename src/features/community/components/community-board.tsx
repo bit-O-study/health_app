@@ -180,7 +180,7 @@ export function CommunityBoard({
       <div className="app-header shrink-0 px-4 pb-0 pt-5 sm:px-6">
         {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
         <div className="mb-4 flex items-center justify-between">
-          <Link href="/home" aria-label="짐꾼 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
+          <Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
           {/* 커뮤니티 알림(댓글·좋아요 묶음) — 커뮤니티 3단계. */}
           <Link
             href="/community/notifications"

@@ -2,10 +2,13 @@
   "prompt": "Forearm side plank isometric hold, elbow below shoulder, hips lifted and feet stacked, same posture throughout eight seconds",
   "equipment": "bodyweight",
   "sources": [
-    "https://www.acefitness.org/resources/everyone/blog/5602/10-minute-core-workout/"
+    "https://ucalgary.ca/shred-injuries/all-sports/physical-education/side-plank-elbow"
   ],
   "panels": 8,
   "cycle": "reverse",
   "id": "side-plank",
-  "registeredAt": "2026-09-15T10:56:51.782Z"
+  "registeredAt": "2026-09-15T10:56:51.782Z",
+  "rigSource": "side-plank-rig.png",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold"
 }

@@ -33,7 +33,7 @@ describe("구독 단가", () => {
       (PREMIUM_PRICE_KRW / (1 + VAT_RATE)) * (1 - PLAY_FEE_RATE),
     );
     expect(netRevenueKrw()).toBe(expected);
-    expect(netRevenueKrw()).toBe(3013);
+    expect(netRevenueKrw()).toBe(3083);
   });
 
   it("🔴 프리미엄 한도를 전부 써도 실수령을 넘지 않는다", () => {

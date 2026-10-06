@@ -210,7 +210,7 @@ function ReelSlide({
   // 한 편 공유(커뮤니티 3단계) — 링크를 받은 사람은 /community/reel/<id> 에서 이 영상만 본다.
   async function share() {
     const r = await shareLink({
-      title: "짐꾼 운동 영상",
+      title: "헬쑤 운동 영상",
       text: post.exerciseTag ? `#${post.exerciseTag} 운동 영상` : "운동 영상",
       url: absoluteUrl(`/community/reel/${post.id}`),
     });

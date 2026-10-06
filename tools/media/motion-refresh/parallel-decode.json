@@ -1,0 +1,70 @@
+[
+  {
+    "id": "dumbbell-shoulder-press",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "4e638aab1c01ff0c0bf55a6ab4e375b92d15a0ac2d42ef25af651214a8236fe1",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "532d8ab0ee1e369c0c4684e7f220c7e3c6d11c1d00a2d8ebe7b4248b683c2879",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  },
+  {
+    "id": "barbell-shrug",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "743e94fd208753f18a1f309b78b2b8a251e3760bc649ff971282470084c28791",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "3390fe4cc5e6a9a1d5a584e9076e9057a50126b848aadf97d3c535ff96d6641c",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  },
+  {
+    "id": "side-plank",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "517b1cfe3071fdfe1c8f9def83d9ac417a0945a2d3b6dd722cd033b3177a692d",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "160c44ffe3fc81bbbd944087f69b0c0b67290bbc2f10338b576852582ef5e31b",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  },
+  {
+    "id": "hollow-hold",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "5bf8025c503927621b6b6844c1043abbe4301c586e5874ef7f355e3410849098",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "68674734b736f67b832df091fe4e1b0c90eb1850cddf4d873020d442b7482907",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  }
+]

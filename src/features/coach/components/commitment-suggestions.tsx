@@ -20,7 +20,7 @@ function ymd(d: Date): string {
 }
 
 /**
- * AI 다짐 제안 카드. `suggest` 로 어느 서버 액션을 쓸지 고른다 — 짐꾼쌤(기본)과
+ * AI 다짐 제안 카드. `suggest` 로 어느 서버 액션을 쓸지 고른다 — 헬쑤쌤(기본)과
  * AI 트레이너 탭(내 상태 숫자 기반, 2026-09-30)이 같은 화면을 쓴다.
  */
 export function CommitmentSuggestions({

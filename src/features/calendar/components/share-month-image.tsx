@@ -46,7 +46,7 @@ export function ShareMonthImage({
         const blob = await res.blob();
         if (!alive) return;
         objectUrl = URL.createObjectURL(blob);
-        const file = new File([blob], `jimkkun-${month}.png`, { type: "image/png" });
+        const file = new File([blob], `helssu-${month}.png`, { type: "image/png" });
         const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
         setCanShareFile(!!nav.canShare?.({ files: [file] }));
         setState({ kind: "ready", src: objectUrl, file });

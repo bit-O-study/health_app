@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 걸음수 읽기(Health Connect). 삼성헬스가 Health Connect 에 기록한 걸음수를 읽는다. -->
     <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_EXERCISE" />
     <uses-permission android:name="android.permission.health.READ_WEIGHT" />
     <uses-permission android:name="android.permission.health.READ_BODY_FAT" />
     <uses-permission android:name="android.permission.health.READ_LEAN_BODY_MASS" />
@@ -127,6 +128,7 @@
 
     <!-- Health Connect 설치/연동 확인용 query -->
     <queries>
+        <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>
         <package android:name="com.google.android.apps.healthdata" />
         <!-- 카카오톡 설치 여부 확인(공유) -->
         <package android:name="com.kakao.talk" />

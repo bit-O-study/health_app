@@ -65,32 +65,26 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     label: "라이트",
     priceKrw: 990,
     productId: "helssu_lite_monthly",
-    tagline: "내 기록으로 보는 세부 부위 리포트",
+    tagline: "내 기록으로 맞추는 운동 · 리포트 · 운영자 상담",
     onSale: true,
+    // 2026-10-05 병합: 헬쑤 코칭(운영자 상담)을 라이트에 합치고, 혜택 12줄을 6줄로 묶었다(카드가 길어 안 보였다).
+    // 운동을 바꾸는 건 모두 오늘만 운동 변경(사용자 결정) — 루틴은 안 바꾼다. 모두 AI 없이 내 기록으로.
     benefits: [
-      { text: "맞춤 운동 앱: 세부 부위 25개 점수 리포트", ready: true },
-      // 사용자 결정(2026-10-01): 라이트 추천은 **오늘만 운동 변경으로만** 적용 — 루틴은 안 바꾼다.
-      { text: "모자란 세부 부위를 채우는 맞춤 운동 추천(오늘만 운동 변경으로 적용)", ready: true },
-      { text: "균형·종목별 성장·월간 리포트", ready: true },
-      // 혜택 1단계(2026-10-02, docs/lite-perks-2026-10-01.html) — 모두 AI 없이 내 기록으로.
-      { text: "내 데이터 리포트: 체성분 변화·컨디션·식단 월간·수분/걸음 주간", ready: true },
-      { text: "홈 홍보 배너 없음", ready: true },
-      { text: "커뮤니티 이름 옆 라이트 배지", ready: true },
-      { text: "새 기능 먼저 써 보기", ready: true },
-      // 혜택 2단계(2026-10-02, docs/lite-stage2-design-2026-10-02.html).
-      { text: "3개월 목표 3개 · 진행률·예상 도달일", ready: true },
-      { text: "몸 사진 비교(무제한, 나만 보기)", ready: true },
-      { text: "일요일 저녁 이번 주 정리 알림", ready: true },
-      { text: "아픈 부위 운동을 오늘만 다른 운동으로 바로 바꾸기", ready: true },
-      { text: "1년 돌아보기(운동 잔디·한 해 숫자·공유 이미지)", ready: true },
+      { text: "맞춤 운동: 세부 부위 25개 점수 · 모자란 곳 채우는 추천", ready: true },
+      { text: "내 기록 리포트: 성장·체성분·컨디션·식단·수분/걸음", ready: true },
+      { text: "3개월 목표 · 몸 사진 비교 · 1년 돌아보기", ready: true },
+      { text: "아픈 부위 운동을 오늘만 다른 운동으로", ready: true },
+      { text: "운영자 상담함 — 남기면 운영자가 직접 답해요", ready: true },
+      { text: "주간 정리 알림 · 홈 배너 없음 · 라이트 배지", ready: true },
     ],
     // 🔴 라이트엔 AI 가 없다 — 무료 회원의 AI 맛보기도 없다(2026-10-01 사용자 결정).
-    note: "AI 기능은 들어 있지 않아요. AI 기능과 AI가 들어간 요금제(베이직·플러스·프로)는 아직 준비 중이에요.",
+    note: "AI 기능은 없어요. 상담은 운영자가 확인 후 답해요(바로 오지 않을 수 있어요).",
   },
   basic: {
     id: "basic",
     label: "베이직",
-    priceKrw: 3_900,
+    // 2026-10-05: 나중에 여는 AI 요금제 자리 — 3,990원(사용자 계획). 지금은 오픈 준비 중.
+    priceKrw: 3_990,
     productId: "helssu_premium_monthly",
     tagline: "매일 오늘 운동을 짜 주는 AI 트레이너",
     onSale: false,

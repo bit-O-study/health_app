@@ -21,7 +21,7 @@ import {
 } from "@/features/billing/subscription-store";
 import { isEntitled, statusLabel } from "@/features/billing/subscription";
 import { resolvePlanDetail } from "@/features/billing/plan-store";
-import type { PlanId } from "@/features/billing/plans";
+import { hasPlan, type PlanId } from "@/features/billing/plans";
 
 /**
  * 구매 확인·복원 — 로드맵 7.1.
@@ -31,6 +31,10 @@ import type { PlanId } from "@/features/billing/plans";
  */
 
 export type BillingStatus = {
+  /** 운영자 상담함을 쓸 수 있나 — 라이트(990원) 이상(2026-10-05 병합: 코칭은 라이트 혜택). */
+  coaching: boolean;
+  /** 라이트를 지금 살 수 있나(결제 설정 완료). */
+  coachingReady: boolean;
   /** 유료 요금제인가(개인·팀·트레이너 어느 쪽이든). */
   premium: boolean;
   /** 지금 쓰는 요금제(개인 구독·팀·트레이너 중 높은 것). */
@@ -80,6 +84,8 @@ export async function getBillingStatusAction(): Promise<BillingStatus> {
     plan: detail.plan,
     personalPlan,
     sponsored: detail.sponsored,
+    coaching: hasPlan(detail.plan, "lite"),
+    coachingReady: billingSetup().ready,
     label: statusLabel(sub),
     ready: billingSetup().ready,
     expiresAt: sub?.expiresAt ?? null,

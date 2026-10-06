@@ -221,7 +221,7 @@ describe("런처 격자", () => {
     expect(bottomTabsForPath(edit).filter((t) => isTabActive(t, edit)).map((t) => t.label)).toEqual(["다짐 리스트"]);
     expect(bottomTabsForPath("/commitments/new").filter((t) => isTabActive(t, "/commitments/new")).map((t) => t.label)).toEqual(["다짐 생성"]);
   });
-  it("짐꾼쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
+  it("헬쑤쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
     expect(visibleApps().some((a) => a.id === "coach")).toBe(false);
     expect(visibleApps(["helssu-coach"]).some((a) => a.id === "coach")).toBe(true);
   });

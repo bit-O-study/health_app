@@ -10,7 +10,7 @@
  *    안내하고 플레이 구독 관리 화면으로 보낸다. 해지 버튼이 우리 서버에서 뭔가를 끊지 않는다.
  */
 import { formatUntil, isEntitled, type SubscriptionRecord } from "@/features/billing/subscription";
-import { PLANS, PLAN_ORDER, planRank, type PlanId } from "@/features/billing/plans";
+import { PLANS, PLAN_ORDER, planRank, type PlanId, AI_OPEN } from "@/features/billing/plans";
 
 /**
  * 첫 구독 무료 체험 일수 — **플레이 콘솔의 신규 구독자 제안(offer)과 같아야 한다.**
@@ -102,7 +102,9 @@ export function playManageUrl(packageName: string, productId: string | null): st
 }
 
 /** 이번 달 받은 혜택 한 줄 — 배민클럽의 '이번 달 아낀 금액' 자리. 0이면 빈 문자열. */
-export function benefitsUsedLine(aiUsesThisMonth: number): string {
+export function benefitsUsedLine(aiUsesThisMonth: number, aiOpen: boolean = AI_OPEN): string {
+  // AI 가 닫혀 있는 동안(2026-10-01~)엔 AI 사용 횟수를 말하지 않는다.
+  if (!aiOpen) return "";
   if (!Number.isFinite(aiUsesThisMonth) || aiUsesThisMonth <= 0) return "";
   return `이번 달 AI 트레이너·분석을 ${Math.floor(aiUsesThisMonth)}번 썼어요.`;
 }

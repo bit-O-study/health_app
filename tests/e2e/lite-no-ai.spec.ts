@@ -32,9 +32,6 @@ test("무료·라이트 모두 AI 버튼이 없고, 나머지 요금제는 준�
   await expect(page.getByRole("button", { name: "사진에서 자동 추출" })).toHaveCount(0);
 
   await page.goto("/settings/subscription", { waitUntil: "networkidle" });
-  await expect(page.getByTestId("plan-lite-note")).toContainText("AI 기능은 들어 있지 않아요", { timeout: 15_000 });
-  await expect(page.getByTestId("plan-lite-note")).toContainText("아직 준비 중");
-  for (const id of ["basic", "plus", "pro"]) {
-    await expect(page.getByTestId(`plan-${id}-soon`)).toHaveText("오픈 준비 중");
-  }
+  await expect(page.getByTestId("plan-lite-note")).toContainText("AI 기능은 없어요", { timeout: 15_000 });
+  await expect(page.getByTestId("plan-ai-soon")).toContainText("오픈 준비 중");
 });

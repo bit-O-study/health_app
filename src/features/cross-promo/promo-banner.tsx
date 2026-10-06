@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-/** 광고 배너 슬라이드(짐꾼를 뺀 나머지 서비스). 자동 롤링. */
+/** 광고 배너 슬라이드(헬쑤를 뺀 나머지 서비스). 자동 롤링. */
 type Slide = {
   image: string;
   headline: string;

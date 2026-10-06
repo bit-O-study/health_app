@@ -2,7 +2,7 @@ import "server-only";
 
 import { AI_TIMEOUT_MS, aiFetchError } from "@/features/coach/ai-timeout";
 
-/** 짐꾼쌤 공용 Claude 호출(텍스트·이미지). ANTHROPIC_API_KEY 필요. */
+/** 헬쑤쌤 공용 Claude 호출(텍스트·이미지). ANTHROPIC_API_KEY 필요. */
 
 const MODEL = "claude-haiku-4-5-20251001";
 const API_URL = "https://api.anthropic.com/v1/messages";

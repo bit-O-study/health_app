@@ -1,0 +1,36 @@
+{
+  "id": "alternating-dumbbell-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-curl.mp4",
+      "sha256": "18b2befe946a3bbf6aa8125133b590696e8a462bd7a04bde739822f7a23fd84d",
+      "bytes": 267643
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-curl-dark.mp4",
+      "sha256": "28993faf7f87bb9f43071a4211fc05735ca0eed15aa0b35b430362e51528271f",
+      "bytes": 229926
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-2.mjs",
+      "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+    },
+    {
+      "file": "exercise-motion-2.mjs",
+      "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

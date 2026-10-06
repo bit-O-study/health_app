@@ -1,0 +1,36 @@
+{
+  "id": "single-arm-dumbbell-front-raise",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-front-raise.mp4",
+      "sha256": "7999488d91ecb4b8712c38e4e335735078e3d1be546bae474421fb741e901cd8",
+      "bytes": 258405
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-front-raise-dark.mp4",
+      "sha256": "06a56bfe39a46f4b4218e5d591c7248860d49ad96d1c0ffc03a40d9a8231f516",
+      "bytes": 248386
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-3.mjs",
+      "sha256": "fb70126addac3bb26d6e09079c9e773c543c37c4974b80088291a8601a0f54fc"
+    },
+    {
+      "file": "exercise-motion-3.mjs",
+      "sha256": "b938bbbc7674de8474f755632bc3eaf62549b9dd2e32cc7bbd91e81d6bc5c955"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

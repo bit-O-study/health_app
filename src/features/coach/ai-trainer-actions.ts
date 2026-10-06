@@ -185,7 +185,7 @@ export async function reviewTodayDietAction(): Promise<DietReviewResult> {
 
 /**
  * AI 다짐 추천 — 내 상태 숫자로 실천할 다짐 2~3개(기존 다짐 지표 안에서만).
- * 짐꾼쌤의 다짐 제안과 같은 형식이라 화면·추가(addCommitmentAction)를 그대로 쓴다. 한도는 코치 칸.
+ * 헬쑤쌤의 다짐 제안과 같은 형식이라 화면·추가(addCommitmentAction)를 그대로 쓴다. 한도는 코치 칸.
  */
 export async function suggestTrainerCommitmentsAction(): Promise<CommitmentSuggestResult> {
   if (!(await getCurrentUser())) return { ok: false, error: "로그인이 필요해요." };

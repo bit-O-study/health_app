@@ -79,12 +79,13 @@ export function BodyCompForm({
     return obj;
   });
   const [consented, setConsented] = useState(false);
+  const [scanNeedsReview, setScanNeedsReview] = useState(false);
   const [imagePath, setImagePath] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadErr, setUploadErr] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  // 클라이언트 OCR (tesseract.js) — 사진은 브라우저 안에서만 처리, 어디로도 안 나감
+  // 사진은 문서용 크기로 처리한 뒤 서버 AI로 판독한다.
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [ocrRunning, setOcrRunning] = useState(false);
   const [ocrProgress, setOcrProgress] = useState(0);
@@ -134,7 +135,7 @@ export function BodyCompForm({
     setOcrPhase("AI가 분석 중…");
     try {
       // 사진을 AI 비전 크기로 축소 후 서버에서 판독(식단 스캔과 동일 경로).
-      const img = await resizeImageForAI(imageFile);
+      const img = await resizeImageForAI(imageFile, 1800, 0.9, 160_000);
       const res = await scanBodyCompPhotoAction({
         imageBase64: img.base64,
         mediaType: img.mediaType,
@@ -145,25 +146,25 @@ export function BodyCompForm({
       }
 
       const parsed = res.values;
-      const filled: string[] = [];
+      const filled = Object.entries(parsed).filter(([, value]) => value !== undefined);
       setValues((prev) => {
         const next = { ...prev };
-        for (const [k, v] of Object.entries(parsed)) {
+        for (const [k, v] of filled) {
           if (v === undefined) continue;
           next[k as FieldKey] = String(v);
-          filled.push(k);
         }
         return next;
       });
+      if (filled.length > 0) setScanNeedsReview(true);
       setOcrMsg(
         filled.length > 0
           ? {
               ok: true,
-              text: `${filled.length}개 항목을 읽어 채웠습니다. 값을 확인하고 ‘체성분 저장’을 눌러주세요.`,
+              text: `${filled.length}개 항목을 읽어 채웠습니다. 원본의 항목명과 숫자를 대조해 주세요. ${(res.warnings ?? []).join(" ")}`,
             }
           : {
               ok: false,
-              text: "분석지에서 수치를 인식하지 못했습니다. 더 선명한 사진으로 다시 시도하거나 직접 입력해 주세요.",
+              text: (res.warnings ?? []).join(" ") || "항목명·단위와 일치하는 수치를 확인하지 못했어요. 기본 수치 표나 부위별 분석 부분을 크게 잘라 다시 시도해 주세요.",
             },
       );
     } catch (err) {
@@ -185,6 +186,7 @@ export function BodyCompForm({
   }
 
   function submit() {
+    if (scanNeedsReview) { setMsg({ ok: false, text: "사진에서 읽은 값을 원본과 대조한 뒤 확인해 주세요." }); return; }
     if (!consented) {
       setMsg({
         ok: false,
@@ -284,7 +286,7 @@ export function BodyCompForm({
               type="file"
               accept="image/png,image/jpeg,image/webp"
               className="hidden"
-              disabled={uploading}
+              disabled={uploading || ocrRunning}
               onChange={onFile}
             />
           </label>
@@ -343,6 +345,10 @@ export function BodyCompForm({
             {uploadErr}
           </p>
         ) : null}
+        {scanNeedsReview && <label className="mt-3 flex items-start gap-2 text-sm">
+          <input type="checkbox" checked={false} onChange={e => { if (e.target.checked) setScanNeedsReview(false); }} className="mt-1 accent-brand" />
+          사진에서 읽은 항목명·수치를 원본과 대조하고, 잘못된 값은 수정했어요.
+        </label>}
         {ocrMsg ? (
           <p
             className={cn(
@@ -356,7 +362,7 @@ export function BodyCompForm({
           </p>
         ) : null}
         <p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
-          사진은 기기 안에서 읽고 비공개로 저장돼요 · 최대 10MB
+          사진은 비공개로 저장되며 자동 추출 시 AI 서버로 전송됩니다 · 최대 10MB
         </p>
         </div>
       </section>
@@ -374,10 +380,9 @@ export function BodyCompForm({
           <li>
             보관: 본인 계정에 비공개로 저장(본인만 조회 가능), 언제든 삭제 가능
           </li>
-          <li>제3자 제공·의학적 진단·치료 권유에 사용하지 않음</li>
+          <li>의학적 진단·치료 권유에 사용하지 않음</li>
           <li>
-            ‘사진에서 자동 추출’ 은 브라우저 안에서만 처리되며 사진이 외부
-            서버로 전송되지 않습니다.
+            ‘사진에서 자동 추출’을 누르면 판독을 위해 사진이 AI 서비스로 전송됩니다. 읽은 값은 원본과 대조한 뒤 저장해 주세요.
           </li>
         </ul>
         <label className="mt-3 inline-flex items-center gap-2">
@@ -396,7 +401,7 @@ export function BodyCompForm({
       <div className="flex items-center gap-3">
         <button
           type="button"
-          disabled={pending || !consented}
+          disabled={pending || !consented || scanNeedsReview || ocrRunning}
           onClick={submit}
           className="app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
         >

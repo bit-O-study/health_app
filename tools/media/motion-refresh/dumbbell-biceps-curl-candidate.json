@@ -1,0 +1,78 @@
+{
+  "id": "dumbbell-biceps-curl",
+  "renderer": "fixed-arm-rig-v1",
+  "timing": "smooth",
+  "rigSource": "dumbbell-biceps-curl-atlas.png",
+  "sourceAtlasSha256": "bdcd6fa4832db7584e6a58fadc8092de70ad425003461ba18fcb85986f5bb34e",
+  "rig": {
+    "body": {
+      "crop": [
+        240,
+        0,
+        410,
+        1220
+      ],
+      "at": [
+        190,
+        45
+      ],
+      "scale": 0.49
+    },
+    "limbs": [
+      {
+        "crop": [
+          840,
+          670,
+          250,
+          420
+        ],
+        "pivot": [
+          899,
+          718
+        ],
+        "joint": [
+          540,
+          434
+        ],
+        "scale": 0.285,
+        "sourceAngle": 76,
+        "start": 85,
+        "end": -48,
+        "behind": true
+      },
+      {
+        "crop": [
+          840,
+          190,
+          250,
+          430
+        ],
+        "pivot": [
+          896,
+          238
+        ],
+        "joint": [
+          291,
+          436
+        ],
+        "scale": 0.3,
+        "sourceAngle": 76,
+        "start": 85,
+        "end": -48
+      }
+    ]
+  },
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "71c6333b54308c69661a649984e69394095255b7839eb179efe62acebbeadf6e",
+      "bytes": 212421
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "98fdb30df7ac1eda89221e3862cd73ff5bc231283bd99ec555bbd01d7bed3464",
+      "bytes": 168151
+    }
+  ]
+}

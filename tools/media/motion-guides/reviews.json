@@ -109,12 +109,12 @@
   },
   {
     "status": "passed",
-    "note": "Source panels and both theme contact sheets inspected against Muscle and Strength weight plate pinches. Cutout v5 H264 480x480 8s 24fps complete decode passed; light 141831 bytes, dark 140756 bytes.",
+    "note": "2026-09-30 refresh: original reviewed appearance retained; no temporal optical-flow or independently changing poses. Both theme start/2s/4s/6s/end frames inspected, full FFmpeg decoding and browser loop passed. 720px upscales 480px source. Android playback pending; dark source rim remains.",
     "checks": {
       "equipment": "Two separate smooth iron weight plates, one per hand.",
       "setup": "Upright neutral standing posture with arms at sides.",
       "feet": "Both bare feet remain planted and stance unchanged.",
-      "movement": "Static hold with only slight breathing-sized frame changes; both light and dark 32-frame sheets show no limb or plate ghosting.",
+      "movement": "One fixed isometric pose maintained for the entire loop; stable limb/plate/ball shape, no unintended repetitions or pose morphing. Minor codec pixel variation only.",
       "exercise": "Isometric weight plate pinch hold, not a curl or carry.",
       "hands": "Each plate held at its upper outer rim by thumb and fingertips, without using the center hole."
     },
@@ -126,9 +126,9 @@
       "https://www.muscleandstrength.com/exercises/weight-plate-pinches.html"
     ],
     "sourceSha256": "2e305a817339fc79c307d047b64a2d5fa9b6012eba0944792ac3a07efbd87487",
-    "videoSha256": "9c5537e704e746588daed4f6089253ae2a297595402840e1fda8e48ad58a6b5a",
-    "darkVideoSha256": "fe195f569eedf3910155ca8d983cd98c8819dcfba1e91e3e45657c6ccc9d7289",
-    "reviewedAt": "2026-09-15T00:23:23.219Z"
+    "videoSha256": "1adc41b2908c39375b4a0c6fdecf25c5be7aa2af0fb3081e7e7bc5c29d74c4fe",
+    "darkVideoSha256": "2b374ea537a861eb95f5e71aa01c55086936a0a618547fdcea4dffdac85578d6",
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
   },
   {
     "status": "rejected",
@@ -331,14 +331,14 @@
   },
   {
     "status": "passed",
-    "note": "Re-reviewed renderVersion 5 light and dark contact sheets; cutout edges and motion remain stable.",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional.",
     "checks": {
-      "equipment": "Barbell and both plates remain stable throughout",
-      "setup": "Torso stays upright with the bar held at thigh level",
-      "feet": "Both feet remain evenly planted",
-      "movement": "Shoulders elevate and return without head, limb, or bar artifacts",
-      "exercise": "Barbell shrug raises and lowers both shoulders with straight arms",
-      "hands": "Both hands maintain their grip without clipping"
+      "exercise": "Standing barbell shrug with a small bilateral shoulder elevation.",
+      "equipment": "Rigid straight bar with two equal plates and collars; no bending or size changes.",
+      "setup": "Head, central torso, shorts and legs fixed; arms-bar layer translates vertically.",
+      "hands": "Both closed overhand grips move with bar; elbows stay straight, no curling.",
+      "feet": "Both shoes stay planted at the same locations.",
+      "movement": "One rigid arms-and-bar assembly rises 9px and returns on an 8s cosine loop. No shoulder rolling or shorts warp. Simplified shoulder-cap overlap rather than anatomical scapular movement."
     },
     "id": "barbell-shrug",
     "equipmentIds": [
@@ -348,9 +348,10 @@
       "https://www.puregym.com/exercises/back/shrugs/barbell-shrug/"
     ],
     "sourceSha256": "48d58f21001b56b36b1734c7308fa590b7275d6344cc5a1c898a4fd89c482d6c",
-    "videoSha256": "7749016aab221c01bedebd7787df9e4e3d23bb06ac2b61025c80cde4cb2c08ce",
-    "darkVideoSha256": "824a980846c1632919137f0fc9d56368515b05000a1807d843fa7d3849409ddd",
-    "reviewedAt": "2026-09-15T02:05:48.536Z"
+    "videoSha256": "743e94fd208753f18a1f309b78b2b8a251e3760bc649ff971282470084c28791",
+    "darkVideoSha256": "3390fe4cc5e6a9a1d5a584e9076e9057a50126b848aadf97d3c535ff96d6641c",
+    "reviewedAt": "2026-09-30T03:58:05.470Z",
+    "rigSourceSha256": "29b4a96e65c1a6314c9a85ff02931ae7792f3d7a0cdb252e2415a3316dbc0b0f"
   },
   {
     "status": "passed",
@@ -629,9 +630,9 @@
       "setup": "Forearms rest on the ball, legs extend behind and trunk remains approximately straight without a large hip drop.",
       "hands": "Both forearms and loosely clasped hands remain intact on top of the ball; no duplicated arms.",
       "feet": "Both shoes and toe support remain in the same floor position with heels lifted.",
-      "movement": "Isometric hold remains stable through the loop; no visible head, arm or ball ghosting in either contact sheet."
+      "movement": "One fixed isometric pose maintained for the entire loop; stable limb/plate/ball shape, no unintended repetitions or pose morphing. Minor codec pixel variation only."
     },
-    "note": "Inspected all 32 sampled frames in light and dark renders after CPU cutout. Ball and limb contours remain intact. Full decode passed, 480x480, 8 seconds, 24 fps. Physical mobile playback remains pending.",
+    "note": "2026-09-30 refresh: original reviewed appearance retained; no temporal optical-flow or independently changing poses. Both theme start/2s/4s/6s/end frames inspected, full FFmpeg decoding and browser loop passed. 720px upscales 480px source. Android playback pending; dark source rim remains.",
     "id": "stability-ball-plank",
     "equipmentIds": [
       "ball"
@@ -641,9 +642,9 @@
       "https://www.nasm.org/resource-center/exercise-library/plank"
     ],
     "sourceSha256": "a9de538760b9c3a641597420d570741914b57db67ab9ab73f8b81fd5f419a88d",
-    "videoSha256": "0497b8a6feaf90f525398030f572e4550f06876ee9fe7eab88506682a42013ed",
-    "darkVideoSha256": "a583c74a3e7824c780ea712a97de3663a5f70352a9cd2c37eda553e0fd62e6a8",
-    "reviewedAt": "2026-09-15T13:42:22.055Z"
+    "videoSha256": "43d4bdf15c25f67e52c76f25f34a41d4d7de933f2aea43814205eab566fbf1a6",
+    "darkVideoSha256": "7d059de0abc1c9374c8a49da896327ac01e1a944a589c73a6c70b148c90975e8",
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
   },
   {
     "status": "passed",
@@ -702,25 +703,26 @@
   {
     "status": "passed",
     "checks": {
-      "exercise": "Standing simultaneous dumbbell curl with forearm flexion and controlled return.",
-      "equipment": "Two separate dumbbells retain clear handles and plates after cutout.",
-      "setup": "Trunk stays upright, upper arms remain near the sides and no large torso swing appears.",
-      "hands": "Supinated grips stay attached to both dumbbells without extra hands.",
-      "feet": "Both shoes remain planted in the same stance throughout.",
-      "movement": "Elbows flex to bring weights toward shoulders and extend on return; 32 frames in each theme show no conspicuous limb duplication."
+      "exercise": "Bilateral supinated dumbbell biceps curl.",
+      "equipment": "Two separate complete dumbbells stay rigidly attached to hands.",
+      "setup": "Upright fixed torso; upper arms stay beside ribs and elbow centers do not move.",
+      "hands": "Supinated grip source with dumbbell axis across the palm, distinct from neutral hammer grip; no hand detachment.",
+      "feet": "Both shoes remain planted at unchanged coordinates.",
+      "movement": "Only fixed-length forearm/hand/weight parts rotate about elbows and return; smooth cosine timing with peak at 4s. Simplified 2D projected motion and round mechanical elbow joints."
     },
-    "note": "Fresh v5 light and dark 32-frame visual inspection after cutout. Body, equipment and contacts remain intact; mild interpolation softness remains. Physical mobile playback pending.",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
     "id": "dumbbell-biceps-curl",
     "equipmentIds": [
       "dumbbell"
     ],
     "sources": [
-      "https://www.muscleandstrength.com/exercises/standing-dumbbell-curl.html"
+      "https://www.catalystathletics.com/exercise/821/Dumbbell-Curl/"
     ],
     "sourceSha256": "a3fd6f29ebce69f3b1d6b1b38c445d075ec415ad95eff4ce6d1713a90517d974",
-    "videoSha256": "1f542c982ae0109459c3c87561f801d8289652c9638218056332f516b53d0278",
-    "darkVideoSha256": "98fb8ceb6d0ec85f02112cb76818c5a937c28e561a43f971117521dbb35772ca",
-    "reviewedAt": "2026-09-15T14:09:30.193Z"
+    "videoSha256": "71c6333b54308c69661a649984e69394095255b7839eb179efe62acebbeadf6e",
+    "darkVideoSha256": "98fdb30df7ac1eda89221e3862cd73ff5bc231283bd99ec555bbd01d7bed3464",
+    "reviewedAt": "2026-09-30T04:43:08.886Z",
+    "rigSourceSha256": "bdcd6fa4832db7584e6a58fadc8092de70ad425003461ba18fcb85986f5bb34e"
   },
   {
     "status": "passed",
@@ -776,9 +778,9 @@
       "setup": "Upright torso and aligned head remain stable; no large back arch or shrug.",
       "hands": "Closed grips and slight elbow bend retained, no visibly detached hands.",
       "feet": "Both bare feet remain planted in a stable stance.",
-      "movement": "Source 16 poses and both 32-frame sheets inspected; bilateral rise and return with no conspicuous duplicated limbs or equipment."
+      "movement": "Fixed torso and same arm geometry throughout one 8-second bilateral shoulder rotation; 60fps, peak at 4s. No optical-flow blending. 2D shoulder mechanics remain simplified."
     },
-    "note": "2026-09-16 fresh source/light/dark inspection against ACE lateral raise instructions. Dark edge glow and mild interpolation softness remain; device playback pending.",
+    "note": "2026-09-30 user accepted the revised preview after arm-length and color-smear corrections. Existing single pose reused, fixed-length arms scaled 0.82 horizontally. Light/dark decode and loop checks passed. 720px upscales 480px source; physical device check pending.",
     "id": "dumbbell-lateral-raise",
     "equipmentIds": [
       "dumbbell"
@@ -787,9 +789,9 @@
       "https://www.acefitness.org/resources/everyone/exercise-library/26/lateral-raise/"
     ],
     "sourceSha256": "152b3fd069e44ca314650c1d9989e5a5b750a33f026c42baed08301b304b3945",
-    "videoSha256": "7bff989323cbc41023995c9bf1660e9b03da90a79cf04ddb39ef7ba0e3f20b17",
-    "darkVideoSha256": "354e37b1ce64252b306e5f956a0ef0600619b2bbe7109bdccd25c029944d29fd",
-    "reviewedAt": "2026-09-16T07:37:48.859Z"
+    "videoSha256": "c6833f3fee2f9e390d02c3e5fdc78bda05151ba79d53067ba8a55886b1c58d6b",
+    "darkVideoSha256": "554004459f0cad007d02ec88c13cb1142ca5dbe39d103d2bfffe97413068d816",
+    "reviewedAt": "2026-09-30T00:46:26.139Z"
   },
   {
     "status": "passed",
@@ -929,9 +931,9 @@
       "setup": "Posteriorly tilted pelvis and lower back contact visible in source, shoulders lifted with chin gently tucked.",
       "hands": "Both arms extended overhead beside ears, hands and fingers remain complete.",
       "feet": "Straight legs held together with heels elevated, both shoes remain complete.",
-      "movement": "All eight source poses and both 32-frame sheets retain the shallow hollow shape and stable contact; no conspicuous duplicated limbs. Larger framing clearly displays trunk and hips."
+      "movement": "One fixed isometric pose maintained for the entire loop; stable limb/plate/ball shape, no unintended repetitions or pose morphing. Minor codec pixel variation only."
     },
-    "note": "2026-09-16 regenerated close framing against ACE hollow hold description. Full decode passed for 480x480/8s/24fps light 89449 and dark 87247 bytes. Static isometric exercise with minor breathing/contour variation, not a dynamic repetition. Physical Android verification pending.",
+    "note": "2026-09-30 refresh: original reviewed appearance retained; no temporal optical-flow or independently changing poses. Both theme start/2s/4s/6s/end frames inspected, full FFmpeg decoding and browser loop passed. 720px upscales 480px source. Android playback pending; dark source rim remains.",
     "id": "hollow-body-hold",
     "equipmentIds": [
       "bodyweight"
@@ -940,9 +942,9 @@
       "https://www.acefitness.org/resources/pros/expert-articles/8989/crunch-time-an-evidence-based-approach-to-training-the-abs/"
     ],
     "sourceSha256": "eaee4a4df1fb52b454ef9049665db24a7213db9dc9c200ce770dd99a2f92e01f",
-    "videoSha256": "41b5d600e333903c479e48a3ca461eca9a1b1a52bfbbee8c119fbc5e137835df",
-    "darkVideoSha256": "e6898b9507730a6faf1bdf662c916c6ea561c2fd4a7116f7e30b4a4872cf96f2",
-    "reviewedAt": "2026-09-16T08:38:06.741Z"
+    "videoSha256": "4dd9bd9ad3f76f5cbb8142e19b8ce0f25ae1795c373a14415371389d0009a50c",
+    "darkVideoSha256": "97455e3811872f52697779398d1b342871484bf72cba907bb96b31a06301a482",
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
   },
   {
     "status": "passed",
@@ -952,9 +954,9 @@
       "setup": "Upright trunk with slight split stance; no visible torso swing or lumbar extension.",
       "hands": "Closed neutral grips maintained with extended elbows, no curl or weight detachment.",
       "feet": "Both shoes stay planted; no heel raise or stepping during shoulder elevation.",
-      "movement": "Shoulder girdle rises toward ears then lowers; small range visible without shoulder rolling. Both themes retain continuous arms and dumbbells."
+      "movement": "Shoulders and hanging arms/dumbbells rise and lower together with smooth eight-second timing. Fixed central head/torso/feet; no curl or shoulder roll. Spatial 2D deformation near shoulder attachment is simplified; no temporal ghosting."
     },
-    "note": "2026-09-17: reviewed source plus light/dark contact sheets against ACE source. Light/dark full decode and 480x480,8s,24fps checked fresh: imports/shrug-verification-20260917.json. Mild dark rim glow remains; physical Android/app playback not checked this batch.",
+    "note": "2026-09-30 refresh: original reviewed appearance retained; no temporal optical-flow or independently changing poses. Both theme start/2s/4s/6s/end frames inspected, full FFmpeg decoding and browser loop passed. 720px upscales 480px source. Android playback pending; dark source rim remains.",
     "id": "dumbbell-shrug",
     "equipmentIds": [
       "dumbbell"
@@ -963,21 +965,21 @@
       "https://www.acefitness.org/resources/everyone/exercise-library/75/standing-shrug/"
     ],
     "sourceSha256": "eaf5ceb3fcff1b9c310c84be551f9c3053d88db5016dd0942224ab5c78ac56db",
-    "videoSha256": "5d18614092c6c1c6863b12a4c24cc495a6fc3ec34eecfa74f3d02ce0c8341ee4",
-    "darkVideoSha256": "3f09c6ad99ef46a6a7e824c5d9a4821af4028f540bf3811b989e8bb79539147b",
-    "reviewedAt": "2026-09-17T08:53:29.465Z"
+    "videoSha256": "69a7622b02fd1415a65430fbdae14c891266a1384bb8459d31f780fe8917ae4d",
+    "darkVideoSha256": "c6699b4e8683e6571d227b7d5420a934ab4fe0942570ec9d337572f19b2cd538",
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
   },
   {
     "status": "passed",
     "checks": {
-      "exercise": "Seated dumbbell shoulder press: 8 source poses press from shoulder height to lockout, video adds the return so one full repetition is shown.",
-      "equipment": "Two dumbbells and the upright adjustable bench survive the cutout in both themes; plates, handles and the seat frame stay whole with no clipped bar ends.",
-      "setup": "Back stays against the upright pad, hips and knees near 90 degrees, no lumbar arching or hip lift through the press.",
-      "hands": "Pronated grips stay closed on both handles for every sampled frame; wrists stack over the elbows and no hand detaches from a dumbbell.",
-      "feet": "Both shoes stay flat on the floor at the same spot in all 32 frames of both sheets; no heel lift or foot slide.",
-      "movement": "Elbows travel from just below shoulder height to overhead lockout and back along the same path; light and dark 32-frame sheets show no duplicated limbs, no bar/plate smearing and stable head position."
+      "exercise": "Seated bilateral dumbbell shoulder press with controlled rise and return.",
+      "equipment": "Two rigid dumbbells, bench back and seat retained; complete weights.",
+      "setup": "Fixed seated torso and bench; no arching or hip lift.",
+      "hands": "Closed pronated grips remain attached to each rigid forearm and dumbbell, neutral wrists.",
+      "feet": "Both feet remain planted and unchanged.",
+      "movement": "Fixed upper arm lengths, upright forearms, soft nearly straight elbows at peak 4s; smooth 8s loop. Simplified frontal 2D shoulder mechanics and visible spherical joints, no scapular simulation."
     },
-    "note": "2026-09-18 cutout (renderVersion 5) re-review after the light/dark rebuild. Source JPG plus both 32-frame contact sheets inspected; cutout keeps the bench and both dumbbells intact, dark rim light separates the black plates and shoes from the #09090b background with no halo on the light sheet. Replaces the pre-cutout passed review whose hash no longer matched. App screen E2E and physical Android playback not run for this batch.",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional.",
     "id": "dumbbell-shoulder-press",
     "equipmentIds": [
       "dumbbell"
@@ -986,9 +988,10 @@
       "https://www.acefitness.org/resources/everyone/exercise-library/45/seated-overhead-press/"
     ],
     "sourceSha256": "3eb5eb236f9dc518fb5cb174bfe6342cf245e405103d0d7a44a3096f06868d2b",
-    "videoSha256": "86bda19c893a72f970215d4e9b18c2c144939ae5122ca1a0baeca276360f5b87",
-    "darkVideoSha256": "abebc8ebfcd344e3a0b0e0ab9237617786c5fb2a660a90485074b28d623d0b2c",
-    "reviewedAt": "2026-09-18T01:12:03.382Z"
+    "videoSha256": "4e638aab1c01ff0c0bf55a6ab4e375b92d15a0ac2d42ef25af651214a8236fe1",
+    "darkVideoSha256": "532d8ab0ee1e369c0c4684e7f220c7e3c6d11c1d00a2d8ebe7b4248b683c2879",
+    "reviewedAt": "2026-09-30T03:58:05.467Z",
+    "rigSourceSha256": "78d81b2069cb820ec845820c101add5ddbdfd21decc10ad526ec86c14808f1b8"
   },
   {
     "status": "passed",
@@ -1016,14 +1019,14 @@
   {
     "status": "passed",
     "checks": {
-      "exercise": "Standing bilateral hammer curl: 16 source poses flex both elbows from full extension at the thighs to the top of the curl, and the video reverses for the lowering half.",
-      "equipment": "Two dumbbells; the cutout keeps both weights, their handles and the knurl complete in light and dark, with no plate corner clipped.",
-      "setup": "Trunk stays upright with a fixed narrow stance; no leaning back or hip drive to help the curl.",
-      "hands": "Neutral (hammer) grip is held throughout - the dumbbell heads stay oriented front-to-back, never rotating into a supinated curl. Zoomed 8fps frames at 1.5-3.0s and 5.0-6.5s confirm both hands stay closed on the handles.",
-      "feet": "Both shoes stay planted and unchanged in all 32 frames of both sheets; no rocking or stepping.",
-      "movement": "Upper arms stay pinned at the ribs while the forearms travel; elbows do not drift forward. Zoomed transition frames in both themes show no duplicated arms, no detached dumbbells and no torso smearing."
+      "exercise": "Bilateral neutral-grip hammer curl.",
+      "equipment": "Two equal compact dumbbells with plate pair and handle retained.",
+      "setup": "Torso, upper arms and elbow pivots fixed; no swinging.",
+      "hands": "Neutral grips with dumbbell axes aligned along forearms rather than across them, thumbs toward elbows. Hands and weights remain one rigid layer.",
+      "feet": "Both feet stay at the same positions through entire loop.",
+      "movement": "Forearms flex and return with no changing length or temporal blending. Fixed 2D perspective; spherical elbow overlap is a visual simplification."
     },
-    "note": "2026-09-18 cutout (renderVersion 5) re-review after the light/dark rebuild. Source JPG and both 32-frame contact sheets inspected, plus 4x3 zoomed 8fps tiles of the fastest ascent and descent segments in each theme (the earlier interpolation ghosting that once held this exercise back is gone at renderVersion 5). Replaces the pre-cutout passed review whose hash no longer matched. App screen E2E and physical Android playback not run for this batch.",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
     "id": "hammer-curl-2",
     "equipmentIds": [
       "dumbbell"
@@ -1032,9 +1035,10 @@
       "https://www.muscleandstrength.com/exercises/standing-hammer-curl.html"
     ],
     "sourceSha256": "15d9b6da3c8afa36ca19b2ba4793b5f20e51d57cc97d591b57ba7d4159c71154",
-    "videoSha256": "94a8fb1efe06d38594f69d6caa18e26f14adf5d5541a1b3468a67e71ce341637",
-    "darkVideoSha256": "e72f43d8d53e681713aa9f2cd19320b6ae59e75da2fcff9da7f0a6056c2b3e7b",
-    "reviewedAt": "2026-09-18T01:15:28.940Z"
+    "videoSha256": "94faffcb102295b587f4a4a534a5e7bc365cad91daa2e1fffe29d83007db48f5",
+    "darkVideoSha256": "1a2dd4ecd473b8939020efadbc191c274a1b0d19abb84fc51ec73e9a5a47ecdc",
+    "reviewedAt": "2026-09-30T04:43:08.891Z",
+    "rigSourceSha256": "5a38024b28439a0b192099b555d1c576b571ccf5a69fecd57a58d882277b5f47"
   },
   {
     "status": "passed",
@@ -2501,16 +2505,16 @@
     "reviewedAt": "2026-09-14T23:39:05.266Z"
   },
   {
-    "status": "rejected",
+    "status": "passed",
     "checks": {
-      "exercise": "자세 전환과 복귀 구간에서 팔·다리 보간 잔상",
-      "equipment": "종목별 원본의 기구·매트는 맞음",
-      "setup": "원본 시작 자세는 확인",
-      "hands": "원본 손 위치는 확인",
-      "feet": "원본 발 위치는 확인",
-      "movement": "자세 전환과 복귀 구간에서 팔·다리 보간 잔상"
+      "exercise": "Full hollow-body isometric hold rather than repeated tuck transitions.",
+      "equipment": "Thin mat, no weights.",
+      "setup": "Pelvis and low back on mat, shoulders slightly elevated without lumbar arch.",
+      "hands": "Both arms extend overhead with fixed lengths.",
+      "feet": "Both straight legs held together with heels off mat.",
+      "movement": "Fixed shallow hollow shape throughout loop, not a V-up; no changing proportions or interpolated ghosting."
     },
-    "note": "2026-09-15 원본8컷 및 렌더32프레임 시각 검토. 480x480·8초·24fps·전체 decode 통과, 보간 잔상/잘림 때문에 공개 제외.",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional.",
     "id": "hollow-hold",
     "equipmentIds": [
       "bodyweight"
@@ -2519,8 +2523,10 @@
       "https://www.strengthlog.com/hollow-hold/"
     ],
     "sourceSha256": "c383af275de08c4b614ea0d54a9c48c2efb8f6d6a50b07be71264df65d38683d",
-    "videoSha256": "e08c71189489383a1a831ba2bc3a2d00b403603702ba2e48f0fb92dcedb43d11",
-    "reviewedAt": "2026-09-14T23:39:09.470Z"
+    "videoSha256": "5bf8025c503927621b6b6844c1043abbe4301c586e5874ef7f355e3410849098",
+    "reviewedAt": "2026-09-30T03:58:05.471Z",
+    "rigSourceSha256": "6abe1ea3523b92e6fc6078afc3313f74cda3d6faa331050777331dd3d80e9ac4",
+    "darkVideoSha256": "68674734b736f67b832df091fe4e1b0c90eb1850cddf4d873020d442b7482907"
   },
   {
     "status": "rejected",
@@ -2702,24 +2708,26 @@
   {
     "status": "passed",
     "checks": {
-      "exercise": "상완을 몸통 옆에 고정하고 팔꿈치만 펴는 원암 덤벨 트라이셉스 킥백이 명확함",
-      "equipment": "오른손의 단일 덤벨이 전 프레임에서 같은 형태와 그립으로 유지됨",
-      "setup": "스플릿 스탠스와 전방 힌지, 반대 손의 허벅지 지지 자세가 고정됨",
-      "hands": "지지 손은 앞 허벅지에 있고 운동 손은 덤벨을 놓치거나 중복 없이 유지함",
-      "feet": "앞뒤 양발이 같은 위치에 고정되어 안정된 지지 기반을 유지함",
-      "movement": "오른 상완과 팔꿈치 위치는 유지되고 전완만 점진적으로 뒤로 펴졌다 복귀함"
+      "exercise": "One-arm dumbbell triceps kickback in supported split stance.",
+      "equipment": "Single dumbbell; no bench or extra resistance equipment.",
+      "setup": "Flat inclined torso, supporting hand on front thigh. Initial atlas upper arm was too high and was regenerated parallel to torso before rendering.",
+      "hands": "Working hand maintains a closed grip on attached dumbbell; supporting hand remains on thigh.",
+      "feet": "Both feet and knees remain stationary in split stance.",
+      "movement": "Only working forearm rotates around fixed elbow from hanging position to almost straight alignment with upper arm, then returns. Upper arm and torso remain fixed. Small arc reflects inclined torso; no shoulder swing."
     },
     "id": "triceps-kickback",
     "equipmentIds": [
       "dumbbell"
     ],
     "sources": [
-      "https://www.acefitness.org/resources/everyone/exercise-library/55/triceps-kickback/",
-      "https://contentcdn.eacefitness.com/certifiednews/images/article/pdfs/ACETricepsStudy.pdf"
+      "https://www.acefitness.org/resources/everyone/exercise-library/55/triceps-kickback/"
     ],
     "sourceSha256": "56b4457fe4b7e3837f16e91c86a962221715b2b919de8bd38eaa4d32c71a79e0",
-    "videoSha256": "d612d0fc38883d2a92a36370b0fadaf91b755d3501964e26281afbb0a775ff46",
-    "reviewedAt": "2026-09-15T00:52:09.213Z"
+    "videoSha256": "f7324ec799e8ea1524fe84f88b5c889389df5bf3c43f32a6afa0717640933b48",
+    "reviewedAt": "2026-09-30T04:43:08.894Z",
+    "rigSourceSha256": "2f0601947bc93ad5688627c39052896ed1f12e3d8b2b56bb65d1e1419d9634df",
+    "darkVideoSha256": "fc24cf73d178d0925c88592bd58b8689f8045aa87c5992183965ce251db1b13f",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending."
   },
   {
     "status": "passed",
@@ -2855,23 +2863,26 @@
   {
     "status": "passed",
     "checks": {
-      "exercise": "팔꿈치 지지 사이드 플랭크의 골반을 든 정적 유지 자세가 명확함",
-      "equipment": "맨몸 동작이며 추가 기구 없음",
-      "setup": "전신 구도에서 지지 팔꿈치가 어깨 아래 있고 몸통·다리가 정렬됨",
-      "hands": "지지 전완과 반대 손의 골반 위치가 32프레임 동안 유지됨",
-      "feet": "양발이 포개진 같은 위치에 유지됨",
-      "movement": "정적 운동 특성에 따라 8초 동안 같은 자세를 유지하며 잔상이나 신체 중복 없음"
+      "exercise": "Forearm side plank maintained as an isometric hold.",
+      "equipment": "Bodyweight on thin mat; no resistance equipment.",
+      "setup": "Supporting elbow below shoulder; hips lifted, trunk and legs aligned.",
+      "hands": "Supporting forearm rests on mat; upper hand rests on hip.",
+      "feet": "Straight stacked legs and feet; bottom outer foot supports body.",
+      "movement": "A single fixed reviewed pose for all 480 frames; no hip dips, morphing or duplicated limbs."
     },
     "id": "side-plank",
     "equipmentIds": [
       "bodyweight"
     ],
     "sources": [
-      "https://www.acefitness.org/resources/everyone/blog/5602/10-minute-core-workout/"
+      "https://ucalgary.ca/shred-injuries/all-sports/physical-education/side-plank-elbow"
     ],
     "sourceSha256": "506f301e93e99b9b968de9c1b4ff91245c8438eb6df712b93dc15fa1f3d7eb2d",
-    "videoSha256": "29fd52f0ab4b1a1c4a6c3338c23aab68ca08926d865e5e20f975a83172758de6",
-    "reviewedAt": "2026-09-15T10:58:37.675Z"
+    "videoSha256": "517b1cfe3071fdfe1c8f9def83d9ac417a0945a2d3b6dd722cd033b3177a692d",
+    "reviewedAt": "2026-09-30T03:58:05.470Z",
+    "rigSourceSha256": "826e8983e2d4cc39a3eea3eab3159c4ede11fba8e819afb54653682dddf8e168",
+    "darkVideoSha256": "160c44ffe3fc81bbbd944087f69b0c0b67290bbc2f10338b576852582ef5e31b",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional."
   },
   {
     "status": "passed",
@@ -2985,27 +2996,28 @@
   },
   {
     "status": "passed",
-    "note": "2026-09-25 16-pose ascending source (0-90deg, 6deg steps), reverse cycle. Light/dark 32-frame sheets plus full-res frames 0/8/50-57/72-96/170/191 inspected against ACE/Catalyst front raise. No hand/dumbbell duplication or limb ghosting; loop start/end match. H264 480x480 8s 24fps full decode passed, light 157177 / dark 166742 bytes; Pixel7 mobile Chromium play+seek passed (imports/exercise-video-20260925/playback-dumbbell-front-raise*.json). Replaces the 2026-09-17 8-pose pending render.",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
     "checks": {
-      "exercise": "Bilateral dumbbell front raise, ascending to shoulder height and back down; not a lateral raise or curl.",
-      "equipment": "Two separate black dumbbells, one per hand, stay in hand throughout.",
-      "setup": "Upright standing, three-quarter right view, torso braced without lean or shrug.",
-      "hands": "Closed overhand grip, elbows nearly straight, wrists neutral.",
-      "feet": "Both feet planted hip width; stance unchanged across frames.",
-      "movement": "Only shoulder flexion from arms at thighs to horizontal at shoulder height, even progression, no elbow curl."
+      "exercise": "Bilateral dumbbell front raise to shoulder height.",
+      "equipment": "Two independent dumbbells; full arm and weight outlines remain in frame.",
+      "setup": "Fixed upright trunk and head, arms raise forward around shoulder pivots.",
+      "hands": "Closed grips and neutral wrist shape preserved within rigid arm layers. Perspective and axial rotation are simplified in 2D; no claimed full 3D pronation/scapular simulation.",
+      "feet": "Feet fixed flat on the floor; no leaning to lift.",
+      "movement": "Whole arms keep their length and slight elbow shape, rotating from lowered to horizontal and returning with smooth loop boundary. No curl or overhead motion."
     },
     "id": "dumbbell-front-raise",
     "equipmentIds": [
       "dumbbell"
     ],
     "sources": [
-      "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
-      "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
+      "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/",
+      "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/"
     ],
     "sourceSha256": "673166f5115d17a4f9a4d4dcb77c29c442fe944cc7ca75b576a73439f15196ae",
-    "videoSha256": "bae2b164e06dad132b970ab611d96880d4ad09a11c4123ee625aa9c057a4cba6",
-    "darkVideoSha256": "721446c9321276051dfde6caee5c48611bcc7f4e6793ea329a3d14d14527569b",
-    "reviewedAt": "2026-09-25T09:45:25.897Z"
+    "videoSha256": "bdbf9e539279cc89857164d602011ef9ec4dd1e28cf95c1c6f304f7f190291ec",
+    "darkVideoSha256": "4f573a934d0a62f0402f6cab78a56cb48428cb021748972aa303a1229919b81b",
+    "reviewedAt": "2026-09-30T04:43:08.893Z",
+    "rigSourceSha256": "11b4884d42bd7feec885ce054695294c9bd6868c5a60cdc1034f1054a8489207"
   },
   {
     "status": "pending",

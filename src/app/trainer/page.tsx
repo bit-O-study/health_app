@@ -16,7 +16,7 @@ export default async function TrainerPage() {
     if (error) throw new Error("회원 현황을 불러오지 못했어요.");
     return { link, report: data as Report | null };
   }));
-  return <main className="app-container space-y-6 py-6"><div className="flex items-center justify-between"><div><Link href="/home" aria-label="짐꾼 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">헬스 트레이너</h1></div><Link href="/settings/trainer-pass" className="text-sm text-brand">이용권 관리</Link></div>
+  return <main className="app-container space-y-6 py-6"><div className="flex items-center justify-between"><div><Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">헬스 트레이너</h1></div><Link href="/settings/trainer-pass" className="text-sm text-brand">이용권 관리</Link></div>
     <section className="app-card space-y-4 p-5"><h2 className="font-semibold">회원 초대</h2>
       <p className="text-sm text-muted">회원이 초대 링크에서 공유 범위를 정하고 수락하면 연결돼요.</p>
       <TrainerForm intent="invite" label="초대 보내기">
@@ -26,7 +26,7 @@ export default async function TrainerPage() {
     </section>
     <section className="space-y-3"><h2 className="text-lg font-semibold">담당 회원 · {links.length}명</h2><p className="text-xs text-muted">최근 30일 현황 · 회원이 허용한 정보만 표시해요.</p>
       {!links.length && <p className="app-card p-5 text-sm">아직 초대를 수락한 회원이 없어요.</p>}
-      {reports.map(({ link, report }) => report && <article key={link.id} className="app-card space-y-3 p-5"><h3 className="font-semibold">{report.name}</h3><Link href={`/trainer/members/${link.id}`} className="text-sm text-brand">회원 통계 · 운동 처방</Link>
+      {reports.map(({ link, report }) => report && <article key={link.id} className="app-card space-y-3 p-5"><div className="flex items-center justify-between gap-2"><h3 className="min-w-0 truncate font-semibold">{report.name}</h3><Link href={`/trainer/members/${link.id}`} className="app-press inline-flex h-9 shrink-0 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand">관리</Link></div>
         {!report.prescription && <p className="text-sm text-muted">운동 처방은 회원의 허용을 기다리고 있어요.</p>}
         <dl className="grid gap-3 text-sm"><div><dt className="text-muted">운동</dt><dd>{report.workout ? `${report.workout.days}일 · ${report.workout.sets}세트 · ${report.workout.minutes}분` : "비공개"}</dd></div>
         <div><dt className="text-muted">식단 기록</dt><dd>{report.diet === null ? "비공개" : `${report.diet}일`}</dd></div>

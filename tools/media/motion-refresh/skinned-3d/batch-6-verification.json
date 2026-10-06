@@ -1,0 +1,217 @@
+{
+  "verifiedAt": "2026-09-30T08:24:08.758Z",
+  "results": [
+    {
+      "id": "barbell-shrug",
+      "inputs": [
+        {
+          "file": "studio-batch-6.mjs",
+          "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+        },
+        {
+          "file": "exercise-motion-6.mjs",
+          "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/barbell-shrug.mp4",
+          "sha256": "8958d52bc76e77fb936dd4d6686592c44ed8e6a2c4a209305d29641b4dd4066b",
+          "bytes": 310115,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/barbell-shrug-dark.mp4",
+          "sha256": "cb5694134e62d0b9c1f316dcf556cc53fba4411fece00ddd03e33eb4218435f2",
+          "bytes": 273656,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "barbell-front-raise",
+      "inputs": [
+        {
+          "file": "studio-batch-6.mjs",
+          "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+        },
+        {
+          "file": "exercise-motion-6.mjs",
+          "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/barbell-front-raise.mp4",
+          "sha256": "85db2c12a5a4fecc43c7d8b3486a0af49fa98c14ff9ab66a04c0e400449c6013",
+          "bytes": 485883,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/barbell-front-raise-dark.mp4",
+          "sha256": "c0faf7e6cdb05c6e922589ac4952f5bbf6e6a7d95fa017d7ea828fc22c80da24",
+          "bytes": 418304,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "barbell-upright-row",
+      "inputs": [
+        {
+          "file": "studio-batch-6.mjs",
+          "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+        },
+        {
+          "file": "exercise-motion-6.mjs",
+          "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/barbell-upright-row.mp4",
+          "sha256": "a9a50cdce87c91ef627eb34b6fb93d640a6e905c3843c7f7e8c99d65bab38ec0",
+          "bytes": 513545,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/barbell-upright-row-dark.mp4",
+          "sha256": "ae5bc4e4632af762f0360e5931e0e575e06899927003c790561f7fe5866dc498",
+          "bytes": 443774,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "wide-grip-upright-row",
+      "inputs": [
+        {
+          "file": "studio-batch-6.mjs",
+          "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+        },
+        {
+          "file": "exercise-motion-6.mjs",
+          "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/wide-grip-upright-row.mp4",
+          "sha256": "47a015b8925e0628ae3cc54160338bc19668352f7ce152262546a7fbfe69a933",
+          "bytes": 494535,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/wide-grip-upright-row-dark.mp4",
+          "sha256": "bd3e2665b6bd178d1e95d9c0eecf2ec6e5070ba1466354eb584b18236b480008",
+          "bytes": 431209,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 2
+          }
+        }
+      ]
+    }
+  ]
+}

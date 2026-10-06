@@ -53,7 +53,7 @@ export function MembershipCard({ status }: { status: BillingStatus }) {
               {member ? `${plan.label} 멤버십` : "무료 이용 중"}
             </span>
             <span className="block text-xs text-zinc-600 dark:text-zinc-300">
-              {member ? sub : "요금제를 고르면 AI 트레이너가 매일 도와드려요"}
+              {member ? sub : "라이트(월 990원)로 내 기록 리포트와 상담함을 써 보세요"}
             </span>
           </span>
         </div>

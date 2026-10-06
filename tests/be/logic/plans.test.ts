@@ -18,17 +18,18 @@ import { PREMIUM_PRICE_KRW, PREMIUM_PRODUCT_ID } from "@/features/billing/produc
 import { worstCaseMonthlyCostKrw } from "@/features/coach/ai-quota";
 
 describe("요금제 표 (2026-09-30 사용자 결정)", () => {
-  it("무료 · 라이트 990 · 베이직 3,900 · 플러스 6,900 · 프로 9,900", () => {
+  it("무료 · 라이트 990 · 베이직(AI 요금제 자리) 3,990 · 플러스 6,900 · 프로 9,900", () => {
     expect(PLAN_ORDER).toEqual(["free", "lite", "basic", "plus", "pro"]);
     expect(PLANS.free.priceKrw).toBe(0);
     expect(PLANS.lite.priceKrw).toBe(990);
     expect(PLANS.lite.productId).toBe("helssu_lite_monthly");
-    expect(PLANS.basic.priceKrw).toBe(3_900);
+    // 2026-10-05: 나중에 여는 AI 요금제 자리는 3,990원(사용자 계획, 두 브랜치 병합).
+    expect(PLANS.basic.priceKrw).toBe(3_990);
     expect(PLANS.plus.priceKrw).toBe(6_900);
     expect(PLANS.pro.priceKrw).toBe(9_900);
   });
 
-  it("🔴 베이직은 예전 3,900원 상품 그대로다 — 상품 id 가 바뀌면 기존 구독이 끊긴다", () => {
+  it("🔴 베이직은 예전 프리미엄 상품 id 그대로다 — 상품 id 가 바뀌면 기존 구독이 끊긴다", () => {
     expect(PLANS.basic.productId).toBe(PREMIUM_PRODUCT_ID);
     expect(PLANS.basic.priceKrw).toBe(PREMIUM_PRICE_KRW);
   });
@@ -92,8 +93,11 @@ describe("등급 비교", () => {
   });
 
   it("라이트 카드엔 AI 없음·나머지 준비 중 안내가 따로 있고, 혜택(해지 시 잃는 것)엔 안 들어간다", () => {
-    expect(PLANS.lite.note).toMatch(/AI 기능은 들어 있지 않아요/);
-    expect(PLANS.lite.note).toMatch(/준비 중/);
+    expect(PLANS.lite.note).toMatch(/AI 기능은 없어요/);
+    expect(PLANS.lite.note).toMatch(/운영자/);
+    // 2026-10-05 병합: 헬쑤 코칭(운영자 상담)은 라이트 혜택.
+    expect(PLANS.lite.benefits.some((b) => b.text.includes("상담함"))).toBe(true);
+    expect(PLANS.lite.benefits.length).toBeLessThanOrEqual(6);
     expect(PLANS.lite.benefits.some((b) => b.text.includes("AI"))).toBe(false);
     for (const p of ["basic", "plus", "pro"] as const) expect(PLANS[p].onSale).toBe(false);
   });
@@ -118,9 +122,9 @@ describe("혜택·단가", () => {
     }
   });
 
-  it("실수령: 990→765 · 3,900→3,013 · 6,900→5,331 · 9,900→7,650", () => {
+  it("실수령: 990→765 · 3,990→3,083 · 6,900→5,331 · 9,900→7,650", () => {
     expect(planNetRevenueKrw("lite")).toBe(765);
-    expect(planNetRevenueKrw("basic")).toBe(3013);
+    expect(planNetRevenueKrw("basic")).toBe(3083);
     expect(planNetRevenueKrw("plus")).toBe(5331);
     expect(planNetRevenueKrw("pro")).toBe(7650);
     expect(planNetRevenueKrw("free")).toBe(0);

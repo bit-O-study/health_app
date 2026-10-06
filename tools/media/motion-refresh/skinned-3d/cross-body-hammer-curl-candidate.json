@@ -1,0 +1,36 @@
+{
+  "id": "cross-body-hammer-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/cross-body-hammer-curl.mp4",
+      "sha256": "96eacbc7fe1846353f36bffd219bdaac47c5be163c8c681f1ccdeb428137b9dd",
+      "bytes": 275929
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/cross-body-hammer-curl-dark.mp4",
+      "sha256": "8f8defc78ee3e2980e55bda0b6c537644e78e75ad90c3f4e2652fa96a4fc30ce",
+      "bytes": 260172
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-2.mjs",
+      "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+    },
+    {
+      "file": "exercise-motion-2.mjs",
+      "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

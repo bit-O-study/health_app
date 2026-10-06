@@ -17,6 +17,8 @@ import {
   leaveGroupAction,
 } from "@/features/groups/group-actions";
 import { isNativeApp } from "@/lib/platform/is-native-app";
+import { sendGroupInviteCard } from "@/features/groups/share-invite";
+import { groupInviteOrigin, groupInviteUrl } from "@/features/groups/invite-link";
 import {
   DEFAULT_GROUP_MODE,
   GROUP_INVITE_DESCRIPTION,
@@ -71,14 +73,11 @@ export function GroupControls({
   const [pending, start] = useTransition();
   const [copied, setCopied] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [shareError, setShareError] = useState("");
 
   // 공개 배포 주소가 설정돼 있으면 그걸로(로컬 테스트 시 localhost 링크가 공유되는 문제 방지).
-  const siteBase = () =>
-    (process.env.NEXT_PUBLIC_SITE_URL || window.location.origin).replace(
-      /\/$/,
-      "",
-    );
-  const inviteUrl = () => `${siteBase()}/groups/join/${inviteToken}`;
+  const siteBase = () => groupInviteOrigin(process.env.NEXT_PUBLIC_SITE_URL);
+  const inviteUrl = () => groupInviteUrl(inviteToken, process.env.NEXT_PUBLIC_SITE_URL);
 
   async function copyLink() {
     const url = inviteUrl();
@@ -95,6 +94,7 @@ export function GroupControls({
   async function shareKakao() {
     if (sharing) return;
     setSharing(true);
+    setShareError("");
     try {
       await doShareKakao();
     } finally {
@@ -103,111 +103,16 @@ export function GroupControls({
   }
 
   async function doShareKakao() {
-    const url = inviteUrl();
-    const cardDescription = GROUP_INVITE_DESCRIPTION[mode];
-
-    // 링크는 별도 줄에 두면 카카오톡이 OG 카드로 깔끔하게 펼친다("참여 링크:" 접두 제거).
-    const text = `${groupName} 운동 그룹에 초대합니다 💪\n${url}`;
-
-    // in-app(네이티브/웹뷰) 판별 — UA 표식(helssu-app)·Capacitor 네이티브 플랫폼(isNativeApp)
-    // 에 더해 Android WebView 표식(UA 의 'wv') 까지 본다. wv 를 포함하면 브라우저용 카카오
-    // 카드(intent://)는 제로페이로 새거나 무반응이라 절대 안 쓰고, 네이티브 공유→복사로 간다.
-    // (구버전 APK 라 helssu-app 표식이 없어도 '앱 안'임을 감지해 조용히 실패하지 않게 한다.)
-    // ⚠ window.Capacitor 는 웹에도 주입되므로 '존재'로 판별하지 않는다 — 그러면 일반
-    //   브라우저까지 in-app 으로 잡혀 쓰지도 못할 네이티브 공유 경로로 새어 들어간다.
     const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
-    const isAndroidWebView = /;\s*wv\)/.test(ua) || /\bwv\b/.test(ua);
-    const inApp = isNativeApp() || isAndroidWebView;
-
-    if (inApp) {
-      // 1) 카카오 네이티브 SDK — "그룹 참여하기" 버튼이 박힌 카카오톡 카드(원하던 그 카드).
-      try {
-        const mod = (await import("capacitor-kakao-plugin")) as unknown as {
-          CapacitorKakao: {
-            shareDefault(o: {
-              title: string;
-              description: string;
-              imageUrl: string;
-              imageLinkUrl: string;
-              buttonTitle: string;
-            }): Promise<void>;
-          };
-        };
-        await mod.CapacitorKakao.shareDefault({
-          title: `${groupName} · 운동 그룹 초대`,
-          description: cardDescription,
-          imageUrl: `${siteBase()}/icon-512.png`,
-          imageLinkUrl: url,
-          buttonTitle: "그룹 참여하기",
-        });
-        return;
-      } catch {
-        /* 카카오 네이티브 불가(SDK/브리지/미설치) → 아래 공유시트로 폴백 */
-      }
-
-      // 2) 네이티브 공유시트(@capacitor/share) — 카카오톡 등 선택 전송.
-      try {
-        const { Share } = await import("@capacitor/share");
-        await Share.share({
-          title: `${groupName} 그룹 초대`,
-          text,
-          url,
-          dialogTitle: "친구에게 초대 보내기",
-        });
-        return;
-      } catch (e) {
-        // 실패 원인을 그대로 노출(브리지/플러그인 진단) — 링크 복사로 폴백.
-        await copyLink();
-        window.alert(
-          `앱 공유 실패 → 링크 복사함.\n사유: ${
-            e instanceof Error ? e.message : String(e)
-          }\n[진단] 앱UA:${ua.includes("helssu-app") ? "O" : "X"} · 웹뷰:${
-            isAndroidWebView ? "O" : "X"
-          }`,
-        );
-        return;
-      }
-    }
-
-    // 웹: 카카오 카드(버튼) 우선 → 기기 공유 → 링크 복사.
-    const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
-    if (key) {
-      try {
-        const Kakao = await loadKakao();
-        if (Kakao?.Share) {
-          const link = { mobileWebUrl: url, webUrl: url };
-          Kakao.Share.sendDefault({
-            objectType: "feed",
-            content: {
-              title: `${groupName} · 운동 그룹 초대`,
-              description: cardDescription,
-              imageUrl: `${siteBase()}/icon-512.png`,
-              link,
-            },
-            buttons: [{ title: "그룹 참여하기", link }],
-          });
-          return;
-        }
-      } catch {
-        /* 폴백 진행 */
-      }
-    }
-
-    const nav = navigator as Navigator & {
-      share?: (data: ShareData) => Promise<void>;
-    };
-    if (nav.share) {
-      try {
-        await nav.share({ title: `${groupName} 그룹 초대`, text, url });
-        return;
-      } catch {
-        /* 취소 등 — 복사로 폴백 */
-      }
-    }
-    await copyLink();
-    window.alert("초대 링크를 복사했어요. 카카오톡 대화방에 붙여넣어 보내주세요.");
+    const inApp = isNativeApp() || /\bwv\b/.test(ua);
+    const opened = await sendGroupInviteCard({
+      title: `${groupName} · 운동 그룹 초대`,
+      description: GROUP_INVITE_DESCRIPTION[mode],
+      imageUrl: `${siteBase()}/icon-512.png`,
+      url: inviteUrl(),
+    }, inApp, loadKakao);
+    if (!opened) setShareError("참여 버튼이 있는 카카오 초대를 열지 못했어요. 다시 시도해 주세요. 링크 복사로 보내면 참여 버튼은 표시되지 않아요.");
   }
-
   function leave() {
     if (!window.confirm("그룹에서 나가시겠어요?")) return;
     start(async () => {
@@ -226,7 +131,8 @@ export function GroupControls({
 
   if (compact) {
     return (
-      <div className="flex items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-1.5">
+        {shareError && <p role="alert" className="w-full text-xs text-red-600 dark:text-red-400">{shareError}</p>}
         <button
           type="button"
           onClick={shareKakao}
@@ -271,6 +177,7 @@ export function GroupControls({
 
   return (
     <div className="space-y-2">
+      {shareError && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{shareError}</p>}
       <button
         type="button"
         onClick={shareKakao}

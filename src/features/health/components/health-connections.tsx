@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { Capacitor } from "@capacitor/core";
+import { WatchConnections } from "./watch-connections";
 import { Check, Loader2, Plug, RefreshCw } from "lucide-react";
 
 import {
@@ -40,6 +42,7 @@ import {
  */
 export function HealthConnections() {
   const router = useRouter();
+  const [isIos, setIsIos] = useState(false);
   const [avail, setAvail] = useState<HealthAvailability | null>(null);
   const [sync, setSync] = useState<HealthSyncMap>({});
   const [busyId, setBusyId] = useState<HealthFeatureId | null>(null);
@@ -54,6 +57,7 @@ export function HealthConnections() {
     void getHealthAvailability().then((a) => {
       if (!alive) return;
       setAvail(a);
+      setIsIos(Capacitor.getPlatform() === "ios");
       setSync(loadSyncMap());
     });
     return () => {
@@ -140,9 +144,12 @@ export function HealthConnections() {
     }
   }
 
+  if (isIos) return <WatchConnections />;
+
   // 그룹 목록 한 장(2026-09-16 8단계) — 항목마다 이름·이유·마지막 동기화 + 오른쪽 버튼.
   return (
     <div className="space-y-3">
+      <WatchConnections />
       {avail?.kind === "web" ? (
         <p
           data-testid="health-web-notice"

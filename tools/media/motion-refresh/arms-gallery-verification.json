@@ -1,0 +1,154 @@
+[
+  {
+    "name": "덤벨 컬",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-biceps-curl-before.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-biceps-curl.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "덤벨 컬",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-biceps-curl-before-dark.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-biceps-curl-dark.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "해머 컬",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hammer-curl-2-before.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hammer-curl-2.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "해머 컬",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hammer-curl-2-before-dark.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hammer-curl-2-dark.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "덤벨 프론트 레이즈",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-front-raise-before.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-front-raise.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "덤벨 프론트 레이즈",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-front-raise-before-dark.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-front-raise-dark.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "트라이셉스 킥백",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/triceps-kickback-before.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/triceps-kickback.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  },
+  {
+    "name": "트라이셉스 킥백",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/triceps-kickback-before-dark.mp4?v=fixed-arm-rig-v1"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/triceps-kickback-dark.mp4?v=fixed-arm-rig-v1"
+      }
+    ]
+  }
+]

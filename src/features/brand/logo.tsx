@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
-import { BRAND_ICON_BG, JimkkunMark } from "@/features/brand/mark";
+import { BRAND_ICON_BG, HelssuMark } from "@/features/brand/mark";
 
-export const BRAND_NAME = "짐꾼";
+export const BRAND_NAME = "헬쑤";
 /** 이름 옆에 붙는 한 줄 소개. */
 export const BRAND_TAGLINE = "내가 쓰려고 만든 헬스앱";
 
-/** 바벨로 만든 "ㅈ" — 앱 아이콘과 같은 짐꾼 마크(`mark.tsx`). */
+/** 바벨로 만든 "ㅈ" — 앱 아이콘과 같은 헬쑤 마크(`mark.tsx`). */
 export function LogoMark({
   size = 40,
   className,
@@ -21,12 +21,12 @@ export function LogoMark({
       )}
       style={{ width: size, height: size, borderRadius: size * 0.28, background: BRAND_ICON_BG }}
     >
-      <JimkkunMark size={size} />
+      <HelssuMark size={size} />
     </span>
   );
 }
 
-/** 로고 마크 + 워드마크(짐꾼). */
+/** 로고 마크 + 워드마크(헬쑤). */
 export function Logo({
   size = 36,
   className,

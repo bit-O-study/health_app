@@ -1,0 +1,217 @@
+{
+  "verifiedAt": "2026-09-30T06:50:51.991Z",
+  "results": [
+    {
+      "id": "alternating-dumbbell-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-2.mjs",
+          "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+        },
+        {
+          "file": "exercise-motion-2.mjs",
+          "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-curl.mp4",
+          "sha256": "18b2befe946a3bbf6aa8125133b590696e8a462bd7a04bde739822f7a23fd84d",
+          "bytes": 267643,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-curl-dark.mp4",
+          "sha256": "28993faf7f87bb9f43071a4211fc05735ca0eed15aa0b35b430362e51528271f",
+          "bytes": 229926,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "cross-body-hammer-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-2.mjs",
+          "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+        },
+        {
+          "file": "exercise-motion-2.mjs",
+          "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/cross-body-hammer-curl.mp4",
+          "sha256": "96eacbc7fe1846353f36bffd219bdaac47c5be163c8c681f1ccdeb428137b9dd",
+          "bytes": 275929,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 2
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/cross-body-hammer-curl-dark.mp4",
+          "sha256": "8f8defc78ee3e2980e55bda0b6c537644e78e75ad90c3f4e2652fa96a4fc30ce",
+          "bytes": 260172,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "dumbbell-reverse-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-2.mjs",
+          "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+        },
+        {
+          "file": "exercise-motion-2.mjs",
+          "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-reverse-curl.mp4",
+          "sha256": "5440e761e7778bb7ba485132b5beabd9d6992b470b8e67d4e1a8263ccae64994",
+          "bytes": 356908,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-reverse-curl-dark.mp4",
+          "sha256": "2882e1b28d3ff0cbbcd47ab4e39faf4cd27cb3b20afeeed4330a508d0a341dad",
+          "bytes": 301658,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "single-arm-dumbbell-shoulder-press",
+      "inputs": [
+        {
+          "file": "studio-batch-2.mjs",
+          "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+        },
+        {
+          "file": "exercise-motion-2.mjs",
+          "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-shoulder-press.mp4",
+          "sha256": "6faceaa434fe5c0b50f2d387f9982e7f0841fbb55e990f050124e5f3e72003ea",
+          "bytes": 235219,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-shoulder-press-dark.mp4",
+          "sha256": "06790a7140850eba03e9b936ff3ba0562d6630aca06af3ddbe806704be625c54",
+          "bytes": 210146,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    }
+  ]
+}

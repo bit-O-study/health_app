@@ -27,7 +27,7 @@ export type { CommitmentSuggestResult } from "@/features/coach/commitment-prompt
  */
 async function ensureCoach(feature: AiFeatureId): Promise<string | null> {
   if (!(await isDebugFeatureEnabled("helssu-coach"))) {
-    return "짐꾼쌤은 아직 사용할 수 없습니다.";
+    return "헬쑤쌤은 아직 사용할 수 없습니다.";
   }
   const quota = await consumeAiQuota(feature);
   return quota.ok ? null : quota.message;
@@ -42,7 +42,7 @@ export async function analyzeWorkoutAction(): Promise<CoachAnalysisResult> {
   if (gate) return { ok: false, error: gate };
   const summary = await buildWorkoutSummary();
   const res = await callAI(
-    `너는 헬스 트레이너 '짐꾼쌤'이다. 사용자의 최근 운동 데이터를 보고 부족한 부위, 근육 불균형, 다음에 집중하면 좋은 운동을 코치한다. ${ANALYSIS_JSON}`,
+    `너는 헬스 트레이너 '헬쑤쌤'이다. 사용자의 최근 운동 데이터를 보고 부족한 부위, 근육 불균형, 다음에 집중하면 좋은 운동을 코치한다. ${ANALYSIS_JSON}`,
     `사용자 운동 데이터: ${summary}`,
   );
   if (!res.ok) {
@@ -63,7 +63,7 @@ export async function analyzeDietAction(): Promise<CoachAnalysisResult> {
   if (gate) return { ok: false, error: gate };
   const summary = await buildDietSummary();
   const res = await callAI(
-    `너는 영양 코치 '짐꾼쌤'이다. 사용자의 최근 식단 데이터를 보고 칼로리·영양 균형·끼니 습관의 개선점을 코치한다. ${ANALYSIS_JSON}`,
+    `너는 영양 코치 '헬쑤쌤'이다. 사용자의 최근 식단 데이터를 보고 칼로리·영양 균형·끼니 습관의 개선점을 코치한다. ${ANALYSIS_JSON}`,
     `사용자 식단 데이터: ${summary}`,
   );
   if (!res.ok) {
@@ -107,7 +107,7 @@ export async function analyzePostureAction(input: {
 
   const name = (input.exerciseName ?? "").trim();
   const res = await callAI(
-    `너는 운동 자세 코치 '짐꾼쌤'이다. 아래 이미지는 한 운동 동작을 시간순으로 캡처한 프레임들을 격자(2×2)로 이어붙인 것이다. 각 칸 왼쪽 위 번호(1→4)가 동작 진행 순서(시작→끝)다. 관절 정렬·가동범위·흔한 실수 관점에서 자세를 평가하고 교정점을 알려준다. ${ANALYSIS_JSON}`,
+    `너는 운동 자세 코치 '헬쑤쌤'이다. 아래 이미지는 한 운동 동작을 시간순으로 캡처한 프레임들을 격자(2×2)로 이어붙인 것이다. 각 칸 왼쪽 위 번호(1→4)가 동작 진행 순서(시작→끝)다. 관절 정렬·가동범위·흔한 실수 관점에서 자세를 평가하고 교정점을 알려준다. ${ANALYSIS_JSON}`,
     `운동: ${name || "미상"}. 격자의 1→4 순서로 동작을 보고 자세를 분석해줘.`,
     { images: frames.slice(0, 1), maxTokens: 1000 },
   );

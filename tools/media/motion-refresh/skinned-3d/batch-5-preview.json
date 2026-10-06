@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T07:45:39.564Z",
+  "finishedAt": "2026-09-30T07:46:22.427Z",
+  "concurrency": 4,
+  "results": [
+    {
+      "id": "barbell-curl",
+      "pid": 24376,
+      "code": 0,
+      "elapsedMs": 42797
+    },
+    {
+      "id": "reverse-barbell-curl",
+      "pid": 16096,
+      "code": 0,
+      "elapsedMs": 41980
+    },
+    {
+      "id": "wide-grip-barbell-curl",
+      "pid": 22692,
+      "code": 0,
+      "elapsedMs": 41413
+    },
+    {
+      "id": "close-grip-barbell-curl",
+      "pid": 28084,
+      "code": 0,
+      "elapsedMs": 40690
+    }
+  ]
+}

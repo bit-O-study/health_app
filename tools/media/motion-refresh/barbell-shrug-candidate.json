@@ -1,0 +1,24 @@
+{
+  "id": "barbell-shrug",
+  "renderer": "rigid-shrug-atlas-v1",
+  "timing": "smooth",
+  "sourceAtlasSha256": "29b4a96e65c1a6314c9a85ff02931ae7792f3d7a0cdb252e2415a3316dbc0b0f",
+  "status": "pending-visual-review",
+  "constraints": {
+    "rigidArmsAndBar": true,
+    "liftPixels": 9,
+    "peakSeconds": 4
+  },
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "743e94fd208753f18a1f309b78b2b8a251e3760bc649ff971282470084c28791",
+      "bytes": 185997
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "3390fe4cc5e6a9a1d5a584e9076e9057a50126b848aadf97d3c535ff96d6641c",
+      "bytes": 151840
+    }
+  ]
+}

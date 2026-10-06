@@ -3,6 +3,7 @@ import "server-only";
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { goalProgress } from "@/features/profile/goal";
 import { getMyCommitments } from "@/features/commitments/data-access";
+import { getMyPledges } from "@/features/commitments/pledge-data";
 import { getUserProfile } from "@/features/profile/data-access";
 import type { GoalCardView } from "@/features/routine/components/today-goal-card";
 import { getDayDetail } from "@/features/calendar/data-access";
@@ -18,6 +19,7 @@ import {
   type DietExerciseNeed,
   type MacroRemaining,
 } from "@/features/home/dashboard-metrics";
+import { ageOf } from "@/features/profile/survey-extra";
 
 const CONTRIBUTION_WEEKS = 53;
 
@@ -68,10 +70,12 @@ export async function getHomeDashboard(): Promise<HomeDashboard> {
   // 창을 줄이려면 프로필을 먼저 받아야 해서 왕복이 한 파 늘어난다. 표시할 주 수만
   // 나중에 가입일로 줄이면 결과는 똑같다 — 운동한 날에만 행이 있어 조회비용도 같다.
   const maxFromYmd = addDaysYmd(todayYmd, -(CONTRIBUTION_WEEKS * 7 - 1));
-  const [profile, commitments, workoutCount, todayDetail, durationsByDate] =
+  const [profile, commitments, pledges, workoutCount, todayDetail, durationsByDate] =
     await Promise.all([
       getUserProfile(),
       getMyCommitments(),
+      // 행동 다짐(2026-10-06) — 진행 중인 것만 홈에. 판정·확정도 여기서 같이 돈다.
+      getMyPledges(),
       countWorkouts(),
       getDayDetail(todayYmd),
       getWorkoutDurationsRange(maxFromYmd, todayYmd),
@@ -112,6 +116,7 @@ export async function getHomeDashboard(): Promise<HomeDashboard> {
     gender: profile?.gender ?? "male",
     weightKg: profile?.weightKg ?? null,
     heightCm: profile?.heightCm ?? null,
+    age: ageOf(profile?.ageGroup),
   });
   const dietExerciseNeed = computeDietExerciseNeed({
     targetKcal: target.kcal,
@@ -139,14 +144,34 @@ export async function getHomeDashboard(): Promise<HomeDashboard> {
   );
 
   // 오늘 진행 중(예정·종료 아님)인 다짐만 체크리스트로.
-  const todayCommitments: TodayCommitment[] = commitments
-    .filter((c) => !c.progress.expired && !c.progress.upcoming)
-    .map((c) => ({
-      id: c.id,
-      title: c.title,
-      done: c.progress.done,
-      valueText: `${c.progress.current}/${c.progress.target}${c.unit}`,
-    }));
+  // 행동 다짐은 '이번 7일 구간을 지금까지 지키고 있나'로 보여 준다 — 식단이 빈 날이 있으면
+  // 그게 먼저 보이게(구간이 끝나면 실패로 확정되기 때문).
+  const pledgeRows: TodayCommitment[] = pledges
+    .filter((p) => p.eval.status === "active" && p.eval.current)
+    .map((p) => {
+      const b = p.eval.current!;
+      const missing = b.missingDietDates.length;
+      const onTrack =
+        missing === 0 &&
+        b.items.every((i) => (i.dir === "atmost" ? i.have <= i.need : i.have >= i.need));
+      return {
+        id: p.id,
+        title: p.title,
+        done: onTrack,
+        valueText: missing > 0 ? `식단 ${missing}일 미기록` : `${p.week}/${p.totalWeeks}주차`,
+      };
+    });
+  const todayCommitments: TodayCommitment[] = [
+    ...pledgeRows,
+    ...commitments
+      .filter((c) => !c.progress.expired && !c.progress.upcoming)
+      .map((c) => ({
+        id: c.id,
+        title: c.title,
+        done: c.progress.done,
+        valueText: `${c.progress.current}/${c.progress.target}${c.unit}`,
+      })),
+  ];
 
   return {
     goalCard,

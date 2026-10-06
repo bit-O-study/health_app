@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-09-30T06:53:00.627Z",
+  "sources": [
+    {
+      "id": "alternating-dumbbell-curl",
+      "url": "https://www.catalystathletics.com/exercise/821/Dumbbell-Curl/",
+      "implementation": "Alternating variation with supinated grip and controlled lowering."
+    },
+    {
+      "id": "cross-body-hammer-curl",
+      "url": "https://www.muscleandstrength.com/exercises/hammer-curl-across-the-body.html",
+      "implementation": "Alternate neutral-grip curls across torso without weight-body contact."
+    },
+    {
+      "id": "dumbbell-reverse-curl",
+      "url": "https://www.muscleandstrength.com/exercises/standing-dumbbell-reverse-curl.html",
+      "implementation": "Pronated grip, slight bottom elbow bend and stable upper arms."
+    },
+    {
+      "id": "single-arm-dumbbell-shoulder-press",
+      "url": "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/single-arm-dumbbell-shoulder-press/",
+      "implementation": "Stable torso and one-arm overhead press. Model uses a fixed forward-facing palm variation, not the exact inward-facing start described by this reference."
+    }
+  ]
+}

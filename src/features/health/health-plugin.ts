@@ -145,6 +145,7 @@ export type HealthWriteRecord =
 
 /** 읽어 온 레코드 한 건 — 항목마다 채워지는 필드가 달라 전부 선택 필드다. */
 export type HealthRecord = {
+  title?: string | null;
   count?: number | string;
   startTime?: string | number | Date;
   endTime?: string | number | Date;

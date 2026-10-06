@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const PWA_ICON_VERSION = "20260929";
+const PWA_ICON_VERSION = "20261001";
 
 /**
  * PWA 매니페스트.
@@ -15,8 +15,8 @@ const PWA_ICON_VERSION = "20260929";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "짐꾼",
-    short_name: "짐꾼",
+    name: "헬쑤",
+    short_name: "헬쑤",
     description: "오늘 뭐 해야 할지 매일 알려주는 헬스 루틴 앱",
     lang: "ko",
     start_url: `/?webapk=${PWA_ICON_VERSION}`,

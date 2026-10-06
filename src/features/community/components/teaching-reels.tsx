@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import {
+  Bookmark,
   Heart,
   Loader2,
   MessageCircle,
   Search,
   Send,
+  Share2,
   Trash2,
   Video,
   Volume2,
@@ -18,6 +20,10 @@ import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime } from "../community";
 import type { FeedPost } from "../data-access";
 import { ReportButton } from "./report-button";
+import { Notice, useNotice } from "./notice";
+import { ConfirmDialog } from "@/components/confirm-dialog";
+import { absoluteUrl, shareLink } from "../share-link";
+import { toggleSaveAction } from "../community-actions";
 import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 import {
   addTeachingCommentAction,
@@ -168,17 +174,48 @@ function ReelSlide({
     window.setTimeout(() => setBurst(false), 650);
   }
 
+  // 삭제 확인·오류 안내는 앱 안에서(브라우저 confirm/alert 대신 — 커뮤니티 2단계).
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [notice, showNotice] = useNotice();
   function remove() {
-    if (!confirm("이 영상을 삭제할까요?")) return;
+    setConfirmDelete(false);
     start(async () => {
       const r = await deleteTeachingPostAction(post.id);
       if (r.ok) {
         setGone(true);
         onChanged();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
+  }
+
+  // 영상 저장(커뮤니티 4-3) — 누르는 즉시 바꾸고 실패하면 되돌린다.
+  const [saved, setSaved] = useState(post.savedByMe);
+  function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    start(async () => {
+      const r = await toggleSaveAction(post.id, "teaching");
+      if (!r.ok) {
+        setSaved(!next);
+        showNotice(r.error);
+      } else {
+        setSaved(r.saved);
+        if (r.saved) showNotice("저장했어요. 내 글 › 저장한 글에서 볼 수 있어요.");
+      }
+    });
+  }
+
+  // 한 편 공유(커뮤니티 3단계) — 링크를 받은 사람은 /community/reel/<id> 에서 이 영상만 본다.
+  async function share() {
+    const r = await shareLink({
+      title: "헬쑤 운동 영상",
+      text: post.exerciseTag ? `#${post.exerciseTag} 운동 영상` : "운동 영상",
+      url: absoluteUrl(`/community/reel/${post.id}`),
+    });
+    if (r === "copied") showNotice("링크를 복사했어요.");
+    else if (r === "failed") showNotice("링크를 복사하지 못했어요.");
   }
 
   if (gone) return null;
@@ -279,6 +316,25 @@ function ReelSlide({
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
 
+        <button
+          type="button"
+          onClick={toggleSave}
+          aria-label="저장"
+          aria-pressed={saved}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
+        >
+          <Bookmark size={18} className={saved ? "fill-white" : ""} />
+        </button>
+
+        <button
+          type="button"
+          onClick={share}
+          aria-label="공유"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
+        >
+          <Share2 size={18} />
+        </button>
+
         {!post.isMine ? (
           <ReportButton
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-rose-400"
@@ -294,7 +350,7 @@ function ReelSlide({
         {canModerate || post.isMine ? (
           <button
             type="button"
-            onClick={remove}
+            onClick={() => setConfirmDelete(true)}
             disabled={pending}
             aria-label="삭제"
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-rose-400 disabled:opacity-50"
@@ -311,6 +367,16 @@ function ReelSlide({
           onCountChange={setCommentCount}
         />
       ) : null}
+      <ConfirmDialog
+        open={confirmDelete}
+        title="영상 삭제"
+        message="이 영상을 삭제할까요?"
+        confirmLabel="삭제"
+        tone="danger"
+        onConfirm={remove}
+        onCancel={() => setConfirmDelete(false)}
+      />
+      <Notice text={notice} />
     </div>
   );
 }
@@ -328,6 +394,7 @@ function CommentSheet({
   const [now] = useState(() => Date.now());
   const [list, setList] = useState<TeachingComment[] | null>(null);
   const [text, setText] = useState("");
+  const [notice, showNotice] = useNotice();
   const [pending, start] = useTransition();
 
   useEffect(() => {
@@ -342,7 +409,7 @@ function CommentSheet({
 
   function submit() {
     const body = text.trim();
-    if (!body) return;
+    if (!body || pending) return;
     start(async () => {
       const r = await addTeachingCommentAction(postId, body);
       if (r.ok) {
@@ -351,7 +418,7 @@ function CommentSheet({
         setList(rows);
         onCountChange(rows.length);
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -364,7 +431,7 @@ function CommentSheet({
         setList(rows);
         onCountChange(rows.length);
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -437,6 +504,13 @@ function CommentSheet({
                   ) : (
                     <ReportButton
                       className="text-zinc-300 hover:text-rose-500"
+                      onBlocked={() =>
+                        start(async () => {
+                          const rows = await listTeachingCommentsAction(postId);
+                          setList(rows);
+                          onCountChange(rows.length);
+                        })
+                      }
                       targetKind="teaching_comment"
                       targetId={c.id}
                       targetUserId={c.userId}
@@ -479,6 +553,7 @@ function CommentSheet({
           </button>
         </div>
       </div>
+      <Notice text={notice} />
     </div>
   );
 }

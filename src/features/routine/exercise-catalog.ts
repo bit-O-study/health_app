@@ -42,6 +42,19 @@ import { EXTRA_EXERCISES } from "@/features/routine/exercise-catalog-extra";
 
 
 export const EXERCISES: Record<string, CatalogExercise> = {
+  "wall-angel": {
+    id: "wall-angel",
+    name: "월엔젤 (월 엔젤)",
+    target: "승모근 · 능형근 · 어깨 가동성",
+    equipments: [{
+      equipment: "bodyweight",
+      method: [
+        "벽에 등과 엉덩이를 기대고 발은 조금 앞으로 두세요. 갈비뼈를 들거나 허리를 과하게 젖히지 않아요.",
+        "팔꿈치를 구부려 W 모양으로 시작해 팔을 천천히 위로 올리세요. 손과 팔을 벽에 억지로 누르지 않아요.",
+        "편안한 범위에서 천천히 내려오세요. 어깨가 아프면 범위를 줄이거나 멈춰요.",
+      ],
+    }],
+  },
   "bench-press": {
     id: "bench-press",
     name: "벤치프레스",

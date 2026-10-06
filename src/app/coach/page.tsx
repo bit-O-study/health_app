@@ -1,9 +1,10 @@
 import { redirect, notFound } from "next/navigation";
+import Link from "next/link";
 import { Camera, Dumbbell, Salad } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import {
   analyzeWorkoutAction,
   analyzeDietAction,
@@ -15,14 +16,14 @@ import { PostureAnalyzer } from "@/features/coach/components/posture-analyzer";
 import { EquipmentScanner } from "@/features/equipment/components/equipment-scanner";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "짐꾼쌤" };
+export const metadata = { title: "헬쑤쌤" };
 
 export default async function CoachPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
   const { view } = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/coach");
-  // 아직 디버그 기능 — 짐꾼쌤이 켜진 계정만.
-  if (!(await isDebugFeatureEnabled("helssu-coach"))) notFound();
+  // 아직 디버그 기능 — 헬쑤쌤이 켜진 계정만.
+  if (!(await isAiFeatureEnabled("helssu-coach"))) notFound();
 
   // 지난 분석을 먼저 띄운다 — 화면을 다시 여는 것만으로 AI 를 부르면 읽으려고 돈을 낸다.
   // 둘은 서로 독립이라 한 번에 읽는다(직렬 2파 → 1파).
@@ -34,9 +35,10 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
   // 공통 머리글(2026-09-16 8단계) — 소개 카드는 뺐다(각 분석 카드 제목이 곧 설명).
   return (
     <div className="app-page">
-    <PageHeader branded title="짐꾼쌤" back />
+    <PageHeader branded title="헬쑤쌤" back />
     <main className="app-container">
       <div className="space-y-3">
+        <Link href="/coach/manual" className="app-card flex items-center justify-between p-4 text-sm font-semibold"><span className="text-zinc-900 dark:text-zinc-100">상담함</span><span className="text-brand">열기</span></Link>
         {view !== "recommend" && <>
         <AnalysisSection
           icon={<Dumbbell aria-hidden="true" size={18} />}

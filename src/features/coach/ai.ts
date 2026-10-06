@@ -1,20 +1,30 @@
 import "server-only";
 
+import { AI_TIMEOUT_MS, aiFetchError } from "@/features/coach/ai-timeout";
+
 import { callClaude, type ClaudeResult, type ImageInput } from "@/features/coach/claude";
-import { buildNvidiaBody } from "@/features/coach/nvidia-format";
+import {
+  aiProviderOrder,
+  buildNvidiaBody,
+  cleanNvidiaText,
+  isRetryableStatus,
+  nvidiaFallbackModel,
+  pickNvidiaModel,
+} from "@/features/coach/nvidia-format";
 import { buildGeminiBody, parseGeminiText } from "@/features/coach/gemini-format";
 
 /**
  * 공용 AI 호출 계층 — provider 교체 가능. 반환 형태({ok,text})가 같아 호출부는 그대로다.
  *
- * ## 고르는 순서 — 키가 있는 것 중 위에서부터
- * 1. **Gemini**(`GEMINI_API_KEY`) — 무료 티어가 카드 없이 멀티모달을 그대로 준다.
- *    한국어가 낫고 **이미지를 여러 장** 받는다(아래 참고).
- * 2. **NVIDIA NIM**(`NVIDIA_API_KEY`) — 무료. Llama 3.2 Vision.
- * 3. **Claude**(`ANTHROPIC_API_KEY`) — 유료. 위 둘이 없을 때.
+ * ## 고르는 순서 — 키가 있는 것 중 위에서부터, **실패하면 다음으로 넘어간다**(2026-09-30)
+ * 운영은 `AI_PROVIDER_ORDER=gemini,claude,nvidia` 로 유료 Gemini 를 앞에 둔다(2026-10-01).
+ * 1. **NVIDIA NIM**(`NVIDIA_API_KEY`) — 무료(사용자 결정: AI 기능 전체를 NVIDIA 로).
+ *    글은 Nemotron 3 Super, 사진은 Nemotron 3 Nano Omni(`nvidia-format.ts` 실측 참고).
+ * 2. **Gemini**(`GEMINI_API_KEY`) — 무료 티어. NVIDIA 가 늦거나(60초) 한도(분당 40)에 걸리면.
+ * 3. **Claude**(`ANTHROPIC_API_KEY`) — 유료. 위 둘이 다 실패할 때만.
  *
  * 셋 다 남겨 두는 이유는 무료 티어가 **언제든 한도·정책이 바뀌는 자리**라서다.
- * 하나가 막혀도 환경변수 하나로 갈아탄다.
+ * 예전엔 첫 번째가 실패하면 그대로 오류였다 — 지금은 다음 키로 한 번 더 시도한다.
  *
  * ## 무료 티어의 한계 (2026-09 기준)
  * - NVIDIA: 개발·평가용, 분당 40요청. Vision NIM 은 **요청당 이미지 1장**에 맞춰져 있어
@@ -25,7 +35,6 @@ import { buildGeminiBody, parseGeminiText } from "@/features/coach/gemini-format
  */
 
 const NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
-const DEFAULT_NVIDIA_MODEL = "meta/llama-3.2-90b-vision-instruct";
 const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 /** 무료 티어에서 일일 한도가 가장 넉넉한 축이면서 비전을 받는 모델. */
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
@@ -45,7 +54,27 @@ async function callNvidia(
       error: "서버에 NVIDIA_API_KEY 가 설정되지 않았습니다(관리자 설정 필요).",
     };
   }
-  const model = process.env.NVIDIA_MODEL || DEFAULT_NVIDIA_MODEL;
+  const hasImages = (opts.images?.length ?? 0) > 0;
+  const model = pickNvidiaModel(hasImages, {
+    NVIDIA_MODEL: process.env.NVIDIA_MODEL,
+    NVIDIA_VISION_MODEL: process.env.NVIDIA_VISION_MODEL,
+  });
+  const first = await callNvidiaModel(apiKey, model, system, userText, opts);
+  // 🔴 무료 NVIDIA 는 모델별로 '일시 과부하(503)'·한도(429)가 잦다(2026-09-30 실측).
+  //    그럴 땐 다른 모델로 한 번 더 — 사용자는 실패 대신 조금 늦은 답을 받는다.
+  if (first.ok || !first.retryable) return first.result;
+  const fallback = nvidiaFallbackModel(model, hasImages);
+  if (!fallback) return first.result;
+  return (await callNvidiaModel(apiKey, fallback, system, userText, opts)).result;
+}
+
+async function callNvidiaModel(
+  apiKey: string,
+  model: string,
+  system: string,
+  userText: string,
+  opts: { images?: ImageInput[]; maxTokens?: number },
+): Promise<{ ok: boolean; retryable: boolean; result: AIResult }> {
   const body = buildNvidiaBody(
     model,
     system,
@@ -53,11 +82,13 @@ async function callNvidia(
     (opts.images ?? []).map((i) => ({ base64: i.base64, mediaType: i.mediaType })),
     opts.maxTokens ?? 900,
   );
+  const fail = (error: string, retryable: boolean) => ({ ok: false, retryable, result: { ok: false as const, error } });
 
   let res: Response;
   try {
     res = await fetch(NVIDIA_URL, {
       method: "POST",
+      signal: AbortSignal.timeout(AI_TIMEOUT_MS),
       headers: {
         "content-type": "application/json",
         accept: "application/json",
@@ -66,18 +97,18 @@ async function callNvidia(
       body: JSON.stringify(body),
     });
   } catch (e) {
-    return { ok: false, error: `요청 실패: ${(e as Error).message}` };
+    return fail(aiFetchError(e), true);
   }
   if (!res.ok) {
     const t = await res.text().catch(() => "");
-    return { ok: false, error: `AI 서버 오류(${res.status}). ${t.slice(0, 200)}` };
+    return fail(`AI 서버 오류(${res.status}). ${t.slice(0, 200)}`, isRetryableStatus(res.status));
   }
   const data = (await res.json().catch(() => null)) as {
     choices?: { message?: { content?: string } }[];
   } | null;
-  const text = data?.choices?.[0]?.message?.content ?? "";
-  if (!text) return { ok: false, error: "AI 응답이 비어 있어요. 다시 시도해 주세요." };
-  return { ok: true, text };
+  const text = cleanNvidiaText(data?.choices?.[0]?.message?.content ?? "");
+  if (!text) return fail("AI 응답이 비어 있어요. 다시 시도해 주세요.", true);
+  return { ok: true, retryable: false, result: { ok: true, text } };
 }
 
 async function callGemini(
@@ -105,6 +136,7 @@ async function callGemini(
     // 🔴 키는 쿼리스트링이 아니라 헤더로. URL 은 로그·프록시에 그대로 남는다.
     res = await fetch(`${GEMINI_URL}/${model}:generateContent`, {
       method: "POST",
+      signal: AbortSignal.timeout(AI_TIMEOUT_MS),
       headers: {
         "content-type": "application/json",
         "x-goog-api-key": apiKey,
@@ -112,7 +144,7 @@ async function callGemini(
       body: JSON.stringify(body),
     });
   } catch (e) {
-    return { ok: false, error: `요청 실패: ${(e as Error).message}` };
+    return { ok: false, error: aiFetchError(e) };
   }
   if (!res.ok) {
     const t = await res.text().catch(() => "");
@@ -129,7 +161,18 @@ export async function callAI(
   userText: string,
   opts: { images?: ImageInput[]; maxTokens?: number } = {},
 ): Promise<AIResult> {
-  if (process.env.GEMINI_API_KEY) return callGemini(system, userText, opts);
-  if (process.env.NVIDIA_API_KEY) return callNvidia(system, userText, opts);
-  return callClaude(system, userText, opts);
+  const order = aiProviderOrder({
+    nvidia: Boolean(process.env.NVIDIA_API_KEY),
+    gemini: Boolean(process.env.GEMINI_API_KEY),
+    claude: Boolean(process.env.ANTHROPIC_API_KEY),
+  }, process.env.AI_PROVIDER_ORDER);
+  const call = { nvidia: callNvidia, gemini: callGemini, claude: callClaude } as const;
+  // 키가 하나도 없으면 Claude 가 '키 없음' 안내를 돌려준다(예전과 같은 문구).
+  if (order.length === 0) return callClaude(system, userText, opts);
+  let last: AIResult = { ok: false, error: "AI 를 부르지 못했어요." };
+  for (const p of order) {
+    last = await call[p](system, userText, opts);
+    if (last.ok) return last;
+  }
+  return last;
 }

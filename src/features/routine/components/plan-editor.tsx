@@ -571,7 +571,8 @@ export function PlanEditor({
         })),
         gender,
       );
-      if (groups.some(group => group.exercises.length === 0)) { setStatus("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
+      // 아픈 부위 때문에 빈 칸(painSkipped)은 실패가 아니다 — 비워 두고 알려 준다(2026-10-01).
+      if (groups.some(group => group.exercises.length === 0 && !group.painSkipped)) { setStatus("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
       setReasonsByKey((prev) => {
         const next = { ...prev };
         list.forEach((f, i) => {
@@ -606,6 +607,7 @@ export function PlanEditor({
         });
         update(f.key, next);
       });
+      if (groups.some((g) => g.painSkipped)) setStatus("아픈 부위 운동은 추천에서 뺐어요. 그 부위만 있던 칸은 비워 뒀어요.");
     });
   }
   function doRecommendFocus(f: FocusData): Promise<void> {

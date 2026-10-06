@@ -1,0 +1,6 @@
+{
+  "dumbbell-biceps-curl": {"name":"덤벨 컬","sources":["https://www.catalystathletics.com/exercise/821/Dumbbell-Curl/"],"cue":"상완을 안정시키고 손바닥을 위로 향해 팔꿈치를 굽힌다."},
+  "hammer-curl-2": {"name":"해머 컬","sources":["https://www.acefitness.org/resources/everyone/exercise-library/10/hammer-curl/"],"cue":"손바닥이 서로 마주 보는 그립을 유지한다. 평행 발 자세로 제작."},
+  "dumbbell-front-raise": {"name":"덤벨 프런트 레이즈","sources":["https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"],"cue":"몸통을 안정시키고 팔꿈치를 약간 굽힌 채 앞쪽 어깨 높이까지 올린다."},
+  "dumbbell-shrug": {"name":"덤벨 슈러그","sources":["https://utrockets.com/documents/download/2020/5/1/EXERCISE_DESCRIPTIONS.pdf#page=10"],"cue":"팔로 당기지 않고 어깨를 위로 올렸다 천천히 내린다."}
+}

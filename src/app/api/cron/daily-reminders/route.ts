@@ -35,11 +35,14 @@ import {
   purgeOldSends,
 } from "@/features/notifications/sent-log";
 import { purgeOldAppEvents } from "@/features/observability/purge";
+import { runLikeDigest } from "@/features/community/community-notify.server";
 import {
   filterByPreference,
   seoulHour,
 } from "@/features/notifications/preferences";
 import { loadPreferences } from "@/features/notifications/preferences-data";
+import { isSummaryDay } from "@/features/notifications/weekly-summary";
+import { weeklySummaryTargets, type SummaryTarget } from "@/features/notifications/weekly-summary.server";
 import {
   DAY_BLOCKS,
   isDayBlockId,
@@ -156,6 +159,16 @@ export async function GET(req: Request) {
       optedOut += res.blocked;
     }
 
+    // ── 일요일이면 라이트 회원에게 '이번 주 정리'(2026-10-02, 라이트 2단계 혜택 2).
+    //    🔴 저녁에 두 통은 안 보낸다 — 이걸 받는 사람은 오늘 하루 리마인더에서 뺀다(돈 낸 사람에게는 잔소리 대신 정리).
+    const summary = isSummaryDay(todayYmd)
+      ? await weeklySummaryTargets(admin, todayYmd, hour)
+      : { targets: [] as SummaryTarget[], deduped: 0 };
+    if (summary.targets.length) {
+      const getsSummary = new Set(summary.targets.map((t) => t.userId));
+      for (let i = targets.length - 1; i >= 0; i--) if (getsSummary.has(targets[i].userId)) targets.splice(i, 1);
+    }
+
     // ── 토요일이면 주간 부위 균형도 같은 실행에서 판정한다(별도 cron 은 못 둔다 —
     //    Vercel Hobby 는 cron 두 개까지고 두 자리를 이미 쓰고 있다).
     //    🔴 **리마인더가 나갈 사람에게는 안 보낸다.** 저녁에 알림이 둘 연달아 뜨는 게
@@ -173,7 +186,7 @@ export async function GET(req: Request) {
     // 대상자 기기를 한 번에 읽고(사용자당 2회 → 전체 몇 회), 발송은 제한 동시성으로.
     const devices = await loadDevices(
       admin,
-      [...targets, ...balance.targets].map((t) => t.userId),
+      [...targets, ...balance.targets, ...summary.targets].map((t) => t.userId),
     );
     let failed = 0;
     let firstFailure: string | null = null;
@@ -210,12 +223,40 @@ export async function GET(req: Request) {
       },
     );
 
+    const summaryResults = await mapWithConcurrency(
+      summary.targets,
+      USER_CONCURRENCY,
+      async (t) => {
+        try {
+          return await notifyDevices(admin, devices.get(t.userId), t.payload);
+        } catch (err) {
+          failed += 1;
+          firstFailure ??= failureReason(err);
+          return false;
+        }
+      },
+    );
+
     // 실제로 나간 것만 기록 — 기기가 없던 사람은 남기지 않는다(기기 등록 후 받게).
     const delivered = [
       ...targets.filter((_, i) => results[i]),
       ...balance.targets.filter((_, i) => balanceResults[i]),
+      ...summary.targets.filter((_, i) => summaryResults[i]),
     ];
     await markSent(admin, delivered);
+
+    // 커뮤니티 좋아요 하루 묶음(커뮤니티 3단계) — 앱 안 알림은 모두에게, 푸시는 오늘 리마인더를
+    // 안 받는 사람만. 실패해도 리마인더 결과는 그대로 남긴다.
+    let likeDigest: { created: number; pushed: number } | { error: string };
+    try {
+      likeDigest = await runLikeDigest(
+        admin,
+        new Set([...targets, ...balance.targets, ...summary.targets].map((t) => t.userId)),
+        hour,
+      );
+    } catch (err) {
+      likeDigest = { error: failureReason(err) };
+    }
     await purgeOldSends(admin);
     // 실사용 오류 기록도 같은 자리에서 보존기간을 넘긴 것만 정리한다(로드맵 1.3).
     await purgeOldAppEvents(admin);
@@ -223,11 +264,11 @@ export async function GET(req: Request) {
     return {
       counts: {
         scanned: rows.length,
-        targeted: targets.length + balance.targets.length,
+        targeted: targets.length + balance.targets.length + summary.targets.length,
         sent: delivered.length,
         // 설정으로 끈 사람도 '보내지 않음' 이라 중복제외와 같은 칸에 센다
         // (관리자 화면에서 "왜 안 갔나" 를 볼 때 둘 다 같은 성격이다).
-        deduped: deduped + optedOut + balance.deduped,
+        deduped: deduped + optedOut + balance.deduped + summary.deduped,
         failed,
       },
       body: {
@@ -238,6 +279,7 @@ export async function GET(req: Request) {
         failed,
         reason: firstFailure ?? undefined,
         skipped: rows.length - delivered.length,
+        likeDigest,
       },
     };
   });

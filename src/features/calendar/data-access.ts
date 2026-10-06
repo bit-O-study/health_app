@@ -24,6 +24,7 @@ import type { RunHistoryRow } from "@/features/running/run-history-summary";
 import { seoulDateOf, seoulDayRangeUtc } from "@/features/calendar/calendar-labels";
 import { streakByChunks } from "@/features/calendar/month-stats";
 import { stepsToKcal } from "@/features/health/steps-calories";
+import { ageOf } from "@/features/profile/survey-extra";
 
 const num = (v: number | string | null | undefined): number => {
   if (v === null || v === undefined || v === "") return 0;
@@ -124,6 +125,7 @@ export async function getMonthlyCalendar(
         gender: profileGender(profile.gender),
         weightKg: profile.weightKg,
         heightCm: profile.heightCm,
+        age: ageOf(profile.ageGroup),
       })
     : 1500;
 

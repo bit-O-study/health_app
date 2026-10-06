@@ -1,0 +1,36 @@
+{
+  "id": "wide-dumbbell-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/wide-dumbbell-curl.mp4",
+      "sha256": "880aa5f00d87b8b0d67716a8666238ffdcdd665023f966aba559c536e2c63ee7",
+      "bytes": 370031
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/wide-dumbbell-curl-dark.mp4",
+      "sha256": "593ce38784395ac150048a5bce12040e4bb2cf2bf0b54ddb7340810f337a8abb",
+      "bytes": 296441
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-4.mjs",
+      "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+    },
+    {
+      "file": "exercise-motion-4.mjs",
+      "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

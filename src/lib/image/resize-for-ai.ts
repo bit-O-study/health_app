@@ -9,6 +9,7 @@ export async function resizeImageForAI(
   file: File,
   maxPx = 768,
   quality = 0.7,
+  maxBase64Length?: number,
 ): Promise<{ base64: string; mediaType: string; preview: string }> {
   const dataUrl: string = await new Promise((resolve, reject) => {
     const fr = new FileReader();
@@ -31,7 +32,16 @@ export async function resizeImageForAI(
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("이미지 처리를 지원하지 않는 브라우저입니다.");
   ctx.drawImage(img, 0, 0, w, h);
-  const jpeg = canvas.toDataURL("image/jpeg", quality);
-  const base64 = jpeg.split(",")[1] ?? "";
+  let jpeg = canvas.toDataURL("image/jpeg", quality);
+  let base64 = jpeg.split(",")[1] ?? "";
+  if (maxBase64Length) {
+    // Preserve document resolution. Ask for a crop rather than destroying small digits.
+    for (const q of [0.8, 0.7, 0.6]) {
+      if (base64.length <= maxBase64Length) break;
+      jpeg = canvas.toDataURL("image/jpeg", q);
+      base64 = jpeg.split(",")[1] ?? "";
+    }
+    if (base64.length > maxBase64Length) throw new Error("분석지 여백을 잘라내거나 기본 수치·부위별 분석을 나눠 촬영해 주세요. 숫자가 작아지지 않도록 자동 축소를 멈췄어요.");
+  }
   return { base64, mediaType: "image/jpeg", preview: jpeg };
 }

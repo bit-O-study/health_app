@@ -122,7 +122,7 @@ describe("파일 이름", () => {
   it("한글 이름과 ASCII 이름을 함께 준다", () => {
     const { ascii, display } = exportFilename("workouts", "2026-09-01");
     expect(ascii).toBe("helssu-workouts-2026-09-01.csv");
-    expect(display).toBe("짐꾼-운동기록-2026-09-01.csv");
+    expect(display).toBe("헬쑤-운동기록-2026-09-01.csv");
   });
 
   it("Content-Disposition 은 filename* 로 한글을 싣는다", () => {
@@ -131,7 +131,7 @@ describe("파일 이름", () => {
     // ASCII 이름은 헤더에 그대로 — 한글을 filename= 에 넣으면 브라우저마다 깨진다.
     expect(value).toContain('filename="helssu-diet-2026-09-01.csv"');
     const encoded = value.split("filename*=UTF-8''")[1];
-    expect(decodeURIComponent(encoded)).toBe("짐꾼-식단기록-2026-09-01.csv");
+    expect(decodeURIComponent(encoded)).toBe("헬쑤-식단기록-2026-09-01.csv");
     // 헤더 값에 raw 한글이 새어 나가면 안 된다(퍼센트 인코딩만).
     expect(/[^\x20-\x7e]/.test(value)).toBe(false);
   });

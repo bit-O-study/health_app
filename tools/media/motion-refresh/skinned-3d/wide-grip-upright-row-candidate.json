@@ -1,0 +1,36 @@
+{
+  "id": "wide-grip-upright-row",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/wide-grip-upright-row.mp4",
+      "sha256": "47a015b8925e0628ae3cc54160338bc19668352f7ce152262546a7fbfe69a933",
+      "bytes": 494535
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/wide-grip-upright-row-dark.mp4",
+      "sha256": "bd3e2665b6bd178d1e95d9c0eecf2ec6e5070ba1466354eb584b18236b480008",
+      "bytes": 431209
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-6.mjs",
+      "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+    },
+    {
+      "file": "exercise-motion-6.mjs",
+      "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

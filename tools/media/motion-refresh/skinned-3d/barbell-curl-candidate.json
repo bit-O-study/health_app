@@ -1,0 +1,36 @@
+{
+  "id": "barbell-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/barbell-curl.mp4",
+      "sha256": "cdbe78bc6234e38ccdc09753ed069c51e70bc88ff821994c343d2926a4ca9cb7",
+      "bytes": 441344
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/barbell-curl-dark.mp4",
+      "sha256": "c586c1eb387edc21b40b90351b20f70f78d756317312c3f04294178a1bca84b5",
+      "bytes": 360186
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-5.mjs",
+      "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+    },
+    {
+      "file": "exercise-motion-5.mjs",
+      "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

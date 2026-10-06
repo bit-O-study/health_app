@@ -207,3 +207,61 @@ export function parseBodyCompText(
 
   return out;
 }
+
+/** Match a number to its printed label, never to its position in the report. */
+export function parseLabeledBodyCompScan(text: string): Partial<Record<OcrField, number>> {
+  const raw = extractJsonObject(text);
+  if (!raw || typeof raw !== "object") return {};
+  const normalized = (value: unknown) => typeof value === "string" ? value.toLowerCase().replace(/[\s()（）·_-]/g, "") : "";
+  const basic: Partial<Record<OcrField, string[]>> = {
+    weightKg: ["체중", "weight", "bodyweight"],
+    skeletalMuscleKg: ["골격근량", "skeletalmusclemass", "smm"],
+    bodyFatKg: ["체지방량", "bodyfatmass"],
+    bodyFatPct: ["체지방률", "체지방율", "percentbodyfat", "bodyfatpercentage", "pbf"],
+  };
+  const sides: Record<string, string[]> = {
+    RightArm: ["우상지", "오른팔", "오른쪽팔", "rightarm"],
+    LeftArm: ["좌상지", "왼팔", "왼쪽팔", "leftarm"],
+    Trunk: ["체간", "몸통", "trunk"],
+    RightLeg: ["우하지", "오른다리", "오른쪽다리", "rightleg"],
+    LeftLeg: ["좌하지", "왼다리", "왼쪽다리", "leftleg"],
+  };
+  const values: Partial<Record<OcrField, number>> = {};
+  for (const field of BODY_COMP_FIELDS) {
+    const item = (raw as Record<string, unknown>)[field];
+    if (!item || typeof item !== "object") continue;
+    const entry = item as Record<string, unknown>;
+    if (typeof entry.value !== "number" || !Number.isFinite(entry.value)) continue;
+    const label = normalized(entry.label);
+    const unit = normalized(entry.unit);
+    if (unit !== (field === "bodyFatPct" ? "%" : "kg")) continue;
+    if (basic[field]) {
+      if (!basic[field]!.includes(label)) continue;
+    } else {
+      const muscle = field.startsWith("muscle");
+      const suffix = field.replace(/^(muscle|fat)/, "");
+      if (!sides[suffix]?.includes(label)) continue;
+      const sections = muscle
+        ? ["부위별근육량", "부위별근육분석", "segmentalleananalysis", "segmentalmusclemass"]
+        : ["부위별체지방", "부위별체지방량", "부위별체지방분석", "segmentalfatanalysis"];
+      if (!sections.includes(normalized(entry.section))) continue;
+    }
+    values[field] = entry.value;
+  }
+  return parseBodyCompScan(JSON.stringify(values));
+}
+/** The printed fat mass, percentage and weight should agree up to rounding. */
+export function checkBodyCompScan(values: Partial<Record<OcrField, number>>) {
+  const checked = { ...values };
+  const warnings: string[] = [];
+  const { weightKg, bodyFatKg, bodyFatPct } = checked;
+  if (weightKg !== undefined && bodyFatKg !== undefined && bodyFatPct !== undefined
+      && Math.abs(weightKg * bodyFatPct / 100 - bodyFatKg) > 0.5) {
+    // Any of the three could be wrong; never calculate a replacement from uncertain OCR.
+    delete checked.weightKg;
+    delete checked.bodyFatKg;
+    delete checked.bodyFatPct;
+    warnings.push("체중·체지방량·체지방률이 서로 맞지 않아 세 항목은 채우지 않았어요. 원본 결과지를 확인해 직접 입력해 주세요.");
+  }
+  return { values: checked, warnings };
+}

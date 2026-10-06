@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-09-30T07:30:40.962Z",
+  "sources": [
+    {
+      "id": "zottman-curl",
+      "url": "https://www.strengthlog.com/zottman-curl/",
+      "implementation": "Supinated ascent, controlled pronation at the peak, pronated lowering, supination only after returning to the bottom."
+    },
+    {
+      "id": "wide-dumbbell-curl",
+      "url": "https://criticalbody.com/wide-dumbbell-curls/",
+      "implementation": "Externally rotated shoulders, stable upper arms and outward supinated curl path."
+    },
+    {
+      "id": "scaption",
+      "url": "https://fit-pro.com/article-356-Functionally-Fit-Standing-Shoulder-Scaption.html",
+      "implementation": "Thumbs-up raise 35 degrees forward of the frontal plane, below shoulder height, with a small fixed elbow bend."
+    },
+    {
+      "id": "alternating-dumbbell-front-raise",
+      "url": "https://www.muscleandstrength.com/exercises/alternate-standing-dumbbell-front-raise.html",
+      "additionalSource": "https://www.muscleandfitness.com/workouts/shoulder-exercises/how-to-do-the-dumbbell-front-raise-muscles-worked-form-benefits/",
+      "implementation": "Alternating arm raises; pronated-grip variation, stopping below shoulder height based on the second reference."
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import {
+  Activity,
   Apple,
   Bell, Star, ChartColumn, ClipboardList, MessageCircle, User, BookOpen,
   CalendarDays,
@@ -9,9 +10,12 @@ import {
   House,
   ListChecks,
   Newspaper,
+  PlusCircle,
   PawPrint,
   Search,
+  Sparkles,
   Target,
+  TrendingUp,
   Users,
   UsersRound,
 } from "lucide-react";
@@ -20,7 +24,7 @@ import type { LucideIcon } from "lucide-react";
 /**
  * 런처형 홈 — 앱 레지스트리 (2026-09-20).
  *
- * 짐꾼를 "앱 하나"가 아니라 **작은 앱 여러 개를 담은 런처**로 본다.
+ * 헬쑤를 "앱 하나"가 아니라 **작은 앱 여러 개를 담은 런처**로 본다.
  * 홈은 앱 아이콘 판이고, 앱에 들어가면 화면도 하단 메뉴바도 그 앱 것으로 통째로 바뀐다.
  *
  * 🔴 **가운데(3번째) 칸은 언제나 홈**이다(사용자 결정 2026-09-20).
@@ -182,7 +186,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
   },
   {
     id: "coach",
-    label: "짐꾼쌤",
+    label: "헬쑤쌤",
     icon: GraduationCap,
     tone: "bg-gradient-to-br from-teal-400 to-cyan-600",
     home: "/coach",
@@ -192,6 +196,50 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tabs: [],
   },
   {
+    // 맞춤 운동(라이트 990원, 2026-10-01) — 세부 부위 추천·부위·균형. 라이트 이상이거나 `fit` 스위치가 켜졌을 때.
+    id: "fit",
+    label: "맞춤 운동",
+    icon: Activity,
+    tone: "bg-gradient-to-br from-brand to-sky-600",
+    home: "/fit",
+    owns: ["/fit"],
+    debugFlag: "fit",
+    // 2026-10-06 UI 개편 — 상단 알약 5개 → 하단 탭 4개(부위·균형은 '내 몸 균형' 하나로).
+    tabs: [
+      { href: "/fit", label: "오늘 추천", icon: Sparkles, match: (p) => p === "/fit" },
+      { href: "/fit/balance", label: "내 몸 균형", icon: Activity },
+      { href: "/fit/growth", label: "성장", icon: TrendingUp },
+      { href: "/fit/report", label: "리포트", icon: ChartColumn, match: (p) => p.startsWith("/fit/report") || p.startsWith("/fit/year") },
+    ],
+  },
+  {
+    // AI 트레이너(2026-09-30 2단계) — 오늘의 운동을 짜 주고 [적용]으로 '오늘만 운동 변경'에 넘긴다.
+    // 아직 공개 전 — 자기 스위치(`ai-trainer`)를 따른다.
+    id: "ai-trainer",
+    label: "AI 트레이너",
+    icon: Sparkles,
+    tone: "bg-gradient-to-br from-brand to-teal-600",
+    home: "/ai-trainer",
+    owns: ["/ai-trainer"],
+    debugFlag: "ai-trainer",
+    tabs: [],
+  },
+  {
+    // 다짐(2026-10-06 개편) — 앱이 기록으로 판정하는 행동 다짐. 리스트·생성·현황·그룹별.
+    id: "commitments",
+    label: "다짐",
+    icon: Target,
+    tone: "bg-gradient-to-br from-rose-400 to-orange-500",
+    home: "/commitments",
+    owns: ["/commitments"],
+    tabs: [
+      { href: "/commitments", label: "다짐 리스트", icon: ListChecks, match: (p) => p === "/commitments" || /^\/commitments\/[0-9a-f-]{36}/.test(p) },
+      { href: "/commitments/new", label: "다짐 생성", icon: PlusCircle },
+      { href: "/commitments/status", label: "다짐 현황", icon: ChartColumn },
+      { href: "/commitments/groups", label: "그룹별 다짐", icon: UsersRound },
+    ],
+  },
+  {
     id: "pet",
     debugFlag: "pet",
     label: "펫",
@@ -199,10 +247,8 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-pink-400 to-rose-600",
     home: "/pet",
     owns: ["/pet"],
-    tabs: [
-      { href: "/pet", label: "펫", icon: PawPrint, match: (p) => p.startsWith("/pet") },
-      { href: "/commitments", label: "다짐", icon: Target },
-    ],
+    // 다짐은 2026-10-06 자기 앱(다짐)으로 나갔다 — 펫은 화면이 하나뿐이라 런처 바를 쓴다.
+    tabs: [],
   },
 ];
 

@@ -1,0 +1,36 @@
+{
+  "id": "dumbbell-shrug",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-shrug.mp4",
+      "sha256": "d0572e5a5b27d7dbfb88f575236527dbb30d8729565a2caa488b7ccf56503f2c",
+      "bytes": 226339
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-shrug-dark.mp4",
+      "sha256": "d8933f4b530d04acbe83ae911ca2b2097f0dcf5cf441b6b52143997da67c9fef",
+      "bytes": 211337
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch.mjs",
+      "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+    },
+    {
+      "file": "exercise-motion.mjs",
+      "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

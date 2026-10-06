@@ -1,0 +1,36 @@
+{
+  "id": "close-grip-barbell-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/close-grip-barbell-curl.mp4",
+      "sha256": "0ea601009a0bae624d56715c63c163de632519fafaf50f633cb763123f0355ac",
+      "bytes": 441552
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/close-grip-barbell-curl-dark.mp4",
+      "sha256": "eb5c44f6b976ecaa5b64f8be021a1bb8a5b2f36f1040dad0f376adb29eba2ace",
+      "bytes": 354168
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-5.mjs",
+      "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+    },
+    {
+      "file": "exercise-motion-5.mjs",
+      "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

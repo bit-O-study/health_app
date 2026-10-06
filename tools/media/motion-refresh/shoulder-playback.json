@@ -1,0 +1,20 @@
+[
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.293032,
+    "error": null,
+    "dropped": 1,
+    "total": 1226,
+    "id": "dumbbell-shoulder-press"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.299821,
+    "error": null,
+    "dropped": 2,
+    "total": 1227,
+    "id": "dumbbell-shoulder-press-dark"
+  }
+]

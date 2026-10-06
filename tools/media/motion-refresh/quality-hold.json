@@ -1,0 +1,15 @@
+{
+  "active": true,
+  "reason": "User rejected 2D dynamic motion: upper-body jitter and detached arm movement.",
+  "exerciseIds": [
+    "dumbbell-lateral-raise",
+    "dumbbell-shrug",
+    "dumbbell-shoulder-press",
+    "barbell-shrug",
+    "dumbbell-biceps-curl",
+    "hammer-curl-2",
+    "dumbbell-front-raise",
+    "triceps-kickback"
+  ],
+  "next": "Review one connected skinned 3D pilot before any further batch publication."
+}

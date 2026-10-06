@@ -57,6 +57,8 @@ export async function signUpAndOnboardViaUI(page: Page): Promise<string> {
   // goal → "현재 유지"(목표치 입력 불필요) → next  (온보딩에 목표 단계가 추가됨)
   await page.getByRole("button", { name: /현재 유지/ }).click();
   await page.getByRole("button", { name: "다음" }).click();
+  // 설문 3문항(나이대·몸 목표 스타일·1회 시간, 2026-10-01) → next
+  await answerSurveyExtra(page);
   // gym → skip
   await page.getByRole("button", { name: "건너뛰기" }).click();
   await page.waitForTimeout(400);
@@ -136,4 +138,17 @@ export async function createOnboardedAccount(page: Page): Promise<string> {
   const email = await prepareOnboardedAccount(page.context(), baseURL);
   lastSignedUpEmail = email;
   return email;
+}
+
+/** 가입 설문 3문항 단계(2026-10-01) — 30대 · 스타일은 성별 기본값 그대로 · 45분 → 다음. */
+export async function answerSurveyExtra(page: Page): Promise<void> {
+  await page.getByTestId("onboarding-more").waitFor({ timeout: 10_000 });
+  await page.getByRole("group", { name: "나이대" }).getByRole("button", { name: "30대" }).click();
+  await page.getByRole("group", { name: "1회 운동 시간" }).getByRole("button", { name: "45분" }).click();
+  await page.getByRole("button", { name: "다음" }).click();
+}
+
+/** 화면으로 직접 가입한 테스트가 그 계정으로 운동 시드를 쓸 수 있게(seedRecommendedExercises 가 이 이메일을 쓴다). */
+export function rememberSignedUpEmail(email: string): void {
+  lastSignedUpEmail = email;
 }

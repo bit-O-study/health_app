@@ -10,24 +10,24 @@ test('내 글 검색은 오래된 글을 찾고 더 보기는 중복 없이 추�
   const email = await createOnboardedAccount(page);
   await seed(email, 125);
   await page.goto('/community/mine');
-  await expect(page.getByRole('link', { name: '게시물 보기', exact: true })).toHaveCount(20);
+  await expect(page.getByRole('link', { name: /^게시물 보기/ })).toHaveCount(20);
   await page.route('**/community/mine', async route => {
     if (route.request().method() === 'POST') { await route.abort(); return; }
     await route.continue();
   });
   await page.getByRole('button', { name: '더 보기', exact: true }).click();
   await expect(page.getByRole('alert').filter({ hasText: '게시물을 불러오지 못했어요' })).toBeVisible();
-  await expect(page.getByRole('link', { name: '게시물 보기', exact: true })).toHaveCount(20);
+  await expect(page.getByRole('link', { name: /^게시물 보기/ })).toHaveCount(20);
   await page.unroute('**/community/mine');
   await page.getByRole('button', { name: '더 보기', exact: true }).click();
-  await expect(page.getByRole('link', { name: '게시물 보기', exact: true })).toHaveCount(40);
-  await page.getByRole('link', { name: '게시물 보기', exact: true }).nth(30).click();
+  await expect(page.getByRole('link', { name: /^게시물 보기/ })).toHaveCount(40);
+  await page.getByRole('link', { name: /^게시물 보기/ }).nth(30).click();
   await page.getByRole('button', { name: '커뮤니티', exact: true }).click();
-  await expect(page.getByRole('link', { name: '게시물 보기', exact: true })).toHaveCount(40);
+  await expect(page.getByRole('link', { name: /^게시물 보기/ })).toHaveCount(40);
   await page.getByRole('searchbox', { name: '게시물 검색' }).fill('upgrade-125');
   await page.getByRole('button', { name: '검색', exact: true }).click();
-  await expect(page.getByRole('link', { name: '게시물 보기', exact: true })).toHaveCount(1);
-  await expect(page.locator('li').filter({ has: page.getByRole('link', { name: '게시물 보기', exact: true }) })).toContainText('upgrade-125');
+  await expect(page.getByRole('link', { name: /^게시물 보기/ })).toHaveCount(1);
+  await expect(page.locator('li').filter({ has: page.getByRole('link', { name: /^게시물 보기/ }) })).toContainText('upgrade-125');
 });
 test('사진 없는 기록 공유는 원본을 보존하고 게시 시점 요약을 유지한다', async ({ page }) => {
   test.skip(!hasDb);
@@ -51,7 +51,8 @@ test('사진 없는 기록 공유는 원본을 보존하고 게시 시점 요약
   const rows = await dbQuery<{id:string; photo_url:string|null; workout_snapshot:{exercises:{name:string;sets:number}[]}}>(`select id,photo_url,workout_snapshot from community_posts where user_id=${uid} and caption='기록 공유 테스트'`, [email]);
   expect(rows).toHaveLength(1);
   expect(rows[0].photo_url).toBeNull();
-  expect(rows[0].workout_snapshot.exercises[0]).toEqual({name:'벤치프레스',sets:3});
+  // 운동 id 도 남긴다 — 보는 사람의 '오늘 이 운동 해보기'용(커뮤니티 4-1). 기구가 없던 기록이라 기구는 빠진다.
+  expect(rows[0].workout_snapshot.exercises[0]).toEqual({name:'벤치프레스',sets:3,exerciseId:'bench-press'});
   const original = await dbQuery<{sets:number}>(`select sets from exercise_completions where user_id=${uid}`, [email]);
   expect(original[0].sets).toBe(3);
   await dbQuery(`update exercise_completions set sets=5 where user_id=${uid}`,[email]);
@@ -92,6 +93,6 @@ test('이번 주 인기는 최근 120개 밖의 글도 좋아요로 정렬한다
   await seed(email,130);
   await dbQuery(`insert into community_likes(user_id,post_id) select ${uid},id from community_posts where user_id=${uid} and caption='upgrade-130'`,[email]);
   await page.goto('/community?view=popular&q=upgrade-');
-  await expect(page.getByRole('link', { name: '게시물 보기', exact: true })).toHaveCount(20);
-  await expect(page.locator('li').filter({ has: page.getByRole('link', { name: '게시물 보기', exact: true }) }).first()).toContainText('upgrade-130');
+  await expect(page.getByRole('link', { name: /^게시물 보기/ })).toHaveCount(20);
+  await expect(page.locator('li').filter({ has: page.getByRole('link', { name: /^게시물 보기/ }) }).first()).toContainText('upgrade-130');
 });

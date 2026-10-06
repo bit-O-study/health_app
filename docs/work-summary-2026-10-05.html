@@ -1,0 +1,259 @@
+<title>짐꾼 요금제·맞춤 운동 정리</title>
+<meta name="description" content="9/30~10/2 작업 정리 — 요금제 상태, 라이트 990원 혜택 12개, 무료로 더한 기능, 닫아 둔 AI, DB 변경, 남은 일">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 요약 숫자 → 요금제 → 라이트 혜택 표 → 무료 기능 → 닫아 둔 AI → DB → 정정 → 남은 일 → 보고서 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start;font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
+.item h3{font-size:15.5px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+h2 .n{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:500;margin-left:8px}
+@media (max-width:520px){body{padding-inline:16px}h1{font-size:25px}.item{grid-template-columns:1fr}.item .tag{grid-row:auto}}
+a{color:var(--brand);font-weight:600}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 작업 정리 · 2026-09-30 ~ 10-02</p>
+  <h1>짐꾼 요금제·맞춤 운동 정리</h1>
+  <p class="lede">수익 모델 검토에서 시작해 <b>990원 라이트 요금제</b>를 실제로 팔 수 있는 상태까지 만들었어요. AI 기능도 만들어 두었지만 지금은 <b>전부 닫아 두었고</b>, 나중에 3,990원 AI 요금제를 만들 때 열어요. 라이트 혜택 12개는 모두 AI 없이 내 기록으로 계산해요.</p>
+  <div class="meta">
+    <span>브랜치 <code>feat/support-admin-console</code> · 푸시 완료</span>
+    <span>운영 반영은 main 병합 후</span>
+  </div>
+</header>
+
+<section>
+  <div class="stats">
+    <div class="stat"><b>12개</b><span>라이트(990원) 혜택</span></div>
+    <div class="stat"><b>6개</b><span>무료로 더한 기능</span></div>
+    <div class="stat"><b>4번</b><span>DB 변경(모두 운영 DB 적용)</span></div>
+    <div class="stat"><b>2,963개</b><span>단위 테스트 통과</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>요금제 지금 상태</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>요금제</th><th>가격</th><th>상태</th><th>AI</th></tr></thead>
+      <tbody>
+        <tr><td><b>무료</b></td><td>0원</td><td><span class="pill ok">사용 중</span></td><td>없음(AI 닫힘)</td></tr>
+        <tr><td><b>라이트</b></td><td>월 990원</td><td><span class="pill ok">판매 중</span> 첫 달 무료</td><td>없음 — AI를 열어도 라이트엔 안 들어감</td></tr>
+        <tr><td>베이직 · 플러스 · 프로</td><td>3,900 · 6,900 · 9,900원</td><td><span class="pill warn">오픈 준비 중</span></td><td>AI 요금제 자리 — 3,990원 AI 요금제로 다시 정할 예정</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid2">
+    <div class="box">
+      <h3>구독 화면(배민클럽 방식)</h3>
+      <ul class="clean">
+        <li>첫 달 무료 안내, 다음 결제일, 지금 받고 있는 혜택 카드</li>
+        <li>해지 전에 "언제까지 쓸 수 있는지·잃는 혜택" 안내 → 구글 플레이 구독 관리로</li>
+        <li>라이트 카드에 "AI 기능은 없어요, AI 요금제는 준비 중" 안내</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>AI 스위치 하나로 닫음</h3>
+      <ul class="clean">
+        <li><code>AI_OPEN = false</code> — 무료 맛보기, 트레이너·팀 연결 회원까지 전부 AI 없음</li>
+        <li>AI 버튼이 화면에서 사라지고, 서버도 "AI 기능은 아직 준비 중이에요"로 막음</li>
+        <li>열 때는 이 값만 <code>true</code> 로 — 요금제별 한도가 그대로 살아남</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>라이트 990원 혜택 12개</h2>
+  <p class="cap">무료 회원에게는 같은 자리에 맛보기 또는 "라이트에서 볼 수 있어요" 잠금 한 줄이 보여요. 운동을 바꾸는 건 모두 <b>오늘만 운동 변경</b>(내 루틴은 그대로).</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>혜택</th><th>어디서</th><th>무료 회원</th></tr></thead>
+      <tbody>
+        <tr><td><b>맞춤 운동 앱</b> — 세부 근육 25개 점수, 모자란 곳을 채우는 추천, 균형</td><td>홈 › 맞춤 운동</td><td>추천 1개 맛보기</td></tr>
+        <tr><td><b>성장·월간 리포트</b> — 종목별 예상 1RM 추이·정체·신기록, 지난달 비교</td><td>맞춤 운동 › 성장·리포트</td><td>신기록 목록만</td></tr>
+        <tr><td><b>체성분 변화</b> — 골격근·체지방·체중, 지난번·처음 대비 + 추이선</td><td>맞춤 운동 › 리포트</td><td>잠금</td></tr>
+        <tr><td><b>컨디션 리포트</b> — 4주 달력, 컨디션별 운동량, 가장 자주 나쁜 항목</td><td>맞춤 운동 › 리포트</td><td>잠금</td></tr>
+        <tr><td><b>식단 월간</b> — 평균 칼로리·단백질, 단백질 채운 날, 자주 먹은 음식</td><td>맞춤 운동 › 리포트</td><td>잠금</td></tr>
+        <tr><td><b>수분·걸음 주간</b> — 지난주 대비, 목표(물 체중 기준·7,000보) 채운 날</td><td>맞춤 운동 › 리포트</td><td>잠금</td></tr>
+        <tr><td><b>3개월 목표</b> — 진행률, "지금 속도면 ○월 ○일쯤", 필요 속도</td><td>맞춤 운동 › 성장 맨 위</td><td>목표 1개(진행률만)</td></tr>
+        <tr><td><b>몸 사진 비교</b> — 앞·옆·뒤, 두 날짜 나란히 + 그 사이 체성분 변화. 나만 보기</td><td>설정 › 몸 사진 · 리포트 카드</td><td>3장까지</td></tr>
+        <tr><td><b>이번 주 정리 알림</b> — 일요일 20시, 운동일·볼륨·신기록·단백질</td><td>푸시(설정 › 알림에서 끄기)</td><td>없음</td></tr>
+        <tr><td><b>아픈 부위 대체 운동</b> — 아픈 부위 운동을 오늘만 다른 운동으로</td><td>오늘 운동 › 컨디션 카드</td><td>안내만</td></tr>
+        <tr><td><b>1년 돌아보기</b> — 53주 운동 잔디, 한 해 숫자, 공유 이미지</td><td>리포트 › 올해 돌아보기</td><td>잔디만</td></tr>
+        <tr><td><b>홈 배너 없음 · 라이트 배지 · 새 기능 먼저</b></td><td>홈 · 커뮤니티 이름 옆 · 관리자 "라이트 먼저"</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>모두에게 무료로 더한 것</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>운동</h3>
+      <ul class="clean">
+        <li><b>카메라로 횟수 세기</b> — 스쿼트·푸시업, 기기 안에서만 자세 인식(영상 저장·전송 없음), 덜 내려간 동작은 안 셈</li>
+        <li><b>개인 신기록 알림</b> — 세트를 끝낼 때 지난 최고 예상 1RM을 넘으면 축하</li>
+        <li><b>오늘 컨디션 체크인</b> — 잠·근육통·기운 3탭, 안 좋으면 "오늘만 세트 하나씩 줄이기"</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>나에게 맞추기</h3>
+      <ul class="clean">
+        <li><b>아픈 부위</b>(설정) — 루틴 추천 3경로·맞춤 운동에서 그 부위 운동 빼기, 오늘 운동에 있으면 알림</li>
+        <li><b>가입 설문 3문항</b> — 나이대(칼로리 계산 7곳) · 몸 목표 스타일(상체·하체·고르게 → 목표 비율) · 1회 운동 시간(추천 개수)</li>
+        <li><b>맞춤 운동 설정</b> — 기존 회원도 설정에서 같은 3가지를 바꿈</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>만들어 두고 닫아 둔 것(AI)</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><b>AI 트레이너 탭</b> — 내 상태(부위별 세트·정체·체성분·수분·단백질 등)로 오늘의 운동 제안 → [적용]하면 오늘만 운동 변경, 시간 맞춤(30·45·60분), AI 이용 동의</li>
+      <li><b>AI 식단 관리 · 다짐 추천</b></li>
+      <li><b>AI 연결</b> — NVIDIA 우선 + 실패하면 다른 모델·다음 제공자로, 실패한 호출은 사용 횟수 되돌리기, <code>AI_PROVIDER_ORDER</code> 로 순서(운영은 gemini 먼저 권장)</li>
+      <li>식단 사진·체성분지 읽기·기구 스캔·자세 분석도 AI 닫힘에 같이 묶임</li>
+    </ul>
+    <p class="cap">열 때: 3,990원 AI 요금제를 만들면서 <code>AI_OPEN=true</code> + 그 요금제 가격·이름 정리 + Vercel 에 AI 키.</p>
+  </div>
+</section>
+
+<section>
+  <h2>DB 변경(모두 운영 DB 적용 · 스키마 동기화 테스트 통과)</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>날짜</th><th>무엇</th><th>쓰는 곳</th></tr></thead>
+      <tbody>
+        <tr><td>09-30</td><td><code>profiles.ai_consent_at · pain_areas</code>, <code>daily_checkins</code></td><td>AI 동의, 아픈 부위, 컨디션 체크인</td></tr>
+        <tr><td>10-01</td><td><code>profiles.age_group · body_style · session_minutes</code></td><td>가입 설문 3문항</td></tr>
+        <tr><td>10-02</td><td><code>lift_goals</code>, <code>body_photos</code> + 비공개 저장소 <code>body-photos</code></td><td>3개월 목표, 몸 사진(목표 3개·사진 500장 상한)</td></tr>
+        <tr><td>10-02</td><td><code>notification_preferences.weekly_summary</code></td><td>이번 주 정리 알림 끄기</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>바로잡은 것</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><b>다음 무게 제안·정체 탈출은 이미 무료</b>로 있어서 라이트 혜택에서 뺐어요(무료에서 빼앗지 않는 원칙). 대신 수분·걸음 주간 리포트를 넣었어요.</li>
+      <li>세부 근육 수 27 → <b>25</b>로 정정, 990원 실수령 계산 소수점 오류(764 → 765원) 수정.</li>
+      <li>초급자에게 매달리기 같은 고난도 동작 추천 안 함, 1년 잔디가 휴대폰에서 최근 주부터 보이게.</li>
+      <li>탈퇴는 원래 데이터를 남기지만 <b>몸 사진은 바로 삭제</b>(처리방침 반영).</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>남은 일</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>할 일</th><th>누가</th></tr></thead>
+      <tbody>
+        <tr><td><b>main 병합 → 배포</b> — 지금 운영 앱은 라이트를 몰라서 3,900원 베이직으로 처리함</td><td><span class="pill warn">직접</span></td></tr>
+        <tr><td><b>Play Console</b> 에 <code>helssu_lite_monthly</code>(990원) 상품 + 30일 무료 제안 등록</td><td><span class="pill warn">직접</span></td></tr>
+        <tr><td><b>트레이너 점수 검수</b> — 검수 페이지를 트레이너에게 공유(기여자 권한), 끝나면 "검수 반영해줘"</td><td><span class="pill warn">직접</span> → 반영은 Claude</td></tr>
+        <tr><td>다음 라이트 후보 — 운동 기록 검색, 강조 색, 공유 이미지 틀, 문의 먼저 답변, 트레이너 루틴 팩</td><td><span class="pill info">요청 시</span></td></tr>
+        <tr><td>3,990원 AI 요금제 설계·개발(그때 AI 열기)</td><td><span class="pill info">나중에</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>보고서 모음</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>라이트 · 맞춤 운동</h3>
+      <ul class="clean">
+        <li><a href="https://claude.ai/artifact/2QaaRFvwAd7xhe5tNar622">라이트 2단계 설계</a></li>
+        <li><a href="https://claude.ai/artifact/6SCQbaof1Vs5Ko8QFN5RdW">라이트 혜택 후보</a></li>
+        <li><a href="https://claude.ai/artifact/N3t2uQdvJBY5LpvX2vM4Vm">맞춤 운동 앱 UI·기능</a></li>
+        <li><a href="https://claude.ai/artifact/PxE5tUx44UPmNzu7Z77vjW">세부 부위 점수와 990원 요금제</a></li>
+        <li><a href="https://claude.ai/artifact/Pq2jLgMBrJ2pLYy7tcnJvA">운동 점수 검수(트레이너용)</a></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>요금제 · AI · 기타</h3>
+      <ul class="clean">
+        <li><a href="https://claude.ai/artifact/SYzSvmSFsNH8E46CffNqaT">AI 트레이너 요금제</a></li>
+        <li><a href="https://claude.ai/artifact/DAKQWueDqbkZ7sLqDo3epH">프리미엄 간단 구독안</a></li>
+        <li><a href="https://claude.ai/artifact/1X4dsUd8U32sA7x7DvKvWu">수익 모델 점검</a> · <a href="https://claude.ai/artifact/BMoEXUFWW5hmURAPamQujr">추가 수익 모델</a></li>
+        <li><a href="https://claude.ai/artifact/Nv3Ye2UqFcAWACSWH1BznY">운동 횟수 자동 세기</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>

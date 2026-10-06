@@ -1,0 +1,36 @@
+{
+  "id": "wide-grip-barbell-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/wide-grip-barbell-curl.mp4",
+      "sha256": "b9b8b416a069579bb2b2349b445d5a33e8defd8942df432fa0913ec0a8520e36",
+      "bytes": 442621
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/wide-grip-barbell-curl-dark.mp4",
+      "sha256": "35b75eb9ee39c070b69d2c63e930319fab74c33abc9146c6142081052cafe18a",
+      "bytes": 361015
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-5.mjs",
+      "sha256": "2b688e5505990a29a9846fbe69ea862e2dbfffd06cb8e6b7cdfa0fc876c722b4"
+    },
+    {
+      "file": "exercise-motion-5.mjs",
+      "sha256": "e55dd5a3a1fd8a0d6db627076f22a9367ce6ffca0e3c0cc47896a306d07dcf1a"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "hammer-curl-2",
+  "renderer": "fixed-arm-rig-v1",
+  "timing": "smooth",
+  "rigSource": "hammer-curl-2-atlas.png",
+  "sourceAtlasSha256": "5a38024b28439a0b192099b555d1c576b571ccf5a69fecd57a58d882277b5f47",
+  "rig": {
+    "body": {
+      "crop": [
+        250,
+        0,
+        410,
+        1210
+      ],
+      "at": [
+        190,
+        45
+      ],
+      "scale": 0.49
+    },
+    "limbs": [
+      {
+        "crop": [
+          780,
+          640,
+          270,
+          465
+        ],
+        "pivot": [
+          908,
+          697
+        ],
+        "joint": [
+          543,
+          425
+        ],
+        "scale": 0.285,
+        "sourceAngle": 99,
+        "start": 87,
+        "end": -43,
+        "behind": true
+      },
+      {
+        "crop": [
+          830,
+          155,
+          230,
+          460
+        ],
+        "pivot": [
+          907,
+          213
+        ],
+        "joint": [
+          306,
+          425
+        ],
+        "scale": 0.3,
+        "sourceAngle": 78,
+        "start": 87,
+        "end": -43
+      }
+    ]
+  },
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "94faffcb102295b587f4a4a534a5e7bc365cad91daa2e1fffe29d83007db48f5",
+      "bytes": 213487
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "1a2dd4ecd473b8939020efadbc191c274a1b0d19abb84fc51ec73e9a5a47ecdc",
+      "bytes": 166601
+    }
+  ]
+}

@@ -3159,7 +3159,7 @@ create table if not exists public.commitments (
   deadline date not null,
   archived boolean not null default false,
   -- 생성 방식: manual(직접 설정) / survey(설문 기반 미션).
-  mode text not null default 'manual' check (mode in ('manual', 'survey')),
+  mode text not null default 'manual' check (mode in ('manual', 'survey', 'pledge')),
   -- 설문 기반 다짐의 하루 미션 목록(MissionSpec[] JSON). 캘린더 ○△✕ 자동 판정에 씀.
   missions jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
@@ -5313,3 +5313,1776 @@ language sql stable security invoker set search_path = public as $$
 $$;
 revoke all on function public.community_feed_page(text,text,timestamptz,timestamptz,uuid,text,bigint) from public, anon;
 grant execute on function public.community_feed_page(text,text,timestamptz,timestamptz,uuid,text,bigint) to authenticated;
+
+-- Manual coaching: published answers and private drafts have separate access.
+create table if not exists public.manual_coach_requests (
+ id uuid primary key, user_id uuid not null references auth.users(id) on delete cascade,
+ kind text not null check(kind in ('recommendation','habit-report','consultation')),
+ for_date date not null, question text not null check(length(question)<=2000),
+ context jsonb not null default '{}'::jsonb,
+ answer text check(length(answer) between 1 and 12000), answered_at timestamptz,
+ answered_by uuid references auth.users(id), created_at timestamptz not null default now()
+);
+create unique index if not exists manual_coach_period on public.manual_coach_requests(user_id,kind,for_date) where kind<>'consultation';
+create index if not exists manual_coach_owner on public.manual_coach_requests(user_id,created_at desc);
+create table if not exists public.manual_coach_drafts (
+ request_id uuid primary key references public.manual_coach_requests(id) on delete cascade,
+ body text not null check(length(body)<=12000), updated_at timestamptz not null default now()
+);
+alter table public.manual_coach_requests enable row level security;
+alter table public.manual_coach_drafts enable row level security;
+drop policy if exists manual_coach_read on public.manual_coach_requests;
+drop policy if exists manual_coach_draft_read on public.manual_coach_drafts;
+create policy manual_coach_read on public.manual_coach_requests for select to authenticated using(user_id=(select auth.uid()) or public.is_admin());
+create policy manual_coach_draft_read on public.manual_coach_drafts for select to authenticated using(public.is_admin());
+revoke all on public.manual_coach_requests, public.manual_coach_drafts from anon, authenticated;
+grant select on public.manual_coach_requests, public.manual_coach_drafts to authenticated;
+
+create or replace function public.manual_coach_request(p_kind text,p_question text,p_request uuid,p_user uuid default null) returns uuid
+language plpgsql security definer set search_path=public as $$
+declare v_user uuid:=coalesce(p_user,auth.uid()); v_date date:=(now() at time zone 'Asia/Seoul')::date; v_id uuid; v_context jsonb;
+begin
+ if auth.uid() is null or (p_user is not null and not public.is_admin()) then raise exception 'Forbidden' using errcode='42501'; end if;
+ if p_kind is null or p_kind not in ('recommendation','habit-report','consultation') or p_question is null or length(trim(p_question))>2000 or p_request is null or (p_kind='consultation' and length(trim(p_question))<2) then raise exception 'Invalid request' using errcode='22023'; end if;
+ if not exists(select 1 from subscriptions where user_id=v_user and product_id in ('helssu_lite_monthly','helssu_coach_monthly','helssu_premium_monthly','helssu_plus_monthly','helssu_pro_monthly') and state in ('active','grace','canceled') and expires_at>now()) then raise exception 'Subscription required' using errcode='42501'; end if;
+ perform pg_advisory_xact_lock(hashtextextended(v_user::text,0));
+ select id into v_id from manual_coach_requests where id=p_request and user_id=v_user;
+ if v_id is not null then return v_id; end if;
+ if p_kind='habit-report' then v_date:=date_trunc('week',v_date)::date; end if;
+ if p_kind<>'consultation' then
+  select id into v_id from manual_coach_requests where user_id=v_user and kind=p_kind and for_date=v_date;
+  if v_id is not null then return v_id; end if;
+ elsif (select count(*) from manual_coach_requests where user_id=v_user and kind='consultation' and for_date=v_date)>=20 then raise exception 'Daily limit'; end if;
+ select jsonb_build_object('period_days',30,'exercise_records',coalesce(jsonb_agg(to_jsonb(r)),'[]'::jsonb)) into v_context
+ from (select exercise_id,for_date from exercise_completions where user_id=v_user and status='done' and for_date between ((now() at time zone 'Asia/Seoul')::date-29) and (now() at time zone 'Asia/Seoul')::date order by for_date desc limit 100) r;
+ insert into manual_coach_requests(id,user_id,kind,for_date,question,context) values(p_request,v_user,p_kind,v_date,trim(p_question),v_context);
+ return p_request;
+end $$;
+revoke all on function public.manual_coach_request(text,text,uuid,uuid) from public,anon;
+grant execute on function public.manual_coach_request(text,text,uuid,uuid) to authenticated;
+
+create or replace function public.manual_coach_save(p_request uuid,p_body text,p_publish boolean) returns uuid
+language plpgsql security definer set search_path=public as $$
+declare v_row manual_coach_requests;
+begin
+ if not public.is_admin() then raise exception 'Forbidden' using errcode='42501'; end if;
+ if p_body is null or length(trim(p_body))>12000 or p_publish is null or (p_publish and length(trim(p_body))=0) then raise exception 'Invalid body' using errcode='22023'; end if;
+ select * into v_row from manual_coach_requests where id=p_request for update;
+ if not found then raise exception 'Not found' using errcode='22023'; end if;
+ if v_row.answered_at is not null then
+  if p_publish and v_row.answer=trim(p_body) then return p_request; end if;
+  raise exception 'Already published' using errcode='22023';
+ end if;
+ if p_publish then
+  update manual_coach_requests set answer=trim(p_body),answered_at=now(),answered_by=auth.uid() where id=p_request;
+  delete from manual_coach_drafts where request_id=p_request;
+ else
+  insert into manual_coach_drafts(request_id,body) values(p_request,trim(p_body)) on conflict(request_id) do update set body=excluded.body,updated_at=now();
+ end if;
+ return p_request;
+end $$;
+revoke all on function public.manual_coach_save(uuid,text,boolean) from public,anon;
+grant execute on function public.manual_coach_save(uuid,text,boolean) to authenticated;
+
+create or replace function public.manual_coach_members() returns table(user_id uuid,name text,expires_at timestamptz)
+language sql stable security definer set search_path=public as $$
+ select s.user_id,coalesce(u.raw_user_meta_data->>'name',u.raw_user_meta_data->>'full_name','회원'),s.expires_at
+ from subscriptions s join auth.users u on u.id=s.user_id
+ where public.is_admin() and s.product_id in ('helssu_lite_monthly','helssu_coach_monthly','helssu_premium_monthly','helssu_plus_monthly','helssu_pro_monthly') and s.state in ('active','grace','canceled') and s.expires_at>now()
+ order by s.expires_at limit 500
+$$;
+revoke all on function public.manual_coach_members() from public,anon;
+grant execute on function public.manual_coach_members() to authenticated;
+notify pgrst,'reload schema';
+
+-- Preserve an immutable, bounded coaching snapshot with prescription evidence.
+create or replace function public.manual_coach_request(p_kind text,p_question text,p_request uuid,p_user uuid default null) returns uuid
+language plpgsql security definer set search_path=public as $$
+declare v_user uuid:=coalesce(p_user,auth.uid()); v_date date:=(now() at time zone 'Asia/Seoul')::date; v_id uuid; v_context jsonb;
+begin
+ if auth.uid() is null or (p_user is not null and not public.is_admin()) then raise exception 'Forbidden' using errcode='42501'; end if;
+ if p_kind is null or p_kind not in ('recommendation','habit-report','consultation') or p_question is null or length(trim(p_question))>2000 or p_request is null or (p_kind='consultation' and length(trim(p_question))<2) then raise exception 'Invalid request' using errcode='22023'; end if;
+ if not exists(select 1 from subscriptions where user_id=v_user and product_id in ('helssu_lite_monthly','helssu_coach_monthly','helssu_premium_monthly','helssu_plus_monthly','helssu_pro_monthly') and state in ('active','grace','canceled') and expires_at>now()) then raise exception 'Subscription required' using errcode='42501'; end if;
+ perform pg_advisory_xact_lock(hashtextextended(v_user::text,0));
+ select id into v_id from manual_coach_requests where id=p_request and user_id=v_user;
+ if v_id is not null then return v_id; end if;
+ if p_kind='habit-report' then v_date:=date_trunc('week',v_date)::date; end if;
+ if p_kind<>'consultation' then
+  select id into v_id from manual_coach_requests where user_id=v_user and kind=p_kind and for_date=v_date;
+  if v_id is not null then return v_id; end if;
+ elsif (select count(*) from manual_coach_requests where user_id=v_user and kind='consultation' and for_date=v_date)>=20 then raise exception 'Daily limit'; end if;
+ select jsonb_build_object(
+  'version',2,'period_days',30,'as_of',(now() at time zone 'Asia/Seoul')::date,
+  'exercise_records',coalesce((select jsonb_agg(to_jsonb(r)) from (
+   select exercise_id,for_date,equipment,sets,reps,weight_kg,set_details from exercise_completions
+   where user_id=v_user and status='done' and for_date between ((now() at time zone 'Asia/Seoul')::date-29) and (now() at time zone 'Asia/Seoul')::date order by for_date desc,created_at desc,id limit 100
+  ) r),'[]'::jsonb),
+  'records_truncated',(select count(*)>100 from exercise_completions where user_id=v_user and status='done' and for_date between ((now() at time zone 'Asia/Seoul')::date-29) and (now() at time zone 'Asia/Seoul')::date),
+  'routine_plan',coalesce((select jsonb_agg(to_jsonb(r)) from (
+   select exercise_id,equipment,sets,reps,weight_kg,set_details,day_index from routine_exercises where user_id=v_user order by day_index,position,id limit 100
+  ) r),'[]'::jsonb),
+  'routine_truncated',(select count(*)>100 from routine_exercises where user_id=v_user),
+  'today_plan',coalesce((select jsonb_agg(to_jsonb(r)) from (
+   select exercise_id,equipment,sets,reps,weight_kg,set_details from daily_plan where user_id=v_user and for_date=(now() at time zone 'Asia/Seoul')::date order by position,id limit 100
+  ) r),'[]'::jsonb),
+  'today_truncated',(select count(*)>100 from daily_plan where user_id=v_user and for_date=(now() at time zone 'Asia/Seoul')::date)
+ ) into v_context;
+ insert into manual_coach_requests(id,user_id,kind,for_date,question,context) values(p_request,v_user,p_kind,v_date,trim(p_question),v_context);
+ return p_request;
+end $$;
+revoke all on function public.manual_coach_request(text,text,uuid,uuid) from public,anon;
+grant execute on function public.manual_coach_request(text,text,uuid,uuid) to authenticated;
+notify pgrst,'reload schema';
+
+-- 커뮤니티 보안 1단계(2026-09-30, docs/community-review-2026-09-30.html).
+-- 앱을 거치지 않고 DB 에 직접 써도(REST) 막히도록, 확인을 데이터베이스로 옮긴다.
+
+-- ── 정지·영구정지 회원은 쓰기 불가 ────────────────────────────────
+-- 예전엔 화면 이동(미들웨어)에서만 막아, 직접 쓰면 정지 중에도 글·댓글을 쓸 수 있었다.
+create or replace function public.is_active_member()
+returns boolean language sql security definer stable set search_path = public as $$
+  select not exists (
+    select 1 from public.profiles p
+    where p.user_id = auth.uid()
+      and (p.banned_at is not null or (p.suspended_until is not null and p.suspended_until > now()))
+  );
+$$;
+revoke all on function public.is_active_member() from public, anon;
+grant execute on function public.is_active_member() to authenticated;
+
+-- ── 작성자 표시 이름은 프로필에서(닉네임 → 이름 → 회원) ──────────────
+-- 앱의 resolveMemberName 과 같은 규칙. 클라이언트가 보낸 이름은 쓰지 않는다.
+create or replace function public.community_author_name(uid uuid)
+returns text language sql security definer stable set search_path = public as $$
+  select coalesce(
+    (select coalesce(nullif(btrim(p.nickname), ''), nullif(btrim(p.name), ''))
+       from public.profiles p where p.user_id = uid),
+    '회원'
+  );
+$$;
+revoke all on function public.community_author_name(uuid) from public, anon, authenticated;
+
+-- 앱 사용자 요청(REST·서버 액션이 사용자 권한으로 보낸 것)인가. 서비스 롤·DB 직접 접속
+-- (마이그레이션·관리 작업·테스트 시드)은 믿는다 — 지킴이는 '사용자 권한 요청'에만 건다.
+create or replace function public.is_client_request()
+returns boolean language sql stable set search_path = public as $$
+  select coalesce(auth.role(), '') in ('authenticated', 'anon');
+$$;
+
+-- ── 글 쓰기·수정 지킴이 ─────────────────────────────────────────
+-- · 이름: 항상 프로필에서 채운다.
+-- · 운동 기록 카드: 서버(서비스 롤)만 넣을 수 있다 — 서버가 완료 기록으로 만든 카드만 믿는다.
+-- · 수정: 내용(한마디)만 바꿀 수 있다. 작성자·이름·카드·사진·공개 범위·그룹은 못 바꾼다
+--   (그룹 이동으로 가입하지 않은 그룹에 글을 넣던 구멍).
+create or replace function public.community_post_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    if public.is_client_request() then
+      new.author_name := public.community_author_name(new.user_id);
+      if new.workout_snapshot is not null then
+        raise exception '운동 기록 카드는 서버에서만 붙일 수 있어요.' using errcode = '42501';
+      end if;
+    end if;
+    return new;
+  end if;
+  -- UPDATE
+  if not public.is_client_request() then
+    return new;
+  end if;
+  if new.user_id is distinct from old.user_id
+     or new.author_name is distinct from old.author_name
+     or new.workout_snapshot is distinct from old.workout_snapshot
+     or new.photo_url is distinct from old.photo_url
+     or new.group_id is distinct from old.group_id
+     or new.visibility is distinct from old.visibility
+     or new.created_at is distinct from old.created_at then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists community_post_guard on public.community_posts;
+create trigger community_post_guard before insert or update on public.community_posts
+  for each row execute function public.community_post_guard();
+
+-- 운동 영상 글 — 이름은 프로필에서, 수정은 한마디만.
+create or replace function public.teaching_post_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    if public.is_client_request() then
+      new.author_name := public.community_author_name(new.user_id);
+    end if;
+    return new;
+  end if;
+  if not public.is_client_request() then
+    return new;
+  end if;
+  if new.user_id is distinct from old.user_id
+     or new.author_name is distinct from old.author_name
+     or new.video_url is distinct from old.video_url
+     or new.group_id is distinct from old.group_id
+     or new.visibility is distinct from old.visibility
+     or new.created_at is distinct from old.created_at then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists teaching_post_guard on public.teaching_posts;
+create trigger teaching_post_guard before insert or update on public.teaching_posts
+  for each row execute function public.teaching_post_guard();
+
+-- 댓글 — 이름은 프로필에서(피드·운동 영상 공통).
+create or replace function public.comment_author_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if public.is_client_request() then
+    new.author_name := public.community_author_name(new.user_id);
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists community_comment_author_guard on public.community_comments;
+create trigger community_comment_author_guard before insert on public.community_comments
+  for each row execute function public.comment_author_guard();
+drop trigger if exists teaching_comment_author_guard on public.teaching_comments;
+create trigger teaching_comment_author_guard before insert on public.teaching_comments
+  for each row execute function public.comment_author_guard();
+
+-- ── 쓰기 정책에 '정지 아님' 추가 ────────────────────────────────
+drop policy if exists "insert own community post" on public.community_posts;
+create policy "insert own community post" on public.community_posts for insert
+  with check (
+    user_id = auth.uid()
+    and public.is_active_member()
+    and (visibility = 'public' or (group_id is not null and public.is_group_member(group_id)))
+  );
+drop policy if exists "like visible post" on public.community_likes;
+create policy "like visible post" on public.community_likes for insert
+  with check (user_id = auth.uid() and public.is_active_member() and public.can_see_community_post(post_id));
+drop policy if exists "comment on visible post" on public.community_comments;
+create policy "comment on visible post" on public.community_comments for insert
+  with check (user_id = auth.uid() and public.is_active_member() and public.can_see_community_post(post_id));
+drop policy if exists "insert own teaching post" on public.teaching_posts;
+create policy "insert own teaching post" on public.teaching_posts for insert
+  with check (
+    user_id = auth.uid()
+    and public.is_active_member()
+    and (visibility = 'public' or (group_id is not null and public.is_group_member(group_id)))
+  );
+
+-- ── 운동 영상 좋아요·댓글에 공개 범위 적용 ─────────────────────────
+-- 예전엔 using(true) 라 그룹 전용 영상의 댓글도 그룹 밖에서 읽고 쓸 수 있었다.
+create or replace function public.can_see_teaching_post(pid uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.teaching_posts p
+    where p.id = pid
+      and (
+        p.user_id = auth.uid()
+        or public.is_post_moderator()
+        or p.visibility = 'public'
+        or (p.visibility = 'group' and p.group_id is not null and public.is_group_member(p.group_id))
+        or (p.visibility = 'public_except_group' and (p.group_id is null or not public.is_group_member(p.group_id)))
+      )
+  );
+$$;
+revoke all on function public.can_see_teaching_post(uuid) from public, anon;
+grant execute on function public.can_see_teaching_post(uuid) to authenticated;
+
+drop policy if exists "read teaching likes" on public.teaching_likes;
+create policy "read teaching likes" on public.teaching_likes for select
+  using (public.can_see_teaching_post(post_id));
+drop policy if exists "like teaching" on public.teaching_likes;
+create policy "like teaching" on public.teaching_likes for insert
+  with check (user_id = auth.uid() and public.is_active_member() and public.can_see_teaching_post(post_id));
+drop policy if exists "read teaching comments" on public.teaching_comments;
+create policy "read teaching comments" on public.teaching_comments for select
+  using (public.can_see_teaching_post(post_id));
+drop policy if exists "comment teaching" on public.teaching_comments;
+create policy "comment teaching" on public.teaching_comments for insert
+  with check (user_id = auth.uid() and public.is_active_member() and public.can_see_teaching_post(post_id));
+
+-- ── 신고: 루틴 신고 허용 + 같은 대상 중복 신고 막기 ─────────────────
+-- 루틴 신고는 허용 종류에 없어 DB 가 거절하고 있었다(앱은 신고됐다고 보이는데 관리자에게 안 옴).
+alter table public.post_reports drop constraint if exists post_reports_target_kind_check;
+alter table public.post_reports add constraint post_reports_target_kind_check
+  check (target_kind in ('community_post','community_comment','teaching_post','teaching_comment','routine_share'));
+create unique index if not exists post_reports_reporter_target_uniq
+  on public.post_reports (reporter_id, target_kind, target_id);
+
+-- 커뮤니티 보안 1단계 후속(2026-09-30): RLS 정책이 부르는 함수는 익명도 실행할 수 있어야 한다
+-- (tests/be/anon-execute-guard.test.ts). 막혀 있으면 비로그인 조회가 '권한 없음' 오류로 통째로 죽는다.
+-- 익명에게는 is_active_member()=true(프로필 없음), can_see_teaching_post()=전체공개 글만 — 새로 드러나는 정보 없음.
+grant execute on function public.is_active_member() to anon;
+grant execute on function public.can_see_teaching_post(uuid) to anon;
+
+-- 커뮤니티 2단계(2026-09-30, docs/community-review-2026-09-30.html).
+
+-- ── 검색: 운동 기록 카드는 '운동 이름' 만 ─────────────────────────────
+-- 예전엔 카드 JSON 글자 전체를 검색해 "name"·"sets" 를 치면 운동 기록 글이 전부 나왔다.
+create or replace function public.community_feed_page(
+  p_view text default 'workout', p_search text default '',
+  p_as_of timestamptz default now(), p_before timestamptz default null,
+  p_id uuid default null, p_kind text default '', p_score bigint default null
+) returns table(id uuid, kind text, created_at timestamptz, score bigint)
+language sql stable security invoker set search_path = public as $$
+  with candidates as (
+    select p.id, 'photo'::text kind, p.created_at,
+      case when p_view = 'popular' then
+        (select count(*) from public.community_likes l where l.post_id = p.id)
+        else 0::bigint end score
+    from public.community_posts p
+    where auth.uid() is not null and p_view in ('workout','mine','popular')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and p.created_at <= p_as_of
+      and (p_view <> 'popular' or p.created_at >= p_as_of - interval '7 days')
+      and (p_search = '' or strpos(lower(coalesce(p.caption,'') || ' ' ||
+        coalesce((select string_agg(e->>'name', ' ') from jsonb_array_elements(case when jsonb_typeof(p.workout_snapshot->'exercises') = 'array' then p.workout_snapshot->'exercises' else '[]'::jsonb end) e), '')), lower(p_search)) > 0)
+    union all
+    select p.id, 'teaching'::text, p.created_at, 0::bigint
+    from public.teaching_posts p
+    where auth.uid() is not null and p_view in ('teaching','mine')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and p.created_at <= p_as_of
+      and (p_search = '' or strpos(lower(coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'')), lower(p_search)) > 0)
+  )
+  select c.id, c.kind, c.created_at, c.score from candidates c
+  where p_before is null or
+    (c.score,c.created_at,c.id,c.kind) < (coalesce(p_score,0),p_before,p_id,p_kind)
+  order by c.score desc,c.created_at desc,c.id desc,c.kind desc limit 21;
+$$;
+
+
+-- ── 쓰기 속도 제한(도배 막기) ──────────────────────────────────────
+-- 사용자 권한 요청에만(서비스 롤 저장은 서버 코드가 같은 한도를 먼저 확인한다).
+-- 인자: 한도(개), 기간. 예) 글 10분에 5개, 댓글 5분에 20개.
+create or replace function public.community_rate_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  n int;
+  lim int := tg_argv[0]::int;
+  win interval := tg_argv[1]::interval;
+begin
+  if not public.is_client_request() then
+    return new;
+  end if;
+  execute format('select count(*) from %I.%I where user_id = $1 and created_at > now() - $2', tg_table_schema, tg_table_name)
+    into n using new.user_id, win;
+  if n >= lim then
+    raise exception '너무 자주 올리고 있어요. 잠시 후 다시 시도해 주세요.' using errcode = 'P0001';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists community_posts_rate on public.community_posts;
+create trigger community_posts_rate before insert on public.community_posts
+  for each row execute function public.community_rate_guard('5', '10 minutes');
+drop trigger if exists community_comments_rate on public.community_comments;
+create trigger community_comments_rate before insert on public.community_comments
+  for each row execute function public.community_rate_guard('20', '5 minutes');
+drop trigger if exists teaching_posts_rate on public.teaching_posts;
+create trigger teaching_posts_rate before insert on public.teaching_posts
+  for each row execute function public.community_rate_guard('5', '10 minutes');
+drop trigger if exists teaching_comments_rate on public.teaching_comments;
+create trigger teaching_comments_rate before insert on public.teaching_comments
+  for each row execute function public.community_rate_guard('20', '5 minutes');
+
+
+-- ════════════════════════════════════════════════════════════════
+-- 커뮤니티 3단계(2026-09-30) — 다시 오게: 알림 · 차단 · 신고 누적 숨김 · 저장 · 질문 글.
+-- (운동 영상 공유 링크는 화면만 — DB 변경 없음.)
+--
+-- 정한 기준(사용자 "추천대로"):
+--   · 신고 누적 숨김 — 서로 다른 3명이 신고(미처리)하면 관리자가 볼 때까지 숨김. 작성자·관리자에게는 보인다.
+--   · 알림 — 댓글은 매번(앱 안 알림 + 푸시), 좋아요는 하루 한 번 묶어서.
+-- ════════════════════════════════════════════════════════════════
+
+-- ── 차단 ────────────────────────────────────────────────────────────
+-- 🔴 서로 안 보인다(내가 막은 사람 글도, 나를 막은 사람에게 내 글도). 한쪽만 막으면
+--    막힌 사람이 계속 댓글을 달 수 있어 차단의 의미가 없다.
+create table if not exists public.user_blocks (
+  blocker_id uuid not null references auth.users(id) on delete cascade,
+  blocked_id uuid not null references auth.users(id) on delete cascade,
+  -- 차단 목록에 보일 이름(막은 순간의 닉네임). 남의 프로필은 읽을 수 없어 따로 남긴다.
+  blocked_name text,
+  created_at timestamptz not null default now(),
+  primary key (blocker_id, blocked_id),
+  check (blocker_id <> blocked_id)
+);
+create index if not exists user_blocks_blocked_idx on public.user_blocks (blocked_id);
+alter table public.user_blocks enable row level security;
+drop policy if exists "own blocks read" on public.user_blocks;
+create policy "own blocks read" on public.user_blocks for select
+  using (blocker_id = (select auth.uid()));
+drop policy if exists "own blocks insert" on public.user_blocks;
+create policy "own blocks insert" on public.user_blocks for insert
+  with check (blocker_id = (select auth.uid()));
+drop policy if exists "own blocks delete" on public.user_blocks;
+create policy "own blocks delete" on public.user_blocks for delete
+  using (blocker_id = (select auth.uid()));
+
+create or replace function public.user_block_name()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  new.blocked_name := public.community_author_name(new.blocked_id);
+  return new;
+end;
+$$;
+drop trigger if exists user_blocks_name on public.user_blocks;
+create trigger user_blocks_name before insert on public.user_blocks
+  for each row execute function public.user_block_name();
+
+-- 나와 이 사람 사이에 차단이 있나(어느 쪽이든). 정책에서 부르므로 익명도 실행 가능해야 한다.
+create or replace function public.blocked_between(other uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select other is not null and auth.uid() is not null and other <> auth.uid() and exists (
+    select 1 from public.user_blocks b
+    where (b.blocker_id = auth.uid() and b.blocked_id = other)
+       or (b.blocker_id = other and b.blocked_id = auth.uid())
+  );
+$$;
+grant execute on function public.blocked_between(uuid) to anon, authenticated;
+
+-- ── 신고 누적 숨김 ─────────────────────────────────────────────────
+alter table public.community_posts add column if not exists hidden_at timestamptz;
+alter table public.teaching_posts add column if not exists hidden_at timestamptz;
+
+-- ── 질문 글 ─────────────────────────────────────────────────────────
+-- 사진 없이 제목 + 본문(1000자). 작성자가 '해결됨' 표시.
+alter table public.community_posts add column if not exists post_type text not null default 'photo';
+alter table public.community_posts add column if not exists title text;
+alter table public.community_posts add column if not exists resolved_at timestamptz;
+alter table public.community_posts drop constraint if exists community_posts_post_type_check;
+alter table public.community_posts add constraint community_posts_post_type_check
+  check (post_type in ('photo', 'question'));
+alter table public.community_posts drop constraint if exists community_posts_title_check;
+alter table public.community_posts add constraint community_posts_title_check
+  check (case when post_type = 'question' then char_length(btrim(coalesce(title, ''))) between 1 and 60 else title is null end);
+alter table public.community_posts drop constraint if exists community_posts_resolved_check;
+alter table public.community_posts add constraint community_posts_resolved_check
+  check (post_type = 'question' or resolved_at is null);
+alter table public.community_posts drop constraint if exists community_posts_caption_check;
+alter table public.community_posts add constraint community_posts_caption_check
+  check (caption is null or char_length(caption) <= case when post_type = 'question' then 1000 else 200 end);
+alter table public.community_posts drop constraint if exists community_posts_content_check;
+alter table public.community_posts add constraint community_posts_content_check
+  check (post_type = 'question' or (nullif(btrim(photo_url), '') is not null)
+    or coalesce((jsonb_typeof(workout_snapshot) = 'object') and (workout_snapshot ? 'exercises'), false));
+
+-- 글 지킴이 — 1단계 규칙 + 숨김·종류는 사용자가 못 바꾼다(제목·해결됨·한마디만).
+-- 🔴 숨김(hidden_at)은 신고 트리거(안쪽 트리거 깊이 2 이상)만 바꾼다. 작성자가 스스로 풀면 안 된다.
+create or replace function public.community_post_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    if public.is_client_request() then
+      new.author_name := public.community_author_name(new.user_id);
+      new.hidden_at := null;
+      new.resolved_at := null;
+      if new.workout_snapshot is not null then
+        raise exception '운동 기록 카드는 서버에서만 붙일 수 있어요.' using errcode = '42501';
+      end if;
+    end if;
+    return new;
+  end if;
+  -- UPDATE
+  if new.hidden_at is distinct from old.hidden_at and pg_trigger_depth() <= 1 and public.is_client_request() then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  if not public.is_client_request() then
+    return new;
+  end if;
+  if new.user_id is distinct from old.user_id
+     or new.author_name is distinct from old.author_name
+     or new.workout_snapshot is distinct from old.workout_snapshot
+     or new.photo_url is distinct from old.photo_url
+     or new.group_id is distinct from old.group_id
+     or new.visibility is distinct from old.visibility
+     or new.created_at is distinct from old.created_at
+     or new.post_type is distinct from old.post_type then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+
+create or replace function public.teaching_post_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    if public.is_client_request() then
+      new.author_name := public.community_author_name(new.user_id);
+      new.hidden_at := null;
+    end if;
+    return new;
+  end if;
+  if new.hidden_at is distinct from old.hidden_at and pg_trigger_depth() <= 1 and public.is_client_request() then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  if not public.is_client_request() then
+    return new;
+  end if;
+  if new.user_id is distinct from old.user_id
+     or new.author_name is distinct from old.author_name
+     or new.video_url is distinct from old.video_url
+     or new.group_id is distinct from old.group_id
+     or new.visibility is distinct from old.visibility
+     or new.created_at is distinct from old.created_at then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+
+-- 서로 다른 사람의 '미처리' 신고가 3건 이상이면 숨김, 아래로 내려가면(관리자가 처리완료) 다시 보임.
+create or replace function public.report_reevaluate_hidden()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  r record;
+  n int;
+begin
+  r := coalesce(new, old);
+  if r.target_kind not in ('community_post', 'teaching_post') then
+    return null;
+  end if;
+  select count(distinct reporter_id) into n from public.post_reports
+    where target_kind = r.target_kind and target_id = r.target_id and status = 'open';
+  if r.target_kind = 'community_post' then
+    update public.community_posts
+      set hidden_at = case when n >= 3 then coalesce(hidden_at, now()) else null end
+      where id = r.target_id and (hidden_at is null) = (n >= 3);
+  else
+    update public.teaching_posts
+      set hidden_at = case when n >= 3 then coalesce(hidden_at, now()) else null end
+      where id = r.target_id and (hidden_at is null) = (n >= 3);
+  end if;
+  return null;
+end;
+$$;
+drop trigger if exists post_reports_auto_hide on public.post_reports;
+create trigger post_reports_auto_hide after insert or delete or update of status on public.post_reports
+  for each row execute function public.report_reevaluate_hidden();
+
+-- ── 보이는 글 = 숨김·차단 반영(피드·검색·상세·직접 링크·댓글·좋아요 전부 이 규칙) ──
+create or replace function public.can_see_community_post(pid uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1 from public.community_posts p
+    where p.id = pid
+      and (
+        p.user_id = auth.uid()
+        or public.is_post_moderator()
+        or (p.hidden_at is null and not public.blocked_between(p.user_id) and (
+          p.visibility = 'public'
+          or (p.visibility = 'group' and public.is_group_member(p.group_id))
+          or (p.visibility = 'public_except_group' and (p.group_id is null or not public.is_group_member(p.group_id)))
+        ))
+      )
+  );
+$$;
+
+create or replace function public.can_see_teaching_post(pid uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1 from public.teaching_posts p
+    where p.id = pid
+      and (
+        p.user_id = auth.uid()
+        or public.is_post_moderator()
+        or (p.hidden_at is null and not public.blocked_between(p.user_id) and (
+          p.visibility = 'public'
+          or (p.visibility = 'group' and p.group_id is not null and public.is_group_member(p.group_id))
+          or (p.visibility = 'public_except_group' and (p.group_id is null or not public.is_group_member(p.group_id)))
+        ))
+      )
+  );
+$$;
+
+drop policy if exists "read visible community posts" on public.community_posts;
+create policy "read visible community posts" on public.community_posts for select
+  using (
+    user_id = auth.uid() or public.is_post_moderator()
+    or (hidden_at is null and not public.blocked_between(user_id) and (
+      visibility = 'public'
+      or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+      or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+    ))
+  );
+
+drop policy if exists "read teaching posts" on public.teaching_posts;
+create policy "read teaching posts" on public.teaching_posts for select
+  using (
+    user_id = auth.uid() or public.is_post_moderator()
+    or (hidden_at is null and not public.blocked_between(user_id) and (
+      visibility = 'public'
+      or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+      or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+    ))
+  );
+
+-- 차단한(차단된) 사람의 댓글은 안 보인다(내 글에 달린 것도).
+drop policy if exists "read comments on visible posts" on public.community_comments;
+create policy "read comments on visible posts" on public.community_comments for select
+  using (public.can_see_community_post(post_id)
+    and (user_id = auth.uid() or public.is_post_moderator() or not public.blocked_between(user_id)));
+drop policy if exists "read teaching comments" on public.teaching_comments;
+create policy "read teaching comments" on public.teaching_comments for select
+  using (public.can_see_teaching_post(post_id)
+    and (user_id = auth.uid() or public.is_post_moderator() or not public.blocked_between(user_id)));
+
+-- ── 저장(북마크) — 피드 글만(설계 문서: 영상·루틴 저장은 별도 설계) ─────────
+create table if not exists public.community_saves (
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, post_id)
+);
+create index if not exists community_saves_post_idx on public.community_saves (post_id);
+alter table public.community_saves enable row level security;
+-- 🔴 남의 저장 목록은 못 본다.
+drop policy if exists "own saves read" on public.community_saves;
+create policy "own saves read" on public.community_saves for select
+  using (user_id = (select auth.uid()));
+drop policy if exists "own saves insert" on public.community_saves;
+create policy "own saves insert" on public.community_saves for insert
+  with check (user_id = (select auth.uid()) and public.can_see_community_post(post_id));
+drop policy if exists "own saves delete" on public.community_saves;
+create policy "own saves delete" on public.community_saves for delete
+  using (user_id = (select auth.uid()));
+
+-- ── 앱 안 알림(댓글 매번 · 좋아요 하루 묶음) ────────────────────────
+create table if not exists public.community_notifications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null check (kind in ('comment', 'teaching_comment', 'likes')),
+  actor_id uuid references auth.users(id) on delete cascade,
+  actor_name text,
+  post_id uuid references public.community_posts(id) on delete cascade,
+  teaching_post_id uuid references public.teaching_posts(id) on delete cascade,
+  -- 댓글 id(같은 댓글로 두 번 안 만든다 · 댓글이 지워지면 알림도 지운다).
+  source_id uuid,
+  preview text,
+  like_count int,
+  digest_day date,
+  created_at timestamptz not null default now(),
+  read_at timestamptz
+);
+create unique index if not exists community_notifications_source_uniq
+  on public.community_notifications (kind, source_id) where source_id is not null;
+create unique index if not exists community_notifications_digest_uniq
+  on public.community_notifications (user_id, digest_day) where kind = 'likes';
+create index if not exists community_notifications_user_idx
+  on public.community_notifications (user_id, created_at desc);
+alter table public.community_notifications enable row level security;
+-- 본인 것만 읽고 지운다. 쓰기는 트리거·서버만(읽음 표시는 아래 함수).
+drop policy if exists "own community notifications read" on public.community_notifications;
+create policy "own community notifications read" on public.community_notifications for select
+  using (user_id = (select auth.uid()));
+drop policy if exists "own community notifications delete" on public.community_notifications;
+create policy "own community notifications delete" on public.community_notifications for delete
+  using (user_id = (select auth.uid()));
+
+-- 댓글이 달리면 글쓴이에게(자기 댓글·차단 사이는 제외).
+create or replace function public.community_comment_notify()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  owner uuid;
+  is_teaching boolean := tg_table_name = 'teaching_comments';
+begin
+  if is_teaching then
+    select user_id into owner from public.teaching_posts where id = new.post_id;
+  else
+    select user_id into owner from public.community_posts where id = new.post_id;
+  end if;
+  if owner is null or owner = new.user_id then
+    return null;
+  end if;
+  if exists (select 1 from public.user_blocks b
+             where (b.blocker_id = owner and b.blocked_id = new.user_id)
+                or (b.blocker_id = new.user_id and b.blocked_id = owner)) then
+    return null;
+  end if;
+  insert into public.community_notifications
+    (user_id, kind, actor_id, actor_name, post_id, teaching_post_id, source_id, preview)
+  values (owner, case when is_teaching then 'teaching_comment' else 'comment' end,
+    new.user_id, new.author_name,
+    case when is_teaching then null else new.post_id end,
+    case when is_teaching then new.post_id else null end,
+    new.id, left(new.body, 80))
+  on conflict do nothing;
+  return null;
+end;
+$$;
+drop trigger if exists community_comments_notify on public.community_comments;
+create trigger community_comments_notify after insert on public.community_comments
+  for each row execute function public.community_comment_notify();
+drop trigger if exists teaching_comments_notify on public.teaching_comments;
+create trigger teaching_comments_notify after insert on public.teaching_comments
+  for each row execute function public.community_comment_notify();
+
+create or replace function public.community_comment_unnotify()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  delete from public.community_notifications
+    where source_id = old.id
+      and kind = case when tg_table_name = 'teaching_comments' then 'teaching_comment' else 'comment' end;
+  return null;
+end;
+$$;
+drop trigger if exists community_comments_unnotify on public.community_comments;
+create trigger community_comments_unnotify after delete on public.community_comments
+  for each row execute function public.community_comment_unnotify();
+drop trigger if exists teaching_comments_unnotify on public.teaching_comments;
+create trigger teaching_comments_unnotify after delete on public.teaching_comments
+  for each row execute function public.community_comment_unnotify();
+
+create or replace function public.mark_community_notifications_read(ids uuid[] default null)
+returns void language sql security definer set search_path = public as $$
+  update public.community_notifications set read_at = now()
+  where user_id = auth.uid() and read_at is null and (ids is null or id = any(ids));
+$$;
+revoke execute on function public.mark_community_notifications_read(uuid[]) from public, anon;
+grant execute on function public.mark_community_notifications_read(uuid[]) to authenticated;
+
+-- 좋아요 하루 묶음 — 하루 한 번 도는 크론(서비스 롤)만. 최근 24시간 좋아요를 글쓴이별로 묶어
+-- '오늘(서울)' 알림 한 건씩. 같은 날 다시 돌아도 새로 만든 것만 돌려준다(푸시 중복 없음).
+create or replace function public.community_like_digest(p_until timestamptz default now())
+returns table(user_id uuid, like_count int, post_id uuid, teaching_post_id uuid)
+language sql volatile security definer set search_path = public as $$
+  with likes as (
+    select p.user_id owner, l.user_id liker, l.post_id pid, null::uuid tid
+      from public.community_likes l join public.community_posts p on p.id = l.post_id
+      where l.created_at > p_until - interval '24 hours' and l.created_at <= p_until
+    union all
+    select p.user_id, l.user_id, null::uuid, l.post_id
+      from public.teaching_likes l join public.teaching_posts p on p.id = l.post_id
+      where l.created_at > p_until - interval '24 hours' and l.created_at <= p_until
+  ), counted as (
+    select owner, pid, tid, count(*) n from likes
+    where owner <> liker and not exists (
+      select 1 from public.user_blocks b
+      where (b.blocker_id = owner and b.blocked_id = liker) or (b.blocker_id = liker and b.blocked_id = owner))
+    group by owner, pid, tid
+  ), ranked as (
+    select owner, pid, tid, sum(n) over (partition by owner) total,
+      row_number() over (partition by owner order by n desc, pid, tid) rn
+    from counted
+  ), ins as (
+    insert into public.community_notifications (user_id, kind, post_id, teaching_post_id, like_count, digest_day)
+    select owner, 'likes', pid, tid, total::int, (p_until at time zone 'Asia/Seoul')::date
+      from ranked where rn = 1
+    on conflict do nothing
+    returning community_notifications.user_id, community_notifications.like_count,
+      community_notifications.post_id, community_notifications.teaching_post_id
+  )
+  select * from ins;
+$$;
+revoke execute on function public.community_like_digest(timestamptz) from public, anon, authenticated;
+grant execute on function public.community_like_digest(timestamptz) to service_role;
+
+-- 알림 설정 — 커뮤니티 반응(댓글·좋아요 묶음) 푸시. 앱 안 알림 목록은 설정과 무관하게 쌓인다.
+alter table public.notification_preferences
+  add column if not exists community_activity boolean not null default true;
+
+-- ── 피드 조회 — 질문·답변 기다리는 질문·저장한 글 보기 추가, 검색에 질문 제목 ──
+create or replace function public.community_feed_page(
+  p_view text default 'workout', p_search text default '',
+  p_as_of timestamptz default now(), p_before timestamptz default null,
+  p_id uuid default null, p_kind text default '', p_score bigint default null
+) returns table(id uuid, kind text, created_at timestamptz, score bigint)
+language sql stable security invoker set search_path = public as $$
+  with candidates as (
+    select p.id, 'photo'::text kind, p.created_at,
+      case when p_view = 'popular' then
+        (select count(*) from public.community_likes l where l.post_id = p.id)
+        else 0::bigint end score
+    from public.community_posts p
+    where auth.uid() is not null and p_view in ('workout','mine','popular','question','question_open','saved')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view not in ('workout','popular') or p.post_type = 'photo')
+      and (p_view not in ('question','question_open') or p.post_type = 'question')
+      and (p_view <> 'question_open' or p.resolved_at is null)
+      and (p_view <> 'saved' or exists (select 1 from public.community_saves s where s.post_id = p.id and s.user_id = auth.uid()))
+      and p.created_at <= p_as_of
+      and (p_view <> 'popular' or p.created_at >= p_as_of - interval '7 days')
+      and (p_search = '' or strpos(lower(coalesce(p.title,'') || ' ' || coalesce(p.caption,'') || ' ' ||
+        coalesce((select string_agg(e->>'name', ' ') from jsonb_array_elements(case when jsonb_typeof(p.workout_snapshot->'exercises') = 'array' then p.workout_snapshot->'exercises' else '[]'::jsonb end) e), '')), lower(p_search)) > 0)
+    union all
+    select p.id, 'teaching'::text, p.created_at, 0::bigint
+    from public.teaching_posts p
+    where auth.uid() is not null and p_view in ('teaching','mine')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and p.created_at <= p_as_of
+      and (p_search = '' or strpos(lower(coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'')), lower(p_search)) > 0)
+  )
+  select c.id, c.kind, c.created_at, c.score from candidates c
+  where p_before is null or
+    (c.score,c.created_at,c.id,c.kind) < (coalesce(p_score,0),p_before,p_id,p_kind)
+  order by c.score desc,c.created_at desc,c.id desc,c.kind desc limit 21;
+$$;
+
+
+-- ════════════════════════════════════════════════════════════════
+-- 커뮤니티 4-1(2026-09-30) — '댓글 단 글' 보기.
+-- 내가 남의 글(사진·질문·운동 영상)에 댓글을 단 글을, 내 마지막 댓글 시각 순으로.
+-- 이 보기에서는 커서 시각(created_at)이 '내 마지막 댓글 시각' 이다 — 정렬과 커서가 같은 값을 써야
+-- 페이지가 겹치거나 빠지지 않는다. 보기 권한·숨김·차단은 기존 RLS 가 그대로 거른다(security invoker).
+-- ════════════════════════════════════════════════════════════════
+create or replace function public.community_feed_page(
+  p_view text default 'workout', p_search text default '',
+  p_as_of timestamptz default now(), p_before timestamptz default null,
+  p_id uuid default null, p_kind text default '', p_score bigint default null
+) returns table(id uuid, kind text, created_at timestamptz, score bigint)
+language sql stable security invoker set search_path = public as $$
+  with photo as (
+    select p.id, 'photo'::text kind,
+      case when p_view = 'commented' then
+        (select max(cm.created_at) from public.community_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())
+        else p.created_at end created_at,
+      case when p_view = 'popular' then
+        (select count(*) from public.community_likes l where l.post_id = p.id)
+        else 0::bigint end score
+    from public.community_posts p
+    where auth.uid() is not null and p_view in ('workout','mine','popular','question','question_open','saved','commented')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view not in ('workout','popular') or p.post_type = 'photo')
+      and (p_view not in ('question','question_open') or p.post_type = 'question')
+      and (p_view <> 'question_open' or p.resolved_at is null)
+      and (p_view <> 'saved' or exists (select 1 from public.community_saves s where s.post_id = p.id and s.user_id = auth.uid()))
+      and (p_view <> 'commented' or (p.user_id <> auth.uid()
+        and exists (select 1 from public.community_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())))
+      and p.created_at <= p_as_of
+      and (p_view <> 'popular' or p.created_at >= p_as_of - interval '7 days')
+      and (p_search = '' or strpos(lower(coalesce(p.title,'') || ' ' || coalesce(p.caption,'') || ' ' ||
+        coalesce((select string_agg(e->>'name', ' ') from jsonb_array_elements(case when jsonb_typeof(p.workout_snapshot->'exercises') = 'array' then p.workout_snapshot->'exercises' else '[]'::jsonb end) e), '')), lower(p_search)) > 0)
+  ), teaching as (
+    select p.id, 'teaching'::text kind,
+      case when p_view = 'commented' then
+        (select max(cm.created_at) from public.teaching_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())
+        else p.created_at end created_at,
+      0::bigint score
+    from public.teaching_posts p
+    where auth.uid() is not null and p_view in ('teaching','mine','commented')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view <> 'commented' or (p.user_id <> auth.uid()
+        and exists (select 1 from public.teaching_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())))
+      and p.created_at <= p_as_of
+      and (p_search = '' or strpos(lower(coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'')), lower(p_search)) > 0)
+  ), candidates as (
+    select * from photo union all select * from teaching
+  )
+  select c.id, c.kind, c.created_at, c.score from candidates c
+  where p_before is null or
+    (c.score,c.created_at,c.id,c.kind) < (coalesce(p_score,0),p_before,p_id,p_kind)
+  order by c.score desc,c.created_at desc,c.id desc,c.kind desc limit 21;
+$$;
+
+
+-- ════════════════════════════════════════════════════════════════
+-- 커뮤니티 4-2(2026-09-30) — 대화가 이어지게: 답글 · 답변 채택 · 질문 운동 태그 · 작성자 프로필.
+-- 정한 기준(사용자 "추천대로"): 채택하면 자동으로 '해결됨'.
+-- ════════════════════════════════════════════════════════════════
+
+-- ── 답글(한 단계) ───────────────────────────────────────────────────
+-- 답글의 답글은 같은 부모로 붙인다(폰 화면에서 들여쓰기가 깊어지지 않게).
+-- 부모가 지워지면 답글은 일반 댓글로 남는다(on delete set null).
+alter table public.community_comments
+  add column if not exists parent_id uuid references public.community_comments(id) on delete set null;
+create index if not exists community_comments_parent_idx on public.community_comments (parent_id) where parent_id is not null;
+
+create or replace function public.community_comment_parent_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  p record;
+begin
+  if new.parent_id is null then
+    return new;
+  end if;
+  select id, post_id, parent_id into p from public.community_comments where id = new.parent_id;
+  -- 🔴 다른 글의 댓글에 답글을 달 수 없다(알림을 엉뚱한 사람에게 보내는 통로가 된다).
+  if p.id is null or p.post_id <> new.post_id then
+    raise exception '답글을 달 댓글을 찾을 수 없어요.' using errcode = '23503';
+  end if;
+  new.parent_id := coalesce(p.parent_id, p.id);
+  return new;
+end;
+$$;
+drop trigger if exists community_comments_parent_guard on public.community_comments;
+create trigger community_comments_parent_guard before insert on public.community_comments
+  for each row execute function public.community_comment_parent_guard();
+
+-- ── 답변 채택 · 질문 운동 태그 ──────────────────────────────────────
+alter table public.community_posts
+  add column if not exists accepted_comment_id uuid references public.community_comments(id) on delete set null;
+alter table public.community_posts add column if not exists exercise_tag text;
+alter table public.community_posts drop constraint if exists community_posts_accepted_check;
+alter table public.community_posts add constraint community_posts_accepted_check
+  check (post_type = 'question' or accepted_comment_id is null);
+alter table public.community_posts drop constraint if exists community_posts_exercise_tag_check;
+alter table public.community_posts add constraint community_posts_exercise_tag_check
+  check (exercise_tag is null or (post_type = 'question' and char_length(btrim(exercise_tag)) between 1 and 40));
+
+-- 글 지킴이 — 3단계 규칙 + 채택은 그 글의 댓글만, 채택하면 자동 해결됨.
+create or replace function public.community_post_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    if public.is_client_request() then
+      new.author_name := public.community_author_name(new.user_id);
+      new.hidden_at := null;
+      new.resolved_at := null;
+      new.accepted_comment_id := null;
+      if new.workout_snapshot is not null then
+        raise exception '운동 기록 카드는 서버에서만 붙일 수 있어요.' using errcode = '42501';
+      end if;
+    end if;
+    return new;
+  end if;
+  -- UPDATE
+  if new.hidden_at is distinct from old.hidden_at and pg_trigger_depth() <= 1 and public.is_client_request() then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  if new.accepted_comment_id is distinct from old.accepted_comment_id and new.accepted_comment_id is not null then
+    -- 🔴 다른 글의 댓글·내 댓글은 채택할 수 없다.
+    if not exists (select 1 from public.community_comments c
+                   where c.id = new.accepted_comment_id and c.post_id = new.id and c.user_id <> new.user_id) then
+      raise exception '이 질문의 다른 사람 답변만 채택할 수 있어요.' using errcode = '42501';
+    end if;
+    new.resolved_at := coalesce(new.resolved_at, now());
+  end if;
+  if not public.is_client_request() then
+    return new;
+  end if;
+  if new.user_id is distinct from old.user_id
+     or new.author_name is distinct from old.author_name
+     or new.workout_snapshot is distinct from old.workout_snapshot
+     or new.photo_url is distinct from old.photo_url
+     or new.group_id is distinct from old.group_id
+     or new.visibility is distinct from old.visibility
+     or new.created_at is distinct from old.created_at
+     or new.post_type is distinct from old.post_type then
+    raise exception '글은 한마디만 고칠 수 있어요.' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+
+-- ── 알림: 답글 · 채택 ───────────────────────────────────────────────
+alter table public.community_notifications drop constraint if exists community_notifications_kind_check;
+alter table public.community_notifications add constraint community_notifications_kind_check
+  check (kind in ('comment', 'teaching_comment', 'likes', 'reply', 'accepted'));
+
+-- 댓글 알림 — 글쓴이에게 'comment', 답글이면 부모 댓글 쓴 사람에게 'reply'
+-- (글쓴이가 부모 댓글 쓴 사람이면 'reply' 하나만). 자기 자신·차단 사이는 없음.
+create or replace function public.community_comment_notify()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  owner uuid;
+  parent_author uuid;
+  is_teaching boolean := tg_table_name = 'teaching_comments';
+  blocked_pair boolean;
+begin
+  if is_teaching then
+    select user_id into owner from public.teaching_posts where id = new.post_id;
+  else
+    select user_id into owner from public.community_posts where id = new.post_id;
+    if new.parent_id is not null then
+      select user_id into parent_author from public.community_comments where id = new.parent_id;
+    end if;
+  end if;
+
+  if parent_author is not null and parent_author <> new.user_id then
+    select exists (select 1 from public.user_blocks b
+                   where (b.blocker_id = parent_author and b.blocked_id = new.user_id)
+                      or (b.blocker_id = new.user_id and b.blocked_id = parent_author)) into blocked_pair;
+    if not blocked_pair then
+      insert into public.community_notifications
+        (user_id, kind, actor_id, actor_name, post_id, source_id, preview)
+      values (parent_author, 'reply', new.user_id, new.author_name, new.post_id, new.id, left(new.body, 80))
+      on conflict do nothing;
+    end if;
+  end if;
+
+  if owner is null or owner = new.user_id or owner = parent_author then
+    return null;
+  end if;
+  if exists (select 1 from public.user_blocks b
+             where (b.blocker_id = owner and b.blocked_id = new.user_id)
+                or (b.blocker_id = new.user_id and b.blocked_id = owner)) then
+    return null;
+  end if;
+  insert into public.community_notifications
+    (user_id, kind, actor_id, actor_name, post_id, teaching_post_id, source_id, preview)
+  values (owner, case when is_teaching then 'teaching_comment' else 'comment' end,
+    new.user_id, new.author_name,
+    case when is_teaching then null else new.post_id end,
+    case when is_teaching then new.post_id else null end,
+    new.id, left(new.body, 80))
+  on conflict do nothing;
+  return null;
+end;
+$$;
+
+-- 댓글이 지워지면 그 댓글로 만든 알림(댓글·답글·채택)을 모두 지운다.
+create or replace function public.community_comment_unnotify()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_table_name = 'teaching_comments' then
+    delete from public.community_notifications where source_id = old.id and kind = 'teaching_comment';
+  else
+    delete from public.community_notifications where source_id = old.id and kind in ('comment', 'reply', 'accepted');
+  end if;
+  return null;
+end;
+$$;
+
+-- 채택되면 답변 쓴 사람에게 한 번.
+create or replace function public.community_accept_notify()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  c record;
+begin
+  if new.accepted_comment_id is null or new.accepted_comment_id is not distinct from old.accepted_comment_id then
+    return null;
+  end if;
+  select id, user_id, body into c from public.community_comments where id = new.accepted_comment_id;
+  if c.id is null or c.user_id = new.user_id then
+    return null;
+  end if;
+  insert into public.community_notifications (user_id, kind, actor_id, actor_name, post_id, source_id, preview)
+  values (c.user_id, 'accepted', new.user_id, new.author_name, new.id, c.id, left(coalesce(new.title, ''), 80))
+  on conflict do nothing;
+  return null;
+end;
+$$;
+drop trigger if exists community_posts_accept_notify on public.community_posts;
+create trigger community_posts_accept_notify after update of accepted_comment_id on public.community_posts
+  for each row execute function public.community_accept_notify();
+
+-- ── 질문 태그 칩 — 최근 90일 내가 볼 수 있는 질문에서 많이 쓴 태그 ──────
+create or replace function public.community_question_tags(p_limit int default 8)
+returns table(tag text, n bigint)
+language sql stable security invoker set search_path = public as $$
+  select btrim(p.exercise_tag), count(*)
+  from public.community_posts p
+  where auth.uid() is not null and p.post_type = 'question' and p.exercise_tag is not null
+    and p.created_at > now() - interval '90 days'
+  group by btrim(p.exercise_tag)
+  order by count(*) desc, btrim(p.exercise_tag)
+  limit least(greatest(p_limit, 1), 20);
+$$;
+revoke execute on function public.community_question_tags(int) from public, anon;
+grant execute on function public.community_question_tags(int) to authenticated;
+
+-- ── 작성자 프로필 — 그 사람 글 중 '내가 볼 수 있는' 것만(security invoker = 기존 RLS) ──
+create or replace function public.community_author_posts(p_author uuid, p_limit int default 30)
+returns table(id uuid, kind text, created_at timestamptz, score bigint)
+language sql stable security invoker set search_path = public as $$
+  select * from (
+    select p.id, 'photo'::text, p.created_at, 0::bigint from public.community_posts p
+      where auth.uid() is not null and p.user_id = p_author
+    union all
+    select t.id, 'teaching'::text, t.created_at, 0::bigint from public.teaching_posts t
+      where auth.uid() is not null and t.user_id = p_author
+  ) x
+  order by 3 desc
+  limit least(greatest(p_limit, 1), 60);
+$$;
+revoke execute on function public.community_author_posts(uuid, int) from public, anon;
+grant execute on function public.community_author_posts(uuid, int) to authenticated;
+
+-- 프로필 숫자 — 이번 달(서울) 볼 수 있는 글 수, 채택된 답변 수.
+create or replace function public.community_author_stats(p_author uuid)
+returns table(month_posts bigint, accepted_answers bigint)
+language sql stable security invoker set search_path = public as $$
+  select
+    (select count(*) from public.community_posts p
+      where p.user_id = p_author
+        and (p.created_at at time zone 'Asia/Seoul') >= date_trunc('month', now() at time zone 'Asia/Seoul'))
+    + (select count(*) from public.teaching_posts t
+      where t.user_id = p_author
+        and (t.created_at at time zone 'Asia/Seoul') >= date_trunc('month', now() at time zone 'Asia/Seoul')),
+    (select count(*) from public.community_posts q
+      join public.community_comments c on c.id = q.accepted_comment_id
+      where c.user_id = p_author)
+  where auth.uid() is not null;
+$$;
+revoke execute on function public.community_author_stats(uuid) from public, anon;
+grant execute on function public.community_author_stats(uuid) to authenticated;
+
+-- ── 피드 조회 — 질문 검색에 운동 태그, '답변 기다리는'은 답변 0개 먼저 ──────
+-- ('답변 기다리는' 보기에서만 score = 답변 없음 1 / 있음 0. 커서가 score 를 같이 쓰므로 페이지가 섞이지 않는다.)
+create or replace function public.community_feed_page(
+  p_view text default 'workout', p_search text default '',
+  p_as_of timestamptz default now(), p_before timestamptz default null,
+  p_id uuid default null, p_kind text default '', p_score bigint default null
+) returns table(id uuid, kind text, created_at timestamptz, score bigint)
+language sql stable security invoker set search_path = public as $$
+  with photo as (
+    select p.id, 'photo'::text kind,
+      case when p_view = 'commented' then
+        (select max(cm.created_at) from public.community_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())
+        else p.created_at end created_at,
+      case when p_view = 'popular' then
+        (select count(*) from public.community_likes l where l.post_id = p.id)
+        when p_view = 'question_open' then
+        (case when exists (select 1 from public.community_comments cm where cm.post_id = p.id and cm.user_id <> p.user_id) then 0 else 1 end)::bigint
+        else 0::bigint end score
+    from public.community_posts p
+    where auth.uid() is not null and p_view in ('workout','mine','popular','question','question_open','saved','commented')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view not in ('workout','popular') or p.post_type = 'photo')
+      and (p_view not in ('question','question_open') or p.post_type = 'question')
+      and (p_view <> 'question_open' or p.resolved_at is null)
+      and (p_view <> 'saved' or exists (select 1 from public.community_saves s where s.post_id = p.id and s.user_id = auth.uid()))
+      and (p_view <> 'commented' or (p.user_id <> auth.uid()
+        and exists (select 1 from public.community_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())))
+      and p.created_at <= p_as_of
+      and (p_view <> 'popular' or p.created_at >= p_as_of - interval '7 days')
+      and (p_search = '' or strpos(lower(coalesce(p.title,'') || ' ' || coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'') || ' ' ||
+        coalesce((select string_agg(e->>'name', ' ') from jsonb_array_elements(case when jsonb_typeof(p.workout_snapshot->'exercises') = 'array' then p.workout_snapshot->'exercises' else '[]'::jsonb end) e), '')), lower(p_search)) > 0)
+  ), teaching as (
+    select p.id, 'teaching'::text kind,
+      case when p_view = 'commented' then
+        (select max(cm.created_at) from public.teaching_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())
+        else p.created_at end created_at,
+      0::bigint score
+    from public.teaching_posts p
+    where auth.uid() is not null and p_view in ('teaching','mine','commented')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view <> 'commented' or (p.user_id <> auth.uid()
+        and exists (select 1 from public.teaching_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())))
+      and p.created_at <= p_as_of
+      and (p_search = '' or strpos(lower(coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'')), lower(p_search)) > 0)
+  ), candidates as (
+    select * from photo union all select * from teaching
+  )
+  select c.id, c.kind, c.created_at, c.score from candidates c
+  where p_before is null or
+    (c.score,c.created_at,c.id,c.kind) < (coalesce(p_score,0),p_before,p_id,p_kind)
+  order by c.score desc,c.created_at desc,c.id desc,c.kind desc limit 21;
+$$;
+
+
+-- ════════════════════════════════════════════════════════════════
+-- 커뮤니티 4-3(2026-09-30) — 운영·넓히기: 금칙어 · 영상·루틴 저장 · 댓글 공감.
+-- 정한 기준(사용자 "추천대로"): 금칙어에 걸리면 올리기를 막고 이유를 안내한다.
+-- ════════════════════════════════════════════════════════════════
+
+-- ── 금칙어 ──────────────────────────────────────────────────────────
+-- 앱(서버)이 올리기 전에 같은 목록으로 먼저 걸러 이유를 알려 주고(src/features/community/banned-words.ts),
+-- 🔴 앱을 거치지 않은 직접 쓰기도 여기 트리거가 막는다. 목록은 이 표 하나 — 관리자가 늘린다.
+-- category 'allow' 는 예외 단어(운동 글에 흔한데 금칙어를 품은 말). 비교 전에 먼저 지운다.
+create table if not exists public.community_banned_words (
+  word text primary key check (char_length(word) between 1 and 40 and word = lower(word)),
+  category text not null check (category in ('abuse', 'sexual', 'contact', 'gambling', 'allow')),
+  created_at timestamptz not null default now()
+);
+alter table public.community_banned_words enable row level security;
+-- 서버가 사용자 권한으로 읽어 미리 걸러야 하므로 로그인 사용자는 읽기 가능. 쓰기는 관리자만.
+drop policy if exists "read banned words" on public.community_banned_words;
+create policy "read banned words" on public.community_banned_words for select to authenticated using (true);
+drop policy if exists "admin writes banned words" on public.community_banned_words;
+create policy "admin writes banned words" on public.community_banned_words for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
+
+insert into public.community_banned_words (word, category) values
+  ('시발', 'abuse'), ('씨발', 'abuse'), ('씨바', 'abuse'), ('시바', 'abuse'), ('ㅅㅂ', 'abuse'), ('ㅆㅂ', 'abuse'),
+  ('병신', 'abuse'), ('ㅂㅅ', 'abuse'), ('좆', 'abuse'), ('개새끼', 'abuse'), ('개새', 'abuse'),
+  ('미친놈', 'abuse'), ('미친년', 'abuse'), ('지랄', 'abuse'), ('ㅈㄹ', 'abuse'), ('느금마', 'abuse'),
+  ('니애미', 'abuse'), ('엠창', 'abuse'),
+  ('섹스', 'sexual'), ('야동', 'sexual'), ('조건만남', 'sexual'), ('성매매', 'sexual'),
+  ('openkakao', 'contact'), ('오픈채팅', 'contact'), ('오픈카톡', 'contact'), ('오픈톡', 'contact'),
+  ('텔레그램', 'contact'), ('telegram', 'contact'), ('카톡아이디', 'contact'), ('라인아이디', 'contact'),
+  ('토토사이트', 'gambling'), ('카지노', 'gambling'), ('바카라', 'gambling'), ('먹튀', 'gambling'), ('슬롯사이트', 'gambling'),
+  ('시발점', 'allow'), ('시바견', 'allow')
+on conflict (word) do nothing;
+
+-- 앱의 normalizeForFilter 와 같은 규칙: 소문자, 한글·자모·영문·숫자만 남긴다(띄어쓰기·기호 끼워 넣기 무시).
+create or replace function public.community_normalize_text(t text)
+returns text language sql immutable set search_path = public as $$
+  select regexp_replace(lower(coalesce(t, '')), '[^가-힣ㄱ-ㅎa-z0-9]', '', 'g');
+$$;
+
+create or replace function public.community_find_banned(t text)
+returns text language plpgsql stable security definer set search_path = public as $$
+declare
+  norm text := public.community_normalize_text(t);
+  w record;
+begin
+  if norm = '' then
+    return null;
+  end if;
+  for w in select word from public.community_banned_words where category = 'allow' loop
+    norm := replace(norm, w.word, '');
+  end loop;
+  for w in select word, category from public.community_banned_words where category <> 'allow' loop
+    if strpos(norm, w.word) > 0 then
+      return w.category;
+    end if;
+  end loop;
+  return null;
+end;
+$$;
+
+-- 글·댓글·영상·루틴 소개의 글자 칸을 검사한다. 인자 = 검사할 칸 이름들.
+create or replace function public.community_text_guard()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  col text;
+  cat text;
+begin
+  foreach col in array tg_argv loop
+    cat := public.community_find_banned(to_jsonb(new) ->> col);
+    if cat is not null then
+      raise exception '%', case cat
+        when 'contact' then '연락처나 채팅방 링크는 올릴 수 없어요.'
+        when 'sexual' then '성적인 표현은 올릴 수 없어요.'
+        when 'gambling' then '도박·광고 문구는 올릴 수 없어요.'
+        else '욕설이나 비하 표현은 올릴 수 없어요.' end
+        using errcode = 'P0001';
+    end if;
+  end loop;
+  return new;
+end;
+$$;
+drop trigger if exists community_posts_text_guard on public.community_posts;
+create trigger community_posts_text_guard before insert or update of caption, title, exercise_tag on public.community_posts
+  for each row execute function public.community_text_guard('caption', 'title', 'exercise_tag');
+drop trigger if exists community_comments_text_guard on public.community_comments;
+create trigger community_comments_text_guard before insert on public.community_comments
+  for each row execute function public.community_text_guard('body');
+drop trigger if exists teaching_posts_text_guard on public.teaching_posts;
+create trigger teaching_posts_text_guard before insert or update of caption, exercise_tag on public.teaching_posts
+  for each row execute function public.community_text_guard('caption', 'exercise_tag');
+drop trigger if exists teaching_comments_text_guard on public.teaching_comments;
+create trigger teaching_comments_text_guard before insert on public.teaching_comments
+  for each row execute function public.community_text_guard('body');
+drop trigger if exists routine_shares_text_guard on public.routine_shares;
+create trigger routine_shares_text_guard before insert or update of title, caption on public.routine_shares
+  for each row execute function public.community_text_guard('title', 'caption');
+
+-- ── 루틴 소개도 차단 반영(3단계에서 빠졌던 곳) ─────────────────────────
+drop policy if exists "read routine shares" on public.routine_shares;
+create policy "read routine shares" on public.routine_shares for select
+  using (
+    user_id = auth.uid() or public.is_post_moderator()
+    or (not public.blocked_between(user_id) and (
+      visibility = 'public'
+      or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+      or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+    ))
+  );
+
+-- ── 영상·루틴 저장 ─────────────────────────────────────────────────
+create table if not exists public.teaching_saves (
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, post_id)
+);
+create index if not exists teaching_saves_post_idx on public.teaching_saves (post_id);
+alter table public.teaching_saves enable row level security;
+drop policy if exists "own teaching saves read" on public.teaching_saves;
+create policy "own teaching saves read" on public.teaching_saves for select using (user_id = (select auth.uid()));
+drop policy if exists "own teaching saves insert" on public.teaching_saves;
+create policy "own teaching saves insert" on public.teaching_saves for insert
+  with check (user_id = (select auth.uid()) and public.can_see_teaching_post(post_id));
+drop policy if exists "own teaching saves delete" on public.teaching_saves;
+create policy "own teaching saves delete" on public.teaching_saves for delete using (user_id = (select auth.uid()));
+
+create table if not exists public.routine_share_saves (
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  share_id uuid not null references public.routine_shares(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, share_id)
+);
+create index if not exists routine_share_saves_share_idx on public.routine_share_saves (share_id);
+alter table public.routine_share_saves enable row level security;
+drop policy if exists "own routine saves read" on public.routine_share_saves;
+create policy "own routine saves read" on public.routine_share_saves for select using (user_id = (select auth.uid()));
+drop policy if exists "own routine saves insert" on public.routine_share_saves;
+-- 볼 수 있는 루틴만(하위 조회는 사용자의 RLS 로 거른다).
+create policy "own routine saves insert" on public.routine_share_saves for insert
+  with check (user_id = (select auth.uid()) and exists (select 1 from public.routine_shares r where r.id = share_id));
+drop policy if exists "own routine saves delete" on public.routine_share_saves;
+create policy "own routine saves delete" on public.routine_share_saves for delete using (user_id = (select auth.uid()));
+
+-- ── 댓글 공감 ──────────────────────────────────────────────────────
+create table if not exists public.comment_likes (
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  comment_id uuid not null references public.community_comments(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, comment_id)
+);
+create index if not exists comment_likes_comment_idx on public.comment_likes (comment_id);
+alter table public.comment_likes enable row level security;
+drop policy if exists "own comment likes read" on public.comment_likes;
+create policy "own comment likes read" on public.comment_likes for select using (user_id = (select auth.uid()));
+drop policy if exists "like visible comment" on public.comment_likes;
+-- 볼 수 있는 댓글만(댓글 RLS 가 글 공개 범위·숨김·차단을 이미 본다), 정지 중이면 못 함.
+create policy "like visible comment" on public.comment_likes for insert
+  with check (user_id = (select auth.uid()) and public.is_active_member()
+    and exists (select 1 from public.community_comments c where c.id = comment_id));
+drop policy if exists "unlike own comment" on public.comment_likes;
+create policy "unlike own comment" on public.comment_likes for delete using (user_id = (select auth.uid()));
+
+-- 공감 수 + 내가 눌렀나(누가 눌렀는지는 안 보인다).
+create or replace function public.comment_like_counts(cids uuid[])
+returns table(comment_id uuid, like_count int, liked_by_me boolean)
+language sql stable security definer set search_path = public as $$
+  select x.cid, coalesce(n.n, 0)::int, coalesce(me.mine, false)
+  from unnest(cids) as x(cid)
+  left join (select l.comment_id, count(*) n from public.comment_likes l where l.comment_id = any(cids) group by l.comment_id) n on n.comment_id = x.cid
+  left join (select l.comment_id, true mine from public.comment_likes l where l.comment_id = any(cids) and l.user_id = auth.uid()) me on me.comment_id = x.cid;
+$$;
+revoke execute on function public.comment_like_counts(uuid[]) from public, anon;
+grant execute on function public.comment_like_counts(uuid[]) to authenticated;
+
+-- ── 피드 조회 — '저장한 글'에 운동 영상도 ─────────────────────────────
+create or replace function public.community_feed_page(
+  p_view text default 'workout', p_search text default '',
+  p_as_of timestamptz default now(), p_before timestamptz default null,
+  p_id uuid default null, p_kind text default '', p_score bigint default null
+) returns table(id uuid, kind text, created_at timestamptz, score bigint)
+language sql stable security invoker set search_path = public as $$
+  with photo as (
+    select p.id, 'photo'::text kind,
+      case when p_view = 'commented' then
+        (select max(cm.created_at) from public.community_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())
+        else p.created_at end created_at,
+      case when p_view = 'popular' then
+        (select count(*) from public.community_likes l where l.post_id = p.id)
+        when p_view = 'question_open' then
+        (case when exists (select 1 from public.community_comments cm where cm.post_id = p.id and cm.user_id <> p.user_id) then 0 else 1 end)::bigint
+        else 0::bigint end score
+    from public.community_posts p
+    where auth.uid() is not null and p_view in ('workout','mine','popular','question','question_open','saved','commented')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view not in ('workout','popular') or p.post_type = 'photo')
+      and (p_view not in ('question','question_open') or p.post_type = 'question')
+      and (p_view <> 'question_open' or p.resolved_at is null)
+      and (p_view <> 'saved' or exists (select 1 from public.community_saves s where s.post_id = p.id and s.user_id = auth.uid()))
+      and (p_view <> 'commented' or (p.user_id <> auth.uid()
+        and exists (select 1 from public.community_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())))
+      and p.created_at <= p_as_of
+      and (p_view <> 'popular' or p.created_at >= p_as_of - interval '7 days')
+      and (p_search = '' or strpos(lower(coalesce(p.title,'') || ' ' || coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'') || ' ' ||
+        coalesce((select string_agg(e->>'name', ' ') from jsonb_array_elements(case when jsonb_typeof(p.workout_snapshot->'exercises') = 'array' then p.workout_snapshot->'exercises' else '[]'::jsonb end) e), '')), lower(p_search)) > 0)
+  ), teaching as (
+    select p.id, 'teaching'::text kind,
+      case when p_view = 'commented' then
+        (select max(cm.created_at) from public.teaching_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())
+        else p.created_at end created_at,
+      0::bigint score
+    from public.teaching_posts p
+    where auth.uid() is not null and p_view in ('teaching','mine','commented','saved')
+      and (p_view <> 'mine' or p.user_id = auth.uid())
+      and (p_view <> 'commented' or (p.user_id <> auth.uid()
+        and exists (select 1 from public.teaching_comments cm where cm.post_id = p.id and cm.user_id = auth.uid())))
+      and (p_view <> 'saved' or exists (select 1 from public.teaching_saves s where s.post_id = p.id and s.user_id = auth.uid()))
+      and p.created_at <= p_as_of
+      and (p_search = '' or strpos(lower(coalesce(p.exercise_tag,'') || ' ' || coalesce(p.caption,'')), lower(p_search)) > 0)
+  ), candidates as (
+    select * from photo union all select * from teaching
+  )
+  select c.id, c.kind, c.created_at, c.score from candidates c
+  where p_before is null or
+    (c.score,c.created_at,c.id,c.kind) < (coalesce(p_score,0),p_before,p_id,p_kind)
+  order by c.score desc,c.created_at desc,c.id desc,c.kind desc limit 21;
+$$;
+
+-- ────────────────────────────────────────────────────────────────
+-- AI 트레이너 요금제 1단계(기반) — 2026-09-30, docs/ai-trainer-plans-2026-09-30.html
+--  ① AI 맞춤 추천 동의 시각(기록 요약을 외부 AI 로 보내기 전에 한 번 받는다. null = 동의 안 함)
+--  ② 아픈 부위(추천에서 그 부위 운동을 뺀다). 앱 부위 id 와 같은 값만.
+--  ③ 운동 전 컨디션 체크인(하루 한 행). 1=나쁨 2=보통 3=좋음.
+
+alter table public.profiles
+  add column if not exists ai_consent_at timestamptz;
+
+alter table public.profiles
+  add column if not exists pain_areas text[] not null default '{}';
+alter table public.profiles drop constraint if exists profiles_pain_areas_check;
+alter table public.profiles add constraint profiles_pain_areas_check
+  check (pain_areas <@ array['chest','back','shoulder','arm','lower','core']::text[]);
+
+create table if not exists public.daily_checkins (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  sleep smallint not null check (sleep between 1 and 3),
+  soreness smallint not null check (soreness between 1 and 3),
+  energy smallint not null check (energy between 1 and 3),
+  created_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+alter table public.daily_checkins enable row level security;
+drop policy if exists "own daily checkins" on public.daily_checkins;
+create policy "own daily checkins" on public.daily_checkins
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- 가입 설문 3문항 + 몸 목표 스타일 — 2026-10-01, docs/lite-app-ui-2026-10-01.html '가입 설문에 더할 것'
+--  age_group      : 나이대(칼로리·체지방 추정에 쓴다 — 예전엔 30세로 가정)
+--  body_style     : 몸 목표 스타일(상체 위주·하체 위주·고르게). null = 성별 기본 표
+--  session_minutes: 1회 운동 시간(분) — 추천 개수·AI 트레이너 기본 시간
+alter table public.profiles add column if not exists age_group text;
+alter table public.profiles drop constraint if exists profiles_age_group_check;
+alter table public.profiles add constraint profiles_age_group_check
+  check (age_group is null or age_group in ('10s','20s','30s','40s','50plus'));
+
+alter table public.profiles add column if not exists body_style text;
+alter table public.profiles drop constraint if exists profiles_body_style_check;
+alter table public.profiles add constraint profiles_body_style_check
+  check (body_style is null or body_style in ('upper','lower','balanced'));
+
+alter table public.profiles add column if not exists session_minutes smallint;
+alter table public.profiles drop constraint if exists profiles_session_minutes_check;
+alter table public.profiles add constraint profiles_session_minutes_check
+  check (session_minutes is null or session_minutes in (30,45,60));
+
+-- ─── 라이트 2단계(2026-10-02): 3개월 목표 · 몸 사진 ─────────────────────────
+-- 라이트 2단계 혜택 — 2026-10-02, docs/lite-stage2-design-2026-10-02.html
+--  lift_goals  : 3개월 목표(종목·시작/목표 예상 1RM·날짜). 요금제별 개수(무료 1·라이트 3)는 서버 액션이 막고,
+--                DB 는 진행 중 목표 3개를 넘지 못하게 최후 방어.
+--  body_photos : 몸 사진(앞·옆·뒤). 파일은 비공개 버킷 body-photos 의 <userId>/... 경로.
+--                요금제별 한도(무료 3장·라이트 하루 10장)는 서버 액션, DB 는 1인 500장 최후 방어.
+
+create table if not exists public.lift_goals (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  exercise_id text not null check (char_length(exercise_id) between 1 and 120),
+  start_kg numeric(6, 1) not null check (start_kg >= 0 and start_kg <= 1000),
+  target_kg numeric(6, 1) not null check (target_kg > 0 and target_kg <= 1000),
+  start_date date not null default current_date,
+  target_date date not null,
+  achieved_at timestamptz,
+  created_at timestamptz not null default now(),
+  check (target_date > start_date),
+  check (target_kg > start_kg)
+);
+create index if not exists lift_goals_user_idx on public.lift_goals (user_id, created_at desc);
+alter table public.lift_goals enable row level security;
+drop policy if exists "own lift goals" on public.lift_goals;
+create policy "own lift goals" on public.lift_goals
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+create or replace function public.lift_goals_cap() returns trigger
+  language plpgsql set search_path = public as $$
+begin
+  if (select count(*) from public.lift_goals where user_id = new.user_id and achieved_at is null) >= 3 then
+    raise exception 'lift_goals_cap';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists lift_goals_cap on public.lift_goals;
+create trigger lift_goals_cap before insert on public.lift_goals
+  for each row execute function public.lift_goals_cap();
+
+create table if not exists public.body_photos (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  taken_on date not null default current_date,
+  pose text not null check (pose in ('front', 'side', 'back')),
+  path text not null check (char_length(path) between 1 and 300),
+  consent_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+create index if not exists body_photos_user_idx on public.body_photos (user_id, taken_on desc);
+alter table public.body_photos enable row level security;
+drop policy if exists "own body photos read" on public.body_photos;
+create policy "own body photos read" on public.body_photos for select using (auth.uid() = user_id);
+drop policy if exists "own body photos insert" on public.body_photos;
+create policy "own body photos insert" on public.body_photos for insert
+  with check (auth.uid() = user_id and split_part(path, '/', 1) = auth.uid()::text);
+drop policy if exists "own body photos delete" on public.body_photos;
+create policy "own body photos delete" on public.body_photos for delete using (auth.uid() = user_id);
+
+create or replace function public.body_photos_cap() returns trigger
+  language plpgsql set search_path = public as $$
+begin
+  if (select count(*) from public.body_photos where user_id = new.user_id) >= 500 then
+    raise exception 'body_photos_cap';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists body_photos_cap on public.body_photos;
+create trigger body_photos_cap before insert on public.body_photos
+  for each row execute function public.body_photos_cap();
+
+-- 비공개 버킷 — 체성분 분석지 버킷과 같은 규칙(본인 폴더만, 공개 URL 없음, 볼 때 서명 URL).
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('body-photos', 'body-photos', false, 3145728, array['image/jpeg', 'image/webp', 'image/png'])
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Users read own body photos" on storage.objects;
+create policy "Users read own body photos" on storage.objects for select
+  using (bucket_id = 'body-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+drop policy if exists "Users upload own body photos" on storage.objects;
+create policy "Users upload own body photos" on storage.objects for insert
+  with check (bucket_id = 'body-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+drop policy if exists "Users delete own body photos" on storage.objects;
+create policy "Users delete own body photos" on storage.objects for delete
+  using (bucket_id = 'body-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- 이번 주 정리 알림(라이트 2단계 혜택 2, 2026-10-02) — 일요일 저녁 한 통. 설정에서 따로 끈다.
+alter table public.notification_preferences
+  add column if not exists weekly_summary boolean not null default true;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 행동 다짐 개편(2026-10-06) — 설문 제거, 행동 다짐 + 예상 결과 + 결과 데이터(AI 학습용).
+--   commitments.pledge      : 행동 다짐 스펙(jsonb). mode = 'pledge'.
+--   commitment_outcomes     : 다짐 1건당 1행 — 생성 시 예상·기준 체성분, 종료 시 실측(성공·실패 모두).
+--   commitment_shares       : 그룹 공유(제목·항목·기간·상태만 — 체중·체성분·식단은 공유하지 않는다).
+--   meal_skips              : 끼니 '안 먹었어요' 체크 — 기록 누락과 '안 먹음'을 구분한다.
+-- ─────────────────────────────────────────────────────────────────────────────
+
+alter table public.commitments add column if not exists pledge jsonb;
+alter table public.commitments drop constraint if exists commitments_mode_check;
+alter table public.commitments add constraint commitments_mode_check
+  check (mode in ('manual', 'survey', 'pledge'));
+
+create table if not exists public.commitment_outcomes (
+  id uuid primary key default gen_random_uuid(),
+  -- 다짐을 지워도 결과는 남긴다(AI 학습 데이터).
+  commitment_id uuid unique references public.commitments(id) on delete set null,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  plan text not null default 'free' check (plan in ('free', 'lite', 'basic', 'plus', 'pro')),
+  direction text not null default 'forward' check (direction in ('forward', 'reverse')),
+  goal_input jsonb,
+  pledge_snapshot jsonb not null,
+  start_date date not null,
+  end_date date not null,
+  baseline jsonb not null default '{}'::jsonb,
+  predicted_weight_change_kg numeric(5, 2),
+  predicted_fat_change_kg numeric(5, 2),
+  predicted_muscle_change_kg numeric(5, 2),
+  prediction jsonb not null default '{}'::jsonb,
+  formula_version text not null,
+  status text not null default 'active' check (status in ('active', 'success', 'failed')),
+  failed_reason text[],
+  failed_at date,
+  failed_block int,
+  adherence jsonb,
+  end_measure jsonb,
+  actual_weight_change_kg numeric(5, 2),
+  actual_muscle_change_kg numeric(5, 2),
+  finalized_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists commitment_outcomes_user_idx
+  on public.commitment_outcomes (user_id, created_at desc);
+drop trigger if exists commitment_outcomes_set_updated_at on public.commitment_outcomes;
+create trigger commitment_outcomes_set_updated_at
+  before update on public.commitment_outcomes
+  for each row execute function public.set_updated_at();
+alter table public.commitment_outcomes enable row level security;
+drop policy if exists "own commitment outcomes" on public.commitment_outcomes;
+create policy "own commitment outcomes" on public.commitment_outcomes for all
+  to authenticated
+  using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
+
+create table if not exists public.commitment_shares (
+  id uuid primary key default gen_random_uuid(),
+  commitment_id uuid not null references public.commitments(id) on delete cascade,
+  group_id uuid not null references public.groups(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null,
+  lines jsonb not null default '[]'::jsonb,
+  start_date date not null,
+  end_date date not null,
+  status text not null default 'active' check (status in ('upcoming', 'active', 'success', 'failed')),
+  week int not null default 1,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (commitment_id, group_id)
+);
+create index if not exists commitment_shares_group_idx
+  on public.commitment_shares (group_id, created_at desc);
+drop trigger if exists commitment_shares_set_updated_at on public.commitment_shares;
+create trigger commitment_shares_set_updated_at
+  before update on public.commitment_shares
+  for each row execute function public.set_updated_at();
+alter table public.commitment_shares enable row level security;
+drop policy if exists "group members read commitment shares" on public.commitment_shares;
+create policy "group members read commitment shares" on public.commitment_shares for select
+  to authenticated
+  using (user_id = (select auth.uid()) or public.is_group_member(group_id));
+drop policy if exists "own commitment shares insert" on public.commitment_shares;
+create policy "own commitment shares insert" on public.commitment_shares for insert
+  to authenticated
+  with check (user_id = (select auth.uid()) and public.is_group_member(group_id));
+drop policy if exists "own commitment shares update" on public.commitment_shares;
+create policy "own commitment shares update" on public.commitment_shares for update
+  to authenticated
+  using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
+drop policy if exists "own commitment shares delete" on public.commitment_shares;
+create policy "own commitment shares delete" on public.commitment_shares for delete
+  to authenticated
+  using (user_id = (select auth.uid()));
+
+create table if not exists public.meal_skips (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  meal text not null check (meal in ('breakfast', 'lunch', 'dinner', 'snack')),
+  created_at timestamptz not null default now(),
+  primary key (user_id, for_date, meal)
+);
+alter table public.meal_skips enable row level security;
+drop policy if exists "own meal skips" on public.meal_skips;
+create policy "own meal skips" on public.meal_skips for all
+  to authenticated
+  using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
+
+notify pgrst, 'reload schema';
+
+-- 다짐 결과 신뢰도(2026-10-06) — 학습에 쓸 수 있는 행인지(7일 평균 체중·기록 충실도·인바디 간격).
+alter table public.commitment_outcomes add column if not exists data_quality jsonb;
+notify pgrst, 'reload schema';
+
+-- Group-wide pledges: membership is captured at creation; only results are shared.
+create table if not exists public.group_pledges (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  created_by uuid references auth.users(id) on delete set null,
+  title text not null check (char_length(title) between 1 and 40),
+  start_date date not null,
+  days int not null check (days between 7 and 180),
+  workout_days int check (workout_days between 1 and 7),
+  meals_per_day int check (meals_per_day between 1 and 3),
+  created_at timestamptz not null default now(),
+  check (workout_days is not null or meals_per_day is not null)
+);
+create index if not exists group_pledges_group_idx on public.group_pledges(group_id, created_at desc);
+create table if not exists public.group_pledge_members (
+  pledge_id uuid not null references public.group_pledges(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  primary key (pledge_id, user_id)
+);
+create table if not exists public.group_pledge_results (
+  pledge_id uuid not null,
+  user_id uuid not null,
+  block_index int not null check (block_index >= 0),
+  passed boolean not null,
+  decided_on date not null,
+  primary key (pledge_id, user_id, block_index),
+  foreign key (pledge_id, user_id) references public.group_pledge_members(pledge_id, user_id) on delete cascade
+);
+alter table public.group_pledges enable row level security;
+alter table public.group_pledge_members enable row level security;
+alter table public.group_pledge_results enable row level security;
+-- No direct writes/reads: authenticated RPCs below expose only authorized group summaries.
+revoke all on public.group_pledges, public.group_pledge_members, public.group_pledge_results from anon, authenticated;
+
+create or replace function public.create_group_pledge(
+  p_group_id uuid, p_title text, p_start_date date, p_days int,
+  p_workout_days int default null, p_meals_per_day int default null
+) returns uuid language plpgsql security definer set search_path = public as $$
+declare v_id uuid;
+begin
+  if auth.uid() is null or not public.is_group_member(p_group_id) or not exists (
+    select 1 from public.groups where id = p_group_id and owner_id = auth.uid()
+  ) then raise exception '그룹장만 전체 다짐을 만들 수 있어요.'; end if;
+  if p_start_date is null or p_start_date < (now() at time zone 'Asia/Seoul')::date
+    or p_start_date > (now() at time zone 'Asia/Seoul')::date + 365 then
+    raise exception '시작일은 오늘부터 1년 이내로 정해 주세요.';
+  end if;
+  insert into public.group_pledges(group_id, created_by, title, start_date, days, workout_days, meals_per_day)
+  values(p_group_id, auth.uid(), btrim(p_title), p_start_date, p_days, p_workout_days, p_meals_per_day)
+  returning id into v_id;
+  insert into public.group_pledge_members(pledge_id, user_id)
+  select v_id, user_id from public.group_members where group_id = p_group_id;
+  return v_id;
+end;
+$$;
+
+create or replace function public.get_group_pledge_results(p_group_ids uuid[])
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_today date := (now() at time zone 'Asia/Seoul')::date; v_result jsonb;
+begin
+  if auth.uid() is null or exists (
+    select 1 from unnest(p_group_ids) gid where not public.is_group_member(gid)
+  ) then raise exception '그룹 멤버만 다짐을 볼 수 있어요.'; end if;
+
+  -- Freeze closed blocks even when the participant has not visited the app.
+  -- Late backdated records cannot turn a failed block into a success.
+  with blocks as (
+    select p.*, m.user_id, b.i,
+      p.start_date + b.i * 7 as first_day,
+      least(7, p.days - b.i * 7) as block_days,
+      p.start_date + least(p.days, (b.i + 1) * 7) as check_day
+    from public.group_pledges p
+    join public.group_pledge_members m on m.pledge_id = p.id
+    join public.group_members gm on gm.group_id = p.group_id and gm.user_id = m.user_id
+    cross join lateral generate_series(0, (p.days - 1) / 7) b(i)
+    where p.group_id = any(p_group_ids)
+  ), closed as (
+    select * from blocks b where b.check_day <= v_today and not exists (
+      select 1 from public.group_pledge_results r
+      where r.pledge_id = b.id and r.user_id = b.user_id and r.block_index = b.i
+    )
+  )
+  insert into public.group_pledge_results(pledge_id, user_id, block_index, passed, decided_on)
+  select c.id, c.user_id, c.i,
+    (c.workout_days is null or (
+      select count(distinct w.for_date) from (
+        select e.for_date from public.exercise_completions e
+        where e.user_id = c.user_id and e.status = 'done' and e.exercise_id is not null
+          and e.for_date >= c.first_day and e.for_date < c.check_day
+          and e.created_at < (c.check_day::timestamp at time zone 'Asia/Seoul')
+        union all
+        select e.for_date from public.conditioning_completions e
+        where e.user_id = c.user_id and e.status = 'done' and e.item_id is not null
+          and e.for_date >= c.first_day and e.for_date < c.check_day
+          and e.created_at < (c.check_day::timestamp at time zone 'Asia/Seoul')
+      ) w
+    ) >= ceil(c.workout_days * c.block_days / 7.0))
+    and (c.meals_per_day is null or (
+      select count(*) from (
+        select f.for_date from public.food_logs f
+        where f.user_id = c.user_id and f.for_date >= c.first_day and f.for_date < c.check_day
+          and f.created_at < (c.check_day::timestamp at time zone 'Asia/Seoul')
+        group by f.for_date having count(distinct f.meal) >= c.meals_per_day
+      ) fed
+    ) = c.block_days), c.check_day
+  from closed c on conflict do nothing;
+
+  select coalesce(jsonb_agg(item order by created_at desc), '[]'::jsonb) into v_result
+  from (
+    select p.created_at, jsonb_build_object(
+      'id', p.id, 'groupId', p.group_id, 'title', p.title, 'startDate', p.start_date,
+      'endDate', p.start_date + p.days - 1, 'days', p.days,
+      'workoutDays', p.workout_days, 'mealsPerDay', p.meals_per_day,
+      'members', coalesce((
+        select jsonb_agg(jsonb_build_object(
+          'userId', m.user_id, 'name', coalesce(nullif(gm.display_name, ''), '멤버'),
+          'status', case
+            when exists(select 1 from public.group_pledge_results r where r.pledge_id=p.id and r.user_id=m.user_id and not r.passed) then 'failed'
+            when p.start_date > v_today then 'upcoming'
+            when p.start_date + p.days <= v_today then 'success'
+            else 'active' end,
+          'failedWeek', (select min(r.block_index)+1 from public.group_pledge_results r where r.pledge_id=p.id and r.user_id=m.user_id and not r.passed)
+        ) order by gm.display_name nulls last, m.user_id)
+        from public.group_pledge_members m
+        join public.group_members gm on gm.group_id=p.group_id and gm.user_id=m.user_id
+        where m.pledge_id=p.id
+      ), '[]'::jsonb)
+    ) as item from public.group_pledges p where p.group_id=any(p_group_ids)
+  ) x;
+  return v_result;
+end;
+$$;
+revoke all on function public.create_group_pledge(uuid,text,date,int,int,int) from public, anon;
+revoke all on function public.get_group_pledge_results(uuid[]) from public, anon;
+grant execute on function public.create_group_pledge(uuid,text,date,int,int,int) to authenticated;
+grant execute on function public.get_group_pledge_results(uuid[]) to authenticated;
+notify pgrst, 'reload schema';

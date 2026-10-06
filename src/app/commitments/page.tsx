@@ -6,56 +6,44 @@ import {
   getMyCommitments,
   getTodayChecklist,
 } from "@/features/commitments/data-access";
+import { getMyPledges } from "@/features/commitments/pledge-data";
+import { getMyGroups } from "@/features/groups/data-access";
 import { TodayChecklist } from "@/features/commitments/components/today-checklist";
-import { seoulYmd } from "@/features/routine/data";
-import { getUserProfile } from "@/features/profile/data-access";
-import { getUserRoutine } from "@/features/routine/data-access";
-import { dailyTarget } from "@/features/diet/calorie-target";
-import { toSurveyGoal, weeklyWorkoutDays } from "@/features/commitments/survey";
+import { PledgeList } from "@/features/commitments/components/pledge-list";
 import { CommitmentManager } from "@/features/commitments/components/commitment-manager";
+import { seoulYmd } from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "다짐" };
 
+/**
+ * 다짐 리스트(2026-10-06 개편) — 행동 다짐 카드(진행 중·성공·실패). 설문 생성은 없어졌다.
+ * 예전에 만든 설문·지표 다짐은 지울 때까지 아래 '예전 다짐'으로 남는다.
+ */
 export default async function CommitmentsPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/commitments");
 
-  // 설문이 숫자를 계산하려면 프로필이 필요하다 — 설문에서 다시 묻지 않기 위해서다.
-  // 루틴의 주당 운동일은 '주 며칠' 의 기본값이 된다.
-  const [commitments, profile, routine, todayItems] = await Promise.all([
+  const [pledges, groups, legacy, todayItems] = await Promise.all([
+    getMyPledges(),
+    getMyGroups(),
     getMyCommitments(),
-    getUserProfile(),
-    getUserRoutine(),
     getTodayChecklist(),
   ]);
-  const me = profile
-    ? ({
-        gender: profile.gender === "female" ? "female" : "male",
-        experience: profile.experience,
-        weightKg: profile.weightKg ?? 70,
-        goal: toSurveyGoal(profile.goal),
-        recommendKcal: dailyTarget({
-          gender: profile.gender,
-          weightKg: profile.weightKg,
-          heightCm: profile.heightCm,
-        }).kcal,
-      } as const)
-    : undefined;
-  const defaultPerWeek = weeklyWorkoutDays(routine);
+  const groupNames = Object.fromEntries(groups.map((g) => [g.id, g.name]));
 
-  // 공통 머리글(2026-09-16 8단계) — 설명 문장·제목 옆 깃발 아이콘은 뺐다.
   return (
     <div className="app-page">
-      <PageHeader title="나의 다짐" back />
+      <PageHeader title="다짐 리스트" />
       <main className="app-container space-y-5">
-        {/* 오늘 지킬 것부터 — 관리 화면을 찾아 들어가지 않아도 되게. */}
-        <TodayChecklist items={todayItems} today={seoulYmd()} />
-        <CommitmentManager
-          commitments={commitments}
-          me={me}
-          defaultPerWeek={defaultPerWeek}
-        />
+        <PledgeList pledges={pledges} groupNames={groupNames} />
+        {legacy.length > 0 || todayItems.length > 0 ? (
+          <section className="space-y-3">
+            <h2 className="text-xs font-semibold text-zinc-500">예전 다짐</h2>
+            <TodayChecklist items={todayItems} today={seoulYmd()} />
+            <CommitmentManager commitments={legacy} />
+          </section>
+        ) : null}
       </main>
     </div>
   );

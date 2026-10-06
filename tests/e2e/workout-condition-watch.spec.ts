@@ -1,0 +1,48 @@
+import { expect, test } from "@playwright/test";
+import { createOnboardedAccount } from "./helpers/auth";
+import { dbQuery, hasDb } from "./helpers/db";
+test("컨디션 세트 조절·영상 높이·음성·워치 웹 안내", async ({page}) => {
+ test.skip(!hasDb,"Live test DB unavailable");
+ const email=await createOnboardedAccount(page);
+ const uid="(select id from auth.users where lower(email)=lower($1))";
+ await dbQuery("update public.user_routines set splits=0,variant_id='custom',custom_week='[[\"back\"],[\"rest\"],[\"rest\"],[\"rest\"],[\"rest\"],[\"rest\"],[\"rest\"]]'::jsonb,start_date=(now() at time zone 'Asia/Seoul')::date,day_index_migrated=true,rest_date=null,override_date=null,override_block=null where user_id="+uid,[email]);
+ await dbQuery("delete from public.routine_exercises where user_id="+uid,[email]);
+ await dbQuery("delete from public.routine_conditioning where user_id="+uid,[email]);
+ await dbQuery("insert into public.routine_exercises(user_id,day_index,focus,position,exercise_id,equipment,sets,reps,weight_kg) values ("+uid+",0,'back',0,'barbell-back-squat','barbell',4,10,20),("+uid+",0,'back',1,'wall-angel','bodyweight',3,10,null)",[email]);
+ await page.goto('/routine');
+ const checkinModal=page.getByTestId('daily-checkin-modal');
+ await expect(checkinModal).toBeVisible();
+ await checkinModal.getByRole('button',{name:'나중에 체크할게요'}).click();
+ await expect(checkinModal).not.toBeVisible();
+ await page.getByRole('button',{name:'운동 시작',exact:true}).click();
+ const condition=page.getByTestId('workout-condition');
+ await condition.locator('summary').click();
+ await condition.getByRole('button',{name:'피곤해요'}).click();
+ await expect(condition.getByRole('status')).toContainText('2개');
+ await expect(page.getByRole('slider',{name:'총 세트',exact:true})).toHaveAttribute('aria-valuenow','3');
+ await condition.getByRole('button',{name:'피곤해요'}).click();
+ await expect(page.getByRole('slider',{name:'총 세트',exact:true})).toHaveAttribute('aria-valuenow','3');
+ await condition.getByRole('button',{name:'좋아요'}).click();
+ await expect(page.getByRole('slider',{name:'총 세트',exact:true})).toHaveAttribute('aria-valuenow','5');
+ await condition.getByRole('button',{name:'보통'}).click();
+ await expect(page.getByRole('slider',{name:'총 세트',exact:true})).toHaveAttribute('aria-valuenow','4');
+ await condition.locator('summary').click();
+ const intro=page.getByTestId('intro-card');
+ if(await intro.count()) await intro.getByRole('button',{name:'준비됐어요'}).click();
+ const video=page.locator('video').first();
+ await expect(video).toBeVisible();
+ for(const width of [320,390,768]) {
+  await page.setViewportSize({width,height:844});
+  expect(await video.evaluate(el=>el.getBoundingClientRect().height)).toBeLessThanOrEqual(193);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:844});
+ await page.screenshot({path:'test-results/workout-mode-compact.png'});
+ await page.getByTestId('voice-toggle').click();
+ await expect(page.getByTestId('voice-toggle')).toHaveAttribute('aria-pressed','true');
+ const rows=await dbQuery<{sets:number}>("select sets from public.routine_exercises where user_id="+uid+" order by position",[email]);
+ expect(rows.map(r=>r.sets)).toEqual([4,3]);
+ await page.goto('/settings/health', {waitUntil:'networkidle'});
+ await page.getByTestId('watch-connections').getByRole('button',{name:'심박 확인'}).click();
+ await expect(page.getByTestId('watch-connections').getByRole('alert')).toContainText('앱');
+});

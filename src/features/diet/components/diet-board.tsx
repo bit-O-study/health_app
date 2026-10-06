@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
+import { toggleMealSkipAction } from "@/features/commitments/pledge-actions";
 import { addDaysYmd, ymdDisplay } from "@/features/routine/data";
 import {
   MEALS,
@@ -115,8 +116,11 @@ export function DietBoard({
   aiScanEnabled = false,
   view,
   footer,
+  mealSkips = [],
 }: {
   date: string;
+  /** 이 날 '안 먹었어요'로 체크한 끼니(다짐 — 기록 누락과 구분). */
+  mealSkips?: string[];
   view?: string;
   today: string;
   logs: FoodLog[];
@@ -135,6 +139,13 @@ export function DietBoard({
   const [choosingMeal, setChoosingMeal] = useState(false);
   const [adding, setAdding] = useState<Meal | null>(null);
   const [detail, setDetail] = useState<Meal | null>(null);
+  const [skips, setSkips] = useState<string[]>(mealSkips);
+  function toggleSkip(meal: Meal, on: boolean) {
+    setSkips((s) => (on ? [...s, meal] : s.filter((m) => m !== meal)));
+    void toggleMealSkipAction({ forDate: date, meal, on }).then((res) => {
+      if (!res.ok) setSkips((s) => (on ? s.filter((m) => m !== meal) : [...s, meal]));
+    });
+  }
   const [quickError, setQuickError] = useState<string | null>(null);
   // 서버를 부르는 시점의 최신 목록 — 콜백이 가둔 옛 logs 로는 방금 확정된 id 를 못 본다.
   const logsRef = useRef<FoodLog[]>(initial);
@@ -514,6 +525,8 @@ export function DietBoard({
             items={logs.filter((l) => l.meal === meal)}
             photos={photos[meal]}
             onOpen={() => setDetail(meal)}
+            skipped={skips.includes(meal)}
+            onToggleSkip={(on) => toggleSkip(meal, on)}
           />
         ))}
       </div>
@@ -733,11 +746,16 @@ function MealSection({
   items,
   photos,
   onOpen,
+  skipped = false,
+  onToggleSkip,
 }: {
   meal: Meal;
   items: FoodLog[];
   photos: string[];
   onOpen: () => void;
+  /** '안 먹었어요' 체크 — 기록이 없을 때만 보인다. 다짐의 끼니 수에는 들어가지 않는다. */
+  skipped?: boolean;
+  onToggleSkip?: (on: boolean) => void;
 }) {
   const sub = Math.round(items.reduce((s, i) => s + i.kcal, 0));
   const empty = items.length === 0 && photos.length === 0;
@@ -800,7 +818,27 @@ function MealSection({
           {body}
         </button>
       )}
-      {empty ? <span className="text-xs text-muted">기록 없음</span> : <ChevronRight size={16} aria-hidden="true" className="shrink-0 text-muted" />}
+      {empty ? (
+        onToggleSkip ? (
+          <button
+            type="button"
+            aria-pressed={skipped}
+            onClick={() => onToggleSkip(!skipped)}
+            data-testid={`meal-skip-${meal}`}
+            className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold transition ${
+              skipped
+                ? "bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-900"
+                : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400"
+            }`}
+          >
+            {skipped ? "안 먹었어요 ✓" : "안 먹었어요"}
+          </button>
+        ) : (
+          <span className="text-xs text-muted">기록 없음</span>
+        )
+      ) : (
+        <ChevronRight size={16} aria-hidden="true" className="shrink-0 text-muted" />
+      )}
     </div>
   );
 }

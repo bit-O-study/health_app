@@ -1,0 +1,9 @@
+{
+  "file": "public/exercise-guides/skinned-pilot/lateral-raise-v2-dark.mp4",
+  "sha256": "553eab0c66d7039f42d55a37aa7d09008e4a89d82ae2a4f8146161160b234ba7",
+  "sceneSha256": "06050dfdd394deb905afadbf891fc8d6aebcadbf6db26f2885afd5b675af7c3d",
+  "modelSha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd",
+  "status": "candidate",
+  "frames": 480,
+  "fps": 60
+}

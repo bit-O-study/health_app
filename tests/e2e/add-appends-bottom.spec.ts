@@ -33,7 +33,10 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   await seedRecommendedExercises(page);
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
+  const checkin = page.getByTestId("daily-checkin-modal");
+  await expect(checkin).toBeVisible();
+  await checkin.getByRole("button", { name: "컨디션 모달 닫기" }).click();
+  await expect(checkin).not.toBeVisible();
 
   // 편집 모드 → "오늘 루틴에 운동 추가" 열기
   await page.getByRole("button", { name: "편집하기" }).click();
@@ -41,7 +44,7 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   // 부위=가슴, 운동=펙덱 플라이(시드에 없는 가슴 운동) 선택 후 추가
   await page.getByLabel("부위").selectOption("chest");
   // 운동 검색 콤보박스: 열고 → 검색 → 결과 선택
-  await page.getByLabel("운동").click();
+  await page.getByRole("button", { name: "운동", exact: true }).click();
   await page.getByLabel("운동 검색").fill("펙덱");
   await page.getByRole("listbox").getByRole("option").first().click();
   await expect(page.getByLabel("운동 검색")).toHaveCount(0);

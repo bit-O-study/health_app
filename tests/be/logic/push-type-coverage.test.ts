@@ -84,8 +84,9 @@ describe("푸시 발송 전수", () => {
 
   it("종류 표에 죽은 타입이 없다 — 안 쓰는 매핑은 지운다", () => {
     const used = new Set(sites.map((s) => s.type));
-    // 리마인더는 payload 표(daily-reminder.ts)에 있어 위 정규식에 안 잡힌다.
-    const known = new Set([...used, "reminder-workout", "reminder-diet"]);
+    // 리마인더는 payload 표(daily-reminder.ts)에, 이번 주 정리는 weekly-summary.ts 에 있어 위 정규식에 안 잡힌다.
+    expect(readFileSync("src/features/notifications/weekly-summary.ts", "utf8")).toContain('type: "weekly-summary"');
+    const known = new Set([...used, "reminder-workout", "reminder-diet", "weekly-summary"]);
     for (const type of Object.keys(PUSH_TYPE_TO_KIND)) {
       expect(known.has(type), `"${type}" 은 아무도 안 보낸다`).toBe(true);
     }

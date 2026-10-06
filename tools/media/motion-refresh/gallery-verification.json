@@ -1,0 +1,154 @@
+[
+  {
+    "name": "덤벨 숌더프레스",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-shoulder-press-before.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-shoulder-press.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "덤벨 숌더프레스",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-shoulder-press-before-dark.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/dumbbell-shoulder-press-dark.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "바벨 슈러그",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/barbell-shrug-before.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/barbell-shrug.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "바벨 슈러그",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/barbell-shrug-before-dark.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/barbell-shrug-dark.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "사이드 플랭크",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/side-plank-before.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/side-plank.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "사이드 플랭크",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/side-plank-before-dark.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/side-plank-dark.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "할로우 홀드",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hollow-hold-before.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hollow-hold.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  },
+  {
+    "name": "할로우 홀드",
+    "width": 390,
+    "viewport": 390,
+    "videos": [
+      {
+        "width": 480,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hollow-hold-before-dark.mp4?v=atlas-batch-20260930"
+      },
+      {
+        "width": 720,
+        "duration": 8,
+        "error": null,
+        "src": "http://127.0.0.1:3189/exercise-guides/refresh-candidates/hollow-hold-dark.mp4?v=atlas-batch-20260930"
+      }
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "mode": "built-in image_gen",
+  "reference": "scripts/rigid-0.png",
+  "assets": [
+    {
+      "id": "side-plank",
+      "prompt": "Create a single production exercise guide asset. Reference image is STYLE ONLY: same bald adult gray athletic anatomical mannequin, teal shorts, realistic proportional limbs, clean smooth 3D illustration. No dumbbells. One full body, centered with 10% margin, square composition, transparent RGBA background, no labels, no text, no borders, no motion trails, no glow. Anatomy accurate with two arms and two legs. Pose: forearm side plank, head at left, feet at right. Camera front-oblique showing chest. Bottom elbow directly below shoulder, forearm resting horizontally forward on floor, shoulder-hip-ankles in one straight diagonal line, hips lifted, legs straight, feet stacked and resting on outer bottom foot. Upper hand rests on hip. Neutral neck. Show a thin charcoal exercise mat under both contact points; clear contact with mat. Isometric hold, not hip dips."
+    },
+    {
+      "id": "hollow-hold",
+      "prompt": "Create a single production exercise guide asset. Reference image is STYLE ONLY: same bald adult gray athletic anatomical mannequin, teal shorts, realistic proportional limbs, clean smooth 3D illustration. No dumbbells. One full body, centered with 10% margin, square composition, transparent RGBA background, no labels, no text, no borders, no motion trails, no glow. Anatomy accurate with two arms and two legs. Pose: FULL hollow body hold, strict side profile head at left and feet at right. Supine, pelvis and lower lumbar back pressed flat onto thin charcoal mat; shoulders and head lifted slightly, neck neutral. Both arms straight overhead by ears reaching left/up at a low angle; both legs straight and close together extending right, heels lifted about 20 degrees above mat. A shallow curved hollow shape, not V-sit, not crunch, knees not tucked. Lumbar spine contacts mat with no arch. Include complete hands and feet."
+    }
+  ]
+}

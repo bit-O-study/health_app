@@ -52,7 +52,7 @@ describe("debugValueEnabled — default on, only false disables", () => {
   });
 });
 
-describe("debugValueToVisibility — 3단계(숨김/디버그/공개), 기본 debug", () => {
+describe("debugValueToVisibility — 4단계(숨김/디버그/라이트 먼저/공개), 기본 debug", () => {
   it("미설정/null/true = debug (디버그 계정만)", () => {
     expect(debugValueToVisibility(undefined)).toBe("debug");
     expect(debugValueToVisibility(null)).toBe("debug");
@@ -62,6 +62,9 @@ describe("debugValueToVisibility — 3단계(숨김/디버그/공개), 기본 de
   it('"public" = 전체 공개', () => {
     expect(debugValueToVisibility("public")).toBe("public");
   });
+  it('"lite" = 디버그 계정 + 라이트 이상 먼저(2026-10-02 라이트 혜택)', () => {
+    expect(debugValueToVisibility("lite")).toBe("lite");
+  });
   it('false(구버전 꺼짐)·"hidden" = 숨김', () => {
     expect(debugValueToVisibility(false)).toBe("hidden");
     expect(debugValueToVisibility("hidden")).toBe("hidden");
@@ -69,7 +72,8 @@ describe("debugValueToVisibility — 3단계(숨김/디버그/공개), 기본 de
 });
 
 describe("isDebugVisibility", () => {
-  it("3개 값만 통과", () => {
+  it("4개 값만 통과(라이트 먼저 포함)", () => {
+    expect(DEBUG_VISIBILITIES).toEqual(["hidden", "debug", "lite", "public"]);
     for (const v of DEBUG_VISIBILITIES) expect(isDebugVisibility(v)).toBe(true);
     expect(isDebugVisibility("nope")).toBe(false);
     expect(isDebugVisibility(true)).toBe(false);

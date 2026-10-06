@@ -1,0 +1,36 @@
+{
+  "id": "barbell-shrug",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/barbell-shrug.mp4",
+      "sha256": "8958d52bc76e77fb936dd4d6686592c44ed8e6a2c4a209305d29641b4dd4066b",
+      "bytes": 310115
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/barbell-shrug-dark.mp4",
+      "sha256": "cb5694134e62d0b9c1f316dcf556cc53fba4411fece00ddd03e33eb4218435f2",
+      "bytes": 273656
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-6.mjs",
+      "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+    },
+    {
+      "file": "exercise-motion-6.mjs",
+      "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

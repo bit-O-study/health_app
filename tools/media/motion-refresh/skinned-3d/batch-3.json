@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T07:02:29.773Z",
+  "finishedAt": "2026-09-30T07:11:45.903Z",
+  "concurrency": 4,
+  "results": [
+    {
+      "id": "dumbbell-shoulder-press",
+      "pid": 27476,
+      "code": 0,
+      "elapsedMs": 498632
+    },
+    {
+      "id": "alternating-dumbbell-shoulder-press",
+      "pid": 36664,
+      "code": 0,
+      "elapsedMs": 505453
+    },
+    {
+      "id": "single-arm-dumbbell-front-raise",
+      "pid": 22400,
+      "code": 0,
+      "elapsedMs": 504706
+    },
+    {
+      "id": "single-arm-dumbbell-lateral-raise",
+      "pid": 30564,
+      "code": 0,
+      "elapsedMs": 553960
+    }
+  ]
+}

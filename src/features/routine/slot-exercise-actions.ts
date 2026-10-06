@@ -1,6 +1,7 @@
 "use server";
 
 import { personalizeExercises } from "./recommend-personalization";
+import { emptiedByPain, withoutPainExercises } from "./checkin";
 
 import { isFocusKey } from "@/features/routine/data";
 import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
@@ -176,11 +177,12 @@ export type RecommendSlotSpec = {
 export async function recommendExercisesAction(
   specs: RecommendSlotSpec[],
   gender: "male" | "female",
-): Promise<{ focus: string; exercises: SlotExerciseOption[] }[]> {
+): Promise<{ focus: string; painSkipped?: boolean; exercises: SlotExerciseOption[] }[]> {
   if (!Array.isArray(specs)) return [];
   const g = gender === "female" ? "female" : "male";
   const { getRecommendationContext } = await import("./recommendation-data");
-  const [gym, base, recommendationContext] = await Promise.all([currentGymEquipment(), currentRecommendContext(), getRecommendationContext()]);
+  const { getPainAreas } = await import("./checkin-data");
+  const [gym, base, recommendationContext, pain] = await Promise.all([currentGymEquipment(), currentRecommendContext(), getRecommendationContext(), getPainAreas()]);
   return specs.slice(0, MAX_IDS).map((spec) => {
     const focus = spec?.focus;
     // 부위가 아니면(휴식 포함) 추천할 게 없다 — 빈 목록으로 자리는 지킨다.
@@ -192,13 +194,17 @@ export async function recommendExercisesAction(
       blockIds.length > 0
         ? focusExercisesForSlot(focus, blockIds, g, gym, ctx)
         : recommendedExercisesForFocus(focus, g, gym, ctx);
-    const list = personalizeExercises(ranked, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
+    // 아픈 부위 운동은 추천 후보에서 뺀다(2026-10-01). 그 부위만 있던 칸은 painSkipped 로 알린다.
+    const before = personalizeExercises(ranked, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
+    const list = withoutPainExercises(personalizeExercises(withoutPainExercises(ranked, pain), withoutPainExercises(allExercisesForSlot(focus, blockIds), pain), gym, recommendationContext, spec.isSide, focus), pain);
+    const painSkipped = emptiedByPain(before.length, list.length);
     // 추천 이유 — 필수 동작·세부근육 칸(앞 4개)에만 붙는다. 뒤에 붙는 나머지 큐레이션은 이유 없음.
     const reasonOf = new Map(
       focusPicksForSlot(focus, blockIds, g, gym, ctx).map((p) => [p.exercise.id, p.reason]),
     );
     return {
       focus,
+      ...(painSkipped ? { painSkipped: true } : {}),
       exercises: list.map((ex) => {
         const reason = reasonOf.get(ex.id);
         return reason ? { ...toOption(ex), reason } : toOption(ex);

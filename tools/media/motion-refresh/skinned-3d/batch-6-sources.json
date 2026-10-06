@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-09-30T08:09:44.202Z",
+  "exercises": [
+    {
+      "id": "barbell-shrug",
+      "url": "https://www.muscleandstrength.com/exercises/barbell-shrug.html",
+      "implementation": "Standing double-overhand shoulder elevation; rack setup excluded from repeating rep."
+    },
+    {
+      "id": "barbell-front-raise",
+      "url": "https://www.muscleandstrength.com/exercises/barbell-front-raise.html",
+      "implementation": "Pronated near-straight arm raise to shoulder level; controlled lowering without torso swing."
+    },
+    {
+      "id": "barbell-upright-row",
+      "url": "https://www.muscleandstrength.com/exercises/upright-row.html",
+      "implementation": "Shoulder-width overhand grip; elbows lead laterally, higher than wrists, bar to chest."
+    },
+    {
+      "id": "wide-grip-upright-row",
+      "url": "https://www.muscleandfitness.com/flexonline/training/close-grip-vs-wide-grip-upright-row/",
+      "implementation": "Wider fixed overhand grip with elbows leading; uses the same controlled chest-height path as the standard upright row."
+    }
+  ]
+}

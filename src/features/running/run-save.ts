@@ -18,6 +18,7 @@ import {
 } from "@/features/running/run-record-actions";
 import { writeRunCheckpoint } from "@/features/running/run-checkpoint";
 import { runSessionDate, type RunSessionInput } from "@/features/running/run-session";
+import type { RunRecordKind } from "@/features/running/run-guide";
 import { dequeuePending, enqueuePending, isPendingStored } from "@/lib/offline/pending-queue";
 import { pendingKey } from "@/lib/offline/pending-writes";
 
@@ -26,7 +27,10 @@ export type FinishedRun = RunSessionInput & { clientSessionId: string };
 /** 'saved' = 서버에 저장됨, 'queued' = 기기에 보관(연결되면 자동 저장). */
 export type RunSaveResult = "saved" | "queued";
 
-export async function saveFinishedRun(session: FinishedRun, label: string): Promise<RunSaveResult> {
+/** 저장 결과 + (저장됐으면) 기록 id·개인 최고 — 종료 화면의 링크와 배지(2026-09-29 3단계). */
+export type RunSaveOutcome = { state: RunSaveResult; runId?: string; records?: RunRecordKind[] };
+
+export async function saveFinishedRun(session: FinishedRun, label: string): Promise<RunSaveOutcome> {
   const key = pendingKey({ kind: "run", clientSessionId: session.clientSessionId });
   enqueuePending({
     kind: "run",
@@ -44,9 +48,9 @@ export async function saveFinishedRun(session: FinishedRun, label: string): Prom
   try {
     result = await recordRunSessionAction(session);
   } catch {
-    return "queued";
+    return { state: "queued" };
   }
-  if (!result.ok) return "queued";
+  if (!result.ok) return { state: "queued" };
   dequeuePending(key);
   writeRunCheckpoint(null);
 
@@ -66,7 +70,7 @@ export async function saveFinishedRun(session: FinishedRun, label: string): Prom
       }
     })().catch(() => {});
   }
-  return "saved";
+  return { state: "saved", runId: result.id, records: result.records ?? [] };
 }
 
 /** 종료 화면 한 줄 — 긴 요약은 넣지 않는다(사용자 요청), 저장 상태만. */

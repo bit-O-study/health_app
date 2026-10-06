@@ -1,0 +1,36 @@
+{
+  "id": "dumbbell-front-raise",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-front-raise.mp4",
+      "sha256": "b32fe1ff68d80593fed4dac3efde5d331677a3ff05973d5fb08ed66be4813668",
+      "bytes": 428002
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-front-raise-dark.mp4",
+      "sha256": "a5ed5a3c8c648416b0c113c59256adfd4048be5e3d4ca92684af20e4e9f2ffd9",
+      "bytes": 387212
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch.mjs",
+      "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+    },
+    {
+      "file": "exercise-motion.mjs",
+      "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

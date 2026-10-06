@@ -1,0 +1,15 @@
+{
+  "barbell-shrug": "rigid-shrug-atlas-v1",
+  "dumbbell-shrug": "constrained-shrug-v1",
+  "dumbbell-shoulder-press": "articulated-atlas-v1",
+  "dumbbell-lateral-raise": "rigid-2d-v1",
+  "dumbbell-front-raise": "fixed-arm-rig-v1",
+  "dumbbell-biceps-curl": "fixed-arm-rig-v1",
+  "hammer-curl-2": "fixed-arm-rig-v1",
+  "plate-pinch": "isometric-hold-v1",
+  "hollow-body-hold": "isometric-hold-v1",
+  "stability-ball-plank": "isometric-hold-v1",
+  "side-plank": "generated-isometric-v1",
+  "triceps-kickback": "fixed-arm-rig-v1",
+  "hollow-hold": "generated-isometric-v1"
+}

@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
 import { openApp } from "./helpers/launcher";
+import { AI_OPEN } from "./helpers/ai-open";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // AI 식단 사진 담기:
@@ -25,6 +26,7 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 test("AI 식단 사진: 음식은 1번만 담기고, 분석 사진이 끼니 사진으로 등록된다", async ({
   page,
 }) => {
+  test.skip(!AI_OPEN, "AI 가 닫혀 있다(AI_OPEN=false, 2026-10-01)");
   test.skip(!hasDb, "needs .env.test.local DB creds");
   test.skip(!STUB_ON, "needs MEAL_SCAN_STUB=1 dev server (deterministic scan)");
 

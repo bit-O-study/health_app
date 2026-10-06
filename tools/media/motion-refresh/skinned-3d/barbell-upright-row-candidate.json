@@ -1,0 +1,36 @@
+{
+  "id": "barbell-upright-row",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/barbell-upright-row.mp4",
+      "sha256": "a9a50cdce87c91ef627eb34b6fb93d640a6e905c3843c7f7e8c99d65bab38ec0",
+      "bytes": 513545
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/barbell-upright-row-dark.mp4",
+      "sha256": "ae5bc4e4632af762f0360e5931e0e575e06899927003c790561f7fe5866dc498",
+      "bytes": 443774
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-6.mjs",
+      "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+    },
+    {
+      "file": "exercise-motion-6.mjs",
+      "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

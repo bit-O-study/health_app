@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-06",
+  "exercise": "chest-dip",
+  "status": "rejected",
+  "method": "built-in imagegen background-extraction, one correction pass",
+  "source": "tools/media/motion-guides/chest-dip.jpg",
+  "candidates": [
+    "candidate-1.png",
+    "candidate-2.png"
+  ],
+  "reason": "Both candidates retain white/colored edge residue around head and shoulders and patches between body and equipment. Not published; previous app assets unchanged.",
+  "memoryFreeGiB": 6.7
+}

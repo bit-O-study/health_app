@@ -58,19 +58,32 @@ function RatioBars({ row, alarm }: { row: BalanceRow; alarm: boolean }) {
       ))}
     </div>
   );
+  // 가장 모자란 칸(목표 − 지금이 큰 칸) — 알람이면 빨간 칩 하나로만 보여 준다.
+  const low = [...row.parts].sort((a, b) => b.goal - b.now - (a.goal - a.now))[0];
   return (
     <div className="space-y-1.5 rounded-xl bg-zinc-50 p-3 dark:bg-white/[0.04]" data-testid={`fit-balance-${row.id}`}>
-      <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{row.label}</p>
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{row.label}</p>
+        {row.hint && low ? (
+          <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${alarm ? "bg-danger/10 text-danger" : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08]"}`}>
+            {low.label} 부족
+          </span>
+        ) : null}
+      </div>
       <div className="grid grid-cols-[2.5rem_1fr] items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
         <span>지금</span>
         {line("now")}
         <span>목표</span>
         {line("goal")}
       </div>
-      <p className="text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
-        {row.parts.map((p) => `${p.label} ${p.now}%(목표 ${p.goal}%)`).join(" · ")}
+      <p className="flex flex-wrap gap-x-2.5 text-xs text-zinc-500 dark:text-zinc-400">
+        {row.parts.map((p, i) => (
+          <span key={p.label} className="inline-flex items-center gap-1">
+            <i className={`h-2 w-2 rounded-full ${shades.at(i) ?? "bg-brand/25"}`} />
+            {p.label}
+          </span>
+        ))}
       </p>
-      {row.hint ? <p className={`text-xs font-semibold ${alarm ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>{row.hint}</p> : null}
     </div>
   );
 }
@@ -99,7 +112,7 @@ export default async function FitBalancePage() {
         cold={view.daysThisWeek === 0}
       />
       <main className="app-container space-y-3">
-        <FitHeadline testId="fit-headline" sub="지난 7일 기록 기준이에요.">
+        <FitHeadline testId="fit-headline">
           {balanceHeadline(view.balance)}
         </FitHeadline>
 
@@ -107,7 +120,7 @@ export default async function FitBalancePage() {
           <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-danger" />부족</span>
           <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-brand/50" />조금</span>
           <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-brand" />적정</span>
-          <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-zinc-400" />넘침(충분해요)</span>
+          <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-zinc-400" />넘침</span>
         </p>
 
         {full ? (
@@ -134,7 +147,6 @@ export default async function FitBalancePage() {
                           <div className="flex items-center justify-between text-xs text-zinc-700 dark:text-zinc-200">
                             <span>{subLabel(r.sub)}</span>
                             <span className="tabular-nums">
-                              {r.status === "high" ? "충분 · " : ""}
                               {fmtSets(r.stim)} / {fmtSets(r.target)}세트
                             </span>
                           </div>
@@ -150,7 +162,7 @@ export default async function FitBalancePage() {
                         className="block text-center text-sm font-semibold text-brand"
                         data-testid={`fit-part-go-${p.part}`}
                       >
-                        {BODY_PART_LABEL[p.part]} 채우는 운동 보기 →
+                        {BODY_PART_LABEL[p.part]} 운동 추천 →
                       </Link>
                     ) : null}
                   </div>
@@ -171,7 +183,7 @@ export default async function FitBalancePage() {
                 </div>
               ))}
             </section>
-            <FitLocked what="세부 근육 25개 · 비율 · 부위별 추천" />
+            <FitLocked what="세부 근육 25개 · 비율" />
           </>
         )}
       </main>

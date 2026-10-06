@@ -202,7 +202,7 @@ function EmptyGroup({ items }: { items: ({ label: string; href: string } | null)
   if (list.length === 0) return null;
   return (
     <section className="app-card space-y-2 p-3" data-testid="lite-report-empty">
-      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이렇게 기록하면 더 볼 수 있어요</h2>
+      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">기록하면 더 보여요</h2>
       <div className="flex flex-wrap gap-1.5">
         {list.map((it) => (
           <Link

@@ -12,7 +12,7 @@ import {
   type BodyPart,
 } from "@/features/routine/exercise-catalog-labels";
 import { FitApplyCard, type FitPickView } from "@/features/routine/components/fit-apply-card";
-import { FitHeader, FitHeadline, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
+import { FitHeader, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
 import { fmtSets, recommendHeadline } from "@/features/routine/fit-view";
 import { PART_PREFIX } from "@/features/routine/fit";
 
@@ -73,20 +73,19 @@ export default async function FitRecommendPage({
         cold={view.daysThisWeek === 0}
       />
       <main className="app-container space-y-3">
-        <FitHeadline testId="fit-headline" sub={lacking.length ? "지난 7일 기록 기준이에요." : "오늘은 쉬거나 가볍게 해도 좋아요."}>
-          {part ? `${BODY_PART_LABEL[part]} 채우는 운동이에요` : head.text}
-        </FitHeadline>
-
-        {part ? (
-          <Link href="/fit" className="block px-1 text-xs font-semibold text-brand" data-testid="fit-part-clear">
-            ← 전체 추천으로
-          </Link>
-        ) : null}
-
-        {lacking.length ? (
-          <section className="app-card space-y-2.5 p-4" data-testid="fit-lacking">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이번 주 모자란 곳</h2>
-            {lacking.map((r) => (
+        {/* 결론 한 줄 + 그 근거(모자란 곳 막대)를 한 카드에 — 카드 수를 줄인다. */}
+        <section className="app-card space-y-3 p-4" data-testid="fit-lacking">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100" data-testid="fit-headline">
+              {part ? `${BODY_PART_LABEL[part]} 채우는 운동` : head.text}
+            </p>
+            {part ? (
+              <Link href="/fit" className="shrink-0 text-xs font-semibold text-brand" data-testid="fit-part-clear">
+                전체 보기
+              </Link>
+            ) : null}
+          </div>
+          {lacking.map((r) => (
               <div key={r.sub} className="space-y-1">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-zinc-800 dark:text-zinc-100">{subLabel(r.sub)}</span>
@@ -99,11 +98,10 @@ export default async function FitRecommendPage({
                 </div>
               </div>
             ))}
-          </section>
-        ) : null}
+        </section>
 
         {picks.length ? <FitApplyCard picks={picks} canReplace={full} /> : null}
-        {!full ? <FitLocked what="모자란 곳 3개 · 추천 고르기 · 바꾸기" /> : null}
+        {!full ? <FitLocked what="추천 3개 · 고르기 · 바꾸기" /> : null}
       </main>
     </div>
   );

@@ -10,14 +10,14 @@ import { loadBodyPhotos } from "@/features/lite/body-photos-data";
 import { BodyPhotosCard } from "@/features/lite/components/body-photos-card";
 import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
 import { FitHeader, FitHeadline, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
-import { deltaMark, partWithEulReul } from "@/features/routine/fit-view";
+import { deltaMark } from "@/features/routine/fit-view";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "리포트" };
 
 function Delta({ now, prev, unit }: { now: number; prev: number; unit: string }) {
   const d = deltaMark(now, prev);
-  if (d.mark === "same") return <span className="text-xs text-zinc-500">지난달과 같음</span>;
+  if (d.mark === "same") return <span className="text-xs text-zinc-500">―</span>;
   return (
     <span className={`text-xs font-semibold ${d.mark === "up" ? "text-brand" : "text-zinc-500"}`}>
       {d.mark === "up" ? "▲" : "▼"} {d.diff.toLocaleString("ko-KR")}
@@ -50,13 +50,18 @@ export default async function FitReportPage() {
     <div className="app-page" data-testid="fit-page" data-full={full ? "1" : "0"}>
       <FitHeader title="리포트" full={full} styleText={styleTextOf(info.style)} experienceLabel={info.experienceLabel} />
       <main className="app-container space-y-3">
-        <FitHeadline testId="fit-headline" sub={`${m}월 1일부터 오늘까지`}>
-          {t.days === 0 ? `${m}월에는 아직 운동 기록이 없어요` : `${m}월에 ${t.days}일 운동했어요`}
-        </FitHeadline>
+        {full ? null : (
+          <FitHeadline testId="fit-headline">
+            {t.days === 0 ? `${m}월 기록이 아직 없어요` : `${m}월에 ${t.days}일 운동`}
+          </FitHeadline>
+        )}
 
         {full ? (
           <section className="app-card space-y-2.5 p-4" data-testid="fit-report">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{m}월 리포트</h2>
+            {/* 결론 한 줄 + 숫자를 한 카드에. */}
+            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100" data-testid="fit-headline">
+              {t.days === 0 ? `${m}월 기록이 아직 없어요` : `${m}월에 ${t.days}일 운동`}
+            </p>
             {[
               { label: "운동한 날", now: t.days, prev: l.days, unit: "일" },
               { label: "총 볼륨", now: t.volumeKg, prev: l.volumeKg, unit: "kg" },
@@ -74,9 +79,13 @@ export default async function FitReportPage() {
               </div>
             ))}
             {growth.topPart && growth.lackingPart ? (
-              <p className="border-t border-[var(--line)] pt-2.5 text-sm text-zinc-700 dark:text-zinc-200" data-testid="fit-report-next">
-                이번 달은 <b>{partWithEulReul(growth.topPart as keyof typeof BODY_PART_LABEL)}</b> 가장 많이 했어요. 다음 달은{" "}
-                <b>{partWithEulReul(growth.lackingPart as keyof typeof BODY_PART_LABEL)}</b> 더 해 보세요.
+              <p className="flex flex-wrap gap-1.5 border-t border-[var(--line)] pt-2.5 text-xs" data-testid="fit-report-next">
+                <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200">
+                  가장 많이 · <b>{BODY_PART_LABEL[growth.topPart as keyof typeof BODY_PART_LABEL]}</b>
+                </span>
+                <span className="rounded-full bg-brand-soft px-2.5 py-1 font-semibold text-brand">
+                  다음 달 · {BODY_PART_LABEL[growth.lackingPart as keyof typeof BODY_PART_LABEL]}
+                </span>
               </p>
             ) : null}
           </section>
@@ -84,14 +93,14 @@ export default async function FitReportPage() {
 
         {lite ? <LiteReportCards r={lite} /> : null}
         {photos ? <BodyPhotosCard view={photos} /> : null}
-        {!full ? <FitLocked what="월간 요약 · 체성분 · 컨디션 · 식단 리포트" /> : null}
+        {!full ? <FitLocked what="월간 요약 · 체성분 · 식단 리포트" /> : null}
 
         <Link
           href="/fit/year"
           className="app-card flex items-center justify-between p-4 text-sm font-semibold text-zinc-900 dark:text-zinc-100"
           data-testid="fit-year-link"
         >
-          올해 돌아보기 · 운동 잔디
+          올해 돌아보기
           <span className="text-brand">→</span>
         </Link>
       </main>

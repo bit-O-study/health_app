@@ -28,11 +28,11 @@ export default async function FitGrowthPage() {
     <div className="app-page" data-testid="fit-page" data-full={full ? "1" : "0"}>
       <FitHeader title="성장" full={full} styleText={styleTextOf(info.style)} experienceLabel={info.experienceLabel} />
       <main className="app-container space-y-3">
-        <FitHeadline testId="fit-headline" sub="지난달 1일부터 기록한 무게 기준이에요.">
+        <FitHeadline testId="fit-headline">
           {growth.growth.length === 0
-            ? "무게를 기록하면 성장을 보여 드려요"
+            ? "무게를 기록해 보세요"
             : stalled.length > 0
-              ? `${stalled[0].name}${iGa(stalled[0].name)} 3번 연속 그대로예요`
+              ? `${stalled[0].name}${iGa(stalled[0].name)} 정체 중이에요`
               : `${rising}개 종목이 오르고 있어요`}
         </FitHeadline>
 
@@ -50,7 +50,7 @@ export default async function FitGrowthPage() {
                         g.stalled ? "bg-warn/10 text-warn" : "bg-brand-soft text-brand"
                       }`}
                     >
-                      {g.stalled ? "3번 연속 그대로" : `예상 1RM ${g.latestKg}kg`}
+                      {g.stalled ? "정체" : `1RM ${g.latestKg}kg`}
                     </span>
                   </div>
                   <svg viewBox="0 0 200 36" className="h-9 w-full" role="img" aria-label={`${g.name} 예상 1RM 추이`}>
@@ -65,11 +65,8 @@ export default async function FitGrowthPage() {
                       </span>
                     </p>
                   ) : (
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">기록이 더 쌓이면 추이를 보여 드려요.</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">기록이 더 필요해요</p>
                   )}
-                  {g.stalled ? (
-                    <p className="text-xs text-zinc-600 dark:text-zinc-300">무게를 한 단계 올리거나 세트 방식을 바꿔 볼 때예요.</p>
-                  ) : null}
                 </section>
               );
             })
@@ -89,7 +86,7 @@ export default async function FitGrowthPage() {
               </div>
             ))
           ) : (
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">지난 최고보다 무겁게 하면 여기에 쌓여요.</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">아직 없어요</p>
           )}
         </section>
         {!full ? <FitLocked what="종목별 성장 추이" /> : null}

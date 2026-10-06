@@ -60,7 +60,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
       }
       if (r.added === 0) {
         setConfirming(false);
-        return setNotice("고른 운동은 오늘 이미 하게 돼 있어요.");
+        return setNotice("이미 오늘 운동에 있어요.");
       }
       router.push("/routine");
     });
@@ -68,7 +68,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
 
   return (
     <section className="app-card space-y-3 p-4" data-testid="fit-picks">
-      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">오늘 이걸 하면 채워져요</h2>
+      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">추천 운동</h2>
       <ul className="space-y-2">
         {picks.map((p) => {
           const on = chosen.has(p.exerciseId);
@@ -97,7 +97,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
                     </span>
                   ) : null}
                   <span className="mt-1.5 flex flex-wrap gap-1">
-                    {p.fills.map((f) => (
+                    {p.fills.slice(0, 1).map((f) => (
                       <span key={f.label} className="rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
                         {f.label} +{f.sets}세트
                       </span>
@@ -124,10 +124,8 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
       {canReplace ? (
         confirming ? (
           <div className="space-y-2 rounded-xl border border-danger/30 bg-danger/5 p-3" data-testid="fit-replace-confirm">
-            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">오늘 운동을 이 {n}개로 바꿀까요?</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-300">
-              원래 오늘 운동은 <b>내일로 미뤄져요</b>(사라지지 않아요). 내 루틴은 그대로예요.
-            </p>
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이 {n}개로 바꿀까요?</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-300">원래 운동은 내일로 미뤄져요.</p>
             <div className="flex gap-2">
               <button
                 type="button"
@@ -158,14 +156,11 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
             disabled={pending || n === 0}
             className="w-full text-center text-sm font-semibold text-zinc-500 underline-offset-2 hover:underline disabled:opacity-50 dark:text-zinc-400"
           >
-            오늘 운동을 이걸로 바꾸기
+            대신 이걸로 바꾸기
           </button>
         )
       ) : null}
 
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">
-        <b>오늘만</b> 바뀌고 내 루틴은 그대로예요. 세트·무게는 내 프로필 기준이고 운동 중에 바꿀 수 있어요.
-      </p>
       {error ? (
         <p role="alert" className="text-xs font-semibold text-danger">
           {error}

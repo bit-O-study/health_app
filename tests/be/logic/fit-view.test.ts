@@ -32,10 +32,10 @@ describe("맞춤 운동 화면 규칙(2026-10-06 UI 개편)", () => {
   });
 
   it("오늘 추천 결론 — 가장 모자란 세부 근육의 부위로 한 문장, 받침에 맞는 조사", () => {
-    expect(recommendHeadline([row("back-lats", 0), row("shoulder-side", 0)]).text).toBe("이번 주는 등이 가장 모자라요");
-    expect(recommendHeadline([row("shoulder-side", 0)]).text).toBe("이번 주는 어깨가 가장 모자라요");
+    expect(recommendHeadline([row("back-lats", 0), row("shoulder-side", 0)]).text).toBe("등이 부족해요");
+    expect(recommendHeadline([row("shoulder-side", 0)]).text).toBe("어깨가 부족해요");
     expect(recommendHeadline([row("back-lats", 0)]).part).toBe("back");
-    expect(recommendHeadline([]).text).toBe("이번 주 목표를 다 채웠어요");
+    expect(recommendHeadline([]).text).toBe("이번 주 목표 달성!");
   });
 
   it("부위는 모자란 순", () => {
@@ -50,8 +50,8 @@ describe("맞춤 운동 화면 규칙(2026-10-06 UI 개편)", () => {
       { id: "chest", label: "가슴", parts: [{ label: "상", now: 0, goal: 45 }, { label: "중", now: 0, goal: 36 }], hint: "" },
     ];
     expect(worstBalance(rows)).toMatchObject({ id: "shoulder", part: "옆", gap: 50 });
-    expect(balanceHeadline(rows)).toBe("어깨 옆 쪽이 가장 모자라요 — 지금 0%, 목표 50%");
-    expect(balanceHeadline([rows[2]])).toBe("지금은 고르게 하고 있어요");
+    expect(balanceHeadline(rows)).toBe("어깨 옆이 부족해요");
+    expect(balanceHeadline([rows[2]])).toBe("균형이 좋아요");
   });
 
   it("성장 추이 양끝 — 날짜·무게와 변화량", () => {

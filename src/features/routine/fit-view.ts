@@ -63,9 +63,9 @@ export function iGa(word: string): string {
 export function recommendHeadline(lacking: readonly SubRow[]): { text: string; part: BodyPart | null } {
   const top = lacking[0];
   const part = top ? partOfSub(top.sub) : null;
-  if (!top || !part) return { text: "이번 주 목표를 다 채웠어요", part: null };
+  if (!top || !part) return { text: "이번 주 목표 달성!", part: null };
   const label = BODY_PART_LABEL[part];
-  return { text: `이번 주는 ${label}${iGa(label)} 가장 모자라요`, part };
+  return { text: `${label}${iGa(label)} 부족해요`, part };
 }
 
 /** 추천 버튼 문구 — "오늘 운동에 2개 더하기". */
@@ -100,8 +100,9 @@ const BALANCE_PREFIX: Record<string, string> = { "push-pull": "", shoulder: "어
 /** 내 몸 균형 결론 — 가장 큰 불균형 한 줄. 없으면 고르게 하고 있다고. */
 export function balanceHeadline(rows: readonly BalanceRow[]): string {
   const w = worstBalance(rows);
-  if (!w) return "지금은 고르게 하고 있어요";
-  return `${BALANCE_PREFIX[w.id] ?? ""}${w.part} 쪽이 가장 모자라요 — 지금 ${w.now}%, 목표 ${w.goal}%`;
+  if (!w) return "균형이 좋아요";
+  const name = `${BALANCE_PREFIX[w.id] ?? ""}${w.part}`;
+  return `${name}${iGa(name)} 부족해요`;
 }
 
 /** 균형 카드가 어느 부위 아래에 들어가는지(펼친 부위 안에서 같이 보여 준다). */

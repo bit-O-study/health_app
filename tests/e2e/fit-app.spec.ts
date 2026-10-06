@@ -70,7 +70,7 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await page.goto("/fit", { waitUntil: "networkidle" });
   const root = page.getByTestId("fit-page");
   await expect(root).toHaveAttribute("data-full", "1", { timeout: 15_000 });
-  await expect(page.getByTestId("fit-headline")).toContainText("가장 모자라요");
+  await expect(page.getByTestId("fit-headline")).toContainText("부족해요");
   await expect(page.getByTestId("fit-lacking")).toContainText("세트");
   // 추천마다 처방(세트 × 회)과 채우는 양(세트 단위)이 보인다.
   await expect(page.getByTestId("fit-pick-rx").first()).toContainText("세트 ×");
@@ -86,11 +86,11 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await expect(page.getByTestId("fit-part-chest")).toContainText("넘침");
   await page.getByTestId("fit-part-back").locator("summary").click();
   await expect(page.getByTestId("fit-balance-push-pull")).toBeVisible();
-  await expect(page.getByTestId("fit-balance-push-pull")).toContainText("당기기 쪽이 모자라요");
+  await expect(page.getByTestId("fit-balance-push-pull")).toContainText("당기기 부족");
   // '등 채우는 운동 보기' → 그 부위 추천만.
   await page.getByTestId("fit-part-go-back").click();
   await page.waitForURL("**/fit?part=back", { timeout: 15_000 });
-  await expect(page.getByTestId("fit-headline")).toContainText("등 채우는 운동이에요");
+  await expect(page.getByTestId("fit-headline")).toContainText("등 채우는 운동");
   await page.goto("/fit/balance", { waitUntil: "networkidle" });
 
   await openTab(page, "성장", "/fit/growth");
@@ -99,7 +99,7 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await openTab(page, "리포트", "/fit/report");
   await expect(page.getByTestId("fit-report")).toContainText("운동한 날", { timeout: 15_000 });
   // 빈 리포트는 카드 여러 장 대신 한 장으로.
-  await expect(page.getByTestId("lite-report-empty")).toContainText("이렇게 기록하면");
+  await expect(page.getByTestId("lite-report-empty")).toContainText("기록하면 더 보여요");
   await expect(page.getByTestId("lite-report-body")).toHaveCount(0);
 
   // 예전 주소(?tab=)는 새 화면으로 넘어간다.

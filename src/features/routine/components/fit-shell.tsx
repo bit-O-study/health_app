@@ -36,26 +36,29 @@ export function FitHeader({
           {full ? "라이트" : "무료"}
         </span>
       </PageHeader>
-      <div className="app-container flex items-center justify-between gap-2 pb-2 text-xs text-zinc-500 dark:text-zinc-400">
+      {/* 본문과 같은 좌우 여백, 위아래 여백은 없이 — 머리글과 본문 사이가 벌어지지 않게. */}
+      <div className="app-container flex items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400" style={{ paddingTop: 0, paddingBottom: 0 }}>
         <span>
           {styleText} · {experienceLabel}{" "}
           <Link href="/settings/fit" className="font-semibold text-brand" data-testid="fit-style-change">
-            목표 바꾸기
+            변경
           </Link>
         </span>
         <details className="group relative" data-testid="fit-how">
-          <summary className="flex cursor-pointer list-none items-center gap-1 font-semibold text-zinc-500 dark:text-zinc-400">
-            <Info aria-hidden="true" size={13} /> 계산 방법
+          <summary
+            aria-label="계산 방법"
+            className="grid h-8 w-8 cursor-pointer list-none place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
+          >
+            <Info aria-hidden="true" size={15} />
           </summary>
           <div className="absolute right-0 z-10 mt-2 w-72 rounded-xl border border-[var(--line)] bg-white p-3 text-xs leading-5 text-zinc-600 shadow-lg dark:bg-zinc-900 dark:text-zinc-300">
-            지난 7일 운동 기록으로 세부 근육 25개가 받은 자극(세트)을 셉니다. 가입 때 고른 몸 목표·경력에 맞춘 주간
-            목표와 비교해, 모자란 곳을 가장 많이 채우는 운동을 고릅니다. 아픈 부위와 내 헬스장에 없는 기구는 뺍니다.
+            지난 7일 기록 → 세부 근육 25개 세트 → 내 목표와 비교. 아픈 부위·없는 기구는 빼고 추천해요.
           </div>
         </details>
       </div>
       {cold ? (
-        <p className="app-container pb-2 text-xs text-zinc-500 dark:text-zinc-400" data-testid="fit-cold">
-          이번 주 기록이 아직 없어 가입 때 고른 목표 비율로 추천해요. 운동할수록 내 기록에 맞춰져요.
+        <p className="app-container text-xs text-zinc-500 dark:text-zinc-400" style={{ paddingTop: 4, paddingBottom: 0 }} data-testid="fit-cold">
+          기록이 없어 가입 목표로 추천해요
         </p>
       ) : null}
     </>
@@ -77,10 +80,10 @@ export function FitLocked({ what }: { what: string }) {
   return (
     <section className="app-card space-y-2 p-4 text-center" data-testid="fit-locked">
       <Lock aria-hidden="true" size={18} className="mx-auto text-zinc-400" />
-      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{what} · 라이트에서 볼 수 있어요</p>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">월 990원</p>
+      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{what}</p>
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">라이트에서 볼 수 있어요 · 월 990원</p>
       <Link href="/settings/subscription" className="inline-block text-sm font-semibold text-brand">
-        라이트 알아보기 →
+        라이트 보기 →
       </Link>
     </section>
   );

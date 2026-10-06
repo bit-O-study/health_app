@@ -6,7 +6,7 @@ import { addDaysYmd } from "@/features/groups/ranking";
 import { subMuscleWeightsForExercise } from "@/features/routine/muscle-detail";
 import { BEGINNER_SKIP, EXERCISE_STIMULUS, stimulusFor, type Stimulus } from "@/features/routine/exercise-stimulus";
 import { weeklyTargets, type BodyStyle } from "@/features/routine/body-targets";
-import { fitPickCount, targetStyleFor } from "@/features/profile/survey-extra";
+import { fitPickCount, sessionCapacity, targetStyleFor } from "@/features/profile/survey-extra";
 import {
   balanceRows,
   mostLacking,
@@ -15,6 +15,7 @@ import {
   recoveringSubs,
   subRows,
   weeklyStimulus,
+  withPlanned,
   type BalanceRow,
   type FitCandidate,
   type FitPick,
@@ -65,7 +66,12 @@ export type FitView = {
   experienceLabel: string;
   rows: SubRow[];
   parts: ReturnType<typeof partRows>;
+  /** 모자란 곳 — **오늘 할 운동까지 더해서**(추천 화면용). */
   lacking: SubRow[];
+  /** 오늘 할 운동 중 아직 안 끝낸 것 수(모자란 곳·추천 계산에 더한 것). */
+  plannedCount: number;
+  /** 오늘 운동이 1회 분량만큼 찼다(또는 오늘 추천을 이미 담았다) — 추천을 더 내밀지 않는다. */
+  todayFull: boolean;
   /** 추천 + 처방(세트·횟수·무게, 오늘만 담을 때와 같은 값). */
   picks: (FitPick & { prescription: Prescription | null })[];
   balance: BalanceRow[];
@@ -82,7 +88,14 @@ const EXP_LABEL: Record<string, string> = { beginner: "초급", intermediate: "�
  * (가입 직후 · `docs/sub-muscle-score-lite-plan-2026-10-01.html` 2-2).
  */
 /** @param opts.n 추천 개수를 직접 정할 때(아픈 부위 대체 — 바꿀 운동 수만큼). 없으면 1회 운동 시간대로. */
-export async function loadFitView(opts?: { n?: number; part?: BodyPart | null }): Promise<FitView | null> {
+export async function loadFitView(opts?: {
+  n?: number;
+  part?: BodyPart | null;
+  /** 오늘 추천을 이미 담았는가(쿠키). 담았으면 '더 추천 받기' 전까지 추천을 숨긴다. */
+  appliedToday?: boolean;
+  /** '더 추천 받기' — 오늘이 차도 추천을 낸다. */
+  more?: boolean;
+}): Promise<FitView | null> {
   const user = await getCurrentUser();
   if (!user) return null;
   const supabase = await createSupabaseServerClient();
@@ -119,6 +132,10 @@ export async function loadFitView(opts?: { n?: number; part?: BodyPart | null })
   const targets = weeklyTargets(style, profile?.experience);
   const stim = weeklyStimulus(records, stimulusOf);
   const rows = subRows(targets, stim);
+  // 추천은 오늘 할 운동까지 더해서 — 담은 뒤 다시 들어와도 같은 곳을 또 채우라고 하지 않게.
+  const doneToday = new Set(records.filter((r) => r.forDate === today && r.exerciseId).map((r) => r.exerciseId as string));
+  const planned = withPlanned(stim, todayIds, doneToday, stimulusOf);
+  const planRows = subRows(targets, planned.stim);
 
   // 후보: 손 점수가 있는 운동(검수된 점수) 중 내 헬스장에서 할 수 있고 아픈 부위가 아닌 것.
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
@@ -132,7 +149,10 @@ export async function loadFitView(opts?: { n?: number; part?: BodyPart | null })
     if (profile?.experience === "beginner" && BEGINNER_SKIP.has(id)) continue;
     candidates.push({ exerciseId: id, name: ex.name, equipment: pickAvailableEquipment(ex, gymSet) });
   }
-  const picks = pickExercises(candidates, targets, stim, stimulusOf, {
+  const todayFull = !!opts?.appliedToday || planned.count >= sessionCapacity(profile?.sessionMinutes);
+  // 오늘 추천 화면(appliedToday 를 넘긴 쪽)만 '오늘이 찼으면 숨김'을 쓴다 — 아픈 부위 대체 등 다른 호출은 그대로.
+  const gate = opts?.appliedToday !== undefined && todayFull && !opts.more && !opts.part;
+  const picks = gate ? [] : pickExercises(candidates, targets, planned.stim, stimulusOf, {
     // 1회 운동 시간에 맞춰 추천 개수(30분 2 · 45분 3 · 60분 4).
     n: opts?.n ?? fitPickCount(profile?.sessionMinutes),
     exclude: todayIds,
@@ -144,7 +164,9 @@ export async function loadFitView(opts?: { n?: number; part?: BodyPart | null })
     experienceLabel: EXP_LABEL[profile?.experience ?? "intermediate"] ?? "중급",
     rows,
     parts: partRows(targets, stim),
-    lacking: mostLacking(rows, 3),
+    lacking: mostLacking(planRows, 3),
+    plannedCount: planned.count,
+    todayFull,
     picks: picks.map((p) => ({
       ...p,
       prescription: profile

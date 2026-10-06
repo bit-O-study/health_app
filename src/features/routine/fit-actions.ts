@@ -1,6 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+
+import { seoulYmd } from "@/features/routine/data";
+import { FIT_APPLIED_COOKIE } from "@/features/routine/fit-view";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getFitAccess } from "@/features/routine/fit-access";
@@ -16,6 +20,10 @@ export async function applyFitPicksAction(items: unknown, mode: ApplyMode = "add
   if (!access.visible) return { ok: false, error: "맞춤 운동은 아직 사용할 수 없어요." };
   const r = await applyItemsTodayOnly(items, mode === "replace" ? "replace" : "add", access.full ? 10 : 1);
   if (r.ok) {
+    // 오늘 추천을 담았다는 표시 — 다시 들어와도 '또 담으세요' 대신 '오늘 운동 하러 가기'를 보여 준다.
+    if (r.added > 0) {
+      (await cookies()).set(FIT_APPLIED_COOKIE, seoulYmd(), { path: "/", maxAge: 60 * 60 * 36, sameSite: "lax" });
+    }
     revalidatePath("/fit");
     revalidatePath("/routine");
   }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getFitAccess } from "@/features/routine/fit-access";
@@ -13,7 +14,8 @@ import {
 } from "@/features/routine/exercise-catalog-labels";
 import { FitApplyCard, type FitPickView } from "@/features/routine/components/fit-apply-card";
 import { FitHeader, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
-import { fmtSets, recommendHeadline } from "@/features/routine/fit-view";
+import { FIT_APPLIED_COOKIE, fmtSets, recommendHeadline } from "@/features/routine/fit-view";
+import { seoulYmd } from "@/features/routine/data";
 import { PART_PREFIX } from "@/features/routine/fit";
 
 export const dynamic = "force-dynamic";
@@ -38,15 +40,16 @@ const OLD_TAB: Record<string, string> = {
 export default async function FitRecommendPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tab?: string; part?: string }>;
+  searchParams: Promise<{ tab?: string; part?: string; more?: string }>;
 }) {
   if (!(await getCurrentUser())) redirect("/login?redirect=/fit");
-  const { tab, part: rawPart } = await searchParams;
+  const { tab, part: rawPart, more } = await searchParams;
   if (tab && OLD_TAB[tab]) redirect(OLD_TAB[tab]);
   const access = await getFitAccess();
   if (!access.visible) notFound();
   const part = (PART_PREFIX as readonly string[]).includes(rawPart ?? "") ? (rawPart as BodyPart) : null;
-  const view = await loadFitView(part ? { part } : undefined);
+  const appliedToday = (await cookies()).get(FIT_APPLIED_COOKIE)?.value === seoulYmd();
+  const view = await loadFitView({ part, appliedToday, more: more === "1" });
   if (!view) redirect("/login?redirect=/fit");
 
   const full = access.full;
@@ -77,11 +80,24 @@ export default async function FitRecommendPage({
         <section className="app-card space-y-3 p-4" data-testid="fit-lacking">
           <div className="flex items-center justify-between gap-2">
             <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100" data-testid="fit-headline">
-              {part ? `${BODY_PART_LABEL[part]} 채우는 운동` : head.text}
+              {part
+                ? `${BODY_PART_LABEL[part]} 채우는 운동`
+                : view.lacking.length === 0 && view.plannedCount > 0
+                  ? "오늘 운동까지 하면 달성!"
+                  : head.text}
             </p>
             {part ? (
               <Link href="/fit" className="shrink-0 text-xs font-semibold text-brand" data-testid="fit-part-clear">
                 전체 보기
+              </Link>
+            ) : view.plannedCount > 0 ? (
+              // 오늘 할 운동(담은 추천 포함)도 이미 계산에 들어갔다는 표시 — 또 담으라는 게 아니다.
+              <Link
+                href="/routine"
+                className="shrink-0 rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand"
+                data-testid="fit-planned"
+              >
+                오늘 운동 {view.plannedCount}개 포함
               </Link>
             ) : null}
           </div>
@@ -100,7 +116,28 @@ export default async function FitRecommendPage({
             ))}
         </section>
 
-        {picks.length ? <FitApplyCard picks={picks} canReplace={full} /> : null}
+        {picks.length ? (
+          <FitApplyCard picks={picks} canReplace={full} />
+        ) : view.plannedCount > 0 || view.todayFull ? (
+          // 오늘 운동이 찼거나 오늘 추천을 이미 담았다 — 또 담으라고 하지 않고 운동하러 보낸다.
+          <section className="app-card space-y-2 p-4 text-center" data-testid="fit-today-done">
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              {appliedToday ? "오늘 추천을 담았어요" : "오늘 운동은 충분해요"}
+            </p>
+            <Link
+              href="/routine"
+              className="app-press flex h-11 items-center justify-center rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950"
+              data-testid="fit-go-today"
+            >
+              오늘 운동 하러 가기
+            </Link>
+            {full ? (
+              <Link href="/fit?more=1" className="inline-block text-xs font-semibold text-zinc-500 dark:text-zinc-400" data-testid="fit-more">
+                더 추천 받기
+              </Link>
+            ) : null}
+          </section>
+        ) : null}
         {!full ? <FitLocked what="추천 3개 · 고르기 · 바꾸기" /> : null}
       </main>
     </div>

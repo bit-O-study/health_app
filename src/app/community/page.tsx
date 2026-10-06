@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { getCurrentUser } from "@/lib/supabase/server";
+import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
+import { countUnreadCommunityNotifications } from "@/features/community/community-notify.server";
+import { getQuestionTags } from "@/features/community/data-access";
 import { isPostModerator } from "@/features/admin/admin";
 import { getAllGroups, getMyGroups } from "@/features/groups/data-access";
 import { getFeedPage } from "@/features/community/feed-page.server";
@@ -19,11 +21,16 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
   if (!user) redirect("/login?redirect=/community");
 
   // 현재 탭에서 필요한 데이터만 조회한다.
-  const [posts, canModerate, routineShares, applyTargets] = await Promise.all([
-    view === "routine" ? Promise.resolve(null) : getFeedPage(view ?? "workout", q),
+  const isQuestionView = view === "question" || view === "question_open";
+  // 루틴 카드로 그리는 보기 — 피드 조회 대신 루틴 소개를 읽는다(저장한 루틴은 커뮤니티 4-3).
+  const routineView = view === "routine" || view === "saved_routines";
+  const [posts, canModerate, routineShares, applyTargets, unread, questionTags] = await Promise.all([
+    routineView ? Promise.resolve(null) : getFeedPage(view ?? "workout", q),
     isPostModerator(),
-    view === "routine" ? getRoutineShares() : Promise.resolve([]),
-    view === "routine" ? getApplyTargets() : Promise.resolve([]),
+    routineView ? getRoutineShares(30, { savedOnly: view === "saved_routines" }) : Promise.resolve([]),
+    routineView ? getApplyTargets() : Promise.resolve([]),
+    createSupabaseServerClient().then((db) => countUnreadCommunityNotifications(db)).catch(() => 0),
+    isQuestionView ? getQuestionTags().catch(() => []) : Promise.resolve([]),
   ]);
   // 디버깅(관리자) 계정은 그룹탭에서 모든 그룹 글을 볼 수 있게 전체 그룹 목록을 넘긴다.
   const groups = canModerate ? await getAllGroups() : await getMyGroups();
@@ -40,6 +47,8 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
         canModerate={canModerate}
         routineShares={routineShares}
         applyTargets={applyTargets}
+        unreadNotifications={unread}
+        questionTags={questionTags}
       />
     </main>
   );

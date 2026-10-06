@@ -11,6 +11,7 @@ import { EXTRA_LOAD_CLASS } from "@/features/routine/exercise-catalog-extra-maps
 export type LoadClass = "heavy" | "medium" | "light" | "bodyweight";
 
 const LOAD_CLASS: Record<string, LoadClass> = {
+  "wall-angel": "bodyweight",
   // 기본
   squat: "heavy",
   deadlift: "heavy",

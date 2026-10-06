@@ -59,7 +59,7 @@ test("독립 트레이너 이용권·초대 수락·공유 설정·연결 삭제
     await page.reload();
     await expect(page.getByRole("heading", { name: "담당 회원 · 1명", exact: true })).toBeVisible();
     await expect(page.getByText("비공개", { exact: true })).toHaveCount(2);
-    await page.getByRole("link", { name: "회원 통계 · 운동 처방", exact: true }).click();
+    await page.getByRole("link", { name: "관리", exact: true }).click();
     await page.getByRole("link", { name: "운동 통계", exact: true }).click();
     await expect(page.getByRole("heading", { name: "통계 요약", exact: true })).toBeVisible();
     await expect(page.getByText("아직 완료한 운동이 없어요", { exact: true })).toBeVisible();

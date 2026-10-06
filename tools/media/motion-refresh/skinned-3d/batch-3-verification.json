@@ -1,0 +1,217 @@
+{
+  "verifiedAt": "2026-09-30T07:13:12.324Z",
+  "results": [
+    {
+      "id": "dumbbell-shoulder-press",
+      "inputs": [
+        {
+          "file": "studio-batch-3.mjs",
+          "sha256": "fb70126addac3bb26d6e09079c9e773c543c37c4974b80088291a8601a0f54fc"
+        },
+        {
+          "file": "exercise-motion-3.mjs",
+          "sha256": "b938bbbc7674de8474f755632bc3eaf62549b9dd2e32cc7bbd91e81d6bc5c955"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-shoulder-press.mp4",
+          "sha256": "25c0ce0cc28bd79d06c3eab4e1f24f20142665ac8495cf2ceccd520cd75b27f6",
+          "bytes": 390658,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-shoulder-press-dark.mp4",
+          "sha256": "765e5bcb8a75d09d40ffef3625f686f0c7d484eb82fd5d8910d767dfe26f5ac4",
+          "bytes": 350059,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "alternating-dumbbell-shoulder-press",
+      "inputs": [
+        {
+          "file": "studio-batch-3.mjs",
+          "sha256": "fb70126addac3bb26d6e09079c9e773c543c37c4974b80088291a8601a0f54fc"
+        },
+        {
+          "file": "exercise-motion-3.mjs",
+          "sha256": "b938bbbc7674de8474f755632bc3eaf62549b9dd2e32cc7bbd91e81d6bc5c955"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-shoulder-press.mp4",
+          "sha256": "be3f0702177f6a43a8ae588c84250eef25a5f64cf59fc1d333faf8499d8e10ef",
+          "bytes": 259078,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-shoulder-press-dark.mp4",
+          "sha256": "0586a9323cd5975cd834a1fd97e2985bf64578928a3a5b455e66101f1fee6b7e",
+          "bytes": 235207,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "single-arm-dumbbell-front-raise",
+      "inputs": [
+        {
+          "file": "studio-batch-3.mjs",
+          "sha256": "fb70126addac3bb26d6e09079c9e773c543c37c4974b80088291a8601a0f54fc"
+        },
+        {
+          "file": "exercise-motion-3.mjs",
+          "sha256": "b938bbbc7674de8474f755632bc3eaf62549b9dd2e32cc7bbd91e81d6bc5c955"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-front-raise.mp4",
+          "sha256": "7999488d91ecb4b8712c38e4e335735078e3d1be546bae474421fb741e901cd8",
+          "bytes": 258405,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-front-raise-dark.mp4",
+          "sha256": "06a56bfe39a46f4b4218e5d591c7248860d49ad96d1c0ffc03a40d9a8231f516",
+          "bytes": 248386,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "single-arm-dumbbell-lateral-raise",
+      "inputs": [
+        {
+          "file": "studio-batch-3.mjs",
+          "sha256": "fb70126addac3bb26d6e09079c9e773c543c37c4974b80088291a8601a0f54fc"
+        },
+        {
+          "file": "exercise-motion-3.mjs",
+          "sha256": "b938bbbc7674de8474f755632bc3eaf62549b9dd2e32cc7bbd91e81d6bc5c955"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-lateral-raise.mp4",
+          "sha256": "f1110d87635bda4309309d5066574d304da8f13b3aa732920c47f0d738d88f38",
+          "bytes": 254875,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-lateral-raise-dark.mp4",
+          "sha256": "b7757615ce157cf623bfd8dd1f5fff1af586f33ec47fb7f83396bf7e12207e1c",
+          "bytes": 226664,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 4
+          }
+        }
+      ]
+    }
+  ]
+}

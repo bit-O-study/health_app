@@ -1,0 +1,57 @@
+{
+  "id": "triceps-kickback",
+  "renderer": "fixed-arm-rig-v1",
+  "timing": "smooth",
+  "rigSource": "triceps-kickback-atlas.png",
+  "sourceAtlasSha256": "2f0601947bc93ad5688627c39052896ed1f12e3d8b2b56bb65d1e1419d9634df",
+  "rig": {
+    "body": {
+      "crop": [
+        85,
+        45,
+        790,
+        1110
+      ],
+      "at": [
+        170,
+        60
+      ],
+      "scale": 0.51
+    },
+    "limbs": [
+      {
+        "crop": [
+          1000,
+          440,
+          235,
+          415
+        ],
+        "pivot": [
+          1060,
+          493
+        ],
+        "joint": [
+          483,
+          395
+        ],
+        "scale": 0.32,
+        "sourceAngle": 77,
+        "start": 88,
+        "end": 136
+      }
+    ]
+  },
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "f7324ec799e8ea1524fe84f88b5c889389df5bf3c43f32a6afa0717640933b48",
+      "bytes": 121046
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "fc24cf73d178d0925c88592bd58b8689f8045aa87c5992183965ce251db1b13f",
+      "bytes": 109726
+    }
+  ]
+}

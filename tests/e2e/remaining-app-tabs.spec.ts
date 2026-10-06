@@ -1,4 +1,4 @@
-﻿import { expect, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb, dbQuery } from "./helpers/db";
 const uid = `(select id from auth.users where email=$1)`;
@@ -27,12 +27,12 @@ test("식단 즐겨찾기 저장·담기 및 앱별 메뉴와 그룹 로고", as
   for(const label of ["운동 영상","루틴 공유","내 글"]) { await nav.getByRole("link",{name:label,exact:true}).click(); await expect(nav.getByRole("link",{name:label,exact:true})).toHaveAttribute("aria-current","page"); }
   await page.goto("/groups/find",{waitUntil:"networkidle"});
   await expect(nav.getByRole("link")).toHaveText(["내 그룹","그룹 찾기","홈","그룹 알림","내 활동"]);
-  await expect(page.getByRole("link",{name:"짐꾼 홈",exact:true})).toBeVisible();
+  await expect(page.getByRole("link",{name:"헬쑤 홈",exact:true})).toBeVisible();
   for(const label of ["그룹 알림","내 활동"]) { await nav.getByRole("link",{name:label,exact:true}).click(); await expect(nav.getByRole("link",{name:label,exact:true})).toHaveAttribute("aria-current","page"); await expect(page.getByText("표시할 그룹 글이 없어요.")).toBeVisible(); }
   const [group]=await dbQuery<{id:string}>(`insert into groups(owner_id,name) values (${uid},'로고 검증 그룹') returning id`,[email]);
   await dbQuery(`insert into group_members(group_id,user_id,role,display_name) values ($2,${uid},'owner','검증 회원') on conflict(group_id,user_id) do nothing`,[email,group.id]);
   await page.goto(`/groups?g=${group.id}`,{waitUntil:"networkidle"});
-  await expect(page.getByRole("link",{name:"짐꾼 홈",exact:true})).toBeVisible();
+  await expect(page.getByRole("link",{name:"헬쑤 홈",exact:true})).toBeVisible();
   await page.goto("/groups/notifications",{waitUntil:"networkidle"});
   await expect(page.getByText(/로고 검증 그룹에 참여했어요/)).toBeVisible();
 });

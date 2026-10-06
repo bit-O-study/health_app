@@ -1,4 +1,5 @@
 vi.mock("@/features/routine/recommendation-data", () => ({getRecommendationContext: vi.fn(async () => null)}));
+vi.mock("@/features/routine/checkin-data", () => ({getPainAreas: vi.fn(async () => [])}));
 import { describe, expect, it, vi } from "vitest";
 
 import {

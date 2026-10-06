@@ -182,3 +182,27 @@ describe("처음 하는 운동 — 준비 카드(한 줄 코치 2단계)", () =>
     expect(te).toContain("isFirstTimeExercise(doneRecords, p.exerciseId, todayYmd)");
   });
 });
+
+
+it("keeps approved smooth lateral raise captions in sync through the loop and cache-version URL", () => {
+  for (const suffix of ["", "-dark"]) {
+    const spec = motionSpecForUrl(`/exercise-guides/ai-v3/dumbbell-lateral-raise${suffix}.mp4?v=rigid-2d-v1`)!;
+    expect(spec.timing).toBe("smooth");
+    expect(motionPhaseAt(0, spec)).toBe("start");
+    expect(motionPhaseAt(3.5, spec)).toBe("move");
+    expect(motionPhaseAt(4, spec)).toBe("peak");
+    expect(motionPhaseAt(7, spec)).toBe("return");
+    expect(motionPhaseAt(8, spec)).toBe("start");
+    expect(motionPhaseAt(12, spec)).toBe("peak");
+  }
+});
+
+it("keeps isometric captions in the hold action through every loop phase", () => {
+  for (const id of ["hollow-body-hold", "plate-pinch", "stability-ball-plank", "side-plank", "hollow-hold"]) {
+    const spec = motionSpecForUrl(`/exercise-guides/ai-v3/${id}.mp4?v=isometric-hold-v1`)!;
+    expect(spec.timing).toBe("hold");
+    for (const seconds of [0, 1, 3.8, 4, 6, 7.9, 8, 12]) {
+      expect(slotOfPhase(motionPhaseAt(seconds, spec))).toBe(1);
+    }
+  }
+});

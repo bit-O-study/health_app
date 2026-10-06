@@ -45,6 +45,12 @@ import {
   isDayBlockId,
 } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { DailyCheckinCard } from "@/features/routine/components/daily-checkin-card";
+import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
+import { painConflicts, type Checkin } from "@/features/routine/checkin";
+import { loadPainSwapPreview, type PainSwapPreview } from "@/features/lite/pain-swap-data";
+import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import {
   getLastExerciseValues,
   getTodayCompletedItems,
@@ -52,7 +58,7 @@ import {
 import { getTodayCompletedConditioning } from "@/features/routine/conditioning-completions";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import { getExerciseMediaMapAll } from "@/features/exercises/exercise-media";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
@@ -85,7 +91,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
       {/* 랜드마크 이름에 "운동"을 쓰지 않는다 — 운동 고르기 목록의 aria-label="운동"과
           겹쳐 접근성 트리에서 두 개로 잡힌다(2026-09-19 E2E 회귀). */}
       <nav aria-label="트레이닝 도구" className="flex min-h-11 items-center justify-between">
-        <Link href="/home" aria-label="짐꾼 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
+        <Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
@@ -130,8 +136,8 @@ function warmTodayExercisesData(todayYmd: string) {
   void getLastExerciseValues().catch(swallow);
   void getDailyConditioning(todayYmd).catch(swallow);
   void getExerciseMediaMapAll().catch(swallow);
-  void isDebugFeatureEnabled("helssu-coach").catch(swallow);
-  void isDebugFeatureEnabled("equipment-scan").catch(swallow);
+  void isAiFeatureEnabled("helssu-coach").catch(swallow);
+  void isAiFeatureEnabled("equipment-scan").catch(swallow);
 }
 
 export default async function Home() {
@@ -141,15 +147,22 @@ export default async function Home() {
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
   // '이번 주' 카드는 홈에만 둔다(2026-09-15 깔끔·촘촘 — 운동탭에서 같은 카드를 두 번 보지 않게).
-  const [profile, routine, dailyPlan, trainerComments] = user
+  const [profile, routine, dailyPlan, trainerComments, todayCheckin, painAreas, todayIds] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
         getDailyPlanForDate(todayYmd),
         // 트레이너 코멘트도 같은 물결에. 대부분 0건이라 화면에 아무것도 안 그린다.
         getMyTrainerComments(3),
+        // 오늘 컨디션·아픈 부위(무료, 2026-09-30) — 운동 전 카드. 같은 물결에.
+        getTodayCheckin(),
+        getPainAreas(),
+        todayExerciseIds(),
       ])
-    : [null, null, [], []];
+    : [null, null, [], [], null, [], new Set<string>()];
+
+  // 아픈 부위 대체(라이트 2단계, 2026-10-02) — 아픈 부위를 정한 사람만 한 번 더 읽는다(대부분 0).
+  const painSwap = user && painAreas.length ? await loadPainSwapPreview().catch(() => null) : null;
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -188,6 +201,10 @@ export default async function Home() {
             routine={routine}
             profile={profile}
             dailyPlan={dailyPlan}
+            todayCheckin={todayCheckin}
+            painAreas={painAreas}
+            todayIds={todayIds}
+            painSwap={painSwap}
           />
         )}
       </main>
@@ -260,7 +277,15 @@ function TodayWorkout({
   routine,
   profile,
   dailyPlan,
+  todayCheckin,
+  painAreas,
+  todayIds,
+  painSwap,
 }: {
+  todayCheckin: Checkin | null;
+  painAreas: BodyPart[];
+  todayIds: ReadonlySet<string>;
+  painSwap: PainSwapPreview | null;
   routine: {
     splits: number;
     variantId: string;
@@ -283,6 +308,8 @@ function TodayWorkout({
     routine.customWeek,
   );
   const todayYmd = seoulYmd();
+  // 오늘 컨디션·아픈 부위(무료, 2026-09-30) — 운동 전 카드.
+  const todayPain = painConflicts([...todayIds], painAreas);
 
   // (체형 목표·내다짐 카드는 홈탭으로 옮김 — 운동탭은 오늘 운동에 집중. #12/#19)
 
@@ -500,6 +527,10 @@ function TodayWorkout({
 
       {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
           '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
+      {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
+        <DailyCheckinCard today={todayYmd} initial={todayCheckin} painConflicts={todayPain} painSwap={painSwap} />
+      ) : null}
+
       <TodayEditScope>
         {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법. 밀린 빈 날(emptyChangedDay)도
             기존 빈 상태 UI(워밍업/본운동/마무리 각 섹션)를 그대로 띄운다. */}

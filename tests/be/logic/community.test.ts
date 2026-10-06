@@ -2,8 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   MAX_CAPTION,
-  postsForFilter,
-  publicOnly,
   relativeTime,
   validatePostInput,
 } from "@/features/community/community";
@@ -32,45 +30,6 @@ describe("community — validatePostInput", () => {
     expect(
       validatePostInput({ photoUrl: "http://x/y.png", caption: "" }).ok,
     ).toBe(true);
-  });
-});
-
-describe("community — publicOnly (전체 탭)", () => {
-  const posts = [
-    { id: "1", groupId: null },
-    { id: "2", groupId: "g1" },
-    { id: "3", groupId: null },
-  ];
-  it("전체 탭은 공개글만 — 그룹글 제외", () => {
-    expect(publicOnly(posts).map((p) => p.id)).toEqual(["1", "3"]);
-  });
-});
-
-describe("community — postsForFilter", () => {
-  const posts = [
-    { id: "1", groupId: null },
-    { id: "2", groupId: "g1" },
-    { id: "3", groupId: "g2" },
-    { id: "4", groupId: "g1" },
-  ];
-  it("empty selection → nothing (전체 모드는 컴포넌트가 별도 처리)", () => {
-    expect(postsForFilter(posts, [])).toEqual([]);
-  });
-  it("single group → only that group", () => {
-    expect(postsForFilter(posts, ["g1"]).map((p) => p.id)).toEqual(["2", "4"]);
-    expect(postsForFilter(posts, ["g2"]).map((p) => p.id)).toEqual(["3"]);
-  });
-  it("multiple groups → union (A그룹 + B그룹 둘 다)", () => {
-    expect(postsForFilter(posts, ["g1", "g2"]).map((p) => p.id)).toEqual([
-      "2",
-      "3",
-      "4",
-    ]);
-  });
-  it("public posts are never included when filtering by groups", () => {
-    expect(
-      postsForFilter(posts, ["g1", "g2"]).some((p) => p.groupId === null),
-    ).toBe(false);
   });
 });
 

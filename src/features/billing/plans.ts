@@ -1,0 +1,184 @@
+/**
+ * 요금제 — 2026-09-30 AI 트레이너 요금제 1단계(`docs/ai-trainer-plans-2026-09-30.html`).
+ *
+ * 순수 모듈(DB·서버 의존 없음). 무엇을 파는지·얼마인지·어느 상품이 어느 요금제인지만 안다.
+ * 누가 어느 요금제인지 판정하는 일은 `plan-store.ts` 가 한다.
+ *
+ * 🔴 요금제는 **구독한 상품 id** 에서 나온다. 예전 3,900원 상품(`helssu_premium_monthly`)은
+ * 그대로 베이직이다 — 상품 id 를 바꾸면 이미 구독한 사람의 결제가 끊긴다.
+ */
+import { netRevenueKrw } from "@/features/billing/products";
+import type { AiTier } from "@/features/coach/ai-quota";
+
+export type PlanId = "free" | "lite" | "basic" | "plus" | "pro";
+
+/** 싼 것부터 — 순서가 곧 등급이다(위 요금제는 아래 요금제 혜택을 모두 가진다). */
+export const PLAN_ORDER: readonly PlanId[] = ["free", "lite", "basic", "plus", "pro"];
+
+export type PlanBenefit = {
+  text: string;
+  /** 아직 만들지 않은 혜택은 화면에 '곧 제공'으로 표시한다 — 없는 걸 있는 척 팔지 않는다. */
+  ready: boolean;
+};
+
+export type PlanMeta = {
+  id: PlanId;
+  label: string;
+  /** 월 표시 가격(원, 부가세 포함). 실제 청구 가격은 플레이 콘솔이 정한다 — 바꾸면 여기도. */
+  priceKrw: number;
+  /** 플레이 콘솔 구독 상품 id. 글자 하나까지 같아야 한다. 무료는 null. */
+  productId: string | null;
+  tagline: string;
+  /** 카드에 따로 적는 안내 — 혜택이 아니라서(해지 안내의 '잃는 것'에 들어가면 안 된다) 따로 둔다. */
+  note?: string;
+  /** 이 요금제에서 **새로** 생기는 혜택(아래 요금제 것은 다시 적지 않는다). */
+  benefits: readonly PlanBenefit[];
+  /**
+   * 지금 새로 살 수 있나. false 면 구독 화면에 "오픈 준비 중"만 보이고 시작 버튼이 없다.
+   * 이미 구독 중인 사람·트레이너 연결 회원의 혜택은 그대로다(판매만 멈춤).
+   * 사용자 결정(2026-10-01): 지금은 라이트(990원)만 판매 — 나머지는 나중에 연다.
+   */
+  onSale: boolean;
+};
+
+export const PLANS: Record<PlanId, PlanMeta> = {
+  free: {
+    id: "free",
+    label: "무료",
+    priceKrw: 0,
+    productId: null,
+    tagline: "기록하고 규칙으로 추천받기",
+    onSale: false,
+    benefits: [
+      { text: "운동·식단·수분·몸무게 기록", ready: true },
+      { text: "규칙 기반 루틴 추천", ready: true },
+      { text: "카메라로 횟수 세기", ready: true },
+    ],
+  },
+  /**
+   * 라이트 990원(2026-10-01, `docs/sub-muscle-score-lite-plan-2026-10-01.html`).
+   * **AI 없이** 내 기록으로 만드는 리포트·규칙 추천만 — 원가 0원. AI 는 아예 못 쓴다
+   * (2026-10-01 사용자 결정, `aiTierForPlan` → "none"). 무료와 베이직(AI) 사이에서 '처음 결제해 보는' 입구.
+   */
+  lite: {
+    id: "lite",
+    label: "라이트",
+    priceKrw: 990,
+    productId: "helssu_lite_monthly",
+    tagline: "내 기록으로 맞추는 운동 · 리포트 · 운영자 상담",
+    onSale: true,
+    // 2026-10-05 병합: 헬쑤 코칭(운영자 상담)을 라이트에 합치고, 혜택 12줄을 6줄로 묶었다(카드가 길어 안 보였다).
+    // 운동을 바꾸는 건 모두 오늘만 운동 변경(사용자 결정) — 루틴은 안 바꾼다. 모두 AI 없이 내 기록으로.
+    benefits: [
+      { text: "맞춤 운동: 세부 부위 25개 점수 · 모자란 곳 채우는 추천", ready: true },
+      { text: "내 기록 리포트: 성장·체성분·컨디션·식단·수분/걸음", ready: true },
+      { text: "3개월 목표 · 몸 사진 비교 · 1년 돌아보기", ready: true },
+      { text: "아픈 부위 운동을 오늘만 다른 운동으로", ready: true },
+      { text: "운영자 상담함 — 남기면 운영자가 직접 답해요", ready: true },
+      { text: "주간 정리 알림 · 홈 배너 없음 · 라이트 배지", ready: true },
+    ],
+    // 🔴 라이트엔 AI 가 없다 — 무료 회원의 AI 맛보기도 없다(2026-10-01 사용자 결정).
+    note: "AI 기능은 없어요. 상담은 운영자가 확인 후 답해요(바로 오지 않을 수 있어요).",
+  },
+  basic: {
+    id: "basic",
+    label: "베이직",
+    // 2026-10-05: 나중에 여는 AI 요금제 자리 — 3,990원(사용자 계획). 지금은 오픈 준비 중.
+    priceKrw: 3_990,
+    productId: "helssu_premium_monthly",
+    tagline: "매일 오늘 운동을 짜 주는 AI 트레이너",
+    onSale: false,
+    benefits: [
+      { text: "AI 기능 사용 횟수 늘리기", ready: true },
+      { text: "AI 트레이너 탭: 오늘의 운동 제안 → 적용하면 오늘만 변경", ready: false },
+      { text: "AI 식단 관리(하루 목표·저녁 피드백)", ready: false },
+      { text: "AI 다짐 추천", ready: false },
+    ],
+  },
+  plus: {
+    id: "plus",
+    label: "플러스",
+    priceKrw: 6_900,
+    productId: "helssu_plus_monthly",
+    tagline: "루틴까지 손보는 AI 트레이너",
+    onSale: false,
+    benefits: [
+      { text: "주 1회 루틴 점검(확인하면 루틴에 반영)", ready: false },
+      { text: "4주 목표 리포트", ready: false },
+    ],
+  },
+  pro: {
+    id: "pro",
+    label: "프로",
+    priceKrw: 9_900,
+    productId: "helssu_pro_monthly",
+    tagline: "자세까지 봐 주는 AI 트레이너",
+    onSale: false,
+    benefits: [{ text: "AI 자세 코칭 상세(구간별 교정, 글·음성)", ready: false }],
+  },
+};
+
+export const PAID_PLANS: readonly PlanId[] = ["lite", "basic", "plus", "pro"];
+
+export function isPlanId(v: unknown): v is PlanId {
+  return typeof v === "string" && (PLAN_ORDER as readonly string[]).includes(v);
+}
+
+export function planRank(p: PlanId): number {
+  return PLAN_ORDER.indexOf(p);
+}
+
+/** 둘 중 높은 요금제. 개인 구독·팀 구독·트레이너 연결을 합칠 때 쓴다. */
+export function higherPlan(a: PlanId, b: PlanId): PlanId {
+  return planRank(a) >= planRank(b) ? a : b;
+}
+
+/** `current` 가 `min` 이상인가 — 기능 게이트용. */
+export function hasPlan(current: PlanId, min: PlanId): boolean {
+  return planRank(current) >= planRank(min);
+}
+
+/**
+ * 구독 상품 id → 요금제.
+ *
+ * 모르는 상품 id 는 **베이직**으로 본다. 결제는 됐는데(서버가 구글에 확인함) 우리 표에 없는
+ * 상품이라면, 무료로 떨어뜨리면 돈 낸 사람이 아무것도 못 받고, 위 요금제로 올리면 안 산 걸
+ * 준다. 가장 낮은 유료 등급이 둘 다 피한다.
+ */
+export function planForProduct(productId: string | null | undefined): PlanId {
+  for (const p of PAID_PLANS) {
+    if (PLANS[p].productId === productId) return p;
+  }
+  return "basic";
+}
+
+/**
+ * 트레이너 정액권·팀 구독(트레이너·헬스장)이 회원에게 주는 요금제 — 사용자 결정(2026-09-30).
+ * 루틴은 트레이너도 손보므로 플러스까지. 자세 코칭 상세(프로)는 트레이너의 일이다.
+ */
+export const SPONSORED_PLAN: PlanId = "plus";
+
+/**
+ * 🔴 AI 오픈 스위치(2026-10-01 사용자 결정): "지금은 AI 오픈 안 하고, 990원 사람이 많이 모이면 그걸로 오픈".
+ * false 인 동안은 **누구도**(무료 맛보기·트레이너/팀 연결 플러스 포함) AI 를 못 쓴다 — 버튼은 숨고 서버가 막는다.
+ * 열 때는 이 값만 true 로 바꾸면 아래 요금제별 칸(무료=맛보기, 라이트=없음, 베이직부터 프리미엄)이 살아난다.
+ */
+export const AI_OPEN = false;
+
+/** AI 사용 한도 칸. AI 가 닫혀 있으면 모두 none. 열리면 무료=맛보기, 라이트=AI 없음, 베이직부터 프리미엄. */
+export function aiTierForPlan(p: PlanId, open: boolean = AI_OPEN): AiTier {
+  if (!open) return "none";
+  // 🔴 라이트(990원)에는 AI 가 없다(2026-10-01 사용자 결정) — 무료 맛보기 칸도 아니다.
+  if (p === "lite") return "none";
+  return p === "free" ? "free" : "premium";
+}
+
+/** 요금제의 실수령(원) — 부가세 빼고 플레이 수수료 뗀 값. 무료는 0. */
+export function planNetRevenueKrw(p: PlanId): number {
+  return p === "free" ? 0 : netRevenueKrw(PLANS[p].priceKrw);
+}
+
+/** 이 요금제에서 쓸 수 있는 혜택 전부(아래 요금제 것 포함), 싼 요금제 것부터. */
+export function benefitsUpTo(p: PlanId): PlanBenefit[] {
+  return PLAN_ORDER.slice(0, planRank(p) + 1).flatMap((id) => [...PLANS[id].benefits]);
+}

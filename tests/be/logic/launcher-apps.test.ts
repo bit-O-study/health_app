@@ -206,9 +206,22 @@ describe("런처 격자", () => {
   it("펫은 관리자가 공개해야 나타나며 다짐은 펫에 속하지 않는다", () => {
     expect(visibleApps().some((a) => a.id === "pet")).toBe(false);
     expect(visibleApps(["pet"]).some((a) => a.id === "pet")).toBe(true);
-    expect(appForPath("/commitments")).toBeNull();
+    expect(appForPath("/commitments")?.id).toBe("commitments");
   });
-  it("짐꾼쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
+  it("다짐 앱(2026-10-06) — 하단바는 다짐 리스트·생성·현황·그룹별, 편집 화면은 리스트 칸", () => {
+    expect(visibleApps().some((a) => a.id === "commitments")).toBe(true);
+    expect(bottomTabsForPath("/commitments/status").map((t) => t.label)).toEqual([
+      "다짐 리스트",
+      "다짐 생성",
+      "홈",
+      "다짐 현황",
+      "그룹별 다짐",
+    ]);
+    const edit = "/commitments/123e4567-e89b-12d3-a456-426614174000/edit";
+    expect(bottomTabsForPath(edit).filter((t) => isTabActive(t, edit)).map((t) => t.label)).toEqual(["다짐 리스트"]);
+    expect(bottomTabsForPath("/commitments/new").filter((t) => isTabActive(t, "/commitments/new")).map((t) => t.label)).toEqual(["다짐 생성"]);
+  });
+  it("헬쑤쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
     expect(visibleApps().some((a) => a.id === "coach")).toBe(false);
     expect(visibleApps(["helssu-coach"]).some((a) => a.id === "coach")).toBe(true);
   });

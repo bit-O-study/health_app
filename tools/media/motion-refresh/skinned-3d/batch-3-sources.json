@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-09-30T07:13:21.242Z",
+  "sources": [
+    {
+      "id": "dumbbell-shoulder-press",
+      "url": "https://www.muscleandstrength.com/exercises/standing-dumbbell-press.html",
+      "implementation": "Standing bilateral press, palms forward, shoulder-height start, controlled overhead extension."
+    },
+    {
+      "id": "alternating-dumbbell-shoulder-press",
+      "url": "https://www.muscleandstrength.com/exercises/alternate-standing-dumbbell-press.html",
+      "implementation": "One press at a time; opposite arm remains at shoulder-height start."
+    },
+    {
+      "id": "single-arm-dumbbell-front-raise",
+      "url": "https://www.muscleandfitness.com/workouts/shoulder-exercises/how-to-do-the-dumbbell-front-raise-muscles-worked-form-benefits/",
+      "implementation": "Single-arm variation of front raise; slight elbow bend, wrist below shoulder, stable torso."
+    },
+    {
+      "id": "single-arm-dumbbell-lateral-raise",
+      "url": "https://www.muscleandstrength.com/exercises/one-arm-dumbbell-lateral-raise.html",
+      "implementation": "Single-arm sideways raise to shoulder height, controlled lowering and stable torso."
+    }
+  ]
+}

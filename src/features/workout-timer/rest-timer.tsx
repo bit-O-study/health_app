@@ -25,6 +25,7 @@ import {
   cancelRestLocalNotif,
 } from "@/features/notifications/local-notif";
 import { speak } from "@/features/workout-timer/speech";
+import { readWorkoutVoice } from "@/features/workout-timer/workout-voice";
 
 type RestState = {
   /** 종료 예정 시각(ms epoch) */
@@ -246,7 +247,7 @@ function RestOverlay({
   const voiceText = state.hint?.voice ?? null;
   const spokenRef = useRef(false);
   useEffect(() => {
-    if (!voiceText || spokenRef.current || done) return;
+    if (!voiceText || spokenRef.current || done || !readWorkoutVoice()) return;
     if (state.totalSec > REST_VOICE_LEAD_SEC && remainingSec <= REST_VOICE_LEAD_SEC) {
       spokenRef.current = true;
       speak(voiceText);

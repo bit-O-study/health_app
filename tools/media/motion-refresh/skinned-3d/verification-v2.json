@@ -1,0 +1,43 @@
+{
+  "verifiedAt": "2026-09-30T05:47:54.024Z",
+  "results": [
+    {
+      "suffix": "",
+      "sha256": "d8f74addf600a25901ac50070ea791dc00c5af06f84ba44b19461c33ee02d870",
+      "decodedFrames": 480,
+      "width": 1080,
+      "height": 1080,
+      "fps": 60,
+      "playback": {
+        "width": 1080,
+        "height": 1080,
+        "duration": 8,
+        "looped": true,
+        "error": null,
+        "overflow": false,
+        "quality": {
+          "dropped": 3
+        }
+      }
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "553eab0c66d7039f42d55a37aa7d09008e4a89d82ae2a4f8146161160b234ba7",
+      "decodedFrames": 480,
+      "width": 1080,
+      "height": 1080,
+      "fps": 60,
+      "playback": {
+        "width": 1080,
+        "height": 1080,
+        "duration": 8,
+        "looped": true,
+        "error": null,
+        "overflow": false,
+        "quality": {
+          "dropped": 2
+        }
+      }
+    }
+  ]
+}

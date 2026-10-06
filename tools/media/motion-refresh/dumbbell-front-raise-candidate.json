@@ -1,0 +1,78 @@
+{
+  "id": "dumbbell-front-raise",
+  "renderer": "fixed-arm-rig-v1",
+  "timing": "smooth",
+  "rigSource": "dumbbell-front-raise-atlas.png",
+  "sourceAtlasSha256": "11b4884d42bd7feec885ce054695294c9bd6868c5a60cdc1034f1054a8489207",
+  "rig": {
+    "body": {
+      "crop": [
+        290,
+        15,
+        390,
+        1200
+      ],
+      "at": [
+        220,
+        45
+      ],
+      "scale": 0.49
+    },
+    "limbs": [
+      {
+        "crop": [
+          880,
+          625,
+          215,
+          460
+        ],
+        "pivot": [
+          955,
+          688
+        ],
+        "joint": [
+          556,
+          287
+        ],
+        "scale": 0.59,
+        "sourceAngle": 83,
+        "start": 88,
+        "end": 0,
+        "behind": true
+      },
+      {
+        "crop": [
+          880,
+          125,
+          215,
+          455
+        ],
+        "pivot": [
+          952,
+          190
+        ],
+        "joint": [
+          366,
+          280
+        ],
+        "scale": 0.62,
+        "sourceAngle": 83,
+        "start": 88,
+        "end": 0
+      }
+    ]
+  },
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "bdbf9e539279cc89857164d602011ef9ec4dd1e28cf95c1c6f304f7f190291ec",
+      "bytes": 293220
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "4f573a934d0a62f0402f6cab78a56cb48428cb021748972aa303a1229919b81b",
+      "bytes": 225749
+    }
+  ]
+}

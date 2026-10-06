@@ -1,0 +1,36 @@
+{
+  "id": "dumbbell-reverse-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-reverse-curl.mp4",
+      "sha256": "5440e761e7778bb7ba485132b5beabd9d6992b470b8e67d4e1a8263ccae64994",
+      "bytes": 356908
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-reverse-curl-dark.mp4",
+      "sha256": "2882e1b28d3ff0cbbcd47ab4e39faf4cd27cb3b20afeeed4330a508d0a341dad",
+      "bytes": 301658
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-2.mjs",
+      "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+    },
+    {
+      "file": "exercise-motion-2.mjs",
+      "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

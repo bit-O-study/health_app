@@ -6,12 +6,13 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { purgeMyBodyPhotos } from "@/features/lite/body-photo-actions";
 
 export type WithdrawResult = { ok: true } | { ok: false; error: string };
 
 /**
  * 본인 자가탈퇴(소프트). profiles.withdrawn_at 을 기록하고 세션을 종료한다.
- * 데이터는 유지돼 관리자가 복구(withdrawn_at = null)할 수 있다.
+ * 데이터는 유지돼 관리자가 복구(withdrawn_at = null)할 수 있다. 단 몸 사진은 바로 지운다.
  */
 export async function withdrawSelfAction(
   reason?: string,
@@ -37,6 +38,9 @@ export async function withdrawSelfAction(
       // 컬럼 미존재 등 — 무시. (분석이 필요하면 profiles.withdraw_reason 컬럼 추가)
     }
   }
+
+  // 몸 사진은 복구 대상이 아니다 — 민감할 수 있어 탈퇴하면 파일까지 바로 지운다(2026-10-02).
+  await purgeMyBodyPhotos();
 
   // 즉시 로그아웃 — 쿠키 정리. 이후 미들웨어가 탈퇴 상태를 차단한다.
   try {

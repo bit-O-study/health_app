@@ -31,7 +31,8 @@ export default async function CommunityPostPage({
   return (
     <PostDetail
       post={post}
-      initialComments={comments}
+      initialComments={comments.comments}
+      initialHasMore={comments.hasMore}
       canManage={post.isMine || moderator}
     />
   );

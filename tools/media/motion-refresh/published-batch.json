@@ -1,0 +1,114 @@
+[
+  {
+    "id": "hollow-body-hold",
+    "renderer": "isometric-hold-v1",
+    "timing": "hold",
+    "width": 720,
+    "height": 720,
+    "fps": 60,
+    "seconds": 8,
+    "status": "reviewed-and-published",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "4dd9bd9ad3f76f5cbb8142e19b8ce0f25ae1795c373a14415371389d0009a50c",
+        "bytes": 47200,
+        "frames": 480,
+        "uniqueDecodedFrames": 14,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "97455e3811872f52697779398d1b342871484bf72cba907bb96b31a06301a482",
+        "bytes": 48542,
+        "frames": 480,
+        "uniqueDecodedFrames": 10,
+        "decode": "passed"
+      }
+    ],
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
+  },
+  {
+    "id": "plate-pinch",
+    "renderer": "isometric-hold-v1",
+    "timing": "hold",
+    "width": 720,
+    "height": 720,
+    "fps": 60,
+    "seconds": 8,
+    "status": "reviewed-and-published",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "1adc41b2908c39375b4a0c6fdecf25c5be7aa2af0fb3081e7e7bc5c29d74c4fe",
+        "bytes": 57182,
+        "frames": 480,
+        "uniqueDecodedFrames": 14,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "2b374ea537a861eb95f5e71aa01c55086936a0a618547fdcea4dffdac85578d6",
+        "bytes": 59714,
+        "frames": 480,
+        "uniqueDecodedFrames": 25,
+        "decode": "passed"
+      }
+    ],
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
+  },
+  {
+    "id": "stability-ball-plank",
+    "renderer": "isometric-hold-v1",
+    "timing": "hold",
+    "width": 720,
+    "height": 720,
+    "fps": 60,
+    "seconds": 8,
+    "status": "reviewed-and-published",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "43d4bdf15c25f67e52c76f25f34a41d4d7de933f2aea43814205eab566fbf1a6",
+        "bytes": 79517,
+        "frames": 480,
+        "uniqueDecodedFrames": 21,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "7d059de0abc1c9374c8a49da896327ac01e1a944a589c73a6c70b148c90975e8",
+        "bytes": 83702,
+        "frames": 480,
+        "uniqueDecodedFrames": 22,
+        "decode": "passed"
+      }
+    ],
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
+  },
+  {
+    "id": "dumbbell-shrug",
+    "renderer": "constrained-shrug-v1",
+    "timing": "smooth",
+    "width": 720,
+    "height": 720,
+    "seconds": 8,
+    "fps": 60,
+    "status": "reviewed-and-published",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "69a7622b02fd1415a65430fbdae14c891266a1384bb8459d31f780fe8917ae4d",
+        "bytes": 114518,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "c6699b4e8683e6571d227b7d5420a934ab4fe0942570ec9d337572f19b2cd538",
+        "bytes": 98702,
+        "decode": "passed"
+      }
+    ],
+    "reviewedAt": "2026-09-30T01:24:34.753Z"
+  }
+]

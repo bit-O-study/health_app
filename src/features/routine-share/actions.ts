@@ -17,6 +17,7 @@ import {
 } from "@/lib/supabase/server";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { resolveVisibility, type Visibility } from "@/features/community/feed";
+import { checkCommunityText } from "@/features/community/banned-words.server";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { routineDaySlots } from "@/features/routine/data";
 import {
@@ -49,6 +50,9 @@ export async function shareRoutineDayAction(input: {
 
   const bad = validateShareText(input.title, input.caption);
   if (bad) return { ok: false, error: bad };
+  // 금칙어(커뮤니티 4-3).
+  const banned = await checkCommunityText(input.title, input.caption);
+  if (!banned.ok) return banned;
 
   const vis = resolveVisibility(input.visibility, input.groupId ?? null);
   if (!vis.ok) return vis;
@@ -297,4 +301,29 @@ async function notifyRoutineSaved(
   } catch {
     /* 알림 실패는 무시 */
   }
+}
+
+/** 루틴 소개 저장(북마크) 토글 — 커뮤니티 4-3. 볼 수 있는 루틴만(RLS). */
+export async function toggleRoutineShareSaveAction(
+  shareId: string,
+): Promise<{ ok: true; saved: boolean } | { ok: false; error: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!shareId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data: existing } = await supabase
+    .from("routine_share_saves")
+    .select("share_id")
+    .eq("share_id", shareId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (existing) {
+    const { error } = await supabase.from("routine_share_saves").delete().eq("share_id", shareId).eq("user_id", user.id);
+    if (error) return { ok: false, error: error.message };
+    return { ok: true, saved: false };
+  }
+  const { error } = await supabase.from("routine_share_saves").insert({ share_id: shareId, user_id: user.id });
+  if (error?.code === "23505") return { ok: true, saved: true };
+  if (error) return { ok: false, error: "저장할 수 없는 루틴이에요." };
+  return { ok: true, saved: true };
 }

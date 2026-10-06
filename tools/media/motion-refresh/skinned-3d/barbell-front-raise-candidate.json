@@ -1,0 +1,36 @@
+{
+  "id": "barbell-front-raise",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/barbell-front-raise.mp4",
+      "sha256": "85db2c12a5a4fecc43c7d8b3486a0af49fa98c14ff9ab66a04c0e400449c6013",
+      "bytes": 485883
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/barbell-front-raise-dark.mp4",
+      "sha256": "c0faf7e6cdb05c6e922589ac4952f5bbf6e6a7d95fa017d7ea828fc22c80da24",
+      "bytes": 418304
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-6.mjs",
+      "sha256": "dcc108b9ad96e3f543992874e5b433a4de4952d38bd34ae586c96dd5cb0b824e"
+    },
+    {
+      "file": "exercise-motion-6.mjs",
+      "sha256": "7d418516112750dde2dfc4ca4e3c47d8602b89d6c25ce222618c7b3460d2f416"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

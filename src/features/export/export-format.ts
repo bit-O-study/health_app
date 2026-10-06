@@ -85,7 +85,7 @@ export const EXPORT_KINDS: Record<ExportKind, ExportKindMeta> = {
     ext: "csv",
     contentType: "text/csv; charset=utf-8",
     asciiBase: "helssu-workouts",
-    displayBase: "짐꾼-운동기록",
+    displayBase: "헬쑤-운동기록",
   },
   body: {
     label: "체중·체성분",
@@ -93,7 +93,7 @@ export const EXPORT_KINDS: Record<ExportKind, ExportKindMeta> = {
     ext: "csv",
     contentType: "text/csv; charset=utf-8",
     asciiBase: "helssu-body",
-    displayBase: "짐꾼-체중체성분",
+    displayBase: "헬쑤-체중체성분",
   },
   diet: {
     label: "식단 기록",
@@ -101,7 +101,7 @@ export const EXPORT_KINDS: Record<ExportKind, ExportKindMeta> = {
     ext: "csv",
     contentType: "text/csv; charset=utf-8",
     asciiBase: "helssu-diet",
-    displayBase: "짐꾼-식단기록",
+    displayBase: "헬쑤-식단기록",
   },
   backup: {
     label: "전체 데이터 백업",
@@ -109,7 +109,7 @@ export const EXPORT_KINDS: Record<ExportKind, ExportKindMeta> = {
     ext: "json",
     contentType: "application/json; charset=utf-8",
     asciiBase: "helssu-backup",
-    displayBase: "짐꾼-전체백업",
+    displayBase: "헬쑤-전체백업",
   },
 };
 

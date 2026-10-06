@@ -46,6 +46,7 @@ import { shortDateLabel } from "@/features/profile/body-chart-data";
 import { StepsSync } from "@/features/health/components/steps-sync";
 import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
 import {
@@ -115,7 +116,7 @@ export default async function CalendarPage({
     getLatestWeights(),
     getUserProfile(),
     isDebugFeatureEnabled("steps"),
-    isDebugFeatureEnabled("helssu-coach"),
+    isAiFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
     getUserRoutine(),
     // 연속 운동 일수 — 60일씩 필요한 만큼만(1년치 한 번에 → 1,000행 잘림).
@@ -388,7 +389,7 @@ export default async function CalendarPage({
       {/* 이달 기록 이미지 — 운동한 날·연속·런닝을 한 장으로(3단계). 월간에서만. */}
       {isWeek ? null : <ShareMonthImage month={monthParam({ year, month0 })} />}
 
-      {/* AI 다짐 짜주기 — 디버그 계정(짐꾼쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
+      {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
       {coachEnabled ? <CommitmentSuggestions /> : null}
     </main>
     </div>

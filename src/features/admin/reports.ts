@@ -16,6 +16,8 @@ export type ReportRow = {
   createdAt: string;
   /** 신고된 글/댓글이 아직 남아 있는지(삭제 버튼 상태). */
   contentExists: boolean;
+  /** 서로 다른 3명 신고로 자동 숨김 중(글·영상만 — 커뮤니티 3단계). 처리완료하면 다시 보인다. */
+  autoHidden: boolean;
   /** 작성자 정지 만료시각(ISO). 프로필을 못 읽으면(모더레이터) null. */
   targetSuspendedUntil: string | null;
   targetBannedAt: string | null;
@@ -69,13 +71,18 @@ export async function getReports(limit = 200): Promise<ReportRow[]> {
   const [aliveSets, banByUser] = await Promise.all([
     Promise.all(
       [...idsByKind].map(async ([kind, ids]) => {
+        const hasHidden = kind === "community_post" || kind === "teaching_post";
         const { data: alive } = await supabase
           .from(TABLE[kind])
-          .select("id")
+          .select(hasHidden ? "id, hidden_at" : "id")
           .in("id", ids);
+        const list = (alive ?? []) as unknown as { id: string; hidden_at?: string | null }[];
         return [
           kind,
-          new Set(((alive ?? []) as { id: string }[]).map((x) => x.id)),
+          {
+            alive: new Set(list.map((x) => x.id)),
+            hidden: new Set(list.filter((x) => x.hidden_at).map((x) => x.id)),
+          },
         ] as const;
       }),
     ),
@@ -116,7 +123,8 @@ export async function getReports(limit = 200): Promise<ReportRow[]> {
       reason: r.reason,
       status: r.status,
       createdAt: r.created_at,
-      contentExists: aliveByKind.get(r.target_kind)?.has(r.target_id) ?? false,
+      contentExists: aliveByKind.get(r.target_kind)?.alive.has(r.target_id) ?? false,
+      autoHidden: aliveByKind.get(r.target_kind)?.hidden.has(r.target_id) ?? false,
       targetSuspendedUntil: ban?.suspendedUntil ?? null,
       targetBannedAt: ban?.bannedAt ?? null,
     };

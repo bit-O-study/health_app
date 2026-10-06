@@ -1,0 +1,36 @@
+{
+  "id": "scaption",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/scaption.mp4",
+      "sha256": "b92471f9486f4b30c23e3af6b5f47567793c89ce97636945902e67daa3113ef4",
+      "bytes": 462784
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/scaption-dark.mp4",
+      "sha256": "3f6ce47a799f78d5c0d277d16e3be1f7a81812e2738edf3ed00167f870c28ab8",
+      "bytes": 394214
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-4.mjs",
+      "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+    },
+    {
+      "file": "exercise-motion-4.mjs",
+      "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

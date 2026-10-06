@@ -1,0 +1,25 @@
+{
+  "id": "dumbbell-shoulder-press",
+  "renderer": "articulated-atlas-v1",
+  "timing": "smooth",
+  "sourceAtlasSha256": "78d81b2069cb820ec845820c101add5ddbdfd21decc10ad526ec86c14808f1b8",
+  "status": "pending-visual-review",
+  "constraints": {
+    "upperArmLength": 80,
+    "forearmScale": 0.294,
+    "bodyScale": 0.79,
+    "peakSeconds": 4
+  },
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "4e638aab1c01ff0c0bf55a6ab4e375b92d15a0ac2d42ef25af651214a8236fe1",
+      "bytes": 297784
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "532d8ab0ee1e369c0c4684e7f220c7e3c6d11c1d00a2d8ebe7b4248b683c2879",
+      "bytes": 210957
+    }
+  ]
+}

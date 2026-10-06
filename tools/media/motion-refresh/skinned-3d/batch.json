@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T06:05:21.703Z",
+  "finishedAt": "2026-09-30T06:14:52.292Z",
+  "concurrency": 4,
+  "results": [
+    {
+      "id": "dumbbell-biceps-curl",
+      "pid": 32716,
+      "code": 0,
+      "elapsedMs": 522646
+    },
+    {
+      "id": "hammer-curl-2",
+      "pid": 27668,
+      "code": 0,
+      "elapsedMs": 507449
+    },
+    {
+      "id": "dumbbell-front-raise",
+      "pid": 20148,
+      "code": 0,
+      "elapsedMs": 559014
+    },
+    {
+      "id": "dumbbell-shrug",
+      "pid": 27428,
+      "code": 0,
+      "elapsedMs": 568118
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>운동 영상 수정 현황</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#111714;color:#edf4ef;font:16px system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:36px 20px}h1{font-size:30px}p{color:#b8c8bd;line-height:1.7}select,button{font:inherit;padding:12px;border-radius:10px;border:1px solid #506559;background:#22392b;color:inherit;max-width:100%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}article{border:1px solid #435348;border-radius:16px;overflow:hidden}h2{font-size:16px;padding:0 16px}video{width:100%;aspect-ratio:1;display:block;background:#fafafa}.controls{display:flex;gap:12px;flex-wrap:wrap}#status{color:#8eebbb}small{color:#98aa9d}@media(max-width:520px){.grid{gap:8px}h2{font-size:13px;padding:0 8px}h1{font-size:24px}}</style>
+<main><h1>운동 영상 수정 현황</h1><p id="counts">기존 영상 점검 결과를 불러오는 중입니다.</p>
+<select id="exercise" aria-label="운동 선택"></select><p id="status"></p>
+<div class="grid"><article><h2>기존 영상</h2><video id="before" controls muted loop playsinline preload="metadata"></video></article><article><h2>수정 영상 · 60fps</h2><video id="after" controls muted loop playsinline preload="metadata"></video></article></div>
+<div class="controls"><button id="play">처음부터 함께 재생</button><button id="pause">일시정지</button><button id="theme">다크 테마 보기</button></div>
+<p id="note"></p><small>수정 완료와 파일 검사 통과는 별개입니다. 실기기 검증과 배포는 아직 진행하지 않았습니다.</small></main>
+<script>
+const videos=[document.querySelector('#before'),document.querySelector('#after')];let dark=false,items=[];
+const select=document.querySelector('#exercise');
+function load(){const item=items[Number(select.value)];videos.forEach((v,i)=>{v.pause();v.src=(i?item.after:item.before)+(dark?'-dark':'')+'.mp4?v='+item.version;v.load();});document.querySelector('#status').textContent=item.status;document.querySelector('#note').textContent=item.note;}
+select.onchange=load;
+document.querySelector('#play').onclick=async()=>{videos.forEach(v=>v.currentTime=0);await Promise.all(videos.map(v=>v.play()));};
+document.querySelector('#pause').onclick=()=>videos.forEach(v=>v.pause());
+document.querySelector('#theme').onclick=e=>{dark=!dark;e.target.textContent=dark?'라이트 테마 보기':'다크 테마 보기';load();};
+fetch('progress.json').then(r=>r.json()).then(data=>{items=data.items;document.querySelector('#counts').textContent=`기존 ${data.existing}종 중 ${data.refreshed}종 수정 반영 · 파일 ${data.decodedFiles}개 디코딩 검사 통과 · 미제작 ${data.unrendered}종 대기`;items.forEach((item,i)=>{const o=document.createElement('option');o.value=i;o.textContent=item.name;select.append(o);});const wanted=new URLSearchParams(location.search).get('exercise');const selected=items.findIndex(item=>item.id===wanted);if(selected>=0)select.value=String(selected);load();});
+</script></html>

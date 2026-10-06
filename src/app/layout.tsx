@@ -16,6 +16,7 @@ import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { hasTrainerPass } from "@/features/trainer/data";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
@@ -30,7 +31,7 @@ import { absoluteUrl, siteConfig } from "@/lib/seo";
 // 지금은 DB(Supabase ap-southeast-1)와 같은 sin1 에 함수를 둔다 → 쿼리 왕복
 // 70~90ms → ~5ms. 되돌리려면 vercel.json 의 "regions" 한 줄만 고치면 된다.
 
-const PWA_ICON_VERSION = "20260929";
+const PWA_ICON_VERSION = "20261001";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,7 +45,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: { default: siteConfig.title, template: "%s | 짐꾼" },
+  title: { default: siteConfig.title, template: "%s | 헬쑤" },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   manifest: "/manifest.webmanifest",
@@ -126,7 +127,7 @@ export default async function RootLayout({
 
 async function ConfiguredBottomNav() {
   const [user, groupMode, coach, pet, trainer] = await Promise.all([
-    getCurrentUser(), getGroupMode(), isDebugFeatureEnabled("helssu-coach"), isDebugFeatureEnabled("pet"), hasTrainerPass(),
+    getCurrentUser(), getGroupMode(), isAiFeatureEnabled("helssu-coach"), isDebugFeatureEnabled("pet"), hasTrainerPass(),
   ]);
   return <BottomNav userId={user?.id} groupTheme={groupMode === "gym"} enabledFlags={[...(coach ? ["helssu-coach"] : []), ...(pet ? ["pet"] : []), ...(trainer ? ["trainer-pass"] : [])]} />;
 }

@@ -6,6 +6,8 @@ function hasValidReview(review, artifact) {
     Array.isArray(review.equipmentIds) && review.equipmentIds.length > 0 &&
     review.sourceSha256 === artifact.sourceSha256 &&
     review.videoSha256 === artifact.videoSha256 &&
+    ((review.rigSourceSha256 === undefined && artifact.rigSourceSha256 === undefined) ||
+      (typeof artifact.rigSourceSha256 === "string" && /^[a-f0-9]{64}$/.test(artifact.rigSourceSha256) && review.rigSourceSha256 === artifact.rigSourceSha256)) &&
     typeof review.sourceSha256 === 'string' && /^[a-f0-9]{64}$/.test(review.sourceSha256) &&
     typeof review.videoSha256 === 'string' && /^[a-f0-9]{64}$/.test(review.videoSha256) &&
     Array.isArray(review.sources) && review.sources.length > 0 &&

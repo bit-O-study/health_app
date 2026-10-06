@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-09-30T07:57:00.922Z",
+  "sources": [
+    {
+      "id": "barbell-curl",
+      "url": "https://cdn.muscleandstrength.com/exercises/standing-barbell-curl.html",
+      "implementation": "Supinated shoulder-width grip, fixed upper arms, controlled elbow flexion."
+    },
+    {
+      "id": "reverse-barbell-curl",
+      "url": "https://www.muscleandstrength.com/exercises/reverse-barbell-curl.html",
+      "implementation": "Pronated grip, controlled curl and lowering; model includes a brief peak hold."
+    },
+    {
+      "id": "wide-grip-barbell-curl",
+      "url": "https://www.muscleandstrength.com/exercises/wide-grip-standing-barbell-curl.html",
+      "implementation": "Wider than shoulder-width supinated grip with fixed hand spacing."
+    },
+    {
+      "id": "close-grip-barbell-curl",
+      "url": "https://www.muscleandstrength.com/exercises/close-grip-standing-barbell-curl.html",
+      "implementation": "Narrower than shoulder-width supinated grip, slight bottom elbow bend."
+    }
+  ]
+}

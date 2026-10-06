@@ -19,7 +19,15 @@ export const DEBUG_FEATURES = [
   },
   {
     id: "helssu-coach",
-    label: "짐꾼쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
+    label: "헬쑤쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
+  },
+  {
+    id: "ai-trainer",
+    label: "AI 트레이너 탭(✨ 내 상태로 오늘의 운동 제안 → 적용하면 오늘만 변경)",
+  },
+  {
+    id: "fit",
+    label: "맞춤 운동 앱(💪 세부 부위 추천·부위·균형 — 라이트 이상은 스위치와 상관없이 보임)",
   },
   {
     id: "diet-photo-ai",
@@ -40,25 +48,28 @@ export function debugValueEnabled(value: unknown): boolean {
 }
 
 /**
- * 기능 노출 범위 — 숨김(아무에게도 X) / debug(디버그 계정만) / public(전체 공개).
- * 관리자 설정에서 기능별로 이 3단계를 고른다.
+ * 기능 노출 범위 — 숨김(아무에게도 X) / debug(디버그 계정만) / lite(디버그 계정 + 라이트 이상 회원 먼저)
+ * / public(전체 공개). 관리자 설정에서 기능별로 이 4단계를 고른다.
+ * lite 는 2026-10-02 라이트 혜택 E1 "새 기능 먼저 써 보기" — 공개 전 기능을 990원 회원에게 먼저 연다.
  */
-export type DebugVisibility = "hidden" | "debug" | "public";
+export type DebugVisibility = "hidden" | "debug" | "lite" | "public";
 
 export const DEBUG_VISIBILITIES: readonly DebugVisibility[] = [
   "hidden",
   "debug",
+  "lite",
   "public",
 ];
 
 export const DEBUG_VISIBILITY_LABEL: Record<DebugVisibility, string> = {
   hidden: "숨김",
   debug: "디버그 계정만",
+  lite: "라이트 먼저",
   public: "전체 공개",
 };
 
 export function isDebugVisibility(v: unknown): v is DebugVisibility {
-  return v === "hidden" || v === "debug" || v === "public";
+  return v === "hidden" || v === "debug" || v === "lite" || v === "public";
 }
 
 /**
@@ -67,6 +78,7 @@ export function isDebugVisibility(v: unknown): v is DebugVisibility {
  */
 export function debugValueToVisibility(value: unknown): DebugVisibility {
   if (value === "public") return "public";
+  if (value === "lite") return "lite";
   if (value === false || value === "hidden") return "hidden";
   return "debug";
 }

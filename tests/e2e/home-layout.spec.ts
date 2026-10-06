@@ -14,7 +14,7 @@ test("홈: 광고 배너 → 앱 격자 → 요약 위젯 순서이고, 권한 �
 
   const grid = page.getByRole("navigation", { name: "앱" });
   await expect(grid).toBeVisible({ timeout: 10_000 });
-  // 짐꾼쌤·펫은 디버그 기능이 켜진 사용자에게만 — 보통 계정은 5개.
+  // 헬쑤쌤·펫은 디버그 기능이 켜진 사용자에게만 — 보통 계정은 5개.
   await expect(grid.getByRole("link")).toHaveCount(5);
   for (const app of ["운동", "식단", "캘린더", "그룹", "커뮤니티"]) {
     await expect(grid.getByRole("link", { name: app, exact: true })).toBeVisible();

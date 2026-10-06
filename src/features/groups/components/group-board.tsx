@@ -17,7 +17,7 @@ export function GroupBoard({
       {/* 상단: 그룹 탭(전환칩)만 — 헬스장과 같은 앰버 톤으로 이어 붙인다.
           앱(viewport-fit=cover)에선 상태바 밑으로 안 가리게 safe-area-top 만큼 내린다. */}
       <div className="shrink-0 bg-[#f7c07a] px-3 pt-[calc(env(safe-area-inset-top)+0.375rem)] dark:bg-[#5a4326]">
-        <Link href="/home" aria-label="짐꾼 홈" className="mb-2 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
+        <Link href="/home" aria-label="헬쑤 홈" className="mb-2 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
         <GroupSwitcher groups={groups} currentId={detail.id} />
       </div>
 

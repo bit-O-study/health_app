@@ -20,6 +20,7 @@ import { computeScore } from "@/features/routine/score";
 import { getFoodLogsForDate } from "@/features/diet/data-access";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { seoulYmd } from "@/features/routine/data";
+import { ageOf } from "@/features/profile/survey-extra";
 
 export const dynamic = "force-dynamic";
 
@@ -59,6 +60,7 @@ export default async function MyPage() {
     gender: profile.gender === "female" ? "female" : "male",
     weightKg: profile.weightKg,
     heightCm: profile.heightCm,
+    age: ageOf(profile.ageGroup),
   });
   const consumed = Math.round(logs.reduce((s, l) => s + l.kcal, 0));
   const kcalPct = target.kcal > 0 ? Math.min(100, (consumed / target.kcal) * 100) : 0;

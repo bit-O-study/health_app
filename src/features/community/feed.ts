@@ -3,8 +3,6 @@
  * 사진 인증(photo) 글과 운동 티칭 영상(teaching) 글을 한 피드에서 다룬다.
  */
 
-import { normalizeTag } from "@/features/teaching/teaching";
-
 /** 글 종류. */
 export type FeedKind = "photo" | "teaching";
 
@@ -21,10 +19,6 @@ export const VISIBILITY_OPTIONS: {
   { value: "group", label: "그룹만 공개", needsGroup: true },
   { value: "public_except_group", label: "그룹 제외 공개", needsGroup: true },
 ];
-
-export function visibilityLabel(v: Visibility): string {
-  return VISIBILITY_OPTIONS.find((o) => o.value === v)?.label ?? "전체 공개";
-}
 
 /**
  * 공개범위 + 기준 그룹 정합성 검증/정규화(작성 액션 공용).
@@ -51,128 +45,77 @@ export function resolveVisibility(
   return { ok: true, visibility: v, groupId };
 }
 
-/** 필터 상태. scope=전체/티칭만, hideTeaching=티칭 숨김, tags=선택 태그(빈 배열=전체 태그). */
-export type FeedFilter = {
-  scope: "all" | "teaching";
-  hideTeaching: boolean;
-  tags: string[];
-};
-
-export const EMPTY_FILTER: FeedFilter = { scope: "all", hideTeaching: false, tags: [] };
-
-type MinItem = {
-  kind: FeedKind;
-  visibility: Visibility;
-  groupId: string | null;
-  exerciseTag: string | null;
-};
-
 /**
- * 상단 탭 분리 — 전체 탭: 그룹전용(group) 아닌 글(전체·그룹제외). 그룹 탭: 선택 그룹의 그룹전용 글.
+ * 커뮤니티 게시판 보기. 위 탭 줄에는 큰 탭만(피드·질문·운동 영상·루틴·내 글) 보이고,
+ * 인기·답변 기다리는 질문·저장한 글은 각 탭 안의 작은 선택지다(커뮤니티 3단계).
  */
-export function forTab<T extends MinItem>(
-  items: T[],
-  tab: "all" | "group",
-  selectedGroupIds: string[],
-): T[] {
-  if (tab === "all") return items.filter((it) => it.visibility !== "group");
-  const set = new Set(selectedGroupIds);
-  return items.filter(
-    (it) => it.visibility === "group" && it.groupId !== null && set.has(it.groupId),
-  );
-}
-
-/** 커뮤니티 게시판 탭 — 오운완(사진) / 그룹(사진) / 운동(티칭) / 내 글. */
-export type BoardTab = "workout" | "teaching" | "routine" | "mine" | "popular";
+export type BoardTab =
+  | "workout"
+  | "popular"
+  | "question"
+  | "question_open"
+  | "teaching"
+  | "routine"
+  | "mine"
+  | "commented"
+  | "saved"
+  | "saved_routines";
 
 export const BOARD_TABS: { value: BoardTab; label: string }[] = [
-  { value: "workout", label: "오운완" },
+  { value: "workout", label: "피드" },
   { value: "popular", label: "인기" },
-  { value: "teaching", label: "운동" },
+  { value: "question", label: "질문" },
+  { value: "question_open", label: "답변 기다리는" },
+  { value: "teaching", label: "운동 영상" },
   // 루틴 소개(하루치 루틴 공유) — 통합 피드가 아니라 routine_shares 를 따로 그린다.
   { value: "routine", label: "루틴" },
   { value: "mine", label: "내 글" },
+  { value: "commented", label: "댓글 단 글" },
+  { value: "saved", label: "저장한 글" },
+  // 저장한 루틴 소개(커뮤니티 4-3) — 통합 피드가 아니라 루틴 카드로 그린다.
+  { value: "saved_routines", label: "저장한 루틴" },
 ];
 
-type BoardItem = MinItem & { isMine: boolean; likeCount?: number; createdAt?: string };
-
-/**
- * 게시판 탭별 분류(+운동 탭 검색). 순수 로직.
- * - workout(오운완): 사진 인증 전부(공개 + 그룹전용도 포함 — 그룹전용은 그룹명 태그로 구분).
- *   그룹 게시판을 없애고, 그룹원 공개 글도 오운완에 섞어 보여준다(가시성은 서버 RLS가 필터).
- * - teaching(운동): 티칭 영상 전부(그룹전용 포함). search 있으면 운동 태그 부분일치.
- * - mine(내 글): 내가 쓴 모든 글(사진+티칭).
- *
- * (selectedGroupIds 인자는 옛 그룹 탭 호환용 — 지금은 무시.)
- */
-export function forBoard<T extends BoardItem>(
-  items: T[],
-  tab: BoardTab,
-  _selectedGroupIds: string[] = [],
-  search = "",
-): T[] {
-  switch (tab) {
-    case "popular":
-      return [...items].sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0) || (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
-    case "workout":
-      return items.filter((it) => it.kind === "photo");
-    case "teaching": {
-      const q = normalizeTag(search).toLowerCase();
-      return items.filter((it) => {
-        if (it.kind !== "teaching") return false;
-        if (!q) return true;
-        return it.exerciseTag
-          ? normalizeTag(it.exerciseTag).toLowerCase().includes(q)
-          : false;
-      });
-    }
-    // 루틴 소개는 통합 피드(사진·티칭)에 안 들어간다 — 별도 컴포넌트가 그린다.
-    case "routine":
-      return [];
-    case "mine":
-      return items.filter((it) => it.isMine);
-  }
+/** 이 보기가 속한 큰 탭(탭 줄의 밑줄 위치). */
+export function mainTabOf(tab: BoardTab): BoardTab {
+  if (tab === "popular") return "workout";
+  if (tab === "question_open") return "question";
+  if (tab === "saved" || tab === "saved_routines" || tab === "commented") return "mine";
+  return tab;
 }
 
-/**
- * 종류/태그 필터 적용.
- * - scope "teaching" → 티칭 글만.
- * - hideTeaching → 티칭 글 제거.
- * - tags 비어있지 않으면 → 해당 태그의 티칭 글만(사진글은 제외).
- */
-export function applyFeedFilter<T extends MinItem>(items: T[], f: FeedFilter): T[] {
-  const wantTags = f.tags.map(normalizeTag).filter(Boolean);
-  const tagSet = new Set(wantTags);
-  return items.filter((it) => {
-    if (f.hideTeaching && it.kind === "teaching") return false;
-    if (f.scope === "teaching" && it.kind !== "teaching") return false;
-    if (tagSet.size > 0) {
-      if (it.kind !== "teaching" || !it.exerciseTag) return false;
-      if (!tagSet.has(normalizeTag(it.exerciseTag))) return false;
-    }
-    return true;
-  });
-}
+/** 탭 줄에 보이는 큰 탭들. */
+export const MAIN_TABS = BOARD_TABS.filter((t) => mainTabOf(t.value) === t.value);
 
-/** 피드에 등장한 티칭 태그 목록(빈도순, 칩용). */
-export function feedTags<T extends { kind: FeedKind; exerciseTag: string | null }>(
-  items: T[],
-  limit = 20,
-): string[] {
-  const count = new Map<string, number>();
-  for (const it of items) {
-    if (it.kind !== "teaching" || !it.exerciseTag) continue;
-    const t = normalizeTag(it.exerciseTag);
-    if (!t) continue;
-    count.set(t, (count.get(t) ?? 0) + 1);
-  }
-  return [...count.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, limit)
-    .map(([t]) => t);
+/** 보기 → 주소(뒤로 가기·새로고침에도 같은 보기). 검색어는 q. */
+export function boardHref(tab: BoardTab, query = ""): string {
+  const path: Record<BoardTab, string> = {
+    workout: "/community",
+    popular: "/community",
+    question: "/community/questions",
+    question_open: "/community/questions",
+    teaching: "/community/teaching",
+    routine: "/community/routines",
+    mine: "/community/mine",
+    commented: "/community/mine",
+    saved: "/community/saved",
+    saved_routines: "/community/saved",
+  };
+  const params = new URLSearchParams();
+  if (tab === "popular") params.set("view", "popular");
+  if (tab === "question_open") params.set("open", "1");
+  if (tab === "commented") params.set("view", "commented");
+  if (tab === "saved_routines") params.set("kind", "routine");
+  if (query.trim()) params.set("q", query.trim());
+  return path[tab] + (params.size ? `?${params}` : "");
 }
 
 /** 두 종류 글을 작성시각 내림차순으로 병합. */
 export function mergeByCreatedAt<T extends { createdAt: string }>(...lists: T[][]): T[] {
   return lists.flat().sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0));
+}
+
+/** 루틴 카드로 그리는 보기(루틴 탭 · 저장한 루틴). */
+export function isRoutineList(tab: BoardTab): boolean {
+  return tab === "routine" || tab === "saved_routines";
 }

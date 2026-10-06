@@ -1,0 +1,36 @@
+{
+  "id": "alternating-dumbbell-front-raise",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-front-raise.mp4",
+      "sha256": "317e998a49c4f81dec31777f1522e27abc3669f7436e07266149d92ba3bcdec1",
+      "bytes": 301903
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-front-raise-dark.mp4",
+      "sha256": "cbc153a44dd3410d238b75354ba7f59d90f1dce75e023897f0673221785b7168",
+      "bytes": 280550
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-4.mjs",
+      "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+    },
+    {
+      "file": "exercise-motion-4.mjs",
+      "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import "server-only";
 
 import { callAI } from "@/features/coach/ai";
-import { consumeAiQuota } from "@/features/coach/ai-usage";
+import { consumeAiQuota, refundAiQuota } from "@/features/coach/ai-usage";
 import { parseVisionResult, type VisionResult } from "@/features/equipment/parse";
 
 export type VisionCall =
@@ -41,7 +41,11 @@ export async function analyzeEquipmentImage(
     images: [{ base64: imageBase64, mediaType }],
     maxTokens: 800,
   });
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("equipment-scan");
+    return { ok: false, error: res.error };
+  }
 
   const parsed = parseVisionResult(res.text);
   if (!parsed) {

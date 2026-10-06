@@ -34,7 +34,7 @@ export async function analyzeEquipmentAction(input: {
   imageBase64: string;
   mediaType: string;
 }): Promise<EquipmentAnalysisResult> {
-  // 기구 스캔 단독 기능 또는 짐꾼쌤(AI 코치) 탭 안에서 사용 가능.
+  // 기구 스캔 단독 기능 또는 헬쑤쌤(AI 코치) 탭 안에서 사용 가능.
   const allowed =
     (await isDebugFeatureEnabled("equipment-scan")) ||
     (await isDebugFeatureEnabled("helssu-coach"));

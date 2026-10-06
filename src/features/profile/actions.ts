@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import {
   isBodyType,
   isExperienceLevel,
@@ -13,6 +13,7 @@ import {
   type Gender,
 } from "@/features/profile/data";
 import { goalTargetKind, isGoal, type Goal } from "@/features/profile/goal";
+import { cleanSurveyExtra, type SurveyExtra } from "@/features/profile/survey-extra";
 import { socialProfilePatch } from "@/features/auth/social-name";
 import {
   parseWeightSteps,
@@ -38,6 +39,8 @@ export async function saveProfileAction(
   experience: ExperienceLevel,
   metrics?: BodyMetrics,
   goalInput?: GoalInput,
+  /** 가입 설문 3문항(2026-10-01). 없으면 건드리지 않는다. */
+  extra?: Partial<SurveyExtra>,
 ): Promise<SaveProfileResult> {
   if (!isGender(gender) || !isExperienceLevel(experience)) {
     return { ok: false, error: "성별/경력 값이 올바르지 않습니다." };
@@ -119,6 +122,7 @@ export async function saveProfileAction(
           }
         : {}),
       ...goalFields,
+      ...(extra ? surveyExtraRow(extra) : {}),
     },
     { onConflict: "user_id" },
   );
@@ -344,5 +348,27 @@ export async function setWeightStepAction(
   revalidatePath("/plan");
   revalidatePath("/plan/today");
   revalidatePath("/settings/personal");
+  return { ok: true };
+}
+
+/** 설문 3문항 → DB 칸. 모르는 값은 null(검사는 `cleanSurveyExtra`). */
+function surveyExtraRow(extra: Partial<SurveyExtra>) {
+  const c = cleanSurveyExtra(extra);
+  return { age_group: c.ageGroup, body_style: c.bodyStyle, session_minutes: c.sessionMinutes };
+}
+
+/**
+ * 맞춤 운동 설정(설정 › 맞춤 운동 설정) — 나이대·몸 목표 스타일·1회 운동 시간을 바꾼다.
+ * 가입 때 안 고른 기존 회원도 여기서 고른다(2026-10-01).
+ */
+export async function saveSurveyExtraAction(extra: Partial<SurveyExtra>): Promise<SaveProfileResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const { error } = await supabase.from("profiles").update(surveyExtraRow(extra)).eq("user_id", user.id);
+  if (error) return { ok: false, error: "저장하지 못했어요. 잠시 뒤 다시 시도해 주세요." };
+  revalidatePath("/fit");
+  revalidatePath("/settings/fit");
+  revalidatePath("/diet");
   return { ok: true };
 }

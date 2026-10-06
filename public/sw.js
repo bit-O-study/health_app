@@ -200,7 +200,7 @@ self.addEventListener("push", (event) => {
   } catch {
     data = {};
   }
-  const title = data.title || "짐꾼";
+  const title = data.title || "헬쑤";
   const body = data.body || "";
   const type = data.type || "workout-end";
 

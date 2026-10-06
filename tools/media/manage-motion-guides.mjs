@@ -28,9 +28,14 @@ const cutoutScript=fileURLToPath(new URL('motion-cutout.py',import.meta.url));
 const venvPython=name=>fileURLToPath(new URL(name+'/Scripts/python.exe',import.meta.url));
 const gpuReady=existsSync(fileURLToPath(new URL('.venv-cutout-gpu/ready',import.meta.url)));
 const cutoutPython=process.env.MOTION_CUTOUT_PYTHON??(gpuReady?venvPython('.venv-cutout-gpu'):venvPython('.venv-cutout'));
+function rigArtifact(id) {
+ const spec=read(specPath(id),{});
+ const file=spec.rigSource?join(root,spec.rigSource):null;
+ return file&&existsSync(file)?{rigSourceSha256:sha(file)}:{};
+}
 function artifacts() {
  return catalog.filter(x=>existsSync(imagePath(x.id))&&existsSync(moviePath(x.id))).map(x=>({
-  id:x.id,sourceSha256:sha(imagePath(x.id)),videoSha256:sha(moviePath(x.id)),
+  id:x.id,sourceSha256:sha(imagePath(x.id)),videoSha256:sha(moviePath(x.id)),...rigArtifact(x.id),
   ...(existsSync(darkMoviePath(x.id))?{darkVideoSha256:sha(darkMoviePath(x.id))}:{})
  }));
 }
@@ -82,8 +87,9 @@ async function buildLocked(id,spec,frames) {
  const cutout=spec.cutout!==false;
  const sourceSha256=sha(imagePath(id));
  const previous=read(verifyPath);
- const cached=previous.find(x=>x.id===id&&x.renderVersion===renderVersion&&x.sourceSha256===sourceSha256&&(x.panels??8)===panelCount&&Boolean(x.cutout)===cutout&&existsSync(moviePath(id))&&x.videoSha256===sha(moviePath(id))&&(!cutout||existsSync(darkMoviePath(id))&&x.darkVideoSha256===sha(darkMoviePath(id))));
+ const cached=previous.find(x=>x.id===id&&x.renderVersion===(spec.renderer??renderVersion)&&x.sourceSha256===sourceSha256&&(!spec.rigSource||(x.rigSourceSha256&&x.rigSourceSha256===rigArtifact(id).rigSourceSha256))&&(x.panels??8)===panelCount&&Boolean(x.cutout)===cutout&&existsSync(moviePath(id))&&x.videoSha256===sha(moviePath(id))&&(!cutout||existsSync(darkMoviePath(id))&&x.darkVideoSha256===sha(darkMoviePath(id))));
  if(cached) return console.log(id+': verified movie already current');
+ if(spec.renderer)throw Error(id+': custom renderer required; use tools/media/render-rigid-motion-sample.mjs and review before publishing');
  const posesByTheme={};
  if(cutout){
   if(!existsSync(cutoutPython))throw Error('Cutout environment missing: python -m venv tools/media/.venv-cutout && tools/media/.venv-cutout/Scripts/python -m pip install -r tools/media/requirements-cutout.txt');
@@ -166,7 +172,7 @@ export async function manageMotionGuides(command,id,arg,specArg){
   if(!['passed','rejected','pending'].includes(entry.status))throw Error('Invalid review status');
   if(entry.status==='passed'&&!REVIEW_CHECKS.every(k=>typeof entry.checks?.[k]==='string'&&entry.checks[k].trim()))throw Error('Inspect all six content checks');
   const reviews=read(reviewPath);
-  write(reviewPath,[...reviews.filter(x=>x.id!==id),{...entry,id,equipmentIds:[spec.equipment],sources:spec.sources,sourceSha256:sha(imagePath(id)),videoSha256:sha(moviePath(id)),...(existsSync(darkMoviePath(id))?{darkVideoSha256:sha(darkMoviePath(id))}:{}),reviewedAt:new Date().toISOString()}]);
+  write(reviewPath,[...reviews.filter(x=>x.id!==id),{...entry,id,equipmentIds:[spec.equipment],sources:spec.sources,sourceSha256:sha(imagePath(id)),videoSha256:sha(moviePath(id)),...rigArtifact(id),...(existsSync(darkMoviePath(id))?{darkVideoSha256:sha(darkMoviePath(id))}:{}),reviewedAt:new Date().toISOString()}]);
   console.log(id+': '+entry.status+'; '+publish().length+' motion videos reviewed');
   coverage();
  }else throw Error('Unknown motion command');

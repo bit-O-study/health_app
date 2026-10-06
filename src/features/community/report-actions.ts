@@ -14,14 +14,43 @@ import {
 type ActionResult = { ok: true } | { ok: false; error: string };
 
 /**
- * 게시글/댓글 신고 등록. 로그인 유저 누구나. 신고가 쌓이면 관리자페이지에서 처리한다.
- * target_author/target_preview 는 신고 당시 스냅샷(관리자 화면에서 원본 없이도 식별용).
+ * 신고 대상 원본을 서버에서 찾는 방법 — 종류별 표와 미리보기 칸.
+ *
+ * 🔴 대상 사용자·작성자·미리보기는 **앱이 보낸 값을 믿지 않는다**(2026-09-30 커뮤니티 보안 1단계).
+ *    예전엔 글·댓글 신고가 앱이 보낸 대상 사용자를 그대로 저장해서, 요청을 조작하면 관리자가
+ *    '정지' 를 눌렀을 때 엉뚱한 사람이 정지될 수 있었다. 신고자가 볼 수 있는 원본만 찾는다(RLS).
+ */
+const TARGET_SOURCE: Record<
+  ReportTargetKind,
+  { table: string; columns: string; preview: (row: Record<string, unknown>) => string }
+> = {
+  community_post: { table: "community_posts", columns: "user_id, author_name, caption", preview: (r) => String(r.caption ?? "") },
+  community_comment: { table: "community_comments", columns: "user_id, author_name, body", preview: (r) => String(r.body ?? "") },
+  teaching_post: {
+    table: "teaching_posts",
+    columns: "user_id, author_name, exercise_tag, caption",
+    preview: (r) => [r.exercise_tag, r.caption].filter(Boolean).join(" · "),
+  },
+  teaching_comment: { table: "teaching_comments", columns: "user_id, author_name, body", preview: (r) => String(r.body ?? "") },
+  routine_share: {
+    table: "routine_shares",
+    columns: "user_id, author_name, title, caption",
+    preview: (r) => [r.title, r.caption].filter(Boolean).join(" · "),
+  },
+};
+
+/**
+ * 게시글/댓글/루틴 신고 등록. 로그인 유저 누구나. 신고가 쌓이면 관리자페이지에서 처리한다.
+ * target_author/target_preview 는 신고 당시 스냅샷(관리자 화면에서 원본 없이도 식별용) — 서버가 채운다.
  */
 export async function reportContentAction(input: {
   targetKind: ReportTargetKind;
   targetId: string;
+  /** @deprecated 무시한다 — 서버가 원본에서 찾는다. 예전 호출부 호환용. */
   targetUserId?: string | null;
+  /** @deprecated 무시한다. */
   targetAuthor?: string | null;
+  /** @deprecated 무시한다. */
   targetPreview?: string | null;
   reason: string;
 }): Promise<ActionResult> {
@@ -34,35 +63,24 @@ export async function reportContentAction(input: {
 
   const supabase = await createSupabaseServerClient();
 
-  let targetUserId = input.targetUserId ?? null;
-  let targetAuthor = input.targetAuthor ?? null;
-  let targetPreview = input.targetPreview ?? null;
-  if (input.targetKind === "routine_share") {
-    const { data: share } = await supabase
-      .from("routine_shares")
-      .select("user_id, author_name, title, caption")
-      .eq("id", input.targetId)
-      .maybeSingle();
-    if (!share) return { ok: false, error: "삭제되었거나 존재하지 않는 루틴이에요." };
-    if (share.user_id === user.id) {
-      return { ok: false, error: "내가 올린 루틴은 신고할 수 없어요." };
-    }
-    targetUserId = share.user_id;
-    targetAuthor = share.author_name;
-    targetPreview = [share.title, share.caption].filter(Boolean).join(" · ");
+  const source = TARGET_SOURCE[input.targetKind];
+  if (!source) return { ok: false, error: "잘못된 요청입니다." };
+  const { data: row } = await supabase
+    .from(source.table)
+    .select(source.columns)
+    .eq("id", input.targetId)
+    .maybeSingle();
+  const original = row as Record<string, unknown> | null;
+  if (!original) return { ok: false, error: "삭제되었거나 볼 수 없는 게시물이에요." };
+  if (original.user_id === user.id) {
+    return { ok: false, error: "내가 올린 글은 신고할 수 없어요." };
   }
+  const targetUserId = String(original.user_id);
+  const targetAuthor = typeof original.author_name === "string" ? original.author_name : null;
+  const targetPreview = source.preview(original);
 
-  // 같은 대상에 대한 내 중복 신고는 막는다(스팸 방지).
-  const { data: dup } = await supabase
-    .from("post_reports")
-    .select("id")
-    .eq("target_kind", input.targetKind)
-    .eq("target_id", input.targetId)
-    .eq("reporter_id", user.id)
-    .limit(1);
-  if (dup && dup.length > 0) {
-    return { ok: false, error: "이미 신고한 게시물이에요." };
-  }
+  // 같은 대상 중복 신고는 DB 유일 인덱스가 막는다(아래 23505). 신고 목록은 관리자만 읽을 수 있어
+  // 앱에서 미리 조회하는 방식으로는 막을 수 없었다.
 
   const { error } = await supabase.from("post_reports").insert({
     target_kind: input.targetKind,
@@ -78,5 +96,41 @@ export async function reportContentAction(input: {
   }
   if (error) return { ok: false, error: error.message };
   revalidatePath("/admin/reports");
+  return { ok: true };
+}
+
+/**
+ * 신고 창의 '이 사람 차단' — 대상(글·댓글·영상·루틴)의 작성자를 서버가 원본에서 찾아 막는다(커뮤니티 3단계).
+ * 앱이 보낸 사용자 id 를 믿지 않는 건 신고와 같은 이유.
+ */
+export async function blockAuthorAction(input: {
+  targetKind: ReportTargetKind;
+  targetId: string;
+}): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const source = TARGET_SOURCE[input.targetKind];
+  if (!source || !input.targetId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data: row } = await supabase.from(source.table).select("user_id").eq("id", input.targetId).maybeSingle();
+  const authorId = (row as { user_id?: string } | null)?.user_id;
+  if (!authorId) return { ok: false, error: "삭제되었거나 볼 수 없는 게시물이에요." };
+  if (authorId === user.id) return { ok: false, error: "나를 차단할 수는 없어요." };
+  const { error } = await supabase.from("user_blocks").insert({ blocker_id: user.id, blocked_id: authorId });
+  if (error && error.code !== "23505") return { ok: false, error: error.message };
+  // ⚠ 여기서 화면을 다시 그리게(revalidate) 하지 않는다 — 상세 화면에서 막으면 그 글이 바로
+  //   '찾을 수 없음' 으로 바뀌어 "차단했어요" 안내도 못 보고 막다른 화면에 선다. 화면 쪽이 안내 뒤 이동·새로고침한다.
+  return { ok: true };
+}
+
+/** 차단 풀기. */
+export async function unblockUserAction(blockedId: string): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!blockedId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("user_blocks").delete().eq("blocker_id", user.id).eq("blocked_id", blockedId);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/community");
   return { ok: true };
 }

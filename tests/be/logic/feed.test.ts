@@ -1,13 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
-  forTab,
-  forBoard,
-  applyFeedFilter,
-  feedTags,
   mergeByCreatedAt,
   resolveVisibility,
-  visibilityLabel,
-  EMPTY_FILTER,
   type FeedKind,
   type Visibility,
 } from "@/features/community/feed";
@@ -32,99 +26,6 @@ const mk = (o: Partial<Item> & { id: string }): Item => ({
   ...o,
 });
 
-describe("forTab", () => {
-  const items = [
-    mk({ id: "pub", visibility: "public" }),
-    mk({ id: "exc", visibility: "public_except_group", groupId: "g1" }),
-    mk({ id: "g1", visibility: "group", groupId: "g1" }),
-    mk({ id: "g2", visibility: "group", groupId: "g2" }),
-  ];
-  it("전체 탭 — 그룹전용 아닌 글(전체·그룹제외)", () => {
-    const r = forTab(items, "all", []).map((i) => i.id);
-    expect(r).toEqual(["pub", "exc"]);
-  });
-  it("그룹 탭 — 선택 그룹의 그룹전용 글만", () => {
-    expect(forTab(items, "group", ["g1"]).map((i) => i.id)).toEqual(["g1"]);
-    expect(forTab(items, "group", ["g1", "g2"]).map((i) => i.id)).toEqual(["g1", "g2"]);
-    expect(forTab(items, "group", []).map((i) => i.id)).toEqual([]);
-  });
-});
-
-describe("forBoard", () => {
-  const items = [
-    mk({ id: "pub", kind: "photo", visibility: "public", isMine: true }),
-    mk({ id: "gphoto", kind: "photo", visibility: "group", groupId: "g1" }),
-    mk({ id: "t-sq", kind: "teaching", exerciseTag: "스쿼트" }),
-    mk({ id: "t-bp", kind: "teaching", exerciseTag: "벤치프레스", isMine: true }),
-    mk({ id: "t-grp", kind: "teaching", visibility: "group", groupId: "g1" }),
-  ];
-
-  it("오운완(workout) — 사진 인증 전부(그룹전용도 포함)", () => {
-    expect(forBoard(items, "workout", []).map((i) => i.id)).toEqual([
-      "pub",
-      "gphoto",
-    ]);
-  });
-  it("운동(teaching) — 티칭 전부(그룹전용도 포함)", () => {
-    expect(forBoard(items, "teaching", []).map((i) => i.id)).toEqual([
-      "t-sq",
-      "t-bp",
-      "t-grp",
-    ]);
-  });
-  it("운동 검색 — 운동 태그 부분일치", () => {
-    expect(forBoard(items, "teaching", [], "스쿼").map((i) => i.id)).toEqual(["t-sq"]);
-    expect(forBoard(items, "teaching", [], " 벤치 ").map((i) => i.id)).toEqual(["t-bp"]);
-    expect(forBoard(items, "teaching", [], "없는운동").map((i) => i.id)).toEqual([]);
-  });
-  it("내 글(mine) — 내가 쓴 모든 글(사진+티칭)", () => {
-    expect(forBoard(items, "mine", []).map((i) => i.id)).toEqual(["pub", "t-bp"]);
-  });
-});
-
-describe("applyFeedFilter", () => {
-  const items = [
-    mk({ id: "photo1", kind: "photo" }),
-    mk({ id: "sq", kind: "teaching", exerciseTag: "스쿼트" }),
-    mk({ id: "bp", kind: "teaching", exerciseTag: "벤치프레스" }),
-  ];
-  it("기본(EMPTY_FILTER)은 전부", () => {
-    expect(applyFeedFilter(items, EMPTY_FILTER).length).toBe(3);
-  });
-  it("scope teaching → 티칭만", () => {
-    const r = applyFeedFilter(items, { scope: "teaching", hideTeaching: false, tags: [] });
-    expect(r.map((i) => i.id)).toEqual(["sq", "bp"]);
-  });
-  it("hideTeaching → 티칭 제거", () => {
-    const r = applyFeedFilter(items, { scope: "all", hideTeaching: true, tags: [] });
-    expect(r.map((i) => i.id)).toEqual(["photo1"]);
-  });
-  it("태그 선택 → 그 태그 티칭만(사진 제외)", () => {
-    const r = applyFeedFilter(items, { scope: "all", hideTeaching: false, tags: ["스쿼트"] });
-    expect(r.map((i) => i.id)).toEqual(["sq"]);
-  });
-  it("여러 태그 선택 = 합집합", () => {
-    const r = applyFeedFilter(items, { scope: "all", hideTeaching: false, tags: ["스쿼트", "벤치프레스"] });
-    expect(r.map((i) => i.id)).toEqual(["sq", "bp"]);
-  });
-  it("태그는 공백·대소문자 무시 매칭", () => {
-    const r = applyFeedFilter(items, { scope: "all", hideTeaching: false, tags: [" 스쿼트 "] });
-    expect(r.map((i) => i.id)).toEqual(["sq"]);
-  });
-});
-
-describe("feedTags", () => {
-  it("티칭 태그를 빈도순으로", () => {
-    const items = [
-      mk({ id: "a", kind: "teaching", exerciseTag: "스쿼트" }),
-      mk({ id: "b", kind: "teaching", exerciseTag: "스쿼트" }),
-      mk({ id: "c", kind: "teaching", exerciseTag: "데드리프트" }),
-      mk({ id: "d", kind: "photo" }),
-    ];
-    expect(feedTags(items)).toEqual(["스쿼트", "데드리프트"]);
-  });
-});
-
 describe("mergeByCreatedAt", () => {
   it("작성시각 내림차순 병합", () => {
     const a = [mk({ id: "old", createdAt: "2026-07-01T00:00:00Z" })];
@@ -147,13 +48,5 @@ describe("resolveVisibility", () => {
     });
     expect(resolveVisibility("group", null).ok).toBe(false);
     expect(resolveVisibility("public_except_group", null).ok).toBe(false);
-  });
-});
-
-describe("visibilityLabel", () => {
-  it("라벨", () => {
-    expect(visibilityLabel("public")).toBe("전체 공개");
-    expect(visibilityLabel("group")).toBe("그룹만 공개");
-    expect(visibilityLabel("public_except_group")).toBe("그룹 제외 공개");
   });
 });

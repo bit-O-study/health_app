@@ -26,11 +26,14 @@ export function basalMetabolicRate(profile: {
   gender: Gender;
   weightKg: number | null;
   heightCm: number | null;
+  /** 나이(설문 나이대의 대표값, 2026-10-01). 모르면 30세로 가정. */
+  age?: number | null;
 }): number {
   const { gender, weightKg, heightCm } = profile;
+  const age = profile.age && profile.age > 0 ? profile.age : DEFAULT_AGE;
   if (weightKg && heightCm && weightKg > 0 && heightCm > 0) {
     return Math.round(
-      10 * weightKg + 6.25 * heightCm - 5 * DEFAULT_AGE + (gender === "male" ? 5 : -161),
+      10 * weightKg + 6.25 * heightCm - 5 * age + (gender === "male" ? 5 : -161),
     );
   }
   return FALLBACK_BMR[gender];
@@ -40,6 +43,7 @@ export function dailyTarget(profile: {
   gender: Gender;
   weightKg: number | null;
   heightCm: number | null;
+  age?: number | null;
 }): MacroTarget {
   const { gender, weightKg, heightCm } = profile;
 

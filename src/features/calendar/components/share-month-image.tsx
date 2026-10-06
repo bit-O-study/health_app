@@ -11,8 +11,19 @@ import { ImageDown, Share2, X } from "lucide-react";
  * 만들어진다" 로 보였다(2026-09-29 제보). 이제 이미지는 여기서 받아 보여 주고,
  * 파일 공유가 되는 브라우저에서만 '공유' 버튼을 단다(누르는 순간 공유 — 사용자 동작 유효).
  */
-export function ShareMonthImage({ month }: { month: string }) {
-  const url = `/api/calendar/month-image?m=${month}`;
+export function ShareMonthImage({
+  month,
+  url = `/api/calendar/month-image?m=${month}`,
+  label = "이달 기록 이미지",
+  testId = "share-month-image",
+}: {
+  /** 파일 이름·공유 제목에 쓰는 이름(예: 2026-10 · 2026-year). */
+  month: string;
+  /** 이미지 주소 — 1년 돌아보기(2026-10-02)도 같은 미리보기·공유를 쓴다. */
+  url?: string;
+  label?: string;
+  testId?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<
     | { kind: "loading" }
@@ -35,7 +46,7 @@ export function ShareMonthImage({ month }: { month: string }) {
         const blob = await res.blob();
         if (!alive) return;
         objectUrl = URL.createObjectURL(blob);
-        const file = new File([blob], `jimkkun-${month}.png`, { type: "image/png" });
+        const file = new File([blob], `helssu-${month}.png`, { type: "image/png" });
         const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
         setCanShareFile(!!nav.canShare?.({ files: [file] }));
         setState({ kind: "ready", src: objectUrl, file });
@@ -63,18 +74,18 @@ export function ShareMonthImage({ month }: { month: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        data-testid="share-month-image"
+        data-testid={testId}
         className="app-press flex h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-zinc-100 text-sm font-semibold text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-100"
       >
         <ImageDown aria-hidden="true" size={16} />
-        이달 기록 이미지 만들기
+        {label} 만들기
       </button>
 
       {open ? (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="이달 기록 이미지"
+          aria-label={label}
           data-testid="month-image-preview"
           className="fixed inset-0 z-[90] flex flex-col items-center justify-center gap-3 bg-black/70 p-4"
           onClick={() => setOpen(false)}
@@ -84,7 +95,7 @@ export function ShareMonthImage({ month }: { month: string }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이달 기록 이미지</p>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{label}</p>
               <button
                 type="button"
                 aria-label="닫기"

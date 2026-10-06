@@ -1,6 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
+import { pushCommentNotification } from "@/features/community/community-notify.server";
+import { checkCommunityText } from "@/features/community/banned-words.server";
 
 import {
   createSupabaseServerClient,
@@ -33,6 +36,9 @@ export async function createTeachingPostAction(input: {
     caption: input.caption,
   });
   if (!check.ok) return check;
+  // 금칙어(커뮤니티 4-3).
+  const banned = await checkCommunityText(input.caption, input.exerciseTag);
+  if (!banned.ok) return banned;
 
   const vis = resolveVisibility(input.visibility, input.groupId ?? null);
   if (!vis.ok) return vis;
@@ -173,6 +179,8 @@ export async function addTeachingCommentAction(
   if (!postId || !text) return { ok: false, error: "댓글을 입력해주세요." };
   if (text.length > 300)
     return { ok: false, error: "댓글은 300자까지 쓸 수 있어요." };
+  const banned = await checkCommunityText(text);
+  if (!banned.ok) return banned;
 
   const supabase = await createSupabaseServerClient();
   const { data: prof } = await supabase
@@ -186,13 +194,20 @@ export async function addTeachingCommentAction(
     null,
   );
 
-  const { error } = await supabase.from("teaching_comments").insert({
-    post_id: postId,
-    user_id: user.id,
-    author_name: authorName,
-    body: text,
-  });
+  const { data: created, error } = await supabase
+    .from("teaching_comments")
+    .insert({
+      post_id: postId,
+      user_id: user.id,
+      author_name: authorName,
+      body: text,
+    })
+    .select("id")
+    .single();
   if (error) return { ok: false, error: error.message };
+  // 영상 올린 사람에게 푸시(커뮤니티 3단계) — 응답은 기다리지 않는다.
+  const commentId = (created as { id: string }).id;
+  after(() => pushCommentNotification("teaching_comment", commentId));
   revalidatePath("/community");
   return { ok: true };
 }

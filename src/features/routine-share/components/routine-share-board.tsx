@@ -4,6 +4,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import {
+  Bookmark,
   ChevronRight,
   Dumbbell,
   Heart,
@@ -18,6 +19,7 @@ import {
   applyRoutineShareAction,
   deleteRoutineShareAction,
   toggleRoutineShareLikeAction,
+  toggleRoutineShareSaveAction,
 } from "@/features/routine-share/actions";
 import {
   applyTargetNote,
@@ -34,9 +36,12 @@ import { ReportButton } from "@/features/community/components/report-button";
 export function RoutineShareBoard({
   items,
   targets,
+  savedView = false,
 }: {
   items: RoutineShareItem[];
   targets: ApplyTarget[];
+  /** 내 글 › 저장한 글 › 루틴(커뮤니티 4-3) — 빈 화면 안내만 다르다. */
+  savedView?: boolean;
 }) {
   const [focus, setFocus] = useState<string | null>(null);
   const [open, setOpen] = useState<RoutineShareItem | null>(null);
@@ -83,9 +88,11 @@ export function RoutineShareBoard({
 
       {visible.length === 0 ? (
         <div className="rounded-xl border border-dashed border-zinc-300 bg-white px-4 py-10 text-center text-sm font-semibold text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
-          아직 소개된 루틴이 없어요.
+          {savedView ? "저장한 루틴이 없어요." : "아직 소개된 루틴이 없어요."}
           <span className="mt-1 block text-xs font-medium">
-            오른쪽 아래 “글쓰기”에서 내 루틴의 일차를 골라 소개해보세요.
+            {savedView
+              ? "루틴 소개를 열고 책갈피를 누르면 여기 모여요."
+              : "오른쪽 아래 “글쓰기”에서 내 루틴의 일차를 골라 소개해보세요."}
           </span>
         </div>
       ) : (
@@ -173,6 +180,7 @@ function ShareDetailSheet({
   const router = useRouter();
   const [liked, setLiked] = useState(item.likedByMe);
   const [likes, setLikes] = useState(item.likeCount);
+  const [saved, setSaved] = useState(!!item.savedByMe);
   const [picking, setPicking] = useState(false);
   useBackClose(true, onClose);
   const [pending, start] = useTransition();
@@ -185,6 +193,15 @@ function ShareDetailSheet({
     setLiked(next);
     setLikes((n) => n + (next ? 1 : -1));
     void toggleRoutineShareLikeAction(item.id).catch(() => {});
+  }
+
+  // 저장(북마크 — 커뮤니티 4-3). 실패하면 되돌린다.
+  function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    void toggleRoutineShareSaveAction(item.id)
+      .then((r) => setSaved(r.ok ? r.saved : !next))
+      .catch(() => setSaved(!next));
   }
 
   function remove() {
@@ -288,6 +305,19 @@ function ShareDetailSheet({
           >
             <Heart aria-hidden="true" size={16} fill={liked ? "currentColor" : "none"} />
             {likes}
+          </button>
+          <button
+            type="button"
+            onClick={toggleSave}
+            aria-label="저장"
+            aria-pressed={saved}
+            className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition ${
+              saved
+                ? "border-brand/40 bg-brand-soft text-brand"
+                : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+            }`}
+          >
+            <Bookmark aria-hidden="true" size={16} fill={saved ? "currentColor" : "none"} />
           </button>
           {item.mine ? (
             <button

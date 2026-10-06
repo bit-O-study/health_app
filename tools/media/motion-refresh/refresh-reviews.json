@@ -1,0 +1,342 @@
+[
+  {
+    "id": "hollow-body-hold",
+    "status": "passed",
+    "reviewedAt": "2026-09-30T01:24:34.753Z",
+    "renderer": "isometric-hold-v1",
+    "timing": "hold",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "4dd9bd9ad3f76f5cbb8142e19b8ce0f25ae1795c373a14415371389d0009a50c"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "97455e3811872f52697779398d1b342871484bf72cba907bb96b31a06301a482"
+      }
+    ],
+    "evidence": "Both theme five-frame contact strips and browser loops inspected; full decode passed; existing pose checks retained",
+    "note": "Stable isometric pose, not a dynamic movement"
+  },
+  {
+    "id": "plate-pinch",
+    "status": "passed",
+    "reviewedAt": "2026-09-30T01:24:34.753Z",
+    "renderer": "isometric-hold-v1",
+    "timing": "hold",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "1adc41b2908c39375b4a0c6fdecf25c5be7aa2af0fb3081e7e7bc5c29d74c4fe"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "2b374ea537a861eb95f5e71aa01c55086936a0a618547fdcea4dffdac85578d6"
+      }
+    ],
+    "evidence": "Both theme five-frame contact strips and browser loops inspected; full decode passed; existing pose checks retained",
+    "note": "Stable isometric pose, not a dynamic movement"
+  },
+  {
+    "id": "stability-ball-plank",
+    "status": "passed",
+    "reviewedAt": "2026-09-30T01:24:34.753Z",
+    "renderer": "isometric-hold-v1",
+    "timing": "hold",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "43d4bdf15c25f67e52c76f25f34a41d4d7de933f2aea43814205eab566fbf1a6"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "7d059de0abc1c9374c8a49da896327ac01e1a944a589c73a6c70b148c90975e8"
+      }
+    ],
+    "evidence": "Both theme five-frame contact strips and browser loops inspected; full decode passed; existing pose checks retained",
+    "note": "Stable isometric pose, not a dynamic movement"
+  },
+  {
+    "id": "dumbbell-shrug",
+    "status": "rework",
+    "reviewedAt": "2026-09-30T01:24:34.753Z",
+    "renderer": "constrained-shrug-v1",
+    "timing": "smooth",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "69a7622b02fd1415a65430fbdae14c891266a1384bb8459d31f780fe8917ae4d"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "c6699b4e8683e6571d227b7d5420a934ab4fe0942570ec9d337572f19b2cd538"
+      }
+    ],
+    "evidence": "Both theme five-frame contact strips and browser loops inspected; full decode passed; existing pose checks retained",
+    "note": "Fixed center torso/feet with hanging arm/weight translation; simplified shoulder deformation",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  },
+  {
+    "id": "dumbbell-shoulder-press",
+    "status": "rework",
+    "renderer": "articulated-atlas-v1",
+    "timing": "smooth",
+    "rigSourceSha256": "78d81b2069cb820ec845820c101add5ddbdfd21decc10ad526ec86c14808f1b8",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "4e638aab1c01ff0c0bf55a6ab4e375b92d15a0ac2d42ef25af651214a8236fe1",
+        "bytes": 297784
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "532d8ab0ee1e369c0c4684e7f220c7e3c6d11c1d00a2d8ebe7b4248b683c2879",
+        "bytes": 210957
+      }
+    ],
+    "checks": {
+      "exercise": "Seated bilateral dumbbell shoulder press with controlled rise and return.",
+      "equipment": "Two rigid dumbbells, bench back and seat retained; complete weights.",
+      "setup": "Fixed seated torso and bench; no arching or hip lift.",
+      "hands": "Closed pronated grips remain attached to each rigid forearm and dumbbell, neutral wrists.",
+      "feet": "Both feet remain planted and unchanged.",
+      "movement": "Fixed upper arm lengths, upright forearms, soft nearly straight elbows at peak 4s; smooth 8s loop. Simplified frontal 2D shoulder mechanics and visible spherical joints, no scapular simulation."
+    },
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/45/seated-overhead-press/"
+    ],
+    "reviewedAt": "2026-09-30T03:58:05.467Z",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional.",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  },
+  {
+    "id": "barbell-shrug",
+    "status": "rework",
+    "renderer": "rigid-shrug-atlas-v1",
+    "timing": "smooth",
+    "rigSourceSha256": "29b4a96e65c1a6314c9a85ff02931ae7792f3d7a0cdb252e2415a3316dbc0b0f",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "743e94fd208753f18a1f309b78b2b8a251e3760bc649ff971282470084c28791",
+        "bytes": 185997
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "3390fe4cc5e6a9a1d5a584e9076e9057a50126b848aadf97d3c535ff96d6641c",
+        "bytes": 151840
+      }
+    ],
+    "checks": {
+      "exercise": "Standing barbell shrug with a small bilateral shoulder elevation.",
+      "equipment": "Rigid straight bar with two equal plates and collars; no bending or size changes.",
+      "setup": "Head, central torso, shorts and legs fixed; arms-bar layer translates vertically.",
+      "hands": "Both closed overhand grips move with bar; elbows stay straight, no curling.",
+      "feet": "Both shoes stay planted at the same locations.",
+      "movement": "One rigid arms-and-bar assembly rises 9px and returns on an 8s cosine loop. No shoulder rolling or shorts warp. Simplified shoulder-cap overlap rather than anatomical scapular movement."
+    },
+    "sources": [
+      "https://www.puregym.com/exercises/back/shrugs/barbell-shrug/"
+    ],
+    "reviewedAt": "2026-09-30T03:58:05.470Z",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional.",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  },
+  {
+    "id": "side-plank",
+    "status": "passed",
+    "renderer": "generated-isometric-v1",
+    "timing": "hold",
+    "rigSourceSha256": "826e8983e2d4cc39a3eea3eab3159c4ede11fba8e819afb54653682dddf8e168",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "517b1cfe3071fdfe1c8f9def83d9ac417a0945a2d3b6dd722cd033b3177a692d",
+        "bytes": 73245
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "160c44ffe3fc81bbbd944087f69b0c0b67290bbc2f10338b576852582ef5e31b",
+        "bytes": 72363
+      }
+    ],
+    "checks": {
+      "exercise": "Forearm side plank maintained as an isometric hold.",
+      "equipment": "Bodyweight on thin mat; no resistance equipment.",
+      "setup": "Supporting elbow below shoulder; hips lifted, trunk and legs aligned.",
+      "hands": "Supporting forearm rests on mat; upper hand rests on hip.",
+      "feet": "Straight stacked legs and feet; bottom outer foot supports body.",
+      "movement": "A single fixed reviewed pose for all 480 frames; no hip dips, morphing or duplicated limbs."
+    },
+    "sources": [
+      "https://ucalgary.ca/shred-injuries/all-sports/physical-education/side-plank-elbow"
+    ],
+    "reviewedAt": "2026-09-30T03:58:05.470Z",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional."
+  },
+  {
+    "id": "hollow-hold",
+    "status": "passed",
+    "renderer": "generated-isometric-v1",
+    "timing": "hold",
+    "rigSourceSha256": "6abe1ea3523b92e6fc6078afc3313f74cda3d6faa331050777331dd3d80e9ac4",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "5bf8025c503927621b6b6844c1043abbe4301c586e5874ef7f355e3410849098",
+        "bytes": 44675
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "68674734b736f67b832df091fe4e1b0c90eb1850cddf4d873020d442b7482907",
+        "bytes": 43412
+      }
+    ],
+    "checks": {
+      "exercise": "Full hollow-body isometric hold rather than repeated tuck transitions.",
+      "equipment": "Thin mat, no weights.",
+      "setup": "Pelvis and low back on mat, shoulders slightly elevated without lumbar arch.",
+      "hands": "Both arms extend overhead with fixed lengths.",
+      "feet": "Both straight legs held together with heels off mat.",
+      "movement": "Fixed shallow hollow shape throughout loop, not a V-up; no changing proportions or interpolated ghosting."
+    },
+    "sources": [
+      "https://www.strengthlog.com/hollow-hold/"
+    ],
+    "reviewedAt": "2026-09-30T03:58:05.471Z",
+    "note": "New generated source parts/pose and both theme contact sheets at 0.05/2/4/6/7.983s inspected. Exact video hashes match full decode and Chromium loop checks. No temporal optical flow. 720x720/60fps/8s. Physical Android playback and production deployment pending. Gray/teal style; mechanical joint appearance on articulated assets is intentional."
+  },
+  {
+    "id": "dumbbell-biceps-curl",
+    "status": "rework",
+    "renderer": "fixed-arm-rig-v1",
+    "timing": "smooth",
+    "rigSourceSha256": "bdcd6fa4832db7584e6a58fadc8092de70ad425003461ba18fcb85986f5bb34e",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "71c6333b54308c69661a649984e69394095255b7839eb179efe62acebbeadf6e",
+        "bytes": 212421
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "98fdb30df7ac1eda89221e3862cd73ff5bc231283bd99ec555bbd01d7bed3464",
+        "bytes": 168151
+      }
+    ],
+    "checks": {
+      "exercise": "Bilateral supinated dumbbell biceps curl.",
+      "equipment": "Two separate complete dumbbells stay rigidly attached to hands.",
+      "setup": "Upright fixed torso; upper arms stay beside ribs and elbow centers do not move.",
+      "hands": "Supinated grip source with dumbbell axis across the palm, distinct from neutral hammer grip; no hand detachment.",
+      "feet": "Both shoes remain planted at unchanged coordinates.",
+      "movement": "Only fixed-length forearm/hand/weight parts rotate about elbows and return; smooth cosine timing with peak at 4s. Simplified 2D projected motion and round mechanical elbow joints."
+    },
+    "sources": [
+      "https://www.catalystathletics.com/exercise/821/Dumbbell-Curl/"
+    ],
+    "reviewedAt": "2026-09-30T04:43:08.886Z",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  },
+  {
+    "id": "hammer-curl-2",
+    "status": "rework",
+    "renderer": "fixed-arm-rig-v1",
+    "timing": "smooth",
+    "rigSourceSha256": "5a38024b28439a0b192099b555d1c576b571ccf5a69fecd57a58d882277b5f47",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "94faffcb102295b587f4a4a534a5e7bc365cad91daa2e1fffe29d83007db48f5",
+        "bytes": 213487
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "1a2dd4ecd473b8939020efadbc191c274a1b0d19abb84fc51ec73e9a5a47ecdc",
+        "bytes": 166601
+      }
+    ],
+    "checks": {
+      "exercise": "Bilateral neutral-grip hammer curl.",
+      "equipment": "Two equal compact dumbbells with plate pair and handle retained.",
+      "setup": "Torso, upper arms and elbow pivots fixed; no swinging.",
+      "hands": "Neutral grips with dumbbell axes aligned along forearms rather than across them, thumbs toward elbows. Hands and weights remain one rigid layer.",
+      "feet": "Both feet stay at the same positions through entire loop.",
+      "movement": "Forearms flex and return with no changing length or temporal blending. Fixed 2D perspective; spherical elbow overlap is a visual simplification."
+    },
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/standing-hammer-curl.html"
+    ],
+    "reviewedAt": "2026-09-30T04:43:08.891Z",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  },
+  {
+    "id": "dumbbell-front-raise",
+    "status": "rework",
+    "renderer": "fixed-arm-rig-v1",
+    "timing": "smooth",
+    "rigSourceSha256": "11b4884d42bd7feec885ce054695294c9bd6868c5a60cdc1034f1054a8489207",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "bdbf9e539279cc89857164d602011ef9ec4dd1e28cf95c1c6f304f7f190291ec",
+        "bytes": 293220
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "4f573a934d0a62f0402f6cab78a56cb48428cb021748972aa303a1229919b81b",
+        "bytes": 225749
+      }
+    ],
+    "checks": {
+      "exercise": "Bilateral dumbbell front raise to shoulder height.",
+      "equipment": "Two independent dumbbells; full arm and weight outlines remain in frame.",
+      "setup": "Fixed upright trunk and head, arms raise forward around shoulder pivots.",
+      "hands": "Closed grips and neutral wrist shape preserved within rigid arm layers. Perspective and axial rotation are simplified in 2D; no claimed full 3D pronation/scapular simulation.",
+      "feet": "Feet fixed flat on the floor; no leaning to lift.",
+      "movement": "Whole arms keep their length and slight elbow shape, rotating from lowered to horizontal and returning with smooth loop boundary. No curl or overhead motion."
+    },
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/",
+      "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/"
+    ],
+    "reviewedAt": "2026-09-30T04:43:08.893Z",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  },
+  {
+    "id": "triceps-kickback",
+    "status": "rework",
+    "renderer": "fixed-arm-rig-v1",
+    "timing": "smooth",
+    "rigSourceSha256": "2f0601947bc93ad5688627c39052896ed1f12e3d8b2b56bb65d1e1419d9634df",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "f7324ec799e8ea1524fe84f88b5c889389df5bf3c43f32a6afa0717640933b48",
+        "bytes": 121046
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "fc24cf73d178d0925c88592bd58b8689f8045aa87c5992183965ce251db1b13f",
+        "bytes": 109726
+      }
+    ],
+    "checks": {
+      "exercise": "One-arm dumbbell triceps kickback in supported split stance.",
+      "equipment": "Single dumbbell; no bench or extra resistance equipment.",
+      "setup": "Flat inclined torso, supporting hand on front thigh. Initial atlas upper arm was too high and was regenerated parallel to torso before rendering.",
+      "hands": "Working hand maintains a closed grip on attached dumbbell; supporting hand remains on thigh.",
+      "feet": "Both feet and knees remain stationary in split stance.",
+      "movement": "Only working forearm rotates around fixed elbow from hanging position to almost straight alignment with upper arm, then returns. Upper arm and torso remain fixed. Small arc reflects inclined torso; no shoulder swing."
+    },
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/55/triceps-kickback/"
+    ],
+    "reviewedAt": "2026-09-30T04:43:08.894Z",
+    "note": "Generated per-exercise atlas and both theme five-moment decoded contact sheets inspected (0.05/2/4/6/7.983s). Exact hashes match complete 480-frame FFmpeg decoding and Chromium loop checks. Fixed parts eliminate changing limb lengths and temporal optical-flow smearing. 2D joint/projection simplifications remain. Physical Android test and deployment pending.",
+    "qualityHold": "User rejected detached arm movement and upper-body jitter; replace cutout rotation with connected skinning and exercise-specific shoulder motion."
+  }
+]

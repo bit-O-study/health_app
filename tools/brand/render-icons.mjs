@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * 짐꾼 아이콘 PNG 만들기 — 안드로이드 원본(assets/) + 웹 정적 아이콘(public/).
+ * 헬쑤 아이콘 PNG 만들기 — 안드로이드 원본(assets/) + 웹 정적 아이콘(public/).
  *
- * 도형은 `src/features/brand/mark.tsx` 의 `JimkkunMark` 와 **같은 좌표**다
+ * 도형은 `src/features/brand/mark.tsx` 의 `HelssuMark` 와 **같은 좌표**다
  * (tests/be/logic/brand.test.ts 가 두 곳의 좌표가 같은지 지킨다).
  *
  * 사용: node tools/brand/render-icons.mjs
- * 그다음 안드로이드 mipmap: corepack pnpm exec capacitor-assets generate --android
+ * Android 아이콘도 직접 생성한다. splash 재생성 시 capacitor-assets 실행 후 이 스크립트를 다시 실행한다.
  */
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,16 +18,15 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 export const BG = "#0a6b4e";
 export const MINT = "#45d6a0";
 /** public/ 아이콘 파일 이름에 붙는 버전 — 바꾸면 layout.tsx·manifest.ts 의 PWA_ICON_VERSION 도. */
-export const ICON_VERSION = "20260929";
+export const ICON_VERSION = "20261001";
 
 /** 마크 도형(viewBox 0 0 100 100). mark.tsx 와 같은 좌표. */
 export const MARK_SHAPES = [
-  `<line x1="15" y1="34" x2="85" y2="34" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>`,
-  `<rect x="21" y="21" width="7" height="26" rx="2.2" fill="${MINT}"/>`,
-  `<rect x="29.5" y="26" width="4.5" height="16" rx="1.6" fill="${MINT}"/>`,
-  `<rect x="72" y="21" width="7" height="26" rx="2.2" fill="${MINT}"/>`,
-  `<rect x="66" y="26" width="4.5" height="16" rx="1.6" fill="${MINT}"/>`,
-  `<path d="M50 44 L31 78 M50 44 L69 78" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+  `<line x1="43" y1="17" x2="57" y2="17" stroke="${MINT}" stroke-width="7" stroke-linecap="round"/>`,
+  `<line x1="17" y1="35" x2="83" y2="35" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>`,
+  `<rect x="23" y="25" width="8" height="20" rx="3" fill="${MINT}"/>`,
+  `<rect x="69" y="25" width="8" height="20" rx="3" fill="${MINT}"/>`,
+  `<circle cx="50" cy="67" r="17" stroke="#ffffff" stroke-width="8" fill="none"/>`,
 ].join("");
 
 /**
@@ -57,6 +56,24 @@ async function main() {
   // 시작 화면·레거시 아이콘 원본(둥근 사각).
   await png(iconSvg({ bg: true, radius: 22, scale: 0.82 }), 1024, "assets/logo.png");
 
+  // 108dp adaptive canvas: content stays inside the central 66% safe area.
+  // capacitor-assets logo mode overwrites foregrounds at legacy sizes; render them explicitly.
+  for (const [density, factor] of [["ldpi", 0.75], ["mdpi", 1], ["hdpi", 1.5], ["xhdpi", 2], ["xxhdpi", 3], ["xxxhdpi", 4]]) {
+    const dir = `android/app/src/main/res/mipmap-${density}`;
+    await png(iconSvg({ bg: true, radius: 22, scale: 0.82 }), 48 * factor, `${dir}/ic_launcher.png`);
+    await png(iconSvg({ bg: true, radius: 50, scale: 0.72 }), 48 * factor, `${dir}/ic_launcher_round.png`);
+    await png(iconSvg({ bg: false, scale: 0.66 }), 108 * factor, `${dir}/ic_launcher_foreground.png`);
+    await png(solid, 108 * factor, `${dir}/ic_launcher_background.png`);
+  }
+  const adaptiveDir = resolve(ROOT, "android/app/src/main/res/mipmap-anydpi-v26");
+  mkdirSync(adaptiveDir, { recursive: true });
+  const adaptiveXml = `<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>
+`;
+  for (const name of ["ic_launcher", "ic_launcher_round"]) writeFileSync(resolve(adaptiveDir, `${name}.xml`), adaptiveXml);
   // 웹 정적 아이콘 — 알림 아이콘·공유 카드가 버전 없는 이름을 쓰고, PWA 는 버전 이름을 쓴다.
   for (const suffix of ["", `-${ICON_VERSION}`]) {
     await png(iconSvg({ bg: true, radius: 22, scale: 0.82 }), 192, `public/icon-192${suffix}.png`);

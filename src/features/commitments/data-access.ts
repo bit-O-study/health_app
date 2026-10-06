@@ -124,6 +124,8 @@ export async function getMyCommitments(): Promise<CommitmentView[]> {
     .select("id, title, tag, metric, target, start_date, deadline")
     .eq("user_id", user.id)
     .eq("archived", false)
+    // 행동 다짐(2026-10-06)은 자기 화면·판정이 따로 있다 — 예전 지표 진행률로 보이면 안 된다.
+    .neq("mode", "pledge")
     .order("deadline", { ascending: true });
 
   const commitments = ((rows ?? []) as {

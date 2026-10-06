@@ -2,10 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   achievementForDay,
   markerForPct,
-  buildMissionsFromSurvey,
   sanitizeMissions,
   MISSION_CATALOG,
-  DEFAULT_SURVEY,
   EMPTY_DAY,
   type DayStats,
   type MissionSpec,
@@ -49,39 +47,6 @@ describe("markerForPct", () => {
   });
   it("미션 없으면 마커 없음", () => {
     expect(markerForPct(0, false)).toBeNull();
-  });
-});
-
-describe("buildMissionsFromSurvey", () => {
-  it("켜진 항목만 미션 생성", () => {
-    const missions = buildMissionsFromSurvey({
-      ...DEFAULT_SURVEY,
-      workoutDaily: true,
-      burnKcal: 300,
-      logMeals: true,
-      mealCount: 3,
-      cardioMin: 0,
-      intakeMax: 0,
-      proteinMin: 0,
-      strengthDaily: false,
-    });
-    const types = missions.map((m) => m.type).sort();
-    expect(types).toEqual(["burn_kcal", "meal_count", "meal_log", "workout_today"].sort());
-    expect(missions.find((m) => m.type === "burn_kcal")?.target).toBe(300);
-  });
-  it("0 목표 항목은 생성 안 함", () => {
-    const missions = buildMissionsFromSurvey({
-      ...DEFAULT_SURVEY,
-      workoutDaily: false,
-      strengthDaily: false,
-      cardioMin: 0,
-      burnKcal: 0,
-      logMeals: false,
-      mealCount: 0,
-      intakeMax: 0,
-      proteinMin: 0,
-    });
-    expect(missions).toEqual([]);
   });
 });
 

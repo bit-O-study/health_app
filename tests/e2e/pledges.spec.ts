@@ -102,6 +102,10 @@ test("7일 구간 — 식단 미기록 날짜를 현황에 보여 주고, 구간
   await page.goto("/commitments/status", { waitUntil: "networkidle" });
   await expect(page.getByTestId("missing-diet")).toContainText("기록이 안 됐어요");
   await expect(page.getByTestId("status-card")).toContainText("1/5주차");
+  // 홈 '오늘의 다짐'에도 같은 경고가 보인다.
+  await page.goto("/home", { waitUntil: "networkidle" });
+  await expect(page.getByText("E2E 실패 다짐")).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText("식단 3일 미기록")).toBeVisible();
 
   // 10일 전 시작 — 첫 구간(7일)이 끝났고 식단이 비어 있으므로 실패.
   await dbQuery(

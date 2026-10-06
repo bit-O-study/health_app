@@ -10,7 +10,9 @@ const KIND_CELL = {
   light: "bg-danger/70",
 } as const;
 
-function Card({ title, testId, children }: { title: string; testId: string; children: React.ReactNode }) {
+/** 기록이 없는 카드는 그리지 않는다(2026-10-06) — 맨 아래 '이렇게 기록하면' 한 장으로 모은다. */
+function Card({ title, testId, empty = false, children }: { title: string; testId: string; empty?: boolean; children: React.ReactNode }) {
+  if (empty) return null;
   return (
     <section className="app-card space-y-2 p-3" data-testid={testId}>
       <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{title}</h2>
@@ -46,7 +48,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
   const { body, condition, diet, dietTarget, habits } = r;
   return (
     <>
-      <Card title="체성분 변화" testId="lite-report-body">
+      <Card title="체성분 변화" testId="lite-report-body" empty={body.count === 0}>
         {body.count === 0 ? (
           <Empty>
             아직 측정 기록이 없어요.{" "}
@@ -99,7 +101,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
         )}
       </Card>
 
-      <Card title="컨디션 (최근 4주)" testId="lite-report-condition">
+      <Card title="컨디션 (최근 4주)" testId="lite-report-condition" empty={condition.checked === 0}>
         {condition.checked === 0 ? (
           <Empty>오늘 운동 화면에서 컨디션(잠·근육통·기운)을 누르면 여기에 쌓여요.</Empty>
         ) : (
@@ -132,7 +134,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
         )}
       </Card>
 
-      <Card title={`${Number(diet.month.slice(5))}월 식단`} testId="lite-report-diet">
+      <Card title={`${Number(diet.month.slice(5))}월 식단`} testId="lite-report-diet" empty={diet.loggedDays === 0}>
         {diet.loggedDays === 0 ? (
           <Empty>이번 달 식단 기록이 아직 없어요.</Empty>
         ) : (
@@ -158,7 +160,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
         )}
       </Card>
 
-      <Card title="수분·걸음 (최근 7일)" testId="lite-report-habits">
+      <Card title="수분·걸음 (최근 7일)" testId="lite-report-habits" empty={habits.water.thisWeek.days === 0 && habits.steps.thisWeek.days === 0}>
         {habits.water.thisWeek.days === 0 && habits.steps.thisWeek.days === 0 ? (
           <Empty>수분을 기록하거나 걸음 수를 연결하면 여기에 주간 리포트가 생겨요.</Empty>
         ) : (
@@ -182,6 +184,36 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
           </>
         )}
       </Card>
+      <EmptyGroup
+        items={[
+          body.count === 0 ? { label: "체성분 입력", href: "/settings/body-composition" } : null,
+          condition.checked === 0 ? { label: "컨디션 체크", href: "/routine" } : null,
+          diet.loggedDays === 0 ? { label: "식단 기록", href: "/diet" } : null,
+          habits.water.thisWeek.days === 0 && habits.steps.thisWeek.days === 0 ? { label: "수분·걸음", href: "/diet" } : null,
+        ]}
+      />
     </>
+  );
+}
+
+/** 기록이 없는 리포트를 한 장으로 — 빈 카드 네 장이 이어지면 실제 내용보다 길어진다. */
+function EmptyGroup({ items }: { items: ({ label: string; href: string } | null)[] }) {
+  const list = items.filter((x): x is { label: string; href: string } => x !== null);
+  if (list.length === 0) return null;
+  return (
+    <section className="app-card space-y-2 p-3" data-testid="lite-report-empty">
+      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">기록하면 더 보여요</h2>
+      <div className="flex flex-wrap gap-1.5">
+        {list.map((it) => (
+          <Link
+            key={it.label}
+            href={it.href}
+            className="rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand"
+          >
+            {it.label} →
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }

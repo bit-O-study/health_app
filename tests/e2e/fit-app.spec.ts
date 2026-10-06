@@ -42,11 +42,15 @@ async function setup(page: Page, baseURL: string) {
   return { email, user_id, today };
 }
 
-/** 탭 이동 — 누르고 그 탭 주소가 될 때까지 기다린다(앞 탭을 그리는 중에 누르면 이동이 씹힌다). */
-async function openTab(page: Page, name: string, id: string) {
+/**
+ * 하단 탭 이동(2026-10-06 UI 개편 — 오늘 추천 · 내 몸 균형 · 성장 · 리포트). 누르고 그 주소가 될 때까지
+ * 기다린다(앞 화면을 그리는 중에 누르면 이동이 씹힌다).
+ */
+async function openTab(page: Page, name: string, path: string) {
   await expect(page.getByTestId("fit-page")).toBeVisible({ timeout: 15_000 });
-  await page.getByRole("link", { name, exact: true }).click();
-  await page.waitForURL(`**/fit?tab=${id}`, { timeout: 15_000 });
+  await page.getByRole("link", { name, exact: true }).last().click();
+  await page.waitForURL((u) => new URL(u).pathname === path, { timeout: 15_000 });
+  await expect(page.getByTestId("fit-page")).toBeVisible({ timeout: 15_000 });
 }
 
 async function grantLite(email: string) {
@@ -66,25 +70,43 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await page.goto("/fit", { waitUntil: "networkidle" });
   const root = page.getByTestId("fit-page");
   await expect(root).toHaveAttribute("data-full", "1", { timeout: 15_000 });
-  await expect(page.getByTestId("fit-lacking")).toContainText("목표의");
+  await expect(page.getByTestId("fit-headline")).toContainText("부족해요");
+  await expect(page.getByTestId("fit-lacking")).toContainText("세트");
+  // 추천마다 처방(세트 × 회)과 채우는 양(세트 단위)이 보인다.
+  await expect(page.getByTestId("fit-pick-rx").first()).toContainText("세트 ×");
   await expect(page.getByTestId("fit-locked")).toHaveCount(0);
   const picks = page.getByTestId("fit-picks").locator("li");
   await expect(picks).toHaveCount(3);
   // 가슴은 이미 넘쳤으니 벤치프레스는 추천하지 않는다.
   await expect(page.getByTestId("fit-pick-bench-press")).toHaveCount(0);
 
-  await openTab(page, "부위", "parts");
-  await expect(page.getByTestId("fit-part-chest")).toContainText("중부 대흉근");
-  await openTab(page, "균형", "balance");
-  await expect(page.getByTestId("fit-balance-push-pull")).toContainText("당기기 쪽이 모자라요");
+  await openTab(page, "내 몸 균형", "/fit/balance");
+  await expect(page.getByTestId("fit-legend")).toContainText("넘침");
+  // 부위를 누르면 세부 근육과 비율이 펼쳐진다(가슴은 넘쳐서 숫자 대신 '넘침').
+  await expect(page.getByTestId("fit-part-chest")).toContainText("넘침");
+  await page.getByTestId("fit-part-back").locator("summary").click();
+  await expect(page.getByTestId("fit-balance-push-pull")).toBeVisible();
+  await expect(page.getByTestId("fit-balance-push-pull")).toContainText("당기기 부족");
+  // '등 채우는 운동 보기' → 그 부위 추천만.
+  await page.getByTestId("fit-part-go-back").click();
+  await page.waitForURL("**/fit?part=back", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-headline")).toContainText("등 채우는 운동");
+  await page.goto("/fit/balance", { waitUntil: "networkidle" });
 
-  await openTab(page, "성장", "growth");
+  await openTab(page, "성장", "/fit/growth");
   await expect(page.getByTestId("fit-growth-bench-press")).toContainText("벤치프레스", { timeout: 15_000 });
   await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스");
-  await openTab(page, "리포트", "report");
+  await openTab(page, "리포트", "/fit/report");
   await expect(page.getByTestId("fit-report")).toContainText("운동한 날", { timeout: 15_000 });
+  // 빈 리포트는 카드 여러 장 대신 한 장으로.
+  await expect(page.getByTestId("lite-report-empty")).toContainText("기록하면 더 보여요");
+  await expect(page.getByTestId("lite-report-body")).toHaveCount(0);
 
-  await openTab(page, "추천", "recommend");
+  // 예전 주소(?tab=)는 새 화면으로 넘어간다.
+  await page.goto("/fit?tab=parts", { waitUntil: "networkidle" });
+  await page.waitForURL("**/fit/balance", { timeout: 15_000 });
+
+  await openTab(page, "오늘 추천", "/fit");
   await expect(page.getByTestId("fit-add")).toHaveText("오늘 운동에 3개 더하기", { timeout: 10_000 });
   await page.getByTestId("fit-add").click();
   // 오늘 루틴 고정 + 담기라 개발 서버에선 20초를 넘기기도 한다.
@@ -122,18 +144,57 @@ test("무료(공개 스위치 켜진 계정): 맛보기 추천 1개 + 잠금", a
     await expect(page.getByTestId("fit-page")).toHaveAttribute("data-full", "0", { timeout: 15_000 });
     await expect(page.getByTestId("fit-picks").locator("li")).toHaveCount(1);
     await expect(page.getByTestId("fit-locked")).toBeVisible();
-    await openTab(page, "균형", "balance");
-    await expect(page.getByTestId("fit-locked")).toContainText("내 몸 균형");
+    // 무료는 '바꾸기' 없이 '더하기'만.
+    await expect(page.getByTestId("fit-replace")).toHaveCount(0);
+    await openTab(page, "내 몸 균형", "/fit/balance");
+    await expect(page.getByTestId("fit-headline")).toBeVisible();
+    await expect(page.getByTestId("fit-parts-free")).toBeVisible();
+    await expect(page.getByTestId("fit-locked")).toContainText("세부 근육 25개");
     // 무료 맛보기: 신기록은 보이고 종목별 추이는 잠금.
-    await openTab(page, "성장", "growth");
+    await openTab(page, "성장", "/fit/growth");
     await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스", { timeout: 15_000 });
     await expect(page.getByTestId("fit-growth-bench-press")).toHaveCount(0);
-    await openTab(page, "리포트", "report");
-    await expect(page.getByTestId("fit-locked")).toContainText("월간·체성분·컨디션·식단 리포트는 라이트에서 볼 수 있어요");
+    await openTab(page, "리포트", "/fit/report");
+    await expect(page.getByTestId("fit-locked")).toContainText("라이트에서 볼 수 있어요");
   } finally {
     await dbQuery(
       `update public.app_settings set value = coalesce((select jsonb_agg(e) from jsonb_array_elements_text(value) e where e <> $1), '[]'::jsonb) where key='debug.accounts'`,
       [email],
     );
   }
+});
+
+test("라이트: [바꾸기]는 확인 후에만 — 취소하면 그대로, 바꾸면 고른 것만 오늘 운동이 되고 원래 운동은 내일로", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(150_000);
+  const { email, user_id, today } = await setup(page, baseURL!);
+  await grantLite(email);
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+
+  await page.goto("/fit", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("fit-picks").locator("li")).toHaveCount(3, { timeout: 15_000 });
+  // 하나 끄면 '2개'로 — 고른 것만 담는다.
+  await page.getByTestId("fit-picks").getByRole("checkbox").first().uncheck();
+  await expect(page.getByTestId("fit-add")).toHaveText("오늘 운동에 2개 더하기");
+
+  await page.getByTestId("fit-replace").click();
+  await expect(page.getByTestId("fit-replace-confirm")).toContainText("내일로 미뤄져요");
+  await page.getByTestId("fit-replace-no").click();
+  await expect(page.getByTestId("fit-replace-confirm")).toHaveCount(0);
+  const before = await dbQuery<{ n: string }>(`select count(*) n from public.daily_plan where user_id=$1 and for_date=$2`, [user_id, today]);
+  expect(Number(before[0].n)).toBe(0);
+
+  await page.getByTestId("fit-replace").click();
+  await page.getByTestId("fit-replace-yes").click();
+  await page.waitForURL("**/routine", { timeout: 45_000 });
+  await expect(page.getByText("페이지를 찾을 수 없어요")).toHaveCount(0);
+  await expect(page.getByText("잠깐 문제가 생겼어요")).toHaveCount(0);
+  const plan = await dbQuery<{ exercise_id: string }>(`select exercise_id from public.daily_plan where user_id=$1 and for_date=$2`, [user_id, today]);
+  expect(plan.map((p) => p.exercise_id)).not.toContain("squat");
+  expect(plan).toHaveLength(2);
+  // 🔴 원칙 2 — 영구 루틴은 그대로.
+  const kept = await dbQuery<{ exercise_id: string }>(`select exercise_id from public.routine_exercises where user_id=$1`, [user_id]);
+  expect(kept.map((k) => k.exercise_id)).toEqual(["squat"]);
+  expect(errors).toEqual([]);
 });

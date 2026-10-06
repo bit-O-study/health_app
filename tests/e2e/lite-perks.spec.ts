@@ -59,7 +59,7 @@ test("라이트: 맞춤 운동 리포트 탭에 체성분·컨디션·식단·�
 
   // 라이트: 홈 배너 없음.
   await page.goto("/home", { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { level: 1 }).or(page.getByRole("link", { name: "짐꾼 홈" })).first()).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 }).or(page.getByRole("link", { name: /(짐꾼|헬쑤) 홈/ })).first()).toBeVisible();
   await expect(page.getByRole("region", { name: "함께하는 서비스" })).toHaveCount(0);
 });
 

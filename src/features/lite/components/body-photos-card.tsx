@@ -33,7 +33,7 @@ export function BodyPhotosCard({ view }: { view: BodyPhotosView }) {
         </ul>
       ) : (
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          한 달에 한 번 같은 자세로 찍어 두면, 숫자보다 변화가 잘 보여요. 사진은 나만 봐요.
+          한 달에 한 장 · 나만 봐요
         </p>
       )}
     </section>

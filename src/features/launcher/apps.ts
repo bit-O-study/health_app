@@ -15,6 +15,7 @@ import {
   Search,
   Sparkles,
   Target,
+  TrendingUp,
   Users,
   UsersRound,
 } from "lucide-react";
@@ -203,7 +204,13 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     home: "/fit",
     owns: ["/fit"],
     debugFlag: "fit",
-    tabs: [],
+    // 2026-10-06 UI 개편 — 상단 알약 5개 → 하단 탭 4개(부위·균형은 '내 몸 균형' 하나로).
+    tabs: [
+      { href: "/fit", label: "오늘 추천", icon: Sparkles, match: (p) => p === "/fit" },
+      { href: "/fit/balance", label: "내 몸 균형", icon: Activity },
+      { href: "/fit/growth", label: "성장", icon: TrendingUp },
+      { href: "/fit/report", label: "리포트", icon: ChartColumn, match: (p) => p.startsWith("/fit/report") || p.startsWith("/fit/year") },
+    ],
   },
   {
     // AI 트레이너(2026-09-30 2단계) — 오늘의 운동을 짜 주고 [적용]으로 '오늘만 운동 변경'에 넘긴다.

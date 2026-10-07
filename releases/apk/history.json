@@ -1,5 +1,20 @@
 [
   {
+    "file": "helssu-v1.0.6-7-b05a5eb-20261007-1349-dirty-body-comp-device-ocr.apk",
+    "dir": "releases/apk/2026-10-07",
+    "sha256": "476b129d1a78236fb52f1ef1540174b2db1375beaba0a27b2cc863e2d5f4499d",
+    "versionName": "1.0.6",
+    "versionCode": 7,
+    "commit": "b05a5eb",
+    "builtAt": "2026-10-07T04:49:14.054Z",
+    "buildType": "debug",
+    "sizeBytes": 53084462,
+    "verified": false,
+    "note": "body-comp-device-ocr",
+    "logcat": "",
+    "rebuiltAs": []
+  },
+  {
     "file": "helssu-v1.0.5-6-0b8e850-20260929-1549-dirty-jimkkun-rebrand.apk",
     "dir": "releases/apk/2026-09-29",
     "sha256": "e033565c5a7ba1bc6830f7a19daaa0bae98a7b29b5fc9dedf61a4e5654ffe811",

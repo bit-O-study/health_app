@@ -14,7 +14,7 @@ test("독립 트레이너 이용권·초대 수락·공유 설정·연결 삭제
   await expect(grid.getByRole("link", { name: "헬스 트레이너", exact: true })).toHaveCount(0);
   await grid.getByRole("button", { name: "편집", exact: true }).click();
   await grid.getByRole("button", { name: "앱 추가", exact: true }).click();
-  await expect(page.getByRole("dialog", { name: "앱 추가", exact: true }).getByRole("link", { name: "트레이너 대시보드", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("dialog", { name: "앱 추가", exact: true }).getByRole("button", { name: "헬스 트레이너 추가", exact: true })).toHaveCount(0);
   await page.getByRole("button", { name: "앱 추가 닫기", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "앱 추가", exact: true })).toHaveCount(0);
   await page.waitForFunction(() => !window.history.state?.heltchModal);
@@ -31,14 +31,21 @@ test("독립 트레이너 이용권·초대 수락·공유 설정·연결 삭제
   await grid.getByRole("button", { name: "편집", exact: true }).click();
   await grid.getByRole("button", { name: "헬스 트레이너 숨기기", exact: true }).click();
   await grid.getByRole("button", { name: "앱 추가", exact: true }).click();
-  await page.getByRole("dialog", { name: "앱 추가", exact: true }).getByRole("link", { name: "트레이너 대시보드", exact: true }).click();
+  // 숨긴 트레이너 앱은 '앱 추가'에 같은 이름 하나로만 나온다(따로 된 '트레이너 대시보드' 없음, 2026-10-07).
+  const picker = page.getByRole("dialog", { name: "앱 추가", exact: true });
+  await expect(picker.getByText("트레이너 대시보드")).toHaveCount(0);
+  await picker.getByRole("button", { name: "헬스 트레이너 추가", exact: true }).click();
+  await grid.getByRole("button", { name: "완료", exact: true }).click();
+  await grid.getByRole("link", { name: "헬스 트레이너", exact: true }).click();
   await expect(page).toHaveURL(/\/trainer$/);
+  await expect(page.getByRole("heading", { name: "담당 회원 · 0명", exact: true })).toBeVisible();
+  // 홈에 있으면 '앱 추가'에 다시 나오지 않는다.
   await page.goto("/home");
-  await expect(grid.getByRole("link", { name: "헬스 트레이너", exact: true })).toBeVisible();
   await grid.getByRole("button", { name: "편집", exact: true }).click();
   await grid.getByRole("button", { name: "앱 추가", exact: true }).click();
-  await page.getByRole("dialog", { name: "앱 추가", exact: true }).getByRole("link", { name: "트레이너 대시보드", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "담당 회원 · 0명", exact: true })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "앱 추가", exact: true }).getByRole("button", { name: "헬스 트레이너 추가", exact: true })).toHaveCount(0);
+  await page.getByRole("button", { name: "앱 추가 닫기", exact: true }).click();
+  await page.waitForFunction(() => !window.history.state?.heltchModal);
   await page.goto("/settings/trainer-pass");
   await expect(page.getByText(/무제한 · 회원 15명/)).toBeVisible();
   await page.goto("/trainer");

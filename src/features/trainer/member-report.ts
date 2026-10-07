@@ -18,6 +18,17 @@ export function reportRange(period: ReportPeriod, anchor: string) {
   }
   return { from: ymd(from), to: ymd(to) };
 }
+/**
+ * 비교할 지난 기간(2026-10-07) — 바로 앞 같은 종류 기간. 보고 있는 기간에 오늘이 들어 있으면
+ * **오늘까지와 같은 일수**만(진행 중인 주가 늘 줄어든 것처럼 보이지 않게), 아니면 지난 기간 전체.
+ */
+export function previousRange(period: ReportPeriod, cur: { from: string; to: string }, today: string) {
+  const prev = reportRange(period, ymd(new Date(Date.parse(`${cur.from}T00:00:00Z`) - 86_400_000)));
+  if (today < cur.from || today > cur.to) return prev;
+  const n = Math.round((Date.parse(today) - Date.parse(cur.from)) / 86_400_000);
+  const to = ymd(new Date(Date.parse(`${prev.from}T00:00:00Z`) + n * 86_400_000));
+  return { from: prev.from, to: to > prev.to ? prev.to : to };
+}
 export type MemberReportData = {
   sharing: { workout: boolean; diet: boolean; body: boolean; prescription: boolean };
   name: string;

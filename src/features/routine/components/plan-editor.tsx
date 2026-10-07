@@ -1,5 +1,6 @@
 "use client";
 
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import {
   Fragment,
   useCallback,
@@ -554,7 +555,7 @@ export function PlanEditor({
       gender,
       experience,
       bodyType: bodyType ?? ("average" as const),
-      weightKg: weightKg ?? 65,
+      weightKg: weightKg ?? DEFAULT_WEIGHT_KG,
     };
     return runConfirmed(async () => {
       const groups = await recommendExercisesAction(

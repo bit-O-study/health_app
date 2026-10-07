@@ -12,6 +12,7 @@ import { seoulYmd } from "@/features/routine/data";
 import { resolveForDate } from "@/lib/offline/queued-date";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { estimateConditioningKcal } from "@/features/routine/calories";
+import { weightOrDefault } from "@/features/routine/burn";
 import {
   isDuplicateRunSessionError,
   normalizeRunSession,
@@ -148,7 +149,7 @@ export async function recordRunSessionAction(input: RunSessionInput & {
     .select("weight_kg")
     .eq("user_id", user.id)
     .maybeSingle();
-  const weightKg = Number(profile?.weight_kg) || 65;
+  const weightKg = weightOrDefault(profile?.weight_kg);
   const caloriesKcal = Math.max(
     0,
     Math.round(

@@ -1,3 +1,4 @@
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import { redirect } from "next/navigation";
 import { LogOut } from "lucide-react";
 
@@ -43,7 +44,7 @@ export default async function MyPage() {
   ]);
 
   const done = completions.filter((c) => c.status === "done");
-  const userWeight = profile.weightKg ?? 65;
+  const userWeight = profile.weightKg ?? DEFAULT_WEIGHT_KG;
   const score = computeScore(
     done.map((c) => ({
       forDate: c.forDate,

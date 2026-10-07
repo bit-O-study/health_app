@@ -136,7 +136,7 @@ test("인증 모드: 초대 링크로 가입해도 캐릭터 키우기(헬스장
  * 옛 그룹장-트레이너 URL.
  *
  * 그룹장이 곧 트레이너이던 구조는 **폐기됐다** — 독립 트레이너(pt_*)로 바뀌면서
- * `/groups/[id]/trainer/**` 는 리다이렉트만 남았고(`LegacyTrainerLayout`),
+ * `/groups/[id]/trainer/**` 는 리다이렉트만 남았고(`next.config` redirects — legacy-trainer-redirects.ts; layout 의 redirect() 는 loading 스트리밍 탓에 주소가 안 바뀌었다),
  * 옛 RPC 들도 실행 권한이 회수됐다(`202609220002_independent_trainers`).
  * 그래서 예전의 회원 관리·루틴 배정·코멘트 시나리오는 이 경로로 더 이상 열리지 않는다.
  * 새 흐름은 `independent-trainer.spec.ts` 가 본다.

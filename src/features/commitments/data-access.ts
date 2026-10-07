@@ -5,10 +5,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import {
-  strengthKcalForCompletion,
-  estimateConditioningKcal,
-} from "@/features/routine/calories";
+import { cardioDoneKcal, strengthDoneKcal, weightOrDefault } from "@/features/routine/burn";
 import { conditioningDefaults } from "@/features/routine/conditioning-catalog";
 import { seoulYmd, addDaysYmd } from "@/features/routine/data";
 import {
@@ -62,6 +59,7 @@ type CondRow = {
   item_id: string | null;
   duration_min: number | null;
   speed: number | string | null;
+  incline?: number | string | null;
 };
 type FoodRow = { for_date: string; kcal: number | string };
 
@@ -80,19 +78,13 @@ function aggregateWindow(
   let burnKcal = 0;
   for (const r of ex) {
     if (!r.exercise_id || !inWin(r.for_date)) continue;
-    burnKcal += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    burnKcal += strengthDoneKcal(weight, r);
     workoutCount += 1;
     workoutDates.add(r.for_date);
   }
   for (const r of cond) {
     if (!r.item_id || !inWin(r.for_date)) continue;
-    const d = conditioningDefaults(r.item_id);
-    burnKcal += estimateConditioningKcal(
-      weight,
-      r.item_id,
-      r.duration_min ?? d.durationMin,
-      r.speed === null ? d.speed : num(r.speed),
-    );
+    burnKcal += cardioDoneKcal(weight, r);
     workoutCount += 1;
     workoutDates.add(r.for_date);
   }
@@ -160,7 +152,7 @@ export async function getMyCommitments(): Promise<CommitmentView[]> {
         .lte("for_date", today),
       supabase
         .from("conditioning_completions")
-        .select("for_date, item_id, duration_min, speed")
+        .select("for_date, item_id, duration_min, speed, incline")
         .eq("user_id", user.id)
         .eq("status", "done")
         .gte("for_date", minStart)
@@ -173,7 +165,7 @@ export async function getMyCommitments(): Promise<CommitmentView[]> {
         .lte("for_date", today),
     ]);
 
-  const weight = num(profile?.weightKg) || 65;
+  const weight = weightOrDefault(profile?.weightKg);
   const ex = (exRows ?? []) as ExRow[];
   const cond = (condRows ?? []) as CondRow[];
   const food = (foodRows ?? []) as FoodRow[];
@@ -235,7 +227,7 @@ async function dayStatsRange(
         .lte("for_date", toYmd),
       supabase
         .from("conditioning_completions")
-        .select("for_date, item_id, duration_min, speed")
+        .select("for_date, item_id, duration_min, speed, incline")
         .eq("user_id", userId)
         .eq("status", "done")
         .gte("for_date", fromYmd)
@@ -248,7 +240,7 @@ async function dayStatsRange(
         .lte("for_date", toYmd),
     ]);
 
-  const weight = num(profile?.weightKg) || 65;
+  const weight = weightOrDefault(profile?.weightKg);
 
   // 날짜별 DayStats 집계.
   const stats = new Map<string, DayStats>();
@@ -267,7 +259,7 @@ async function dayStatsRange(
     const s = get(r.for_date);
     s.workedOut = true;
     s.workoutCount += 1;
-    s.burnKcal += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    s.burnKcal += strengthDoneKcal(weight, r);
   }
   for (const r of (condRows ?? []) as CondRow[]) {
     if (!r.item_id) continue;
@@ -277,12 +269,7 @@ async function dayStatsRange(
     s.workedOut = true;
     s.workoutCount += 1;
     s.cardioMin += num(dur);
-    s.burnKcal += estimateConditioningKcal(
-      weight,
-      r.item_id,
-      dur,
-      r.speed === null ? d.speed : num(r.speed),
-    );
+    s.burnKcal += cardioDoneKcal(weight, r);
   }
   for (const r of (foodRows ?? []) as {
     for_date: string;

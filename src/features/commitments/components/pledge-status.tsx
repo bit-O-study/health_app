@@ -4,9 +4,10 @@ import { AlertTriangle } from "lucide-react";
 import { dayDiff, shortDates } from "@/features/commitments/evaluation";
 import type { PledgeView } from "@/features/commitments/pledge-data";
 import { InbodyTip } from "@/features/commitments/components/body-setup";
+import { PledgeTrendView } from "@/features/commitments/components/pledge-trend";
 
 /**
- * 다짐 현황 — 지금 7일 구간이 어디까지 왔는지. **식단 기록이 빠진 날짜를 먼저** 보여 준다
+ * 다짐 현황 — 지금 7일 구간이 어디까지 왔는지 + 주별·월별 변화(2026-10-07). **식단 기록이 빠진 날짜를 먼저** 보여 준다
  * (구간이 끝나기 전에 채우면 통과, 못 채우면 그 다음날 00:00 에 실패).
  */
 export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; today: string }) {
@@ -104,6 +105,8 @@ export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; to
                 );
               })}
             </ul>
+
+            <PledgeTrendView trend={p.trend} />
           </section>
         );
       })}

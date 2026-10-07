@@ -7,13 +7,13 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import {
-  strengthKcalForCompletion,
-  estimateConditioningKcal,
-} from "@/features/routine/calories";
-import {
-  conditioningDefaults,
-  getConditioningItem,
-} from "@/features/routine/conditioning-catalog";
+  DEFAULT_WEIGHT_KG,
+  cardioDoneKcal,
+  strengthDoneKcal,
+  weightOrDefault,
+  type CardioDone,
+} from "@/features/routine/burn";
+import { getConditioningItem } from "@/features/routine/conditioning-catalog";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
@@ -205,7 +205,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .lte("for_date", to),
     supabase
       .from("conditioning_completions")
-      .select("user_id, for_date, item_id, duration_min, speed")
+      .select("user_id, for_date, item_id, duration_min, speed, incline")
       .in("user_id", memberIds)
       .eq("status", "done")
       .gte("for_date", from)
@@ -264,7 +264,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       p.user_id,
       resolveMemberName(p.nickname, p.name, dispOf.get(p.user_id)),
     );
-    weightOf.set(p.user_id, num(p.weight_kg) || 65);
+    weightOf.set(p.user_id, weightOrDefault(p.weight_kg));
   }
   // 프로필 행이 없는 멤버는 가입 스냅샷(display_name)만으로.
   for (const r of memberRows) {
@@ -342,28 +342,16 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
   }[]) {
     if (!r.exercise_id) continue;
     const s = ensure(r.user_id);
-    const v = strengthKcalForCompletion(weightOf.get(r.user_id) ?? 65, r.exercise_id, num(r.sets));
+    const v = strengthDoneKcal(weightOf.get(r.user_id) ?? DEFAULT_WEIGHT_KG, r);
     s.kcal += v;
     s.workouts += 1;
     markDay(r.user_id, r.for_date);
     if (r.for_date === today) addToday(r.user_id, v);
   }
-  for (const r of (condRows ?? []) as {
-    user_id: string;
-    for_date: string;
-    item_id: string | null;
-    duration_min: number | null;
-    speed: number | string | null;
-  }[]) {
+  for (const r of (condRows ?? []) as (CardioDone & { user_id: string; for_date: string })[]) {
     if (!r.item_id) continue;
-    const d = conditioningDefaults(r.item_id);
     const s = ensure(r.user_id);
-    const v = estimateConditioningKcal(
-      weightOf.get(r.user_id) ?? 65,
-      r.item_id,
-      r.duration_min ?? d.durationMin,
-      r.speed === null ? d.speed : num(r.speed),
-    );
+    const v = cardioDoneKcal(weightOf.get(r.user_id) ?? DEFAULT_WEIGHT_KG, r);
     s.kcal += v;
     s.workouts += 1;
     markDay(r.user_id, r.for_date);
@@ -567,7 +555,7 @@ export async function getGroupMemberDay(
       .eq("status", "done"),
     supabase
       .from("conditioning_completions")
-      .select("item_id, duration_min, speed, sets, reps")
+      .select("item_id, duration_min, speed, incline, sets, reps")
       .eq("user_id", memberId)
       .eq("for_date", date)
       .eq("status", "done"),
@@ -587,7 +575,7 @@ export async function getGroupMemberDay(
 
   // 그룹 공개 기록은 그룹의 공유 정책을 따르며 트레이너 연결과 독립적이다.
 
-  const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
+  const weight = weightOrDefault((profile as { weight_kg?: number | string | null } | null)?.weight_kg);
   const prof = profile as { name?: string | null; nickname?: string | null } | null;
   const displayName = resolveMemberName(
     prof?.nickname,
@@ -603,7 +591,7 @@ export async function getGroupMemberDay(
     reps: number | null;
   }[]) {
     if (!r.exercise_id) continue;
-    const raw = strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    const raw = strengthDoneKcal(weight, r);
     burnedRaw += raw;
     const parts: string[] = [];
     if (r.sets != null) parts.push(`${r.sets}세트`);
@@ -614,21 +602,9 @@ export async function getGroupMemberDay(
       kcal: Math.round(raw),
     });
   }
-  for (const r of (condRows ?? []) as {
-    item_id: string | null;
-    duration_min: number | null;
-    speed: number | string | null;
-    sets: number | null;
-    reps: number | null;
-  }[]) {
+  for (const r of (condRows ?? []) as (CardioDone & { duration_min: number | null; sets: number | null; reps: number | null })[]) {
     if (!r.item_id) continue;
-    const d = conditioningDefaults(r.item_id);
-    const raw = estimateConditioningKcal(
-      weight,
-      r.item_id,
-      r.duration_min ?? d.durationMin,
-      r.speed === null ? d.speed : num(r.speed),
-    );
+    const raw = cardioDoneKcal(weight, r);
     burnedRaw += raw;
     const parts: string[] = [];
     if (r.duration_min != null) parts.push(`${r.duration_min}분`);

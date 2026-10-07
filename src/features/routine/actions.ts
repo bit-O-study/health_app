@@ -1,5 +1,6 @@
 "use server";
 
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import { getRecommendationContext } from "./recommendation-data";
 import { getPainAreas } from "./checkin-data";
 import { emptiedByPain, withoutPainExercises } from "./checkin";
@@ -227,7 +228,7 @@ async function fillMissingFocusesAction(
     gender: profile.gender,
     experience: profile.experience,
     bodyType: profile.bodyType ?? ("average" as const),
-    weightKg: profile.weightKg ?? 65,
+    weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
   };
   const groups = missing.map((slot) => {
     const base = slot.isSide

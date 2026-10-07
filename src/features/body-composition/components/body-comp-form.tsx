@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useSyncExternalStore, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Sparkles, Upload } from "lucide-react";
 
@@ -12,6 +12,10 @@ import {
   type SaveBodyCompInput,
 } from "@/features/body-composition/actions";
 import { scanBodyCompPhotoAction } from "@/features/body-composition/body-comp-scan-actions";
+import { hasDeviceOcr, readTextOnDevice } from "@/features/body-composition/device-ocr";
+import { parseBodyCompLayout } from "@/features/body-composition/parse-body-comp-layout";
+import { checkBodyCompScan } from "@/features/body-composition/parse-body-comp";
+import { useNativeApp } from "@/lib/platform/use-native-app";
 
 const BUCKET = "body-composition-images";
 
@@ -55,6 +59,9 @@ const SECTIONS: {
   },
 ];
 
+const noSubscribe = () => () => {};
+const noDeviceOcrOnServer = () => false;
+
 function todayYmd(): string {
   const d = new Date();
   const y = d.getFullYear();
@@ -72,6 +79,10 @@ export function BodyCompForm({
   aiScanEnabled?: boolean;
 }) {
   const router = useRouter();
+  // AI 가 없어도 앱(1.0.6~)이면 폰 안 글자 인식으로 읽는다 — 사진이 기기 밖으로 안 나간다(2026-10-07).
+  const deviceOcr = useSyncExternalStore(noSubscribe, hasDeviceOcr, noDeviceOcrOnServer);
+  const inApp = useNativeApp();
+  const scanMode: "ai" | "device" | null = aiScanEnabled ? "ai" : deviceOcr ? "device" : null;
   const [measuredAt, setMeasuredAt] = useState(todayYmd());
   const [values, setValues] = useState<Record<FieldKey, string>>(() => {
     const obj = {} as Record<FieldKey, string>;
@@ -132,17 +143,24 @@ export function BodyCompForm({
     setOcrMsg(null);
     setOcrRunning(true);
     setOcrProgress(0);
-    setOcrPhase("AI가 분석 중…");
     try {
-      // 사진을 AI 비전 크기로 축소 후 서버에서 판독(식단 스캔과 동일 경로).
-      const img = await resizeImageForAI(imageFile, 1800, 0.9, 160_000);
-      const res = await scanBodyCompPhotoAction({
-        imageBase64: img.base64,
-        mediaType: img.mediaType,
-      });
-      if (!res.ok) {
-        setOcrMsg({ ok: false, text: res.error });
-        return;
+      let res: { values: Partial<Record<FieldKey, number>>; warnings?: string[] };
+      if (scanMode === "ai") {
+        setOcrPhase("AI가 분석 중…");
+        // 사진을 AI 비전 크기로 축소 후 서버에서 판독(식단 스캔과 동일 경로).
+        const img = await resizeImageForAI(imageFile, 1800, 0.9, 160_000);
+        const ai = await scanBodyCompPhotoAction({
+          imageBase64: img.base64,
+          mediaType: img.mediaType,
+        });
+        if (ai.ok) res = ai;
+        else if (deviceOcr) res = await readOnDevice(imageFile); // AI 횟수 소진 등 → 폰에서라도 읽는다
+        else {
+          setOcrMsg({ ok: false, text: ai.error });
+          return;
+        }
+      } else {
+        res = await readOnDevice(imageFile);
       }
 
       const parsed = res.values;
@@ -178,6 +196,13 @@ export function BodyCompForm({
       setOcrProgress(0);
       setOcrPhase("");
     }
+  }
+
+  /** 폰 안 ML Kit → 위치로 항목명·숫자 짝짓기 → 체중·체지방 맞는지 검사. 작은 숫자가 뭉개지지 않게 크게 넘긴다. */
+  async function readOnDevice(file: File) {
+    setOcrPhase("폰에서 사진을 읽는 중…");
+    const img = await resizeImageForAI(file, 2600, 0.92);
+    return checkBodyCompScan(parseBodyCompLayout(await readTextOnDevice(img.base64)));
   }
 
   function parse(k: FieldKey): number | null {
@@ -267,7 +292,7 @@ export function BodyCompForm({
       ))}
 
       <section>
-        <h3 className="app-section-label">{aiScanEnabled ? "분석지 사진 + 자동 추출" : "분석지 사진"}</h3>
+        <h3 className="app-section-label">{scanMode ? "분석지 사진 + 자동 추출" : "분석지 사진"}</h3>
         <div className="app-card p-3">
         <div className="flex flex-wrap items-center gap-2">
           <label
@@ -291,7 +316,7 @@ export function BodyCompForm({
             />
           </label>
 
-          {aiScanEnabled ? (
+          {scanMode ? (
           <button
             type="button"
             disabled={ocrRunning || !imageFile}
@@ -307,9 +332,11 @@ export function BodyCompForm({
           </button>
           ) : null}
         </div>
-        {aiScanEnabled ? null : (
+        {scanMode ? null : (
           <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400" data-testid="body-comp-no-ai">
-            사진에서 숫자를 자동으로 읽는 AI 기능은 아직 준비 중이에요. 지금은 숫자를 직접 입력해 주세요.
+            {inApp
+              ? "앱을 최신 버전으로 업데이트하면 사진에서 숫자를 자동으로 읽어요. 지금은 숫자를 직접 입력해 주세요."
+              : "사진에서 숫자 자동 읽기는 앱에서 돼요. 웹에서는 숫자를 직접 입력해 주세요."}
           </p>
         )}
 
@@ -325,9 +352,11 @@ export function BodyCompForm({
                 style={{ width: `${ocrProgress}%` }}
               />
             </div>
-            <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              첫 실행은 30초쯤 걸려요.
-            </p>
+            {scanMode === "ai" ? (
+              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                첫 실행은 30초쯤 걸려요.
+              </p>
+            ) : null}
           </div>
         ) : null}
 
@@ -362,7 +391,9 @@ export function BodyCompForm({
           </p>
         ) : null}
         <p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
-          사진은 비공개로 저장되며 자동 추출 시 AI 서버로 전송됩니다 · 최대 10MB
+          {scanMode === "device"
+            ? "사진은 비공개로 저장되고, 숫자는 이 폰 안에서 읽어 외부로 보내지 않아요 · 최대 10MB"
+            : "사진은 비공개로 저장되며 자동 추출 시 AI 서버로 전송됩니다 · 최대 10MB"}
         </p>
         </div>
       </section>

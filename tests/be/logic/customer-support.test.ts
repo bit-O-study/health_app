@@ -1,5 +1,6 @@
 import { describe,it,expect } from "vitest";
 import { seal,unseal } from "@/features/support/crypto";
+import { legacyTrainerRedirects } from "@/features/groups/legacy-trainer-redirects";
 import { isSupportOrigin, diagnostics,kakaoResult,supportConsoleUrl,uuid,validateTicket } from "@/features/support/model";
 describe('customer support boundaries',()=>{
  it('validates categories and bounded content',()=>{expect(validateTicket('bug','오류','내용')).toBeNull();expect(validateTicket('admin','오류','내용')).toBeTruthy();expect(validateTicket('bug',' ','내용')).toBeTruthy();expect(validateTicket('bug','오류','a'.repeat(5001))).toBeTruthy();});
@@ -20,4 +21,12 @@ it('all admin pages including notification settings redirect before render',asyn
  expect(idPattern.test('/admin/support/c432b98c-51b6-49eb-9172-5b55553f883c')).toBe(true);
  expect(idPattern.test('/admin/support/notifications')).toBe(false);
  expect(rules.find(r=>r.source.includes(':id'))!.destination).toBe('https://heltch-admin.vercel.app/admin/health/support/:id');
+});
+
+describe("옛 그룹장-트레이너 URL", () => {
+  it("렌더 전에 /trainer 로 보낸다(하위 경로 포함)", () => {
+    const r = legacyTrainerRedirects();
+    expect(r.map((x) => x.source)).toEqual(["/groups/:id/trainer", "/groups/:id/trainer/:path*"]);
+    expect(r.every((x) => x.destination === "/trainer" && !x.permanent)).toBe(true);
+  });
 });

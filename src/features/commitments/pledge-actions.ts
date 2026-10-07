@@ -215,7 +215,8 @@ export async function updatePledgeAction(input: {
   if (wantsSpec) {
     if (today >= cur.start_date) return { ok: false, error: "시작한 다짐은 항목을 바꿀 수 없어요. 제목과 공유만 바꿀 수 있어요." };
     const ctx = await getBodyContext();
-    if (!ctx.body) return { ok: false, error: "몸 정보를 먼저 등록해 주세요." };
+    // 만들 때와 같은 기준 — 체중 등 하나라도 비면 막는다(65kg 같은 가정값으로 예상하지 않게).
+    if (!ctx.body || ctx.missing.length > 0) return { ok: false, error: "키·체중·체지방·골격근량을 먼저 등록해 주세요." };
     const next = input.spec !== undefined ? sanitizePledge(input.spec) : spec;
     if (!next) return { ok: false, error: "다짐 기간을 확인해 주세요." };
     const check = validatePledge(next, { weightKg: ctx.body.weightKg, gender: ctx.body.gender });

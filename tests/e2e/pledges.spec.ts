@@ -12,6 +12,8 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 async function fillBody(page: Page) {
   await page.goto("/commitments/new", { waitUntil: "networkidle" });
   await expect(page.getByTestId("body-setup")).toBeVisible({ timeout: 15_000 });
+  // 체중 등 몸 정보를 넣기 전엔 다짐 만들기 화면 자체가 안 나온다(65kg 가정으로 만들지 않음).
+  await expect(page.getByTestId("pledge-form")).toHaveCount(0);
   await page.getByLabel("키").fill("175");
   await page.getByLabel("체중").fill("70");
   await page.getByLabel("체지방률").fill("20");
@@ -216,4 +218,50 @@ test("성공 확정 — 종료 체중은 마지막 7일 평균, 결과 신뢰도
         : "";
     }, { timeout: 15_000 })
     .toBe("success|avg7|3|69|1|false");
+});
+
+// 주별·월별 변화(2026-10-07) — 주별 칸 = 판정 구간, 지난주와 같은 일수끼리 비교, 60일 다짐은 월별도.
+test("현황 — 주별 표·지난주 대비 한 줄·몸 그래프, 30일 넘는 다짐은 월별로 바꿔 본다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(150_000);
+  const email = await signUpAndOnboard(page);
+  await createDefaultPledge(page, "E2E 변화 다짐");
+
+  // 60일 · 주 1일 운동, 10일 전 시작 → 1구간(-10~-4) 끝남, 2구간(-3~+3) 4일째.
+  await dbQuery(
+    `update public.commitments set pledge='{"days":60,"workoutDays":1}'::jsonb,
+            start_date=(now() at time zone 'Asia/Seoul')::date - 10,
+            deadline=(now() at time zone 'Asia/Seoul')::date + 49
+      where user_id=${uid} and mode='pledge'`,
+    [email],
+  );
+  // 1구간 둘째 날 운동(그날 올린 기록) — 이번 구간은 아직 0일. 체중 두 번.
+  await dbQuery(
+    `insert into public.exercise_completions (user_id, for_date, exercise_row_id, status, exercise_id, equipment, sets, reps, focus, created_at)
+     values (${uid}, (now() at time zone 'Asia/Seoul')::date - 9, gen_random_uuid(), 'done', 'squat', 'barbell', 3, 10, 'lower',
+             ((now() at time zone 'Asia/Seoul')::date - 9)::timestamp at time zone 'Asia/Seoul' + interval '12 hours')`,
+    [email],
+  );
+  await dbQuery(
+    `insert into public.weight_logs (user_id, weight_kg, created_at) values
+       (${uid}, 70.2, ((now() at time zone 'Asia/Seoul')::date - 9)::timestamp at time zone 'Asia/Seoul' + interval '8 hours'),
+       (${uid}, 69.6, ((now() at time zone 'Asia/Seoul')::date - 1)::timestamp at time zone 'Asia/Seoul' + interval '8 hours')`,
+    [email],
+  );
+
+  await page.goto("/commitments/status", { waitUntil: "networkidle" });
+  const trend = page.getByTestId("pledge-trend");
+  await expect(trend).toBeVisible({ timeout: 15_000 });
+  // 같은 4일끼리: 지난 구간 1일 vs 이번 0일.
+  await expect(trend.getByTestId("trend-compare")).toHaveText("지난주보다 운동 1일 적어요");
+  const cells = trend.getByTestId("trend-table").locator("tbody tr").first().locator("td");
+  await expect(cells.nth(0)).toHaveAttribute("data-state", "ok");
+  await expect(cells.nth(1)).toHaveAttribute("data-state", "now");
+  await expect(cells.nth(2)).toHaveAttribute("data-state", "future");
+  await expect(trend.getByTestId("trend-body")).toBeVisible();
+
+  // 60일 다짐 — 월별로 바꾸면 칸이 달력 월.
+  await trend.getByRole("tab", { name: "월별" }).click();
+  await expect(trend).toHaveAttribute("data-mode", "month");
+  await expect(trend.getByTestId("trend-table").locator("thead th").nth(1)).toHaveText(/^\d+월$/);
 });

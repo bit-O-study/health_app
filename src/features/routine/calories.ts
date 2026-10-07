@@ -5,6 +5,7 @@
  */
 
 // ⚠ 강도 등급만 필요하다 — exercise-catalog 를 쓰면 운동 목록 274 KiB 가 딸려온다.
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import { loadClassOf, type LoadClass } from "@/features/routine/exercise-load";
 
 const STRENGTH_MET: Record<LoadClass, number> = {
@@ -102,7 +103,7 @@ const GENERAL_MET = 6.0;
 /** kcal 을 태우는 데 필요한 대략적인 운동 시간(분) — 보통 강도 유산소 가정. */
 export function kcalToMinutes(kcal: number, weightKg: number | null): number {
   if (kcal <= 0) return 0;
-  const perMin = kcalPerMin(GENERAL_MET, weightKg ?? 65);
+  const perMin = kcalPerMin(GENERAL_MET, weightKg ?? DEFAULT_WEIGHT_KG);
   return perMin > 0 ? Math.round(kcal / perMin) : 0;
 }
 
@@ -127,7 +128,7 @@ export function estimateTodayKcal(args: {
     speed: number | null;
   }[];
 }): CalorieBreakdown {
-  const w = args.weightKg ?? 65; // 체형 미입력 시 기본값
+  const w = args.weightKg ?? DEFAULT_WEIGHT_KG; // 체형 미입력 시 기본값
   const warmup = args.warmup.reduce(
     (sum, r) =>
       sum + estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),

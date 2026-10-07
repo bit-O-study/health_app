@@ -5,6 +5,7 @@
  * 숫자: 운동한 날 · 총 볼륨 · 가장 많이 한 운동 · 가장 크게 오른 신기록 · 가장 길게 이어 간 주.
  */
 import type { PrEvent } from "@/features/routine/fit-growth";
+import { weekStartYmd } from "@/features/routine/week";
 
 export const YEAR_WEEKS = 53;
 
@@ -13,11 +14,8 @@ const toT = (ymd: string) => Date.parse(`${ymd}T00:00:00Z`);
 const toYmd = (t: number) => new Date(t).toISOString().slice(0, 10);
 
 /** 그 날이 들어 있는 주의 월요일. */
-export function mondayOf(ymd: string): string {
-  const t = toT(ymd);
-  const dow = new Date(t).getUTCDay(); // 0=일
-  return toYmd(t - ((dow + 6) % 7) * DAY);
-}
+/** 그 주의 월요일 — 공통 함수(week.ts)의 다른 이름. */
+export const mondayOf = weekStartYmd;
 
 /** 칸 진하기 — 운동 안 한 날 0, 한 날은 그 사람의 볼륨 분포(사분위)로 1~4. 볼륨 0(맨몸·유산소)이어도 운동했으면 1. */
 export function levelFor(volume: number, sortedPositive: readonly number[]): 0 | 1 | 2 | 3 | 4 {

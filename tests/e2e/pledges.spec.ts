@@ -12,6 +12,8 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 async function fillBody(page: Page) {
   await page.goto("/commitments/new", { waitUntil: "networkidle" });
   await expect(page.getByTestId("body-setup")).toBeVisible({ timeout: 15_000 });
+  // 체중 등 몸 정보를 넣기 전엔 다짐 만들기 화면 자체가 안 나온다(65kg 가정으로 만들지 않음).
+  await expect(page.getByTestId("pledge-form")).toHaveCount(0);
   await page.getByLabel("키").fill("175");
   await page.getByLabel("체중").fill("70");
   await page.getByLabel("체지방률").fill("20");

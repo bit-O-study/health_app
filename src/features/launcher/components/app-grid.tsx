@@ -37,7 +37,9 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
   } catch { /* 저장값이 없거나 손상됐으면 기본 앱 목록을 보여준다. */ }
   const available = visibleApps(enabledFlags);
   const apps = available.filter(app => !hidden.includes(app.id));
-  const removed = available.filter(app => hidden.includes(app.id) || app.id === "trainer");
+  // 트레이너 앱도 다른 앱과 같다 — 숨겼을 때만 '앱 추가'에 같은 이름으로 나온다.
+  // (예전엔 '트레이너 대시보드'라는 바로가기를 늘 따로 띄워 앱이 두 개처럼 보였다, 2026-10-07 정리.)
+  const removed = available.filter(app => hidden.includes(app.id));
 
   function toggle(id: string, hide: boolean) {
     const next = hide ? [...new Set([...hidden, id])] : hidden.filter(value => value !== id);
@@ -61,11 +63,11 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
           {adding ? <Plus size={14} /> : <Minus size={14} />}
         </span>}
       </span>
-      <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{adding && app.id === "trainer" ? "트레이너 대시보드" : app.label}</span>
+      <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{app.label}</span>
     </>;
     const className = "flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90";
     return <li key={app.id}>
-      {adding && app.id === "trainer" ? <Link href={app.home} prefetch={false} className={className} aria-label="트레이너 대시보드" onClick={() => toggle(app.id, false)}>{content}</Link> : editing || adding ? <button type="button" className={className} aria-label={`${app.label} ${adding ? "추가" : "숨기기"}`} onClick={() => { if (toggle(app.id, !adding) && adding) setAddingOpen(false); }}>{content}</button>
+      {editing || adding ? <button type="button" className={className} aria-label={`${app.label} ${adding ? "추가" : "숨기기"}`} onClick={() => { if (toggle(app.id, !adding) && adding) setAddingOpen(false); }}>{content}</button>
         : <Link href={app.home} prefetch={false} data-app={app.id} className={className}>{content}</Link>}
     </li>;
   }

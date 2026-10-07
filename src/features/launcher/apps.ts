@@ -15,7 +15,6 @@ import {
   Search,
   Sparkles,
   Target,
-  TrendingUp,
   Users,
   UsersRound,
 } from "lucide-react";
@@ -204,12 +203,11 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     home: "/fit",
     owns: ["/fit"],
     debugFlag: "fit",
-    // 2026-10-06 UI 개편 — 상단 알약 5개 → 하단 탭 4개(부위·균형은 '내 몸 균형' 하나로).
+    // 2026-10-07 한 화면 개편 — 탭 4개 → 2개. 추천·균형은 '한눈에' 한 화면(균형 상세는 시트),
+    // 성장·리포트는 '기록' 하나. 옛 주소는 next.config 에서 넘긴다(fit-redirects.ts).
     tabs: [
-      { href: "/fit", label: "오늘 추천", icon: Sparkles, match: (p) => p === "/fit" },
-      { href: "/fit/balance", label: "내 몸 균형", icon: Activity },
-      { href: "/fit/growth", label: "성장", icon: TrendingUp },
-      { href: "/fit/report", label: "리포트", icon: ChartColumn, match: (p) => p.startsWith("/fit/report") || p.startsWith("/fit/year") },
+      { href: "/fit", label: "한눈에", icon: Sparkles, match: (p) => p === "/fit" },
+      { href: "/fit/report", label: "기록", icon: ChartColumn, match: (p) => p.startsWith("/fit/report") || p.startsWith("/fit/year") },
     ],
   },
   {

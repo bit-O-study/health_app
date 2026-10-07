@@ -230,80 +230,13 @@ test("지난주 대비 증감이 보인다", async ({ page }) => {
   await expect(card.getByTestId("region-delta-chest")).toHaveAttribute("data-diff", "6");
 });
 
-test("🔴 트레이너 목록이 '늘 같은 데만 하는 회원'을 짚어 준다", async ({ browser }) => {
-  test.skip(!hasDb, "needs .env.test.local DB creds");
-  test.setTimeout(180_000);
-
-  // ── 회원: 이번 주 5일 나왔지만 **전부 가슴만** 했다.
-  const ctxM = await browser.newContext();
-  const pageM = await ctxM.newPage();
-  const memberEmail = await signUpAndOnboard(pageM);
-  for (const day of [0, 1, 2, 3, 4]) {
-    await seedCompletion(memberEmail, {
-      dayOfWeek: day,
-      exerciseId: "bench-press",
-      focus: "chest",
-      sets: 4,
-    });
-  }
-
-  // ── 트레이너: 그룹 생성
-  const ctxT = await browser.newContext();
-  const pageT = await ctxT.newPage();
-  await signUpAndOnboard(pageT);
-  const name = `E2E 편식 ${Date.now().toString(36)}`;
-  await pageT.goto("/groups", { waitUntil: "networkidle" });
-  await pageT.getByLabel("그룹 이름").fill(name);
-  await pageT.getByRole("button", { name: "그룹 만들기" }).click();
-  await pageT.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 15000 });
-
-  const g = await dbQuery<{ id: string; invite_token: string }>(
-    `select id, invite_token from public.groups where name=$1`,
-    [name],
-  );
-  expect(g.length).toBe(1);
-
-  await pageM.goto(`/groups/join/${g[0].invite_token}`);
-  await pageM.getByRole("button", { name: "확인" }).click();
-  await expect
-    .poll(
-      async () =>
-        (
-          await dbQuery<{ n: string }>(
-            `select count(*)::text n from public.group_members where group_id=$1`,
-            [g[0].id],
-          )
-        )[0].n,
-      { timeout: 20000 },
-    )
-    .toBe("2");
-
-  // ── 목록에서 바로 보인다 — 회원 상세로 들어가지 않고도.
-  await pageT.goto(`/groups/${g[0].id}/trainer`, { waitUntil: "domcontentloaded" });
-  const row = pageT.getByTestId("trainer-member").first();
-  await expect(row).toBeVisible({ timeout: 15000 });
-
-  // 주 5일 나왔으니 '결석' 은 아니다 — 예전엔 이런 회원이 우등생으로 보였다.
-  await expect(row.locator('[data-kind="absence"]')).toHaveCount(0);
-  const program = row.locator('[data-kind="program"]');
-  await expect(program).toHaveCount(1);
-  await expect(program).toContainText("0세트");
-  // 가슴만 했으니 나머지 다섯 부위가 전부 이름으로 나와야 한다 — 잘려서 묻히면 안 된다.
-  for (const label of ["등", "어깨", "팔", "하체", "코어"]) {
-    await expect(program).toContainText(label);
-  }
-  await expect(program).not.toContainText("가슴");
-
-  // 그 자리에서 바로 배정으로 갈 수 있다.
-  await expect(row.getByTestId("assign-link")).toBeVisible();
-
-  await ctxM.close();
-  await ctxT.close();
-});
+// 2026-10-07: '트레이너 목록이 늘 같은 데만 하는 회원을 짚어 준다' 테스트 삭제 — 옛 그룹장-트레이너 화면
+// (/groups/[id]/trainer)은 독립 트레이너 전환(202609220002)으로 닫혀 /trainer 로 리다이렉트된다(groups.spec 이 검사).
+// 독립 트레이너 앱(/trainer)엔 아직 '편식 회원' 표시가 없다 — 옮길지는 사용자 결정(docs/requests/2026-10-07.md).
 
 // 2026-09-20 런처 전환 — 이번 주 요약은 홈에서 **운동 앱의 '기록' 칸**(/settings/progress)으로
-// 내려왔다. 홈엔 위젯 한 줄만 남는다. "한 장만 둔다"는 약속(2026-09-15)은 그대로다.
-test("기록 칸에서 이번 주 요약이 보이고 점수 화면으로 이어진다 — 홈·운동탭엔 같은 카드를 두지 않는다", async ({ page }) => {
+// 내려왔다. (2026-09-25 홈 재구성으로 홈에도 다시 보인다 — 아래.)
+test("기록 칸·홈에서 이번 주 요약이 보이고 점수 화면으로 이어진다 — 운동탭엔 같은 카드를 두지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
   await seedCompletion(email, { dayOfWeek: 0, exerciseId: "bench-press", focus: "chest", sets: 8 });
@@ -317,10 +250,11 @@ test("기록 칸에서 이번 주 요약이 보이고 점수 화면으로 이어
   await expect(summary.getByTestId("summary-region-leg")).toHaveAttribute("data-status", "none");
   await expect(summary).toContainText("0세트");
 
-  // 홈·운동탭엔 같은 카드를 두지 않는다 — 홈은 요약 위젯 한 줄만.
+  // 홈은 2026-09-25 재구성(b0a30e16)에서 주간 리포트·이번 주 부위 요약을 다시 보여 준다
+  // (weekly-report.spec 과 같은 결정). 운동탭엔 같은 카드를 두지 않는다.
   await page.goto("/home", { waitUntil: "networkidle" });
   await expect(page.getByRole("navigation", { name: "앱" })).toBeVisible({ timeout: 10000 });
-  await expect(page.getByTestId("weekly-training-summary")).toHaveCount(0);
+  await expect(page.getByTestId("weekly-training-summary")).toBeVisible();
   await page.goto("/routine", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "오늘의 운동" })).toBeVisible({ timeout: 10000 });
   await expect(page.getByTestId("weekly-training-summary")).toHaveCount(0);

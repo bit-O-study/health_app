@@ -5,7 +5,7 @@ import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/serve
 import { DAY_BLOCKS, isDayBlockId, seoulYmd } from "@/features/routine/data";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { getMemberReport, getMemberTodayPlan } from "@/features/trainer/member-report-data";
-import { reportRange, summarizeMember, todayPlanState, type ReportPeriod } from "@/features/trainer/member-report";
+import { previousRange, reportRange, summarizeMember, todayPlanState, type ReportPeriod } from "@/features/trainer/member-report";
 import { MemberPrescription, MemberTodayPrescription } from "@/features/trainer/components/member-prescription";
 import { EQUIPMENT_LABELS, type EquipmentId } from "@/features/routine/exercise-catalog-labels";
 
@@ -30,13 +30,17 @@ export default async function MemberManagementPage({ params, searchParams }: {
   let range;
   try { range = reportRange(period, date); } catch { date = seoulYmd(); range = reportRange(period, date); }
   // 오늘 처방은 리포트와 독립이라 같은 물결에 실어 보낸다(왕복 1회 절약).
-  const [data, todayPlan] = await Promise.all([
+  // 지난 기간(같은 일수)은 따로 부른다 — 한 번에 부르면 연간 비교가 RPC 최대 기간(365일)을 넘는다.
+  const prevRange = previousRange(period, range, seoulYmd());
+  const [data, todayPlan, prevData] = await Promise.all([
     getMemberReport(id, memberId, range.from, range.to),
     getMemberTodayPlan(id, memberId),
+    view === "stats" ? getMemberReport(id, memberId, prevRange.from, prevRange.to) : Promise.resolve(null),
   ]);
   if (!data) notFound();
   const sharing = data.sharing;
   const stats = summarizeMember(data, period, range.from, range.to);
+  const prevStats = prevData ? summarizeMember(prevData, period, prevRange.from, prevRange.to) : null;
   const url = `/trainer/members/${id}`;
   const shift = (day: string, delta: number) => {
     const d = new Date(`${day}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + delta); return d.toISOString().slice(0, 10);
@@ -78,7 +82,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
       <p>{range.from} ~ {range.to}</p>
       <Link aria-label="다음 기간" href={`${url}?view=stats&period=${period}&date=${shift(range.to, 1)}`}>다음 →</Link>
     </div>
-    <MemberStatistics stats={stats} sharing={sharing} period={period} />
+    <MemberStatistics stats={stats} prev={prevStats} sharing={sharing} period={period} />
     </div> : <div className="space-y-5">
       <nav aria-label="처방 적용 범위" className="flex gap-2">{[{id:"routine",label:"영구 루틴"},{id:"today",label:"오늘만"}].map(item => <Link key={item.id} scroll={false} href={`${url}?scope=${item.id}`} aria-current={scope === item.id ? "page" : undefined} className={`min-h-11 rounded-full border px-5 py-3 text-sm font-semibold ${scope === item.id ? "border-brand bg-brand text-white dark:text-zinc-950" : "border-line text-muted"}`}>{item.label}</Link>)}</nav>
     {sharing.prescription ? <>

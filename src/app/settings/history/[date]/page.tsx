@@ -25,10 +25,7 @@ import {
   getCatalogExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
-import {
-  estimateConditioningKcal,
-  strengthKcalForCompletion,
-} from "@/features/routine/calories";
+import { DEFAULT_WEIGHT_KG, cardioDoneKcal, strengthDoneKcal, weightOrDefault } from "@/features/routine/burn";
 import {
   getConditioningItem,
   PARAM_UNIT,
@@ -90,7 +87,7 @@ export default async function HistoryDetailPage({
   ]);
   if (!user) redirect("/login");
   if (!profile) redirect("/onboarding");
-  const weightKg = profile.weightKg ?? 65;
+  const weightKg = weightOrDefault(profile.weightKg);
 
   const supabase = await createSupabaseServerClient();
 
@@ -133,7 +130,7 @@ export default async function HistoryDetailPage({
       const name = catalog?.name ?? exerciseId;
       const equipmentLabel =
         EQUIPMENT_LABELS[equipment as EquipmentId] ?? equipment;
-      const kcal = Math.round(strengthKcalForCompletion(weightKg, exerciseId, sets));
+      const kcal = Math.round(strengthDoneKcal(weightKg, { exercise_id: exerciseId, sets }));
       return {
         focus,
         name,
@@ -161,9 +158,8 @@ export default async function HistoryDetailPage({
     if (spd !== null) parts.push(`${spd}${PARAM_UNIT.speed}`);
     if (inc !== null) parts.push(`${inc}${PARAM_UNIT.incline}`);
     const detail = parts.join(" ·") || "—";
-    const kcal = Math.round(
-      estimateConditioningKcal(weightKg, r.item_id, dur, spd, inc),
-    );
+    // kcal 은 모든 화면과 같은 규칙(burn.ts) — 위 표시용 기본값과는 따로 계산한다.
+    const kcal = Math.round(cardioDoneKcal(weightKg, r));
     const entry = { name, detail, kcal };
     if (r.kind === "cooldown") cooldownItems.push(entry);
     else warmupItems.push(entry);
@@ -226,7 +222,7 @@ export default async function HistoryDetailPage({
           <div>
             <p className="px-3 py-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
               완료 {totalDone}건{focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
-              {profile.weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
+              {profile.weightKg === null ? ` · 체중 미입력(${DEFAULT_WEIGHT_KG}kg 가정)` : ""}
             </p>
           </div>
         </section>

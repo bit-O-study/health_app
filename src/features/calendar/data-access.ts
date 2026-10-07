@@ -5,16 +5,10 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import {
-  strengthKcalForCompletion,
-  estimateConditioningKcal,
-} from "@/features/routine/calories";
+import { cardioDoneKcal, strengthDoneKcal, weightOrDefault, type CardioDone } from "@/features/routine/burn";
 import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
-import {
-  conditioningDefaults,
-  getConditioningItem,
-} from "@/features/routine/conditioning-catalog";
+import { getConditioningItem } from "@/features/routine/conditioning-catalog";
 import { basalMetabolicRate } from "@/features/diet/calorie-target";
 import { getFoodLogsForDate, type FoodLog } from "@/features/diet/data-access";
 import { getStepsRange, getStepsForDate } from "@/features/health/steps-data";
@@ -102,7 +96,7 @@ export async function getMonthlyCalendar(
       .lte("for_date", to),
     supabase
       .from("conditioning_completions")
-      .select("for_date, item_id, duration_min, speed")
+      .select("for_date, item_id, duration_min, speed, incline")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", from)
@@ -119,7 +113,7 @@ export async function getMonthlyCalendar(
       .order("created_at", { ascending: true }),
   ]);
 
-  const weight = profile?.weightKg ?? 65;
+  const weight = weightOrDefault(profile?.weightKg);
   const bmr = profile
     ? basalMetabolicRate({
         gender: profileGender(profile.gender),
@@ -147,24 +141,13 @@ export async function getMonthlyCalendar(
   }[]) {
     if (!r.exercise_id) continue;
     const s = ensure(r.for_date);
-    s.exerciseKcal += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    s.exerciseKcal += strengthDoneKcal(weight, r);
     s.didWeight = true; // 근력 운동을 실제로 완료 → 그날 '웨이트한 날'
   }
-  for (const r of (condRes.data ?? []) as {
-    for_date: string;
-    item_id: string | null;
-    duration_min: number | null;
-    speed: number | string | null;
-  }[]) {
+  for (const r of (condRes.data ?? []) as (CardioDone & { for_date: string })[]) {
     if (!r.item_id) continue;
-    // 스냅샷이 비면 카탈로그 기본값으로 보정 — 메인 화면 '완료 kcal' 과 일치하게.
-    const d = conditioningDefaults(r.item_id);
-    ensure(r.for_date).exerciseKcal += estimateConditioningKcal(
-      weight,
-      r.item_id,
-      r.duration_min ?? d.durationMin,
-      r.speed === null ? d.speed : num(r.speed),
-    );
+    // 스냅샷이 비면 카탈로그 기본값(경사 포함) — 모든 화면이 burn.ts 한 규칙.
+    ensure(r.for_date).exerciseKcal += cardioDoneKcal(weight, r);
   }
   for (const [date, sec] of durMap) ensure(date).durationSec = sec;
   // 걸음수 → 그날 소비 칼로리에 가산 + 걸음수 저장.
@@ -270,7 +253,7 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       .limit(1)
       .maybeSingle(),
   ]);
-  const weight = profile?.weightKg ?? 65;
+  const weight = weightOrDefault(profile?.weightKg);
   const intake = Math.round(foods.reduce((s, f) => s + f.kcal, 0));
   const steps = stepsRaw ?? 0;
   const stepsKcal = stepsToKcal(steps, weight);
@@ -286,7 +269,7 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   }[])
     .filter((r) => r.exercise_id)
     .map((r) => {
-      const raw = strengthKcalForCompletion(weight, r.exercise_id!, num(r.sets));
+      const raw = strengthDoneKcal(weight, r);
       burnedRaw += raw;
       const kcal = Math.round(raw);
       return {
@@ -308,13 +291,7 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   }[])
     .filter((r) => r.item_id)
     .map((r) => {
-      const dd = conditioningDefaults(r.item_id!);
-      const raw = estimateConditioningKcal(
-        weight,
-        r.item_id!,
-        r.duration_min ?? dd.durationMin,
-        r.speed === null ? dd.speed : num(r.speed),
-      );
+      const raw = cardioDoneKcal(weight, r);
       burnedRaw += raw;
       const kcal = Math.round(raw);
       const item = getConditioningItem(r.item_id!);

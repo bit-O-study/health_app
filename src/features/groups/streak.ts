@@ -1,6 +1,7 @@
 /** 그룹 스트릭/뱃지 — 순수 로직(운동일 집합 → 연속일·뱃지). 테스트 가능. */
 
 import { addDaysYmd } from "@/features/groups/ranking";
+import { countStreak } from "@/features/routine/streak-rule";
 
 /**
  * 연속 운동일 스트릭 — 오늘(또는 어제)부터 거꾸로 끊기지 않고 이어진 운동일 수.
@@ -12,14 +13,8 @@ export function computeWorkoutStreak(
 ): number {
   const set = new Set(workoutDates);
   if (set.size === 0) return 0;
-  let cursor = set.has(today) ? today : addDaysYmd(today, -1);
-  if (!set.has(cursor)) return 0;
-  let streak = 0;
-  while (set.has(cursor)) {
-    streak++;
-    cursor = addDaysYmd(cursor, -1);
-  }
-  return streak;
+  // 캘린더·홈과 같은 규칙(streak-rule). 상한은 기록 수 — 그보다 길게 이어질 수 없다.
+  return countStreak((k) => set.has(addDaysYmd(today, -k)), set.size);
 }
 
 export type Badge = { id: string; label: string; emoji: string };

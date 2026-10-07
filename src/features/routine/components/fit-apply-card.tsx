@@ -19,7 +19,7 @@ export type FitPickView = {
 };
 
 /**
- * 오늘 추천 카드(2026-10-06 UI 개편).
+ * 오늘 추천 카드(2026-10-06 UI 개편 · 2026-10-07 한 화면 개편: 줄마다 테두리 대신 구분선, 바꾸기는 오른쪽 위 글자).
  *
  * - 운동마다 고르기(기본 전부 켜짐) — 고른 것만 담는다.
  * - **주 버튼은 '더하기'**. 원래 운동을 내일로 미는 '바꾸기'는 되돌리기 어려워서 보조 버튼이고,
@@ -67,106 +67,97 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
   }
 
   return (
-    <section className="app-card space-y-3 p-4" data-testid="fit-picks">
-      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">추천 운동</h2>
-      <ul className="space-y-2">
+    <section className="app-card p-4" data-testid="fit-picks">
+      <div className="flex items-baseline justify-between">
+        <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">오늘 추천 {picks.length}개</h2>
+        {canReplace && !confirming ? (
+          <button
+            type="button"
+            data-testid="fit-replace"
+            onClick={() => setConfirming(true)}
+            disabled={pending || n === 0}
+            className="text-xs font-semibold text-zinc-500 disabled:opacity-50 dark:text-zinc-400"
+          >
+            대신 이걸로 바꾸기
+          </button>
+        ) : null}
+      </div>
+      <ul className="mt-1 divide-y divide-[var(--line)]">
         {picks.map((p) => {
           const on = chosen.has(p.exerciseId);
           return (
             <li key={p.exerciseId} data-testid={`fit-pick-${p.exerciseId}`}>
-              <label
-                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition ${
-                  on ? "border-brand/50 bg-brand-soft/40" : "border-[var(--line)] opacity-70"
-                }`}
-              >
+              <label className={`flex cursor-pointer items-center gap-3 py-2.5 transition ${on ? "" : "opacity-50"}`}>
                 <input
                   type="checkbox"
                   checked={on}
                   onChange={() => toggle(p.exerciseId)}
                   disabled={pending}
-                  className="mt-0.5 h-5 w-5 shrink-0 accent-brand"
+                  className="h-[18px] w-[18px] shrink-0 accent-brand"
                   aria-label={`${p.name} 고르기`}
                 />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                    {p.name} <span className="text-xs font-normal text-zinc-500">· {p.equipmentLabel}</span>
-                  </span>
-                  {p.prescription ? (
-                    <span className="block text-xs tabular-nums text-zinc-600 dark:text-zinc-300" data-testid="fit-pick-rx">
-                      {p.prescription}
-                    </span>
-                  ) : null}
-                  <span className="mt-1.5 flex flex-wrap gap-1">
-                    {p.fills.slice(0, 1).map((f) => (
-                      <span key={f.label} className="rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
-                        {f.label} +{f.sets}세트
-                      </span>
-                    ))}
+                  <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">{p.name}</span>
+                  <span className="block truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid="fit-pick-rx">
+                    {p.prescription ?? p.equipmentLabel}
                   </span>
                 </span>
+                {p.fills[0] ? (
+                  <span className="shrink-0 text-xs font-semibold text-brand">
+                    {p.fills[0].label} +{p.fills[0].sets}
+                  </span>
+                ) : null}
               </label>
             </li>
           );
         })}
       </ul>
 
-      <button
-        type="button"
-        data-testid="fit-add"
-        onClick={() => apply("add")}
-        disabled={pending || n === 0}
-        className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
-      >
-        {pending && !confirming ? <Loader2 aria-hidden="true" size={16} className="animate-spin" /> : <Check aria-hidden="true" size={16} />}
-        오늘 운동에 {n}개 더하기
-      </button>
-
-      {canReplace ? (
-        confirming ? (
-          <div className="space-y-2 rounded-xl border border-danger/30 bg-danger/5 p-3" data-testid="fit-replace-confirm">
-            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이 {n}개로 바꿀까요?</p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-300">원래 운동은 내일로 미뤄져요.</p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                data-testid="fit-replace-yes"
-                onClick={() => apply("replace")}
-                disabled={pending || n === 0}
-                className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-danger text-sm font-semibold text-white disabled:opacity-50"
-              >
-                {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
-                바꾸기
-              </button>
-              <button
-                type="button"
-                data-testid="fit-replace-no"
-                onClick={() => setConfirming(false)}
-                disabled={pending}
-                className="h-10 flex-1 rounded-full border border-[var(--line)] text-sm font-semibold text-zinc-700 dark:text-zinc-200"
-              >
-                취소
-              </button>
-            </div>
+      {confirming ? (
+        <div className="mt-2 space-y-2 rounded-xl bg-danger/5 p-3" data-testid="fit-replace-confirm">
+          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이 {n}개로 바꿀까요?</p>
+          <p className="text-xs text-zinc-600 dark:text-zinc-300">원래 운동은 내일로 미뤄져요.</p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              data-testid="fit-replace-yes"
+              onClick={() => apply("replace")}
+              disabled={pending || n === 0}
+              className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-danger text-sm font-semibold text-white disabled:opacity-50"
+            >
+              {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
+              바꾸기
+            </button>
+            <button
+              type="button"
+              data-testid="fit-replace-no"
+              onClick={() => setConfirming(false)}
+              disabled={pending}
+              className="h-10 flex-1 rounded-full border border-[var(--line)] text-sm font-semibold text-zinc-700 dark:text-zinc-200"
+            >
+              취소
+            </button>
           </div>
-        ) : (
-          <button
-            type="button"
-            data-testid="fit-replace"
-            onClick={() => setConfirming(true)}
-            disabled={pending || n === 0}
-            className="w-full text-center text-sm font-semibold text-zinc-500 underline-offset-2 hover:underline disabled:opacity-50 dark:text-zinc-400"
-          >
-            대신 이걸로 바꾸기
-          </button>
-        )
-      ) : null}
+        </div>
+      ) : (
+        <button
+          type="button"
+          data-testid="fit-add"
+          onClick={() => apply("add")}
+          disabled={pending || n === 0}
+          className="app-press mt-2 inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
+        >
+          {pending ? <Loader2 aria-hidden="true" size={16} className="animate-spin" /> : <Check aria-hidden="true" size={16} />}
+          오늘 운동에 {n}개 더하기
+        </button>
+      )}
 
       {error ? (
-        <p role="alert" className="text-xs font-semibold text-danger">
+        <p role="alert" className="mt-2 text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}
-      {notice ? <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{notice}</p> : null}
+      {notice ? <p className="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-200">{notice}</p> : null}
     </section>
   );
 }

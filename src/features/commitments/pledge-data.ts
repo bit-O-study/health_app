@@ -10,10 +10,7 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { ageOf } from "@/features/profile/survey-extra";
 import { resolvePlan } from "@/features/billing/plan-store";
 import { hasPlan, type PlanId } from "@/features/billing/plans";
-import {
-  strengthKcalForCompletion,
-  estimateConditioningKcal,
-} from "@/features/routine/calories";
+import { cardioDoneKcal, strengthDoneKcal, weightOrDefault, type CardioDone, type StrengthDone } from "@/features/routine/burn";
 import { conditioningDefaults } from "@/features/routine/conditioning-catalog";
 import { bodyPartsFor } from "@/features/routine/exercise-body-parts";
 import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
@@ -31,6 +28,14 @@ import {
   type PledgeEval,
 } from "@/features/commitments/evaluation";
 import { WEIGHT_AVG_DAYS, averageWeight, dataQuality } from "@/features/commitments/quality";
+import {
+  bodyTrend,
+  compareWithLastBlock,
+  compareWithLastMonth,
+  monthlyTable,
+  weeklyTable,
+  type PledgeTrend,
+} from "@/features/commitments/pledge-trend";
 import {
   calibrationFrom,
   missingBodyFields,
@@ -217,17 +222,11 @@ export const getBodyContext = cache(async (): Promise<BodyContext> => {
 async function avgExerciseKcal(supabase: Supa, userId: string, from: string, to: string, weight: number): Promise<number> {
   const [{ data: ex }, { data: cond }] = await Promise.all([
     supabase.from("exercise_completions").select("exercise_id, sets").eq("user_id", userId).eq("status", "done").gte("for_date", from).lt("for_date", to),
-    supabase.from("conditioning_completions").select("item_id, duration_min, speed").eq("user_id", userId).eq("status", "done").gte("for_date", from).lt("for_date", to),
+    supabase.from("conditioning_completions").select("item_id, duration_min, speed, incline").eq("user_id", userId).eq("status", "done").gte("for_date", from).lt("for_date", to),
   ]);
   let kcal = 0;
-  for (const r of (ex ?? []) as { exercise_id: string | null; sets: number | null }[]) {
-    if (r.exercise_id) kcal += strengthKcalForCompletion(weight, r.exercise_id, r.sets ?? 0);
-  }
-  for (const r of (cond ?? []) as { item_id: string | null; duration_min: number | null; speed: number | string | null }[]) {
-    if (!r.item_id) continue;
-    const d = conditioningDefaults(r.item_id);
-    kcal += estimateConditioningKcal(weight, r.item_id, r.duration_min ?? d.durationMin, r.speed === null ? d.speed : num(r.speed) ?? d.speed);
-  }
+  for (const r of (ex ?? []) as StrengthDone[]) kcal += strengthDoneKcal(weight, r);
+  for (const r of (cond ?? []) as CardioDone[]) kcal += cardioDoneKcal(weight, r);
   return kcal / Math.max(1, dayDiff(from, to));
 }
 
@@ -240,7 +239,7 @@ export function canReverse(plan: PlanId): boolean {
 type Stamped<T> = T & { created_at: string };
 type RawDays = {
   ex: Stamped<{ for_date: string; exercise_id: string | null; sets: number | null }>[];
-  cond: Stamped<{ for_date: string; item_id: string | null; duration_min: number | null; speed: number | string | null }>[];
+  cond: Stamped<{ for_date: string; item_id: string | null; duration_min: number | null; speed: number | string | null; incline: number | string | null }>[];
   food: Stamped<{ for_date: string; meal: string | null; kcal: number | string; protein_g: number | string | null; photo_url: string | null }>[];
   steps: { for_date: string; steps: number }[];
   weight: number;
@@ -249,7 +248,7 @@ type RawDays = {
 async function loadRawDays(supabase: Supa, userId: string, from: string, to: string, weight: number): Promise<RawDays> {
   const [{ data: ex }, { data: cond }, { data: food }, { data: steps }] = await Promise.all([
     supabase.from("exercise_completions").select("for_date, exercise_id, sets, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
-    supabase.from("conditioning_completions").select("for_date, item_id, duration_min, speed, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
+    supabase.from("conditioning_completions").select("for_date, item_id, duration_min, speed, incline, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
     supabase.from("food_logs").select("for_date, meal, kcal, protein_g, photo_url, created_at").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
     supabase.from("daily_steps").select("for_date, steps").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
   ]);
@@ -281,7 +280,7 @@ export function dayOfFromRaw(raw: RawDays, cutoffFor: (ymd: string) => string | 
       if (r.for_date !== d || !r.exercise_id || !ok(d, r.created_at)) continue;
       day.workedOut = true;
       day.strength = true;
-      day.burnKcal += strengthKcalForCompletion(raw.weight, r.exercise_id, r.sets ?? 0);
+      day.burnKcal += strengthDoneKcal(raw.weight, r);
       for (const p of bodyPartsFor(r.exercise_id)) parts.add(p);
     }
     for (const r of raw.cond) {
@@ -290,7 +289,7 @@ export function dayOfFromRaw(raw: RawDays, cutoffFor: (ymd: string) => string | 
       const dur = r.duration_min ?? def.durationMin;
       day.workedOut = true;
       day.cardioMin += dur ?? 0;
-      day.burnKcal += estimateConditioningKcal(raw.weight, r.item_id, dur, r.speed === null ? def.speed : num(r.speed) ?? def.speed);
+      day.burnKcal += cardioDoneKcal(raw.weight, r);
     }
     const meals = new Set<string>();
     for (const r of raw.food) {
@@ -326,6 +325,8 @@ export type PledgeView = {
   sharedGroupIds: string[];
   /** 시작 전이면 항목·수치도 편집할 수 있다. */
   editableSpec: boolean;
+  /** 주별·월별 변화(현황 화면). */
+  trend: PledgeTrend;
 };
 
 export const partLabel = (p: keyof typeof BODY_PART_LABEL) => BODY_PART_LABEL[p];
@@ -372,7 +373,11 @@ export const getMyPledges = cache(async (): Promise<PledgeView[]> => {
 
   const minStart = list.reduce((m, r) => (r.start_date < m ? r.start_date : m), list[0].start_date);
   const maxEnd = list.reduce((m, r) => (r.deadline > m ? r.deadline : m), list[0].deadline);
-  const raw = await loadRawDays(supabase, user.id, minStart, maxEnd < today ? maxEnd : today, ctx.body?.weightKg ?? 65);
+  const lastDay = maxEnd < today ? maxEnd : today;
+  const [raw, body] = await Promise.all([
+    loadRawDays(supabase, user.id, minStart, lastDay, weightOrDefault(ctx.body?.weightKg)),
+    loadBodySeries(supabase, user.id, minStart, lastDay),
+  ]);
 
   const views: PledgeView[] = [];
   for (const r of list) {
@@ -381,7 +386,8 @@ export const getMyPledges = cache(async (): Promise<PledgeView[]> => {
       const b = blocks.find((x) => x.start <= d && d <= x.end);
       return b ? addDays(b.end, 1) : null;
     };
-    const ev = evaluatePledge(r.spec, r.start_date, dayOfFromRaw(raw, cutoffFor), today);
+    const dayOf = dayOfFromRaw(raw, cutoffFor);
+    const ev = evaluatePledge(r.spec, r.start_date, dayOf, today);
     const out = outBy.get(r.id);
     const lockedStatus = out?.finalized_at ? (out.status as "success" | "failed") : null;
     const status = lockedStatus ?? ev.status;
@@ -422,10 +428,77 @@ export const getMyPledges = cache(async (): Promise<PledgeView[]> => {
       direction: (out?.direction as "forward" | "reverse") ?? "forward",
       sharedGroupIds: shared.map((s) => s.group_id),
       editableSpec: today < r.start_date,
+      trend: buildTrend(r.spec, r.start_date, ev, dayOf, today, out, body),
     });
   }
   return views;
 });
+
+type BodySeries = { weights: { date: string; kg: number }[]; muscles: { date: string; kg: number }[] };
+
+/** 다짐 기간 체중 기록(KST 날짜)·인바디 골격근 — 주별·월별 몸 변화용. */
+async function loadBodySeries(supabase: Supa, userId: string, from: string, to: string): Promise<BodySeries> {
+  const [{ data: w }, { data: m }] = await Promise.all([
+    supabase
+      .from("weight_logs")
+      .select("weight_kg, created_at")
+      .eq("user_id", userId)
+      .not("weight_kg", "is", null)
+      .gte("created_at", `${from}T00:00:00+09:00`)
+      .lt("created_at", `${addDays(to, 1)}T00:00:00+09:00`)
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("body_compositions")
+      .select("measured_at, skeletal_muscle_kg")
+      .eq("user_id", userId)
+      .not("skeletal_muscle_kg", "is", null)
+      .gte("measured_at", from)
+      .lte("measured_at", to)
+      .order("measured_at", { ascending: true }),
+  ]);
+  const kst = (iso: string) => new Date(Date.parse(iso) + 9 * 3_600_000).toISOString().slice(0, 10);
+  return {
+    weights: ((w ?? []) as { weight_kg: number | string; created_at: string }[])
+      .map((r) => ({ date: kst(r.created_at), kg: num(r.weight_kg)! }))
+      .filter((r) => r.kg > 0),
+    muscles: ((m ?? []) as { measured_at: string; skeletal_muscle_kg: number | string }[])
+      .map((r) => ({ date: String(r.measured_at).slice(0, 10), kg: num(r.skeletal_muscle_kg)! }))
+      .filter((r) => r.kg > 0),
+  };
+}
+
+function buildTrend(
+  spec: PledgeSpec,
+  startDate: string,
+  ev: PledgeEval,
+  dayOf: (ymd: string) => PledgeDay,
+  today: string,
+  out: Record<string, unknown> | undefined,
+  body: BodySeries,
+): PledgeTrend {
+  const endDate = pledgeEndDate(startDate, spec.days);
+  const monthly = monthlyTable(spec, startDate, endDate, ev.blocks, dayOf, today);
+  const base = (out?.baseline ?? {}) as { weightKg?: number; skeletalMuscleKg?: number | null };
+  return {
+    weekly: weeklyTable(spec, ev.blocks, today),
+    monthly,
+    compare: compareWithLastBlock(spec, ev.blocks, dayOf, today),
+    compareMonth: compareWithLastMonth(spec, startDate, dayOf, today),
+    body: bodyTrend({
+      startDate,
+      days: spec.days,
+      blocks: ev.blocks,
+      monthlyCols: monthly?.cols ?? null,
+      today,
+      baseline: { weightKg: typeof base.weightKg === "number" ? base.weightKg : null, muscleKg: typeof base.skeletalMuscleKg === "number" ? base.skeletalMuscleKg : null },
+      predicted: out
+        ? { weightKg: num(out.predicted_weight_change_kg as number | null), muscleKg: num(out.predicted_muscle_change_kg as number | null) }
+        : null,
+      weights: body.weights,
+      muscles: body.muscles,
+    }),
+  };
+}
 
 /**
  * 결과 확정 — 상태·실패 사유·실천 기록(adherence)·종료 실측·신뢰도(data_quality).

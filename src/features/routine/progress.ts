@@ -20,6 +20,7 @@ import {
 import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 import type { SetDetail } from "@/features/routine/set-details";
 import { volumeSideFactor } from "@/features/routine/unilateral-exercises";
+import { weekStartYmd } from "@/features/routine/week";
 
 export type ProgressRecord = {
   forDate: string;
@@ -155,20 +156,8 @@ export function trendPct(series: Point[]): number | null {
 }
 
 /* ─── 주간 집계 ──────────────────────────────────────────────────────── */
-
-/**
- * 그 날짜가 속한 주의 **월요일** 날짜(YYYY-MM-DD).
- * 주 경계를 월요일로 두는 건 이 앱의 다른 주간 기능(그룹 MVP)과 같은 기준이다.
- */
-export function weekStartYmd(ymd: string): string {
-  const [y, m, d] = ymd.split("-").map(Number);
-  if (!y || !m || !d) return ymd;
-  const dt = new Date(Date.UTC(y, m - 1, d));
-  const jsDay = dt.getUTCDay(); // 0=일
-  const backToMonday = jsDay === 0 ? 6 : jsDay - 1;
-  dt.setUTCDate(dt.getUTCDate() - backToMonday);
-  return dt.toISOString().slice(0, 10);
-}
+/** 그 주의 월요일 — 공통 함수(week.ts). 예전 import 경로를 위해 다시 내보낸다. */
+export { weekStartYmd };
 
 /**
  * 주(월요일)별 총 볼륨 시계열(오름차순).

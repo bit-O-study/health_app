@@ -17,6 +17,7 @@
 
 import { REGION_LIST, type Region } from "@/features/routine/score";
 import type { SetDetail } from "@/features/routine/set-details";
+import { weekStartYmd } from "@/features/routine/week";
 
 /**
  * 근육군당 주당 직접 세트 권장 구간.
@@ -327,9 +328,5 @@ export function addDays(ymd: string, n: number): string {
 }
 
 /** 그 날짜가 속한 주의 월요일. */
-export function weekStartOf(ymd: string): string {
-  const t = Date.parse(`${ymd}T00:00:00Z`);
-  if (!Number.isFinite(t)) return ymd;
-  const dow = new Date(t).getUTCDay(); // 0=일
-  return addDays(ymd, -(dow === 0 ? 6 : dow - 1));
-}
+/** 그 주의 월요일 — 공통 함수(week.ts)의 다른 이름. */
+export const weekStartOf = weekStartYmd;

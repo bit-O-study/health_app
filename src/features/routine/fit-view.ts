@@ -94,18 +94,10 @@ export function worstBalance(rows: readonly BalanceRow[]): { id: string; part: s
   return best;
 }
 
-/** 균형 칸 이름 앞에 붙는 부위('옆'만으로는 어디인지 모른다 → '어깨 옆'). */
-const BALANCE_PREFIX: Record<string, string> = { "push-pull": "", shoulder: "어깨 ", chest: "가슴 ", triceps: "삼두 ", legs: "하체 " };
+// 2026-10-07: 균형 탭의 따로 된 결론(balanceHeadline)은 지웠다 — 같은 데이터로 추천은 "등", 균형은
+// "어깨 옆"처럼 다른 말을 했다. 결론은 recommendHeadline(가장 빈 부위) 하나, 비율 경고는 균형 시트 안에서만.
 
-/** 내 몸 균형 결론 — 가장 큰 불균형 한 줄. 없으면 고르게 하고 있다고. */
-export function balanceHeadline(rows: readonly BalanceRow[]): string {
-  const w = worstBalance(rows);
-  if (!w) return "균형이 좋아요";
-  const name = `${BALANCE_PREFIX[w.id] ?? ""}${w.part}`;
-  return `${name}${iGa(name)} 부족해요`;
-}
-
-/** 균형 카드가 어느 부위 아래에 들어가는지(펼친 부위 안에서 같이 보여 준다). */
+/** 비율 카드가 어느 부위 아래에 들어가는지(균형 시트에서 그 부위를 고르면 같이 보여 준다). */
 export const BALANCE_PART: Record<string, BodyPart> = {
   "push-pull": "back",
   shoulder: "shoulder",
@@ -138,3 +130,62 @@ export function partWithEulReul(part: BodyPart): string {
 
 /** 오늘 맞춤 추천을 담은 날(YYYY-MM-DD)을 적는 쿠키 — 담은 뒤 다시 와도 또 담으라고 하지 않게. */
 export const FIT_APPLIED_COOKIE = "fit-applied";
+
+/* ── 한눈에(2026-10-07 한 화면 개편) ─────────────────────────────────── */
+
+/** 레이더 축 순서 — 위(가슴)부터 시계 방향. 밀기(가슴·어깨·팔)와 나머지가 양쪽으로 갈린다. */
+export const RADAR_ORDER: BodyPart[] = ["chest", "shoulder", "arm", "core", "lower", "back"];
+/** 레이더 바깥 테두리 = 목표의 150%. 넘친 부위도 그 안에서 멈춘다. */
+export const RADAR_MAX_PCT = 150;
+
+/**
+ * 부위 6개 레이더 좌표(중심 cx,cy · 바깥 반지름 r). 0%도 점이 안 겹치게 반지름 최소 4.
+ * 반환: 실제 다각형 · 목표(100%) 다각형 · 바깥(150%) 다각형 · 축 끝(이름 자리).
+ */
+export function radarGeometry(
+  parts: readonly { part: BodyPart; pct: number }[],
+  cx = 100,
+  cy = 100,
+  r = 84,
+): { actual: string; goal: string; outer: string; axes: { part: BodyPart; x: number; y: number; lx: number; ly: number }[] } {
+  const pctOf = new Map(parts.map((p) => [p.part, p.pct]));
+  const at = (i: number, radius: number) => {
+    const a = ((-90 + 60 * i) * Math.PI) / 180;
+    return { x: Math.round((cx + radius * Math.cos(a)) * 10) / 10, y: Math.round((cy + radius * Math.sin(a)) * 10) / 10 };
+  };
+  const poly = (radius: (i: number) => number) =>
+    RADAR_ORDER.map((_, i) => at(i, radius(i)))
+      .map((p) => `${p.x},${p.y}`)
+      .join(" ");
+  return {
+    actual: poly((i) => Math.max(4, (Math.min(RADAR_MAX_PCT, pctOf.get(RADAR_ORDER[i]) ?? 0) / RADAR_MAX_PCT) * r)),
+    goal: poly(() => (100 / RADAR_MAX_PCT) * r),
+    outer: poly(() => r),
+    axes: RADAR_ORDER.map((part, i) => {
+      const end = at(i, r);
+      const label = at(i, r + 14);
+      return { part, x: end.x, y: end.y, lx: label.x, ly: label.y };
+    }),
+  };
+}
+
+/** 성장 타일 — 정체 종목이 있으면 그것(챙겨야 하니까), 아니면 가장 많이 오른 종목. */
+export function growthTile<T extends { name: string; latestKg: number; stalled: boolean; series: { date: string; value: number }[] }>(
+  rows: readonly T[],
+): { name: string; kg: number; diffKg: number | null; stalled: boolean; points: number[] } | null {
+  if (rows.length === 0) return null;
+  const diff = (g: T) => (g.series.length >= 2 ? g.series[g.series.length - 1].value - g.series[0].value : 0);
+  const pick = rows.find((g) => g.stalled) ?? [...rows].sort((a, b) => diff(b) - diff(a))[0];
+  return {
+    name: pick.name,
+    kg: pick.latestKg,
+    diffKg: pick.series.length >= 2 ? Math.round(diff(pick) * 10) / 10 : null,
+    stalled: pick.stalled,
+    points: pick.series.map((s) => s.value),
+  };
+}
+
+/** 볼륨 짧게 — 4,800 → "4.8t", 950 → "950kg". */
+export function shortVolume(kg: number): string {
+  return kg >= 1000 ? `${(Math.round(kg / 100) / 10).toLocaleString("ko-KR")}t` : `${Math.round(kg).toLocaleString("ko-KR")}kg`;
+}

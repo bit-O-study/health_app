@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/page-header";
 /**
  * 맞춤 운동 공통 틀(2026-10-06 UI 개편) — 머리글 · 결론 한 줄 · 잠금 카드.
  *
- * 하단 탭 4개(오늘 추천 · 내 몸 균형 · 성장 · 리포트)는 런처 하단바가 그린다(`apps.ts`).
+ * 하단 탭(한눈에 · 기록, 2026-10-07)은 런처 하단바가 그린다(`apps.ts`).
  * 화면마다 맨 위에 **한 문장 결론**을 둔다 — 숫자는 그 근거로 아래에.
  */
 export function FitHeader({
@@ -15,12 +15,15 @@ export function FitHeader({
   full,
   styleText,
   experienceLabel,
+  daysThisWeek,
   cold,
 }: {
   title: string;
   full: boolean;
   styleText: string;
   experienceLabel: string;
+  /** 지난 7일 운동한 날(한눈에 화면 — 머리글 한 줄에). */
+  daysThisWeek?: number;
   /** 이번 주 기록이 없어 가입 설문 목표로만 추천 중. */
   cold?: boolean;
 }) {
@@ -39,7 +42,8 @@ export function FitHeader({
       {/* 본문과 같은 좌우 여백, 위아래 여백은 없이 — 머리글과 본문 사이가 벌어지지 않게. */}
       <div className="app-container flex items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400" style={{ paddingTop: 0, paddingBottom: 0 }}>
         <span>
-          {styleText} · {experienceLabel}{" "}
+          {styleText} · {experienceLabel}
+          {daysThisWeek ? ` · 이번 주 ${daysThisWeek}일` : ""}{" "}
           <Link href="/settings/fit" className="font-semibold text-brand" data-testid="fit-style-change">
             변경
           </Link>

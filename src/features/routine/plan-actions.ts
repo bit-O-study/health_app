@@ -1,5 +1,6 @@
 "use server";
 
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import { getRecommendationContext } from "./recommendation-data";
 import { getPainAreas } from "./checkin-data";
 import { emptiedByPain, withoutPainExercises } from "./checkin";
@@ -172,7 +173,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     gender,
     experience: profile.experience,
     bodyType: profile.bodyType ?? ("average" as const),
-    weightKg: profile.weightKg ?? 65,
+    weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
   };
 
   const slots = routineDaySlots(
@@ -460,7 +461,7 @@ export async function saveMuscleSelectionAction(
     gender: profile.gender,
     experience: profile.experience,
     bodyType: profile.bodyType ?? ("average" as const),
-    weightKg: profile.weightKg ?? 65,
+    weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
   };
 
   // 부위 → 이 루틴이 그 부위를 쓰는 일차들. 근육별 선택은 "이 부위를 쓰는 모든
@@ -688,7 +689,7 @@ export async function addExerciseToTodayAction(
     gender: profile.gender,
     experience: profile.experience,
     bodyType: profile.bodyType ?? ("average" as const),
-    weightKg: profile.weightKg ?? 65,
+    weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
     equipment,
   });
 
@@ -842,7 +843,7 @@ export async function applyTodayRecommendedAction(
     gender: profile.gender,
     experience: profile.experience,
     bodyType: profile.bodyType ?? ("average" as const),
-    weightKg: profile.weightKg ?? 65,
+    weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
   };
   const rows = recommendedExercisesForFocus(target, profile.gender, gymSet, {
     experience: profile.experience,

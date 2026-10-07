@@ -1,5 +1,6 @@
 "use client";
 
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import { Fragment, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { GripVertical, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
@@ -412,7 +413,7 @@ export function DailyMainEditor({
       gender,
       experience,
       bodyType: bodyType ?? ("average" as const),
-      weightKg: weightKg ?? 65,
+      weightKg: weightKg ?? DEFAULT_WEIGHT_KG,
     };
     // 부위 추가 모드면 '추가 요청한 부위'만 추천한다(기존 오늘 부위는 유지). 직접 담기(sections
     // 없음)면 recommendFocuses(오늘 원래 부위)로. 그 외(전체 바꾸기)면 편집기의 부위 전체.

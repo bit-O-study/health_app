@@ -1,3 +1,4 @@
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
@@ -60,7 +61,7 @@ export default async function ScorePage() {
   ]);
   if (!profile) redirect("/onboarding");
 
-  const userWeight = profile.weightKg ?? 65;
+  const userWeight = profile.weightKg ?? DEFAULT_WEIGHT_KG;
   const done = completions.filter((c) => c.status === "done");
   const s = computeScore(
     done.map((c) => ({

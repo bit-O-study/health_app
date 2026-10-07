@@ -26,6 +26,8 @@
  */
 
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { STEP_KCAL_PER_KG } from "@/features/health/steps-calories";
+import { mifflinBmr } from "@/features/diet/calorie-target";
 import {
   INTAKE_WARN_FLOOR,
   PROTEIN_RECOMMEND_PER_KG,
@@ -98,8 +100,8 @@ export const AT_TAU_DAYS = 14;
 export const SMM_SHARE = 0.55;
 /** 유산소 MET(앱 `kcalToMinutes` 와 같은 값). */
 export const CARDIO_MET = 6;
-/** 걸음 kcal = 걸음 × 체중 × 이 값(앱 `steps-calories.ts`). 일상 기본 5,000보 초과분만. */
-export const STEP_KCAL_PER_KG = 0.00057;
+/** 걸음 kcal 계수는 앱 공통 값(`steps-calories.ts`). 일상 기본 5,000보 초과분만 센다. */
+export { STEP_KCAL_PER_KG };
 export const BASE_STEPS = 5000;
 
 const R_EXP: Record<Experience, number> = {
@@ -178,7 +180,7 @@ export function bmrOf(b: BodyInput, weightKg: number, ffmKg: number): number {
   const k = clamp(b.metabolicFactor ?? 1, 0.8, 1.2);
   if (bodyFatMeasured(b)) return (370 + 21.6 * ffmKg) * k;
   if (!b.heightCm) return (b.gender === "male" ? 1700 : 1400) * (weightKg / b.weightKg) * k;
-  return (10 * weightKg + 6.25 * b.heightCm - 5 * b.age + (b.gender === "male" ? 5 : -161)) * k;
+  return mifflinBmr(b.gender, weightKg, b.heightCm, b.age) * k;
 }
 
 /**

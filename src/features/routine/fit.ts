@@ -270,7 +270,7 @@ export function balanceRows(
 /**
  * 오늘 할 운동(아직 안 끝낸 것)을 자극에 미리 더한다 — '오늘 운동에 담았는데도 또 추천'이 안 나오게.
  * 한 운동은 처방 기본 세트(PLAN_SETS)로 센다. 오늘 이미 끝낸 운동은 기록에 들어 있으니 뺀다.
- * 내 몸 균형 화면은 이것 없이 **한 것만** 본다(계획은 아직 몸에 안 들어갔다).
+ * 레이더·균형 시트는 이것 없이 **한 것만** 본다(계획은 아직 몸에 안 들어갔다).
  */
 export function withPlanned(
   stim: Readonly<Record<string, number>>,

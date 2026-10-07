@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 import { securityHeaders } from "./src/lib/security/headers";
 import { supportConsoleRedirects } from "./src/features/support/console-redirects";
 import { legacyTrainerRedirects } from "./src/features/groups/legacy-trainer-redirects";
+import { legacyFitRedirects } from "./src/features/routine/fit-redirects";
 
 /**
  * 배포본 식별자 — 실사용 오류 관측(1.3)에서 "어느 배포에서 난 오류인가"를 보려면
@@ -37,7 +38,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
   async redirects() {
-    return [...supportConsoleRedirects(), ...legacyTrainerRedirects()];
+    return [...supportConsoleRedirects(), ...legacyTrainerRedirects(), ...legacyFitRedirects()];
   },
   async headers() {
     return [

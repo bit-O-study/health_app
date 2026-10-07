@@ -145,7 +145,7 @@ export async function loadFitView(opts?: {
     const ex = getCatalogExercise(id);
     if (!ex || !isExerciseAvailable(ex, gymSet)) continue;
     if (pain.includes(primaryBodyPart(id))) continue;
-    // 내 몸 균형에서 '이 부위 채우는 운동 보기'로 들어오면 그 부위 운동만.
+    // 균형 시트에서 '이 부위 채우는 운동 추천'으로 들어오면 그 부위 운동만.
     if (opts?.part && primaryBodyPart(id) !== opts.part) continue;
     if (profile?.experience === "beginner" && BEGINNER_SKIP.has(id)) continue;
     candidates.push({ exerciseId: id, name: ex.name, equipment: pickAvailableEquipment(ex, gymSet) });

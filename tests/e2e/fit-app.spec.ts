@@ -43,7 +43,7 @@ async function setup(page: Page, baseURL: string) {
 }
 
 /**
- * 하단 탭 이동(2026-10-06 UI 개편 — 오늘 추천 · 내 몸 균형 · 성장 · 리포트). 누르고 그 주소가 될 때까지
+ * 하단 탭 이동(2026-10-07 한 화면 개편 — 한눈에 · 기록). 누르고 그 주소가 될 때까지
  * 기다린다(앞 화면을 그리는 중에 누르면 이동이 씹힌다).
  */
 async function openTab(page: Page, name: string, path: string) {
@@ -80,33 +80,46 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   // 가슴은 이미 넘쳤으니 벤치프레스는 추천하지 않는다.
   await expect(page.getByTestId("fit-pick-bench-press")).toHaveCount(0);
 
-  await openTab(page, "내 몸 균형", "/fit/balance");
-  await expect(page.getByTestId("fit-legend")).toContainText("넘침");
-  // 부위를 누르면 세부 근육과 비율이 펼쳐진다(가슴은 넘쳐서 숫자 대신 '넘침').
-  await expect(page.getByTestId("fit-part-chest")).toContainText("넘침");
-  await page.getByTestId("fit-part-back").locator("summary").click();
-  await expect(page.getByTestId("fit-balance-push-pull")).toBeVisible();
-  await expect(page.getByTestId("fit-balance-push-pull")).toContainText("당기기 부족");
-  // '등 채우는 운동 보기' → 그 부위 추천만.
-  await page.getByTestId("fit-part-go-back").click();
+  // 한 화면(2026-10-07) — 성장·이번 달 타일도 같은 화면에.
+  await expect(page.getByTestId("fit-tile-growth")).toContainText("벤치프레스");
+  await expect(page.getByTestId("fit-tile-month")).toContainText("일");
+
+  // 레이더를 누르면 균형 시트 — 부위 칩(가슴은 넘쳐서 숫자 대신 '넘침'), 세부 근육·비율.
+  await page.getByTestId("fit-radar").click();
+  const sheet = page.getByTestId("fit-balance-sheet");
+  await expect(sheet).toBeVisible();
+  await expect(sheet.getByTestId("fit-legend")).toContainText("넘침");
+  await expect(sheet.getByTestId("fit-part-chest")).toContainText("넘침");
+  await sheet.getByTestId("fit-part-back").click();
+  await expect(sheet.getByTestId("fit-balance-push-pull")).toContainText("당기기 부족");
+  // '등 채우는 운동 추천' → 그 부위 추천만, 시트는 닫힌다.
+  await sheet.getByTestId("fit-part-go-back").click();
   await page.waitForURL("**/fit?part=back", { timeout: 15_000 });
   await expect(page.getByTestId("fit-headline")).toContainText("등 채우는 운동");
-  await page.goto("/fit/balance", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("fit-balance-sheet")).toHaveCount(0);
 
-  await openTab(page, "성장", "/fit/growth");
+  // 옛 '내 몸 균형' 주소는 한눈에 + 균형 시트로.
+  await page.goto("/fit/balance", { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/fit\?sheet=balance$/);
+  await expect(page.getByTestId("fit-balance-sheet")).toBeVisible({ timeout: 15_000 });
+  await page.goto("/fit", { waitUntil: "networkidle" });
+
+  // 기록 탭 = 예전 성장 + 리포트.
+  await openTab(page, "기록", "/fit/report");
   await expect(page.getByTestId("fit-growth-bench-press")).toContainText("벤치프레스", { timeout: 15_000 });
   await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스");
-  await openTab(page, "리포트", "/fit/report");
   await expect(page.getByTestId("fit-report")).toContainText("운동한 날", { timeout: 15_000 });
   // 빈 리포트는 카드 여러 장 대신 한 장으로.
   await expect(page.getByTestId("lite-report-empty")).toContainText("기록하면 더 보여요");
   await expect(page.getByTestId("lite-report-body")).toHaveCount(0);
 
-  // 예전 주소(?tab=)는 새 화면으로 넘어간다.
+  // 예전 주소(?tab= · /fit/growth)는 지금 화면으로 넘어간다.
   await page.goto("/fit?tab=parts", { waitUntil: "networkidle" });
-  await page.waitForURL("**/fit/balance", { timeout: 15_000 });
+  await page.waitForURL("**/fit?sheet=balance", { timeout: 15_000 });
+  await page.goto("/fit/growth", { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/fit\/report$/);
 
-  await openTab(page, "오늘 추천", "/fit");
+  await openTab(page, "한눈에", "/fit");
   await expect(page.getByTestId("fit-add")).toHaveText("오늘 운동에 3개 더하기", { timeout: 10_000 });
   await page.getByTestId("fit-add").click();
   // 오늘 루틴 고정 + 담기라 개발 서버에선 20초를 넘기기도 한다.
@@ -155,15 +168,18 @@ test("무료(공개 스위치 켜진 계정): 맛보기 추천 1개 + 잠금", a
     await expect(page.getByTestId("fit-locked")).toBeVisible();
     // 무료는 '바꾸기' 없이 '더하기'만.
     await expect(page.getByTestId("fit-replace")).toHaveCount(0);
-    await openTab(page, "내 몸 균형", "/fit/balance");
-    await expect(page.getByTestId("fit-headline")).toBeVisible();
-    await expect(page.getByTestId("fit-parts-free")).toBeVisible();
-    await expect(page.getByTestId("fit-locked")).toContainText("세부 근육 25개");
-    // 무료 맛보기: 신기록은 보이고 종목별 추이는 잠금.
-    await openTab(page, "성장", "/fit/growth");
+    // 무료도 레이더·부위 칩은 보이고, 세부 근육·비율은 잠금.
+    await page.getByTestId("fit-radar").click();
+    const sheet = page.getByTestId("fit-balance-sheet");
+    await expect(sheet.getByTestId("fit-part-back")).toBeVisible();
+    await expect(sheet.getByTestId("fit-locked")).toContainText("세부 근육 25개");
+    await page.keyboard.press("Escape");
+    await page.goBack();
+    await expect(sheet).toHaveCount(0);
+    // 무료 맛보기: 신기록은 보이고 종목별 성장은 잠금.
+    await openTab(page, "기록", "/fit/report");
     await expect(page.getByTestId("fit-prs")).toContainText("벤치프레스", { timeout: 15_000 });
     await expect(page.getByTestId("fit-growth-bench-press")).toHaveCount(0);
-    await openTab(page, "리포트", "/fit/report");
     await expect(page.getByTestId("fit-locked")).toContainText("라이트에서 볼 수 있어요");
   } finally {
     await dbQuery(

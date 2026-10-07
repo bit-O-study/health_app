@@ -10,10 +10,7 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { ageOf } from "@/features/profile/survey-extra";
 import { resolvePlan } from "@/features/billing/plan-store";
 import { hasPlan, type PlanId } from "@/features/billing/plans";
-import {
-  strengthKcalForCompletion,
-  estimateConditioningKcal,
-} from "@/features/routine/calories";
+import { cardioDoneKcal, strengthDoneKcal, weightOrDefault, type CardioDone, type StrengthDone } from "@/features/routine/burn";
 import { conditioningDefaults } from "@/features/routine/conditioning-catalog";
 import { bodyPartsFor } from "@/features/routine/exercise-body-parts";
 import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
@@ -217,17 +214,11 @@ export const getBodyContext = cache(async (): Promise<BodyContext> => {
 async function avgExerciseKcal(supabase: Supa, userId: string, from: string, to: string, weight: number): Promise<number> {
   const [{ data: ex }, { data: cond }] = await Promise.all([
     supabase.from("exercise_completions").select("exercise_id, sets").eq("user_id", userId).eq("status", "done").gte("for_date", from).lt("for_date", to),
-    supabase.from("conditioning_completions").select("item_id, duration_min, speed").eq("user_id", userId).eq("status", "done").gte("for_date", from).lt("for_date", to),
+    supabase.from("conditioning_completions").select("item_id, duration_min, speed, incline").eq("user_id", userId).eq("status", "done").gte("for_date", from).lt("for_date", to),
   ]);
   let kcal = 0;
-  for (const r of (ex ?? []) as { exercise_id: string | null; sets: number | null }[]) {
-    if (r.exercise_id) kcal += strengthKcalForCompletion(weight, r.exercise_id, r.sets ?? 0);
-  }
-  for (const r of (cond ?? []) as { item_id: string | null; duration_min: number | null; speed: number | string | null }[]) {
-    if (!r.item_id) continue;
-    const d = conditioningDefaults(r.item_id);
-    kcal += estimateConditioningKcal(weight, r.item_id, r.duration_min ?? d.durationMin, r.speed === null ? d.speed : num(r.speed) ?? d.speed);
-  }
+  for (const r of (ex ?? []) as StrengthDone[]) kcal += strengthDoneKcal(weight, r);
+  for (const r of (cond ?? []) as CardioDone[]) kcal += cardioDoneKcal(weight, r);
   return kcal / Math.max(1, dayDiff(from, to));
 }
 
@@ -240,7 +231,7 @@ export function canReverse(plan: PlanId): boolean {
 type Stamped<T> = T & { created_at: string };
 type RawDays = {
   ex: Stamped<{ for_date: string; exercise_id: string | null; sets: number | null }>[];
-  cond: Stamped<{ for_date: string; item_id: string | null; duration_min: number | null; speed: number | string | null }>[];
+  cond: Stamped<{ for_date: string; item_id: string | null; duration_min: number | null; speed: number | string | null; incline: number | string | null }>[];
   food: Stamped<{ for_date: string; meal: string | null; kcal: number | string; protein_g: number | string | null; photo_url: string | null }>[];
   steps: { for_date: string; steps: number }[];
   weight: number;
@@ -249,7 +240,7 @@ type RawDays = {
 async function loadRawDays(supabase: Supa, userId: string, from: string, to: string, weight: number): Promise<RawDays> {
   const [{ data: ex }, { data: cond }, { data: food }, { data: steps }] = await Promise.all([
     supabase.from("exercise_completions").select("for_date, exercise_id, sets, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
-    supabase.from("conditioning_completions").select("for_date, item_id, duration_min, speed, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
+    supabase.from("conditioning_completions").select("for_date, item_id, duration_min, speed, incline, created_at").eq("user_id", userId).eq("status", "done").gte("for_date", from).lte("for_date", to),
     supabase.from("food_logs").select("for_date, meal, kcal, protein_g, photo_url, created_at").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
     supabase.from("daily_steps").select("for_date, steps").eq("user_id", userId).gte("for_date", from).lte("for_date", to),
   ]);
@@ -281,7 +272,7 @@ export function dayOfFromRaw(raw: RawDays, cutoffFor: (ymd: string) => string | 
       if (r.for_date !== d || !r.exercise_id || !ok(d, r.created_at)) continue;
       day.workedOut = true;
       day.strength = true;
-      day.burnKcal += strengthKcalForCompletion(raw.weight, r.exercise_id, r.sets ?? 0);
+      day.burnKcal += strengthDoneKcal(raw.weight, r);
       for (const p of bodyPartsFor(r.exercise_id)) parts.add(p);
     }
     for (const r of raw.cond) {
@@ -290,7 +281,7 @@ export function dayOfFromRaw(raw: RawDays, cutoffFor: (ymd: string) => string | 
       const dur = r.duration_min ?? def.durationMin;
       day.workedOut = true;
       day.cardioMin += dur ?? 0;
-      day.burnKcal += estimateConditioningKcal(raw.weight, r.item_id, dur, r.speed === null ? def.speed : num(r.speed) ?? def.speed);
+      day.burnKcal += cardioDoneKcal(raw.weight, r);
     }
     const meals = new Set<string>();
     for (const r of raw.food) {
@@ -372,7 +363,7 @@ export const getMyPledges = cache(async (): Promise<PledgeView[]> => {
 
   const minStart = list.reduce((m, r) => (r.start_date < m ? r.start_date : m), list[0].start_date);
   const maxEnd = list.reduce((m, r) => (r.deadline > m ? r.deadline : m), list[0].deadline);
-  const raw = await loadRawDays(supabase, user.id, minStart, maxEnd < today ? maxEnd : today, ctx.body?.weightKg ?? 65);
+  const raw = await loadRawDays(supabase, user.id, minStart, maxEnd < today ? maxEnd : today, weightOrDefault(ctx.body?.weightKg));
 
   const views: PledgeView[] = [];
   for (const r of list) {

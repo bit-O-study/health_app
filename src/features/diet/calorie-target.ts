@@ -21,6 +21,14 @@ const FALLBACK_KCAL = 2000;
 /** 키·몸무게가 없을 때 쓰는 기본 기초대사량(kcal/일). */
 const FALLBACK_BMR = { male: 1700, female: 1400 };
 
+/**
+ * Mifflin–St Jeor 식 그대로(반올림 없음) — 식단 권장 kcal 과 다짐 예상이 같은 식을 쓴다.
+ * 다짐 예상은 체중이 매일 바뀌어서 반올림 없는 값이 필요하다.
+ */
+export function mifflinBmr(gender: Gender, weightKg: number, heightCm: number, age: number): number {
+  return 10 * weightKg + 6.25 * heightCm - 5 * age + (gender === "male" ? 5 : -161);
+}
+
 /** 기초대사량(BMR, kcal/일) — Mifflin–St Jeor. 키·몸무게 없으면 성별 기본값. */
 export function basalMetabolicRate(profile: {
   gender: Gender;
@@ -32,9 +40,7 @@ export function basalMetabolicRate(profile: {
   const { gender, weightKg, heightCm } = profile;
   const age = profile.age && profile.age > 0 ? profile.age : DEFAULT_AGE;
   if (weightKg && heightCm && weightKg > 0 && heightCm > 0) {
-    return Math.round(
-      10 * weightKg + 6.25 * heightCm - 5 * age + (gender === "male" ? 5 : -161),
-    );
+    return Math.round(mifflinBmr(gender, weightKg, heightCm, age));
   }
   return FALLBACK_BMR[gender];
 }

@@ -19,10 +19,12 @@ import { loadSentKeys, markSent } from "@/features/notifications/sent-log";
 import { chunk, mapWithConcurrency } from "@/lib/batch";
 import { failureReason } from "@/lib/cron/run-log";
 import {
-  strengthKcalForCompletion,
-  estimateConditioningKcal,
-} from "@/features/routine/calories";
-import { conditioningDefaults } from "@/features/routine/conditioning-catalog";
+  DEFAULT_WEIGHT_KG,
+  cardioDoneKcal,
+  strengthDoneKcal,
+  weightOrDefault,
+  type CardioDone,
+} from "@/features/routine/burn";
 import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
 import {
@@ -32,12 +34,6 @@ import {
   type MemberStat,
 } from "@/features/groups/ranking";
 import { buildWeeklyMvpMessage } from "@/features/groups/weekly-mvp-message";
-
-const num = (v: number | string | null | undefined): number => {
-  if (v === null || v === undefined || v === "") return 0;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
-};
 
 /** `.in(...)` 한 번에 넣을 최대 개수(PostgREST 는 GET 이라 URL 길이 제한이 있다). */
 const IN_CHUNK = 100;
@@ -169,7 +165,7 @@ export async function runWeeklyGroupMvp(
     batched<CondRow>(idBatches, (ids) =>
       admin
         .from("conditioning_completions")
-        .select("user_id, item_id, duration_min, speed")
+        .select("user_id, item_id, duration_min, speed, incline")
         .in("user_id", ids)
         .eq("status", "done")
         .gte("for_date", from)
@@ -216,7 +212,7 @@ export async function runWeeklyGroupMvp(
         p.user_id,
         resolveMemberName(p.nickname, p.name, dispOf.get(p.user_id)),
       );
-      weightOf.set(p.user_id, num(p.weight_kg) || 65);
+      weightOf.set(p.user_id, weightOrDefault(p.weight_kg));
     }
 
     const stats = new Map<string, MemberStat>();
@@ -238,29 +234,14 @@ export async function runWeeklyGroupMvp(
     }[]) {
       if (!r.exercise_id) continue;
       const s = ensure(r.user_id);
-      s.kcal += strengthKcalForCompletion(
-        weightOf.get(r.user_id) ?? 65,
-        r.exercise_id,
-        num(r.sets),
-      );
+      s.kcal += strengthDoneKcal(weightOf.get(r.user_id) ?? DEFAULT_WEIGHT_KG, r);
       s.workouts += 1;
       totalWorkouts += 1;
     }
-    for (const r of (condRows ?? []) as {
-      user_id: string;
-      item_id: string | null;
-      duration_min: number | null;
-      speed: number | string | null;
-    }[]) {
+    for (const r of (condRows ?? []) as (CardioDone & { user_id: string })[]) {
       if (!r.item_id) continue;
-      const d = conditioningDefaults(r.item_id);
       const s = ensure(r.user_id);
-      s.kcal += estimateConditioningKcal(
-        weightOf.get(r.user_id) ?? 65,
-        r.item_id,
-        r.duration_min ?? d.durationMin,
-        r.speed === null ? d.speed : num(r.speed),
-      );
+      s.kcal += cardioDoneKcal(weightOf.get(r.user_id) ?? DEFAULT_WEIGHT_KG, r);
       s.workouts += 1;
       totalWorkouts += 1;
     }

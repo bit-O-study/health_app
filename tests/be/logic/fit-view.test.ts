@@ -14,6 +14,7 @@ import {
 } from "@/features/routine/fit-view";
 import { withPlanned, type BalanceRow, type SubRow } from "@/features/routine/fit";
 import { sessionCapacity } from "@/features/profile/survey-extra";
+import { todayKcal } from "@/features/routine/today-kcal";
 
 const row = (sub: string, pct: number): SubRow => ({ sub, stim: 0, target: 4, pct, status: pct < 50 ? "low" : "ok" });
 
@@ -87,5 +88,18 @@ describe("오늘 할 운동을 추천 계산에 더한다(담은 뒤 또 담으�
     expect(sessionCapacity(45)).toBe(6);
     expect(sessionCapacity(60)).toBe(8);
     expect(sessionCapacity(null)).toBe(6);
+  });
+});
+
+describe("운동 탭 소모 칼로리 한 줄", () => {
+  it("끝낸 것은 소모, 건너뛴 것은 예상에서도 뺀다", () => {
+    expect(
+      todayKcal([
+        { kcal: 30.4, done: true, skipped: false },
+        { kcal: 20, done: false, skipped: false },
+        { kcal: 50, done: false, skipped: true },
+      ]),
+    ).toEqual({ done: 30, total: 50 });
+    expect(todayKcal([])).toEqual({ done: 0, total: 0 });
   });
 });

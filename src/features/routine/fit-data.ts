@@ -1,3 +1,4 @@
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import "server-only";
 
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
@@ -174,7 +175,7 @@ export async function loadFitView(opts?: {
             gender: profile.gender === "female" ? "female" : "male",
             experience: profile.experience,
             bodyType: profile.bodyType ?? "average",
-            weightKg: profile.weightKg ?? 65,
+            weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
             equipment: isEquipmentId(p.equipment) ? p.equipment : undefined,
           })
         : null,

@@ -1,3 +1,5 @@
+import { countStreak } from "@/features/routine/streak-rule";
+
 /** 잔디 한 칸 — 홈 위젯이 연속일수를 셀 때 필요한 최소 정보만 본다. */
 export type StreakDay = {
   /** 운동한 시간(분). 0 이하면 안 한 날. */
@@ -15,15 +17,7 @@ export type StreakDay = {
  */
 export function computeStreakDays(days: readonly StreakDay[]): number {
   const counted = days.filter((d) => d.level !== -1);
-  let i = counted.length - 1;
-  if (i < 0) return 0;
-  // 오늘이 비어 있으면 한 칸만 봐준다.
-  if (counted[i].minutes <= 0) i -= 1;
-
-  let streak = 0;
-  for (; i >= 0; i -= 1) {
-    if (counted[i].minutes <= 0) break;
-    streak += 1;
-  }
-  return streak;
+  const last = counted.length - 1;
+  // 캘린더·그룹과 같은 규칙(streak-rule) — 마지막 칸이 오늘.
+  return countStreak((k) => k <= last && (counted.at(last - k)?.minutes ?? 0) > 0, counted.length);
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import {
   useEffect,
   useRef,
@@ -226,7 +227,7 @@ export function TodayPlanList({
       .catch(() => {})
       .then(() => fn().catch(() => {}));
   }
-  const w = weightKg ?? 65;
+  const w = weightKg ?? DEFAULT_WEIGHT_KG;
 
   function persistOrder(next: TodayPlanItem[]) {
     // 1) 즉시 반영: 가이드 큐(WorkoutSessionTimer)가 같은 순서로 시작하도록 공유

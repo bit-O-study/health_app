@@ -5,6 +5,7 @@
  */
 
 import { shiftYmd } from "@/features/routine/progress";
+import { countStreak } from "@/features/routine/streak-rule";
 import {
   CUSTOM_VARIANT_ID,
   DAY_BLOCKS,
@@ -116,17 +117,10 @@ export function plannedLabel(cycle: RoutineCycle, date: string): { label: string
  * `launcher/streak.ts`). 저녁에 운동하는 사람이 아침에 열었다고 끊긴 것처럼 보이면 안 된다.
  */
 export function currentStreak(active: ReadonlySet<string>, today: string, maxDays = 366): number {
-  const dayMs = 86_400_000;
-  let t = Date.parse(`${today}T00:00:00Z`);
+  const t = Date.parse(`${today}T00:00:00Z`);
   if (!Number.isFinite(t)) return 0;
-  const ymd = (ms: number) => new Date(ms).toISOString().slice(0, 10);
-  if (!active.has(ymd(t))) t -= dayMs;
-  let n = 0;
-  while (n < maxDays && active.has(ymd(t))) {
-    n += 1;
-    t -= dayMs;
-  }
-  return n;
+  const ymd = (daysAgo: number) => new Date(t - daysAgo * 86_400_000).toISOString().slice(0, 10);
+  return countStreak((k) => active.has(ymd(k)), maxDays);
 }
 
 /** 연속 일수를 찾을 때 한 번에 보는 날 수 — 이 안에서 끊기면 더 조회하지 않는다. */

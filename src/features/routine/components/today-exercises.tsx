@@ -1,3 +1,4 @@
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
@@ -30,7 +31,8 @@ import {
   type ConditioningParam,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
-import { estimateConditioningKcal } from "@/features/routine/calories";
+import { estimateConditioningKcal, strengthKcalForCompletion } from "@/features/routine/calories";
+import { todayKcal } from "@/features/routine/today-kcal";
 import {
   getTodayCompletedItems,
   getLastExerciseValues,
@@ -405,7 +407,7 @@ export async function TodayExercises({
   // 추가한 마무리 러닝은 base 행이라 그대로 보인다. (#16/17/18)
   const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
 
-  const w = weightKg ?? 65;
+  const w = weightKg ?? DEFAULT_WEIGHT_KG;
 
   // Main 행 변환
   const items: TodayPlanItem[] = plan.map((item) => {
@@ -462,8 +464,10 @@ export async function TodayExercises({
             : r.id;
       const kDur = snap?.durationMin ?? eff.duration;
       const kSpeed = snap?.speed ?? eff.speed;
+      // 경사도 넣는다 — 캘린더·다짐·그룹(burn.ts)과 같은 kcal 이 나오게.
+      const kIncline = snap?.incline ?? eff.incline;
       const kcal = Math.round(
-        estimateConditioningKcal(w, r.itemId, kDur, kSpeed),
+        estimateConditioningKcal(w, r.itemId, kDur, kSpeed, kIncline),
       );
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
@@ -504,6 +508,17 @@ export async function TodayExercises({
       plan.filter((pp) => mainSkipSet.has(pp.id)).length +
       cool.items.filter((i) => coolSkipSet.has(i.rowId)).length,
   });
+
+  // 소모 칼로리 — 진행 카드에 작게(2026-10-07 다시). 본운동은 끝낸 건 실제 세트, 아니면 계획 세트.
+  const kcal = todayKcal([
+    ...warm.items.map((i) => ({ kcal: i.kcal, done: warmDoneSet.has(i.rowId), skipped: warmSkipSet.has(i.rowId) })),
+    ...plan.map((pp) => ({
+      kcal: strengthKcalForCompletion(w, pp.exerciseId, effMainSets(pp.id, pp.sets)),
+      done: mainDoneSet.has(pp.id),
+      skipped: mainSkipSet.has(pp.id),
+    })),
+    ...cool.items.map((i) => ({ kcal: i.kcal, done: coolDoneSet.has(i.rowId), skipped: coolSkipSet.has(i.rowId) })),
+  ]);
 
   // 가이드 운동 큐 — 워밍업 → 본운동 → 마무리 순서로 '모든' 항목을 담는다.
   // (완료/스킵 제외는 클라이언트 타이머가 서버 상태 + 로컬 오버라이드로 필터한다.
@@ -635,11 +650,16 @@ export async function TodayExercises({
               skippedPct={progress.skippedPct}
               label={`${progress.label}${progress.skippedLabel ? ` · ${progress.skippedLabel}` : ""}`}
             />
-            {/* 진행은 숫자 한 줄만 — '오늘 진행' 라벨·kcal 줄은 뺐다(깔끔·촘촘, 2026-09-15). */}
+            {/* 진행은 숫자 한 줄 + 소모 칼로리 작은 한 줄(2026-10-07 사용자 요청으로 다시). */}
             <div className="min-w-0 flex-1">
               <p className="text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">{progress.label}</p>
               {progress.skippedLabel ? (
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">{progress.skippedLabel}</p>
+              ) : null}
+              {kcal.total > 0 ? (
+                <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid="today-kcal">
+                  {kcal.done.toLocaleString()} / 약 {kcal.total.toLocaleString()}kcal
+                </p>
               ) : null}
             </div>
             <MarkAllDoneButton

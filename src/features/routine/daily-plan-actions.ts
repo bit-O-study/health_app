@@ -1,5 +1,6 @@
 "use server";
 
+import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
 import { revalidatePath } from "next/cache";
 
 import {
@@ -395,7 +396,7 @@ export async function addExercisesTodayOnlyAction(
           gender: profile.gender === "female" ? "female" : "male",
           experience: profile.experience,
           bodyType: profile.bodyType ?? "average",
-          weightKg: profile.weightKg ?? 65,
+          weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
           equipment: it.equipment,
         })
       : { sets: 3, reps: 10, weightKg: null };
@@ -470,7 +471,7 @@ export async function replaceExerciseTodayOnlyAction(input: {
         gender: profile.gender === "female" ? "female" : "male",
         experience: profile.experience,
         bodyType: profile.bodyType ?? "average",
-        weightKg: profile.weightKg ?? 65,
+        weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
         equipment: input.equipment,
       })
     : { sets: 3, reps: 10, weightKg: null };

@@ -4,18 +4,29 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { getTrainerLinks, hasTrainerPass } from "@/features/trainer/data";
 import { TrainerForm } from "@/features/trainer/forms";
+import { MemberTrendCard } from "@/features/trainer/components/member-trend-card";
+import { memberTrend, sortDroppedFirst, type TrainerTrendRow, type TrendPeriod } from "@/features/trainer/trends";
+import { seoulYmd } from "@/features/routine/data";
 export const dynamic = "force-dynamic";
-type Report = { name: string; workout: { days: number; sets: number; minutes: number } | null; diet: number | null; body: { weight_kg: number | null; body_fat_pct: number | null } | null; prescription: boolean };
-export default async function TrainerPage() {
+/**
+ * 트레이너 대시보드 — 회원 초대 + 담당 회원 주별/월별 변화(2026-10-07).
+ * 이번 기간 vs 지난 기간(같은 일수), 줄어든 회원을 맨 위로. 공유 안 한 칸은 '비공개'.
+ */
+export default async function TrainerPage({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
   if (!(await getCurrentUser())) redirect("/login?redirect=/trainer");
   if (!(await hasTrainerPass())) redirect("/settings/trainer-pass");
-  const links = await getTrainerLinks(true);
+  const period: TrendPeriod = (await searchParams).period === "month" ? "month" : "week";
   const db = await createSupabaseServerClient();
-  const reports = await Promise.all(links.map(async link => {
-    const { data, error } = await db.rpc("pt_member_report", { p_link: link.id });
-    if (error) throw new Error("회원 현황을 불러오지 못했어요.");
-    return { link, report: data as Report | null };
-  }));
+  const [links, { data, error }] = await Promise.all([getTrainerLinks(true), db.rpc("pt_trainer_trends")]);
+  if (error) throw new Error("회원 현황을 불러오지 못했어요.");
+  const today = seoulYmd();
+  const rows = new Map(((data ?? []) as TrainerTrendRow[]).map(r => [r.link, r]));
+  const cards = sortDroppedFirst(links.map(link => ({
+    link,
+    trend: memberTrend(rows.get(link.id) ?? { link: link.id, workout: null, diet: null, body: null }, period, today),
+  })).map(c => ({ ...c, dropped: c.trend.dropped })));
+  const dropped = cards.filter(c => c.dropped).length;
+  const tab = (p: TrendPeriod, label: string) => <Link href={p === "week" ? "/trainer" : "/trainer?period=month"} role="tab" aria-selected={period === p} className={`rounded-full px-3 py-1 font-semibold ${period === p ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50" : "text-muted"}`}>{label}</Link>;
   return <main className="app-container space-y-6 py-6"><div className="flex items-center justify-between"><div><Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">헬스 트레이너</h1></div><Link href="/settings/trainer-pass" className="text-sm text-brand">이용권 관리</Link></div>
     <section className="app-card space-y-4 p-5"><h2 className="font-semibold">회원 초대</h2>
       <p className="text-sm text-muted">회원이 초대 링크에서 공유 범위를 정하고 수락하면 연결돼요.</p>
@@ -24,14 +35,15 @@ export default async function TrainerPage() {
         <label className="block text-sm">발송 방법<select name="channel" className="mt-1 min-h-11 w-full rounded-xl border border-line px-3"><option value="ATA">카카오 알림톡</option><option value="LMS">문자</option></select></label>
       </TrainerForm>
     </section>
-    <section className="space-y-3"><h2 className="text-lg font-semibold">담당 회원 · {links.length}명</h2><p className="text-xs text-muted">최근 30일 현황 · 회원이 허용한 정보만 표시해요.</p>
-      {!links.length && <p className="app-card p-5 text-sm">아직 초대를 수락한 회원이 없어요.</p>}
-      {reports.map(({ link, report }) => report && <article key={link.id} className="app-card space-y-3 p-5"><div className="flex items-center justify-between gap-2"><h3 className="min-w-0 truncate font-semibold">{report.name}</h3><Link href={`/trainer/members/${link.id}`} className="app-press inline-flex h-9 shrink-0 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand">관리</Link></div>
-        {!report.prescription && <p className="text-sm text-muted">운동 처방은 회원의 허용을 기다리고 있어요.</p>}
-        <dl className="grid gap-3 text-sm"><div><dt className="text-muted">운동</dt><dd>{report.workout ? `${report.workout.days}일 · ${report.workout.sets}세트 · ${report.workout.minutes}분` : "비공개"}</dd></div>
-        <div><dt className="text-muted">식단 기록</dt><dd>{report.diet === null ? "비공개" : `${report.diet}일`}</dd></div>
-        <div><dt className="text-muted">체중 · 체지방률</dt><dd>{report.body ? `${report.body.weight_kg ?? "미기록"} kg · ${report.body.body_fat_pct ?? "미기록"}%` : "비공개"}</dd></div></dl>
-      </article>)}
+    <section className="space-y-3" data-testid="trainer-trends" data-period={period}>
+      <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="text-lg font-semibold">담당 회원 · {links.length}명</h2>
+        <div role="tablist" aria-label="기간" className="inline-flex rounded-full bg-zinc-100 p-0.5 text-xs dark:bg-white/[0.08]">{tab("week", "주별")}{tab("month", "월별")}</div></div>
+      <p className="flex flex-wrap items-center gap-2 text-xs text-muted">
+        {period === "week" ? "이번 주 vs 지난주" : "이번 달 vs 지난달"} 같은 날짜까지 · 회원이 허용한 정보만 표시해요.
+        {dropped > 0 ? <span className="rounded-full bg-danger/10 px-2 py-0.5 font-semibold text-danger" data-testid="dropped-count">줄어든 회원 {dropped}명</span> : null}
+      </p>
+      {!links.length ? <p className="app-card p-5 text-sm">아직 초대를 수락한 회원이 없어요.</p>
+        : <div className="app-card divide-y divide-line p-5">{cards.map(({ link, trend }) => <MemberTrendCard key={link.id} linkId={link.id} name={link.member_name} trend={trend} period={period} prescription={link.allow_prescription} />)}</div>}
     </section>
   </main>;
 }

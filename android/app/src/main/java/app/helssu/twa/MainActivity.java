@@ -78,6 +78,7 @@ public class MainActivity extends BridgeActivity {
         //   브리지가 이미 만들어진 뒤라 웹에서 플러그인을 못 찾는다.
         registerPlugin(PlayBillingPlugin.class);
         registerPlugin(WorkoutSpeechPlugin.class);
+        registerPlugin(BodyCompOcrPlugin.class);
         super.onCreate(savedInstanceState);
 
         WebView webView = this.getBridge().getWebView();

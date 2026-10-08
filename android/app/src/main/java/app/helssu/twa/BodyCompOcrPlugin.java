@@ -19,7 +19,8 @@ import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions;
 
 /**
  * 체성분 분석지 사진 → 글자 조각과 위치(window.Capacitor.Plugins.BodyCompOcr).
- * Google ML Kit 한국어 모델을 앱에 넣어(bundled) 폰 안에서만 읽는다 — 인터넷·AI 없음.
+ * Google ML Kit 한국어 모델로 폰 안에서만 읽는다 — 인터넷·AI 없음. 모델은 Play 서비스가 설치 때 받아 둔다
+ * (앱에 넣으면 APK 50MB). 아직 다 못 받았으면 '잠시 후 다시' 안내.
  * 숫자와 항목명을 짝짓는 건 웹(parse-body-comp-layout.ts)이 위치를 보고 한다.
  */
 @CapacitorPlugin(name = "BodyCompOcr")
@@ -76,7 +77,11 @@ public class BodyCompOcrPlugin extends Plugin {
             })
             .addOnFailureListener(e -> {
                 image.recycle();
-                call.reject("사진의 글자를 읽지 못했어요.");
+                boolean downloading = e instanceof com.google.mlkit.common.MlKitException
+                    && ((com.google.mlkit.common.MlKitException) e).getErrorCode() == com.google.mlkit.common.MlKitException.UNAVAILABLE;
+                call.reject(downloading
+                    ? "글자 인식 준비 중이에요. 와이파이에 연결된 채로 1~2분 뒤 다시 시도해 주세요."
+                    : "사진의 글자를 읽지 못했어요.");
             });
     }
 

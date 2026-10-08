@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Logo } from "@/features/brand/logo";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -46,6 +47,7 @@ import {
 } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { DailyCheckinModal } from "@/features/routine/components/daily-checkin-modal";
+import { SessionReportCard } from "@/features/lite/components/session-report-card";
 import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { painConflicts, type Checkin } from "@/features/routine/checkin";
 import { loadPainSwapPreview, type PainSwapPreview } from "@/features/lite/pain-swap-data";
@@ -569,6 +571,12 @@ function TodayWorkout({
             <TodayEditBar />
           </div>
         )}
+
+        {/* 오늘 운동 리포트(2026-10-08) — 하나라도 끝내면 지난번의 나와 비교. 목록 아래라 늦게 떠도
+            위 목록이 밀리지 않는다. */}
+        <Suspense fallback={null}>
+          <SessionReportCard />
+        </Suspense>
 
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid

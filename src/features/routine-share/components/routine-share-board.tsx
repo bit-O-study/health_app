@@ -28,6 +28,40 @@ import {
   type RoutineShareItem,
 } from "@/features/routine-share/share";
 import { ReportButton } from "@/features/community/components/report-button";
+import { EQUIPMENT_LABELS, isEquipmentId } from "@/features/routine/exercise-catalog-labels";
+import { euro, iGa, type GymSwap } from "@/features/routine-share/gym-swap";
+
+const eqLabel = (id: string) => (isEquipmentId(id) ? EQUIPMENT_LABELS[id] : id);
+
+/** 내 헬스장에 그 기구가 없을 때 한 줄 — 같은 운동 다른 기구 → 비슷한 운동 → 없음. */
+function GymSwapNote({ swap, equipment }: { swap?: GymSwap; equipment: string }) {
+  if (!swap || swap.kind === "ok") return null;
+  if (swap.kind === "other-equipment") {
+    return (
+      <p className="mt-1 text-xs leading-5 text-brand" data-testid="gym-swap">
+        내 헬스장엔 {eqLabel(equipment)}{iGa(eqLabel(equipment))} 없어요 → <b>{eqLabel(swap.equipment)}</b>{euro(eqLabel(swap.equipment))} 같은 운동을 하면 돼요.
+      </p>
+    );
+  }
+  if (swap.kind === "replace") {
+    return (
+      <p className="mt-1 text-xs leading-5 text-warn" data-testid="gym-swap">
+        내 헬스장엔 이 기구가 없어요 → 대신{" "}
+        {swap.options.map((o, i) => (
+          <span key={o.exerciseId}>
+            {i > 0 ? " · " : ""}
+            <b>{o.name}</b>({eqLabel(o.equipment)}, 같은 근육 {o.overlapPct}%)
+          </span>
+        ))}
+      </p>
+    );
+  }
+  return (
+    <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400" data-testid="gym-swap">
+      내 헬스장 기구로는 비슷한 운동을 찾지 못했어요.
+    </p>
+  );
+}
 
 /**
  * 커뮤니티 '루틴' 세그먼트 — 남이 소개한 **하루치 루틴**을 보고 내 루틴의 한 일차로 담는다.
@@ -270,9 +304,10 @@ function ShareDetailSheet({
                   {e.name}
                 </p>
                 <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-                  {e.sets}세트 × {e.reps}회
+                  {eqLabel(e.equipment)} · {e.sets}세트 × {e.reps}회
                   {e.weight_kg != null ? ` · ${e.weight_kg}kg` : ""}
                 </p>
+                <GymSwapNote swap={e.gymSwap} equipment={e.equipment} />
                 {e.memo ? (
                   <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-amber-700 dark:text-amber-400">
                     <StickyNote

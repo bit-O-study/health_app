@@ -32,9 +32,17 @@ export const DISPLAY_LABEL: Record<SubStatus, string> = {
   high: "넘침",
 };
 
-/** 상태 칩 문구 — 넘친 곳은 숫자를 숨긴다(283% 같은 숫자가 '많이 하면 나쁜가'로 읽힌다). */
-export function statusChip(status: SubStatus, pct: number): string {
-  if (status === "high" || pct > OVER_PCT) return DISPLAY_LABEL.high;
+/**
+ * 상태 칩 문구. 넘친 곳은 %(283%)를 숨긴다 — '많이 하면 나쁜가'로 읽힌다.
+ * 세트를 알면 회색 '넘침' 대신 실제 세트와 배수("43세트 · 목표 2.9배", 2026-10-08) — 다 넘침이면
+ * 화면이 아무 말도 안 하게 된다(bong9468 진단).
+ */
+export function statusChip(status: SubStatus, pct: number, sets?: { stim: number; target: number }): string {
+  if (status === "high" || pct > OVER_PCT) {
+    if (!sets || !(sets.target > 0)) return DISPLAY_LABEL.high;
+    const times = Math.round((sets.stim / sets.target) * 10) / 10;
+    return `${fmtSets(sets.stim)}세트 · 목표 ${times}배`;
+  }
   return `${DISPLAY_LABEL[status]} · ${pct}%`;
 }
 
@@ -188,4 +196,12 @@ export function growthTile<T extends { name: string; latestKg: number; stalled: 
 /** 볼륨 짧게 — 4,800 → "4.8t", 950 → "950kg". */
 export function shortVolume(kg: number): string {
   return kg >= 1000 ? `${(Math.round(kg / 100) / 10).toLocaleString("ko-KR")}t` : `${Math.round(kg).toLocaleString("ko-KR")}kg`;
+}
+
+/** "10/10 저녁" — 서울 시각으로 날짜와 때(새벽·아침·낮·저녁·밤). */
+export function whenText(iso: string): string {
+  const d = new Date(new Date(iso).getTime() + 9 * 3_600_000);
+  const h = d.getUTCHours();
+  const part = h < 5 ? "새벽" : h < 11 ? "아침" : h < 17 ? "낮" : h < 22 ? "저녁" : "밤";
+  return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${part}`;
 }

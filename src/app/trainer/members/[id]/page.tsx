@@ -88,7 +88,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
     {sharing.prescription ? <>
       {scope === "today" ? <MemberTodayPrescription connectionId={id} memberId={memberId} memberName={data.name} dateLabel={todayLabel} rows={todayRows} notice={today.notice} /> :
       <MemberPrescription connectionId={id} memberId={memberId} memberName={data.name} exercises={rows} />}
-    </> : <p className="text-sm">회원이 운동 처방을 허용하지 않았어요. 회원 계정의 설정 → 트레이너 연결에서 운동 처방 허용을 켜고 저장하면 처방할 수 있어요.</p>}
+    </> : <p className="text-sm">회원이 운동 처방을 허용하지 않았어요.<br />회원 계정의 설정 → 트레이너 연결에서 운동 처방 허용을 켜고 저장하면 처방할 수 있어요.</p>}
     </div>}
   </main>;
 }

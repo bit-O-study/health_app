@@ -16,6 +16,9 @@ import {
 import { FitApplyCard, type FitPickView } from "@/features/routine/components/fit-apply-card";
 import { FitBalanceRadar } from "@/features/routine/components/fit-balance";
 import { FitHeader, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
+import { FitInsights } from "@/features/routine/components/fit-insights";
+import { FitRecovery } from "@/features/routine/components/fit-recovery";
+import { pushPull } from "@/features/routine/fit-insights";
 import {
   FIT_APPLIED_COOKIE,
   fmtSets,
@@ -45,6 +48,7 @@ const OLD_TAB: Record<string, string> = {
  * 맞춤 운동 · 한눈에(2026-10-07 한 화면 개편) — 탭 4개(추천·균형·성장·리포트)를 한 화면으로.
  * 결론 하나(가장 빈 부위) + 레이더(부위 6개) + 모자란 근육 3줄 → 오늘 추천 → 성장·이번 달 타일.
  * 레이더를 누르면 세부 근육·비율 시트. 하단 탭: 한눈에 · 홈 · 기록(`apps.ts`).
+ * 맨 아래 '기록으로 본 나'(2026-10-08) — 성장 기록 · 정체 · 밀기:당기기 · 쉬는 부위.
  * `?part=back` 이면 그 부위를 채우는 운동만 추천한다. 검수보고서: 맞춤 운동 한 화면 개편.
  */
 export default async function FitPage({
@@ -80,6 +84,7 @@ export default async function FitPage({
   }));
   const tile = growth ? growthTile(growth.growth) : null;
   const month = growth ? { m: Number(growth.month.slice(5)), t: growth.thisMonth, l: growth.lastMonth } : null;
+  const weekStim = Object.fromEntries(view.rows.map((r) => [r.sub, r.stim]));
 
   return (
     <div className="app-page" data-testid="fit-page" data-full={full ? "1" : "0"}>
@@ -121,7 +126,7 @@ export default async function FitPage({
             {/* `key` — 부위를 고르면(?part=) 다시 그려져 시트가 닫힌다. */}
             <FitBalanceRadar
               key={part ?? "all"}
-              parts={view.parts.map((p) => ({ part: p.part as BodyPart, pct: p.pct, status: p.status }))}
+              parts={view.parts.map((p) => ({ part: p.part as BodyPart, pct: p.pct, status: p.status, stim: p.stim, target: p.target }))}
               rows={view.rows.map((r) => ({
                 sub: r.sub,
                 label: subLabel(r.sub),
@@ -182,6 +187,9 @@ export default async function FitPage({
         ) : null}
         {!full ? <FitLocked what="추천 3개 · 고르기 · 바꾸기" /> : null}
 
+        {/* 부위별 회복(2026-10-08, 라이트) — 오늘 어디를 해도 되는지. */}
+        {full ? <FitRecovery rows={view.recovery} /> : null}
+
         {/* 늘고 있는 것 — 성장 · 이번 달. 누르면 기록 탭. */}
         <div className="grid grid-cols-2 gap-3" data-testid="fit-tiles">
           <Link href="/fit/report" className="app-card app-press min-w-0 space-y-0.5 p-3.5" data-testid="fit-tile-growth">
@@ -216,13 +224,23 @@ export default async function FitPage({
                   {month.t.volumeKg > month.l.volumeKg ? (
                     <span className="text-brand">▲ {shortVolume(month.t.volumeKg - month.l.volumeKg)}</span>
                   ) : (
-                    `지난달 ${month.l.days}일`
+                    `지난달 이맘때 ${month.l.days}일`
                   )}
                 </span>
               </>
             ) : null}
           </Link>
         </div>
+
+        {growth ? (
+          <FitInsights
+            stories={growth.insights.stories}
+            plateaus={growth.insights.plateaus}
+            pushPull={pushPull(weekStim)}
+            resting={growth.insights.resting}
+            full={full}
+          />
+        ) : null}
       </main>
     </div>
   );

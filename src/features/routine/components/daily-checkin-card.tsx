@@ -160,7 +160,7 @@ export function DailyCheckinCard({
         </button>
       ) : null}
       {lightened && advice?.kind === "light" ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">오늘은 세트를 줄였어요. 내일은 원래 루틴 그대로예요.</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">오늘은 세트를 줄였어요.<br />내일은 원래 루틴 그대로예요.</p>
       ) : null}
 
       {painConflicts.length ? (

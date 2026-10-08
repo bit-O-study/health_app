@@ -38,6 +38,6 @@ export function MemberStatistics({ stats, prev, sharing, period }: {
       </div>)}</dl>
     </section>
     {sharing.workout && <MemberTrend key={stats.series[0]?.label + period} series={stats.series} period={period} />}
-    <details className="text-sm text-muted"><summary className="cursor-pointer py-2">통계 집계 기준</summary><p className="pt-2 leading-6">한국 시간 기준으로 완료한 근력·준비·마무리 운동의 날짜를 중복 없이 집계해요. 시간은 저장된 운동 시간, 볼륨은 완료 시점의 세트별 중량 기준이에요. 맨몸 운동의 볼륨은 0kg이며 체중 변화는 기간 내 첫 기록과 마지막 기록을 비교해요.</p></details>
+    <details className="text-sm text-muted"><summary className="cursor-pointer py-2">통계 집계 기준</summary><p className="pt-2 leading-6">한국 시간 기준으로 완료한 근력·준비·마무리 운동의 날짜를 중복 없이 집계해요.<br />시간은 저장된 운동 시간, 볼륨은 완료 시점의 세트별 중량 기준이에요.<br />맨몸 운동의 볼륨은 0kg이며 체중 변화는 기간 내 첫 기록과 마지막 기록을 비교해요.</p></details>
   </div>;
 }

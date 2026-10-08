@@ -28,7 +28,53 @@ export function writeWorkoutVoice(on: boolean): void {
 }
 
 /**
- * 휴식 끝 10초 전 — "3세트째, 12회, 120킬로. 10초 남았어요."
+ * 말로 읽을 수 있게 — 화면용 기호를 말로 바꾼다(2026-10-08).
+ * 🔴 요령 문구에 '→'가 120군데 넘게 있어 음성이 "화살표"라고 읽었다. 기호는 쉼표·말로,
+ * '3~5초'는 '3에서 5초', 'kg'는 '킬로'. 괄호는 벗기고 내용만 남긴다.
+ */
+export function speakable(text: string): string {
+  return text
+    .replace(/(\d+(?:\.\d+)?)\s*kg/gi, "$1킬로")
+    .replace(/(\d+)\s*[~∼〜]\s*(\d+)/g, "$1에서 $2")
+    .replace(/([가-힣])\s*[~∼〜]\s*([가-힣])/g, "$1에서 $2")
+    .replace(/[~∼〜]/g, " ")
+    .replace(/(\d+)\s*%/g, "$1퍼센트")
+    .replace(/\s*↑/g, " 증가")
+    .replace(/\s*↓/g, " 감소")
+    .replace(/([가-힣]+)→([가-힣])/g, "$1에서 $2")
+    .replace(/\s*[→⇒➜➔>+]\s*/g, ", ")
+    .replace(/\s*[·•|/]\s*/g, ", ")
+    .replace(/\s*[(（]\s*/g, ", ")
+    .replace(/\s*[)）]\s*/g, " ")
+    .replace(/[×✕]/g, " ")
+    .replace(/\sX(?=\s|$|[,.])/g, " 금지")
+    .replace(/[“”"'‘’]/g, "")
+    .replace(/\s*,\s*(,\s*)+/g, ", ")
+    .replace(/\s+([,.])/g, "$1")
+    .replace(/\s{2,}/g, " ")
+    .replace(/^[,\s]+|[,\s]+$/g, "")
+    .trim();
+}
+
+/** 요령 한 줄을 말로 — '—' 뒤 설명은 빼고 핵심만(두괄식). */
+function cueSpeech(cue: string): string {
+  const head = cue.split(/\s[—–-]\s/)[0];
+  const s = speakable(head);
+  return /[.!?요다]$/.test(s) ? s : `${s}.`;
+}
+
+/** "3세트, 12회 120킬로" — 몇 세트·몇 회·무게를 먼저. */
+function setTarget(o: { setNo: number; totalSets?: number; reps?: number | null; timed?: boolean; weightKg?: number | null }): string {
+  const last = o.totalSets && o.totalSets > 1 && o.setNo >= o.totalSets ? "마지막 " : "";
+  const head = `${last}${o.setNo}세트`;
+  if (!o.reps) return head;
+  const reps = o.timed ? `${o.reps}초` : `${o.reps}회`;
+  const w = o.weightKg == null ? "맨몸" : `${formatKg(o.weightKg)}킬로`;
+  return `${head}, ${reps} ${w}`;
+}
+
+/**
+ * 휴식 끝 10초 전 — 두괄식 "10초 뒤 3세트, 12회 120킬로."
  * 화면 글자("세트 3/4 · 12회 · 120kg")를 그대로 읽히면 "3 슬래시 4", "케이지"로 읽혀서 말로 바꾼다.
  */
 export function speechForNextSet(o: {
@@ -38,22 +84,30 @@ export function speechForNextSet(o: {
   timed: boolean;
   weightKg: number | null;
 }): string {
-  const last = o.nextSet >= o.totalSets ? "마지막 " : "";
-  const reps = o.timed ? `${o.reps}초` : `${o.reps}회`;
-  const w = o.weightKg === null ? "맨몸" : `${formatKg(o.weightKg)}킬로`;
-  return `${last}${o.nextSet}세트째, ${reps}, ${w}. 10초 남았어요.`;
+  return `10초 뒤 ${setTarget({ setNo: o.nextSet, totalSets: o.totalSets, reps: o.reps, timed: o.timed, weightKg: o.weightKg })}.`;
 }
 
-/** 다음 운동으로 넘어가는 휴식 — "다음은 펙덱 플라이. 10초 남았어요." */
+/** 다음 운동으로 넘어가는 휴식 — "10초 뒤 다음 운동, 펙덱 플라이." */
 export function speechForNextExercise(name: string): string {
-  return `다음은 ${name}. 10초 남았어요.`;
+  return `10초 뒤 다음 운동, ${speakable(name)}.`;
 }
 
-/** 세트 시작 — 요령 한 줄. 처음 하는 운동이면 준비 첫 단계를 먼저. */
-export function speechForSetStart(o: { setNo: number; cue: string | null; introFirst?: string | null }): string {
-  if (o.introFirst) return `처음 해 보는 운동이에요. ${o.introFirst}`;
-  const head = `${o.setNo}세트.`;
-  return o.cue ? `${head} ${o.cue}` : head;
+/**
+ * 세트 시작 — 두괄식: 몇 세트·목표를 먼저, 요령은 한 줄만.
+ * "2세트, 12회 60킬로. 무릎은 발끝 방향." / 처음 하는 운동이면 "1세트, 12회 60킬로. 처음이니 준비부터. 등받이에 등 붙이기."
+ */
+export function speechForSetStart(o: {
+  setNo: number;
+  cue: string | null;
+  introFirst?: string | null;
+  totalSets?: number;
+  reps?: number | null;
+  timed?: boolean;
+  weightKg?: number | null;
+}): string {
+  const head = `${setTarget(o)}.`;
+  if (o.introFirst) return `${head} 처음이니 준비부터. ${cueSpeech(o.introFirst)}`;
+  return o.cue ? `${head} ${cueSpeech(o.cue)}` : head;
 }
 
 /** 세트마다 다른 요령 — 같은 말만 반복하면 안 듣게 된다. */

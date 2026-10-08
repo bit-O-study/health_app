@@ -45,9 +45,64 @@ const fmt = (n: number) => n.toLocaleString("ko-KR");
  * 체성분 변화 · 컨디션 · 식단 월간 · 수분/걸음 주간. 모두 내 기록 계산(AI 없음).
  */
 export function LiteReportCards({ r }: { r: LiteReports }) {
-  const { body, condition, diet, dietTarget, habits } = r;
+  const { body, condition, diet, dietTarget, habits, bodyTraining } = r;
+  const trainMonths = bodyTraining.months;
+  const anyTraining = trainMonths.some((m) => m.days > 0);
+  const anyRun = trainMonths.some((m) => m.runs > 0);
+  const anyWeight = trainMonths.some((m) => m.weightKg != null);
+  const anyMuscle = trainMonths.some((m) => m.muscleKg != null);
+  const shortKg = (kg: number) => (kg >= 1000 ? `${Math.round(kg / 100) / 10}t` : `${fmt(kg)}kg`);
   return (
     <>
+      {/* 몸 변화 × 운동량(2026-10-08) — 운동한 만큼 몸이 어떻게 변했나, 달마다 한 줄. */}
+      <Card title="몸 변화 × 운동량 · 최근 4달" testId="lite-report-body-training" empty={!anyTraining && !anyWeight}>
+        {bodyTraining.headline ? (
+          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-testid="lite-report-body-training-headline">
+            {bodyTraining.headline}
+          </p>
+        ) : (
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            체중이나 인바디를 두 번 이상 기록하면 운동량과 몸 변화를 이어서 보여 줘요.{" "}
+            <Link href="/settings/body-composition" className="font-semibold text-brand">체성분 입력 →</Link>
+          </p>
+        )}
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs tabular-nums">
+            <thead>
+              <tr className="text-left text-zinc-500 dark:text-zinc-400">
+                <th className="py-1 font-medium">달</th>
+                <th className="py-1 text-right font-medium">운동</th>
+                <th className="py-1 text-right font-medium">볼륨</th>
+                {anyRun ? <th className="py-1 text-right font-medium">러닝</th> : null}
+                {anyWeight ? <th className="py-1 text-right font-medium">체중</th> : null}
+                {anyMuscle ? <th className="py-1 text-right font-medium">골격근</th> : null}
+              </tr>
+            </thead>
+            <tbody className="text-zinc-800 dark:text-zinc-100">
+              {trainMonths.map((m) => (
+                <tr key={m.month} className="border-t border-[var(--line)]">
+                  <td className="py-1.5">{Number(m.month.slice(5))}월</td>
+                  <td className="py-1.5 text-right">{m.days}일</td>
+                  <td className="py-1.5 text-right">{m.volumeKg > 0 ? shortKg(m.volumeKg) : "―"}</td>
+                  {anyRun ? <td className="py-1.5 text-right">{m.runs > 0 ? `${m.runKm}km` : "―"}</td> : null}
+                  {anyWeight ? (
+                    <td className="py-1.5 text-right">
+                      {m.weightKg != null ? `${m.weightKg}kg` : "―"}
+                      {m.weightDelta ? <span className="ml-1 text-zinc-500">{signed(m.weightDelta)}</span> : null}
+                    </td>
+                  ) : null}
+                  {anyMuscle ? (
+                    <td className="py-1.5 text-right">
+                      {m.muscleKg != null ? `${m.muscleKg}kg` : "―"}
+                      {m.muscleDelta ? <span className={`ml-1 ${m.muscleDelta > 0 ? "text-brand" : "text-zinc-500"}`}>{signed(m.muscleDelta)}</span> : null}
+                    </td>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
       <Card title="체성분 변화" testId="lite-report-body" empty={body.count === 0}>
         {body.count === 0 ? (
           <Empty>

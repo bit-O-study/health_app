@@ -192,7 +192,7 @@ function AuthorSheet({
               ))}
             </ul>
           )}
-          <p className="mt-2 text-xs text-zinc-400">내가 볼 수 있는 글만 보여요. 몸무게·신체 정보는 보이지 않아요.</p>
+          <p className="mt-2 text-xs text-zinc-400">내가 볼 수 있는 글만 보여요.<br />몸무게·신체 정보는 보이지 않아요.</p>
         </div>
 
         {!isMine && blockTarget ? (

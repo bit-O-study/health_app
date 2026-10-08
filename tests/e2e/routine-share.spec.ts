@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
+import { createTestAccount } from "./helpers/account-fixture";
+import { dbQuery, hasDb } from "./helpers/db";
 
 /**
  * 루틴 소개(하루치 루틴 공유) 왕복 —
@@ -87,4 +89,32 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   await expect(
     page.locator("[data-plan-day-index='0']").locator("select").first(),
   ).toBeVisible();
+});
+
+test("남의 루틴 — 내 헬스장에 없는 기구는 헬스장 기구 중 무엇으로 바꿀지 보여 준다(2026-10-08)", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(120_000);
+  const { user_id } = await createTestAccount(page.context(), baseURL!, false);
+  // 덤벨만 있는 헬스장으로 등록(개인 기구 목록).
+  const gym = await dbQuery<{ id: string }>(`select id from public.gyms limit 1`);
+  test.skip(gym.length === 0, "no gym rows");
+  await dbQuery(`update public.profiles set gym_id=$2, gym_equipment_ids=array['dumbbell'] where user_id=$1`, [user_id, gym[0].id]);
+  const title = `헬스장대체 ${Date.now()}`;
+  await dbQuery(
+    `insert into public.routine_shares (user_id, author_name, title, focus_blocks, exercises)
+     values ($1, '테스트', $2, '["back"]'::jsonb, $3::jsonb)`,
+    [user_id, title, JSON.stringify([
+      { focus: "back", position: 0, exercise_id: "lat-pulldown", equipment: "machine", sets: 4, reps: 10, weight_kg: null, memo: null },
+      { focus: "back", position: 1, exercise_id: "one-arm-dumbbell-row", equipment: "dumbbell", sets: 3, reps: 12, weight_kg: null, memo: null },
+    ])],
+  );
+
+  await page.goto("/community", { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "루틴", exact: true }).click();
+  await page.getByRole("button").filter({ hasText: title }).first().click();
+  const notes = page.getByTestId("gym-swap");
+  // 랫풀다운(머신)만 대체가 붙고, 덤벨 운동에는 안 붙는다.
+  await expect(notes).toHaveCount(1, { timeout: 15_000 });
+  await expect(notes.first()).toContainText("내 헬스장엔 이 기구가 없어요");
+  await expect(notes.first()).toContainText("같은 근육");
 });

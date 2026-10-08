@@ -8,30 +8,51 @@ import {
   speechForNextExercise,
   speechForNextSet,
   speechForSetStart,
+  speakable,
 } from "@/features/workout-timer/workout-voice";
+import { guideFor } from "@/features/workout-timer/exercise-guides";
 import { musclesForExerciseBody } from "@/features/workout-timer/muscle-body-view";
 
 describe("음성 코치 문장 — 화면 글자가 아니라 말로", () => {
   it("다음 세트: '3 슬래시 4'·'케이지' 로 읽히지 않게", () => {
     const t = speechForNextSet({ nextSet: 3, totalSets: 4, reps: 12, timed: false, weightKg: 120 });
-    expect(t).toBe("3세트째, 12회, 120킬로. 10초 남았어요.");
+    expect(t).toBe("10초 뒤 3세트, 12회 120킬로.");
     expect(t).not.toMatch(/\/|kg/);
   });
   it("마지막 세트·시간 운동·맨몸·소수 무게", () => {
     expect(speechForNextSet({ nextSet: 3, totalSets: 3, reps: 45, timed: true, weightKg: null })).toBe(
-      "마지막 3세트째, 45초, 맨몸. 10초 남았어요.",
+      "10초 뒤 마지막 3세트, 45초 맨몸.",
     );
     expect(speechForNextSet({ nextSet: 2, totalSets: 3, reps: 10, timed: false, weightKg: 22.5 })).toContain("22점5킬로");
   });
   it("다음 운동", () => {
-    expect(speechForNextExercise("펙덱 플라이")).toBe("다음은 펙덱 플라이. 10초 남았어요.");
+    expect(speechForNextExercise("펙덱 플라이")).toBe("10초 뒤 다음 운동, 펙덱 플라이.");
   });
-  it("세트 시작: 요령 한 줄, 처음 하는 운동이면 준비 첫 단계", () => {
-    expect(speechForSetStart({ setNo: 2, cue: "무릎은 발끝 방향" })).toBe("2세트. 무릎은 발끝 방향");
-    expect(speechForSetStart({ setNo: 1, cue: "x", introFirst: "등받이에 등 붙이기" })).toBe(
-      "처음 해 보는 운동이에요. 등받이에 등 붙이기",
+  it("세트 시작 — 두괄식: 몇 세트·몇 회·무게 먼저, 요령은 '—' 앞 핵심만", () => {
+    expect(speechForSetStart({ setNo: 2, totalSets: 4, reps: 12, weightKg: 60, cue: "팔꿈치 45도 — 옆구리에서 너무 벌리지 않기" })).toBe(
+      "2세트, 12회 60킬로. 팔꿈치 45도.",
+    );
+    expect(speechForSetStart({ setNo: 4, totalSets: 4, reps: 30, timed: true, weightKg: null, cue: null })).toBe("마지막 4세트, 30초 맨몸.");
+    expect(speechForSetStart({ setNo: 1, totalSets: 3, reps: 10, weightKg: 20, cue: "x", introFirst: "등받이에 등 붙이기" })).toBe(
+      "1세트, 10회 20킬로. 처음이니 준비부터. 등받이에 등 붙이기.",
     );
     expect(speechForSetStart({ setNo: 1, cue: null })).toBe("1세트.");
+  });
+  it("🔴 '화살표'라고 읽지 않는다 — 기호를 말로", () => {
+    expect(speakable("점프해서 정점 → 천천히 내려옴 (3~5초)")).toBe("점프해서 정점, 천천히 내려옴, 3에서 5초");
+    expect(speakable("손바닥을 안→밖으로 돌리며 전면·측면 자극")).toBe("손바닥을 안에서 밖으로 돌리며 전면, 측면 자극");
+    expect(speakable("측면 삼각근 개입↑ · 20kg")).toBe("측면 삼각근 개입 증가, 20킬로");
+    expect(speakable("정점에서 1초 멈춤 + 둔근 짜내듯")).toBe("정점에서 1초 멈춤, 둔근 짜내듯");
+    expect(speakable("머리 뒤로 X")).toBe("머리 뒤로 금지");
+  });
+  it("🔴 실제 요령 문구 전부 — 음성으로 바꾸면 기호가 하나도 안 남는다", () => {
+    const ids = ["bench-press", "squat", "deadlift", "pull-up", "lat-pulldown", "lateral-raise", "arnold-press", "hip-thrust", "dips", "plank", "leg-press", "barbell-row"];
+    for (const id of ids) {
+      const g = guideFor(id);
+      for (const line of [...g.cues, g.setup]) {
+        expect(speechForSetStart({ setNo: 1, cue: line })).not.toMatch(/[→↑↓~∼()·+×>/]|kg/);
+      }
+    }
   });
   it("세트마다 다른 요령(돌아가며)", () => {
     expect(cueForSet(["a", "b", "c"], 0)).toBe("a");

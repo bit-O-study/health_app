@@ -107,12 +107,17 @@ export async function GET(req: Request) {
       );
     const rows = (routines ?? []) as RoutineRow[];
 
-    // 오늘 식단을 남긴 사용자 / 오늘 본운동을 완료한 사용자 — 각각 한 번에.
+    // 오늘 식단을 남긴 사용자 / 오늘 운동한 사용자 — 각각 한 번에.
     // (행 상한에 잘리면 '기록 안 했다'고 오판해 잔소리 푸시가 나가므로 페이지로 끝까지 읽는다.)
-    const [dietUsers, doneUsers] = await Promise.all([
+    // 🔴 러닝만 한 날도 운동한 날이다(2026-10-08 — 러닝만 뛰었는데 '운동하라' 알림이 왔다).
+    //    근력 완료 · 러닝 기록 · 그날 달린 거리(러닝머신 포함) 중 하나라도 있으면 운동한 것.
+    const [dietUsers, liftUsers, runUsers, runDistanceUsers] = await Promise.all([
       userIdSet(admin, "food_logs", todayYmd),
       userIdSet(admin, "exercise_completions", todayYmd, true),
+      userIdSet(admin, "run_sessions", todayYmd),
+      userIdSet(admin, "daily_run_distance", todayYmd, false, true),
     ]);
+    const doneUsers = new Set([...liftUsers, ...runUsers, ...runDistanceUsers]);
 
     // 누구에게 무엇을 보낼지 — 여기까지는 DB 없이 메모리 판정.
     const all: { userId: string; kind: ReminderKind; key: string }[] = [];
@@ -285,20 +290,23 @@ export async function GET(req: Request) {
   });
 }
 
-/** 오늘 해당 기록이 있는 사용자 id 집합. `doneOnly` 면 status=done 만. */
+/** 오늘 해당 기록이 있는 사용자 id 집합. `doneOnly` 면 status=done 만, `movedOnly` 면 meters>0 만. */
 async function userIdSet(
   admin: SupabaseClient,
-  table: "food_logs" | "exercise_completions",
+  table: "food_logs" | "exercise_completions" | "run_sessions" | "daily_run_distance",
   todayYmd: string,
   doneOnly = false,
+  movedOnly = false,
 ): Promise<Set<string>> {
   const rows = await fetchAllPages<{ user_id: string }>((from, to) => {
-    const q = admin
+    let q = admin
       .from(table)
       .select("user_id")
       .eq("for_date", todayYmd)
       .range(from, to);
-    return doneOnly ? q.eq("status", "done") : q;
+    if (doneOnly) q = q.eq("status", "done");
+    if (movedOnly) q = q.gt("meters", 0);
+    return q;
   });
   return new Set(rows.map((r) => r.user_id));
 }

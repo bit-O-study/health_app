@@ -271,7 +271,7 @@ export function BodyPhotosPanel({ view, today }: { view: BodyPhotosView; today: 
           </ul>
         </section>
       ) : null}
-      <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">이 사진은 나만 봐요. 다른 회원·트레이너에게 보이지 않아요.</p>
+      <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">이 사진은 나만 봐요.<br />다른 회원·트레이너에게 보이지 않아요.</p>
     </div>
   );
 }

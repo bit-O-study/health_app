@@ -47,6 +47,9 @@ export default async function FitRecordPage() {
   ]);
   if (!growth) redirect("/login?redirect=/fit/report");
   const m = Number(growth.month.slice(5));
+  const pm = m === 1 ? 12 : m - 1;
+  // 지난달이 더 짧으면(31일 → 30일) 그 달 마지막 날까지.
+  const pmEnd = Math.min(growth.throughDay, new Date(Date.UTC(Number(growth.month.slice(0, 4)), m - 1, 0)).getUTCDate());
   const t = growth.thisMonth;
   const l = growth.lastMonth;
 
@@ -74,6 +77,11 @@ export default async function FitRecordPage() {
                 </div>
               ))}
             </dl>
+          ) : null}
+          {full ? (
+            <p className="text-xs text-zinc-400" data-testid="fit-report-compare-range">
+              지난달 같은 기간({pm}/1~{pm}/{pmEnd})과 비교 · 러닝한 날 포함
+            </p>
           ) : null}
           {full && growth.topPart && growth.lackingPart ? (
             <p className="border-t border-[var(--line)] pt-2.5 text-xs text-zinc-600 dark:text-zinc-300" data-testid="fit-report-next">
@@ -143,6 +151,16 @@ export default async function FitRecordPage() {
         {lite ? <LiteReportCards r={lite} /> : null}
         {photos ? <BodyPhotosCard view={photos} /> : null}
         {!full ? <FitLocked what="월간 요약 · 종목 성장 · 체성분 · 식단 리포트" /> : null}
+
+        {/* 종목별 기록 찾기(2026-10-08) — "지난달 데드리프트 몇 kg였지?" */}
+        <Link
+          href="/fit/records"
+          className="app-card app-press flex items-center justify-between p-4 text-sm font-semibold text-zinc-900 dark:text-zinc-100"
+          data-testid="fit-records-link"
+        >
+          종목별 기록 찾기
+          <ChevronRight aria-hidden="true" size={18} className="text-zinc-400" />
+        </Link>
 
         <Link
           href="/fit/year"

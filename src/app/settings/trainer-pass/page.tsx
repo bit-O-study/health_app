@@ -10,7 +10,7 @@ export default async function TrainerPassPage() {
   return <main className="app-container space-y-6 py-6">
     <Link href="/settings" className="text-sm text-brand">설정으로</Link>
     <h1 className="app-title">트레이너 정액권</h1>
-    <p className="text-sm text-muted">트레이너 본인의 회원 관리 이용권이에요. 그룹 가입과 별도로 운영돼요. 신청 후 관리자가 결제와 이용 기간을 확인하면 홈에 헬스 트레이너 앱이 나타나요.</p>
+    <p className="text-sm text-muted">트레이너 본인의 회원 관리 이용권이에요.<br />그룹 가입과 별도로 운영돼요.<br />신청 후 관리자가 결제와 이용 기간을 확인하면 홈에 헬스 트레이너 앱이 나타나요.</p>
     {pass && <section className="app-card space-y-2 p-4"><h2 className="font-semibold">내 이용권</h2><p>{({ requested: "승인 대기", active: "승인됨", canceled: "해지됨" } as Record<string,string>)[pass.status]}</p><p>{pass.starts_on ?? "기간 미정"} ~ {pass.ends_on === "infinity" ? "무제한" : pass.ends_on ?? "기간 미정"} · 회원 {pass.seats}명</p><Link href="/trainer" className="text-brand">트레이너 앱 열기</Link></section>}
     <section className="app-card space-y-4 p-4"><h2 className="font-semibold">이용권 등록 신청</h2>
       <TrainerForm intent="request" label="등록 신청">

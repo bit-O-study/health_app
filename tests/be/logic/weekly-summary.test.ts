@@ -29,6 +29,12 @@ describe("이번 주 정리 알림(라이트)", () => {
     expect(p.title).toBe("이번 주 정리");
   });
 
+  it("일주일 넘게 쉰 부위가 있으면 '다음 주엔 하체부터' 한 줄(2026-10-08)", () => {
+    const p = weeklySummaryPayload({ days: 3, volumeKg: 9000, prevVolumeKg: 0, prs: 0, proteinHitDays: null, nextFocus: { label: "하체", days: 10 } });
+    expect(p.body).toBe("3일 운동 · 볼륨 9,000kg\n다음 주엔 하체부터(10일째 쉬는 중)");
+    expect(weeklySummaryPayload({ days: 3, volumeKg: 9000, prevVolumeKg: 0, prs: 0, proteinHitDays: null, nextFocus: null }).body).not.toContain("다음 주엔");
+  });
+
   it("🔴 운동 안 한 주에도 다그치지 않는다", () => {
     const p = weeklySummaryPayload({ days: 0, volumeKg: 0, prevVolumeKg: 9000, prs: 0, proteinHitDays: 2 });
     expect(p.body).toBe("이번 주는 쉬었어요. 다음 주 첫 운동을 잡아 볼까요?");

@@ -31,7 +31,7 @@ export function NewTicket() {
     <label className="block">제목<input name="title" required maxLength={100} className={field} placeholder="어떤 문제가 있었나요?"/></label>
     <label className="block">내용<textarea name="body" required maxLength={5000} rows={7} className={field} placeholder="어느 화면에서 무엇을 했는지, 어떤 결과가 나왔는지 알려 주세요."/></label>
     <label className="flex items-start gap-3 text-sm"><input className="mt-1" type="checkbox" name="diagnostic"/>기기 종류·앱 버전·화면 크기를 함께 보내기 (선택)</label>
-    <p className="text-sm text-muted">사진은 접수 후 문의 화면에서 최대 3장 첨부할 수 있어요. 비밀번호나 인증번호는 적지 마세요.</p>
+    <p className="text-sm text-muted">사진은 접수 후 문의 화면에서 최대 3장 첨부할 수 있어요.<br />비밀번호나 인증번호는 적지 마세요.</p>
     {error&&<p role="alert" className="text-sm text-red-600">{error}</p>}
     <button disabled={pending} className={`${button} w-full`}>{pending?"접수 중…":"문의 접수"}</button>
   </form>;
@@ -57,8 +57,8 @@ export function NotificationSettings({configured,connection}:{configured:boolean
   function run(kind:"save"|"disconnect"|"test"|"dispatch"){start(async()=>{try{const r=await supportNotificationAction(kind,enabled,push);setMessage(r.error??"처리했어요. 아래 발송 내역을 확인해 주세요.");router.refresh();}catch{setMessage("처리하지 못했어요. 잠시 후 다시 시도해 주세요.");}});}
   return <section className="app-card space-y-4 p-5">
     <h2 className="font-bold">내 카카오톡 연결</h2><p>연결 상태: {connection?.state==="connected"?"연결됨":connection?.state==="needs_reconnect"?"재연결 필요":"연결 안 됨"}{connection?.kakao_id?` · 계정 …${connection.kakao_id.slice(-4)}`:""}</p>
-    <p className="text-sm text-muted">나와의 채팅으로 전송해요. 무료 한도를 넘으면 대기하며 유료 문자로 전환하지 않아요. 휴대폰 알림음·배너는 기기에서 별도로 확인해 주세요.</p>
-    {configured?<a href="/api/support/kakao/start" className="inline-block rounded-xl bg-yellow-300 px-4 py-3 font-semibold text-zinc-900">카카오 계정 연결</a>:<p role="status">카카오 REST 키·서버 암호화 키·사이트 URL·서버 관리자 키 설정이 필요해요. 문의 접수는 계속 사용할 수 있어요.</p>}
+    <p className="text-sm text-muted">나와의 채팅으로 전송해요.<br />무료 한도를 넘으면 대기하며 유료 문자로 전환하지 않아요.<br />휴대폰 알림음·배너는 기기에서 별도로 확인해 주세요.</p>
+    {configured?<a href="/api/support/kakao/start" className="inline-block rounded-xl bg-yellow-300 px-4 py-3 font-semibold text-zinc-900">카카오 계정 연결</a>:<p role="status">카카오 REST 키·서버 암호화 키·사이트 URL·서버 관리자 키 설정이 필요해요.<br />문의 접수는 계속 사용할 수 있어요.</p>}
     <label className="flex gap-2"><input type="checkbox" checked={enabled} onChange={e=>setEnabled(e.target.checked)}/>카카오 문의 알림 받기</label>
     <label className="flex gap-2"><input type="checkbox" checked={push} onChange={e=>setPush(e.target.checked)}/>등록된 브라우저 기기로 새 문의 푸시 받기</label>
     <Link className="block text-sm underline" href="/settings/notifications">기기 푸시 등록·권한 설정</Link>

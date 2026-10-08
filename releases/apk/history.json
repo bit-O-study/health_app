@@ -1,5 +1,20 @@
 [
   {
+    "file": "helssu-v1.0.7-8-04d422d-20261008-1735-dirty-mlkit-play-services-10mb.apk",
+    "dir": "releases/apk/2026-10-08",
+    "sha256": "329e08387c6d3a7e67333c61d4b399af34d5d0966804fc68e55e872e4f285bc0",
+    "versionName": "1.0.7",
+    "versionCode": 8,
+    "commit": "04d422d",
+    "builtAt": "2026-10-08T08:35:38.087Z",
+    "buildType": "debug",
+    "sizeBytes": 9993724,
+    "verified": false,
+    "note": "mlkit-play-services-10mb",
+    "logcat": "",
+    "rebuiltAs": []
+  },
+  {
     "file": "helssu-v1.0.6-7-31d36e4-20261007-1625-dirty-helssu-name-body-comp-device-ocr.apk",
     "dir": "releases/apk/2026-10-07",
     "sha256": "70df1c5af00ffb84e2b5cfb8287e1ef5a0e30446a7b36aa7fc099448d079cbaa",

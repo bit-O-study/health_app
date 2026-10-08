@@ -5,7 +5,7 @@ import { useState, useSyncExternalStore } from "react";
 import { Minus, Plus } from "lucide-react";
 import { visibleApps } from "@/features/launcher/apps";
 import { AppPickerDialog } from "@/features/launcher/app-picker-dialog";
-import { HomeDockEditor } from "@/features/launcher/home-dock-editor";
+import { HomeDockEditor, useDockPlacement } from "@/features/launcher/home-dock-editor";
 import { useHydrated } from "@/lib/use-hydrated";
 
 const CHANGE_EVENT = "launcher-apps-changed";
@@ -40,6 +40,8 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
   // 트레이너 앱도 다른 앱과 같다 — 숨겼을 때만 '앱 추가'에 같은 이름으로 나온다.
   // (예전엔 '트레이너 대시보드'라는 바로가기를 늘 따로 띄워 앱이 두 개처럼 보였다, 2026-10-07 정리.)
   const removed = available.filter(app => hidden.includes(app.id));
+  // 편집 중 내 앱 아이콘을 끌어(또는 눌러 고른 뒤) 아래 하단바 미리보기에 놓는다(2026-10-08).
+  const placement = useDockPlacement(userId, available);
 
   function toggle(id: string, hide: boolean) {
     const next = hide ? [...new Set([...hidden, id])] : hidden.filter(value => value !== id);
@@ -66,8 +68,21 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
       <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{app.label}</span>
     </>;
     const className = "flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90";
+    if (editing && !adding) {
+      // 편집 중 — 아이콘은 하단바에 놓기(끌기·누르기), 오른쪽 위 − 는 홈에서 숨기기.
+      const picked = placement.selected === app.id;
+      return <li key={app.id} className="relative">
+        <button type="button" aria-label={`${app.label} 하단에 놓기`} aria-pressed={picked} className={`${className} touch-none select-none cursor-grab active:cursor-grabbing ${picked ? "ring-2 ring-brand" : ""}`} {...placement.handlers(app.id)} onClick={event => placement.click(app.id, undefined, event.detail === 0)}>
+          <span aria-hidden="true" className={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}><Icon size={22} strokeWidth={1.9} /></span>
+          <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{app.label}</span>
+        </button>
+        <button type="button" aria-label={`${app.label} 숨기기`} onClick={() => { toggle(app.id, true); placement.cancel(); }} className="absolute left-1/2 top-[-0.6rem] ml-3 flex h-8 w-8 items-center justify-center rounded-full">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-white ring-2 ring-white dark:bg-zinc-200 dark:text-zinc-900 dark:ring-zinc-900"><Minus size={14} /></span>
+        </button>
+      </li>;
+    }
     return <li key={app.id}>
-      {editing || adding ? <button type="button" className={className} aria-label={`${app.label} ${adding ? "추가" : "숨기기"}`} onClick={() => { if (toggle(app.id, !adding) && adding) setAddingOpen(false); }}>{content}</button>
+      {adding ? <button type="button" className={className} aria-label={`${app.label} 추가`} onClick={() => { if (toggle(app.id, false)) setAddingOpen(false); }}>{content}</button>
         : <Link href={app.home} prefetch={false} data-app={app.id} className={className}>{content}</Link>}
     </li>;
   }
@@ -86,14 +101,14 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
           </button>
         </li>}
       </ul> : <p className="py-3 text-center text-sm text-muted">편집을 눌러 홈에 앱을 추가해 보세요.</p>}
-      {editing && <p className="text-xs text-muted">아이콘을 눌러 홈에서 숨길 수 있어요. + 아이콘으로 다시 추가할 수 있어요.</p>}
+      {editing && <p className="sentences text-xs text-muted"><span>아이콘을 아래 하단바로 끌어 놓을 수 있어요.</span><span>− 는 홈에서 숨기기, + 는 다시 추가예요.</span></p>}
       {editing && addingOpen && <AppPickerDialog onClose={() => setAddingOpen(false)}>
         {removed.length > 0
           ? <ul className="grid grid-cols-4 gap-x-1 gap-y-3">{removed.map(app => tile(app, true))}</ul>
           : <p className="py-5 text-center text-sm text-muted">추가할 수 있는 앱이 모두 홈에 있어요.</p>}
         {error && <p role="alert" className="mt-3 text-sm text-danger">{error}</p>}
       </AppPickerDialog>}
-      {editing && <HomeDockEditor userId={userId} apps={available} />}
+      {editing && <HomeDockEditor apps={available} placement={placement} />}
       {error && <p role="alert" className="text-sm text-danger">{error}</p>}
     </nav>
   );

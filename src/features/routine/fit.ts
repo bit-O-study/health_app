@@ -23,13 +23,38 @@ export const HIGH_RATIO = 1.5;
 /** 이 점수 이상으로 어제·오늘 자극했으면 회복 중으로 본다(48시간). */
 export const RECOVERY_SCORE = 60;
 
-/** 세부 근육별 유효 세트(세트 × 점수 ÷ 100). */
+/**
+ * 한 세트가 세부 근육마다 몇 세트로 들어가나 — **부위마다 1세트를 나눠 담는다**(2026-10-08).
+ *
+ * 부위 몫 = 그 부위 최고 점수 ÷ 100(벤치 1세트 = 가슴 1세트, 어깨 앞 0.55세트, 삼두 0.45세트),
+ * 그 몫을 부위 안 세부 근육에 점수 비율대로 나눈다. 목표표(`body-targets.ts`)가 '부위 주간 세트를
+ * 세부 근육에 나눠 둔 값'이라 같은 기준이어야 한다.
+ * 🔴 예전엔 점수를 근육마다 그대로 더해 벤치 1세트가 가슴만 2.55세트가 됐다 → 교과서대로 주 12세트를
+ * 해도 255% '넘침'(bong9468 계정 진단, 맞춤운동 넘침 진단 보고서).
+ */
+export function setShare(stimulus: Stimulus): Record<string, number> {
+  const byPart = new Map<string, [string, number][]>();
+  for (const [sub, score] of Object.entries(stimulus)) {
+    if (!(score > 0)) continue;
+    const part = sub.split("-")[0];
+    byPart.set(part, [...(byPart.get(part) ?? []), [sub, score]]);
+  }
+  const out: Record<string, number> = {};
+  for (const subs of byPart.values()) {
+    const max = Math.max(...subs.map(([, v]) => v));
+    const sum = subs.reduce((a, [, v]) => a + v, 0);
+    for (const [sub, v] of subs) out[sub] = ((max / 100) * v) / sum;
+  }
+  return out;
+}
+
+/** 세부 근육별 유효 세트(세트 × 그 근육 몫, `setShare`). */
 export function weeklyStimulus(records: readonly FitRecord[], stimulusOf: StimulusOf): Record<string, number> {
   const out: Record<string, number> = {};
   for (const r of records) {
     if (!r.exerciseId || !(r.sets > 0)) continue;
-    for (const [sub, score] of Object.entries(stimulusOf(r.exerciseId))) {
-      out[sub] = (out[sub] ?? 0) + (r.sets * score) / 100;
+    for (const [sub, share] of Object.entries(setShare(stimulusOf(r.exerciseId)))) {
+      out[sub] = (out[sub] ?? 0) + r.sets * share;
     }
   }
   for (const k of Object.keys(out)) out[k] = Math.round(out[k] * 10) / 10;
@@ -132,7 +157,7 @@ export type FitPick = FitCandidate & {
  * (같은 곳만 채우는 운동이 줄줄이 나오지 않게).
  *
  * 점수 = Σ min(채우는 양, 모자란 양) − ½ × (많음·회복 중인 곳을 60점 이상으로 더 쓰는 양).
- * 채우는 양 = PLAN_SETS × 운동 점수 ÷ 100.
+ * 채우는 양 = PLAN_SETS × 그 근육 몫(`setShare`).
  */
 export function pickExercises(
   candidates: readonly FitCandidate[],
@@ -150,10 +175,11 @@ export function pickExercises(
     for (const c of candidates) {
       if (used.has(c.exerciseId)) continue;
       const s = stimulusOf(c.exerciseId);
+      const share = setShare(s);
       let gain = 0;
       const fills: { sub: string; add: number }[] = [];
       for (const [sub, score] of Object.entries(s)) {
-        const add = (PLAN_SETS * score) / 100;
+        const add = PLAN_SETS * (share[sub] ?? 0);
         const target = targets[sub] ?? 0;
         const have = cur[sub] ?? 0;
         const lack = Math.max(0, target - have);
@@ -173,8 +199,8 @@ export function pickExercises(
     if (!best) break;
     picked.push(best);
     used.add(best.exerciseId);
-    for (const [sub, score] of Object.entries(stimulusOf(best.exerciseId))) {
-      cur[sub] = (cur[sub] ?? 0) + (PLAN_SETS * score) / 100;
+    for (const [sub, share] of Object.entries(setShare(stimulusOf(best.exerciseId)))) {
+      cur[sub] = (cur[sub] ?? 0) + PLAN_SETS * share;
     }
   }
   return picked;
@@ -283,8 +309,8 @@ export function withPlanned(
   for (const id of plannedIds) {
     if (doneToday.has(id)) continue;
     count += 1;
-    for (const [sub, score] of Object.entries(stimulusOf(id))) {
-      out[sub] = (out[sub] ?? 0) + (PLAN_SETS * score) / 100;
+    for (const [sub, share] of Object.entries(setShare(stimulusOf(id)))) {
+      out[sub] = (out[sub] ?? 0) + PLAN_SETS * share;
     }
   }
   return { stim: out, count };

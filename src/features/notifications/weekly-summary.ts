@@ -31,6 +31,8 @@ export type WeekNumbers = {
   prs: number;
   /** 단백질 목표를 채운 날(식단 기록이 없으면 null — 말하지 않는다). */
   proteinHitDays: number | null;
+  /** 가장 오래 쉰 부위(일주일 넘게, 2026-10-08) — '다음 주엔 하체부터'. 없으면 말하지 않는다. */
+  nextFocus?: { label: string; days: number } | null;
 };
 
 export type SummaryPayload = { type: "weekly-summary"; title: string; body: string; url: string };
@@ -55,10 +57,12 @@ export function weeklySummaryPayload(n: WeekNumbers): SummaryPayload {
   }
   if (n.prs > 0) parts.push(`신기록 ${n.prs}개`);
   if (n.proteinHitDays != null) parts.push(`단백질 채운 날 ${n.proteinHitDays}일`);
+  const next = n.nextFocus ? `
+다음 주엔 ${n.nextFocus.label}부터(${n.nextFocus.days}일째 쉬는 중)` : "";
   return {
     type: "weekly-summary",
     title: n.prs > 0 ? "이번 주 정리 · 신기록이 나왔어요 🎉" : "이번 주 정리",
-    body: parts.join(" · "),
+    body: parts.join(" · ") + next,
     url,
   };
 }

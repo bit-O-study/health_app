@@ -8,6 +8,7 @@ import {
   partRows,
   pickExercises,
   recoveringSubs,
+  setShare,
   subRows,
   subStatus,
   weeklyStimulus,
@@ -89,11 +90,29 @@ describe("목표 비율", () => {
 });
 
 describe("이번 주 자극", () => {
-  it("벤치프레스 4세트 → 가슴 중부 4.0 · 전면 어깨 2.2 · 삼두 외측두 1.8", () => {
+  it("🔴 벤치프레스 4세트 → 가슴 합 4세트(중부가 가장 많이) · 전면 어깨 2.2 · 삼두 합 1.8 — 한 세트를 근육마다 따로 세지 않는다", () => {
     const s = weeklyStimulus([{ exerciseId: "bench-press", forDate: "2026-10-01", sets: 4 }], stimOf);
-    expect(s["chest-mid"]).toBe(4);
+    const sum = (prefix: string) => Math.round(Object.entries(s).filter(([k]) => k.startsWith(prefix)).reduce((a, [, v]) => a + v, 0) * 10) / 10;
+    expect(sum("chest-")).toBe(4);
+    expect(s["chest-mid"]).toBe(1.6);
+    expect(s["chest-mid"]).toBeGreaterThan(s["chest-upper"]);
     expect(s["shoulder-front"]).toBe(2.2);
-    expect(s["arm-triceps-lateral"]).toBe(1.8);
+    expect(sum("arm-triceps-")).toBe(1.8);
+  });
+
+  it("🔴 교과서대로 벤치 주 12세트면 가슴은 '적정'(예전 계산은 255% 넘침)", () => {
+    const t = weeklyTargets("male", "intermediate");
+    const s = weeklyStimulus([{ exerciseId: "bench-press", forDate: "2026-10-01", sets: 12 }], stimOf);
+    const chest = partRows(t, s).find((p) => p.part === "chest")!;
+    expect(chest.pct).toBe(100);
+    expect(chest.status).toBe("ok");
+  });
+
+  it("setShare — 부위마다 (최고 점수 ÷ 100) 세트를 점수 비율로 나눈다", () => {
+    const share = setShare({ "chest-mid": 100, "chest-upper": 50, "shoulder-front": 60 });
+    expect(share["chest-mid"] + share["chest-upper"]).toBeCloseTo(1);
+    expect(share["chest-mid"]).toBeCloseTo(2 / 3);
+    expect(share["shoulder-front"]).toBeCloseTo(0.6);
   });
 
   it("상태: 안 함 · 부족(<50%) · 조금(<80%) · 적정(≤150%) · 많음", () => {
@@ -138,8 +157,8 @@ describe("모자란 곳을 채우는 운동 고르기", () => {
     const t = weeklyTargets("male", "intermediate");
     const s = weeklyStimulus(
       [
-        // 벤치도 삼두 장두에 25점씩 들어간다 — 12세트면 장두가 이미 찬다. 6세트 + 푸시다운 2세트면 모자란다.
-        { exerciseId: "bench-press", forDate: "2026-09-28", sets: 6 },
+        // 가슴 14세트(목표 12) — 가슴은 찼다. 벤치가 삼두 장두에 주는 몫은 작아 장두는 여전히 모자란다.
+        { exerciseId: "bench-press", forDate: "2026-09-28", sets: 14 },
         { exerciseId: "triceps-pushdown", forDate: "2026-09-28", sets: 2 },
       ],
       stimOf,
@@ -149,7 +168,7 @@ describe("모자란 곳을 채우는 운동 고르기", () => {
     // 페이스 풀은 후면 어깨·능형·승모를 한꺼번에 채워 모자란 양을 가장 많이 메운다.
     expect(ids).toEqual(expect.arrayContaining(["face-pull", "lateral-raise", "overhead-triceps-extension"]));
     expect(ids).not.toContain("bench-press");
-    expect(picks.find((p) => p.exerciseId === "lateral-raise")!.fills[0]).toEqual({ sub: "shoulder-side", add: 3 });
+    expect(picks.find((p) => p.exerciseId === "lateral-raise")!.fills[0]).toEqual({ sub: "shoulder-side", add: 2.1 });
   });
 
   it("오늘 이미 할 운동은 빼고, 회복 중인 곳은 뒤로", () => {

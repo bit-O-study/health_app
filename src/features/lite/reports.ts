@@ -278,3 +278,90 @@ export function weeklyHabitReport(
     days: thisDates.map((date) => ({ date, waterMl: get(water, date), steps: get(steps, date) })),
   };
 }
+
+/* ─── A6 몸 변화 × 운동량 (2026-10-08) ───────────────────────────────── */
+
+export type MonthTraining = {
+  /** 'YYYY-MM' */
+  month: string;
+  /** 근력·러닝 중 하나라도 한 날. */
+  days: number;
+  volumeKg: number;
+  runKm: number;
+  runs: number;
+  /** 그 달 마지막 체중(체중 기록 + 인바디). 없으면 null. */
+  weightKg: number | null;
+  /** 그 전 마지막 체중 대비. */
+  weightDelta: number | null;
+  /** 그 달 마지막 인바디 골격근량. */
+  muscleKg: number | null;
+  muscleDelta: number | null;
+};
+
+export type BodyTrainingReport = { months: MonthTraining[]; headline: string | null };
+
+const weeksBetween = (a: string, b: string) =>
+  Math.max(1, (Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / (7 * 86_400_000));
+const md = (ymd: string) => `${Number(ymd.slice(5, 7))}/${Number(ymd.slice(8, 10))}`;
+
+/**
+ * 몸 변화 × 운동량 — 최근 몇 달(오름차순 'YYYY-MM')의 운동한 날·볼륨·러닝과 체중·골격근 변화를 한 표로,
+ * 그리고 한 줄 결론. 인바디가 두 번 이상이면 그 사이(골격근·체지방률), 아니면 체중으로.
+ * 체중·인바디가 하나도 없으면 결론은 null(운동 숫자만 보여 준다).
+ */
+export function bodyTrainingReport(input: {
+  months: readonly string[];
+  workouts: readonly { date: string; volumeKg: number }[];
+  runs: readonly { date: string; distanceM: number }[];
+  weights: readonly { date: string; kg: number }[];
+  comps: readonly { date: string; muscleKg: number | null; fatPct: number | null }[];
+}): BodyTrainingReport {
+  const weights = [...input.weights].filter((w) => w.kg > 0).sort((a, b) => a.date.localeCompare(b.date));
+  const comps = [...input.comps].filter((c) => c.muscleKg != null).sort((a, b) => a.date.localeCompare(b.date));
+  const lastBefore = <T extends { date: string }>(list: readonly T[], date: string) => [...list].reverse().find((x) => x.date < date) ?? null;
+  const lastIn = <T extends { date: string }>(list: readonly T[], month: string) => [...list].reverse().find((x) => x.date.startsWith(month)) ?? null;
+
+  const months: MonthTraining[] = input.months.map((month) => {
+    const ws = input.workouts.filter((w) => w.date.startsWith(month));
+    const rs = input.runs.filter((r) => r.date.startsWith(month));
+    const w = lastIn(weights, month);
+    const wPrev = lastBefore(weights, `${month}-01`);
+    const c = lastIn(comps, month);
+    const cPrev = lastBefore(comps, `${month}-01`);
+    return {
+      month,
+      days: new Set([...ws.map((x) => x.date), ...rs.map((x) => x.date)]).size,
+      volumeKg: Math.round(ws.reduce((a, x) => a + x.volumeKg, 0)),
+      runKm: round1(rs.reduce((a, x) => a + x.distanceM, 0) / 1000),
+      runs: rs.length,
+      weightKg: w?.kg ?? null,
+      weightDelta: w && wPrev ? round1(w.kg - wPrev.kg) : null,
+      muscleKg: c?.muscleKg ?? null,
+      muscleDelta: c && cPrev && c.muscleKg != null && cPrev.muscleKg != null ? round1(c.muscleKg - cPrev.muscleKg) : null,
+    };
+  });
+
+  const from = `${input.months[0]}-01`;
+  const activeDays = (a: string, b: string) =>
+    new Set([...input.workouts, ...input.runs].map((x) => x.date).filter((d) => d >= a && d <= b)).size;
+  const pace = (a: string, b: string) => {
+    const n = activeDays(a, b);
+    return `운동 ${n}일(주 ${round1(n / weeksBetween(a, b))}일)`;
+  };
+
+  let headline: string | null = null;
+  const inComps = comps.filter((c) => c.date >= from);
+  const inWeights = weights.filter((w) => w.date >= from);
+  if (inComps.length >= 2) {
+    const a = inComps[0];
+    const b = inComps[inComps.length - 1];
+    const parts = [`골격근 ${signed(round1(b.muscleKg! - a.muscleKg!))}kg`];
+    if (a.fatPct != null && b.fatPct != null) parts.push(`체지방률 ${signed(round1(b.fatPct - a.fatPct))}%p`);
+    headline = `인바디 ${md(a.date)} → ${md(b.date)}: ${parts.join(" · ")} · 그 사이 ${pace(a.date, b.date)}`;
+  } else if (inWeights.length >= 2 && inWeights[0].date !== inWeights[inWeights.length - 1].date) {
+    const a = inWeights[0];
+    const b = inWeights[inWeights.length - 1];
+    headline = `${md(a.date)} → ${md(b.date)} 체중 ${signed(round1(b.kg - a.kg))}kg · 그 사이 ${pace(a.date, b.date)}`;
+  }
+  return { months, headline };
+}

@@ -52,6 +52,17 @@ describe("월간 리포트", () => {
     expect(monthStats(RECS, "2026-09", prs)).toEqual({ days: 6, volumeKg: 13_680, prs: 2 });
   });
 
+  it("🔴 지난달은 같은 날짜까지만 — 이번 달 8일이면 지난달 1~8일과 비교(2026-10-08)", () => {
+    const prs = prEvents(RECS);
+    // 9/1 벤치 · 9/3 스쿼트 · 9/8 벤치(신기록) — 9/10 이후는 빠진다.
+    expect(monthStats(RECS, "2026-09", prs, { throughDay: 8 })).toEqual({ days: 3, volumeKg: 60 * 32 + 80 * 32 + 62.5 * 32, prs: 1 });
+  });
+
+  it("🔴 러닝만 한 날도 운동한 날 — 근력과 같은 날은 하루로", () => {
+    const s = monthStats(RECS, "2026-10", [], { throughDay: 8, runDates: ["2026-10-01", "2026-10-05", "2026-10-20", "2026-09-30"] });
+    expect(s.days).toBe(2); // 10/1(스쿼트+러닝) · 10/5(러닝만). 10/20 은 기간 밖, 9/30 은 다른 달.
+  });
+
   it("가장 많이 한 부위·가장 모자란 부위(목표 대비)", () => {
     const p = monthParts(RECS, "2026-09", weeklyTargets("male", "intermediate"), 4, (id) => stimulusFor(id));
     expect(p.top).not.toBeNull();

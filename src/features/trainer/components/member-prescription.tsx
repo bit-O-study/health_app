@@ -22,7 +22,7 @@ export function MemberPrescription({ connectionId, memberId, memberName, exercis
   const days = [...new Set(matching.map(row => row.day_index))].sort((a, b) => (a ?? -1) - (b ?? -1));
   return <section className="space-y-4" aria-labelledby="prescription-title">
     <div className="flex items-start gap-3"><span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand"><Dumbbell size={20} aria-hidden="true" /></span><div className="min-w-0 space-y-1"><h2 id="prescription-title" className="text-lg font-bold">운동 처방 · 영구 루틴</h2>
-      <p className="text-sm leading-6 text-muted">반복되는 루틴을 변경해요. 오늘만 설정한 계획과 과거 기록은 유지돼요.</p>
+      <p className="text-sm leading-6 text-muted">반복되는 루틴을 변경해요.<br />오늘만 설정한 계획과 과거 기록은 유지돼요.</p>
       <p className="text-sm font-semibold">{memberName} 님 · {exercises.length}개 운동</p></div></div>
     <label className="flex min-h-12 items-center gap-3 rounded-xl border border-line bg-zinc-50 px-4 dark:bg-zinc-900"><Search size={18} className="shrink-0 text-muted" aria-hidden="true" /><input aria-label="처방 운동 찾기" placeholder="운동 이름, 부위, 일차로 찾기" value={query} onChange={event => setQuery(event.target.value)} className="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none" /></label>
     {query && <p role="status" className="text-sm text-muted">{matching.length ? `${matching.length}개 운동을 찾았어요.` : "일치하는 운동이 없어요. 다른 이름이나 부위로 찾아보세요."}</p>}
@@ -54,7 +54,7 @@ export function MemberTodayPrescription({ connectionId, memberId, memberName, da
   const groups = groupTodayRowsByFocus(rows);
   return <section className="space-y-3" aria-labelledby="today-prescription-title">
     <h2 id="today-prescription-title" className="text-lg font-bold">운동 처방 · 오늘만</h2>
-    <p className="text-sm text-zinc-500">{memberName} 님의 <b>{dateLabel} 하루치</b>만 바꿉니다. 영구 루틴은 그대로라 내일부터는 원래 루틴으로 돌아갑니다. 변경 내역은 회원에게 코멘트로 남습니다.</p>
+    <p className="text-sm text-zinc-500">{memberName} 님의 <b>{dateLabel} 하루치</b>만 바꿉니다.<br />영구 루틴은 그대로라 내일부터는 원래 루틴으로 돌아갑니다.<br />변경 내역은 회원에게 코멘트로 남습니다.</p>
     {notice ? <p className="py-4 text-sm">{notice}</p> : groups.map(group => <div key={group.focus} className="space-y-3">
       <h3 className="text-sm font-bold text-zinc-500">{group.rows[0]?.focusLabel ?? group.focus}{group.rows.some(r => r.source === "routine") ? " · 아직 루틴 그대로" : " · 오늘만 계획 적용 중"}</h3>
       {group.rows.map(row => <TodayPrescriptionEditor key={`${row.focus}:${row.position}:${row.exercise_id}`}

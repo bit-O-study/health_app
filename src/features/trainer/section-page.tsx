@@ -20,9 +20,9 @@ export async function TrainerSectionPage({ section, query = "" }: {section:"memb
   const status:Record<string,string>={queued:"발송 대기",processing:"접수 중",submitted:"업체 접수 · 수신 미확인",failed:"발송 요청 실패",unknown:"결과 확인 필요"};
   return <div className="app-page"><PageHeader branded title={title}/><main className="app-container space-y-5"><h2 className="text-2xl font-bold">{title}</h2>
     {section==="notifications" ? <>
-      <p className="text-sm text-muted">초대·연결 해제 내역과 알림톡·문자 접수 상태를 확인하세요. 업체 접수는 휴대폰 수신 완료를 뜻하지 않아요.</p>
-      {!process.env.SOLAPI_API_KEY || !process.env.SOLAPI_API_SECRET ? <p role="status" className="app-card p-4 text-sm">메시지 발송 설정을 기다리고 있어요. 초대 링크는 회원 관리에서 직접 복사할 수 있어요.</p>:null}
-      {!admin || notifications?.error || disconnected?.error ? <p role="alert">알림 내역을 불러오지 못했어요. 잠시 후 다시 확인해 주세요.</p>:null}
+      <p className="text-sm text-muted">초대·연결 해제 내역과 알림톡·문자 접수 상태를 확인하세요.<br />업체 접수는 휴대폰 수신 완료를 뜻하지 않아요.</p>
+      {!process.env.SOLAPI_API_KEY || !process.env.SOLAPI_API_SECRET ? <p role="status" className="app-card p-4 text-sm">메시지 발송 설정을 기다리고 있어요.<br />초대 링크는 회원 관리에서 직접 복사할 수 있어요.</p>:null}
+      {!admin || notifications?.error || disconnected?.error ? <p role="alert">알림 내역을 불러오지 못했어요.<br />잠시 후 다시 확인해 주세요.</p>:null}
       <div className="app-card divide-y divide-line">{notifications?.data?.map(note=><article key={note.id} className="space-y-2 p-4"><h3 className="font-semibold">{note.kind==="invite"?"회원 초대":"회원 연결 해제"}{note.payload?.member ? ` · ${note.payload.member}`:""}</h3><p className="text-sm text-brand">{note.channel==="ATA"?"알림톡":"문자"} · {status[note.status]??note.status}</p><time className="text-xs text-muted">{new Date(note.created_at).toLocaleString("ko-KR",{timeZone:"Asia/Seoul"})}</time></article>)}</div>
       {notifications?.data?.length===0 && <p className="text-sm text-muted">아직 관리 알림이 없어요.</p>}
       {!!disconnected?.data?.length && <section className="app-card p-4"><h3 className="font-semibold">관리 연결이 해제된 회원</h3>{disconnected.data.map(row=><p key={row.id} className="mt-2 text-sm">{row.member_name} · {row.revoked_at?.slice(0,10)}</p>)}</section>}

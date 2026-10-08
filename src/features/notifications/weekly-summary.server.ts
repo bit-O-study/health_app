@@ -9,6 +9,9 @@ import { dailyTarget } from "@/features/diet/calorie-target";
 import { prEvents } from "@/features/routine/fit-growth";
 import { recordVolume, type ProgressRecord } from "@/features/routine/progress";
 import { parseSetDetails } from "@/features/routine/set-details";
+import { restingParts } from "@/features/routine/fit-insights";
+import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
+import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-catalog-labels";
 import { addDays, weekStartOf } from "@/features/routine/training-volume";
 import { splitAlreadySent } from "@/features/notifications/dedup";
 import { loadSentKeys } from "@/features/notifications/sent-log";
@@ -57,6 +60,13 @@ async function inChunks<T>(ids: readonly string[], run: (part: string[]) => Prom
  * 일요일 '이번 주 정리' 대상과 내용. 라이트 이상 + 이번 주 안 받음 + 그 알림을 켜 둔 사람.
  * 숫자는 리포트 탭과 같은 계산(`recordVolume` · `prEvents` · 단백질 = `dailyTarget`).
  */
+/** 가장 오래 쉰 부위(일주일 넘게). 기록 범위 안에 한 번도 없던 부위는 매주 같은 잔소리라 뺀다. */
+function nextFocusOf(list: ProgressRecord[], today: string): { label: string; days: number } | null {
+  if (list.length === 0) return null;
+  const r = restingParts(list, primaryBodyPart, today).find((x) => x.days !== null);
+  return r && r.days !== null ? { label: BODY_PART_LABEL[r.part as BodyPart], days: r.days } : null;
+}
+
 export async function weeklySummaryTargets(
   admin: SupabaseClient,
   todayYmd: string,
@@ -68,7 +78,7 @@ export async function weeklySummaryTargets(
   const prevStart = addDays(weekStart, -7);
   const from = addDays(weekStart, -HISTORY_DAYS);
 
-  const [done, food, profiles] = await Promise.all([
+  const [done, food, profiles, runs] = await Promise.all([
     inChunks(ids, (part) =>
       fetchAllPages<Record<string, unknown>>((a, b) =>
         admin
@@ -96,7 +106,24 @@ export async function weeklySummaryTargets(
       const { data } = await admin.from("profiles").select("user_id, gender, weight_kg, height_cm").in("user_id", part);
       return (data ?? []) as Record<string, unknown>[];
     }),
+    // 러닝한 날도 운동한 날(2026-10-08).
+    inChunks(ids, (part) =>
+      fetchAllPages<Record<string, unknown>>((a, b) =>
+        admin
+          .from("run_sessions")
+          .select("user_id, for_date")
+          .in("user_id", part)
+          .gte("for_date", weekStart)
+          .lte("for_date", todayYmd)
+          .range(a, b),
+      ),
+    ),
   ]);
+  const runDays = new Map<string, Set<string>>();
+  for (const r of runs) {
+    const id = String(r.user_id);
+    runDays.set(id, (runDays.get(id) ?? new Set<string>()).add(String(r.for_date)));
+  }
 
   const recs = new Map<string, ProgressRecord[]>();
   for (const r of done) {
@@ -140,11 +167,12 @@ export async function weeklySummaryTargets(
       userId,
       key,
       payload: weeklySummaryPayload({
-        days: new Set(thisWeek.map((r) => r.forDate)).size,
+        days: new Set([...thisWeek.map((r) => r.forDate), ...(runDays.get(userId) ?? [])]).size,
         volumeKg: vol(thisWeek),
         prevVolumeKg: vol(lastWeek),
         prs: prEvents(list, 50).filter((e) => e.date >= weekStart).length,
         proteinHitDays: days ? [...days.values()].filter((g) => g >= target).length : null,
+        nextFocus: nextFocusOf(list, todayYmd),
       }),
     };
   });

@@ -80,6 +80,22 @@ body {
   overflow-x: clip;
 }
 
+/* 줄바꿈 모양(2026-10-08 "줄바꿈 이상하게 느껴져서") — 어절 단위(keep-all)만으로는
+   마지막 줄에 '있어요.' 한 어절만 덜렁 남거나, 제목이 한 줄 꽉 + 한 어절로 갈렸다.
+   본문은 마지막 줄이 너무 짧지 않게(pretty), 제목은 줄 길이를 고르게(balance).
+   지원 안 하는 브라우저는 그냥 예전처럼 끊는다(해가 없다). */
+p, li, dd, dt, label, figcaption, blockquote, td, th {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* 두 문장 이상 안내 — 문장마다 새 줄에서 시작(.sentences > span). 한 줄 중간에서 다음 문장이 시작되지 않게. */
+.sentences > span {
+  display: block;
+}
+
 /* 리뉴얼 공통 표면. 페이지별 데이터/동작은 유지하고 시각 언어만 한 곳에서 관리한다. */
 @layer components {
   /* 바탕은 단색 — 장식 그라데이션은 뺐다(2026-09-14 화면 간결화). */

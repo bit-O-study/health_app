@@ -24,7 +24,7 @@ export async function GroupSectionPage({section,query=""}:{section:"find"|"notif
       <GroupsClient groups={groups.filter(group=>group.name.includes(query.trim()))} mode={await getGroupMode()}/>
     </>:<>
       <p className="text-sm text-muted">{section==="notifications"?"가입한 그룹의 최근 새 글과 참여 소식이에요.":"내가 그룹에 남긴 최근 인증 글이에요."}</p>
-      {posts?.error||joined?.error?<p role="alert">그룹 소식을 불러오지 못했어요. 잠시 후 다시 확인해 주세요.</p>:null}
+      {posts?.error||joined?.error?<p role="alert">그룹 소식을 불러오지 못했어요.<br />잠시 후 다시 확인해 주세요.</p>:null}
       <section className="app-card divide-y divide-line" aria-label={section==="activity"?"내 그룹 게시물":"그룹 새 글"}>{posts?.data?.map(post=><Link key={post.id} href={`/community/${post.id}`} className="block space-y-2 p-4"><p className="text-xs text-brand">{groupName(post.group_id)} · {post.author_name}</p><h3 className="font-semibold">{post.caption||"오늘의 운동 인증"}</h3><time className="text-xs text-muted">{new Date(post.created_at).toLocaleDateString("ko-KR",{timeZone:"Asia/Seoul"})}</time></Link>)}{!posts?.error&&!posts?.data?.length&&<p className="p-5 text-sm text-muted">표시할 그룹 글이 없어요.</p>}</section>
       {!!joined?.data?.length&&<section className="space-y-3"><h3 className="app-section-label">최근 그룹 참여</h3><div className="app-card divide-y divide-line">{joined.data.map(member=><Link key={member.id} href={`/groups?g=${member.group_id}`} className="block p-4 text-sm"><p><strong>{member.display_name||"회원"}</strong> 님이 {groupName(member.group_id)}에 참여했어요.</p><time className="text-xs text-muted">{new Date(member.joined_at).toLocaleDateString("ko-KR",{timeZone:"Asia/Seoul"})}</time></Link>)}</div></section>}
       <Link href="/groups/manage" className="inline-flex min-h-11 items-center text-sm font-semibold text-brand">내 그룹 관리 →</Link>

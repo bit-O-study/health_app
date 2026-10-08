@@ -42,6 +42,10 @@ export function fakeAdmin(store: Record<string, Row[]>, failOn?: string) {
         filters.push((r) => String(r[col]) >= v);
         return b;
       },
+      gt(col: string, v: number | string) {
+        filters.push((r) => (typeof v === "number" ? Number(r[col]) > v : String(r[col]) > v));
+        return b;
+      },
       lte(col: string, v: string) {
         filters.push((r) => String(r[col]) <= v);
         return b;

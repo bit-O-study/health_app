@@ -103,6 +103,28 @@ describe("daily-reminders — 재실행 중복 방지", () => {
     expect(sendPush).not.toHaveBeenCalled();
   });
 
+  it("🔴 운동하는 날 러닝만 했어도 '운동하라' 알림은 안 간다(2026-10-08)", async () => {
+    const store = reminderStore();
+    // 오늘이 운동하는 날(휴식 아님) — u1 은 러닝만, u2 는 러닝머신 거리만, 둘 다 근력 기록은 없다.
+    for (const r of store.user_routines) { r.rest_date = null; r.splits = 0; r.variant_id = "custom"; r.custom_week = [["chest"], ["chest"], ["chest"], ["chest"], ["chest"], ["chest"], ["chest"]]; }
+    store.run_sessions = [{ user_id: "u1", for_date: today }];
+    store.daily_run_distance = [{ user_id: "u2", for_date: today, meters: 3200 }];
+    currentAdmin = fakeAdmin(store);
+    const res = await (await dailyReminders(req())).json();
+    expect(res).toMatchObject({ ok: true, sent: 0 });
+    expect(store.notification_sends.filter((n) => String(n.dedup_key).includes(":workout:"))).toHaveLength(0);
+  });
+
+  it("운동하는 날 아무것도 안 했으면 운동 알림은 그대로 간다", async () => {
+    const store = reminderStore();
+    for (const r of store.user_routines) { r.rest_date = null; r.splits = 0; r.variant_id = "custom"; r.custom_week = [["chest"], ["chest"], ["chest"], ["chest"], ["chest"], ["chest"], ["chest"]]; }
+    store.daily_run_distance = [{ user_id: "u2", for_date: today, meters: 0 }]; // 0m 는 운동이 아니다
+    currentAdmin = fakeAdmin(store);
+    const res = await (await dailyReminders(req())).json();
+    expect(res).toMatchObject({ ok: true, sent: 2 });
+    expect(store.notification_sends.every((n) => String(n.dedup_key).includes(":workout:"))).toBe(true);
+  });
+
   it("발송 기록 키에 오늘 날짜와 종류가 들어간다(내일은 다시 나가야 하니까)", async () => {
     const store = reminderStore();
     currentAdmin = fakeAdmin(store);

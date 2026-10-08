@@ -35,6 +35,15 @@ import { isEquipmentId, type BodyPart } from "@/features/routine/exercise-catalo
 import type { ProgressRecord } from "@/features/routine/progress";
 import type { SetDetail } from "@/features/routine/set-details";
 import {
+  growthStories,
+  insightsFrom,
+  plateaus,
+  restingParts,
+  type GrowthStory,
+  type Plateau,
+  type RestingPart,
+} from "@/features/routine/fit-insights";
+import {
   growthRows,
   monthParts,
   monthStats,
@@ -186,6 +195,12 @@ export async function loadFitView(opts?: {
 }
 
 export type FitGrowthView = {
+  /** 기록으로 본 나(최근 120일) — 성장 기록 · 정체 · 쉬는 부위. 밀기:당기기는 7일 자극이라 화면에서. */
+  insights: {
+    stories: (GrowthStory & { name: string })[];
+    plateaus: (Plateau & { name: string })[];
+    resting: RestingPart[];
+  };
   growth: (GrowthRow & { name: string; points: string })[];
   prs: (PrEvent & { name: string })[];
   month: string;
@@ -197,6 +212,7 @@ export type FitGrowthView = {
 
 /**
  * 성장·월간 리포트 — 지난달 1일부터 오늘까지 기록. 무게 있는 기록만 1RM 에 쓰인다.
+ * 기록으로 본 나(성장 기록·정체·쉬는 부위)는 최근 120일을 본다 — 같은 쿼리로 길게 읽고 잘라 쓴다.
  */
 export async function loadFitGrowth(): Promise<FitGrowthView | null> {
   const user = await getCurrentUser();
@@ -211,11 +227,11 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
       .select("exercise_id, for_date, sets, reps, weight_kg, set_details, equipment")
       .eq("user_id", user.id)
       .eq("status", "done")
-      .gte("for_date", `${last}-01`)
+      .gte("for_date", insightsFrom(today) < `${last}-01` ? insightsFrom(today) : `${last}-01`)
       .lte("for_date", today),
     getUserProfile().catch(() => null),
   ]);
-  const records: ProgressRecord[] = ((data ?? []) as Record<string, unknown>[]).map((r) => ({
+  const all: ProgressRecord[] = ((data ?? []) as Record<string, unknown>[]).map((r) => ({
     forDate: String(r.for_date),
     exerciseId: (r.exercise_id as string | null) ?? null,
     status: "done",
@@ -225,6 +241,8 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
     setDetails: Array.isArray(r.set_details) ? (r.set_details as SetDetail[]) : null,
     equipment: (r.equipment as string | null) ?? null,
   }));
+  // 성장·리포트(지난달~)는 예전 범위 그대로.
+  const records = all.filter((r) => r.forDate >= `${last}-01`);
   const name = (id: string) => getCatalogExercise(id)?.name ?? id;
   const prs = prEvents(records, 5);
   const day = Number(today.slice(8, 10));
@@ -236,6 +254,11 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
     makeStimulusOf(),
   );
   return {
+    insights: {
+      stories: growthStories(all, today).map((g) => ({ ...g, name: name(g.exerciseId) })),
+      plateaus: plateaus(all, today).map((p) => ({ ...p, name: name(p.exerciseId) })),
+      resting: restingParts(all, makeStimulusOf(), today),
+    },
     growth: growthRows(records, 4).map((g) => ({ ...g, name: name(g.exerciseId), points: sparkPoints(g.series) })),
     prs: prs.map((p) => ({ ...p, name: name(p.exerciseId) })),
     month,

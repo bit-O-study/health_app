@@ -10,7 +10,7 @@ import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-cata
 import type { BalanceRow, SubStatus } from "@/features/routine/fit";
 import { BALANCE_PART, radarGeometry, statusChip } from "@/features/routine/fit-view";
 
-export type FitPartView = { part: BodyPart; pct: number; status: SubStatus };
+export type FitPartView = { part: BodyPart; pct: number; status: SubStatus; stim: number; target: number };
 export type FitSubView = { sub: string; label: string; stim: string; target: string; pct: number; status: SubStatus };
 
 /** 상태 색 — 부족 빨강 · 조금 연두 · 적정 초록 · 넘침 회색(나쁜 게 아님) · 안 함 옅은 회색. */
@@ -150,7 +150,7 @@ function BalanceSheet({
               data-testid={`fit-part-${p.part}`}
               className={`rounded-full px-2.5 py-1 text-xs font-semibold ${CHIP[p.status]} ${sel === p.part ? "ring-2 ring-zinc-900/70 dark:ring-white/70" : ""}`}
             >
-              {BODY_PART_LABEL[p.part]} {statusChip(p.status, p.pct)}
+              {BODY_PART_LABEL[p.part]} {statusChip(p.status, p.pct, p)}
             </button>
           ))}
         </div>

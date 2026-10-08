@@ -32,6 +32,12 @@ describe("맞춤 운동 화면 규칙(2026-10-06 UI 개편)", () => {
     expect(statusChip("low", 20)).toBe("부족 · 20%");
   });
 
+  it("세트를 알면 '넘침' 대신 실제 세트와 목표 배수", () => {
+    expect(statusChip("high", 286, { stim: 43.3, target: 15.1 })).toBe("43.5세트 · 목표 2.9배");
+    expect(statusChip("ok", 120, { stim: 18, target: 15 })).toBe("적정 · 120%");
+    expect(statusChip("high", 300, { stim: 3, target: 0 })).toBe("넘침");
+  });
+
   it("오늘 추천 결론 — 가장 모자란 세부 근육의 부위로 한 문장, 받침에 맞는 조사", () => {
     expect(recommendHeadline([row("back-lats", 0), row("shoulder-side", 0)]).text).toBe("등이 부족해요");
     expect(recommendHeadline([row("shoulder-side", 0)]).text).toBe("어깨가 부족해요");

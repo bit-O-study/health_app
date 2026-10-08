@@ -26,10 +26,11 @@ async function setup(page: Page, baseURL: string) {
     equipment: "barbell", sets: 4, reps: 8, weight_kg: 60,
   });
   if (ex.error) throw ex.error;
-  // 어제 가슴만 잔뜩 — 밀기 쪽으로 치우친 한 주.
+  // 어제 가슴만 잔뜩(20세트, 목표 12의 1.7배) — 밀기 쪽으로 치우친 한 주.
+  // 2026-10-08 한 세트를 근육마다 따로 세지 않게 고친 뒤로는 10세트면 '적정'이라 20세트로.
   const c = await supabase.from("exercise_completions").insert({
     user_id, for_date: yesterday, exercise_row_id: crypto.randomUUID(), status: "done",
-    exercise_id: "bench-press", equipment: "barbell", focus: "chest", sets: 10, reps: 8, weight_kg: 60,
+    exercise_id: "bench-press", equipment: "barbell", focus: "chest", sets: 20, reps: 8, weight_kg: 60,
   });
   if (c.error) throw c.error;
   // 8일 전 벤치 55kg — 지난 7일 자극에는 안 들어가고, 어제 60kg 이 신기록이 된다.
@@ -84,12 +85,12 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await expect(page.getByTestId("fit-tile-growth")).toContainText("벤치프레스");
   await expect(page.getByTestId("fit-tile-month")).toContainText("일");
 
-  // 레이더를 누르면 균형 시트 — 부위 칩(가슴은 넘쳐서 숫자 대신 '넘침'), 세부 근육·비율.
+  // 레이더를 누르면 균형 시트 — 부위 칩(가슴은 넘쳐서 % 대신 실제 세트와 배수), 세부 근육·비율.
   await page.getByTestId("fit-radar").click();
   const sheet = page.getByTestId("fit-balance-sheet");
   await expect(sheet).toBeVisible();
   await expect(sheet.getByTestId("fit-legend")).toContainText("넘침");
-  await expect(sheet.getByTestId("fit-part-chest")).toContainText("넘침");
+  await expect(sheet.getByTestId("fit-part-chest")).toContainText(/20세트 · 목표 [\d.]+배/);
   await sheet.getByTestId("fit-part-back").click();
   await expect(sheet.getByTestId("fit-balance-push-pull")).toContainText("당기기 부족");
   // '등 채우는 운동 추천' → 그 부위 추천만, 시트는 닫힌다.
@@ -222,4 +223,43 @@ test("라이트: [바꾸기]는 확인 후에만 — 취소하면 그대로, 바
   const kept = await dbQuery<{ exercise_id: string }>(`select exercise_id from public.routine_exercises where user_id=$1`, [user_id]);
   expect(kept.map((k) => k.exercise_id)).toEqual(["squat"]);
   expect(errors).toEqual([]);
+});
+
+/** n일 전(서울 날짜). */
+function daysAgo(today: string, n: number): string {
+  return new Date(Date.parse(`${today}T00:00:00Z`) - n * 86_400_000).toISOString().slice(0, 10);
+}
+
+test("라이트: 기록으로 본 나 — 성장 기록 · 정체 · 밀기:당기기 · 쉬는 부위", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(150_000);
+  const { email, user_id, today } = await setup(page, baseURL!);
+  await grantLite(email);
+  // 스쿼트 60 → 100kg(하체는 10일 전이 마지막), 벤치는 60일 전 70kg×8 이후 그보다 못함(정체).
+  const rows: [number, string, number, number, number][] = [
+    [70, "squat", 60, 8, 4], [45, "squat", 80, 8, 4], [25, "squat", 90, 8, 4], [10, "squat", 100, 8, 4],
+    [75, "bench-press", 50, 8, 4], [60, "bench-press", 70, 8, 4], [50, "bench-press", 65, 6, 4], [40, "bench-press", 60, 8, 4], [20, "bench-press", 65, 5, 4],
+  ];
+  for (const [ago, exercise_id, kg, reps, sets] of rows) {
+    await dbQuery(
+      `insert into public.exercise_completions (user_id, for_date, exercise_row_id, status, exercise_id, equipment, sets, reps, weight_kg)
+       values ($1, $2, gen_random_uuid(), 'done', $3, 'barbell', $4, $5, $6)`,
+      [user_id, daysAgo(today, ago), exercise_id, sets, reps, kg],
+    );
+  }
+
+  await page.goto("/fit", { waitUntil: "networkidle" });
+  const card = page.getByTestId("fit-insights");
+  await expect(card).toBeVisible({ timeout: 15_000 });
+  await expect(card.getByTestId("fit-insight-growth")).toContainText("스쿼트");
+  await expect(card.getByTestId("fit-insight-growth")).toContainText("60kg → 100kg");
+  await expect(card.getByTestId("fit-insight-plateau")).toContainText(/벤치프레스 \d+주째 그대로/);
+  await expect(card.getByTestId("fit-insight-plateau")).toContainText("kg로");
+  // 어제 벤치 20세트 · 당기기 0 → 밀기 쏠림, 등 추천으로 가는 링크.
+  await expect(card.getByTestId("fit-insight-pushpull")).toContainText("어깨 앞쪽");
+  await expect(card.getByTestId("fit-insight-resting")).toContainText("하체 10일째");
+  await expect(card.getByTestId("fit-insight-resting")).toContainText("코어 4달 넘게");
+  await card.getByTestId("fit-insight-pull-link").click();
+  await page.waitForURL("**/fit?part=back", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-headline")).toContainText("등 채우는 운동");
 });

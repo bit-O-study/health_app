@@ -15,7 +15,7 @@ import {
 } from "@/features/routine/progress";
 import { stalledLifts } from "@/features/coach/my-state";
 import { PR_MIN_GAIN_KG } from "@/features/routine/personal-record";
-import { PART_PREFIX, type PartId, type StimulusOf } from "@/features/routine/fit";
+import { PART_PREFIX, setShare, type PartId, type StimulusOf } from "@/features/routine/fit";
 
 export type GrowthRow = {
   exerciseId: string;
@@ -94,9 +94,9 @@ export function monthParts(
   for (const r of records) {
     if (r.status !== "done" || !r.exerciseId || !r.forDate.startsWith(month)) continue;
     const sets = Array.isArray(r.setDetails) && r.setDetails.length ? r.setDetails.length : Math.max(0, r.sets ?? 0);
-    for (const [sub, score] of Object.entries(stimulusOf(r.exerciseId))) {
+    for (const [sub, share] of Object.entries(setShare(stimulusOf(r.exerciseId)))) {
       const part = PART_PREFIX.find((p) => sub.startsWith(`${p}-`));
-      if (part) stim[part] += (sets * score) / 100;
+      if (part) stim[part] += sets * share;
     }
   }
   const ratio = (p: PartId) => {

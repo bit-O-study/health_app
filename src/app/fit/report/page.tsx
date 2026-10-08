@@ -144,6 +144,16 @@ export default async function FitRecordPage() {
         {photos ? <BodyPhotosCard view={photos} /> : null}
         {!full ? <FitLocked what="월간 요약 · 종목 성장 · 체성분 · 식단 리포트" /> : null}
 
+        {/* 종목별 기록 찾기(2026-10-08) — "지난달 데드리프트 몇 kg였지?" */}
+        <Link
+          href="/fit/records"
+          className="app-card app-press flex items-center justify-between p-4 text-sm font-semibold text-zinc-900 dark:text-zinc-100"
+          data-testid="fit-records-link"
+        >
+          종목별 기록 찾기
+          <ChevronRight aria-hidden="true" size={18} className="text-zinc-400" />
+        </Link>
+
         <Link
           href="/fit/year"
           className="app-card app-press flex items-center justify-between p-4 text-sm font-semibold text-zinc-900 dark:text-zinc-100"

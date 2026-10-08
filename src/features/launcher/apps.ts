@@ -207,7 +207,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     // 성장·리포트는 '기록' 하나. 옛 주소는 next.config 에서 넘긴다(fit-redirects.ts).
     tabs: [
       { href: "/fit", label: "한눈에", icon: Sparkles, match: (p) => p === "/fit" },
-      { href: "/fit/report", label: "기록", icon: ChartColumn, match: (p) => p.startsWith("/fit/report") || p.startsWith("/fit/year") },
+      { href: "/fit/report", label: "기록", icon: ChartColumn, match: (p) => p.startsWith("/fit/report") || p.startsWith("/fit/year") || p.startsWith("/fit/records") },
     ],
   },
   {

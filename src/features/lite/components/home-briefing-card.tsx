@@ -1,21 +1,28 @@
 import Link from "next/link";
-import { ChevronRight, Lightbulb, Moon, TrendingUp } from "lucide-react";
+import { CalendarHeart, ChevronRight, Lightbulb, Moon, TrendingUp } from "lucide-react";
 
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import { growthStories, plateaus, restingParts } from "@/features/routine/fit-insights";
 import { homeBriefing, type Briefing } from "@/features/lite/home-briefing";
 import { loadRecentRecords } from "@/features/lite/recent-records";
+import { getPeriodStartDates } from "@/features/cycle/data-access";
+import { predictCycle } from "@/features/cycle/cycle-predict";
+import { cycleTrainingTip } from "@/features/cycle/cycle-training";
 
 const name = (id: string) => getCatalogExercise(id)?.name ?? id;
-const ICON = { rest: Moon, plateau: Lightbulb, growth: TrendingUp } as const;
+const ICON = { cycle: CalendarHeart, rest: Moon, plateau: Lightbulb, growth: TrendingUp } as const;
 
 /** 홈 · 오늘 한 줄 데이터(라이트). 홈의 다른 조회와 **같이** 시작해 화면이 늦게 밀리지 않게 한다. */
 export async function loadHomeBriefing(): Promise<Briefing | null> {
-  const recent = await loadRecentRecords().catch(() => null);
-  if (!recent || recent.records.length === 0) return null;
+  const [recent, starts] = await Promise.all([
+    loadRecentRecords().catch(() => null),
+    getPeriodStartDates().catch(() => [] as string[]),
+  ]);
+  if (!recent) return null;
   const { records, today } = recent;
   return homeBriefing({
+    cycle: starts.length ? cycleTrainingTip(predictCycle(starts, today), today) : null,
     resting: restingParts(records, primaryBodyPart, today),
     plateaus: plateaus(records, today).map((p) => ({ ...p, name: name(p.exerciseId) })),
     stories: growthStories(records, today).map((g) => ({ ...g, name: name(g.exerciseId) })),

@@ -7,7 +7,8 @@ import { silenceDevOverlay } from "./helpers/dev-overlay";
 /**
  * 라이트 매일 쓰는 혜택(2026-10-08 라이트 혜자 보고서).
  * - 운동 탭 '오늘 운동 리포트': 하나라도 끝내면 지난번 대비·신기록·이번 주. 무료는 총량 한 줄 + 잠금.
- * - 홈 '오늘 한 줄': 오래 쉰 부위 → 그 부위 추천. 무료는 없음.
+ * - 홈 '오늘 한 줄': 오래 쉰 부위 → 그 부위 추천. 생리 중이면 주기 팁이 먼저. 무료는 없음.
+ * - 기록 탭: 몸 변화 × 운동량(체중·러닝 포함) · 종목별 기록 찾기.
  */
 const daysAgo = (today: string, n: number) => new Date(Date.parse(`${today}T00:00:00Z`) - n * 86_400_000).toISOString().slice(0, 10);
 
@@ -34,7 +35,7 @@ async function setup(page: Page, baseURL: string) {
       [user_id, daysAgo(today, ago), exercise_id, sets, reps, kg],
     );
   }
-  return { email };
+  return { email, user_id, today };
 }
 
 async function grantLite(email: string) {
@@ -84,4 +85,79 @@ test("무료: 운동 리포트는 총량 한 줄 + 잠금, 홈 오늘 한 줄은
   await page.goto("/home", { waitUntil: "networkidle" });
   await expect(page.getByRole("navigation", { name: "앱", exact: true })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId("home-briefing")).toHaveCount(0);
+});
+
+test("라이트: 몸 변화 × 운동량(체중·러닝)과 종목별 기록 찾기", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(150_000);
+  const { email, user_id, today } = await setup(page, baseURL!);
+  await grantLite(email);
+  await dbQuery(
+    `insert into public.weight_logs (user_id, weight_kg, created_at) values ($1, 80, $2::date - 20), ($1, 78.5, $2::date)`,
+    [user_id, today],
+  );
+  await dbQuery(
+    `insert into public.run_sessions (user_id, client_session_id, for_date, mode, started_at, ended_at, duration_sec, distance_m)
+     values ($1, gen_random_uuid(), $2, 'indoor', now() - interval '31 minutes', now() - interval '1 minute', 1800, 5000)`,
+    [user_id, today],
+  );
+
+  await page.goto("/fit/report", { waitUntil: "networkidle" });
+  const card = page.getByTestId("lite-report-body-training");
+  await expect(card).toBeVisible({ timeout: 15_000 });
+  await expect(card.getByTestId("lite-report-body-training-headline")).toContainText("체중 −1.5kg");
+  await expect(card).toContainText("5km");
+  await expect(card).toContainText("78.5kg");
+
+  await page.getByTestId("fit-records-link").click();
+  await page.waitForURL("**/fit/records", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-records-index")).toContainText("벤치프레스");
+  await page.getByLabel("종목 이름으로 찾기").fill("벤치");
+  await page.getByRole("button", { name: "찾기" }).click();
+  await page.waitForURL(/q=/, { timeout: 15_000 });
+  await expect(page.getByTestId("fit-records-index")).not.toContainText("스쿼트");
+  await page.getByTestId("fit-records-ex-bench-press").click();
+  const sessions = page.getByTestId("fit-records-sessions");
+  await expect(sessions).toContainText("벤치프레스", { timeout: 15_000 });
+  await expect(page.getByTestId("fit-records-best")).toContainText("60kg × 10회");
+  await expect(sessions).toContainText("신기록");
+  await expect(sessions).toContainText("4세트 × 8회 · 60kg");
+});
+
+test("라이트: 생리 중이면 홈 오늘 한 줄이 주기 팁", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(120_000);
+  const { email, user_id, today } = await setup(page, baseURL!);
+  await grantLite(email);
+  await dbQuery(
+    `insert into public.cycle_logs (user_id, for_date, is_period) values ($1, $2::date - 1, true), ($1, $2::date, true)`,
+    [user_id, today],
+  );
+  await page.goto("/home", { waitUntil: "networkidle" });
+  const brief = page.getByTestId("home-briefing");
+  await expect(brief).toHaveAttribute("data-kind", "cycle", { timeout: 15_000 });
+  await expect(brief).toContainText("생리 2일차예요");
+  await expect(brief).toContainText("90%");
+});
+
+test("무료: 종목별 기록 찾기는 잠금", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(120_000);
+  const { email } = await setup(page, baseURL!);
+  // 무료는 맞춤 운동 스위치가 켜진 계정에서만 보인다 — 이 계정만 잠깐 디버그 계정으로.
+  await dbQuery(
+    `insert into public.app_settings(key, value) values ('debug.accounts', jsonb_build_array($1::text))
+     on conflict (key) do update set value = coalesce(public.app_settings.value, '[]'::jsonb) || jsonb_build_array($1::text)`,
+    [email],
+  );
+  try {
+    await page.goto("/fit/records", { waitUntil: "networkidle" });
+    await expect(page.getByTestId("fit-locked")).toContainText("종목별 기록", { timeout: 15_000 });
+    await expect(page.getByTestId("fit-records-index")).toHaveCount(0);
+  } finally {
+    await dbQuery(
+      `update public.app_settings set value = coalesce((select jsonb_agg(e) from jsonb_array_elements_text(value) e where e <> $1), '[]'::jsonb) where key='debug.accounts'`,
+      [email],
+    );
+  }
 });

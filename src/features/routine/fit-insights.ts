@@ -11,7 +11,7 @@
 import { addDaysYmd } from "@/features/groups/ranking";
 import { estimate1RM, recordOneRM, weightStepKg, type ProgressRecord } from "@/features/routine/progress";
 import { PR_MIN_GAIN_KG } from "@/features/routine/personal-record";
-import { PART_PREFIX, setShare, type PartId, type StimulusOf } from "@/features/routine/fit";
+import { PART_PREFIX, type PartId } from "@/features/routine/fit";
 
 /** 이 기록의 가장 무거운 세트(무게, 그 무게의 횟수). 무게가 없으면 null. */
 function topSet(r: ProgressRecord): { kg: number; reps: number } | null {
@@ -134,26 +134,23 @@ export type RestingPart = { part: PartId; days: number | null; lastDate: string 
 export const REST_ALERT_DAYS = 7;
 
 /**
- * D 쉬는 부위 — 하루에 그 부위를 1세트 이상(유효 세트) 한 마지막 날. 일주일 넘게 쉰 부위만, 오래 쉰 순.
+ * D 쉬는 부위 — 그 부위가 **주 부위인 운동**을 마지막으로 한 날. 일주일 넘게 쉰 부위만, 오래 쉰 순.
  * 기록 범위(최근 120일) 안에 없으면 days = null('오래').
+ * 🔴 보조 자극으로 세지 않는다 — 스쿼트의 척추기립근 몫으로 '등을 했다'고 하면 "등 운동을 쉬고 있어요"가
+ *    맞는 말인데도 안 나오고, 반대로 스쿼트만 한 날 '등 10일째'가 나온다(E2E 에서 잡힘).
  */
-export function restingParts(records: readonly ProgressRecord[], stimulusOf: StimulusOf, today: string): RestingPart[] {
-  const perDay = new Map<string, Record<PartId, number>>();
+export function restingParts(records: readonly ProgressRecord[], partOf: (exerciseId: string) => PartId, today: string): RestingPart[] {
+  const last: Partial<Record<PartId, string>> = {};
   for (const r of records) {
     if (r.status !== "done" || !r.exerciseId) continue;
     const sets = Array.isArray(r.setDetails) && r.setDetails.length ? r.setDetails.length : Math.max(0, r.sets ?? 0);
     if (!sets) continue;
-    const day = perDay.get(r.forDate) ?? { chest: 0, back: 0, shoulder: 0, arm: 0, lower: 0, core: 0 };
-    for (const [sub, share] of Object.entries(setShare(stimulusOf(r.exerciseId)))) {
-      const part = PART_PREFIX.find((p) => sub.startsWith(`${p}-`));
-      if (part) day[part] += sets * share;
-    }
-    perDay.set(r.forDate, day);
+    const part = partOf(r.exerciseId);
+    if (!last[part] || r.forDate > last[part]!) last[part] = r.forDate;
   }
-  const dates = [...perDay.keys()].sort().reverse();
   const out: RestingPart[] = [];
   for (const part of PART_PREFIX) {
-    const lastDate = dates.find((d) => perDay.get(d)![part] >= 1) ?? null;
+    const lastDate = last[part] ?? null;
     const gap = lastDate ? days(lastDate, today) : null;
     if (gap === null || gap >= REST_ALERT_DAYS) out.push({ part, days: gap, lastDate });
   }

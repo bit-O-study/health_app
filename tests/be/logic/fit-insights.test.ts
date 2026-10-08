@@ -7,11 +7,9 @@ import {
   pushPull,
   restingParts,
 } from "@/features/routine/fit-insights";
-import { stimulusFor } from "@/features/routine/exercise-stimulus";
-import { subMuscleWeightsForExercise } from "@/features/routine/muscle-detail";
+import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import type { ProgressRecord } from "@/features/routine/progress";
 
-const stimOf = (id: string) => stimulusFor(id, subMuscleWeightsForExercise(id).map((w) => ({ id: w.sub.id, weight: w.weight })));
 const rec = (forDate: string, exerciseId: string, weightKg: number, reps: number, sets = 3): ProgressRecord => ({
   forDate, exerciseId, status: "done", sets, reps, weightKg,
 });
@@ -80,7 +78,7 @@ describe("C 밀기 : 당기기", () => {
 });
 
 describe("D 쉬는 부위", () => {
-  it("하루 1세트 이상 한 마지막 날부터 며칠 — 7일 넘은 부위만, 기록 없으면 '오래'", () => {
+  it("주 부위로 마지막 한 날부터 며칠 — 7일 넘은 부위만, 기록 없으면 '오래'. 스쿼트는 '등'이 아니다", () => {
     const rows = [
       rec("2026-09-28", "squat", 140, 10, 4),
       rec("2026-10-07", "bench-press", 60, 10, 5),
@@ -88,7 +86,7 @@ describe("D 쉬는 부위", () => {
       rec("2026-10-07", "lateral-raise", 8, 15, 4),
       rec("2026-10-07", "skull-crusher", 20, 12, 4),
     ];
-    const out = restingParts(rows, stimOf, TODAY);
+    const out = restingParts(rows, primaryBodyPart, TODAY);
     expect(out.map((r) => r.part)).toEqual(["core", "lower"]);
     expect(out[0]).toEqual({ part: "core", days: null, lastDate: null });
     expect(out[1]).toEqual({ part: "lower", days: 10, lastDate: "2026-09-28" });

@@ -257,7 +257,7 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
     insights: {
       stories: growthStories(all, today).map((g) => ({ ...g, name: name(g.exerciseId) })),
       plateaus: plateaus(all, today).map((p) => ({ ...p, name: name(p.exerciseId) })),
-      resting: restingParts(all, makeStimulusOf(), today),
+      resting: restingParts(all, primaryBodyPart, today),
     },
     growth: growthRows(records, 4).map((g) => ({ ...g, name: name(g.exerciseId), points: sparkPoints(g.series) })),
     prs: prs.map((p) => ({ ...p, name: name(p.exerciseId) })),

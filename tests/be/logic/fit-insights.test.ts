@@ -95,30 +95,71 @@ describe("D 쉬는 부위", () => {
   });
 });
 
-describe("부위별 회복(2026-10-08)", () => {
-  // 세부 근육 점수 — 실제 표 대신 단순하게(가슴 운동 = 가슴 100점, 스쿼트 = 하체 100점).
-  const stim = (id: string): Record<string, number> => (id === "bench" ? { "chest-mid": 100 } : id === "squat" ? { "lower-quads": 100 } : {});
-  const at = (iso: string) => new Date(iso);
+describe("부위별 회복 — 근육 크기 · 세트 · 강도 · 쌓인 피로 · 체크인(2026-10-08)", () => {
+  // 세부 근육 점수 — 실제 표 대신 단순하게(운동 하나 = 한 부위 100점).
+  const stim = (id: string): Record<string, number> =>
+    ({ bench: { "chest-mid": 100 }, squat: { "lower-quads": 100 }, curl: { "arm-biceps-long": 100 } } as Record<string, Record<string, number>>)[id] ?? {};
+  const reps = (n: number, r: number) => Array.from({ length: n }, () => r);
+  const NOW = new Date("2026-10-08T12:00:00Z");
+  const row = (rows: ReturnType<typeof recoveryByPart>, part: string) => rows.find((r) => r.part === part)!;
 
-  it("세트가 많을수록 오래 — 4세트 미만 24 · 10세트 미만 48 · 그 이상 72시간", () => {
-    expect([recoveryHours(3), recoveryHours(6), recoveryHours(12)]).toEqual([24, 48, 72]);
+  it("작은 근육은 빨리, 하체는 오래 — 같은 세트여도", () => {
+    expect([recoveryHours("arm", 12), recoveryHours("chest", 12), recoveryHours("lower", 12)]).toEqual([48, 72, 84]);
+    expect([recoveryHours("shoulder", 3), recoveryHours("back", 6), recoveryHours("lower", 6)]).toEqual([16, 48, 60]);
   });
 
-  it("어제 저녁 가슴 12세트 → 남은 시간·퍼센트, 안 한 부위는 회복됨", () => {
+  it("무거운 무게(5회 이하)는 1.2배, 가벼운 펌핑(15회 이상)은 0.85배", () => {
+    expect(recoveryHours("chest", 12, "heavy")).toBe(86);
+    expect(recoveryHours("chest", 12, "light")).toBe(61);
+  });
+
+  it("어제 같은 시각 가슴 12세트(10회)와 팔 12세트 — 24시간 뒤 가슴 33%·48시간 남음, 팔 50%·24시간 남음", () => {
     const rows = recoveryByPart(
       [
-        { exerciseId: "bench", sets: 6, doneAt: "2026-10-07T11:00:00Z" },
-        { exerciseId: "bench", sets: 6, doneAt: "2026-10-07T12:00:00Z" }, // 같은 날 = 한 번의 가슴 운동(12세트, 72시간)
+        { exerciseId: "bench", reps: reps(6, 10), doneAt: "2026-10-07T11:00:00Z" },
+        { exerciseId: "bench", reps: reps(6, 10), doneAt: "2026-10-07T12:00:00Z" }, // 같은 날 = 한 번(12세트)
+        { exerciseId: "curl", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" },
       ],
       stim,
-      at("2026-10-08T12:00:00Z"), // 마지막으로 끝낸 뒤 24시간
+      NOW,
     );
-    expect(rows.find((r) => r.part === "chest")).toEqual({ part: "chest", pct: 33, hoursLeft: 48, lastAt: "2026-10-07T12:00:00.000Z", sets: 12 });
-    expect(rows.find((r) => r.part === "lower")).toEqual({ part: "lower", pct: 100, hoursLeft: 0, lastAt: null, sets: 0 });
+    expect(row(rows, "chest")).toMatchObject({ pct: 33, hoursLeft: 48, sets: 12, intensity: "normal", stacked: false, lastAt: "2026-10-07T12:00:00.000Z" });
+    expect(row(rows, "arm")).toMatchObject({ pct: 50, hoursLeft: 24 });
+    expect(row(rows, "lower")).toMatchObject({ pct: 100, hoursLeft: 0, lastAt: null });
   });
 
-  it("시간이 다 지나면 회복됨, 가벼운 운동은 하루면 풀린다", () => {
-    const rows = recoveryByPart([{ exerciseId: "squat", sets: 3, doneAt: "2026-10-07T00:00:00Z" }], stim, at("2026-10-08T01:00:00Z"));
-    expect(rows.find((r) => r.part === "lower")?.pct).toBe(100);
+  it("무거운 무게로 하면 같은 세트도 더 오래 걸린다", () => {
+    const normal = row(recoveryByPart([{ exerciseId: "bench", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW), "chest");
+    const heavy = row(recoveryByPart([{ exerciseId: "bench", reps: reps(12, 4), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW), "chest");
+    expect(heavy.intensity).toBe("heavy");
+    expect(heavy.hoursLeft).toBeGreaterThan(normal.hoursLeft);
+  });
+
+  it("다 안 풀린 채 또 하면 피로가 쌓인다(남은 시간 절반을 얹는다)", () => {
+    // 10/6 12시 하체 12세트(84시간 → 10/10 0시까지) · 10/7 12시 또 하체 6세트(60시간 + 남은 60시간의 절반 30)
+    const rows = recoveryByPart(
+      [
+        { exerciseId: "squat", reps: reps(12, 8), doneAt: "2026-10-06T12:00:00Z" },
+        { exerciseId: "squat", reps: reps(6, 8), doneAt: "2026-10-07T12:00:00Z" },
+      ],
+      stim,
+      NOW,
+    );
+    expect(row(rows, "lower")).toMatchObject({ stacked: true, sets: 6, hoursLeft: 66 }); // 90 - 24
+  });
+
+  it("오늘 근육통 '심해요'·잠 '못 잤어요'면 남은 시간이 길어지고, 다 풀린 부위엔 영향 없다", () => {
+    const recs = [{ exerciseId: "bench", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" }];
+    const base = row(recoveryByPart(recs, stim, NOW), "chest");
+    const sore = row(recoveryByPart(recs, stim, NOW, { soreness: 1, sleep: 1 }), "chest");
+    expect(sore.hoursLeft).toBe(Math.ceil(48 * 1.25 * 1.1));
+    expect(sore.condition).toEqual(["soreness", "sleep"]);
+    expect(sore.pct).toBeLessThan(base.pct);
+    expect(row(recoveryByPart(recs, stim, NOW, { soreness: 1, sleep: 1 }), "lower")).toMatchObject({ pct: 100, condition: [] });
+  });
+
+  it("시간이 다 지나면 회복됨, 0.5세트 미만으로 거든 건 안 센다", () => {
+    const rows = recoveryByPart([{ exerciseId: "curl", reps: reps(3, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW);
+    expect(row(rows, "arm").pct).toBe(100); // 작은 근육 3세트 = 16시간
   });
 });

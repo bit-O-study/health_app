@@ -27,7 +27,7 @@ import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { isExerciseAvailable, pickAvailableEquipment, toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
-import { getPainAreas } from "@/features/routine/checkin-data";
+import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import { getUserProfile } from "@/features/profile/data-access";
 import { prescribe, type Prescription } from "@/features/routine/prescription";
@@ -114,11 +114,11 @@ export async function loadFitView(opts?: {
   const supabase = await createSupabaseServerClient();
   const today = seoulYmd();
   const from = addDaysYmd(today, -6);
-  const [profile, recs, gym, pain, todayIds] = await Promise.all([
+  const [profile, recs, gym, pain, todayIds, checkin] = await Promise.all([
     getUserProfile().catch(() => null),
     supabase
       .from("exercise_completions")
-      .select("exercise_id, for_date, sets, set_details, created_at")
+      .select("exercise_id, for_date, sets, reps, set_details, created_at")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", from)
@@ -126,12 +126,15 @@ export async function loadFitView(opts?: {
     getCurrentGym().catch(() => null),
     getPainAreas(),
     todayExerciseIds(),
+    // 부위별 회복 — 오늘 근육통·잠 체크인을 반영한다.
+    getTodayCheckin().catch(() => null),
   ]);
 
   const raw = (recs.data ?? []) as {
     exercise_id: string | null;
     for_date: string;
     sets: number | null;
+    reps: number | null;
     set_details: unknown;
     created_at: string | null;
   }[];
@@ -140,11 +143,18 @@ export async function loadFitView(opts?: {
     forDate: r.for_date,
     sets: Array.isArray(r.set_details) && r.set_details.length > 0 ? r.set_details.length : Number(r.sets) || 0,
   }));
-  // 부위별 회복 — 끝낸 시각 기준(없으면 그날 저녁 7시로 본다).
+  // 부위별 회복 — 끝낸 시각 기준(없으면 그날 저녁 7시로 본다). 세트마다 횟수로 강도(무거움·가벼움)를 본다.
   const recovery = recoveryByPart(
-    raw.map((r, i) => ({ exerciseId: r.exercise_id, sets: records[i].sets, doneAt: r.created_at ?? `${r.for_date}T10:00:00Z` })),
+    raw.map((r, i) => ({
+      exerciseId: r.exercise_id,
+      reps: Array.isArray(r.set_details) && r.set_details.length > 0
+        ? (r.set_details as { reps?: unknown }[]).map((d) => Number(d?.reps) || 0)
+        : Array.from({ length: records[i].sets }, () => Number(r.reps) || 0),
+      doneAt: r.created_at ?? `${r.for_date}T10:00:00Z`,
+    })),
     makeStimulusOf(),
     new Date(),
+    checkin,
   );
 
   const stimulusOf = makeStimulusOf();

@@ -1,11 +1,34 @@
 import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { fmtSets } from "@/features/routine/fit-view";
 import type { RecoveryRow } from "@/features/routine/fit-insights";
 
+/** "10/7 저녁" — 끝낸 때(서울). */
+function whenText(iso: string): string {
+  const d = new Date(new Date(iso).getTime() + 9 * 3_600_000);
+  const h = d.getUTCHours();
+  const part = h < 5 ? "새벽" : h < 11 ? "아침" : h < 17 ? "낮" : h < 22 ? "저녁" : "밤";
+  return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${part}`;
+}
+
+/** 회복 중인 이유 한 줄 — "10/7 저녁 · 12세트 · 무거운 무게 · 피로 누적". */
+export function recoveryReason(r: RecoveryRow): string {
+  if (!r.lastAt) return "";
+  const bits = [whenText(r.lastAt), `${fmtSets(r.sets)}세트`];
+  if (r.intensity === "heavy") bits.push("무거운 무게");
+  if (r.intensity === "light") bits.push("가벼운 무게");
+  if (r.stacked) bits.push("피로 누적");
+  if (r.condition.includes("soreness")) bits.push("근육통");
+  if (r.condition.includes("sleep")) bits.push("잠 부족");
+  return bits.join(" · ");
+}
+
 /**
- * 맞춤 운동 · 부위별 회복(2026-10-08) — 최근 운동량과 끝낸 시각으로 계산한 회복 정도.
- * 다 풀린 부위는 초록 '회복됨', 아직이면 남은 시간. 절반도 안 풀렸으면 주황.
+ * 맞춤 운동 · 부위별 회복(2026-10-08) — 근육 크기 · 세트 · 강도 · 쌓인 피로 · 오늘 체크인으로 계산.
+ * 다 풀린 부위는 초록 '회복됨', 아직이면 남은 시간과 이유. 절반도 안 풀렸으면 주황.
+ * 회복 중인 부위를 먼저(덜 풀린 순) — 오늘 피할 곳이 위에 보이게.
  */
 export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
+  const sorted = [...rows].sort((a, b) => a.pct - b.pct);
   const tired = rows.filter((r) => r.pct < 100).length;
   return (
     <section className="app-card space-y-2.5 p-4" data-testid="fit-recovery">
@@ -13,26 +36,33 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
         <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">부위별 회복</h2>
         <span className="text-xs text-zinc-500 dark:text-zinc-400">{tired === 0 ? "다 회복됐어요" : `${tired}곳 회복 중`}</span>
       </div>
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-3">
-        {rows.map((r) => {
+      <ul className="space-y-2.5">
+        {sorted.map((r) => {
           const done = r.pct >= 100;
           const low = r.pct < 50;
           return (
-            <li key={r.part} className="min-w-0 space-y-1" data-testid={`fit-recovery-${r.part}`}>
-              <div className="flex items-baseline justify-between gap-1 text-xs">
-                <span className="font-semibold text-zinc-800 dark:text-zinc-100">{BODY_PART_LABEL[r.part as BodyPart]}</span>
-                <span className={`tabular-nums ${done ? "text-brand" : low ? "font-semibold text-warn" : "text-zinc-500 dark:text-zinc-400"}`}>
-                  {done ? "회복됨" : `${r.hoursLeft}시간 남음`}
+            <li key={r.part} className="space-y-1" data-testid={`fit-recovery-${r.part}`}>
+              <div className="flex items-baseline gap-2 text-xs">
+                <span className="w-9 shrink-0 font-semibold text-zinc-800 dark:text-zinc-100">{BODY_PART_LABEL[r.part as BodyPart]}</span>
+                <div className="h-1.5 min-w-0 flex-1 self-center overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]" aria-hidden="true">
+                  <div className={`h-full rounded-full ${done ? "bg-brand" : low ? "bg-warn" : "bg-brand/50"}`} style={{ width: `${Math.max(4, r.pct)}%` }} />
+                </div>
+                <span className={`w-20 shrink-0 text-right tabular-nums ${done ? "text-brand" : low ? "font-semibold text-warn" : "text-zinc-500 dark:text-zinc-400"}`}>
+                  {done ? "회복됨" : `${r.pct}% · ${r.hoursLeft}시간`}
                 </span>
               </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]" aria-hidden="true">
-                <div className={`h-full rounded-full ${done ? "bg-brand" : low ? "bg-warn" : "bg-brand/50"}`} style={{ width: `${Math.max(4, r.pct)}%` }} />
-              </div>
+              {!done ? (
+                <p className="pl-11 text-[11px] text-zinc-500 dark:text-zinc-400" data-testid={`fit-recovery-why-${r.part}`}>
+                  {recoveryReason(r)}
+                </p>
+              ) : null}
             </li>
           );
         })}
       </ul>
-      <p className="text-xs text-zinc-400">최근 운동량(세트)과 끝낸 시각으로 계산 · 참고용</p>
+      <p className="text-xs leading-5 text-zinc-400">
+        작은 근육(팔·어깨·코어)은 빨리, 하체는 오래 걸려요. 세트가 많거나 무거울수록, 덜 풀린 채 또 하면 더 길어지고, 오늘 근육통·잠 체크인도 반영해요 · 참고용
+      </p>
     </section>
   );
 }

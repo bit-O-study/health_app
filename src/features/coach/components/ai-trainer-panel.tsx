@@ -144,7 +144,7 @@ export function AiTrainerPanel({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">아직 기록이 거의 없어요. 운동·체중을 기록할수록 정확해져요.</p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">아직 기록이 거의 없어요.<br />운동·체중을 기록할수록 정확해져요.</p>
         )}
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
           AI에는 이 숫자 요약만 보내요. 이름·이메일·연락처는 보내지 않아요.

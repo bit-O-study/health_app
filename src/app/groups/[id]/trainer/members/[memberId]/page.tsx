@@ -77,7 +77,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
         ["운동한 날", sharing.workout ? `${stats.workoutDays}일` : "비공개"], ["운동 시간", sharing.workout ? `${n(stats.minutes)}분` : "비공개"], ["완료 세트", sharing.workout ? `${n(stats.sets)}세트` : "비공개"],
         ["총 볼륨", sharing.workout ? `${n(stats.volume)}kg` : "비공개"], ["식단 기록", sharing.diet ? `${stats.dietDays}일` : "비공개"], ["체중 변화", !sharing.body ? "비공개" : stats.weightDelta === null ? "기록 부족" : `${stats.weightDelta > 0 ? "+" : ""}${stats.weightDelta}kg`],
       ].map(([label,value]) => <div key={label} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700"><dt className="text-xs text-zinc-500">{label}</dt><dd className="mt-1 text-lg font-bold">{value}</dd></div>)}</dl>
-      <p className="text-xs text-zinc-500">한국 시간 기준. 완료한 근력·준비·마무리 운동의 날짜를 중복 없이 집계합니다. 시간은 저장된 운동 시간, 볼륨은 완료 시점의 세트별 중량 기록 기준이며 맨몸 운동은 0kg입니다.</p>
+      <p className="text-xs text-zinc-500">한국 시간 기준. 완료한 근력·준비·마무리 운동의 날짜를 중복 없이 집계합니다.<br />시간은 저장된 운동 시간, 볼륨은 완료 시점의 세트별 중량 기록 기준이며 맨몸 운동은 0kg입니다.</p>
     </section>
     {sharing.workout && <section aria-labelledby="trend-title" className="space-y-3">
       <h2 id="trend-title" className="text-lg font-bold">{period === "year" ? "월별" : "일별"} 운동 추이</h2>

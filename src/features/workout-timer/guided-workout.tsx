@@ -1488,7 +1488,7 @@ export function GuidedOverlay({
       {!lockWeightReps ? (
         <details className="mx-4 mb-2 rounded-xl bg-white/5 px-3 py-2 text-sm text-zinc-200" data-testid="workout-condition">
           <summary className="cursor-pointer py-1 font-semibold">오늘 컨디션으로 운동량 조절</summary>
-          <p className="my-2 text-xs text-zinc-400">원래 계획 기준으로 남은 운동의 세트를 바꿔요. 완료한 세트와 무게는 유지해요.</p>
+          <p className="my-2 text-xs text-zinc-400">원래 계획 기준으로 남은 운동의 세트를 바꿔요.<br />완료한 세트와 무게는 유지해요.</p>
           <div className="flex flex-wrap gap-2">
             {WORKOUT_CONDITIONS.map((option) => (
               <button key={option.id} type="button" disabled={working || resting} onClick={() => applyCondition(option.id)} className="min-h-11 flex-1 rounded-xl bg-white/10 px-2 text-xs disabled:opacity-40">{option.label}</button>

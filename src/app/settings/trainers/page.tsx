@@ -15,8 +15,8 @@ export default async function TrainerConnectionsPage() {
     db.from("pt_notifications").select("id,status").eq("kind", "disconnect").eq("created_by", (await getCurrentUser())!.id).order("created_at", { ascending: false }).limit(5),
   ]);
   return <div className="app-page"><PageHeader title="트레이너 연결" back="설정" backHref="/settings" /><main className="app-container space-y-6">
-    <p className="text-sm text-muted">공유 항목은 언제든 끌 수 있어요. 연결을 삭제하면 트레이너의 관리 권한이 해제되고 알림톡을 보내요. 그룹 가입 상태는 바뀌지 않아요. 그룹에 공개한 기록은 그룹의 공유 설정을 따라요.</p>
-    {!connections.length && <p className="app-card p-5 text-sm">연결된 트레이너가 없어요. 초대 링크에서 동의하고 수락하면 여기에 나타나요.</p>}
+    <p className="text-sm text-muted">공유 항목은 언제든 끌 수 있어요.<br />연결을 삭제하면 트레이너의 관리 권한이 해제되고 알림톡을 보내요.<br />그룹 가입 상태는 바뀌지 않아요.<br />그룹에 공개한 기록은 그룹의 공유 설정을 따라요.</p>
+    {!connections.length && <p className="app-card p-5 text-sm">연결된 트레이너가 없어요.<br />초대 링크에서 동의하고 수락하면 여기에 나타나요.</p>}
     {connections.map(link => <section key={link.id} className="app-card space-y-5 p-5">
       <h2 className="font-semibold">{trainers?.find(row => row.trainer_id === link.trainer_id)?.name ?? "트레이너"}</h2>
       <TrainerForm intent="share" label="공유 설정 저장"><input type="hidden" name="connection" value={link.id} /><SharingFields key={JSON.stringify(linkSharing(link))} initial={linkSharing(link)} /></TrainerForm>

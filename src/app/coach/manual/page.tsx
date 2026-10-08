@@ -20,6 +20,6 @@ export default async function Page() {
   const { data, error } = await db.from("manual_coach_requests").select("id,kind,for_date,question,answer,answered_at,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(60);
   return <div className="app-page"><PageHeader title="상담함" back /><main className="app-container space-y-4">
     {!active && <Link href="/settings/subscription" className="app-card flex items-center justify-between p-4 text-sm"><span className="text-zinc-700 dark:text-zinc-200">상담함은 라이트(월 990원)에서 쓸 수 있어요</span><span className="font-semibold text-brand">알아보기</span></Link>}
-    {error ? <p role="alert" className="app-card p-4">코칭 내역을 불러오지 못했어요. 잠시 뒤 다시 확인해 주세요.</p> : <ManualCoachPanel rows={(data ?? []) as CoachRequest[]} active={active} review={reviewResult.review} reviewError={reviewResult.error} />}
+    {error ? <p role="alert" className="app-card p-4">코칭 내역을 불러오지 못했어요.<br />잠시 뒤 다시 확인해 주세요.</p> : <ManualCoachPanel rows={(data ?? []) as CoachRequest[]} active={active} review={reviewResult.review} reviewError={reviewResult.error} />}
   </main></div>;
 }

@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import {
   HOME_TAB,
   visibleApps,
+  dockLayoutFor,
   bottomTabsForPath,
   isTabActive,
   type AppTab,
@@ -113,13 +114,9 @@ export function BottomNav({
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));
   const { ids } = useHomeDock(userId);
   const available = visibleApps(enabledFlags);
-  const dockTabs = ids.map((id, index): AppTab => {
-    const app = available.find(app => app.id === id);
-    return app ? { href: app.home, label: app.label, icon: app.icon } : {
-      href: "/home?edit=apps&slot=" + index + "#home-apps", label: "앱 추가", icon: Plus, match: () => false,
-    };
-  });
-  const tabs = bottomTabsForPath(pathname, dockTabs);
+  // 빈칸·못 쓰는 앱은 빼고 그쪽 안에서 당겨 채운다 — 홈 기준 왼쪽·오른쪽은 그대로(2026-10-08).
+  const dock = dockLayoutFor(ids, available);
+  const tabs = bottomTabsForPath(pathname, dock.tabs, dock.homeIndex);
   // 그룹 헬스장 화면(정확히 /groups + gym 모드)에선 하단 탭도 헬스장 앰버 톤으로 이어 붙인다.
   const groupTheme = groupThemeEnabled && pathname === "/groups";
 

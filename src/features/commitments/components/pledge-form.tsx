@@ -461,7 +461,7 @@ function GoalPanel({
             이 다짐으로 채우기
           </button>
           {plan.stages > 1 ? (
-            <p className="text-xs text-zinc-500">첫 30일부터 시작해요. 끝나면 실제 몸 변화로 다음 단계를 다시 계산해요.</p>
+            <p className="text-xs text-zinc-500">첫 30일부터 시작해요.<br />끝나면 실제 몸 변화로 다음 단계를 다시 계산해요.</p>
           ) : null}
         </div>
       ) : null}

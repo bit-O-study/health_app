@@ -82,7 +82,9 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
   const bottom = page.getByRole("navigation", { name: "주요 메뉴" });
   await expect(editor.getByRole("combobox")).toHaveCount(0);
   await editor.scrollIntoViewIfNeeded();
-  await dragApp(page, editor.getByRole("button", { name: "커뮤니티 배치", exact: true }), slot(1));
+  // 2026-10-08: 미리보기 밑 앱 목록 대신 위 '내 앱' 아이콘을 바로 끌어 놓는다.
+  await expect(editor.getByRole("button", { name: /배치$/ })).toHaveCount(0);
+  await dragApp(page, grid.getByRole("button", { name: "커뮤니티 하단에 놓기", exact: true }), slot(1));
   await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 커뮤니티");
   await expect(bottom.getByRole("link").nth(0)).toHaveText("커뮤니티");
   await dragApp(page, slot(1), slot(4), true);
@@ -92,7 +94,7 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
   await dragApp(page, slot(1), editor.getByLabel("가운데 홈 고정"));
   await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 그룹");
   // Keyboard users can select an app then activate a destination.
-  await editor.getByRole("button", { name: "운동 배치", exact: true }).focus();
+  await grid.getByRole("button", { name: "운동 하단에 놓기", exact: true }).focus();
   await page.keyboard.press("Enter");
   await slot(1).focus();
   await page.keyboard.press("Enter");
@@ -102,14 +104,19 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
   await grid.getByRole("button", { name: "완료", exact: true }).click();
   await page.reload();
   await expect(grid.getByRole("link", { name: "식단", exact: true })).toBeVisible();
-  await expect(bottom.getByRole("link").nth(4)).toHaveText("커뮤니티");
-  await bottom.getByRole("link", { name: "앱 추가", exact: true }).click();
+  // 🔴 지운 자리는 '앱 추가'로 남지 않고 빠진다 — 식단 · 홈 · 캘린더 · 커뮤니티로 당겨진다(2026-10-08).
+  await expect(bottom.getByRole("link", { name: "앱 추가", exact: true })).toHaveCount(0);
+  await expect(bottom.getByRole("link")).toHaveCount(4);
+  await expect(bottom.getByRole("link").nth(3)).toHaveText("커뮤니티");
+  await grid.getByRole("button", { name: "편집", exact: true }).click();
   await expect(editor).toBeVisible();
   await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 빈칸");
-  await dragApp(page, editor.getByRole("button", { name: "운동 배치", exact: true }), slot(1), true);
+  await dragApp(page, grid.getByRole("button", { name: "운동 하단에 놓기", exact: true }), slot(1), true);
   await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 운동");
   await page.screenshot({ path: "scripts/.verify-shots/home-dock-drag.png", fullPage: true });
   await grid.getByRole("button", { name: "완료", exact: true }).click();
+  await expect(bottom.getByRole("link")).toHaveCount(5);
+  await expect(bottom.getByRole("link").nth(0)).toHaveText("운동");
   const grass = page.getByRole("region", { name: "운동 잔디", exact: true });
   await grass.scrollIntoViewIfNeeded();
   const day = grass.getByRole("button").last();

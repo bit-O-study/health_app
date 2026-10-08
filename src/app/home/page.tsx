@@ -13,13 +13,11 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
 import { getFitAccess } from "@/features/routine/fit-access";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
-import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
+import { launcherFlags } from "@/features/launcher/launcher-flags.server";
 import { AppGrid } from "@/features/launcher/components/app-grid";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
-import { hasTrainerPass } from "@/features/trainer/data";
 import { Logo } from "@/features/brand/logo";
 
 export const dynamic = "force-dynamic";
@@ -37,18 +35,14 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
   // ⚡ 프로필과 대시보드·주간 집계를 **동시에** 시작한다(원거리 리전 왕복 줄이기).
   const fitAccessP = getFitAccess();
-  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer, showAiTrainer, fitAccess, briefing] = await Promise.all([
+  const [profile, dashboard, weekly, training, flags, fitAccess, briefing] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
     getWeeklyReport(),
     getMyWeeklyTraining(),
-    // 헬쑤쌤 앱 타일은 디버그 기능이 켜진 사용자에게만 — 예전엔 하단바가 읽던 값이다.
-    isAiFeatureEnabled("helssu-coach"),
-    isDebugFeatureEnabled("pet"),
-    hasTrainerPass(),
-    // AI 트레이너 탭(2026-09-30) — 공개 전, 자기 스위치.
-    isAiFeatureEnabled("ai-trainer"),
-    // 맞춤 운동(라이트) — 라이트 이상이면 스위치와 상관없이 보인다.
+    // 내 앱 스위치 — 하단바와 같은 목록(launcherFlags).
+    launcherFlags(),
+    // 맞춤 운동(라이트) — 홈 배너 없음·오늘 한 줄은 라이트 이상.
     fitAccessP,
     // 라이트 · 오늘 한 줄 — 라이트일 때만 기록을 읽는다.
     fitAccessP.then((a) => (a.full ? loadHomeBriefing() : null)).catch(() => null),
@@ -80,7 +74,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         {/* 라이트 · 오늘 한 줄(2026-10-08) — 내 기록에서 지금 제일 쓸모 있는 말 하나. 늦게 와도 홈을 막지 않게. */}
         {fitAccess.full && briefing ? <HomeBriefingCard briefing={briefing} /> : null}
 
-        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : []), ...(showAiTrainer ? ["ai-trainer"] : []), ...(fitAccess.visible ? ["fit"] : [])]} />
+        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
 
             <Link
               href="/commitments"

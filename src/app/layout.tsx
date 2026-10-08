@@ -14,9 +14,7 @@ import { AppEventReporter } from "@/features/observability/components/app-event-
 import { BottomNav } from "@/components/bottom-nav";
 import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { hasTrainerPass } from "@/features/trainer/data";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
-import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
+import { launcherFlags } from "@/features/launcher/launcher-flags.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
@@ -126,8 +124,7 @@ export default async function RootLayout({
 }
 
 async function ConfiguredBottomNav() {
-  const [user, groupMode, coach, pet, trainer] = await Promise.all([
-    getCurrentUser(), getGroupMode(), isAiFeatureEnabled("helssu-coach"), isDebugFeatureEnabled("pet"), hasTrainerPass(),
-  ]);
-  return <BottomNav userId={user?.id} groupTheme={groupMode === "gym"} enabledFlags={[...(coach ? ["helssu-coach"] : []), ...(pet ? ["pet"] : []), ...(trainer ? ["trainer-pass"] : [])]} />;
+  // 앱 스위치는 홈 '내 앱'과 같은 목록(launcherFlags) — 하단바에서만 앱이 빠지지 않게.
+  const [user, groupMode, flags] = await Promise.all([getCurrentUser(), getGroupMode(), launcherFlags()]);
+  return <BottomNav userId={user?.id} groupTheme={groupMode === "gym"} enabledFlags={flags} />;
 }

@@ -52,8 +52,10 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
           );
         })}
       </ul>
-      <p className="text-xs leading-5 text-zinc-400">
-        작은 근육(팔·어깨·코어)은 빨리, 하체는 오래 걸려요. 세트가 많거나 무거울수록, 덜 풀린 채 또 하면 더 길어지고, 오늘 근육통·잠 체크인도 반영해요 · 참고용
+      <p className="sentences text-xs leading-5 text-zinc-400">
+        <span>작은 근육(팔·어깨·코어)은 빨리, 하체는 오래 걸려요.</span>
+        <span>세트가 많거나 무거울수록, 덜 풀린 채 또 하면 더 길어져요.</span>
+        <span>오늘 근육통·잠 체크인도 반영해요 · 참고용</span>
       </p>
     </section>
   );

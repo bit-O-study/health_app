@@ -87,7 +87,8 @@ export const BOTTOM_SLOT_COUNTS = [3, 5] as const;
 export const SIDE_TAB_COUNTS = [0, 2, 4] as const;
 /** 가운데 홈이 들어가는 자리 — 양옆 칸 수의 절반(2칸→1, 4칸→2). */
 export function homeSlotIndex(sideTabCount: number): number {
-  return sideTabCount / 2;
+  // 하단바 앱을 지워 홀수 칸이 되면 홈은 가운데에서 왼쪽 쪽으로(3칸 → 앱 · 홈 · 앱 · 앱).
+  return Math.floor(sideTabCount / 2);
 }
 
 export const LAUNCHER_APPS: LauncherApp[] = [
@@ -284,12 +285,42 @@ export function isTabActive(tab: AppTab, pathname: string): boolean {
  * 하단바 5칸 — 현재 경로가 속한 앱의 4칸 사이에 **홈을 한가운데로** 끼워 넣는다.
  * 앱에 속하지 않으면 런처 자신의 4칸을 쓴다.
  */
-export function bottomTabsForPath(pathname: string, launcherTabs: readonly AppTab[] = LAUNCHER_TABS): AppTab[] {
+export function bottomTabsForPath(
+  pathname: string,
+  launcherTabs: readonly AppTab[] = LAUNCHER_TABS,
+  /** 런처(하단바 사용자 배치)일 때 홈 자리 — 홈 기준 왼쪽 앱 수. 없으면 가운데. */
+  launcherHomeIndex?: number,
+): AppTab[] {
   const app = appForPath(pathname);
   // 화면이 하나뿐인 앱(탭 0개)은 런처 바를 그대로 쓴다 — 없는 화면을 만들어 채우지 않는다.
-  const side: readonly AppTab[] = app && app.tabs.length > 0 ? app.tabs : launcherTabs;
-  const mid = homeSlotIndex(side.length);
+  const inApp = !!app && app.tabs.length > 0;
+  const side: readonly AppTab[] = inApp ? app!.tabs : launcherTabs;
+  const mid = !inApp && launcherHomeIndex !== undefined ? launcherHomeIndex : homeSlotIndex(side.length);
   return [...side.slice(0, mid), HOME_TAB, ...side.slice(mid)];
+}
+
+/** 하단바 탭 + 홈이 들어갈 자리(왼쪽 탭 수). */
+export type DockLayout = { tabs: AppTab[]; homeIndex: number };
+
+/**
+ * 하단바에 놓은 앱(빈칸 포함 4자리: 왼쪽 0·1 · 오른쪽 2·3) → 실제 하단 탭(2026-10-08).
+ * - 빈칸·지금 못 쓰는 앱은 빼고 **그쪽 안에서만** 당겨 채운다 — 지운 자리에 '앱 추가'를 남기지 않는다.
+ * - 🔴 **홈 기준 왼쪽은 왼쪽, 오른쪽은 오른쪽.** 남은 앱을 반으로 다시 나누면 오른쪽 하나를 지웠을 때
+ *   왼쪽 앱이 오른쪽으로 넘어갔다("왜 왼쪽에 있는 애가 오른쪽에 채워지는 거야? 홈버튼 기준").
+ */
+export function dockLayoutFor(ids: readonly (string | null)[], apps: readonly LauncherApp[]): DockLayout {
+  const tab = (id: string | null): AppTab[] => {
+    const app = id ? apps.find((a) => a.id === id) : undefined;
+    return app ? [{ href: app.home, label: app.label, icon: app.icon }] : [];
+  };
+  const left = ids.slice(0, 2).flatMap(tab);
+  const right = ids.slice(2, 4).flatMap(tab);
+  return { tabs: [...left, ...right], homeIndex: left.length };
+}
+
+/** 하단바 탭만(순서대로). */
+export function dockTabsFor(ids: readonly (string | null)[], apps: readonly LauncherApp[]): AppTab[] {
+  return dockLayoutFor(ids, apps).tabs;
 }
 
 /** 런처 격자에 보일 앱들 — 디버그 기능이 꺼져 있으면 그 앱은 빠진다. */

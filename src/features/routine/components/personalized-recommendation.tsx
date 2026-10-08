@@ -19,7 +19,7 @@ export function PersonalizedRecommendation({context}: {context:RecommendationCon
       <h2 id="personalized-recommendation-title" className="text-xl font-bold">{recommendation.headline}</h2>
       <div className="grid grid-cols-7 gap-1" aria-label="추천 7일 구성">{recommendation.week.map((blocks,index)=><div key={index} className={`rounded-xl px-1 py-3 text-center ${blocks[0]==="rest"?"bg-zinc-100 text-muted dark:bg-zinc-800":"bg-brand/10"}`}><p className="text-xs">{index+1}일차</p><p className="mt-2 text-xs font-semibold">{blocks.map(block=>DAY_BLOCKS[block].label).join("·")}</p></div>)}</div>
       <ul className="space-y-2 text-sm leading-6 text-muted">{recommendation.reasons.map(reason=><li key={reason}>{reason}</li>)}</ul>
-      <p className="text-xs text-muted">보유 기구 분류와 최근 기록을 참고한 제안이에요. 실제 기구와 운동 가능 여부를 확인하고 조절해 주세요.</p>
+      <p className="text-xs text-muted">보유 기구 분류와 최근 기록을 참고한 제안이에요.<br />실제 기구와 운동 가능 여부를 확인하고 조절해 주세요.</p>
     </div>
     <details className="border-t border-line p-5"><summary className="flex cursor-pointer items-center gap-2 text-sm font-semibold"><SlidersHorizontal size={17} aria-hidden="true" />추천 선호 조정</summary>
       <fieldset disabled={pending} className="mt-4 grid gap-4 sm:grid-cols-2">

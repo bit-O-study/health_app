@@ -234,7 +234,7 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
           <RotateCw aria-hidden="true" size={16} />
         </button>
       </div>
-      {rows.length === 0 && <p className="app-card p-4 text-sm text-zinc-500">아직 받은 답변이 없어요. 보내면 여기에 쌓여요.</p>}
+      {rows.length === 0 && <p className="app-card p-4 text-sm text-zinc-500">아직 받은 답변이 없어요.<br />보내면 여기에 쌓여요.</p>}
       {rows.map((row) => (
         <article key={row.id} className="app-card space-y-2 p-4">
           <div className="flex items-center justify-between gap-2">

@@ -169,3 +169,27 @@ test("무료: 종목별 기록 찾기는 잠금", async ({ page, baseURL }) => {
     );
   }
 });
+
+test("라이트: 내 앱의 맞춤 운동을 끌어 하단바에 넣으면 하단바에 맞춤 운동이 보인다(2026-10-08)", async ({ page, baseURL }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(120_000);
+  const { email } = await setup(page, baseURL!);
+  await grantLite(email);
+  await page.goto("/home", { waitUntil: "networkidle" });
+  const grid = page.getByRole("navigation", { name: "앱", exact: true });
+  await grid.getByRole("button", { name: "편집", exact: true }).click();
+  const editor = grid.getByRole("region", { name: "하단 바로가기 편집", exact: true });
+  const slot1 = editor.getByRole("button", { name: /^하단 1번 자리:/ });
+  // 누르고 → 자리 누르기(끌기와 같은 경로) — 맞춤 운동을 1번 자리에.
+  await grid.getByRole("button", { name: "맞춤 운동 하단에 놓기", exact: true }).click();
+  await slot1.click();
+  await expect(slot1).toHaveAccessibleName("하단 1번 자리: 맞춤 운동");
+  await grid.getByRole("button", { name: "완료", exact: true }).click();
+  await page.reload({ waitUntil: "networkidle" });
+  const bottom = page.getByRole("navigation", { name: "주요 메뉴" });
+  // 🔴 예전엔 하단바가 맞춤 운동을 모르는 목록을 써서 '앱 추가'로만 보였다.
+  await expect(bottom.getByRole("link", { name: "맞춤 운동", exact: true })).toBeVisible({ timeout: 15_000 });
+  await expect(bottom.getByRole("link", { name: "앱 추가", exact: true })).toHaveCount(0);
+  await bottom.getByRole("link", { name: "맞춤 운동", exact: true }).click();
+  await page.waitForURL("**/fit", { timeout: 15_000 });
+});

@@ -60,7 +60,8 @@ export type RoutineShareItem = {
   savedByMe?: boolean;
   mine: boolean;
   createdAt: string;
-  exercises: (ShareExercise & { name: string })[];
+  /** 내 헬스장 기준 대체(헬스장을 등록했을 때만, 2026-10-08). */
+  exercises: (ShareExercise & { name: string; gymSwap?: import("@/features/routine-share/gym-swap").GymSwap })[];
   conditioning: (ShareConditioning & { name: string })[];
 };
 

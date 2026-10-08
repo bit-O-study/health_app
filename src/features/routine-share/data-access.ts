@@ -6,7 +6,12 @@ import {
 } from "@/lib/supabase/server";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { DAY_BLOCKS, routineDaySlots, type DayBlockId } from "@/features/routine/data";
-import { getCatalogExercise } from "@/features/routine/exercise-catalog";
+import { ALL_EXERCISES, getCatalogExercise } from "@/features/routine/exercise-catalog";
+import { getCurrentGym } from "@/features/gym/gym-data-access";
+import { toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
+import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
+import { makeStimulusOf } from "@/features/routine/fit-data";
+import { gymSwapFor } from "@/features/routine-share/gym-swap";
 import { getConditioningItem } from "@/features/routine/conditioning-catalog";
 import type {
   ApplyTarget,
@@ -90,6 +95,10 @@ export async function getRoutineShares(
         .in("share_id", rows.map((r) => r.id))
     : { data: [] };
   const savedByMe = new Set(((mySaves ?? []) as { share_id: string }[]).map((x) => x.share_id));
+  // 내 헬스장 기구 — 등록했으면 루틴 운동마다 '없으면 무엇으로' 대체를 붙인다.
+  const gym = user ? await getCurrentGym().catch(() => null) : null;
+  const gymSet = gym ? toGymEquipmentSet(gym.equipmentIds ?? null) : null;
+  const stimulusOf = makeStimulusOf();
 
   const { data: likes } = await supabase
     .from("routine_share_likes")
@@ -127,6 +136,7 @@ export async function getRoutineShares(
       exercises: ex.map((e) => ({
         ...e,
         name: getCatalogExercise(e.exercise_id)?.name ?? e.exercise_id,
+        ...(gymSet ? { gymSwap: gymSwapFor(e.exercise_id, e.equipment, gymSet, ALL_EXERCISES, primaryBodyPart, stimulusOf) } : {}),
       })),
       conditioning: asConditioning(r.conditioning)
         .sort((a, b) => a.position - b.position)

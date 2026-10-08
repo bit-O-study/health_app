@@ -63,12 +63,17 @@ test("라이트: 운동 끝 리포트(지난번 대비·신기록)와 홈 오늘
   await expect(report.getByTestId("session-report-compares")).toContainText("+2회");
   await expect(report.getByTestId("session-report-locked")).toHaveCount(0);
 
+  // 오늘 운동을 했으니 홈 한 줄은 잔소리 대신 정리 + 가슴 다시 할 때(2026-10-08 디테일).
   await page.goto("/home", { waitUntil: "networkidle" });
   const brief = page.getByTestId("home-briefing");
-  await expect(brief).toContainText("하체 운동을 10일째 쉬고 있어요", { timeout: 15_000 });
+  await expect(brief).toHaveAttribute("data-kind", "today", { timeout: 15_000 });
+  await expect(brief).toContainText("오늘 가슴 4세트 했어요");
+  await expect(brief).toContainText("다음 가슴 운동은");
   await brief.click();
-  await page.waitForURL("**/fit?part=lower", { timeout: 15_000 });
-  await expect(page.getByTestId("fit-headline")).toContainText("하체 채우는 운동");
+  await page.waitForURL("**/routine", { timeout: 15_000 });
+  // 운동 끝 리포트 — 종목별 지난번 대비 볼륨·예상 최대, 가슴 다시 하기 좋은 때.
+  await expect(page.getByTestId("session-report-detail-bench-press")).toContainText("볼륨 2.4t(+480kg)", { timeout: 20_000 });
+  await expect(page.getByTestId("session-report-ready")).toContainText("가슴");
 });
 
 test("무료: 운동 리포트는 총량 한 줄 + 잠금, 홈 오늘 한 줄은 없음", async ({ page, baseURL }) => {

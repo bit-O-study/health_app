@@ -39,6 +39,7 @@ import {
   plateaus,
   restingParts,
   recoveryByPart,
+  doneAtOf,
   type RecoveryRow,
   type GrowthStory,
   type Plateau,
@@ -143,14 +144,14 @@ export async function loadFitView(opts?: {
     forDate: r.for_date,
     sets: Array.isArray(r.set_details) && r.set_details.length > 0 ? r.set_details.length : Number(r.sets) || 0,
   }));
-  // 부위별 회복 — 끝낸 시각 기준(없으면 그날 저녁 7시로 본다). 세트마다 횟수로 강도(무거움·가벼움)를 본다.
+  // 부위별 회복 — 끝낸 시각 기준(없거나 나중에 채운 기록이면 그날 저녁 7시). 세트마다 횟수로 강도(무거움·가벼움)를 본다.
   const recovery = recoveryByPart(
     raw.map((r, i) => ({
       exerciseId: r.exercise_id,
       reps: Array.isArray(r.set_details) && r.set_details.length > 0
         ? (r.set_details as { reps?: unknown }[]).map((d) => Number(d?.reps) || 0)
         : Array.from({ length: records[i].sets }, () => Number(r.reps) || 0),
-      doneAt: r.created_at ?? `${r.for_date}T10:00:00Z`,
+      doneAt: doneAtOf(r.created_at, r.for_date),
     })),
     makeStimulusOf(),
     new Date(),

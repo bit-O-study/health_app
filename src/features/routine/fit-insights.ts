@@ -67,7 +67,30 @@ export function growthStories(records: readonly ProgressRecord[], today: string,
   return out.sort((a, b) => b.toKg - b.fromKg - (a.toKg - a.fromKg)).slice(0, n);
 }
 
-export type Plateau = { exerciseId: string; weeks: number; sinceDate: string; bestOneRmKg: number; lastKg: number; lastReps: number; advice: string };
+export type Plateau = {
+  exerciseId: string;
+  /** flat = 제자리, decline = 최근 기록이 계속 떨어진다(쉬어 가야 할 때). */
+  kind: "flat" | "decline";
+  weeks: number;
+  sinceDate: string;
+  /** 그 뒤로 한 횟수. */
+  sessions: number;
+  bestOneRmKg: number;
+  /** 최근 예상 최대(최고 대비 몇 %인지 보여 주려고). */
+  recentOneRmKg: number;
+  lastKg: number;
+  lastReps: number;
+  advice: string;
+};
+
+/** 최근 3번이 연달아 떨어지고 최고의 92% 아래면 '하락' — 더 밀어붙이면 다친다, 한 주 쉬어 간다. */
+export const DECLINE_RATIO = 0.92;
+
+/** 하락일 때 — 한 주 무게를 10% 낮춰(디로드) 회복한 뒤 다시. */
+export function deloadAdvice(lastKg: number, stepKg: number): string {
+  const down = Math.max(stepKg, Math.round((lastKg * 0.9) / stepKg) * stepKg);
+  return `최근 기록이 떨어지고 있어요. 이번 주는 ${Math.round(down * 10) / 10}kg로 가볍게 하고, 잠·식사를 챙긴 뒤 다음 주에 다시 올려 보세요.`;
+}
 
 /** 정체를 깨는 다음 한 걸음 — 반복 수 먼저, 다 차면 무게(점진적 과부하). */
 export function plateauAdvice(lastKg: number, lastReps: number, stepKg: number): string {
@@ -94,19 +117,27 @@ export function plateaus(records: readonly ProgressRecord[], today: string, n = 
       best = Math.max(best, s.oneRm);
     }
     const weeks = Math.floor(days(prDate, today) / 7);
-    const after = ss.filter((s) => s.date > prDate).length;
-    if (weeks < 4 || after < 3) continue;
+    const after = ss.filter((s) => s.date > prDate);
+    if (weeks < 4 || after.length < 3) continue;
+    const step = weightStepKg(exerciseId, last.equipment) ?? 2.5;
+    const last3 = ss.slice(-3).map((s) => s.oneRm);
+    const recent = last3[last3.length - 1];
+    const declining = last3.length === 3 && last3[0] > last3[1] && last3[1] > last3[2] && recent < best * DECLINE_RATIO;
     out.push({
       exerciseId,
+      kind: declining ? "decline" : "flat",
       weeks,
       sinceDate: prDate,
+      sessions: after.length,
       bestOneRmKg: Math.round(best),
+      recentOneRmKg: Math.round(recent),
       lastKg: last.kg,
       lastReps: last.reps,
-      advice: plateauAdvice(last.kg, last.reps, weightStepKg(exerciseId, last.equipment) ?? 2.5),
+      advice: declining ? deloadAdvice(last.kg, step) : plateauAdvice(last.kg, last.reps, step),
     });
   }
-  return out.sort((a, b) => b.weeks - a.weeks).slice(0, n);
+  // 하락이 먼저(다칠 수 있다), 그다음 오래 멈춘 순.
+  return out.sort((a, b) => Number(b.kind === "decline") - Number(a.kind === "decline") || b.weeks - a.weeks).slice(0, n);
 }
 
 /** 밀기 · 당기기에 드는 세부 근육(균형 시트의 '밀기 : 당기기'와 같은 묶음). */
@@ -115,7 +146,14 @@ const PULL = ["back-lats", "back-rhomboids", "shoulder-rear", "arm-biceps-long",
 /** 이 배수를 넘으면 한쪽으로 쏠렸다고 본다. */
 export const PUSH_PULL_WARN = 1.5;
 
-export type PushPull = { push: number; pull: number; ratio: number | null; lean: "push" | "pull" | null };
+export type PushPull = {
+  push: number;
+  pull: number;
+  ratio: number | null;
+  lean: "push" | "pull" | null;
+  /** 균형(1.5배 안)으로 돌아가려면 모자란 쪽을 몇 세트 더(쏠림 없으면 0). */
+  needSets: number;
+};
 
 /** C 밀기 : 당기기 — 지난 7일 유효 세트. ratio = 밀기 ÷ 당기기(당기기 0이면 null). */
 export function pushPull(stim: Readonly<Record<string, number>>): PushPull {
@@ -124,7 +162,8 @@ export function pushPull(stim: Readonly<Record<string, number>>): PushPull {
   const pull = sum(PULL);
   const ratio = pull > 0 ? Math.round((push / pull) * 10) / 10 : null;
   const lean = push > 0 && (ratio === null || ratio > PUSH_PULL_WARN) ? "push" : pull > 0 && push / pull < 1 / PUSH_PULL_WARN ? "pull" : null;
-  return { push, pull, ratio, lean };
+  const needSets = lean === "push" ? Math.ceil(push / PUSH_PULL_WARN - pull) : lean === "pull" ? Math.ceil(pull / PUSH_PULL_WARN - push) : 0;
+  return { push, pull, ratio, lean, needSets };
 }
 
 export type RestingPart = { part: PartId; days: number | null; lastDate: string | null };
@@ -138,7 +177,12 @@ export const REST_ALERT_DAYS = 7;
  * 🔴 보조 자극으로 세지 않는다 — 스쿼트의 척추기립근 몫으로 '등을 했다'고 하면 "등 운동을 쉬고 있어요"가
  *    맞는 말인데도 안 나오고, 반대로 스쿼트만 한 날 '등 10일째'가 나온다(E2E 에서 잡힘).
  */
-export function restingParts(records: readonly ProgressRecord[], partOf: (exerciseId: string) => PartId, today: string): RestingPart[] {
+export function restingParts(
+  records: readonly ProgressRecord[],
+  partOf: (exerciseId: string) => PartId,
+  today: string,
+  minDays = REST_ALERT_DAYS,
+): RestingPart[] {
   const last: Partial<Record<PartId, string>> = {};
   for (const r of records) {
     if (r.status !== "done" || !r.exerciseId) continue;
@@ -151,7 +195,7 @@ export function restingParts(records: readonly ProgressRecord[], partOf: (exerci
   for (const part of PART_PREFIX) {
     const lastDate = last[part] ?? null;
     const gap = lastDate ? days(lastDate, today) : null;
-    if (gap === null || gap >= REST_ALERT_DAYS) out.push({ part, days: gap, lastDate });
+    if (gap === null || gap >= minDays) out.push({ part, days: gap, lastDate });
   }
   return out.sort((a, b) => (b.days ?? Infinity) - (a.days ?? Infinity));
 }
@@ -290,4 +334,35 @@ export function recoveryByPart(
       condition: condFactor > 1 ? condition : [],
     };
   });
+}
+
+/** 기록(세트별 횟수 · 끝낸 시각) → 회복 계산 입력. 최근 `days`일만(회복은 길어야 4일). */
+export function recoveryInputs(
+  records: readonly (ProgressRecord & { doneAt: string })[],
+  now: Date,
+  days = 5,
+): RecoveryRecord[] {
+  const from = now.getTime() - days * 86_400_000;
+  return records
+    .filter((r) => r.status === "done" && r.exerciseId && Date.parse(r.doneAt) >= from)
+    .map((r) => ({
+      exerciseId: r.exerciseId,
+      reps: Array.isArray(r.setDetails) && r.setDetails.length > 0
+        ? r.setDetails.map((d) => Number(d.reps) || 0)
+        : Array.from({ length: Math.max(0, r.sets ?? 0) }, () => Number(r.reps) || 0),
+      doneAt: r.doneAt,
+    }));
+}
+
+/**
+ * 운동을 끝낸 시각 — 저장된 시각이 그 기록의 날짜(서울)와 같을 때만 믿는다.
+ * 🔴 지난 날짜를 나중에 채운 기록(캘린더에서 지난 운동 완료 등)은 저장 시각이 '지금'이라,
+ *    그대로 쓰면 며칠 전 운동이 오늘 한 것처럼 회복을 붙잡는다. 그럴 땐 그날 저녁 7시로 본다.
+ */
+export function doneAtOf(createdAt: string | null | undefined, forDate: string): string {
+  if (createdAt) {
+    const t = Date.parse(createdAt);
+    if (Number.isFinite(t) && new Date(t + 9 * 3_600_000).toISOString().slice(0, 10) === forDate) return new Date(t).toISOString();
+  }
+  return `${forDate}T10:00:00Z`;
 }

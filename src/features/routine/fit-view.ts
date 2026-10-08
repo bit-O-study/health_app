@@ -197,3 +197,11 @@ export function growthTile<T extends { name: string; latestKg: number; stalled: 
 export function shortVolume(kg: number): string {
   return kg >= 1000 ? `${(Math.round(kg / 100) / 10).toLocaleString("ko-KR")}t` : `${Math.round(kg).toLocaleString("ko-KR")}kg`;
 }
+
+/** "10/10 저녁" — 서울 시각으로 날짜와 때(새벽·아침·낮·저녁·밤). */
+export function whenText(iso: string): string {
+  const d = new Date(new Date(iso).getTime() + 9 * 3_600_000);
+  const h = d.getUTCHours();
+  const part = h < 5 ? "새벽" : h < 11 ? "아침" : h < 17 ? "낮" : h < 22 ? "저녁" : "밤";
+  return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${part}`;
+}

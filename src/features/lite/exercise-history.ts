@@ -50,6 +50,32 @@ export type SessionRow = {
 
 const kg = (n: number | null) => (n == null ? "" : `${Math.round(n * 10) / 10}`);
 
+export type SessionSummary = {
+  /** 처음 한 날 예상 최대. */
+  firstOneRmKg: number;
+  /** 최근 3번 평균 예상 최대(한 번의 컨디션에 흔들리지 않게). */
+  recentOneRmKg: number;
+  /** 첫 기록 대비 변화(kg). */
+  changeKg: number;
+  /** 평균 몇 일마다 했나. */
+  everyDays: number | null;
+};
+
+/** 종목 요약 — 첫 기록 → 최근 3번 평균, 하는 간격. 무게 기록이 없으면 null. sessions 는 최근 순. */
+export function sessionSummary(sessions: readonly SessionRow[]): SessionSummary | null {
+  const asc = [...sessions].filter((s) => s.oneRmKg > 0).reverse();
+  if (asc.length === 0) return null;
+  const recent3 = asc.slice(-3);
+  const recent = Math.round((recent3.reduce((a, s) => a + s.oneRmKg, 0) / recent3.length) * 10) / 10;
+  const span = asc.length > 1 ? (Date.parse(`${asc[asc.length - 1].date}T00:00:00Z`) - Date.parse(`${asc[0].date}T00:00:00Z`)) / 86_400_000 : null;
+  return {
+    firstOneRmKg: asc[0].oneRmKg,
+    recentOneRmKg: recent,
+    changeKg: Math.round((recent - asc[0].oneRmKg) * 10) / 10,
+    everyDays: span !== null ? Math.round((span / (asc.length - 1)) * 10) / 10 : null,
+  };
+}
+
 /** 한 종목의 날짜별 기록 — 최근 순. 같은 날 여러 줄이면 합친다. */
 export function exerciseSessions(records: readonly ProgressRecord[], exerciseId: string): SessionRow[] {
   const byDate = new Map<string, ProgressRecord[]>();

@@ -3,13 +3,14 @@ import { Lock, Trophy } from "lucide-react";
 
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-catalog-labels";
-import { shortVolume } from "@/features/routine/fit-view";
+import { shortVolume, whenText } from "@/features/routine/fit-view";
 import { compareText } from "@/features/lite/session-report";
 import { loadSessionReport } from "@/features/lite/session-report-data";
 
 const name = (id: string) => getCatalogExercise(id)?.name ?? id;
 const md = (ymd: string) => `${Number(ymd.slice(5, 7))}/${Number(ymd.slice(8, 10))}`;
 const kgReps = (t: { kg: number; reps: number }) => `${t.kg}kg×${t.reps}`;
+const signedKg = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : "±"}${shortVolume(Math.abs(n))}`;
 
 /**
  * 운동 탭 · 오늘 운동 리포트(2026-10-08). 오늘 운동을 하나라도 끝내면 나온다.
@@ -19,7 +20,7 @@ const kgReps = (t: { kg: number; reps: number }) => `${t.kg}kg×${t.reps}`;
 export async function SessionReportCard() {
   const data = await loadSessionReport().catch(() => null);
   if (!data) return null;
-  const { report: r, full } = data;
+  const { report: r, full, ready } = data;
   const diff = r.lastSamePart ? r.volumeKg - r.lastSamePart.volumeKg : null;
 
   return (
@@ -51,17 +52,30 @@ export async function SessionReportCard() {
           {r.compares.length ? (
             <ul className="divide-y divide-zinc-100 dark:divide-white/[0.06]" data-testid="session-report-compares">
               {r.compares.slice(0, 5).map((c) => (
-                <li key={c.exerciseId} className="flex items-baseline gap-2 py-1.5 text-sm">
-                  <span className="min-w-0 flex-1 truncate text-zinc-800 dark:text-zinc-100">{name(c.exerciseId)}</span>
-                  <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
-                    {c.prev ? `${kgReps(c.prev)} → ` : ""}<b className="text-zinc-900 dark:text-zinc-100">{kgReps(c.now)}</b>
-                  </span>
-                  <span className={`w-20 shrink-0 text-right text-xs font-semibold tabular-nums ${c.better ? "text-brand" : "text-zinc-400"}`}>
-                    {compareText(c)}
-                  </span>
+                <li key={c.exerciseId} className="space-y-0.5 py-1.5">
+                  <div className="flex items-baseline gap-2 text-sm">
+                    <span className="min-w-0 flex-1 truncate text-zinc-800 dark:text-zinc-100">{name(c.exerciseId)}</span>
+                    <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+                      {c.prev ? `${kgReps(c.prev)} → ` : ""}<b className="text-zinc-900 dark:text-zinc-100">{kgReps(c.now)}</b>
+                    </span>
+                    <span className={`w-20 shrink-0 text-right text-xs font-semibold tabular-nums ${c.better ? "text-brand" : "text-zinc-400"}`}>
+                      {compareText(c)}
+                    </span>
+                  </div>
+                  {c.prevDate && c.prevVolumeKg != null ? (
+                    <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid={`session-report-detail-${c.exerciseId}`}>
+                      지난번 {md(c.prevDate)} 대비 · 볼륨 {shortVolume(c.nowVolumeKg)}({signedKg(c.nowVolumeKg - c.prevVolumeKg)})
+                      {c.nowOneRmKg > 0 && c.prevOneRmKg ? ` · 예상 최대 ${c.nowOneRmKg}kg(${c.nowOneRmKg >= c.prevOneRmKg ? "+" : "−"}${Math.abs(Math.round((c.nowOneRmKg - c.prevOneRmKg) * 10) / 10)})` : ""}
+                    </p>
+                  ) : null}
                 </li>
               ))}
             </ul>
+          ) : null}
+          {ready.length ? (
+            <p className="border-t border-zinc-100 pt-2 text-xs text-zinc-600 dark:border-white/[0.06] dark:text-zinc-300" data-testid="session-report-ready">
+              다시 하기 좋은 때 · {ready.map((x) => `${BODY_PART_LABEL[x.part as BodyPart]} ${whenText(x.at)}`).join(" · ")}
+            </p>
           ) : null}
         </>
       ) : (

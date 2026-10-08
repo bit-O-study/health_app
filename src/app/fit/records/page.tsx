@@ -8,7 +8,8 @@ import { loadFitHeaderInfo } from "@/features/routine/fit-data";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { FitHeader, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
 import { shortVolume } from "@/features/routine/fit-view";
-import { exerciseIndex, exerciseSessions } from "@/features/lite/exercise-history";
+import { exerciseIndex, exerciseSessions, sessionSummary } from "@/features/lite/exercise-history";
+import { sparkPoints } from "@/features/routine/fit-growth";
 import { loadRecentRecords } from "@/features/lite/recent-records";
 
 export const dynamic = "force-dynamic";
@@ -33,6 +34,8 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
   const index = recent ? exerciseIndex(recent.records) : [];
   const shown = q.trim() ? index.filter((r) => norm(name(r.exerciseId)).includes(norm(q))) : index;
   const sessions = recent && ex ? exerciseSessions(recent.records, ex) : null;
+  const summary = sessions ? sessionSummary(sessions) : null;
+  const trend = sessions ? [...sessions].reverse().filter((s) => s.oneRmKg > 0).map((s) => ({ date: s.date, value: s.oneRmKg })) : [];
   const best = sessions?.reduce<{ kg: number; reps: number; date: string } | null>(
     (a, s) => (s.top && (!a || s.top.kg > a.kg) ? { ...s.top, date: s.date } : a),
     null,
@@ -54,6 +57,22 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
               <p className="text-sm text-zinc-600 dark:text-zinc-300" data-testid="fit-records-best">
                 최고 <b className="text-zinc-900 dark:text-zinc-100">{best.kg}kg × {best.reps}회</b> · {md(best.date)}
               </p>
+            ) : null}
+            {summary ? (
+              <div className="flex items-center gap-3" data-testid="fit-records-summary">
+                <p className="min-w-0 flex-1 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
+                  예상 최대 {summary.firstOneRmKg}kg → 최근 3번 평균 <b>{summary.recentOneRmKg}kg</b>
+                  <span className={summary.changeKg > 0 ? " text-brand" : " text-zinc-500"}>
+                    {" "}({summary.changeKg > 0 ? "+" : summary.changeKg < 0 ? "−" : "±"}{Math.abs(summary.changeKg)})
+                  </span>
+                  {summary.everyDays ? ` · 평균 ${summary.everyDays}일마다` : ""}
+                </p>
+                {trend.length >= 2 ? (
+                  <svg viewBox="0 0 200 36" className="h-7 w-20 shrink-0" role="img" aria-label="예상 최대 추이">
+                    <polyline points={sparkPoints(trend)} fill="none" className="stroke-brand" strokeWidth="3" />
+                  </svg>
+                ) : null}
+              </div>
             ) : null}
             {sessions.length === 0 ? (
               <p className="text-sm text-zinc-500 dark:text-zinc-400">최근 1년 기록이 없어요.</p>

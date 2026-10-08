@@ -49,6 +49,12 @@ export type ExerciseCompare = {
   now: Top;
   prev: Top | null;
   prevDate: string | null;
+  /** 그 종목 그날 볼륨(무게 × 횟수 합). */
+  nowVolumeKg: number;
+  prevVolumeKg: number | null;
+  /** 그 종목 그날 예상 최대(1RM). */
+  nowOneRmKg: number;
+  prevOneRmKg: number | null;
   /** 무게가 늘었거나, 같은 무게로 횟수가 늘었다. */
   better: boolean;
 };
@@ -112,7 +118,20 @@ export function sessionReport(records: readonly ProgressRecord[], today: string,
       ? prevRows.filter((x) => x.forDate === prevDate).map(topSet).filter((t): t is Top => !!t).sort((a, b) => b.kg - a.kg || b.reps - a.reps)[0]
       : null;
     const better = !!prev && (now.kg > prev.kg || (now.kg === prev.kg && now.reps > prev.reps));
-    compares.push({ exerciseId: id, now, prev: prev ?? null, prevDate, better });
+    const todayRows = todays.filter((x) => x.exerciseId === id);
+    const prevRows2 = prevDate ? before.filter((x) => x.exerciseId === id && x.forDate === prevDate) : [];
+    const r1 = (n: number) => Math.round(n * 10) / 10;
+    compares.push({
+      exerciseId: id,
+      now,
+      prev: prev ?? null,
+      prevDate,
+      better,
+      nowVolumeKg: volume(todayRows),
+      prevVolumeKg: prevDate ? volume(prevRows2) : null,
+      nowOneRmKg: r1(Math.max(0, ...todayRows.map(recordOneRM))),
+      prevOneRmKg: prevDate ? r1(Math.max(0, ...prevRows2.map(recordOneRM))) : null,
+    });
   }
 
   // 오늘 신기록 — 지난 최고 예상 1RM 을 0.5kg 이상 넘긴 종목(처음 한 종목은 신기록이 아니다).

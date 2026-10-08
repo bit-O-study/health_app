@@ -31,6 +31,9 @@ describe("운동 끝 리포트", () => {
     expect(r).toMatchObject({ exercises: 2, sets: 7, volumeKg: 2400 + 1200, mainPart: "chest", weekDays: 3 });
     expect(r.lastSamePart).toEqual({ date: "2026-10-02", volumeKg: 1920 });
     expect(r.compares[0]).toMatchObject({ exerciseId: "bench-press", now: { kg: 60, reps: 10 }, prev: { kg: 60, reps: 8 }, prevDate: "2026-10-02", better: true });
+    // 종목별 볼륨·예상 최대도 지난번과 나란히: 60×10×4 = 2,400 vs 60×8×4 = 1,920 · 80kg vs 76kg
+    expect(r.compares[0]).toMatchObject({ nowVolumeKg: 2400, prevVolumeKg: 1920, nowOneRmKg: 80, prevOneRmKg: 76 });
+    expect(r.compares[1]).toMatchObject({ prevVolumeKg: null, prevOneRmKg: null });
     expect(r.compares[1]).toMatchObject({ exerciseId: "incline-press", prev: null, better: false });
     expect(r.prs.map((p) => p.exerciseId)).toEqual(["bench-press"]);
   });
@@ -53,6 +56,7 @@ describe("운동 끝 리포트", () => {
   it("비교 문구", () => {
     const c = (now: [number, number], prev: [number, number] | null) => ({
       exerciseId: "x", now: { kg: now[0], reps: now[1] }, prev: prev && { kg: prev[0], reps: prev[1] }, prevDate: null, better: false,
+      nowVolumeKg: 0, prevVolumeKg: null, nowOneRmKg: 0, prevOneRmKg: null,
     });
     expect(compareText(c([60, 10], [60, 8]))).toBe("+2회");
     expect(compareText(c([62.5, 8], [60, 8]))).toBe("+2.5kg");

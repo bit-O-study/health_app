@@ -1,14 +1,6 @@
 import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-catalog-labels";
-import { fmtSets } from "@/features/routine/fit-view";
+import { fmtSets, whenText } from "@/features/routine/fit-view";
 import type { RecoveryRow } from "@/features/routine/fit-insights";
-
-/** "10/7 저녁" — 끝낸 때(서울). */
-function whenText(iso: string): string {
-  const d = new Date(new Date(iso).getTime() + 9 * 3_600_000);
-  const h = d.getUTCHours();
-  const part = h < 5 ? "새벽" : h < 11 ? "아침" : h < 17 ? "낮" : h < 22 ? "저녁" : "밤";
-  return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${part}`;
-}
 
 /** 회복 중인 이유 한 줄 — "10/7 저녁 · 12세트 · 무거운 무게 · 피로 누적". */
 export function recoveryReason(r: RecoveryRow): string {
@@ -52,7 +44,7 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
                 </span>
               </div>
               {!done ? (
-                <p className="pl-11 text-[11px] text-zinc-500 dark:text-zinc-400" data-testid={`fit-recovery-why-${r.part}`}>
+                <p className="pl-11 text-xs text-zinc-500 dark:text-zinc-400" data-testid={`fit-recovery-why-${r.part}`}>
                   {recoveryReason(r)}
                 </p>
               ) : null}

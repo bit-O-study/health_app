@@ -7,6 +7,13 @@ import type { GrowthStory, Plateau, PushPull, RestingPart } from "@/features/rou
 
 const md = (ymd: string) => `${Number(ymd.slice(5, 7))}/${Number(ymd.slice(8, 10))}`;
 const kg = (x: number) => `${Math.round(x * 10) / 10}kg`;
+/** "+67%" — 처음 무게 대비. */
+const growthPct = (s: { fromKg: number; toKg: number }) => `+${Math.round(((s.toKg - s.fromKg) / s.fromKg) * 100)}%`;
+/** "2달" · "3주" — 처음 한 날부터 최고 기록까지. */
+function monthsText(from: string, to: string): string {
+  const d = Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000);
+  return d >= 45 ? `${Math.round(d / 30)}달` : `${Math.max(1, Math.round(d / 7))}주`;
+}
 
 /**
  * 맞춤 운동 · 기록으로 본 나(2026-10-08) — 쌓인 기록으로 본 성장 · 정체 · 밀기:당기기 · 쉬는 부위.
@@ -39,12 +46,17 @@ export function FitInsights({
         <div className="space-y-1.5 py-3" data-testid="fit-insight-growth">
           <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">이만큼 늘었어요</p>
           {stories.map((s) => (
-            <div key={s.exerciseId} className="flex items-baseline gap-2 text-sm">
-              <span className="min-w-0 flex-1 truncate text-zinc-800 dark:text-zinc-100">{s.name}</span>
-              <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
-                {kg(s.fromKg)} → <b className="text-zinc-900 dark:text-zinc-100">{kg(s.toKg)}</b>
-              </span>
-              <span className="w-16 shrink-0 text-right text-xs font-semibold tabular-nums text-brand">▲ {kg(s.toKg - s.fromKg)}</span>
+            <div key={s.exerciseId} className="space-y-0.5">
+              <div className="flex items-baseline gap-2 text-sm">
+                <span className="min-w-0 flex-1 truncate text-zinc-800 dark:text-zinc-100">{s.name}</span>
+                <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+                  {kg(s.fromKg)} → <b className="text-zinc-900 dark:text-zinc-100">{kg(s.toKg)}</b>
+                </span>
+                <span className="w-16 shrink-0 text-right text-xs font-semibold tabular-nums text-brand">▲ {kg(s.toKg - s.fromKg)}</span>
+              </div>
+              <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid={`fit-insight-growth-detail-${s.exerciseId}`}>
+                {md(s.fromDate)} → {md(s.toDate)} · {growthPct(s)} · {monthsText(s.fromDate, s.toDate)}
+              </p>
             </div>
           ))}
           <p className="text-xs text-zinc-400">처음 한 날 무게 → 최근 4주 최고 무게</p>
@@ -57,8 +69,14 @@ export function FitInsights({
           {plateaus.map((p) => (
             <div key={p.exerciseId} className="space-y-0.5">
               <p className="text-sm text-zinc-800 dark:text-zinc-100">
-                <b>{p.name}</b> <span className="font-semibold text-warn">{p.weeks}주째 그대로</span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400"> · {md(p.sinceDate)} 이후 예상 최대 {p.bestOneRmKg}kg</span>
+                <b>{p.name}</b>{" "}
+                <span className={`font-semibold ${p.kind === "decline" ? "text-danger" : "text-warn"}`}>
+                  {p.kind === "decline" ? "최근 떨어지는 중" : `${p.weeks}주째 그대로`}
+                </span>
+              </p>
+              <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                {md(p.sinceDate)} 최고(예상 최대) {p.bestOneRmKg}kg → 최근 {p.recentOneRmKg}kg(
+                {Math.round((p.recentOneRmKg / Math.max(1, p.bestOneRmKg)) * 100)}%) · 그 뒤 {p.sessions}번
               </p>
               <p className="text-xs text-zinc-600 dark:text-zinc-300">{p.advice}</p>
             </div>
@@ -82,11 +100,11 @@ export function FitInsights({
           <p className="text-xs text-zinc-600 dark:text-zinc-300">
             {pushPull.lean === "push" ? (
               <>
-                미는 운동이 많아 어깨 앞쪽이 말리기 쉬워요. 1 : 1 ~ 1.5 : 1 이 좋아요.{" "}
+                미는 운동이 많아 어깨 앞쪽이 말리기 쉬워요. 당기기를 <b>{pushPull.needSets}세트</b> 더 하면 1.5 : 1 안으로 들어와요.{" "}
                 <Link href="/fit?part=back" className="font-semibold text-brand" data-testid="fit-insight-pull-link">당기는 운동 추천</Link>
               </>
             ) : pushPull.lean === "pull" ? (
-              "당기는 운동이 훨씬 많아요. 가슴·어깨 미는 운동도 챙겨 주세요."
+              `당기는 운동이 훨씬 많아요. 가슴·어깨 미는 운동을 ${pushPull.needSets}세트 더 하면 균형이 맞아요.`
             ) : (
               "균형이 좋아요."
             )}

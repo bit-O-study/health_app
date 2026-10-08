@@ -8,6 +8,7 @@ import {
   restingParts,
   recoveryByPart,
   recoveryHours,
+  doneAtOf,
 } from "@/features/routine/fit-insights";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import type { ProgressRecord } from "@/features/routine/progress";
@@ -53,6 +54,19 @@ describe("B 정체 알림 — 4주 넘게 예상 최대가 안 오름", () => {
     const [p] = plateaus(rows, TODAY);
     expect(p).toMatchObject({ exerciseId: "bench-press", sinceDate: "2026-06-29", weeks: 14, bestOneRmKg: 90, lastKg: 60, lastReps: 10 });
     expect(p.advice).toContain("12회가 되면");
+    expect(p).toMatchObject({ kind: "flat", sessions: 5, recentOneRmKg: 80 });
+  });
+
+  it("🔴 최근 3번이 연달아 떨어지고 최고의 92% 아래면 '하락' — 무게를 10% 낮춰 쉬어 가기(먼저 보여 준다)", () => {
+    const decline = [
+      rec("2026-06-01", "squat", 60, 10), rec("2026-07-01", "squat", 100, 8), rec("2026-08-01", "squat", 100, 8),
+      rec("2026-09-10", "squat", 95, 8), rec("2026-09-24", "squat", 90, 7), rec("2026-10-06", "squat", 85, 6),
+    ];
+    const flat = ["06-01", "06-15", "06-29", "07-27", "08-10", "09-21", "10-05"].map((d) => rec(`2026-${d}`, "bench-press", 60, 8));
+    const [first, second] = plateaus([...flat, ...decline], TODAY);
+    expect(first).toMatchObject({ exerciseId: "squat", kind: "decline", bestOneRmKg: 127, recentOneRmKg: 102 });
+    expect(first.advice).toContain("이번 주는 77.5kg로 가볍게");
+    expect(second.kind).toBe("flat");
   });
 
   it("계속 오르는 종목·최근 안 한 종목·기록 적은 종목은 정체가 아니다", () => {
@@ -71,10 +85,12 @@ describe("B 정체 알림 — 4주 넘게 예상 최대가 안 오름", () => {
 
 describe("C 밀기 : 당기기", () => {
   it("밀기만 많으면 push 쏠림, 비슷하면 null, 당기기만 많으면 pull", () => {
-    expect(pushPull({ "chest-mid": 30, "shoulder-front": 10, "back-lats": 10, "arm-biceps-long": 5 })).toEqual({ push: 40, pull: 15, ratio: 2.7, lean: "push" });
+    // 밀기 40 : 당기기 15 → 1.5:1 이 되려면 당기기 27 — 12세트 더.
+    expect(pushPull({ "chest-mid": 30, "shoulder-front": 10, "back-lats": 10, "arm-biceps-long": 5 })).toEqual({ push: 40, pull: 15, ratio: 2.7, lean: "push", needSets: 12 });
     expect(pushPull({ "chest-mid": 12, "back-lats": 10 }).lean).toBeNull();
     expect(pushPull({ "chest-mid": 4, "back-lats": 10 }).lean).toBe("pull");
-    expect(pushPull({ "chest-mid": 4 })).toEqual({ push: 4, pull: 0, ratio: null, lean: "push" });
+    expect(pushPull({ "chest-mid": 4 })).toEqual({ push: 4, pull: 0, ratio: null, lean: "push", needSets: 3 });
+    expect(pushPull({ "chest-mid": 12, "back-lats": 10 }).needSets).toBe(0);
     expect(pushPull({}).lean).toBeNull();
   });
 });
@@ -161,5 +177,13 @@ describe("부위별 회복 — 근육 크기 · 세트 · 강도 · 쌓인 피�
   it("시간이 다 지나면 회복됨, 0.5세트 미만으로 거든 건 안 센다", () => {
     const rows = recoveryByPart([{ exerciseId: "curl", reps: reps(3, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW);
     expect(row(rows, "arm").pct).toBe(100); // 작은 근육 3세트 = 16시간
+  });
+});
+
+describe("끝낸 시각 — 나중에 채운 기록은 그날 저녁으로", () => {
+  it("저장 시각이 그날(서울)이면 그대로, 다른 날이면 그날 19시, 없으면 19시", () => {
+    expect(doneAtOf("2026-10-07T11:30:00Z", "2026-10-07")).toBe("2026-10-07T11:30:00.000Z"); // 10/7 20:30 서울
+    expect(doneAtOf("2026-10-08T03:00:00Z", "2026-09-28")).toBe("2026-09-28T10:00:00Z"); // 9/28 운동을 10/8 에 채움
+    expect(doneAtOf(null, "2026-10-01")).toBe("2026-10-01T10:00:00Z");
   });
 });

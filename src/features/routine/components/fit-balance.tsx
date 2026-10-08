@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Lock, X } from "lucide-react";
 
 import { useBackClose } from "@/lib/platform/use-back-close";
+import { useHydrated } from "@/lib/use-hydrated";
 import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-catalog-labels";
 import type { BalanceRow, SubStatus } from "@/features/routine/fit";
 import { BALANCE_PART, radarGeometry, statusChip } from "@/features/routine/fit-view";
@@ -120,7 +121,10 @@ function BalanceSheet({
   const sorted = [...parts].sort((a, b) => a.pct - b.pct);
   const [sel, setSel] = useState<BodyPart>(sorted[0]?.part ?? "back");
   const cur = parts.find((p) => p.part === sel)!;
-  if (typeof document === "undefined") return null;
+  // 🔴 주소로 바로 열 때(?sheet=balance) 서버는 시트를 못 그리는데(document 없음) 브라우저 첫 렌더는 그려
+  //    '화면 불일치(hydration)' 오류가 났다(2026-10-08 개발 서버 로그). 붙은 뒤에만 그린다.
+  const hydrated = useHydrated();
+  if (!hydrated || typeof document === "undefined") return null;
   return createPortal(
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 sm:items-center" onClick={onClose}>
       <section

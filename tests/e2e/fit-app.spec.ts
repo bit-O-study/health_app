@@ -104,10 +104,17 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   await expect(page.getByTestId("fit-headline")).toContainText("등 채우는 운동");
   await expect(page.getByTestId("fit-balance-sheet")).toHaveCount(0);
 
-  // 옛 '내 몸 균형' 주소는 한눈에 + 균형 시트로.
+  // 옛 '내 몸 균형' 주소는 한눈에 + 균형 시트로. 🔴 주소로 바로 열어도 화면 불일치(hydration) 오류가 없어야 한다.
+  const hydrationErrors: string[] = [];
+  const onConsole = (m: { text: () => string }) => {
+    if (/Hydration failed|hydration mismatch/i.test(m.text())) hydrationErrors.push(m.text());
+  };
+  page.on("console", onConsole);
   await page.goto("/fit/balance", { waitUntil: "networkidle" });
   await expect(page).toHaveURL(/\/fit\?sheet=balance$/);
   await expect(page.getByTestId("fit-balance-sheet")).toBeVisible({ timeout: 15_000 });
+  page.off("console", onConsole);
+  expect(hydrationErrors).toEqual([]);
   await page.goto("/fit", { waitUntil: "networkidle" });
 
   // 기록 탭 = 예전 성장 + 리포트.

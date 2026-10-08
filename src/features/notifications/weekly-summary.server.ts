@@ -78,7 +78,7 @@ export async function weeklySummaryTargets(
   const prevStart = addDays(weekStart, -7);
   const from = addDays(weekStart, -HISTORY_DAYS);
 
-  const [done, food, profiles] = await Promise.all([
+  const [done, food, profiles, runs] = await Promise.all([
     inChunks(ids, (part) =>
       fetchAllPages<Record<string, unknown>>((a, b) =>
         admin
@@ -106,7 +106,24 @@ export async function weeklySummaryTargets(
       const { data } = await admin.from("profiles").select("user_id, gender, weight_kg, height_cm").in("user_id", part);
       return (data ?? []) as Record<string, unknown>[];
     }),
+    // 러닝한 날도 운동한 날(2026-10-08).
+    inChunks(ids, (part) =>
+      fetchAllPages<Record<string, unknown>>((a, b) =>
+        admin
+          .from("run_sessions")
+          .select("user_id, for_date")
+          .in("user_id", part)
+          .gte("for_date", weekStart)
+          .lte("for_date", todayYmd)
+          .range(a, b),
+      ),
+    ),
   ]);
+  const runDays = new Map<string, Set<string>>();
+  for (const r of runs) {
+    const id = String(r.user_id);
+    runDays.set(id, (runDays.get(id) ?? new Set<string>()).add(String(r.for_date)));
+  }
 
   const recs = new Map<string, ProgressRecord[]>();
   for (const r of done) {
@@ -150,7 +167,7 @@ export async function weeklySummaryTargets(
       userId,
       key,
       payload: weeklySummaryPayload({
-        days: new Set(thisWeek.map((r) => r.forDate)).size,
+        days: new Set([...thisWeek.map((r) => r.forDate), ...(runDays.get(userId) ?? [])]).size,
         volumeKg: vol(thisWeek),
         prevVolumeKg: vol(lastWeek),
         prs: prEvents(list, 50).filter((e) => e.date >= weekStart).length,

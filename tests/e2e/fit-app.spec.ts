@@ -81,6 +81,10 @@ test("라이트: 추천·부위·균형이 다 열리고, [더하기]는 오늘�
   // 가슴은 이미 넘쳤으니 벤치프레스는 추천하지 않는다.
   await expect(page.getByTestId("fit-pick-bench-press")).toHaveCount(0);
 
+  // 부위별 회복(2026-10-08) — 어제 가슴 20세트라 가슴은 아직 회복 중, 하체는 회복됨.
+  await expect(page.getByTestId("fit-recovery-chest")).toContainText("시간 남음");
+  await expect(page.getByTestId("fit-recovery-lower")).toContainText("회복됨");
+
   // 한 화면(2026-10-07) — 성장·이번 달 타일도 같은 화면에.
   await expect(page.getByTestId("fit-tile-growth")).toContainText("벤치프레스");
   await expect(page.getByTestId("fit-tile-month")).toContainText("일");

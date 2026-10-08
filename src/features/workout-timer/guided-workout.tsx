@@ -718,6 +718,10 @@ export function GuidedOverlay({
     item?.kind === "main"
       ? speechForSetStart({
           setNo: setsDone + 1,
+          totalSets: item.sets,
+          reps: item.setDetails?.[setsDone]?.reps ?? item.reps,
+          timed: isTimedExercise(item.exerciseId),
+          weightKg: item.setDetails?.[setsDone]?.weightKg ?? item.weightKg,
           cue: cueForSet(item.cues ?? [], setsDone),
           introFirst: showIntro ? (item.intro?.[0] ?? null) : null,
         })

@@ -103,6 +103,9 @@ test("라이트: 몸 변화 × 운동량(체중·러닝)과 종목별 기록 찾
   );
 
   await page.goto("/fit/report", { waitUntil: "networkidle" });
+  // 지난달은 같은 날짜까지만 비교, 러닝한 날도 운동한 날(2026-10-08).
+  await expect(page.getByTestId("fit-report-compare-range")).toContainText("지난달 같은 기간");
+  await expect(page.getByTestId("fit-report-compare-range")).toContainText("러닝한 날 포함");
   const card = page.getByTestId("lite-report-body-training");
   await expect(card).toBeVisible({ timeout: 15_000 });
   await expect(card.getByTestId("lite-report-body-training-headline")).toContainText("체중 −1.5kg");

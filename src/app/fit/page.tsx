@@ -17,6 +17,7 @@ import { FitApplyCard, type FitPickView } from "@/features/routine/components/fi
 import { FitBalanceRadar } from "@/features/routine/components/fit-balance";
 import { FitHeader, FitLocked, styleTextOf } from "@/features/routine/components/fit-shell";
 import { FitInsights } from "@/features/routine/components/fit-insights";
+import { FitRecovery } from "@/features/routine/components/fit-recovery";
 import { pushPull } from "@/features/routine/fit-insights";
 import {
   FIT_APPLIED_COOKIE,
@@ -186,6 +187,9 @@ export default async function FitPage({
         ) : null}
         {!full ? <FitLocked what="추천 3개 · 고르기 · 바꾸기" /> : null}
 
+        {/* 부위별 회복(2026-10-08, 라이트) — 오늘 어디를 해도 되는지. */}
+        {full ? <FitRecovery rows={view.recovery} /> : null}
+
         {/* 늘고 있는 것 — 성장 · 이번 달. 누르면 기록 탭. */}
         <div className="grid grid-cols-2 gap-3" data-testid="fit-tiles">
           <Link href="/fit/report" className="app-card app-press min-w-0 space-y-0.5 p-3.5" data-testid="fit-tile-growth">
@@ -220,7 +224,7 @@ export default async function FitPage({
                   {month.t.volumeKg > month.l.volumeKg ? (
                     <span className="text-brand">▲ {shortVolume(month.t.volumeKg - month.l.volumeKg)}</span>
                   ) : (
-                    `지난달 ${month.l.days}일`
+                    `지난달 이맘때 ${month.l.days}일`
                   )}
                 </span>
               </>

@@ -70,12 +70,23 @@ export function prEvents(records: ProgressRecord[], n = 5): PrEvent[] {
 
 export type MonthStats = { days: number; volumeKg: number; prs: number };
 
-export function monthStats(records: ProgressRecord[], month: string, prs: readonly PrEvent[]): MonthStats {
-  const rs = records.filter((r) => r.status === "done" && r.forDate.startsWith(month));
+/**
+ * 한 달 숫자 — 운동한 날(근력 + 러닝) · 볼륨 · 신기록.
+ * `throughDay` 를 주면 그 날짜까지만(1~N일) 센다 — 이번 달과 지난달을 **같은 기간끼리** 비교하려고(2026-10-08).
+ * 예전엔 이번 달 8일치를 지난달 한 달치와 견줘 늘 '줄었다'로 보였다.
+ */
+export function monthStats(
+  records: ProgressRecord[],
+  month: string,
+  prs: readonly PrEvent[],
+  opts: { throughDay?: number; runDates?: readonly string[] } = {},
+): MonthStats {
+  const inRange = (d: string) => d.startsWith(month) && (opts.throughDay == null || Number(d.slice(8, 10)) <= opts.throughDay);
+  const rs = records.filter((r) => r.status === "done" && inRange(r.forDate));
   return {
-    days: new Set(rs.map((r) => r.forDate)).size,
+    days: new Set([...rs.map((r) => r.forDate), ...(opts.runDates ?? []).filter(inRange)]).size,
     volumeKg: Math.round(rs.reduce((s, r) => s + recordVolume(r), 0)),
-    prs: prs.filter((p) => p.date.startsWith(month)).length,
+    prs: prs.filter((p) => inRange(p.date)).length,
   };
 }
 

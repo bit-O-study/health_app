@@ -33,12 +33,13 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { prescribe, type Prescription } from "@/features/routine/prescription";
 import { isEquipmentId, type BodyPart } from "@/features/routine/exercise-catalog-labels";
 import type { ProgressRecord } from "@/features/routine/progress";
-import type { SetDetail } from "@/features/routine/set-details";
+import { loadRecentRecords } from "@/features/lite/recent-records";
 import {
   growthStories,
-  insightsFrom,
   plateaus,
   restingParts,
+  recoveryByPart,
+  type RecoveryRow,
   type GrowthStory,
   type Plateau,
   type RestingPart,
@@ -87,6 +88,8 @@ export type FitView = {
   balance: BalanceRow[];
   /** 지난 7일 운동한 날. 0 이면 설문(성별·경력) 목표만으로 추천한다. */
   daysThisWeek: number;
+  /** 부위별 회복 정도(2026-10-08). */
+  recovery: RecoveryRow[];
 };
 
 const EXP_LABEL: Record<string, string> = { beginner: "초급", intermediate: "중급", advanced: "상급" };
@@ -115,7 +118,7 @@ export async function loadFitView(opts?: {
     getUserProfile().catch(() => null),
     supabase
       .from("exercise_completions")
-      .select("exercise_id, for_date, sets, set_details")
+      .select("exercise_id, for_date, sets, set_details, created_at")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", from)
@@ -125,16 +128,24 @@ export async function loadFitView(opts?: {
     todayExerciseIds(),
   ]);
 
-  const records: FitRecord[] = ((recs.data ?? []) as {
+  const raw = (recs.data ?? []) as {
     exercise_id: string | null;
     for_date: string;
     sets: number | null;
     set_details: unknown;
-  }[]).map((r) => ({
+    created_at: string | null;
+  }[];
+  const records: FitRecord[] = raw.map((r) => ({
     exerciseId: r.exercise_id,
     forDate: r.for_date,
     sets: Array.isArray(r.set_details) && r.set_details.length > 0 ? r.set_details.length : Number(r.sets) || 0,
   }));
+  // 부위별 회복 — 끝낸 시각 기준(없으면 그날 저녁 7시로 본다).
+  const recovery = recoveryByPart(
+    raw.map((r, i) => ({ exerciseId: r.exercise_id, sets: records[i].sets, doneAt: r.created_at ?? `${r.for_date}T10:00:00Z` })),
+    makeStimulusOf(),
+    new Date(),
+  );
 
   const stimulusOf = makeStimulusOf();
   // 몸 목표 스타일(설정·가입 설문) — 안 골랐으면 성별 표.
@@ -191,6 +202,7 @@ export async function loadFitView(opts?: {
     })),
     balance: balanceRows(targets, stim),
     daysThisWeek: new Set(records.map((r) => r.forDate)).size,
+    recovery,
   };
 }
 
@@ -205,7 +217,10 @@ export type FitGrowthView = {
   prs: (PrEvent & { name: string })[];
   month: string;
   thisMonth: MonthStats;
+  /** 지난달 같은 날짜까지(오늘이 8일이면 지난달 1~8일) — 같은 기간끼리 비교(2026-10-08). */
   lastMonth: MonthStats;
+  /** 비교한 날짜(오늘의 '일'). */
+  throughDay: number;
   topPart: string | null;
   lackingPart: string | null;
 };
@@ -221,30 +236,20 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
   const today = seoulYmd();
   const month = today.slice(0, 7);
   const last = prevMonth(month);
-  const [{ data }, profile] = await Promise.all([
-    supabase
-      .from("exercise_completions")
-      .select("exercise_id, for_date, sets, reps, weight_kg, set_details, equipment")
-      .eq("user_id", user.id)
-      .eq("status", "done")
-      .gte("for_date", insightsFrom(today) < `${last}-01` ? insightsFrom(today) : `${last}-01`)
-      .lte("for_date", today),
+  // 최근 120일(지난달 1일을 늘 포함) — 나눠 끝까지 읽는 공용 로더. 러닝한 날도 '운동한 날'(2026-10-08).
+  const [recent, profile, runs] = await Promise.all([
+    loadRecentRecords(),
     getUserProfile().catch(() => null),
+    supabase.from("run_sessions").select("for_date").eq("user_id", user.id).gte("for_date", `${last}-01`).lte("for_date", today),
   ]);
-  const all: ProgressRecord[] = ((data ?? []) as Record<string, unknown>[]).map((r) => ({
-    forDate: String(r.for_date),
-    exerciseId: (r.exercise_id as string | null) ?? null,
-    status: "done",
-    sets: r.sets == null ? null : Number(r.sets),
-    reps: r.reps == null ? null : Number(r.reps),
-    weightKg: r.weight_kg == null ? null : Number(r.weight_kg),
-    setDetails: Array.isArray(r.set_details) ? (r.set_details as SetDetail[]) : null,
-    equipment: (r.equipment as string | null) ?? null,
-  }));
+  const all: ProgressRecord[] = recent?.records ?? [];
+  const runDates = ((runs.data ?? []) as { for_date: string }[]).map((r) => String(r.for_date));
   // 성장·리포트(지난달~)는 예전 범위 그대로.
   const records = all.filter((r) => r.forDate >= `${last}-01`);
   const name = (id: string) => getCatalogExercise(id)?.name ?? id;
   const prs = prEvents(records, 5);
+  // 달 신기록 수는 전부 센다(목록은 최근 5개만 보여 준다 — 예전엔 수도 5개에서 잘렸다).
+  const allPrs = prEvents(records, Number.MAX_SAFE_INTEGER);
   const day = Number(today.slice(8, 10));
   const parts = monthParts(
     records,
@@ -262,8 +267,9 @@ export async function loadFitGrowth(): Promise<FitGrowthView | null> {
     growth: growthRows(records, 4).map((g) => ({ ...g, name: name(g.exerciseId), points: sparkPoints(g.series) })),
     prs: prs.map((p) => ({ ...p, name: name(p.exerciseId) })),
     month,
-    thisMonth: monthStats(records, month, prs),
-    lastMonth: monthStats(records, last, prs),
+    thisMonth: monthStats(records, month, allPrs, { throughDay: day, runDates }),
+    lastMonth: monthStats(records, last, allPrs, { throughDay: day, runDates }),
+    throughDay: day,
     topPart: parts.top,
     lackingPart: parts.lacking,
   };

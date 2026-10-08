@@ -6,6 +6,8 @@ import {
   plateaus,
   pushPull,
   restingParts,
+  recoveryByPart,
+  recoveryHours,
 } from "@/features/routine/fit-insights";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import type { ProgressRecord } from "@/features/routine/progress";
@@ -90,5 +92,33 @@ describe("D 쉬는 부위", () => {
     expect(out.map((r) => r.part)).toEqual(["core", "lower"]);
     expect(out[0]).toEqual({ part: "core", days: null, lastDate: null });
     expect(out[1]).toEqual({ part: "lower", days: 10, lastDate: "2026-09-28" });
+  });
+});
+
+describe("부위별 회복(2026-10-08)", () => {
+  // 세부 근육 점수 — 실제 표 대신 단순하게(가슴 운동 = 가슴 100점, 스쿼트 = 하체 100점).
+  const stim = (id: string): Record<string, number> => (id === "bench" ? { "chest-mid": 100 } : id === "squat" ? { "lower-quads": 100 } : {});
+  const at = (iso: string) => new Date(iso);
+
+  it("세트가 많을수록 오래 — 4세트 미만 24 · 10세트 미만 48 · 그 이상 72시간", () => {
+    expect([recoveryHours(3), recoveryHours(6), recoveryHours(12)]).toEqual([24, 48, 72]);
+  });
+
+  it("어제 저녁 가슴 12세트 → 남은 시간·퍼센트, 안 한 부위는 회복됨", () => {
+    const rows = recoveryByPart(
+      [
+        { exerciseId: "bench", sets: 6, doneAt: "2026-10-07T11:00:00Z" },
+        { exerciseId: "bench", sets: 6, doneAt: "2026-10-07T12:00:00Z" }, // 같은 날 = 한 번의 가슴 운동(12세트, 72시간)
+      ],
+      stim,
+      at("2026-10-08T12:00:00Z"), // 마지막으로 끝낸 뒤 24시간
+    );
+    expect(rows.find((r) => r.part === "chest")).toEqual({ part: "chest", pct: 33, hoursLeft: 48, lastAt: "2026-10-07T12:00:00.000Z", sets: 12 });
+    expect(rows.find((r) => r.part === "lower")).toEqual({ part: "lower", pct: 100, hoursLeft: 0, lastAt: null, sets: 0 });
+  });
+
+  it("시간이 다 지나면 회복됨, 가벼운 운동은 하루면 풀린다", () => {
+    const rows = recoveryByPart([{ exerciseId: "squat", sets: 3, doneAt: "2026-10-07T00:00:00Z" }], stim, at("2026-10-08T01:00:00Z"));
+    expect(rows.find((r) => r.part === "lower")?.pct).toBe(100);
   });
 });

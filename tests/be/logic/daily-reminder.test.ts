@@ -62,3 +62,12 @@ describe("REMINDER_PAYLOADS — 종류별 페이로드", () => {
     expect(REMINDER_PAYLOADS.workout.url).toBe("/routine");
   });
 });
+describe("🔴 러닝만 한 날도 운동한 날(2026-10-08)", () => {
+  it("하루 리마인더 크론은 근력 완료 · 러닝 기록 · 그날 달린 거리를 모두 '운동함'으로 본다", async () => {
+    const { readFileSync } = await import("node:fs");
+    const src = readFileSync("src/app/api/cron/daily-reminders/route.ts", "utf8");
+    expect(src).toContain('userIdSet(admin, "run_sessions", todayYmd)');
+    expect(src).toContain('userIdSet(admin, "daily_run_distance", todayYmd, false, true)');
+    expect(src).toContain("const doneUsers = new Set([...liftUsers, ...runUsers, ...runDistanceUsers]);");
+  });
+});

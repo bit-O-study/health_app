@@ -8,10 +8,9 @@
  *  C 밀기 : 당기기 — 지난 7일 세트 비율(2:1 넘으면 어깨 앞쪽이 말리기 쉽다).
  *  D 쉬는 부위 — 부위별 마지막으로 1세트 이상 한 날부터 며칠.
  */
-import { addDaysYmd } from "@/features/groups/ranking";
 import { estimate1RM, recordOneRM, weightStepKg, type ProgressRecord } from "@/features/routine/progress";
 import { PR_MIN_GAIN_KG } from "@/features/routine/personal-record";
-import { PART_PREFIX, type PartId } from "@/features/routine/fit";
+import { PART_PREFIX, setShare, type PartId, type StimulusOf } from "@/features/routine/fit";
 
 /** 이 기록의 가장 무거운 세트(무게, 그 무게의 횟수). 무게가 없으면 null. */
 function topSet(r: ProgressRecord): { kg: number; reps: number } | null {
@@ -157,7 +156,68 @@ export function restingParts(records: readonly ProgressRecord[], partOf: (exerci
   return out.sort((a, b) => (b.days ?? Infinity) - (a.days ?? Infinity));
 }
 
-/** 인사이트에 쓰는 기록 범위 시작일. */
-export function insightsFrom(today: string): string {
-  return addDaysYmd(today, -119);
+/* ─── 부위별 회복(2026-10-08) ─────────────────────────────────────────── */
+
+export type RecoveryRow = {
+  part: PartId;
+  /** 0~100. 100 = 다 회복. */
+  pct: number;
+  /** 다 회복까지 남은 시간(시). 회복됐으면 0. */
+  hoursLeft: number;
+  /** 회복에 가장 오래 걸리는 운동을 한 때(ISO). 최근 3일 안에 없으면 null. */
+  lastAt: string | null;
+  /** 그때 그 부위 유효 세트. */
+  sets: number;
+};
+
+/** 유효 세트가 많을수록 회복이 오래 걸린다 — 4세트 미만 24시간, 10세트 미만 48시간, 그 이상 72시간. */
+export function recoveryHours(sets: number): number {
+  if (sets < 4) return 24;
+  if (sets < 10) return 48;
+  return 72;
+}
+
+/**
+ * 부위별 회복 정도 — 최근 운동(끝낸 시각)마다 그 부위에 쌓인 피로를 시간으로 빼고, 가장 덜 풀린 쪽을 본다.
+ * 같은 날 여러 운동은 합친다(가슴 3종목 = 한 번의 가슴 운동). 0.5세트 미만은 거든 정도라 세지 않는다.
+ */
+export function recoveryByPart(
+  records: readonly { exerciseId: string | null; sets: number; doneAt: string }[],
+  stimulusOf: StimulusOf,
+  now: Date,
+): RecoveryRow[] {
+  // 날짜(서울) × 부위 → 유효 세트 · 마지막 끝낸 시각
+  const bouts = new Map<string, { part: PartId; sets: number; at: number }>();
+  for (const r of records) {
+    if (!r.exerciseId || !(r.sets > 0)) continue;
+    const at = Date.parse(r.doneAt);
+    if (!Number.isFinite(at)) continue;
+    const day = new Date(at + 9 * 3_600_000).toISOString().slice(0, 10);
+    for (const [sub, share] of Object.entries(setShare(stimulusOf(r.exerciseId)))) {
+      const part = PART_PREFIX.find((p) => sub.startsWith(`${p}-`));
+      if (!part) continue;
+      const key = `${day}:${part}`;
+      const b = bouts.get(key) ?? { part, sets: 0, at };
+      b.sets += r.sets * share;
+      b.at = Math.max(b.at, at);
+      bouts.set(key, b);
+    }
+  }
+  return PART_PREFIX.map((part) => {
+    let worst: { left: number; need: number; at: number; sets: number } | null = null;
+    for (const b of bouts.values()) {
+      if (b.part !== part || b.sets < 0.5) continue;
+      const need = recoveryHours(b.sets);
+      const left = need - (now.getTime() - b.at) / 3_600_000;
+      if (left > 0 && (!worst || left / need > worst.left / worst.need)) worst = { left, need, at: b.at, sets: b.sets };
+    }
+    if (!worst) return { part, pct: 100, hoursLeft: 0, lastAt: null, sets: 0 };
+    return {
+      part,
+      pct: Math.max(0, Math.min(100, Math.round((1 - worst.left / worst.need) * 100))),
+      hoursLeft: Math.ceil(worst.left),
+      lastAt: new Date(worst.at).toISOString(),
+      sets: Math.round(worst.sets * 10) / 10,
+    };
+  });
 }

@@ -165,9 +165,9 @@ export function compareText(c: ExerciseCompare): string {
   if (!c.prev) return "처음 기록";
   if (c.now.kg === c.prev.kg) {
     const d = c.now.reps - c.prev.reps;
-    return d === 0 ? "지난번과 같아요" : d > 0 ? `+${d}회` : `${d}회`;
+    return d === 0 ? "지난번과 같아요" : d > 0 ? `+${d}회` : `−${Math.abs(d)}회`;
   }
   const d = Math.round((c.now.kg - c.prev.kg) * 10) / 10;
-  return d > 0 ? `+${d}kg` : `${d}kg`;
+  return d > 0 ? `+${d}kg` : `−${Math.abs(d)}kg`;
 }
 

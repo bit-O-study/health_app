@@ -60,7 +60,8 @@ describe("운동 끝 리포트", () => {
     });
     expect(compareText(c([60, 10], [60, 8]))).toBe("+2회");
     expect(compareText(c([62.5, 8], [60, 8]))).toBe("+2.5kg");
-    expect(compareText(c([55, 8], [60, 8]))).toBe("-5kg");
+    expect(compareText(c([55, 8], [60, 8]))).toBe("−5kg");
+    expect(compareText(c([60, 6], [60, 8]))).toBe("−2회");
     expect(compareText(c([60, 8], [60, 8]))).toBe("지난번과 같아요");
     expect(compareText(c([60, 8], null))).toBe("처음 기록");
   });

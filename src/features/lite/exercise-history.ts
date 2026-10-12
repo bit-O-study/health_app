@@ -65,7 +65,8 @@ export type SessionSummary = {
 export function sessionSummary(sessions: readonly SessionRow[]): SessionSummary | null {
   const asc = [...sessions].filter((s) => s.oneRmKg > 0).reverse();
   if (asc.length === 0) return null;
-  const recent3 = asc.slice(-3);
+  // 첫 기록은 '처음'이라 최근 평균에서 뺀다(기록이 3번 이하일 때 첫 기록이 섞여 변화가 작아 보이던 것).
+  const recent3 = asc.length > 1 ? asc.slice(Math.max(1, asc.length - 3)) : asc;
   const recent = Math.round((recent3.reduce((a, s) => a + s.oneRmKg, 0) / recent3.length) * 10) / 10;
   const span = asc.length > 1 ? (Date.parse(`${asc[asc.length - 1].date}T00:00:00Z`) - Date.parse(`${asc[0].date}T00:00:00Z`)) / 86_400_000 : null;
   return {

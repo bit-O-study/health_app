@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type PointerEvent, type RefObject } from "react";
+import { useEffect, useRef, useState, type PointerEvent, type RefObject } from "react";
 import { Home, Minus, Plus } from "lucide-react";
 import { visibleApps } from "./apps";
 import { useHomeDock } from "./use-home-dock";
@@ -16,12 +16,19 @@ type Drag = { id: string; x: number; y: number; target: number | null };
 export function useDockPlacement(userId: string, apps: readonly App[]) {
   const dock = useHomeDock(userId);
   const root = useRef<HTMLElement>(null);
-  const pointer = useRef<{ id: string; x: number; y: number; moved: boolean } | null>(null);
+  const pointer = useRef<{ id: string; x: number; y: number; moved: boolean; touchHold: boolean; armed: boolean; timer: ReturnType<typeof setTimeout> | null } | null>(null);
   const suppressClick = useRef(false);
   const [drag, setDrag] = useState<Drag | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
   const activeApp = apps.find(app => app.id === (drag?.id ?? selected));
+
+  // 꾹 눌러 끌기가 시작된 뒤에는 화면이 같이 스크롤되지 않게 — 그 전에는 평소처럼 스크롤.
+  useEffect(() => {
+    const block = (e: TouchEvent) => { if (pointer.current?.armed) e.preventDefault(); };
+    window.addEventListener("touchmove", block, { passive: false });
+    return () => window.removeEventListener("touchmove", block);
+  }, []);
 
   function targetAt(x: number, y: number) {
     const target = document.elementFromPoint(x, y)?.closest<HTMLElement>("[data-dock-slot]");
@@ -32,22 +39,45 @@ export function useDockPlacement(userId: string, apps: readonly App[]) {
     setSelected(null);
     setNotice(`${apps.find(app => app.id === id)?.label} 앱을 하단 ${target + 1}번 자리에 놓았어요.`);
   }
-  function start(event: PointerEvent<HTMLButtonElement>, id: string) {
+  function clear() {
+    if (pointer.current?.timer) clearTimeout(pointer.current.timer);
+    pointer.current = null;
+  }
+  /** holdOnTouch — 내 앱 아이콘처럼 화면 스크롤과 겹치는 곳은 터치로 꾹 눌러야(약 0.35초) 끌린다. */
+  function start(event: PointerEvent<HTMLButtonElement>, id: string, holdOnTouch: boolean) {
     if (!event.isPrimary || event.button !== 0) return;
     suppressClick.current = false;
-    pointer.current = { id, x: event.clientX, y: event.clientY, moved: false };
-    event.currentTarget.setPointerCapture(event.pointerId);
+    clear();
+    const touchHold = holdOnTouch && event.pointerType === "touch";
+    const target = event.currentTarget;
+    const pointerId = event.pointerId;
+    const current = { id, x: event.clientX, y: event.clientY, moved: false, touchHold, armed: !touchHold, timer: null as ReturnType<typeof setTimeout> | null };
+    pointer.current = current;
+    if (touchHold) {
+      current.timer = setTimeout(() => {
+        if (pointer.current !== current) return;
+        current.armed = true;
+        try { target.setPointerCapture(pointerId); } catch { /* 손을 이미 뗐다 */ }
+        navigator.vibrate?.(10);
+        setDrag({ id, x: current.x, y: current.y, target: null });
+      }, 350);
+    } else {
+      target.setPointerCapture(pointerId);
+    }
   }
   function move(event: PointerEvent<HTMLButtonElement>) {
     const current = pointer.current;
     if (!current) return;
-    if (!current.moved && Math.hypot(event.clientX - current.x, event.clientY - current.y) < 6) return;
+    const far = Math.hypot(event.clientX - current.x, event.clientY - current.y) >= 6;
+    // 꾹 누르기 전에 손가락이 움직였으면 스크롤하려는 것 — 끌기를 접는다.
+    if (!current.armed) { if (far) clear(); return; }
+    if (!current.moved && !far && !current.touchHold) return;
     current.moved = true;
     setDrag({ id: current.id, x: event.clientX, y: event.clientY, target: targetAt(event.clientX, event.clientY) });
   }
   function finish(event: PointerEvent<HTMLButtonElement>) {
     const current = pointer.current;
-    pointer.current = null;
+    clear();
     setDrag(null);
     if (!current?.moved) return;
     suppressClick.current = true;
@@ -60,14 +90,16 @@ export function useDockPlacement(userId: string, apps: readonly App[]) {
     if (selected && slot !== undefined) place(selected, slot);
     else setSelected(selected === id ? null : id);
   }
-  const handlers = (id: string) => ({
-    onPointerDown: (event: PointerEvent<HTMLButtonElement>) => start(event, id),
+  /** opts.holdOnTouch — 내 앱 아이콘(스크롤 영역)은 터치 스크롤을 막지 않고 꾹 눌러 끈다. 하단바 자리는 바로 끈다. */
+  const handlers = (id: string, opts: { holdOnTouch?: boolean } = {}) => ({
+    onPointerDown: (event: PointerEvent<HTMLButtonElement>) => start(event, id, !!opts.holdOnTouch),
     onPointerMove: move,
     onPointerUp: finish,
-    onPointerCancel: () => { pointer.current = null; setDrag(null); suppressClick.current = true; },
-    style: { touchAction: "none" as const },
+    onPointerCancel: () => { clear(); setDrag(null); suppressClick.current = true; },
+    onContextMenu: opts.holdOnTouch ? (event: { preventDefault: () => void }) => event.preventDefault() : undefined,
+    style: { touchAction: opts.holdOnTouch ? ("manipulation" as const) : ("none" as const) },
   });
-  function cancel() { pointer.current = null; setDrag(null); setSelected(null); }
+  function cancel() { clear(); setDrag(null); setSelected(null); }
   return { dock, root, drag, selected, activeApp, notice, handlers, click, cancel };
 }
 

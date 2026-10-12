@@ -3,7 +3,8 @@ import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 import { silenceDevOverlay } from "./helpers/dev-overlay";
 
-async function dragApp(page: Page, source: Locator, target: Locator, touch = false) {
+/** touch 면 꾹 눌렀다(hold ms) 끈다 — 내 앱 아이콘은 터치로 바로 밀면 스크롤이고, 꾹 눌러야 끌린다(2026-10-08). */
+async function dragApp(page: Page, source: Locator, target: Locator, touch = false, hold = 450) {
   await source.scrollIntoViewIfNeeded();
   const from = await source.boundingBox();
   const to = await target.boundingBox();
@@ -14,6 +15,7 @@ async function dragApp(page: Page, source: Locator, target: Locator, touch = fal
     const client = await page.context().newCDPSession(page);
     try {
       await client.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ ...start, id: 1 }] });
+      if (hold > 0) await page.waitForTimeout(hold);
       for (let step = 1; step <= 8; step++) await client.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: start.x + (end.x - start.x) * step / 8, y: start.y + (end.y - start.y) * step / 8, id: 1 }] });
       await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     } finally { await client.detach(); }
@@ -110,6 +112,9 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
   await expect(bottom.getByRole("link").nth(3)).toHaveText("커뮤니티");
   await grid.getByRole("button", { name: "편집", exact: true }).click();
   await expect(editor).toBeVisible();
+  await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 빈칸");
+  // 터치로 꾹 누르지 않고 바로 밀면(=스크롤) 끌리지 않는다.
+  await dragApp(page, grid.getByRole("button", { name: "운동 하단에 놓기", exact: true }), slot(1), true, 0);
   await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 빈칸");
   await dragApp(page, grid.getByRole("button", { name: "운동 하단에 놓기", exact: true }), slot(1), true);
   await expect(slot(1)).toHaveAccessibleName("하단 1번 자리: 운동");

@@ -72,7 +72,7 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
       // 편집 중 — 아이콘은 하단바에 놓기(끌기·누르기), 오른쪽 위 − 는 홈에서 숨기기.
       const picked = placement.selected === app.id;
       return <li key={app.id} className="relative">
-        <button type="button" aria-label={`${app.label} 하단에 놓기`} aria-pressed={picked} className={`${className} touch-none select-none cursor-grab active:cursor-grabbing ${picked ? "ring-2 ring-brand" : ""}`} {...placement.handlers(app.id)} onClick={event => placement.click(app.id, undefined, event.detail === 0)}>
+        <button type="button" aria-label={`${app.label} 하단에 놓기`} aria-pressed={picked} className={`${className} select-none cursor-grab active:cursor-grabbing ${picked ? "ring-2 ring-brand" : ""}`} {...placement.handlers(app.id, { holdOnTouch: true })} onClick={event => placement.click(app.id, undefined, event.detail === 0)}>
           <span aria-hidden="true" className={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}><Icon size={22} strokeWidth={1.9} /></span>
           <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{app.label}</span>
         </button>

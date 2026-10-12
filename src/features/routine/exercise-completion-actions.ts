@@ -11,7 +11,7 @@ import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { StatusActionResult } from "@/features/routine/completion-result";
 import { pickCompletionToClear } from "@/features/routine/completion-clear";
-import { resolveForDate } from "@/lib/offline/queued-date";
+import { resolveDoneAt, resolveForDate } from "@/lib/offline/queued-date";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -37,6 +37,8 @@ export async function setExerciseStatusAction(
    * 안 넘기면 오늘. 넘겨도 서버가 오늘/어제로 가둔다 — `resolveForDate` 참고.
    */
   forDate?: string,
+  /** 오프라인 큐가 올릴 때 **누른 순간**(ms) — 완료 시각(completed_at)으로 쓴다(회복 계산). */
+  doneAtMs?: number,
 ): Promise<StatusActionResult> {
   if (!exerciseRowId) return { ok: true };
   const supabase = await createSupabaseServerClient();
@@ -103,6 +105,8 @@ export async function setExerciseStatusAction(
         for_date: today,
         exercise_row_id: exerciseRowId,
         status,
+        // 완료할 때마다 그 시각 — created_at 은 첫 저장이라(건너뜀 → 완료) 회복이 일찍 끝난 것처럼 보였다.
+        ...(status === "done" ? { completed_at: resolveDoneAt(doneAtMs, Date.now()) } : {}),
         ...(snapshot
           ? {
               exercise_id: snapshot.exerciseId,

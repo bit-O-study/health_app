@@ -119,7 +119,7 @@ export async function loadFitView(opts?: {
     getUserProfile().catch(() => null),
     supabase
       .from("exercise_completions")
-      .select("exercise_id, for_date, sets, reps, set_details, created_at")
+      .select("exercise_id, for_date, sets, reps, set_details, created_at, completed_at")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", from)
@@ -138,6 +138,7 @@ export async function loadFitView(opts?: {
     reps: number | null;
     set_details: unknown;
     created_at: string | null;
+    completed_at: string | null;
   }[];
   const records: FitRecord[] = raw.map((r) => ({
     exerciseId: r.exercise_id,
@@ -151,7 +152,7 @@ export async function loadFitView(opts?: {
       reps: Array.isArray(r.set_details) && r.set_details.length > 0
         ? (r.set_details as { reps?: unknown }[]).map((d) => Number(d?.reps) || 0)
         : Array.from({ length: records[i].sets }, () => Number(r.reps) || 0),
-      doneAt: doneAtOf(r.created_at, r.for_date),
+      doneAt: doneAtOf(r.completed_at ?? r.created_at, r.for_date),
     })),
     makeStimulusOf(),
     new Date(),

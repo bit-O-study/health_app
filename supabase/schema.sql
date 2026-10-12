@@ -1350,6 +1350,9 @@ alter table public.exercise_completions add column if not exists weight_kg numer
 alter table public.exercise_completions add column if not exists focus text;
 -- 완료 시점 세트별 무게·횟수 스냅샷 (set_details, null = 균일)
 alter table public.exercise_completions add column if not exists set_details jsonb;
+-- 완료한 시각(2026-10-08) — created_at 은 첫 저장(건너뜀으로 먼저 저장된 경우 등)이라 회복 계산이 틀렸다.
+-- 완료로 저장할 때마다 갱신, 오프라인 대기 기록은 누른 순간.
+alter table public.exercise_completions add column if not exists completed_at timestamptz;
 
 -- Per-day done/skipped status for warmup/cooldown items.
 -- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)

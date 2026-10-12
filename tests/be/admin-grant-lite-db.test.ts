@@ -13,6 +13,7 @@ describe.skipIf(!hasDbCreds || process.env.ADMIN_GRANT_DB_TEST !== "true")("admi
     await db.query("begin");
     await db.query("set local lock_timeout='3s'; set local statement_timeout='15s'");
     await db.query(readFileSync(new URL("../../supabase/migrations/202610120001_admin_grant_lite.sql", import.meta.url), "utf8"));
+    await db.query(readFileSync(new URL("../../supabase/migrations/202610120002_admin_grant_trainer_pass.sql", import.meta.url), "utf8"));
     for (const id of [member, payer, lapsed, admin]) await db.query("insert into auth.users(id,email,raw_user_meta_data) values($1,$2,'{}')", [id, id === admin ? email : `verify_grant_${id}@example.invalid`]);
     await db.query("insert into public.admins(email) values($1)", [email]);
     await db.query("insert into subscriptions(user_id,product_id,purchase_token,state,expires_at,auto_renewing) values($1,'helssu_lite_monthly','play-live','active',now()+interval '10 days',true)", [payer]);
@@ -67,5 +68,30 @@ describe.skipIf(!hasDbCreds || process.env.ADMIN_GRANT_DB_TEST !== "true")("admi
     expect((await db.query("select admin_revoke_lite($1) as done", [member])).rows[0].done).toBe(true);
     expect(await row(member)).toMatchObject({ state: "expired", live: false });
     expect((await db.query("select admin_revoke_lite($1) as done", [member])).rows[0].done).toBe(false);
+  }, 60_000);
+  it("grants a trainer pass to a member who never requested one", async () => {
+    const today = "(now() at time zone 'Asia/Seoul')::date";
+    const grant = `select pt_admin_grant_pass($1,$2,$3,${today},${today}+30,$4)`;
+    await asUser(member);
+    await denied(grant, [member, "회원", "01012345678", 15]);
+    expect((await db.query("select pt_has_pass($1) as on", [member])).rows[0].on).toBe(false);
+
+    await asUser(admin);
+    await denied(grant, [randomUUID(), "회원", "01012345678", 15]);
+    await denied(grant, [member, " ", "01012345678", 15]);
+    await denied(grant, [member, "회원", "010-1234-5678", 15]);
+    await denied(grant, [member, "회원", "01012345678", 0]);
+    await denied(`select pt_admin_grant_pass($1,'회원','01012345678',${today},${today}-1,15)`, [member]);
+
+    await db.query(grant, [member, " 김코치 ", "01012345678", 20]);
+    expect((await db.query("select name,phone,status,seats from pt_passes where trainer_id=$1", [member])).rows[0]).toEqual({ name: "김코치", phone: "01012345678", status: "active", seats: 20 });
+    expect((await db.query("select pt_has_pass($1) as on", [member])).rows[0].on).toBe(true);
+
+    // 지급한 이용권도 기존 승인 화면의 해지로 끝낼 수 있다.
+    await db.query(`select pt_admin_pass($1,${today},${today}+30,20,false)`, [member]);
+    expect((await db.query("select pt_has_pass($1) as on", [member])).rows[0].on).toBe(false);
+    // 해지된 뒤 다시 지급하면 되살아난다.
+    await db.query(grant, [member, "김코치", "01012345678", 15]);
+    expect((await db.query("select pt_has_pass($1) as on", [member])).rows[0].on).toBe(true);
   }, 60_000);
 });

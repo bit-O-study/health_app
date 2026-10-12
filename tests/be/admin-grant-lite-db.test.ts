@@ -14,6 +14,7 @@ describe.skipIf(!hasDbCreds || process.env.ADMIN_GRANT_DB_TEST !== "true")("admi
     await db.query("set local lock_timeout='3s'; set local statement_timeout='15s'");
     await db.query(readFileSync(new URL("../../supabase/migrations/202610120001_admin_grant_lite.sql", import.meta.url), "utf8"));
     await db.query(readFileSync(new URL("../../supabase/migrations/202610120002_admin_grant_trainer_pass.sql", import.meta.url), "utf8"));
+    await db.query(readFileSync(new URL("../../supabase/migrations/202610120003_admin_grant_team_plan.sql", import.meta.url), "utf8"));
     for (const id of [member, payer, lapsed, admin]) await db.query("insert into auth.users(id,email,raw_user_meta_data) values($1,$2,'{}')", [id, id === admin ? email : `verify_grant_${id}@example.invalid`]);
     await db.query("insert into public.admins(email) values($1)", [email]);
     await db.query("insert into subscriptions(user_id,product_id,purchase_token,state,expires_at,auto_renewing) values($1,'helssu_lite_monthly','play-live','active',now()+interval '10 days',true)", [payer]);
@@ -93,5 +94,35 @@ describe.skipIf(!hasDbCreds || process.env.ADMIN_GRANT_DB_TEST !== "true")("admi
     // 해지된 뒤 다시 지급하면 되살아난다.
     await db.query(grant, [member, "김코치", "01012345678", 15]);
     expect((await db.query("select pt_has_pass($1) as on", [member])).rows[0].on).toBe(true);
+  }, 60_000);
+  it("grants a team plan to a group that never requested one, at zero price", async () => {
+    await db.query("reset role");
+    const group = (await db.query("insert into groups(name,owner_id) values('지급 테스트 그룹',$1) returning id", [payer])).rows[0].id;
+    await db.query("insert into group_members(group_id,user_id,role) values($1,$2,'owner'),($1,$3,'member') on conflict do nothing", [group, payer, lapsed]);
+    const today = "(now() at time zone 'Asia/Seoul')::date";
+    const grant = `select admin_grant_team_plan($1,$2,${today},${today}+30,$3,$4)`;
+
+    await asUser(payer);
+    await denied(grant, [group, "trainer", 15, null]);
+    expect((await db.query("select * from admin_team_grant_candidates()")).rows).toHaveLength(0);
+    expect((await db.query("select has_team_premium() as on")).rows[0].on).toBe(false);
+
+    await asUser(admin);
+    const listed = (await db.query("select * from admin_team_grant_candidates() where group_id=$1", [group])).rows[0];
+    expect(listed).toMatchObject({ name: "지급 테스트 그룹", members: 2 });
+    await denied(grant, [randomUUID(), "trainer", 15, null]);
+    await denied(grant, [group, "premium", 15, null]);
+    await denied(grant, [group, "trainer", -1, null]);
+    await denied(`select admin_grant_team_plan($1,'gym',${today},${today}-1,0,null)`, [group]);
+    await db.query(grant, [group, "gym", 0, " 체험 지급 "]);
+    expect((await db.query("select plan,status,seats,price_krw,memo,requested_by from team_subscriptions where group_id=$1", [group])).rows[0])
+      .toEqual({ plan: "gym", status: "active", seats: 0, price_krw: 0, memo: "체험 지급", requested_by: null });
+    expect((await db.query("select * from admin_team_grant_candidates() where group_id=$1", [group])).rows).toHaveLength(0);
+
+    // 그룹원 전원이 프리미엄 — 그룹 밖 회원은 아니다.
+    for (const [id, on] of [[payer, true], [lapsed, true], [member, false]] as const) {
+      await asUser(id);
+      expect((await db.query("select has_team_premium() as on")).rows[0].on).toBe(on);
+    }
   }, 60_000);
 });

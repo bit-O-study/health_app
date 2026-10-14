@@ -14,6 +14,7 @@ import {
   partRows,
   pickExercises,
   recoveringSubs,
+  stillRecovering,
   subRows,
   weeklyStimulus,
   withPlanned,
@@ -175,7 +176,8 @@ export async function loadFitView(opts?: {
     // 1회 운동 시간에 맞춰 추천 개수(30분 2 · 45분 3 · 60분 4).
     n: opts?.n ?? fitPickCount(profile?.sessionMinutes),
     exclude: todayIds,
-    recovering: recoveringSubs(records, stimulusOf, today, addDaysYmd(today, -1)),
+    // 회복 카드와 같은 계산을 따른다 — 가볍게 한 부위는 피하지 않는다.
+    recovering: stillRecovering(recoveringSubs(records, stimulusOf, today, addDaysYmd(today, -1)), recovered?.rows),
   });
 
   return {

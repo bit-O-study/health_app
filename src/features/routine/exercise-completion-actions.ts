@@ -39,6 +39,12 @@ export async function setExerciseStatusAction(
   forDate?: string,
   /** 오프라인 큐가 올릴 때 **누른 순간**(ms) — 완료 시각(completed_at)으로 쓴다(회복 계산). */
   doneAtMs?: number,
+  /**
+   * 화면을 다시 그리지 않는다(운동모드 전용, 2026-10-14).
+   * 운동모드는 누르는 즉시 화면을 바꾸고 닫을 때 한 번 새로고침한다. 그런데 저장할 때마다
+   * /routine 전체(조회 20여 개)를 서버에서 다시 그려 응답에 실어 보내서, 완료를 누를 때마다 버벅였다.
+   */
+  quiet?: boolean,
 ): Promise<StatusActionResult> {
   if (!exerciseRowId) return { ok: true };
   const supabase = await createSupabaseServerClient();
@@ -141,8 +147,10 @@ export async function setExerciseStatusAction(
 
   // 홈 + 점수·기록 페이지 무효화. force-dynamic 이라도 클라이언트 Router Cache 때문에
   // 소프트 네비게이션 시 stale 이 보일 수 있어, 완료 기록이 반영되는 화면들을 명시 무효화.
-  revalidatePath("/routine");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
+  if (!quiet) {
+    revalidatePath("/routine");
+    revalidatePath("/settings/score");
+    revalidatePath("/settings/history");
+  }
   return { ok: true };
 }

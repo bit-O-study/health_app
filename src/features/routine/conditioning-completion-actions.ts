@@ -32,6 +32,12 @@ export async function setConditioningStatusAction(
   snapshot?: CondSnapshot,
   /** 오프라인 대기 큐가 나중에 올릴 때 누른 순간의 날짜. 서버가 오늘/어제로 가둔다. */
   forDate?: string,
+  /**
+   * 화면을 다시 그리지 않는다(운동모드 전용, 2026-10-14).
+   * 운동모드는 누르는 즉시 화면을 바꾸고 닫을 때 한 번 새로고침한다. 그런데 저장할 때마다
+   * /routine 전체(조회 20여 개)를 서버에서 다시 그려 응답에 실어 보내서, 완료를 누를 때마다 버벅였다.
+   */
+  quiet?: boolean,
 ): Promise<StatusActionResult> {
   if (!isConditioningKind(kind) || !sourceRowId || !itemId) return { ok: true };
 
@@ -72,8 +78,10 @@ export async function setConditioningStatusAction(
   }
 
   // 홈 + 점수·기록 페이지 무효화 (클라이언트 Router Cache stale 방지).
-  revalidatePath("/routine");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
+  if (!quiet) {
+    revalidatePath("/routine");
+    revalidatePath("/settings/score");
+    revalidatePath("/settings/history");
+  }
   return { ok: true };
 }

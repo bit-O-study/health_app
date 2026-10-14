@@ -58,7 +58,7 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({
     timeout: 8000,
   });
-  await expect(page.getByText("세트 1/4")).toBeVisible();
+  await expect(page.getByTestId("current-set").filter({ hasText: "세트 1/4" })).toBeVisible();
 
   // 세트 2개 완료 → "세트 3/4"
   for (let i = 0; i < 2; i++) {
@@ -67,7 +67,7 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
       .click();
     await page.waitForTimeout(600);
   }
-  await expect(page.getByText("세트 3/4")).toBeVisible();
+  await expect(page.getByTestId("current-set").filter({ hasText: "세트 3/4" })).toBeVisible();
 
   // 운동모드 닫고 "오늘만 부위 추가"(가슴) — 하체 행이 daily_plan 으로 새로 생긴다.
   await page.getByRole("button", { name: "닫기" }).first().click();
@@ -105,5 +105,5 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({
     timeout: 8000,
   });
-  await expect(page.getByText("세트 3/4")).toBeVisible({ timeout: 8000 });
+  await expect(page.getByTestId("current-set").filter({ hasText: "세트 3/4" })).toBeVisible({ timeout: 8000 });
 });

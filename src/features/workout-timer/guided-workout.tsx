@@ -1258,7 +1258,8 @@ export function GuidedOverlay({
         focus: captured.focus,
         // 세트마다 다른 운동은 세트별로 남긴다 — 빼면 피라미드가 "첫 세트 무게 × 같은 횟수"로 기록된다.
         setDetails: captured.setDetails ?? null,
-      });
+        // 운동모드는 화면을 직접 바꾸고 닫을 때 한 번 새로고침한다 — 저장마다 다시 그리지 않는다.
+      }, undefined, undefined, true);
     }
     return setConditioningStatusAction(captured.kind, captured.rowId, captured.itemId, status, {
       durationMin: captured.durationMin,
@@ -1266,7 +1267,7 @@ export function GuidedOverlay({
       incline: captured.incline,
       sets: captured.sets,
       reps: captured.reps,
-    });
+    }, undefined, true);
   }
 
   /**

@@ -8,6 +8,7 @@ import {
   partRows,
   pickExercises,
   recoveringSubs,
+  stillRecovering,
   setShare,
   subRows,
   subStatus,
@@ -211,5 +212,20 @@ describe("초급자 제외 운동", () => {
     for (const id of ["toes-to-bar", "hanging-leg-raise", "pull-up", "dips"]) expect(BEGINNER_SKIP.has(id)).toBe(true);
     expect(BEGINNER_SKIP.has("lat-pulldown")).toBe(false);
     for (const id of BEGINNER_SKIP) expect(EXERCISE_STIMULUS[id], id).toBeTruthy();
+  });
+});
+
+describe("추천이 내 몸 기준 회복을 따른다(2026-10-14)", () => {
+  const subs = new Set(["chest-mid", "chest-upper", "arm-triceps-long", "lower-quads"]);
+  const row = (part: string, pct: number) => ({ part, pct });
+
+  it("가볍게 해서 다 회복된 부위는 피하지 않는다 — 아직 회복 중인 부위의 것만 남긴다", () => {
+    const out = stillRecovering(subs, [row("chest", 100), row("arm", 40), row("lower", 99), row("back", 100)]);
+    expect([...out].sort()).toEqual(["arm-triceps-long", "lower-quads"]);
+  });
+
+  it("회복 계산이 없으면 예전 규칙 그대로(어제·오늘 세게 한 곳을 다 피한다)", () => {
+    expect(stillRecovering(subs, null)).toEqual(subs);
+    expect(stillRecovering(subs, [])).toEqual(subs);
   });
 });

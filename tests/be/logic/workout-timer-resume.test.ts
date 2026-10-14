@@ -25,6 +25,13 @@ describe("reconcileResume — 닫아둔 동안의 시간 제외", () => {
     expect(reconcileResume(paused, 9_999_999)).toBe(paused);
   });
 
+  it("백그라운드에 20분 있다 돌아와도 시간은 그대로 흐른다(2026-10-14)", () => {
+    const s = base({ startedAt: 0, lastSeenAt: 60_000 });
+    const now = 60_000 + 20 * 60_000;
+    const r = reconcileResume(s, now)!;
+    expect(r.accumulated + (now - r.startedAt)).toBe(21 * 60_000); // 1분 + 백그라운드 20분
+  });
+
   it("짧은 공백(임계 미만)이면 startedAt 유지, lastSeenAt 만 갱신", () => {
     const s = base({ lastSeenAt: 2_000 });
     const now = 2_000 + AWAY_GAP_MS - 1;
@@ -48,18 +55,18 @@ describe("reconcileResume — 닫아둔 동안의 시간 제외", () => {
 
 describe("freezeOnColdStart — 팅김(강제종료) 뒤 다시 켰을 때", () => {
   it("앱이 죽어 있던 시간은 운동시간에 안 들어가고, 정지 상태로 되살아난다", () => {
-    // 1분(60_000ms) 운동하다 팅김 → 3분 뒤 다시 켬.
+    // 1분(60_000ms) 운동하다 앱이 내려감 → 3시간 뒤 다시 켬(타이머를 켠 채 잊은 것).
     const s = base({ startedAt: 0, lastSeenAt: 60_000, accumulated: 0 });
-    const now = 60_000 + 180_000;
+    const now = 60_000 + 3 * 3_600_000;
     const r = freezeOnColdStart(s, now)!;
     expect(r.pausedAt).toBe(now); // '다시 운동하기' 를 눌러야 다시 흐른다
-    // 정지 상태의 경과 = accumulated. 죽어 있던 3분은 빠지고 1분만 인정.
+    // 정지 상태의 경과 = accumulated. 죽어 있던 3시간은 빠지고 1분만 인정.
     expect(r.accumulated).toBe(60_000);
   });
 
   it("정지 상태로 얼린 뒤 '다시 운동하기'로 재개하면 그 시점부터만 더해진다", () => {
     const s = base({ startedAt: 0, lastSeenAt: 60_000, accumulated: 0 });
-    const wake = 60_000 + 180_000;
+    const wake = 60_000 + 3 * 3_600_000;
     const frozen = freezeOnColdStart(s, wake)!;
     // resume() 이 하는 일과 같은 계산: startedAt=지금, accumulated 유지
     const resumed: TimerState = {
@@ -69,8 +76,16 @@ describe("freezeOnColdStart — 팅김(강제종료) 뒤 다시 켰을 때", () 
       forDate: frozen.forDate,
       lastSeenAt: wake,
     };
-    // 재개 후 30초 더 운동 → 총 90초 (팅긴 3분은 제외).
+    // 재개 후 30초 더 운동 → 총 90초 (죽어 있던 3시간은 제외).
     expect(resumed.accumulated + (wake + 30_000 - resumed.startedAt)).toBe(90_000);
+  });
+
+  it("폰이 백그라운드의 앱을 내렸다가 3분 뒤 다시 켜도 멈추지 않고 그 시간까지 흐른다(2026-10-14)", () => {
+    const s = base({ startedAt: 0, lastSeenAt: 60_000 });
+    const now = 60_000 + 180_000;
+    const r = reconcileResume(freezeOnColdStart(s, now), now)!;
+    expect(r.pausedAt).toBeNull();
+    expect(r.accumulated + (now - r.startedAt)).toBe(240_000); // 1분 + 내려가 있던 3분
   });
 
   it("새로고침·앱 내 화면 이동 수준의 짧은 공백은 그대로 진행(정지 안 함)", () => {

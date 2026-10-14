@@ -29,7 +29,7 @@ test("관리자 비밀번호 초기화 → 임시 비번 로그인 → 강제 �
   );
 
   // 관리자 → 회원정보 → 대상 행에서 비밀번호 초기화
-  await apage.goto(adminUrl("/admin/members"), { waitUntil: "networkidle" });
+  await apage.goto(adminUrl("/admin/members?verify=1"), { waitUntil: "networkidle" });
   const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
   await row.getByRole("button", { name: "비밀번호 초기화", exact: true }).click();

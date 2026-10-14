@@ -31,6 +31,7 @@ import {
   Volume2,
   VolumeX,
   X,
+  History,
 } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
@@ -77,6 +78,7 @@ import { PostureAnalyzer } from "@/features/coach/components/posture-analyzer";
 import { TeachingComposeModal } from "@/features/teaching/components/teaching-compose";
 import {
   getMainEdit,
+  type MainEdit,
   setMainEdit,
   getCondEdit,
   setCondEdit,
@@ -129,6 +131,9 @@ import {
   speechForSetStart,
   writeWorkoutVoice,
 } from "@/features/workout-timer/workout-voice";
+import { recordedSetDetails, scrubSteps, setValueAt, type SetValue } from "@/features/workout-timer/set-target";
+import { progressSnapshot, withSetDone } from "@/features/workout-timer/set-progress";
+import { recordSetProgressAction } from "@/features/routine/set-progress-actions";
 import { speak, stopSpeaking } from "@/features/workout-timer/speech";
 import { RepCameraSheet } from "@/features/workout-timer/rep-camera-sheet";
 import { checkNewRecord, newRecordMessage } from "@/features/routine/personal-record";
@@ -308,12 +313,11 @@ function NumberScrubber({
   allowBodyweight?: boolean;
   onChange: (v: number | null) => void;
 }) {
-  const startRef = useRef<{ x: number; base: number } | null>(null);
+  const startRef = useRef<{ x: number; y: number; base: number; engaged: boolean } | null>(null);
   // 끌어서 값이 바뀐 손짓이면 true — 그 뒤의 click 은 '탭'이 아니므로 입력창을 열지 않는다.
   const movedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
-  const PX_PER_STEP = 12;
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
   const grid = snap ?? step;
   const round = (v: number) => Math.round((Math.round(v / grid) * grid) * 100) / 100;
@@ -330,15 +334,29 @@ function NumberScrubber({
     } catch {
       /* noop */
     }
-    startRef.current = { x: e.clientX, base: value ?? min };
+    startRef.current = { x: e.clientX, y: e.clientY, base: value ?? min, engaged: false };
     movedRef.current = false;
   }
   function onMove(e: PointerEvent<HTMLDivElement>) {
     if (!startRef.current) return;
     e.stopPropagation();
-    const dxSteps = Math.round((e.clientX - startRef.current.x) / PX_PER_STEP);
-    if (dxSteps !== 0) movedRef.current = true;
-    applyDelta(startRef.current.base, dxSteps);
+    const st = startRef.current;
+    // 스친 손짓으로 값이 튀지 않게 — 옆으로 충분히 끌었을 때만 바꾸기 시작한다(set-target.ts).
+    const steps = scrubSteps(e.clientX - st.x, e.clientY - st.y, st.engaged);
+    if (steps === "wait") return;
+    if (steps === "cancel") {
+      startRef.current = null;
+      movedRef.current = true; // 위아래로 민 손짓 — 입력창도 열지 않는다
+      return;
+    }
+    if (!st.engaged) {
+      // 여기서부터 끌기 — 지금 자리를 기준으로 삼아 값이 한꺼번에 튀지 않게.
+      st.engaged = true;
+      st.x = e.clientX;
+      movedRef.current = true;
+      return;
+    }
+    applyDelta(st.base, steps);
   }
   function onUp(e: PointerEvent<HTMLDivElement>) {
     startRef.current = null;
@@ -710,6 +728,16 @@ export function GuidedOverlay({
     setsDone === 0 &&
     !introSeen.has(item.exerciseId);
 
+  /**
+   * 이 운동의 i 번째 세트 값 — 화면 · 음성 · 휴식 안내 · 기록이 같이 쓴다.
+   * 고정 끔이면 운동모드에서 정한 값(그날 보관소), 세트별 계획이 있으면 그 세트의 값.
+   */
+  function valueOfSet(it: Extract<GuidedItem, { kind: "main" }>, i: number): SetValue {
+    const saved = lockWeightReps ? null : getMainEdit(it.rowId);
+    const flat = saved ? { w: saved.w, reps: saved.reps } : { w: it.weightKg, reps: it.reps };
+    return setValueAt(i, it.setDetails, flat, saved?.bySet);
+  }
+
   // 음성 코치 — 세트를 시작할 차례가 되면(운동에 들어오거나 휴식이 끝나면) 요령 한 줄.
   // 같은 운동·같은 세트에서는 한 번만 말한다(화면이 다시 그려져도 반복하지 않게).
   const spokenSetRef = useRef<string | null>(null);
@@ -719,9 +747,10 @@ export function GuidedOverlay({
       ? speechForSetStart({
           setNo: setsDone + 1,
           totalSets: item.sets,
-          reps: item.setDetails?.[setsDone]?.reps ?? item.reps,
+          // 🔴 화면에 맞춘 값 — 예전엔 계획값(item)을 읽어, 45kg 로 바꿔도 "80킬로"라고 말했다.
+          reps: valueOfSet(item, setsDone).reps,
           timed: isTimedExercise(item.exerciseId),
-          weightKg: item.setDetails?.[setsDone]?.weightKg ?? item.weightKg,
+          weightKg: valueOfSet(item, setsDone).w,
           cue: cueForSet(item.cues ?? [], setsDone),
           introFirst: showIntro ? (item.intro?.[0] ?? null) : null,
         })
@@ -845,6 +874,19 @@ export function GuidedOverlay({
     }
   }, [index, sessionItems]);
 
+  // 세트마다 값이 다른 운동(피라미드 등) — 세트가 바뀔 때마다 칸을 그 세트의 값으로 맞춘다.
+  // 🔴 예전엔 칸 하나를 모든 세트에 써서 피라미드도 "10회 고정"으로 보이고 그렇게 기록됐다.
+  useEffect(() => {
+    const it = sessionItems[index];
+    if (!it || it.kind !== "main" || !it.setDetails || it.setDetails.length === 0) return;
+    const v = valueOfSet(it, setsDone);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEditW(v.w);
+    setEditReps(v.reps);
+    // valueOfSet 은 보관소·계획만 읽는다
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, sessionItems, setsDone]);
+
   const [conditionMessage, setConditionMessage] = useState("");
   function applyCondition(condition: WorkoutCondition) {
     if (lockWeightReps || working || resting) return;
@@ -872,7 +914,22 @@ export function GuidedOverlay({
     };
     // 총 세트는 이미 완료한 세트(setsDone) 아래로 못 내린다 — 세트 완료를 취소해야 줄일 수 있음.
     if (patch.sets !== undefined) patch = { ...patch, sets: clampTotalSets(patch.sets, setsDone) };
-    const next = { ...cur, ...patch };
+    const perSet = it.kind === "main" && !!it.setDetails && it.setDetails.length > 0;
+    let next: MainEdit;
+    if (perSet && (patch.w !== undefined || patch.reps !== undefined)) {
+      // 세트별 계획이 있는 운동 — 무게·횟수는 **지금 세트만** 바꾼다(다른 세트의 계획은 그대로).
+      const now = setValueAt(setsDone, it.setDetails, { w: cur.w, reps: cur.reps }, cur.bySet);
+      next = {
+        ...cur,
+        ...(patch.sets !== undefined ? { sets: patch.sets } : {}),
+        bySet: {
+          ...(cur.bySet ?? {}),
+          [String(setsDone)]: { w: patch.w !== undefined ? patch.w : now.w, reps: patch.reps ?? now.reps },
+        },
+      };
+    } else {
+      next = { ...cur, ...patch };
+    }
     setMainEdit(it.rowId, next);
     if (patch.w !== undefined) setEditW(patch.w);
     if (patch.reps !== undefined) setEditReps(patch.reps);
@@ -992,8 +1049,8 @@ export function GuidedOverlay({
       const doneSet = item.setDetails?.[setsDone];
       const pr = checkNewRecord(
         bests[item.exerciseId],
-        doneSet?.weightKg ?? (editable ? editW : item.weightKg),
-        doneSet?.reps ?? (editable ? editReps : item.reps),
+        doneSet ? valueOfSet(item, setsDone).w : editable ? editW : item.weightKg,
+        doneSet ? valueOfSet(item, setsDone).reps : editable ? editReps : item.reps,
       );
       if (pr) {
         setPrToast(newRecordMessage(item.name, pr));
@@ -1007,12 +1064,18 @@ export function GuidedOverlay({
       exerciseCompletionKey(item.focus, item.exerciseId),
     );
     setSetsDone(next);
+    // 방금 끝낸 세트의 실제 값을 쌓는다 — 기록은 마지막 칸 값이 아니라 세트마다 한 값으로 남는다.
+    const stored = storedEdit(item);
+    const done = withSetDone(stored.doneSets, setsDone, currentSetValue(item));
+    setMainEdit(item.rowId, { ...stored, doneSets: done });
     if (next >= mainSets) {
       // 세트를 다 채우면 자동으로 '완료' 처리(운동 넘어감).
       // 묶음이어도 마찬가지 — 다음 활성 항목이 곧 남은 짝이라 흐름이 그대로 이어진다.
-      dispatch("done");
+      dispatch("done", next);
       return;
     }
+    // 세트 완료마다 서버에 남긴다(진행 중 기록) — 여기서 넘기거나 운동을 끝내도 한 세트는 남는다.
+    sendProgress(item, done, next);
 
     // 슈퍼세트: 짝이 남아 있으면 **쉬지 않고** 바로 넘어간다. 그게 슈퍼세트다.
     const partner = nextInSuperset(supersetItems, processed, index);
@@ -1030,18 +1093,18 @@ export function GuidedOverlay({
       next: nextSetHint({
         nextSet: next + 1,
         totalSets: mainSets,
-        reps: editable ? editReps : item.reps,
+        reps: item.setDetails?.length ? valueOfSet(item, next).reps : editable ? editReps : item.reps,
         timed: isTimedExercise(item.exerciseId),
-        weightKg: item.setDetails?.[next]?.weightKg ?? (editable ? editW : item.weightKg),
+        weightKg: item.setDetails?.length ? valueOfSet(item, next).w : editable ? editW : item.weightKg,
       }),
       caution: item.caution ?? null,
       voice: voiceOn
         ? speechForNextSet({
             nextSet: next + 1,
             totalSets: mainSets,
-            reps: editable ? editReps : item.reps,
+            reps: item.setDetails?.length ? valueOfSet(item, next).reps : editable ? editReps : item.reps,
             timed: isTimedExercise(item.exerciseId),
-            weightKg: item.setDetails?.[next]?.weightKg ?? (editable ? editW : item.weightKg),
+            weightKg: item.setDetails?.length ? valueOfSet(item, next).w : editable ? editW : item.weightKg,
           })
         : null,
     });
@@ -1061,6 +1124,34 @@ export function GuidedOverlay({
       exerciseCompletionKey(item.focus, item.exerciseId),
     );
     setSetsDone(next);
+    // 세트 완료를 취소하면 그 기록도 취소한다 — 한 세트 줄이고, 0세트면 진행 기록을 지운다.
+    const stored = storedEdit(item);
+    const done = (stored.doneSets ?? []).slice(0, next);
+    setMainEdit(item.rowId, { ...stored, doneSets: done });
+    sendProgress(item, done, next);
+  }
+
+  /** 그날 보관소의 이 운동 값(없으면 계획값). */
+  function storedEdit(it: Extract<GuidedItem, { kind: "main" }>): MainEdit {
+    return getMainEdit(it.rowId) ?? { w: it.weightKg, reps: it.reps, sets: it.sets };
+  }
+
+  /** 지금 하고 있는 세트의 실제 값 — 화면의 칸에 있는 값. */
+  function currentSetValue(it: Extract<GuidedItem, { kind: "main" }>): SetValue {
+    if (it.setDetails && it.setDetails.length > 0) return valueOfSet(it, setsDone);
+    return editable ? { w: editW, reps: editReps } : { w: it.weightKg, reps: it.reps };
+  }
+
+  /**
+   * 끝낸 세트 `count` 개를 서버에 진행 기록으로 남긴다(0이면 지운다). 화면은 기다리지 않는다 —
+   * 오프라인이라 못 보내도 끝낼 때 전체 기록을 다시 보내므로 잃는 것은 없다.
+   */
+  function sendProgress(it: Extract<GuidedItem, { kind: "main" }>, done: readonly SetValue[], count: number) {
+    const snap = progressSnapshot(done, count, currentSetValue(it));
+    void recordSetProgressAction(
+      it.rowId,
+      snap ? { exerciseId: it.exerciseId, equipment: it.equipment, focus: it.focus, ...snap } : null,
+    ).catch(() => {});
   }
 
   /* ── 드래그(스와이프) 네비게이션 — 왼쪽으로 밀면 다음, 오른쪽으로 밀면 이전.
@@ -1095,6 +1186,23 @@ export function GuidedOverlay({
     const THRESHOLD = 60;
     if (dx <= -THRESHOLD) goTo(1); // ← 다음
     else if (dx >= THRESHOLD) goTo(-1); // → 이전
+  }
+
+  /** 고정 끔 — 운동모드에서 정한 값으로 완료 기록을 만든다. 세트별 계획이 있으면 세트별로. */
+  function capturedMain(it: Extract<GuidedItem, { kind: "main" }>): GuidedItem {
+    if (!it.setDetails || it.setDetails.length === 0) {
+      return { ...it, weightKg: editW, reps: editReps, sets: editSets };
+    }
+    const saved = getMainEdit(it.rowId);
+    const flat = saved ? { w: saved.w, reps: saved.reps } : { w: it.weightKg, reps: it.reps };
+    const details = recordedSetDetails(editSets, it.setDetails, flat, saved?.bySet);
+    return {
+      ...it,
+      sets: details?.length ?? editSets,
+      weightKg: details?.[0]?.weightKg ?? editW,
+      reps: details?.[0]?.reps ?? editReps,
+      setDetails: details,
+    };
   }
 
   /**
@@ -1149,7 +1257,10 @@ export function GuidedOverlay({
         reps: captured.reps,
         weightKg: captured.weightKg,
         focus: captured.focus,
-      });
+        // 세트마다 다른 운동은 세트별로 남긴다 — 빼면 피라미드가 "첫 세트 무게 × 같은 횟수"로 기록된다.
+        setDetails: captured.setDetails ?? null,
+        // 운동모드는 화면을 직접 바꾸고 닫을 때 한 번 새로고침한다 — 저장마다 다시 그리지 않는다.
+      }, undefined, undefined, true);
     }
     return setConditioningStatusAction(captured.kind, captured.rowId, captured.itemId, status, {
       durationMin: captured.durationMin,
@@ -1157,7 +1268,7 @@ export function GuidedOverlay({
       incline: captured.incline,
       sets: captured.sets,
       reps: captured.reps,
-    });
+    }, undefined, true);
   }
 
   /**
@@ -1254,16 +1365,16 @@ export function GuidedOverlay({
    * 액션 실패 시 상단 배너로 알리고 재시도 가능(fireAndTrack).
    * 더블 탭은 workingRef 로 300ms 차단.
    */
-  function dispatch(status: "done" | "skipped") {
+  function dispatch(requested: "done" | "skipped", doneCount?: number) {
     if (workingRef.current || finishing || !item) return;
     workingRef.current = true;
     setWorking(true);
 
     // 고정 끔이면 운동모드에서 정한 값을 완료 기록에 반영(계획은 불변).
     // 본운동=무게/횟수/세트, 컨디셔닝=시간/속도/경사.
-    const captured: GuidedItem =
+    const base: GuidedItem =
       item.kind === "main" && !lockWeightReps
-        ? { ...item, weightKg: editW, reps: editReps, sets: editSets }
+        ? capturedMain(item)
         : item.kind !== "main" && !lockWeightReps
           ? {
               ...item,
@@ -1274,6 +1385,14 @@ export function GuidedOverlay({
               reps: editCondReps,
             }
           : item; // advance 직전에 캡쳐
+    // 끝낸 세트의 실제 값으로 기록한다. 세트를 몇 개 하고 넘기면 '건너뜀'이 아니라 **한 만큼 완료**다.
+    const doneN = base.kind === "main" ? (doneCount ?? (requested === "skipped" ? setsDone : 0)) : 0;
+    const snap =
+      base.kind === "main" && doneN > 0
+        ? progressSnapshot(getMainEdit(base.rowId)?.doneSets, doneN, { w: base.weightKg, reps: base.reps })
+        : null;
+    const captured: GuidedItem = base.kind === "main" && snap ? { ...base, ...snap } : base;
+    const status: "done" | "skipped" = snap ? "done" : requested;
     const isMain = captured.kind === "main";
 
     // 0) 공유 오버라이드 즉시 갱신 — 운동 끝나고 바로 다시 시작해도(서버 새로고침 전)
@@ -1284,7 +1403,7 @@ export function GuidedOverlay({
     fireAndTrack(captured, status);
 
     // 2) 완료 면 휴식 타이머 즉시(사용자 설정 휴식 시간)
-    if (status === "done" && isMain && !isLast) {
+    if (requested === "done" && isMain && !isLast) {
       // 쉬는 동안 다음 운동을 미리 알려 준다(한 줄 코치) — 이름과 그 운동의 조심 한 줄.
       const afterSet = new Set(processed).add(captured.rowId);
       const ni =
@@ -1401,6 +1520,18 @@ export function GuidedOverlay({
       /* noop */
     }
     router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}&from=workout`);
+  }
+
+  // 이 종목의 지난 기록(2026-10-14) — 세트 사이에 지난번 세트·최대 무게 추이를 본다.
+  // 종목별 기록 화면은 있었는데 리포트 한 곳에서만 들어갈 수 있었다. 돌아오면 운동모드가 다시 열린다.
+  function viewHistory() {
+    if (!item || item.kind !== "main") return;
+    try {
+      sessionStorage.setItem("heltch.resumeWorkout", "1");
+    } catch {
+      /* noop */
+    }
+    router.push(`/fit/records?ex=${encodeURIComponent(item.exerciseId)}`);
   }
 
   // 몰입형(2026-09-25 사용자 선택 '몰입') — 운동모드는 항상 어두운 무대.
@@ -1637,6 +1768,17 @@ export function GuidedOverlay({
                   <StickyNote aria-hidden="true" size={13} />
                   {currentMemo(item) ? "메모 수정" : "메모"}
                 </button>
+                {item.kind === "main" ? (
+                  <button
+                    type="button"
+                    onClick={viewHistory}
+                    data-testid="workout-history-open"
+                    className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                  >
+                    <History aria-hidden="true" size={13} />
+                    지난 기록
+                  </button>
+                ) : null}
                 {postureEnabled && item.kind === "main" ? (
                   <button
                     type="button"
@@ -1668,6 +1810,27 @@ export function GuidedOverlay({
             ) : (
               <ConditioningSettings item={item} />
             )}
+            {/* 세트마다 다른 운동(피라미드·드롭 등) — 세트별 무게×횟수, 지금 세트를 강조. */}
+            {item.kind === "main" && item.setDetails && item.setDetails.length > 0 && !timed ? (
+              <ol className="mt-2 flex w-full flex-wrap gap-1.5" data-testid="set-plan" aria-label="세트별 계획">
+                {Array.from({ length: Math.max(effSets, 1) }, (_, i) => {
+                  const v = valueOfSet(item, i);
+                  const now = i === setsDone;
+                  return (
+                    <li
+                      key={i}
+                      data-testid={now ? "set-plan-now" : undefined}
+                      aria-current={now ? "step" : undefined}
+                      className={`rounded-full px-2.5 py-1 text-xs tabular-nums ${
+                        now ? "bg-brand font-semibold text-zinc-950" : i < setsDone ? "bg-white/5 text-zinc-500 line-through" : "bg-white/10 text-zinc-200"
+                      }`}
+                    >
+                      {v.w !== null && v.w > 0 ? `${v.w}kg` : "맨몸"} × {v.reps}회
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : null}
 
             {/* 시간(초) 기반 운동(플랭크 등) — 카운트업. 진입 시 자동시작하지 않고 '시작'을
                 눌러야 흐른다(요청 #29). 세트마다 0부터. 목표 시간을 넘기면 브랜드색. */}

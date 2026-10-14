@@ -9,6 +9,7 @@ import { deletePledgeAction } from "@/features/commitments/pledge-actions";
 import { FAIL_REASON_LABEL, failReasons } from "@/features/commitments/evaluation";
 import { STATUS_LABEL, STATUS_TONE } from "@/features/commitments/components/pledge-labels";
 import type { PledgeView } from "@/features/commitments/pledge-data";
+import { useConfirm } from "@/components/use-confirm";
 
 const sign = (v: number) => (v > 0 ? `+${v}` : `${v}`);
 
@@ -16,6 +17,7 @@ const sign = (v: number) => (v > 0 ? `+${v}` : `${v}`);
 export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; groupNames: Record<string, string> }) {
   const router = useRouter();
   const [pending, start] = useTransition();
+  const [confirm, confirmDialog] = useConfirm();
   const [error, setError] = useState<string | null>(null);
 
   if (pledges.length === 0) {
@@ -29,8 +31,8 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
     );
   }
 
-  function remove(id: string) {
-    if (!window.confirm("이 다짐을 지울까요? 기록은 지워지지 않아요.")) return;
+  async function remove(id: string) {
+    if (!(await confirm("이 다짐을 지울까요? 기록은 지워지지 않아요.", { confirmLabel: "지우기", tone: "danger" }))) return;
     start(async () => {
       const res = await deletePledgeAction(id);
       if (res.ok) router.refresh();
@@ -130,6 +132,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
         </section>
       ))}
       {error ? <p className="text-sm text-danger">{error}</p> : null}
+      {confirmDialog}
     </div>
   );
 }

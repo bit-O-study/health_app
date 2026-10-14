@@ -9,6 +9,7 @@ import {
 import { isAdminUser } from "@/features/admin/admin";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import type { MediaKind } from "@/features/exercises/exercise-media";
+import { toUserError } from "@/lib/user-error";
 
 export type MediaActionResult = { ok: true } | { ok: false; error: string };
 
@@ -53,7 +54,7 @@ export async function setExerciseMediaAction(
     },
     { onConflict: "exercise_id" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/admin/exercise-media");
   revalidatePath(`/exercises/${exerciseId}`);
@@ -73,7 +74,7 @@ export async function deleteExerciseMediaAction(
     .from("exercise_media")
     .delete()
     .eq("exercise_id", exerciseId);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/admin/exercise-media");
   revalidatePath(`/exercises/${exerciseId}`);

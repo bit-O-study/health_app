@@ -45,6 +45,7 @@ import {
 } from "@/features/routine/day-index-migration";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
 import { shouldAdvanceStartDate } from "@/features/routine/defer-carry";
+import { toUserError } from "@/lib/user-error";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -133,7 +134,7 @@ export async function saveRoutineAction(
     .single();
 
   if (error) {
-    return { ok: false, error: error.message };
+    return { ok: false, error: toUserError(error) };
   }
 
   // 새 루틴으로 바꾸면 오늘 / 미래의"오늘만 변경" 오버라이드도 모두 무효화해야 한다.
@@ -175,7 +176,12 @@ export async function saveRoutineAction(
       normalized,
     );
     if (!filled.ok) return filled;
-    await registerRecommendedConditioningAction();
+    // 워밍업·마무리 재설정이 실패하면 알린다(예전엔 조용히 비거나 옛 것이 남았다).
+    try {
+      await registerRecommendedConditioningAction();
+    } catch {
+      return { ok: false, error: "워밍업·마무리를 채우지 못했어요. 다시 시도해 주세요." };
+    }
   }
 
   revalidatePath("/routine");
@@ -327,7 +333,7 @@ export async function reorderUpcomingSevenDaysAction(
     )
     .select("updated_at")
     .single();
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   await Promise.all([
     supabase
@@ -364,7 +370,7 @@ export async function reorderUpcomingSevenDaysAction(
  * (오늘만 운동 변경=daily_plan / daily_conditioning, 오늘 휴식, 오늘만 부위 변경)을
  * 오늘 이후 범위에서 모두 지워 기본 루틴이 그대로 보이게 한다. (지난 기록은 보존)
  */
-export async function restartRoutineFromTodayAction(): Promise<void> {
+async function restartRoutineFromTodayActionImpl(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
@@ -410,15 +416,15 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     update.custom_week = baseline!.custom_week ?? null;
   }
 
-  const { data: restoredRoutine } = await supabase
+  const { data: restoredRoutine } = must(await supabase
     .from("user_routines")
     .update(update)
     .eq("user_id", user.id)
     .select("updated_at")
-    .maybeSingle();
+    .maybeSingle());
 
   // 오늘 이후의 '오늘만 변경' 오버라이드 제거 → 기본(처음 설정한) 루틴으로 복귀.
-  await Promise.all([
+  (await Promise.all([
     supabase
       .from("daily_plan")
       .delete()
@@ -429,7 +435,7 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
       .delete()
       .eq("user_id", user.id)
       .gte("for_date", today),
-  ]);
+  ])).forEach(must);
 
   // 기준 루틴으로 구조가 바뀌었으면 day_index 도 그 루틴에 맞춰 재정렬.
   if (restoredBaseline && restoredRoutine) {
@@ -465,7 +471,7 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  * (last_deferred_date 가 이미 오늘이면 이미 민 상태 → 스킵). 아니면 원래 운동이 모레로
  * 더 밀려 하루가 빈다.
  */
-export async function deferRoutineOneDayAction(
+async function deferRoutineOneDayActionImpl(
   target?: string,
 ): Promise<void> {
   const supabase = await createSupabaseServerClient();
@@ -487,14 +493,14 @@ export async function deferRoutineOneDayAction(
     : row.start_date;
 
   // 오늘 워밍업/마무리 오버라이드 비우기.
-  await supabase
+  must(await supabase
     .from("daily_conditioning")
     .delete()
     .eq("user_id", user.id)
-    .eq("for_date", today);
+    .eq("for_date", today));
 
   // 오늘을 '변경된 날'로 마킹 + 루틴 하루 밀기(start_date +1).
-  await supabase
+  must(await supabase
     .from("user_routines")
     .update({
       start_date: nextStartDate,
@@ -504,12 +510,12 @@ export async function deferRoutineOneDayAction(
       override_date: null,
       override_block: null,
     })
-    .eq("user_id", user.id);
+    .eq("user_id", user.id));
   revalidatePath("/routine");
   revalidatePath("/plan/today");
 }
 
-export async function convertTodayToRestAction(): Promise<void> {
+async function convertTodayToRestActionImpl(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
@@ -523,7 +529,7 @@ export async function convertTodayToRestAction(): Promise<void> {
   if (!data) return;
 
   const today = seoulYmd();
-  await supabase
+  must(await supabase
     .from("user_routines")
     .update({
       start_date: addDaysYmd((data as { start_date: string }).start_date, 1),
@@ -531,7 +537,7 @@ export async function convertTodayToRestAction(): Promise<void> {
       override_date: null,
       override_block: null,
     })
-    .eq("user_id", user.id);
+    .eq("user_id", user.id));
 
   revalidatePath("/routine");
 }
@@ -542,7 +548,7 @@ export async function convertTodayToRestAction(): Promise<void> {
  * start_date 를 -1 일 되돌리고 rest_date 를 null 로.
  * 직전에 표시되던 운동 데이터가 다시 오늘로 돌아온다.
  */
-export async function undoTodayRestAction(): Promise<void> {
+async function undoTodayRestActionImpl(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
@@ -557,13 +563,13 @@ export async function undoTodayRestAction(): Promise<void> {
   const row = data as { start_date: string; rest_date: string | null };
   if (row.rest_date !== today) return;
 
-  await supabase
+  must(await supabase
     .from("user_routines")
     .update({
       start_date: addDaysYmd(row.start_date, -1),
       rest_date: null,
     })
-    .eq("user_id", user.id);
+    .eq("user_id", user.id));
 
   revalidatePath("/routine");
 }
@@ -572,21 +578,63 @@ export async function undoTodayRestAction(): Promise<void> {
  * 오늘 하루만 다른 부위로 변경한다(루틴은 밀지 않음).
  * override_date=오늘, override_block=선택 부위. 내일부터는 원래 루틴 유지.
  */
-export async function setTodayFocusAction(blockId: DayBlockId): Promise<void> {
+async function setTodayFocusActionImpl(blockId: DayBlockId): Promise<void> {
   if (!isDayBlockId(blockId)) return;
 
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
 
-  await supabase
+  must(await supabase
     .from("user_routines")
     .update({
       override_date: seoulYmd(),
       override_block: blockId,
       rest_date: null,
     })
-    .eq("user_id", user.id);
+    .eq("user_id", user.id));
 
   revalidatePath("/routine");
+}
+
+/* ─── 오늘만 바꾸기 동작 — 실패를 알린다(2026-10-14) ─────────────────────────
+ * 예전엔 저장 결과를 확인하지 않고 void 를 돌려줘서, 실패해도 화면은 아무 말 없이 다시 읽혔다
+ * ("눌렀는데 안 바뀐다"). 쓰기마다 결과를 확인하고(must) 실패하면 { ok: false } 로 알린다.
+ */
+export type TodayActionResult = { ok: true } | { ok: false; error: string };
+
+function must<T extends { error: unknown }>(r: T): T {
+  if (r.error) throw new Error("today action write failed");
+  return r;
+}
+
+async function guarded(run: () => Promise<unknown>): Promise<TodayActionResult> {
+  try {
+    await run();
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "바꾸지 못했어요. 연결을 확인하고 다시 시도해 주세요." };
+  }
+}
+
+export async function restartRoutineFromTodayAction(): Promise<TodayActionResult> {
+  return guarded(() => restartRoutineFromTodayActionImpl());
+}
+
+export async function deferRoutineOneDayAction(
+  target?: string,
+): Promise<TodayActionResult> {
+  return guarded(() => deferRoutineOneDayActionImpl(target));
+}
+
+export async function convertTodayToRestAction(): Promise<TodayActionResult> {
+  return guarded(() => convertTodayToRestActionImpl());
+}
+
+export async function undoTodayRestAction(): Promise<TodayActionResult> {
+  return guarded(() => undoTodayRestActionImpl());
+}
+
+export async function setTodayFocusAction(blockId: DayBlockId): Promise<TodayActionResult> {
+  return guarded(() => setTodayFocusActionImpl(blockId));
 }

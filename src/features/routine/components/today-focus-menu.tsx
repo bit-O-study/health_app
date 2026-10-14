@@ -44,6 +44,8 @@ export function TodayFocusMenu({
   const [confirmRun, setConfirmRun] = useState(false);
   const [runMode, setRunMode] = useState<"indoor" | "outdoor">("indoor");
   const [pending, start] = useTransition();
+  // 저장이 실패하면 배지 아래에 말한다(2026-10-14) — 예전엔 실패해도 그냥 다시 읽혔다.
+  const [error, setError] = useState<string | null>(null);
   useBackClose(menuOpen, () => {
     if (!pending) setMenuOpen(false);
   });
@@ -52,8 +54,14 @@ export function TodayFocusMenu({
   });
 
   function restart() {
+    setError(null);
     start(async () => {
-      await restartRoutineFromTodayAction();
+      const r = await restartRoutineFromTodayAction();
+      if (!r.ok) {
+        setMenuOpen(false);
+        setError(r.error);
+        return;
+      }
       // 모달 back()이 갱신된 서버 화면을 이전 상태로 되돌리지 않도록 문서를 다시 읽는다.
       window.location.reload();
     });
@@ -69,7 +77,13 @@ export function TodayFocusMenu({
   // 예 — 오늘 운동을 내일로 미루고(런닝으로 대체) 런닝 모드로.
   function replaceAndRun() {
     start(async () => {
-      await deferRoutineOneDayAction();
+      // 미루지 못했으면 런닝으로 가지 않는다 — 가면 오늘 운동과 런닝이 겹친다.
+      const r = await deferRoutineOneDayAction();
+      if (!r.ok) {
+        setConfirmRun(false);
+        setError(r.error);
+        return;
+      }
       router.push(`/running?mode=${runMode}`);
     });
   }
@@ -283,6 +297,11 @@ export function TodayFocusMenu({
         onClose={() => setAdjustOpen(false)}
         isRestToday={isRestToday}
       />
+      {error ? (
+        <p role="alert" className="mt-1 text-xs font-semibold text-danger">
+          {error}
+        </p>
+      ) : null}
     </>
   );
 }

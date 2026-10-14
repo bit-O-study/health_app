@@ -18,6 +18,7 @@ import { checkComment } from "@/features/groups/trainer-comment";
 import { routineDaySlots } from "@/features/routine/data";
 import { getGroupSharePrefs } from "@/features/groups/share-prefs.server";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { toUserError } from "@/lib/user-error";
 
 export type AssignResult = { ok: true; count: number } | { ok: false; error: string };
 
@@ -89,7 +90,7 @@ export async function assignRoutineDayAction(
     p_to_day: toDay,
     p_to_focus: theirTo.focus,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   const count = Number(data);
   // -1 = 권한 없음(그룹장이 아니거나 그 그룹 회원이 아니다). 왜 막혔는지는 말하지 않는다.

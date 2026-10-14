@@ -145,6 +145,21 @@ export function recoveringSubs(
   return out;
 }
 
+/**
+ * 추천이 피할 세부 근육 — 어제·오늘 세게 한 곳 중 **내 몸 기준 회복이 아직 안 끝난 부위**의 것만(2026-10-14).
+ *
+ * 예전엔 어제·오늘 세게 했으면 무조건 48시간 피했다. 회복 카드는 "가볍게 해서 회복이 필요 없어요"라고
+ * 하는데 추천은 그 부위를 피하는 모순이 있었다. 회복 계산이 없으면(로그인 직후 등) 예전 규칙 그대로.
+ */
+export function stillRecovering(
+  subs: ReadonlySet<string>,
+  recovery: readonly { part: string; pct: number }[] | null | undefined,
+): Set<string> {
+  if (!recovery || recovery.length === 0) return new Set(subs);
+  const tired = new Set(recovery.filter((r) => r.pct < 100).map((r) => r.part));
+  return new Set([...subs].filter((sub) => tired.has(sub.split("-")[0])));
+}
+
 export type FitCandidate = { exerciseId: string; name: string; equipment: string };
 export type FitPick = FitCandidate & {
   /** 이 운동이 채우는 세부 근육(많이 채우는 순, 최대 2개)과 채우는 양(유효 세트). */

@@ -29,7 +29,7 @@ export const loadRecentRecords = cache(async (days: number = RECENT_DAYS): Promi
   const data = await fetchAllPages<Record<string, unknown>>((a, b) =>
     supabase
       .from("exercise_completions")
-      .select("exercise_id, for_date, sets, reps, weight_kg, set_details, equipment, created_at")
+      .select("exercise_id, for_date, sets, reps, weight_kg, set_details, equipment, created_at, completed_at")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", addDaysYmd(today, -(days - 1)))
@@ -47,7 +47,8 @@ export const loadRecentRecords = cache(async (days: number = RECENT_DAYS): Promi
     setDetails: Array.isArray(r.set_details) ? (r.set_details as SetDetail[]) : null,
     equipment: (r.equipment as string | null) ?? null,
     // 끝낸 시각 — 저장 시각이 그날이 아니면(나중에 채운 기록) 그날 저녁 7시로 본다.
-    doneAt: doneAtOf(r.created_at ? String(r.created_at) : null, String(r.for_date)),
+    // completed_at(완료한 시각, 2026-10-08~)이 있으면 그것, 없으면 첫 저장 시각.
+    doneAt: doneAtOf(r.completed_at ? String(r.completed_at) : r.created_at ? String(r.created_at) : null, String(r.for_date)),
   }));
   return { today, records };
 });

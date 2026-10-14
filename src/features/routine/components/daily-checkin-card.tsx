@@ -13,10 +13,12 @@ import {
   isCheckin,
   type Checkin,
   type Level,
+  sleepLevelFor,
 } from "@/features/routine/checkin";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
 import { swapPainExercisesTodayAction } from "@/features/lite/pain-swap-actions";
 import type { PainSwapPreview } from "@/features/lite/pain-swap-data";
+import { formatSleepRecovery, readLatestSleepRecovery } from "@/features/health/sleep-recovery";
 
 const lightKey = (ymd: string) => `jimkkun.checkin-lightened.${ymd}`;
 
@@ -46,6 +48,23 @@ export function DailyCheckinCard({
   const [lightened, setLightened] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  // 워치 수면으로 미리 고른 답(2026-10-14) — 앱에서 Health Connect 수면 기록이 있을 때만.
+  const [sleepHint, setSleepHint] = useState<string | null>(null);
+  useEffect(() => {
+    if (initial !== null) return;
+    let alive = true;
+    void readLatestSleepRecovery()
+      .then((r) => {
+        if (!alive || !r.ok || !r.recovery) return;
+        const rec = r.recovery;
+        setPicked((p) => (p.sleep ? p : { ...p, sleep: sleepLevelFor(rec.level) }));
+        setSleepHint(`${formatSleepRecovery(rec)} — 워치 기록으로 미리 골랐어요. 다르면 바꿔 주세요.`);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [initial]);
 
   useEffect(() => {
     try {
@@ -119,6 +138,11 @@ export function DailyCheckinCard({
             <div key={q.key} role="group" aria-label={q.label} className="space-y-3">
               <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{q.label}</p>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">지금 몸 상태에 가장 가까운 답을 골라 주세요.</p>
+              {q.key === "sleep" && sleepHint ? (
+                <p className="rounded-lg bg-brand/10 px-3 py-2 text-xs font-semibold text-brand" data-testid="checkin-sleep-hint">
+                  {sleepHint}
+                </p>
+              ) : null}
               <div className="grid gap-2">
                 {q.options.map((label, index) => {
                   const value = (index + 1) as Level;

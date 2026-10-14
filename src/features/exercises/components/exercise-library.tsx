@@ -18,9 +18,12 @@ import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 
 type Section = { part: BodyPart; items: CatalogExercise[] };
 
-type FilterValue = BodyPart | "all";
+type FilterValue = BodyPart | "all" | "mobility";
 
-export function ExerciseLibrary({ sections }: { sections: Section[] }) {
+/** 자세·가동성 묶음의 제목(부위가 아니라 묶음). */
+const MOBILITY_LABEL = "자세·가동성";
+
+export function ExerciseLibrary({ sections, mobility = [] }: { sections: Section[]; mobility?: CatalogExercise[] }) {
   const [filter, setFilter] = useState<FilterValue>("all");
 
   const totalCount = useMemo(
@@ -28,8 +31,14 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
     [sections],
   );
 
-  const visibleSections =
-    filter === "all" ? sections : sections.filter((s) => s.part === filter);
+  const visibleSections: { key: string; title: string; items: CatalogExercise[] }[] =
+    filter === "mobility"
+      ? [{ key: "mobility", title: MOBILITY_LABEL, items: mobility }]
+      : (filter === "all" ? sections : sections.filter((s) => s.part === filter)).map((s) => ({
+          key: s.part,
+          title: BODY_PART_LABEL[s.part],
+          items: s.items,
+        }));
 
   // 부위 칩(가로 스크롤) + 부위별 그룹 목록 한 줄씩(2026-09-16 8단계 촘촘하게).
   // 옛 3열 큰 카드(아이콘·자극 부위 문장·'운동법 보기')는 한 줄 행(아이콘 · 이름/기구 · ›)으로.
@@ -44,6 +53,14 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
             active={filter === "all"}
             onClick={() => setFilter("all")}
           />
+          {mobility.length > 0 ? (
+            <FilterChip
+              label={MOBILITY_LABEL}
+              count={mobility.length}
+              active={filter === "mobility"}
+              onClick={() => setFilter("mobility")}
+            />
+          ) : null}
           {sections.map(({ part, items }) => (
             <FilterChip
               key={part}
@@ -58,10 +75,10 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
 
       {/* 부위별 섹션 */}
       <div className="space-y-4">
-        {visibleSections.map(({ part, items }) => (
-          <section key={part}>
+        {visibleSections.map(({ key, title, items }) => (
+          <section key={key}>
             <div className="flex items-baseline justify-between">
-              <h2 className="app-section-label">{BODY_PART_LABEL[part]}</h2>
+              <h2 className="app-section-label">{title}</h2>
               <span className="mb-1.5 px-1 text-xs text-zinc-400">{items.length}개</span>
             </div>
 

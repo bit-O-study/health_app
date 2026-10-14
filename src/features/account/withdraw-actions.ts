@@ -7,6 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { purgeMyBodyPhotos } from "@/features/lite/body-photo-actions";
+import { toUserError } from "@/lib/user-error";
 
 export type WithdrawResult = { ok: true } | { ok: false; error: string };
 
@@ -26,7 +27,7 @@ export async function withdrawSelfAction(
     .from("profiles")
     .update({ withdrawn_at: new Date().toISOString() })
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   // 탈퇴 사유 best-effort 저장 — withdraw_reason 컬럼이 없으면 조용히 무시(탈퇴엔 영향 없음).
   if (reason && reason.trim()) {

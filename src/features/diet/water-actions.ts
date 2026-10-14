@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import { WATER_MAX_ML } from "@/features/diet/water";
+import { toUserError } from "@/lib/user-error";
 
 export type WaterActionResult =
   | { ok: true; ml: number }
@@ -38,7 +39,7 @@ export async function addWaterAction(
     p_date: date,
     p_delta: delta,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/diet");
   return { ok: true, ml: Number(data ?? 0) };
@@ -95,7 +96,7 @@ export async function logWaterAction(
   const { error } = await supabase
     .from("water_entries")
     .insert({ user_id: user.id, for_date: date, ml: amount });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/diet");
   revalidatePath("/commitments");
@@ -116,7 +117,7 @@ export async function deleteWaterEntryAction(
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("water_entries").delete().eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/diet");
   revalidatePath("/commitments");

@@ -1334,7 +1334,9 @@ create table if not exists public.exercise_completions (
 alter table public.exercise_completions add column if not exists status text not null default 'done';
 alter table public.exercise_completions drop constraint if exists exercise_completions_status_check;
 alter table public.exercise_completions
-  add constraint exercise_completions_status_check check (status in ('done', 'skipped'));
+  add constraint exercise_completions_status_check check (status in ('done', 'skipped', 'partial'));
+-- 'partial'(2026-10-14) = 세트를 몇 개 끝낸 진행 중 기록. 넘기거나 운동을 끝내면 한 만큼만 'done' 으로 굳힌다.
+-- 읽는 쪽은 done/skipped 만 본다(통계·목록에 안 잡힌다).
 
 -- exercise_row_id 는 routine_exercises.id 또는 daily_plan.id 를 모두 가리킬 수
 -- 있어야 하므로 외래키 제약을 제거하고 앱에서 처리한다.
@@ -1350,6 +1352,9 @@ alter table public.exercise_completions add column if not exists weight_kg numer
 alter table public.exercise_completions add column if not exists focus text;
 -- 완료 시점 세트별 무게·횟수 스냅샷 (set_details, null = 균일)
 alter table public.exercise_completions add column if not exists set_details jsonb;
+-- 완료한 시각(2026-10-08) — created_at 은 첫 저장(건너뜀으로 먼저 저장된 경우 등)이라 회복 계산이 틀렸다.
+-- 완료로 저장할 때마다 갱신, 오프라인 대기 기록은 누른 순간.
+alter table public.exercise_completions add column if not exists completed_at timestamptz;
 
 -- Per-day done/skipped status for warmup/cooldown items.
 -- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)
@@ -2037,6 +2042,9 @@ $$;
 
 -- 관리자 전용: 회원 비밀번호를 임시 비밀번호로 초기화.
 -- auth.users.encrypted_password 를 bcrypt(pgcrypto) 로 갱신 + must_change_password=true.
+-- 2026-10-14: 임시 비밀번호 지문을 남기고, 플래그는 clear_must_change_password() 로만 내린다.
+alter table public.profiles add column if not exists password_reset_fp text;
+
 create or replace function public.admin_reset_user_password(
   p_user_id uuid, p_password text
 ) returns void
@@ -2055,11 +2063,45 @@ begin
   if not found then
     raise exception 'user not found';
   end if;
-  update public.profiles set must_change_password = true where user_id = p_user_id;
+  update public.profiles
+     set must_change_password = true,
+         password_reset_fp = (select md5(encrypted_password) from auth.users where id = p_user_id)
+   where user_id = p_user_id;
 end;
 $$;
 revoke all on function public.admin_reset_user_password(uuid, text) from public, anon;
 grant execute on function public.admin_reset_user_password(uuid, text) to authenticated;
+
+create or replace function public.clear_must_change_password() returns boolean
+language plpgsql security definer set search_path = public, auth as $$
+declare v_fp text; v_now text;
+begin
+  if auth.uid() is null then return false; end if;
+  select password_reset_fp into v_fp from public.profiles where user_id = auth.uid();
+  select md5(encrypted_password) into v_now from auth.users where id = auth.uid();
+  -- 아직 임시 비밀번호 그대로면 내리지 않는다.
+  if v_fp is not null and v_now is not distinct from v_fp then return false; end if;
+  update public.profiles set must_change_password = false, password_reset_fp = null where user_id = auth.uid();
+  return true;
+end;
+$$;
+revoke all on function public.clear_must_change_password() from public, anon;
+grant execute on function public.clear_must_change_password() to authenticated;
+
+create or replace function public.profiles_guard_password_flag() returns trigger
+language plpgsql as $$
+begin
+  if current_user in ('authenticated', 'anon') then
+    new.must_change_password := old.must_change_password;
+    new.password_reset_fp := old.password_reset_fp;
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists profiles_guard_password_flag on public.profiles;
+create trigger profiles_guard_password_flag
+  before update on public.profiles
+  for each row execute function public.profiles_guard_password_flag();
 
 -- 아이디(이메일) 찾기: 이름 + 휴대폰 일치 시 이메일 반환(없으면 null). 탈퇴 회원 제외.
 -- 익명 호출 허용 — 로그인 전 화면에서 사용. 휴대폰 OTP 가 실질적 게이트.
@@ -4680,6 +4722,8 @@ create table if not exists public.pt_notifications (
 );
 create index if not exists pt_links_member_idx on public.pt_links(member_id);
 create index if not exists pt_invites_trainer_idx on public.pt_invites(trainer_id,created_at);
+-- 2026-10-14: 카카오톡 공유로 보내는 초대는 휴대폰 번호가 없다.
+alter table public.pt_invites alter column phone drop not null;
 alter table public.pt_passes enable row level security;
 alter table public.pt_links enable row level security;
 alter table public.pt_invites enable row level security;
@@ -4721,19 +4765,25 @@ begin
  update pt_passes set status=case when p_active then 'active' else 'canceled' end,starts_on=p_start,ends_on=p_end,seats=p_seats,updated_at=now() where trainer_id=p_trainer;
  if not found then raise exception '신청 내역이 없어요.'; end if;
 end $$;
+-- 2026-10-14: 'KAKAO'(카카오톡 공유 · 무료) — 번호 없이도 되고 발송 대기 행을 만들지 않는다.
 create or replace function public.pt_create_invite(p_hash text,p_phone text,p_channel text,p_url text) returns uuid
 language plpgsql security definer set search_path=public as $$
-declare v_pass pt_passes; v_invite uuid; v_notification uuid;
+declare v_pass pt_passes; v_invite uuid; v_notification uuid; v_phone text := nullif(btrim(coalesce(p_phone,'')),'');
 begin
  select * into v_pass from pt_passes where trainer_id=auth.uid() for update;
  if not public.pt_has_pass() then raise exception '활성 정액권이 필요해요.'; end if;
- if p_phone !~ '^01[0-9]{8,9}$' or p_channel not in ('ATA','LMS') or length(p_url)>600 or p_url !~ '^https?://' then raise exception '초대 정보를 확인해 주세요.'; end if;
+ if p_channel not in ('ATA','LMS','KAKAO') or length(p_url)>600 or p_url !~ '^https?://' then raise exception '초대 정보를 확인해 주세요.'; end if;
+ -- 알림톡·문자는 번호가 있어야 보낸다. 카카오톡 공유는 번호가 없어도 되지만, 넣었으면 맞는 번호여야 한다.
+ if (v_phone is null and p_channel <> 'KAKAO') or (v_phone is not null and v_phone !~ '^01[0-9]{8,9}$') then raise exception '초대 정보를 확인해 주세요.'; end if;
  if (select count(*) from pt_invites where trainer_id=auth.uid() and created_at>now()-interval '1 day') >= 50 then raise exception '오늘 초대 한도를 넘었어요.'; end if;
  if (select count(*) from pt_links where trainer_id=auth.uid() and active)>=v_pass.seats then raise exception '정액권의 회원 수 한도에 도달했어요.'; end if;
- update pt_invites set canceled=true where trainer_id=auth.uid() and phone=p_phone and accepted_by is null;
- insert into pt_invites(trainer_id,token_hash,phone) values(auth.uid(),p_hash,p_phone) returning id into v_invite;
+ if v_phone is not null then
+  update pt_invites set canceled=true where trainer_id=auth.uid() and phone=v_phone and accepted_by is null;
+ end if;
+ insert into pt_invites(trainer_id,token_hash,phone) values(auth.uid(),p_hash,v_phone) returning id into v_invite;
+ if p_channel = 'KAKAO' then return null; end if;
  insert into pt_notifications(created_by,trainer_id,invite_id,kind,channel,phone,payload)
- values(auth.uid(),auth.uid(),v_invite,'invite',p_channel,p_phone,jsonb_build_object('trainer',v_pass.name,'url',p_url)) returning id into v_notification;
+ values(auth.uid(),auth.uid(),v_invite,'invite',p_channel,v_phone,jsonb_build_object('trainer',v_pass.name,'url',p_url)) returning id into v_notification;
  return v_notification;
 end $$;
 create or replace function public.pt_preview_invite(p_hash text) returns jsonb
@@ -7112,3 +7162,104 @@ revoke all on function public.get_group_pledge_results(uuid[]) from public, anon
 grant execute on function public.create_group_pledge(uuid,text,date,int,int,int) to authenticated;
 grant execute on function public.get_group_pledge_results(uuid[]) to authenticated;
 notify pgrst, 'reload schema';
+
+-- 관리자 수동 지급: 라이트(990원) 이용권을 결제 없이 넣는다(2026-10-12).
+--
+-- 🔴 subscriptions 는 사용자당 한 행이고 구글 구매 토큰으로 갱신 소식(RTDN)을 찾는다.
+--    결제 중인 행을 덮으면 그 토큰을 잃어 갱신·환불 소식이 닿지 않는다 → 이용 중인
+--    구글 구독이 있으면 지급을 거절한다. 지급 행은 purchase_token 이 'admin-grant:<user_id>'
+--    (구글 토큰과 겹칠 수 없는 모양)이고 auto_renewing=false — 권한 판정은 expires_at 만 본다.
+--    나중에 회원이 실제로 결제하면 앱의 구매 검증이 이 행을 그대로 덮는다(결제가 이긴다).
+create or replace function public.admin_grant_lite(p_user uuid,p_months int) returns timestamptz
+language plpgsql security definer set search_path=public as $$
+declare v_row subscriptions; v_from timestamptz:=now(); v_until timestamptz;
+begin
+ if not public.is_admin() then raise exception 'Forbidden' using errcode='42501'; end if;
+ if p_user is null or p_months is null or p_months not between 1 and 12 then raise exception 'Invalid grant' using errcode='22023'; end if;
+ if not exists(select 1 from auth.users where id=p_user) then raise exception 'User not found' using errcode='22023'; end if;
+ perform pg_advisory_xact_lock(hashtextextended(p_user::text,0));
+ select * into v_row from subscriptions where user_id=p_user for update;
+ if found and v_row.state in ('active','grace','canceled') and v_row.expires_at>now() then
+  if v_row.purchase_token not like 'admin-grant:%' then raise exception 'Paid subscription active' using errcode='23505'; end if;
+  -- 이미 지급한 기간이 남아 있으면 그 뒤에 이어 붙인다(연장).
+  v_from:=v_row.expires_at;
+ end if;
+ v_until:=v_from+make_interval(months=>p_months);
+ insert into subscriptions(user_id,platform,product_id,purchase_token,state,expires_at,auto_renewing,verified_at,updated_at)
+ values(p_user,'google_play','helssu_lite_monthly','admin-grant:'||p_user,'active',v_until,false,now(),now())
+ on conflict(user_id) do update set platform=excluded.platform,product_id=excluded.product_id,purchase_token=excluded.purchase_token,
+  state=excluded.state,expires_at=excluded.expires_at,auto_renewing=false,verified_at=now(),updated_at=now();
+ return v_until;
+end $$;
+revoke all on function public.admin_grant_lite(uuid,int) from public,anon;
+grant execute on function public.admin_grant_lite(uuid,int) to authenticated;
+
+-- 회수 — 지급한 행만. 결제한 구독은 여기서 끊지 못한다(환불·해지는 구글 플레이가 한다).
+create or replace function public.admin_revoke_lite(p_user uuid) returns boolean
+language plpgsql security definer set search_path=public as $$
+begin
+ if not public.is_admin() then raise exception 'Forbidden' using errcode='42501'; end if;
+ update subscriptions set state='expired',expires_at=now(),auto_renewing=false,updated_at=now()
+ where user_id=p_user and purchase_token like 'admin-grant:%' and expires_at>now();
+ return found;
+end $$;
+revoke all on function public.admin_revoke_lite(uuid) from public,anon;
+grant execute on function public.admin_revoke_lite(uuid) to authenticated;
+
+-- 회원정보 화면용: 지금 이용 중인 구독(결제·지급 모두). 구매 토큰은 내보내지 않는다.
+create or replace function public.admin_member_subscriptions() returns table(user_id uuid,product_id text,expires_at timestamptz,granted boolean)
+language sql stable security definer set search_path=public as $$
+ select s.user_id,s.product_id,s.expires_at,s.purchase_token like 'admin-grant:%'
+ from subscriptions s
+ where public.is_admin() and s.state in ('active','grace','canceled') and s.expires_at>now()
+$$;
+revoke all on function public.admin_member_subscriptions() from public,anon;
+grant execute on function public.admin_member_subscriptions() to authenticated;
+notify pgrst,'reload schema';
+
+-- 관리자 수동 지급: 신청하지 않은 회원에게도 트레이너 이용권을 넣는다(2026-10-12).
+-- pt_admin_pass 는 신청 행이 있어야만 승인할 수 있었다. 여기는 행이 없으면 만들고 바로 이용 중으로 둔다.
+-- 지급한 뒤의 기간 변경·해지는 기존 pt_admin_pass 그대로 쓴다.
+create or replace function public.pt_admin_grant_pass(p_trainer uuid,p_name text,p_phone text,p_start date,p_end date,p_seats integer) returns void
+language plpgsql security definer set search_path=public as $$
+begin
+ if not public.is_admin() then raise exception '관리자만 변경할 수 있어요.'; end if;
+ if p_trainer is null or not exists(select 1 from auth.users where id=p_trainer) then raise exception '회원을 확인해 주세요.'; end if;
+ if p_name is null or length(trim(p_name)) not between 1 and 80 or p_phone is null or p_phone !~ '^01[0-9]{8,9}$' then raise exception '이름과 휴대폰 번호를 확인해 주세요.'; end if;
+ if p_start is null or p_end is null or p_end<p_start or p_seats is null or p_seats not between 1 and 1000 then raise exception '기간과 회원 수를 확인해 주세요.'; end if;
+ insert into pt_passes(trainer_id,name,phone,status,starts_on,ends_on,seats) values(p_trainer,trim(p_name),p_phone,'active',p_start,p_end,p_seats)
+ on conflict(trainer_id) do update set name=excluded.name,phone=excluded.phone,status='active',starts_on=excluded.starts_on,ends_on=excluded.ends_on,seats=excluded.seats,updated_at=now();
+end $$;
+revoke all on function public.pt_admin_grant_pass(uuid,text,text,date,date,integer) from public,anon;
+grant execute on function public.pt_admin_grant_pass(uuid,text,text,date,date,integer) to authenticated;
+notify pgrst,'reload schema';
+
+-- 관리자 수동 지급: 신청하지 않은 그룹에도 팀 요금제를 넣는다(2026-10-12).
+-- 지금까지는 그룹장이 신청한 행만 승인할 수 있었다(관리자 정책이 update 뿐).
+-- 지급 행은 price_krw=0 — 받은 돈이 없으니 어드민의 '월 합계'에 잡히면 안 된다.
+-- 지급한 뒤의 기간·금액 변경과 해지는 기존 승인 화면(관리자 update 정책) 그대로 쓴다.
+create or replace function public.admin_grant_team_plan(p_group uuid,p_plan text,p_start date,p_end date,p_seats int,p_memo text default null) returns void
+language plpgsql security definer set search_path=public as $$
+begin
+ if not public.is_admin() then raise exception 'Forbidden' using errcode='42501'; end if;
+ if p_group is null or not exists(select 1 from groups where id=p_group) then raise exception 'Group not found' using errcode='22023'; end if;
+ if p_plan is null or p_plan not in ('trainer','gym') or p_start is null or p_end is null or p_end<p_start or p_seats is null or p_seats not between 0 and 100000 or length(coalesce(p_memo,''))>500 then raise exception 'Invalid grant' using errcode='22023'; end if;
+ insert into team_subscriptions(group_id,plan,status,seats,price_krw,period_start,period_end,approved_at,memo,updated_at)
+ values(p_group,p_plan,'active',p_seats,0,p_start,p_end,now(),nullif(trim(coalesce(p_memo,'')),''),now())
+ on conflict(group_id) do update set plan=excluded.plan,status='active',seats=excluded.seats,price_krw=0,
+  period_start=excluded.period_start,period_end=excluded.period_end,approved_at=now(),memo=excluded.memo,updated_at=now();
+end $$;
+revoke all on function public.admin_grant_team_plan(uuid,text,date,date,int,text) from public,anon;
+grant execute on function public.admin_grant_team_plan(uuid,text,date,date,int,text) to authenticated;
+
+-- 지급 대상 고르기: 팀 요금제 내역이 아직 없는 그룹(관리자는 groups 를 RLS 로 읽지 못한다).
+create or replace function public.admin_team_grant_candidates() returns table(group_id uuid,name text,owner_name text,owner_email text,members int)
+language sql stable security definer set search_path=public as $$
+ select g.id,g.name,coalesce(nullif(p.name,''),'이름 미입력'),u.email::text,(select count(*)::int from group_members m where m.group_id=g.id)
+ from groups g join auth.users u on u.id=g.owner_id left join profiles p on p.user_id=g.owner_id
+ where public.is_admin() and not exists(select 1 from team_subscriptions t where t.group_id=g.id)
+ order by g.created_at desc limit 500
+$$;
+revoke all on function public.admin_team_grant_candidates() from public,anon;
+grant execute on function public.admin_team_grant_candidates() to authenticated;
+notify pgrst,'reload schema';

@@ -12,6 +12,7 @@ import {
 import { resolveMemberName } from "@/features/groups/member-name";
 import { resolveVisibility, type Visibility } from "@/features/community/feed";
 import { normalizeTag, validateTeachingPost } from "./teaching";
+import { toUserError } from "@/lib/user-error";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -72,7 +73,7 @@ export async function createTeachingPostAction(input: {
     .select("id")
     .single();
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true, id: (data as { id: string }).id };
 }
@@ -88,7 +89,7 @@ export async function deleteTeachingPostAction(
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("teaching_posts").delete().eq("id", id);
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true };
 }
@@ -115,7 +116,7 @@ export async function toggleTeachingLikeAction(
       .delete()
       .eq("post_id", postId)
       .eq("user_id", user.id);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     revalidatePath("/community");
     return { ok: true, liked: false };
   }
@@ -123,7 +124,7 @@ export async function toggleTeachingLikeAction(
   const { error } = await supabase
     .from("teaching_likes")
     .insert({ post_id: postId, user_id: user.id });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true, liked: true };
 }
@@ -204,7 +205,7 @@ export async function addTeachingCommentAction(
     })
     .select("id")
     .single();
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   // 영상 올린 사람에게 푸시(커뮤니티 3단계) — 응답은 기다리지 않는다.
   const commentId = (created as { id: string }).id;
   after(() => pushCommentNotification("teaching_comment", commentId));
@@ -225,7 +226,7 @@ export async function deleteTeachingCommentAction(
     .delete()
     .eq("id", id)
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true };
 }

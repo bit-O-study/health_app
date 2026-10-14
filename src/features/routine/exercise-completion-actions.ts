@@ -11,7 +11,8 @@ import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { StatusActionResult } from "@/features/routine/completion-result";
 import { pickCompletionToClear } from "@/features/routine/completion-clear";
-import { resolveForDate } from "@/lib/offline/queued-date";
+import { resolveDoneAt, resolveForDate } from "@/lib/offline/queued-date";
+import { toUserError } from "@/lib/user-error";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -37,6 +38,14 @@ export async function setExerciseStatusAction(
    * 안 넘기면 오늘. 넘겨도 서버가 오늘/어제로 가둔다 — `resolveForDate` 참고.
    */
   forDate?: string,
+  /** 오프라인 큐가 올릴 때 **누른 순간**(ms) — 완료 시각(completed_at)으로 쓴다(회복 계산). */
+  doneAtMs?: number,
+  /**
+   * 화면을 다시 그리지 않는다(운동모드 전용, 2026-10-14).
+   * 운동모드는 누르는 즉시 화면을 바꾸고 닫을 때 한 번 새로고침한다. 그런데 저장할 때마다
+   * /routine 전체(조회 20여 개)를 서버에서 다시 그려 응답에 실어 보내서, 완료를 누를 때마다 버벅였다.
+   */
+  quiet?: boolean,
 ): Promise<StatusActionResult> {
   if (!exerciseRowId) return { ok: true };
   const supabase = await createSupabaseServerClient();
@@ -60,7 +69,7 @@ export async function setExerciseStatusAction(
       .eq("for_date", today)
       .eq("exercise_row_id", exerciseRowId)
       .select("id");
-    if (del.error) return { ok: false, error: del.error.message };
+    if (del.error) return { ok: false, error: toUserError(del.error) };
 
     // 지운 게 없다 = 완료기록이 '사라진 옛 행 id' 를 가리키는 상태("오늘만 변경"으로 계획을
     // 다시 담으면 행 UUID 가 새로 생긴다). 화면은 (부위:운동) 폴백으로 완료로 보여주므로
@@ -91,10 +100,25 @@ export async function setExerciseStatusAction(
           .delete()
           .eq("user_id", user.id)
           .eq("id", pick);
-        if (error) return { ok: false, error: error.message };
+        if (error) return { ok: false, error: toUserError(error) };
       }
     }
   } else {
+    // 세트를 몇 개 끝낸 운동을 건너뛰면 '건너뜀'으로 덮지 않는다 — 한 만큼 완료로 굳힌다(2026-10-14).
+    if (status === "skipped") {
+      const kept = await supabase
+        .from("exercise_completions")
+        .update({ status: "done" })
+        .eq("user_id", user.id)
+        .eq("for_date", today)
+        .eq("exercise_row_id", exerciseRowId)
+        .eq("status", "partial")
+        .select("id");
+      if (!kept.error && (kept.data?.length ?? 0) > 0) {
+        revalidatePath("/routine");
+        return { ok: true };
+      }
+    }
     // 같은 운동이 여러 번 있어도 서로 삭제되지 않게 (부위:운동) 로 미리 지우지 않는다.
     // 같은 행 재완료는 아래 upsert(exercise_row_id 기준)가 처리한다.
     const { error } = await supabase.from("exercise_completions").upsert(
@@ -103,6 +127,8 @@ export async function setExerciseStatusAction(
         for_date: today,
         exercise_row_id: exerciseRowId,
         status,
+        // 완료할 때마다 그 시각 — created_at 은 첫 저장이라(건너뜀 → 완료) 회복이 일찍 끝난 것처럼 보였다.
+        ...(status === "done" ? { completed_at: resolveDoneAt(doneAtMs, Date.now()) } : {}),
         ...(snapshot
           ? {
               exercise_id: snapshot.exerciseId,
@@ -117,13 +143,15 @@ export async function setExerciseStatusAction(
       },
       { onConflict: "user_id,for_date,exercise_row_id" },
     );
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
   }
 
   // 홈 + 점수·기록 페이지 무효화. force-dynamic 이라도 클라이언트 Router Cache 때문에
   // 소프트 네비게이션 시 stale 이 보일 수 있어, 완료 기록이 반영되는 화면들을 명시 무효화.
-  revalidatePath("/routine");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
+  if (!quiet) {
+    revalidatePath("/routine");
+    revalidatePath("/settings/score");
+    revalidatePath("/settings/history");
+  }
   return { ok: true };
 }

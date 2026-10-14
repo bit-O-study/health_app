@@ -50,6 +50,7 @@ test("오프라인에서 친 세트는 기기에 남고, 연결되면 알아서 
 
   // ── 지하로 내려간다 ────────────────────────────────────────────────
   await context.setOffline(true);
+  const pressedAt = Date.now();
   await page.getByRole("button", { name: "운동 완료", exact: true }).click();
 
   // 🔴 빨간 '저장 실패 — 다시 시도' 가 **뜨면 안 된다.** 사용자가 할 수 있는 게
@@ -73,6 +74,8 @@ test("오프라인에서 친 세트는 기기에 남고, 연결되면 알아서 
   expect(stored).toContain("squat");
 
   // ── 지상으로 올라온다 ──────────────────────────────────────────────
+  // 일부러 몇 초 더 지하에 머문다 — 완료 시각이 '올라간 때'가 아니라 '누른 때'로 남는지 보려고.
+  await page.waitForTimeout(4000);
   await context.setOffline(false);
 
   // 자동으로 올라가야 한다 — 사용자가 아무것도 안 눌러도.
@@ -89,6 +92,15 @@ test("오프라인에서 친 세트는 기기에 남고, 연결되면 알아서 
       { timeout: 30000, message: "연결 복구 후 대기 기록이 자동으로 올라가야 한다" },
     )
     .toContain("squat");
+
+  // 🔴 완료 시각(completed_at)은 누른 순간 — 회복 계산이 늦게 끝난 운동으로 보지 않게(2026-10-08).
+  const done = await dbQuery<{ completed_at: Date | null }>(
+    `select completed_at from public.exercise_completions
+      where user_id=${uid} and for_date=${today} and status='done' and exercise_id='squat'`,
+    [email],
+  );
+  expect(done[0].completed_at).not.toBeNull();
+  expect(Math.abs(new Date(done[0].completed_at!).getTime() - pressedAt)).toBeLessThan(3000);
 
   // 다 올라갔으면 배너는 사라지고 기기의 큐도 비어야 한다(두 번 올리지 않게).
   await expect(page.getByTestId("offline-waiting")).toHaveCount(0);

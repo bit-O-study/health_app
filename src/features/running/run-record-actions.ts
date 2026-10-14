@@ -21,6 +21,7 @@ import {
 } from "@/features/running/run-session";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { personalRecords, type RunRecordKind } from "@/features/running/run-guide";
+import { toUserError } from "@/lib/user-error";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -189,7 +190,7 @@ export async function recordRunSessionAction(input: RunSessionInput & {
       .maybeSingle();
     return { ok: true, duplicate: true, id: (existing as { id?: string } | null)?.id };
   }
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   const runId = (inserted as { id: string } | null)?.id;
 
   // 처음 저장된 런닝만 — 운동 시간·완료(서버가 오늘/어제로 가둔 날짜)와 순위 거리에 반영.
@@ -267,7 +268,7 @@ export async function recordRunHeartRateAction(input: {
     })
     .eq("user_id", user.id)
     .eq("client_session_id", input.clientSessionId);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/settings/history");
   return { ok: true };
 }
@@ -327,7 +328,7 @@ export async function removeTodayRunAction(sourceRowId?: string): Promise<{
   const { error } = sourceRowId
     ? await del.eq("source_row_id", sourceRowId)
     : await del;
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   // ⚠ daily_conditioning(플랜 행)은 건드리지 않는다 — 완료 '기록'만 지운다.
   //   (예전엔 여기서 오늘 런닝 플랜 행까지 지워, 사용자가 담아둔 런닝이 사라졌다.)

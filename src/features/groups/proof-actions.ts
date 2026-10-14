@@ -11,6 +11,7 @@ import {
   getGroupMemberDay,
   type MemberDay,
 } from "@/features/groups/data-access";
+import { toUserError } from "@/lib/user-error";
 
 export type ProofActionResult = { ok: true } | { ok: false; error: string };
 
@@ -69,7 +70,7 @@ export async function setGroupProofAction(
     },
     { onConflict: "group_id,user_id,for_date" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/groups");
   return { ok: true };
@@ -89,7 +90,7 @@ export async function deleteGroupProofAction(
     .eq("group_id", groupId)
     .eq("user_id", user.id)
     .eq("for_date", seoulYmd());
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/groups");
   return { ok: true };

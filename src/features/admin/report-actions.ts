@@ -9,6 +9,7 @@ import {
 import { isPostModerator } from "@/features/admin/admin";
 import { suspendUserAction } from "@/features/admin/admin-actions";
 import type { ReportTargetKind } from "@/features/community/report";
+import { toUserError } from "@/lib/user-error";
 
 type Result = { ok: true } | { ok: false; error: string };
 
@@ -50,7 +51,7 @@ async function setReportStatus(
     .from("post_reports")
     .update({ status })
     .eq("id", reportId);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/reports");
   return { ok: true };
 }
@@ -75,7 +76,7 @@ export async function deleteReportedContentAction(
     .delete()
     .eq("id", targetId)
     .select("id");
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
   if (!del.data || del.data.length === 0) {
     return { ok: false, error: "이미 삭제됐거나 삭제 권한이 없습니다." };
   }

@@ -11,6 +11,7 @@
 import { estimate1RM, recordOneRM, weightStepKg, type ProgressRecord } from "@/features/routine/progress";
 import { PR_MIN_GAIN_KG } from "@/features/routine/personal-record";
 import { PART_PREFIX, setShare, type PartId, type StimulusOf } from "@/features/routine/fit";
+import { loadFactor, setHardness, type RecoveryProfile } from "@/features/routine/recovery-load";
 
 /** 이 기록의 가장 무거운 세트(무게, 그 무게의 횟수). 무게가 없으면 null. */
 function topSet(r: ProgressRecord): { kg: number; reps: number } | null {
@@ -213,14 +214,11 @@ export const PART_SIZE: Record<PartId, "small" | "medium" | "large"> = {
 };
 
 /**
- * 기본 회복 시간(시) — 근육 크기 × 그날 그 부위 유효 세트(4세트 미만 · 10세트 미만 · 10세트 이상).
- * 일반적인 권고(작은 근육 24~48시간, 큰 근육 48~72시간 이상)를 세트 수로 나눴다. 참고용.
+ * 가장 오래 걸릴 때의 회복 시간(시) — 내 소화량을 한 번 다 채웠을 때(부하 1).
+ * 일반적인 권고(작은 근육 24~48시간, 큰 근육 48~72시간 이상)의 위쪽 값. 참고용.
+ * 실제 시간은 여기에 부하(오늘 한 양 ÷ 내 소화량)를 곱한다 — `recovery-load.ts`.
  */
-export const RECOVERY_TABLE: Record<"small" | "medium" | "large", [number, number, number]> = {
-  small: [16, 32, 48],
-  medium: [24, 48, 72],
-  large: [24, 60, 84],
-};
+export const RECOVERY_MAX_HOURS: Record<"small" | "medium" | "large", number> = { small: 48, medium: 72, large: 84 };
 
 /** 무거운 무게(대부분 5회 이하)는 신경·관절 피로까지 더해 더 오래, 가벼운 펌핑(대부분 15회 이상)은 빨리. */
 export const INTENSITY_FACTOR = { heavy: 1.2, normal: 1, light: 0.85 } as const;
@@ -229,15 +227,20 @@ export const CARRY_OVER = 0.5;
 /** 오늘 체크인 — 근육통 '심해요'·잠 '못 잤어요'면 남은 시간이 이만큼 길어진다. */
 export const CHECKIN_FACTOR = { soreness: 1.25, sleep: 1.1 } as const;
 
-export function recoveryHours(part: PartId, sets: number, intensity: keyof typeof INTENSITY_FACTOR = "normal"): number {
-  const band = sets < 4 ? 0 : sets < 10 ? 1 : 2;
-  return Math.round(RECOVERY_TABLE[PART_SIZE[part]][band] * INTENSITY_FACTOR[intensity]);
+/**
+ * 필요한 회복 시간(시) — 근육 크기의 최대 시간 × 부하 × 강도.
+ * @param ratio 오늘 한 양 ÷ 내 소화량. 4분의 1이 안 되면 0(회복 필요 없음), 1.3 에서 멈춘다.
+ */
+export function recoveryHours(part: PartId, ratio: number, intensity: keyof typeof INTENSITY_FACTOR = "normal"): number {
+  return Math.round(RECOVERY_MAX_HOURS[PART_SIZE[part]] * loadFactor(ratio) * INTENSITY_FACTOR[intensity]);
 }
 
 export type RecoveryRecord = {
   exerciseId: string | null;
   /** 세트마다 횟수(세트 수 = 길이). */
   reps: readonly number[];
+  /** 세트마다 무게(kg, 맨몸은 null). 없으면 무게를 모르는 것으로 본다. */
+  weights?: readonly (number | null)[];
   /** 끝낸 시각(ISO). */
   doneAt: string;
 };
@@ -257,6 +260,13 @@ export type RecoveryRow = {
   stacked: boolean;
   /** 오늘 체크인이 남은 시간을 늘렸다(근육통 · 잠). */
   condition: ("soreness" | "sleep")[];
+  /** 그때 한 양이 내 소화량의 몇 %였나(100 = 평소 한 번 분량). 다 회복됐으면 0. */
+  loadPct: number;
+  /**
+   * 최근 24시간 안에 이 부위를 했지만 내 소화량에 견줘 가벼워서 회복이 필요 없었던 운동.
+   * "오늘 가볍게 해서 회복이 필요 없어요"를 보여 주려고 남긴다. 없으면 null.
+   */
+  easy: { at: string; loadPct: number } | null;
 };
 
 const HEAVY_REPS = 5;
@@ -267,7 +277,9 @@ const LIGHT_REPS = 15;
  *
  * 1) 하루(서울)에 한 부위를 한 운동은 한 번으로 묶는다(가슴 3종목 = 한 번). 유효 세트는 `setShare` —
  *    벤치의 삼두 몫도 팔 피로로 센다. 0.5세트 미만은 거든 정도라 뺀다.
- * 2) 필요한 시간 = 근육 크기 × 세트 구간(`RECOVERY_TABLE`) × 강도(무거움 1.2 · 가벼움 0.85).
+ * 2) 필요한 시간 = 근육 크기의 최대 시간 × **부하**(오늘 한 힘든 세트 ÷ 내 소화량) × 강도(무거움 1.2 · 가벼움 0.85).
+ *    🔴 2026-10-14 — 예전엔 세트 수만 봐서 가볍게 한 날도 똑같이 회복을 시켰다. 이제 내 예상 최대에 견준
+ *    세트의 힘든 정도와 평소 소화량으로 본다. 부하가 4분의 1이 안 되면 회복이 필요 없다(`recovery-load.ts`).
  * 3) 쌓인 피로 — 앞 운동이 다 안 풀렸으면 남은 시간의 절반을 다음 운동에 더한다.
  * 4) 지금 가장 늦게 풀리는 운동 기준으로 % · 남은 시간. 오늘 근육통 '심해요'면 남은 시간 ×1.25, 잠 못 잤으면 ×1.1.
  */
@@ -275,9 +287,10 @@ export function recoveryByPart(
   records: readonly RecoveryRecord[],
   stimulusOf: StimulusOf,
   now: Date,
-  checkin?: { soreness: number; sleep: number } | null,
+  checkin: { soreness: number; sleep: number } | null | undefined,
+  profile: RecoveryProfile,
 ): RecoveryRow[] {
-  type Bout = { part: PartId; sets: number; heavy: number; light: number; at: number };
+  type Bout = { part: PartId; sets: number; hard: number; heavy: number; light: number; at: number };
   const bouts = new Map<string, Bout>();
   for (const r of records) {
     if (!r.exerciseId || r.reps.length === 0) continue;
@@ -287,12 +300,16 @@ export function recoveryByPart(
     const n = r.reps.length;
     const heavy = r.reps.filter((x) => x > 0 && x <= HEAVY_REPS).length;
     const light = r.reps.filter((x) => x >= LIGHT_REPS).length;
+    const oneRm = profile.oneRmOf(r.exerciseId);
+    const bestReps = profile.bestRepsOf(r.exerciseId);
+    const hard = r.reps.reduce((a, x, i) => a + setHardness({ reps: x, weightKg: r.weights ? (r.weights[i] ?? null) : null }, r.weights ? oneRm : null, r.weights ? bestReps : null), 0);
     for (const [sub, share] of Object.entries(setShare(stimulusOf(r.exerciseId)))) {
       const part = PART_PREFIX.find((p) => sub.startsWith(`${p}-`));
       if (!part) continue;
       const key = `${day}:${part}`;
-      const b = bouts.get(key) ?? { part, sets: 0, heavy: 0, light: 0, at };
+      const b = bouts.get(key) ?? { part, sets: 0, hard: 0, heavy: 0, light: 0, at };
       b.sets += n * share;
+      b.hard += hard * share;
       b.heavy += heavy * share;
       b.light += light * share;
       b.at = Math.max(b.at, at);
@@ -309,18 +326,27 @@ export function recoveryByPart(
   return PART_PREFIX.map((part) => {
     const list = [...bouts.values()].filter((b) => b.part === part && b.sets >= 0.5).sort((a, b) => a.at - b.at);
     let prevEnd = -Infinity;
-    let binding: { end: number; need: number; b: Bout; intensity: RecoveryRow["intensity"]; stacked: boolean } | null = null;
+    let binding: { end: number; need: number; b: Bout; intensity: RecoveryRow["intensity"]; stacked: boolean; ratio: number } | null = null;
+    let easy: RecoveryRow["easy"] = null;
+    const cap = profile.capacity[part];
     for (const b of list) {
       const intensity: RecoveryRow["intensity"] = b.heavy / b.sets >= 0.5 ? "heavy" : b.light / b.sets >= 0.5 ? "light" : "normal";
+      const ratio = cap > 0 ? b.hard / cap : 1;
+      const base = recoveryHours(part, ratio, intensity);
+      if (base === 0) {
+        // 내 소화량에 견줘 가벼웠다 — 회복을 붙잡지도, 피로를 쌓지도 않는다.
+        if (now.getTime() - b.at <= 24 * H) easy = { at: new Date(b.at).toISOString(), loadPct: Math.round(ratio * 100) };
+        continue;
+      }
       const carry = Math.max(0, (prevEnd - b.at) / H);
-      const need = recoveryHours(part, b.sets, intensity) + CARRY_OVER * carry;
+      const need = base + CARRY_OVER * carry;
       const end = b.at + need * H;
       prevEnd = Math.max(prevEnd, end);
-      if (!binding || end > binding.end) binding = { end, need, b, intensity, stacked: carry > 0 };
+      if (!binding || end > binding.end) binding = { end, need, b, intensity, stacked: carry > 0, ratio };
     }
     const rawLeft = binding ? (binding.end - now.getTime()) / H : 0;
     if (!binding || rawLeft <= 0) {
-      return { part, pct: 100, hoursLeft: 0, lastAt: null, sets: 0, intensity: "normal", stacked: false, condition: [] };
+      return { part, pct: 100, hoursLeft: 0, lastAt: null, sets: 0, intensity: "normal", stacked: false, condition: [], loadPct: 0, easy };
     }
     const left = rawLeft * condFactor;
     return {
@@ -332,6 +358,8 @@ export function recoveryByPart(
       intensity: binding.intensity,
       stacked: binding.stacked,
       condition: condFactor > 1 ? condition : [],
+      loadPct: Math.round(binding.ratio * 100),
+      easy: null,
     };
   });
 }
@@ -350,6 +378,9 @@ export function recoveryInputs(
       reps: Array.isArray(r.setDetails) && r.setDetails.length > 0
         ? r.setDetails.map((d) => Number(d.reps) || 0)
         : Array.from({ length: Math.max(0, r.sets ?? 0) }, () => Number(r.reps) || 0),
+      weights: Array.isArray(r.setDetails) && r.setDetails.length > 0
+        ? r.setDetails.map((d) => d.weightKg ?? null)
+        : Array.from({ length: Math.max(0, r.sets ?? 0) }, () => r.weightKg ?? null),
       doneAt: r.doneAt,
     }));
 }

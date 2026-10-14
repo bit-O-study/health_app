@@ -3,7 +3,7 @@ import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 test("컨디션 세트 조절·영상 높이·음성·워치 웹 안내", async ({page}) => {
  test.skip(!hasDb,"Live test DB unavailable");
- const email=await createOnboardedAccount(page);
+ const email=await createOnboardedAccount(page, { showCheckin: true });
  const uid="(select id from auth.users where lower(email)=lower($1))";
  await dbQuery("update public.user_routines set splits=0,variant_id='custom',custom_week='[[\"back\"],[\"rest\"],[\"rest\"],[\"rest\"],[\"rest\"],[\"rest\"],[\"rest\"]]'::jsonb,start_date=(now() at time zone 'Asia/Seoul')::date,day_index_migrated=true,rest_date=null,override_date=null,override_block=null where user_id="+uid,[email]);
  await dbQuery("delete from public.routine_exercises where user_id="+uid,[email]);

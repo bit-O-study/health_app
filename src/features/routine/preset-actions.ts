@@ -18,6 +18,7 @@ import {
   routineExerciseWriteErrorMessage,
   type RoutineExerciseWriteGroup,
 } from "@/features/routine/routine-exercise-writes";
+import { toUserError } from "@/lib/user-error";
 
 export type PresetResult = { ok: true } | { ok: false; error: string };
 
@@ -102,7 +103,7 @@ export async function saveRoutinePresetAction(
     exercises: (rows ?? []) as ExerciseSnapshot[],
     conditioning: (condRows ?? []) as ConditioningSnapshot[],
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/settings/routine");
   return { ok: true };
@@ -215,7 +216,7 @@ export async function loadRoutinePresetAction(
     .from("routine_conditioning")
     .delete()
     .eq("user_id", user.id);
-  if (delCond.error) return { ok: false, error: delCond.error.message };
+  if (delCond.error) return { ok: false, error: toUserError(delCond.error) };
 
   const condSnap = Array.isArray(p.conditioning)
     ? (p.conditioning as ConditioningSnapshot[])
@@ -235,7 +236,7 @@ export async function loadRoutinePresetAction(
     const insCond = await supabase
       .from("routine_conditioning")
       .insert(condInsert);
-    if (insCond.error) return { ok: false, error: insCond.error.message };
+    if (insCond.error) return { ok: false, error: toUserError(insCond.error) };
   }
 
   // 미래 오버라이드 정리 (새 루틴과 안 맞을 수 있음)
@@ -269,7 +270,7 @@ export async function deleteRoutinePresetAction(
     .delete()
     .eq("user_id", user.id)
     .eq("id", presetId);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/settings/routine");
   return { ok: true };

@@ -41,6 +41,9 @@ export type YearReview = {
   bestPr: PrEvent | null;
   /** 한 주도 안 빠지고 운동한 가장 긴 연속 주. */
   longestWeekStreak: number;
+  /** 달린 거리(km, 소수 첫째 자리)와 횟수(2026-10-14 — 월간 리포트에는 있는데 1년 정리에는 없었다). */
+  runKm: number;
+  runCount: number;
 };
 
 /**
@@ -52,6 +55,8 @@ export function yearReview(
   exerciseDays: ReadonlyMap<string, number>,
   prs: readonly PrEvent[],
   today: string,
+  /** 러닝 기록(날짜 · 거리 m). 없으면 0. */
+  runs: readonly { date: string; distanceM: number }[] = [],
 ): YearReview {
   const start = toT(mondayOf(today)) - (YEAR_WEEKS - 1) * 7 * DAY;
   const from = toYmd(start);
@@ -82,6 +87,7 @@ export function yearReview(
   }
   const top = [...exerciseDays.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
   const yearPrs = prs.filter((p) => p.date >= from && p.date <= today);
+  const runsIn = runs.filter((r) => r.date >= from && r.date <= today);
   const bestPr = yearPrs.reduce<PrEvent | null>((best, p) => (!best || p.gainKg > best.gainKg ? p : best), null);
   return {
     from,
@@ -92,5 +98,7 @@ export function yearReview(
     topExercise: top ? { exerciseId: top[0], days: top[1] } : null,
     bestPr,
     longestWeekStreak: longest,
+    runKm: Math.round(runsIn.reduce((a, r) => a + Math.max(0, r.distanceM), 0) / 100) / 10,
+    runCount: runsIn.length,
   };
 }

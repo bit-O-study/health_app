@@ -47,6 +47,7 @@ test("오늘만 부위 추가는 daily_plan(오늘)만 — routine_exercises 영
   await dismissNudge(page);
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });

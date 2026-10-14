@@ -21,6 +21,7 @@ test("오늘만 바꾸기 시트가 폰 화면 안에 들어오고 맨 아래 �
 
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   const heading = page.getByRole("heading", { name: "오늘만 운동 바꾸기" });
   await expect(heading).toBeVisible({ timeout: 8000 });
 

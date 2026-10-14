@@ -303,6 +303,8 @@ async function userIdSet(
       .from(table)
       .select("user_id")
       .eq("for_date", todayYmd)
+      // 1,000줄 넘게 나눠 읽을 때 순서가 없으면 줄이 빠지거나 겹친다 — 빠진 사람에게 잔소리가 간다.
+      .order("user_id")
       .range(from, to);
     if (doneOnly) q = q.eq("status", "done");
     if (movedOnly) q = q.gt("meters", 0);

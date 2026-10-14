@@ -50,6 +50,7 @@ test("오늘만 부위 추가: 편집기 부위 선택지는 추가 요청한 �
   // 부위 배지 → 오늘만 운동 바꾸기 → 어깨 → 오늘만 부위 추가
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });

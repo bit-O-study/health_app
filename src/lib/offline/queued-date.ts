@@ -36,3 +36,19 @@ export function resolveForDate(
   // 어제(1)와 오늘(0)만. 미래(음수)도 오늘로 — 기기 시계가 앞선 경우다.
   return diff === 0 || diff === 1 ? requested : todayYmd;
 }
+
+/** 큐가 올린 '누른 순간'을 믿는 폭 — 큐는 48시간 뒤 스스로 버린다. 미래 5분은 기기 시계 오차. */
+const DONE_AT_PAST_MS = 48 * 3_600_000;
+const DONE_AT_FUTURE_MS = 5 * 60_000;
+
+/**
+ * 운동을 끝낸 시각(2026-10-08) — 큐가 보낸 '누른 순간'(ms)이 그럴듯하면 그것, 아니면 지금.
+ * 회복 계산이 '저장된 시각'을 쓰므로, 자정 넘겨 올라간 세트가 늦게 끝난 것처럼 보이지 않게.
+ */
+export function resolveDoneAt(requestedMs: number | undefined, nowMs: number): string {
+  if (typeof requestedMs === "number" && Number.isFinite(requestedMs)
+    && requestedMs >= nowMs - DONE_AT_PAST_MS && requestedMs <= nowMs + DONE_AT_FUTURE_MS) {
+    return new Date(Math.min(requestedMs, nowMs)).toISOString();
+  }
+  return new Date(nowMs).toISOString();
+}

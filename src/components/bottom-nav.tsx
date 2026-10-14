@@ -150,7 +150,8 @@ export function BottomNav({
             <li key={t.href} className="min-w-0 flex-1">
               <Link
                 href={t.href}
-                prefetch={false}
+                // 미리 받는다(2026-10-14) — 꺼 두면 로딩 화면조차 준비가 안 돼, 탭을 눌러도 서버가 답할 때까지
+                // 아무 반응이 없었다. 화면들은 매번 새로 그리는 쪽이라 미리 받는 것은 가벼운 로딩 틀뿐이다.
                 aria-current={active ? "page" : undefined}
                 // 탭을 바꿀 때 짧은 진동(안드로이드). 지원 안 하는 기기에선 아무 일 없음.
                 onClick={() => {

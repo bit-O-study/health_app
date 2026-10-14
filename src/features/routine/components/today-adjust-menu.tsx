@@ -24,6 +24,7 @@ import {
   deferRoutineOneDayAction,
   restartRoutineFromTodayAction,
   undoTodayRestAction,
+  type TodayActionResult,
 } from "@/features/routine/actions";
 import {
   clearDailyPlanForDateAction,
@@ -31,11 +32,20 @@ import {
 } from "@/features/routine/daily-plan-actions";
 import { seoulYmd } from "@/features/routine/data";
 import { TodayAddExercises } from "@/features/routine/components/today-add-exercises";
+import { TodayAddPicker } from "@/features/routine/components/today-add-picker";
 import { useBackClose } from "@/lib/platform/use-back-close";
 
 // "오늘만 바꾸기" 부위 선택 — 루틴 빌더와 **동일한 집합**을 제시해야 한다(원칙 #1):
 // 기본 부위(전체) + 세부근육 블록 + 세션 묶음. (MUSCLE_BLOCK_GROUPS = 빌더와 공유.)
 const SESSION_GROUPS: DayBlockId[] = ["fullbody", "upper", "push", "pull"];
+
+/** 시트의 세 가지 일 — 운동 하나 더하기가 가장 흔해서 첫 탭이다. */
+type TabId = "add" | "focus" | "rest";
+const TABS: { id: TabId; label: string }[] = [
+  { id: "add", label: "운동 더하기" },
+  { id: "focus", label: "부위 바꾸기" },
+  { id: "rest", label: "오늘 쉬기" },
+];
 
 /** 부위/세부근육 선택 칩 (다중선택 토글). */
 function FocusToggle({
@@ -89,7 +99,11 @@ export function TodayAdjustMenu({
   const [openState, setOpenState] = useState(false);
   const open = embedded ? Boolean(openProp) : openState;
   const [picked, setPicked] = useState<Set<DayBlockId>>(new Set());
+  // 쉬는 날에 열면 '다시 운동하기'가 가장 할 법한 일이다.
+  const [tab, setTab] = useState<TabId>(isRestToday ? "rest" : "add");
   const [pending, start] = useTransition();
+  // 저장이 실패하면 말한다(2026-10-14) — 예전엔 실패해도 그냥 다시 읽혀 "눌렀는데 안 바뀐다"가 됐다.
+  const [error, setError] = useState<string | null>(null);
   useBackClose(open, () => close());
 
   const closeSheet = () => {
@@ -101,11 +115,17 @@ export function TodayAdjustMenu({
     if (pending) return;
     closeSheet();
     setPicked(new Set());
+    setTab(isRestToday ? "rest" : "add");
   }
 
-  function run(action: () => Promise<void>) {
+  function run(action: () => Promise<TodayActionResult>) {
+    setError(null);
     start(async () => {
-      await action();
+      const r = await action();
+      if (!r.ok) {
+        setError(r.error);
+        return;
+      }
       // 모달 back()이 갱신된 서버 화면을 이전 상태로 되돌리지 않도록 문서를 다시 읽는다.
       window.location.reload();
     });
@@ -125,12 +145,16 @@ export function TodayAdjustMenu({
   function replaceAndGo() {
     if (picked.size === 0) return;
     const focuses = Array.from(picked).join(",");
+    setError(null);
     start(async () => {
-      if (isRestToday) await undoTodayRestAction();
+      const undo = isRestToday ? await undoTodayRestAction() : ({ ok: true } as const);
+      if (!undo.ok) return setError(undo.error);
       // 루틴 전체를 하루씩 민다(오늘 원래 운동→내일, 아무 날도 안 사라짐) + 오늘을
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
-      await deferRoutineOneDayAction(focuses);
-      await clearDailyPlanForDateAction(seoulYmd());
+      const deferred = await deferRoutineOneDayAction(focuses);
+      if (!deferred.ok) return setError(deferred.error);
+      const cleared = await clearDailyPlanForDateAction(seoulYmd());
+      if (!cleared.ok) return setError("오늘 운동을 비우지 못했어요. 다시 시도해 주세요.");
       // 서버 액션의 revalidate 와 클라이언트 push 가 경합하면 /routine 에 남을 수 있다.
       window.location.assign(`/plan/today?focus=${focuses}`);
     });
@@ -141,10 +165,13 @@ export function TodayAdjustMenu({
   function addAndGo() {
     if (picked.size === 0) return;
     const focuses = Array.from(picked).join(",");
+    setError(null);
     start(async () => {
-      if (isRestToday) await undoTodayRestAction();
+      const undo = isRestToday ? await undoTodayRestAction() : ({ ok: true } as const);
+      if (!undo.ok) return setError(undo.error);
       // 고른 부위/세부근육을 오늘 한정으로 기억(아직 안 담아도 '운동 추가'에서 고를 수 있게).
-      await pinRoutineFocusesForTodayAction(focuses);
+      const pinned = await pinRoutineFocusesForTodayAction(focuses);
+      if (!pinned.ok) return setError("부위를 더하지 못했어요. 다시 시도해 주세요.");
       // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
@@ -178,6 +205,11 @@ export function TodayAdjustMenu({
             )}
             오늘부터 다시 시작하기
           </button>
+          {error && !open ? (
+            <p role="alert" className="w-full text-xs font-semibold text-danger">
+              {error}
+            </p>
+          ) : null}
         </div>
       ) : null}
 
@@ -209,71 +241,79 @@ export function TodayAdjustMenu({
               </button>
             </div>
 
-            {/* 휴식 전환 / 다시 운동하기 토글 */}
-            {isRestToday ? (
-              <button
-                type="button"
-                disabled={pending}
-                onClick={() => run(undoTodayRestAction)}
-                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
-                  <Play aria-hidden="true" size={18} />
-                </span>
-                <span className="min-w-0">
-                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
-                    다시 운동하기
-                  </span>
-                  <span className="block text-xs text-zinc-600 dark:text-zinc-400">
-                    휴식을 해제하고 직전 운동 데이터를 다시 불러옵니다
-                  </span>
-                </span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                disabled={pending}
-                onClick={() => run(convertTodayToRestAction)}
-                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-left transition hover:border-zinc-300 dark:hover:border-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 disabled:opacity-60"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
-                  <Moon aria-hidden="true" size={18} />
-                </span>
-                <span className="min-w-0">
-                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
-                    오늘 휴식 전환하기
-                  </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-                    오늘 쉬고 루틴이 하루씩 미뤄집니다
-                  </span>
-                </span>
-              </button>
-            )}
+            {/* 할 일을 먼저 고른다(2026-10-14) — 예전엔 쉬기 · 운동 담기 · 부위 칩 서른 개 · 버튼 두 개가
+                한 화면에 다 있어, 운동 하나만 더 하려는 사람도 전부 훑어야 했다. */}
+            <div role="tablist" aria-label="오늘만 바꾸기" className="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-white/[0.06]">
+              {TABS.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  id={`today-adjust-tab-${t.id}`}
+                  aria-selected={tab === t.id}
+                  aria-controls="today-adjust-panel"
+                  disabled={pending}
+                  onClick={() => setTab(t.id)}
+                  className={cn(
+                    "h-9 rounded-lg text-xs font-semibold transition",
+                    tab === t.id ? "bg-brand text-white shadow-sm dark:text-zinc-950" : "text-zinc-600 dark:text-zinc-300",
+                  )}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
 
-            {/* ① 운동 직접 담기 — 전체 운동 검색·다중선택(오늘만) */}
-            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              운동 직접 담기
-            </p>
-            <TodayAddExercises />
+            <div role="tabpanel" id="today-adjust-panel" aria-labelledby={`today-adjust-tab-${tab}`}>
+              {tab === "add" ? (
+                <>
+                {/* 운동 더하기 — 찾아서 고른 운동을 지금 오늘 운동에 더한다. */}
+                <TodayAddPicker />
+                {/* 오늘 운동을 비우고 처음부터 직접 고르기(오늘 원래 운동은 내일로). */}
+                <div className="mt-5 border-t border-zinc-100 pt-4 dark:border-zinc-800">
+                  <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    오늘 운동을 통째로 새로 짜려면 — 원래 운동은 내일로 밀려요.
+                  </p>
+                  <TodayAddExercises />
+                </div>
+                </>
+              ) : null}
 
-            {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가.
-                루틴 빌더와 동일하게 기본 부위 + 세부근육 블록까지 고를 수 있다(원칙 #1). */}
-            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              오늘만 부위 바꾸기 — 부위 선택 (세부근육까지, 여러 개)
-            </p>
-            <div className="space-y-2.5">
-              {MUSCLE_BLOCK_GROUPS.map((g) => (
-                <div key={g.whole}>
-                  <div className="flex flex-wrap gap-1.5">
-                    <FocusToggle
-                      id={g.whole}
-                      label={`${g.label} 전체`}
-                      active={picked.has(g.whole)}
-                      disabled={pending}
-                      onClick={() => toggleFocus(g.whole)}
-                      whole
-                    />
-                    {g.subs.map((s) => (
+              {tab === "focus" ? (
+                <>
+                {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가.
+                    루틴 빌더와 동일하게 기본 부위 + 세부근육 블록까지 고를 수 있다(원칙 #1). */}
+                <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  오늘만 부위 바꾸기 — 부위 선택 (세부근육까지, 여러 개)
+                </p>
+                <div className="space-y-2.5">
+                  {MUSCLE_BLOCK_GROUPS.map((g) => (
+                    <div key={g.whole}>
+                      <div className="flex flex-wrap gap-1.5">
+                        <FocusToggle
+                          id={g.whole}
+                          label={`${g.label} 전체`}
+                          active={picked.has(g.whole)}
+                          disabled={pending}
+                          onClick={() => toggleFocus(g.whole)}
+                          whole
+                        />
+                        {g.subs.map((s) => (
+                          <FocusToggle
+                            key={s}
+                            id={s}
+                            label={DAY_BLOCKS[s].label}
+                            active={picked.has(s)}
+                            disabled={pending}
+                            onClick={() => toggleFocus(s)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {/* 세션 묶음(전신/상체/푸시/풀) */}
+                  <div className="flex flex-wrap gap-1.5 border-t border-zinc-100 pt-2.5 dark:border-zinc-800">
+                    {SESSION_GROUPS.map((s) => (
                       <FocusToggle
                         key={s}
                         id={s}
@@ -281,55 +321,106 @@ export function TodayAdjustMenu({
                         active={picked.has(s)}
                         disabled={pending}
                         onClick={() => toggleFocus(s)}
+                        whole
                       />
                     ))}
                   </div>
                 </div>
-              ))}
-              {/* 세션 묶음(전신/상체/푸시/풀) */}
-              <div className="flex flex-wrap gap-1.5 border-t border-zinc-100 pt-2.5 dark:border-zinc-800">
-                {SESSION_GROUPS.map((s) => (
-                  <FocusToggle
-                    key={s}
-                    id={s}
-                    label={DAY_BLOCKS[s].label}
-                    active={picked.has(s)}
+                <div className="mt-5 space-y-2">
+                  {/* 결과를 적은 두 줄 — 예전엔 버튼 이름만 있고 차이는 맨 아래 설명을 읽어야 알았다. */}
+                  <button
+                    type="button"
+                    disabled={pending || picked.size === 0}
+                    onClick={addAndGo}
+                    className="flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition disabled:cursor-not-allowed disabled:border-zinc-200 disabled:bg-transparent disabled:opacity-50 dark:disabled:border-zinc-700"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950">
+                      <Plus aria-hidden="true" size={18} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">오늘만 부위 추가</span>
+                      <span className="block text-xs text-zinc-600 dark:text-zinc-400">지금 운동은 그대로 두고 고른 부위를 더해요</span>
+                    </span>
+                    <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-brand" />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={pending || picked.size === 0}
+                    onClick={replaceAndGo}
+                    className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 px-4 py-3 text-left transition hover:border-brand/40 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                      <SlidersHorizontal aria-hidden="true" size={18} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">운동 전체 바꾸기</span>
+                      <span className="block text-xs text-zinc-600 dark:text-zinc-400">끝낸 운동은 남기고 나머지를 고른 부위로 바꿔요</span>
+                    </span>
+                    <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-zinc-400" />
+                  </button>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                  {picked.size === 0 ? "부위를 먼저 골라 주세요. " : ""}어느 쪽이든 <strong>오늘 하루만</strong> 바뀌고 루틴은 그대로예요.
+                </p>
+                </>
+              ) : null}
+
+              {tab === "rest" ? (
+                <>
+                {/* 휴식 전환 / 다시 운동하기 토글 */}
+                {isRestToday ? (
+                  <button
+                    type="button"
                     disabled={pending}
-                    onClick={() => toggleFocus(s)}
-                    whole
-                  />
-                ))}
-              </div>
+                    onClick={() => run(undoTodayRestAction)}
+                    className="mt-5 flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
+                      <Play aria-hidden="true" size={18} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                        다시 운동하기
+                      </span>
+                      <span className="block text-xs text-zinc-600 dark:text-zinc-400">
+                        휴식을 해제하고 직전 운동 데이터를 다시 불러옵니다
+                      </span>
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={pending}
+                    onClick={() => run(convertTodayToRestAction)}
+                    className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-left transition hover:border-zinc-300 dark:hover:border-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 disabled:opacity-60"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                      <Moon aria-hidden="true" size={18} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                        오늘 휴식 전환하기
+                      </span>
+                      <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                        오늘 쉬고 루틴이 하루씩 미뤄집니다
+                      </span>
+                    </span>
+                  </button>
+                )}
+                  <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                    {isRestToday
+                      ? "오늘 운동을 다시 하면 밀어 둔 루틴이 원래 날짜로 돌아와요."
+                      : "오늘 하려던 운동은 내일로 가고, 그 뒤 루틴도 하루씩 밀려요. 다시 운동하기로 되돌릴 수 있어요."}
+                  </p>
+                </>
+              ) : null}
             </div>
 
-            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <button
-                type="button"
-                disabled={pending || picked.size === 0}
-                onClick={replaceAndGo}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
-              >
-                운동 전체 바꾸기
-                <ArrowRight aria-hidden="true" size={15} />
-              </button>
-              <button
-                type="button"
-                disabled={pending || picked.size === 0}
-                onClick={addAndGo}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-brand/40 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:border-zinc-200 disabled:text-zinc-300 dark:bg-zinc-800"
-              >
-                <Plus aria-hidden="true" size={15} />
-                오늘만 부위 추가
-              </button>
-            </div>
-
-            <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-              <strong>전체 바꾸기</strong>는 오늘 부위를 선택 부위로 바꿉니다(이미
-              완료한 운동은 그대로 남아요). <strong>부위 추가</strong>는 오늘
-              운동에 선택 부위를 더합니다. 둘 다 <strong>오늘 하루만</strong>{" "}
-              반영됩니다.
-            </p>
-
+            {error ? (
+              <p role="alert" className="mt-3 text-sm font-semibold text-danger">
+                {error}
+              </p>
+            ) : null}
             {pending ? (
               <p className="mt-3 flex items-center justify-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                 <Loader2

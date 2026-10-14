@@ -18,39 +18,14 @@ import {
 } from "@/features/groups/group-actions";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import { sendGroupInviteCard } from "@/features/groups/share-invite";
+import { loadKakao } from "@/features/groups/kakao-sdk";
 import { groupInviteOrigin, groupInviteUrl } from "@/features/groups/invite-link";
 import {
   DEFAULT_GROUP_MODE,
   GROUP_INVITE_DESCRIPTION,
   type GroupMode,
 } from "@/features/groups/group-mode";
-
-type KakaoLike = {
-  isInitialized: () => boolean;
-  init: (key: string) => void;
-  Share?: { sendDefault: (opts: unknown) => void };
-};
-
-/** 카카오 JS SDK 로드 + init. 키(NEXT_PUBLIC_KAKAO_JS_KEY) 없으면 null. */
-async function loadKakao(): Promise<KakaoLike | null> {
-  const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
-  if (!key || typeof window === "undefined") return null;
-  const w = window as unknown as { Kakao?: KakaoLike };
-  if (!w.Kakao) {
-    await new Promise<void>((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js";
-      s.async = true;
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error("sdk load fail"));
-      document.head.appendChild(s);
-    }).catch(() => {});
-  }
-  const Kakao = w.Kakao;
-  if (!Kakao) return null;
-  if (!Kakao.isInitialized()) Kakao.init(key);
-  return Kakao;
-}
+import { useConfirm } from "@/components/use-confirm";
 
 export function GroupControls({
   groupId,
@@ -72,6 +47,9 @@ export function GroupControls({
   const router = useRouter();
   const [pending, start] = useTransition();
   const [copied, setCopied] = useState(false);
+  const [confirm, confirmDialog] = useConfirm();
+  // 복사가 막히면(앱의 일부 화면) 링크를 직접 길게 눌러 복사하도록 보여 준다 — 기본 입력창 대신.
+  const [copyFallback, setCopyFallback] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
   const [shareError, setShareError] = useState("");
 
@@ -84,7 +62,8 @@ export function GroupControls({
     try {
       await navigator.clipboard.writeText(url);
     } catch {
-      window.prompt("초대 링크를 복사하세요", url);
+      setCopyFallback(url);
+      return;
     }
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
@@ -113,16 +92,16 @@ export function GroupControls({
     }, inApp, loadKakao);
     if (!opened) setShareError("참여 버튼이 있는 카카오 초대를 열지 못했어요. 다시 시도해 주세요. 링크 복사로 보내면 참여 버튼은 표시되지 않아요.");
   }
-  function leave() {
-    if (!window.confirm("그룹에서 나가시겠어요?")) return;
+  async function leave() {
+    if (!(await confirm("그룹에서 나가시겠어요?", { confirmLabel: "나가기", tone: "danger" }))) return;
     start(async () => {
       await leaveGroupAction(groupId);
       router.push("/groups");
     });
   }
 
-  function remove() {
-    if (!window.confirm("그룹을 삭제하면 되돌릴 수 없어요. 삭제할까요?")) return;
+  async function remove() {
+    if (!(await confirm("그룹을 삭제하면 되돌릴 수 없어요. 삭제할까요?", { confirmLabel: "삭제", tone: "danger" }))) return;
     start(async () => {
       await deleteGroupAction(groupId);
       router.push("/groups");
@@ -171,6 +150,8 @@ export function GroupControls({
             <LogOut aria-hidden="true" size={14} />
           )}
         </button>
+        {confirmDialog}
+        {copyFallback ? <input readOnly aria-label="초대 링크" value={copyFallback} onFocus={(e) => e.target.select()} className="w-full rounded-md border border-line px-2 py-1 text-xs" /> : null}
       </div>
     );
   }
@@ -228,6 +209,13 @@ export function GroupControls({
           <LogOut aria-hidden="true" size={16} /> 그룹 나가기
         </button>
       )}
+      {confirmDialog}
+      {copyFallback ? (
+        <label className="block w-full text-xs text-zinc-500">
+          복사가 안 돼요. 링크를 길게 눌러 복사해 주세요.
+          <input readOnly aria-label="초대 링크" value={copyFallback} onFocus={(e) => e.target.select()} className="mt-1 w-full rounded-md border border-line px-2 py-1 text-xs text-zinc-800 dark:text-zinc-100" />
+        </label>
+      ) : null}
     </div>
   );
 }

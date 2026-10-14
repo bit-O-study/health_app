@@ -17,7 +17,7 @@
 
 (function (root) {
   /** 캐시 이름. 배포마다 올리지 않아도 되지만, 규칙이 바뀌면 올려 옛 캐시를 버린다. */
-  var CACHE_NAME = "helssu-shell-v1";
+  var CACHE_NAME = "helssu-shell-v2";
 
   /**
    * 설치할 때 미리 받아 두는 것. **오프라인 안내 화면 하나뿐이다.**

@@ -92,6 +92,7 @@ test("운동 순서를 바꾼 뒤 '오늘만 부위 추가'를 해도 순서가 
   // 오늘 부위 배지 → 액션 메뉴 → 오늘만 운동 바꾸기 시트 → 어깨 추가(= pin)
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });

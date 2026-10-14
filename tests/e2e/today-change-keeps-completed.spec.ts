@@ -77,6 +77,7 @@ test("부위 추가: 등에 가슴을 더하면 등과 가슴이 함께 보인�
   // "오늘만 운동 바꾸기" 모달 → 가슴 선택 → "오늘만 부위 추가"
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await page.getByRole("button", { name: "가슴 전체", exact: true }).click();
   await page.getByRole("button", { name: "오늘만 부위 추가" }).click();
 
@@ -87,9 +88,10 @@ test("부위 추가: 등에 가슴을 더하면 등과 가슴이 함께 보인�
   await page.getByRole("button", { name: "저장", exact: true }).first().click();
   await expect(page.getByText("저장됨").first()).toBeVisible({ timeout: 15_000 });
 
-  // 홈으로 — 등(데드리프트, 고정됨)과 가슴(벤치프레스)이 함께 보여야 한다.
+  // 홈으로 — 등(데드리프트, 고정됨)과 가슴이 함께 보여야 한다.
+  // 추천으로 채운 가슴 운동은 경력에 따라 달라진다(초급은 벤치프레스 대신 머신 체스트 프레스가 먼저) — 부위로 확인한다.
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
   await expect(page.getByText("데드리프트").first()).toBeVisible();
-  await expect(page.getByText("벤치프레스").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: /가슴/ }).first()).toBeVisible();
 });

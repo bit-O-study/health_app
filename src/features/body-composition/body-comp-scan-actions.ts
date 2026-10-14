@@ -7,6 +7,7 @@ import {
   checkBodyCompScan,
   type OcrField,
 } from "@/features/body-composition/parse-body-comp";
+import { toUserError } from "@/lib/user-error";
 
 export type BodyCompScanResult =
   | { ok: true; values: Partial<Record<OcrField, number>>; warnings: string[] }
@@ -36,7 +37,7 @@ export async function scanBodyCompPhotoAction(input: {
   if (!input.imageBase64) return { ok: false, error: "사진이 없습니다." };
 
   const quota = await consumeAiQuota("body-scan");
-  if (!quota.ok) return { ok: false, error: quota.message };
+  if (!quota.ok) return { ok: false, error: toUserError(quota) };
 
   const res = await callAI(SYSTEM, "이 체성분 분석지의 수치를 읽어줘.", {
     images: [{ base64: input.imageBase64, mediaType: input.mediaType }],

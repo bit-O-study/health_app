@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Dumbbell, Loader2 } from "lucide-react";
 
@@ -15,13 +15,17 @@ import { clearDailyPlanForDateAction } from "@/features/routine/daily-plan-actio
 export function TodayAddExercises() {
   const router = useRouter();
   const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   function go() {
+    setError(null);
     start(async () => {
       // 루틴 전체를 하루씩 밀고(아무 날도 안 사라짐) 오늘을 '변경된 날(direct)'로 마킹해
       // 원래 운동을 숨긴 뒤, 빈값에서 전체 운동 직접 담는다.
-      await deferRoutineOneDayAction("direct");
-      await clearDailyPlanForDateAction(seoulYmd());
+      const deferred = await deferRoutineOneDayAction("direct");
+      if (!deferred.ok) return setError(deferred.error);
+      const cleared = await clearDailyPlanForDateAction(seoulYmd());
+      if (!cleared.ok) return setError("오늘 운동을 비우지 못했어요. 다시 시도해 주세요.");
       // direct=1 → 부위 제한 없이 빈 워밍업/본운동/마무리 섹션에서 '전체 운동' 추가.
       // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(이동 시 새로 렌더).
       router.push("/plan/today?direct=1");
@@ -29,6 +33,7 @@ export function TodayAddExercises() {
   }
 
   return (
+    <>
     <button
       type="button"
       onClick={go}
@@ -42,5 +47,11 @@ export function TodayAddExercises() {
       )}
       운동 직접 담기
     </button>
+    {error ? (
+      <p role="alert" className="mt-2 text-sm font-semibold text-danger">
+        {error}
+      </p>
+    ) : null}
+    </>
   );
 }

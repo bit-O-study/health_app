@@ -35,6 +35,9 @@ export function writeWorkoutVoice(on: boolean): void {
 export function speakable(text: string): string {
   return text
     .replace(/(\d+(?:\.\d+)?)\s*kg/gi, "$1킬로")
+    // 숫자 앞 부호는 말로 — "+5킬로"가 쉼표로 지워져 '더'가 사라지던 것(2026-10-08 검토).
+    .replace(/(^|[^\d])\+\s*(?=\d)/g, "$1플러스 ")
+    .replace(/(^|[^\d가-힣A-Za-z])[−-]\s*(?=\d)/g, "$1마이너스 ")
     .replace(/(\d+)\s*[~∼〜]\s*(\d+)/g, "$1에서 $2")
     .replace(/([가-힣])\s*[~∼〜]\s*([가-힣])/g, "$1에서 $2")
     .replace(/[~∼〜]/g, " ")
@@ -43,11 +46,12 @@ export function speakable(text: string): string {
     .replace(/\s*↓/g, " 감소")
     .replace(/([가-힣]+)→([가-힣])/g, "$1에서 $2")
     .replace(/\s*[→⇒➜➔>+]\s*/g, ", ")
-    .replace(/\s*[·•|/]\s*/g, ", ")
+    .replace(/\s*[·•|]\s*/g, ", ")
+    // '/' 는 숫자 사이(날짜 10/10 · 3/4)는 그대로 두고, 말 사이에서만 쉼표로.
+    .replace(/(\D)\s*\/\s*(\D)/g, "$1, $2")
     .replace(/\s*[(（]\s*/g, ", ")
     .replace(/\s*[)）]\s*/g, " ")
     .replace(/[×✕]/g, " ")
-    .replace(/\sX(?=\s|$|[,.])/g, " 금지")
     .replace(/[“”"'‘’]/g, "")
     .replace(/\s*,\s*(,\s*)+/g, ", ")
     .replace(/\s+([,.])/g, "$1")
@@ -58,7 +62,8 @@ export function speakable(text: string): string {
 
 /** 요령 한 줄을 말로 — '—' 뒤 설명은 빼고 핵심만(두괄식). */
 function cueSpeech(cue: string): string {
-  const head = cue.split(/\s[—–-]\s/)[0];
+  // 요령 문구의 'X'(하지 말 것)만 '금지'로 — 다른 문장의 영문 X 는 건드리지 않는다.
+  const head = cue.split(/\s[—–-]\s/)[0].replace(/\sX(?=\s|$|[,.])/g, " 금지");
   const s = speakable(head);
   return /[.!?요다]$/.test(s) ? s : `${s}.`;
 }
@@ -69,7 +74,7 @@ function setTarget(o: { setNo: number; totalSets?: number; reps?: number | null;
   const head = `${last}${o.setNo}세트`;
   if (!o.reps) return head;
   const reps = o.timed ? `${o.reps}초` : `${o.reps}회`;
-  const w = o.weightKg == null ? "맨몸" : `${formatKg(o.weightKg)}킬로`;
+  const w = o.weightKg == null || o.weightKg <= 0 ? "맨몸" : `${formatKg(o.weightKg)}킬로`;
   return `${head}, ${reps} ${w}`;
 }
 

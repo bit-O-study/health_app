@@ -40,6 +40,7 @@ test("오늘만 전체 바꾸기 → 루틴이 하루 밀린다(start_date +1, �
   // '오늘만 운동 바꾸기' 열고, 부위 선택 후 '운동 전체 바꾸기'
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await page.waitForTimeout(300);
   // 부위 칩은 **시트 안에서** 고른다(바깥 부위 배지와 이름이 겹쳐 잘못 눌리던 문제).
   await expect(

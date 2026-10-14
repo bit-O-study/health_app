@@ -77,6 +77,7 @@ test("부위 추가: 등에 가슴을 더하면 등과 가슴이 함께 보인�
   // "오늘만 운동 바꾸기" 모달 → 가슴 선택 → "오늘만 부위 추가"
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await page.getByRole("button", { name: "가슴 전체", exact: true }).click();
   await page.getByRole("button", { name: "오늘만 부위 추가" }).click();
 

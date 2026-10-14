@@ -15,6 +15,7 @@ async function openAdjust(page: Page) {
   if (await later.count()) await later.first().click().catch(() => {});
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });

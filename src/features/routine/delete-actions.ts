@@ -7,6 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
+import { toUserError } from "@/lib/user-error";
 
 /**
  * 본운동 행 삭제. rowId 는 routine_exercises.id 또는 daily_plan.id 일 수 있어
@@ -97,7 +98,7 @@ export async function clearAllPlanAction(): Promise<{
     supabase.from("daily_conditioning").delete().eq("user_id", uid),
   ]);
   const failed = results.find((r) => r.error);
-  if (failed?.error) return { ok: false, error: failed.error.message };
+  if (failed?.error) return { ok: false, error: toUserError(failed.error) };
 
   revalidatePath("/routine");
   revalidatePath("/plan");

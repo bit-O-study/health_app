@@ -8,6 +8,7 @@ import { resolvePlan } from "@/features/billing/plan-store";
 import { oneRMSeries } from "@/features/routine/progress";
 import { goalLimit, goalProgress, validateGoalInput } from "@/features/lite/goal-progress";
 import { latestOneRm, loadLiftRecords, rowToGoal } from "@/features/lite/goals-data";
+import { toUserError } from "@/lib/user-error";
 
 export type GoalActionResult = { ok: true } | { ok: false; error: string };
 
@@ -70,7 +71,7 @@ export async function createGoalAction(input: {
     target_date: input.targetDate,
   });
   if (error) {
-    return { ok: false, error: error.message.includes("lift_goals_cap") ? "목표는 3개까지예요." : "목표를 저장하지 못했어요." };
+    return { ok: false, error: toUserError(error).includes("lift_goals_cap") ? "목표는 3개까지예요." : "목표를 저장하지 못했어요." };
   }
   revalidatePath("/fit");
   return { ok: true };

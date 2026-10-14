@@ -6,6 +6,7 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { toUserError } from "@/lib/user-error";
 
 function isValidYmd(s: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(s);
@@ -35,7 +36,7 @@ export async function addWorkoutDurationAction(
     .eq("user_id", user.id)
     .eq("for_date", forDate)
     .maybeSingle();
-  if (selErr) return { ok: false, error: selErr.message };
+  if (selErr) return { ok: false, error: toUserError(selErr) };
   const total = Math.max(0, Number(existing?.duration_sec ?? 0)) + sec;
 
   const { error } = await supabase.from("workout_sessions").upsert(
@@ -47,7 +48,7 @@ export async function addWorkoutDurationAction(
     },
     { onConflict: "user_id,for_date" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   // 캘린더(history)·점수 화면 무효화
   revalidatePath("/settings/history");

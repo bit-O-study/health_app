@@ -18,6 +18,7 @@ import {
   isConditioningKind,
   type ConditioningKind,
 } from "@/features/routine/conditioning-catalog";
+import { toUserError } from "@/lib/user-error";
 
 export type SaveConditioningResult =
   | { ok: true }
@@ -62,7 +63,7 @@ export async function updateConditioningMemoAction(
       .eq("user_id", user.id)
       .eq("id", rowId),
   ]);
-  if (rc.error && dc.error) return { ok: false, error: rc.error.message };
+  if (rc.error && dc.error) return { ok: false, error: toUserError(rc.error) };
   return { ok: true };
 }
 
@@ -110,7 +111,7 @@ export async function saveConditioningAction(
     .eq("user_id", user.id)
     .eq("focus", focus)
     .eq("kind", kind);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   if (items.length > 0) {
     const rows = items.map((it, index) => ({
@@ -127,7 +128,7 @@ export async function saveConditioningAction(
       memo: memoByItem.get(it.itemId) ?? null,
     }));
     const ins = await supabase.from("routine_conditioning").insert(rows);
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   }
 
   revalidatePath("/routine");
@@ -233,7 +234,7 @@ export async function addConditioningToTodayAction(
       sets: d.sets,
       reps: d.reps,
     });
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   } else {
     const { data: tail } = await supabase
       .from("routine_conditioning")
@@ -256,7 +257,7 @@ export async function addConditioningToTodayAction(
       sets: d.sets,
       reps: d.reps,
     });
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   }
 
   // 신규 행 추가 — 클라이언트가 router.refresh() 로 보여줌

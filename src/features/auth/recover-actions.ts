@@ -5,6 +5,7 @@ import { otpEmail } from "@/features/auth/password-reset";
 import { sendEmail } from "@/lib/email/send";
 import { consumeAllRates, requestOrigin } from "@/lib/rate-limit/consume";
 import { identityKey, limitMessage } from "@/lib/rate-limit/policy";
+import { toUserError } from "@/lib/user-error";
 
 /**
  * 아이디 찾기 / 비밀번호 찾기 — 로그인 전(익명) 호출.
@@ -44,7 +45,7 @@ export async function findLoginEmailAction(
     p_name: name.trim(),
     p_phone: phone.trim(),
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   return { ok: true, email: (data as string | null) ?? null };
 }
 
@@ -76,7 +77,7 @@ export async function requestEmailOtpAction(
     p_email: email.trim(),
     p_phone: phone.trim(),
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   const code = (data as string | null) ?? null;
   if (!code) return { ok: true, matched: false };
@@ -119,7 +120,7 @@ export async function verifyEmailOtpAndResetAction(
     p_code: code.trim(),
     p_new_password: newPassword,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   return {
     ok: true,
     status: data as "ok" | "invalid" | "expired" | "locked" | "nomatch",

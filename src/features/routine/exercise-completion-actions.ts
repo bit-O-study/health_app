@@ -12,6 +12,7 @@ import type { SetDetail } from "@/features/routine/set-details";
 import type { StatusActionResult } from "@/features/routine/completion-result";
 import { pickCompletionToClear } from "@/features/routine/completion-clear";
 import { resolveDoneAt, resolveForDate } from "@/lib/offline/queued-date";
+import { toUserError } from "@/lib/user-error";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -68,7 +69,7 @@ export async function setExerciseStatusAction(
       .eq("for_date", today)
       .eq("exercise_row_id", exerciseRowId)
       .select("id");
-    if (del.error) return { ok: false, error: del.error.message };
+    if (del.error) return { ok: false, error: toUserError(del.error) };
 
     // 지운 게 없다 = 완료기록이 '사라진 옛 행 id' 를 가리키는 상태("오늘만 변경"으로 계획을
     // 다시 담으면 행 UUID 가 새로 생긴다). 화면은 (부위:운동) 폴백으로 완료로 보여주므로
@@ -99,7 +100,7 @@ export async function setExerciseStatusAction(
           .delete()
           .eq("user_id", user.id)
           .eq("id", pick);
-        if (error) return { ok: false, error: error.message };
+        if (error) return { ok: false, error: toUserError(error) };
       }
     }
   } else {
@@ -142,7 +143,7 @@ export async function setExerciseStatusAction(
       },
       { onConflict: "user_id,for_date,exercise_row_id" },
     );
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
   }
 
   // 홈 + 점수·기록 페이지 무효화. force-dynamic 이라도 클라이언트 Router Cache 때문에

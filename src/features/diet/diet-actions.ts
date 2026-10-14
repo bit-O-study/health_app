@@ -8,6 +8,7 @@ import {
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import type { Meal } from "@/features/diet/meal";
+import { toUserError } from "@/lib/user-error";
 
 export type DietActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -88,7 +89,7 @@ export async function addFoodLogAction(
     .select("id")
     .maybeSingle();
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true, id: (data as { id: string } | null)?.id };
 }
@@ -119,7 +120,7 @@ export async function updateFoodLogAction(
     .update(update)
     .eq("user_id", user.id)
     .eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -141,7 +142,7 @@ export async function deleteMealAction(
     .eq("user_id", user.id)
     .eq("for_date", date)
     .eq("meal", meal);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -158,7 +159,7 @@ export async function deleteFoodLogAction(id: string): Promise<DietActionResult>
     .delete()
     .eq("user_id", user.id)
     .eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -196,7 +197,7 @@ export async function copyMealAction(
     .eq("for_date", fromYmd)
     .eq("meal", meal)
     .order("position", { ascending: true });
-  if (readErr) return { ok: false, error: readErr.message };
+  if (readErr) return { ok: false, error: toUserError(readErr) };
   if (!src || src.length === 0)
     return { ok: false, error: "복사할 기록이 없습니다." };
 
@@ -229,7 +230,7 @@ export async function copyMealAction(
     .from("food_logs")
     .insert(rows)
     .select("id");
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true, ids: ((made ?? []) as { id: string }[]).map((r) => r.id) };
 }

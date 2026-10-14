@@ -11,6 +11,7 @@ import { resolveForDate } from "@/lib/offline/queued-date";
 import { isConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { StatusActionResult } from "@/features/routine/completion-result";
+import { toUserError } from "@/lib/user-error";
 
 export type CondSnapshot = {
   durationMin: number | null;
@@ -58,7 +59,7 @@ export async function setConditioningStatusAction(
     .eq("user_id", user.id)
     .eq("for_date", today)
     .eq("source_row_id", sourceRowId);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   if (status !== "clear") {
     const { error } = await supabase.from("conditioning_completions").insert({
@@ -74,7 +75,7 @@ export async function setConditioningStatusAction(
       sets: snapshot?.sets ?? null,
       reps: snapshot?.reps ?? null,
     });
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
   }
 
   // 홈 + 점수·기록 페이지 무효화 (클라이언트 Router Cache stale 방지).

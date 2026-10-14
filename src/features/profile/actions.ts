@@ -19,6 +19,7 @@ import {
   parseWeightSteps,
   withWeightStep,
 } from "@/features/routine/weight-steps";
+import { toUserError } from "@/lib/user-error";
 
 export type SaveProfileResult = { ok: true } | { ok: false; error: string };
 
@@ -128,7 +129,7 @@ export async function saveProfileAction(
   );
 
   if (error) {
-    return { ok: false, error: error.message };
+    return { ok: false, error: toUserError(error) };
   }
 
   revalidatePath("/routine");
@@ -150,7 +151,7 @@ export async function updateNicknameAction(
     .from("profiles")
     .update({ nickname: clean || null })
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/settings/me");
   revalidatePath("/groups");
@@ -174,7 +175,7 @@ export async function setHideExerciseVideosAction(
     .from("profiles")
     .update({ hide_exercise_videos: hide })
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/routine");
   revalidatePath("/settings");
@@ -213,7 +214,7 @@ export async function setPersonalPrefAction(
     .from("profiles")
     .update({ [column]: value })
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/routine");
   revalidatePath("/settings");
@@ -290,7 +291,7 @@ export async function logBodyAction(
     body_fat_pct: f.v,
     muscle_mass_kg: m.v,
   });
-  if (log.error) return { ok: false, error: log.error.message };
+  if (log.error) return { ok: false, error: toUserError(log.error) };
 
   const patch: Record<string, number | string> = {};
   if (w.v !== null) patch.weight_kg = w.v;
@@ -329,7 +330,7 @@ export async function setWeightStepAction(
     .select("weight_steps")
     .eq("user_id", user.id)
     .maybeSingle();
-  if (readErr) return { ok: false, error: readErr.message };
+  if (readErr) return { ok: false, error: toUserError(readErr) };
 
   const next = withWeightStep(
     parseWeightSteps(data?.weight_steps),
@@ -341,7 +342,7 @@ export async function setWeightStepAction(
     .from("profiles")
     .update({ weight_steps: next })
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   // 증량 단위는 운동모드·계획·추천이 모두 쓴다.
   revalidatePath("/routine");

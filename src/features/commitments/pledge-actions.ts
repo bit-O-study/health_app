@@ -24,6 +24,7 @@ import {
 import { canReverse, getBodyContext, partLabel } from "@/features/commitments/pledge-data";
 import { PLEDGE_PARTS } from "@/features/commitments/pledge";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { toUserError } from "@/lib/user-error";
 
 export type PledgeActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -168,7 +169,7 @@ export async function createPledgeAction(input: {
     prediction: pred,
     formula_version: pred.formulaVersion,
   });
-  if (outErr) return { ok: false, error: outErr.message };
+  if (outErr) return { ok: false, error: toUserError(outErr) };
 
   const shareErr = await syncShares(supabase, user.id, id, input.shareGroupIds ?? [], {
     title,
@@ -250,7 +251,7 @@ export async function updatePledgeAction(input: {
     .update({ title, pledge: spec, start_date: startDate, deadline: endDate, metric, target })
     .eq("id", input.id)
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   const lines = pledgeLines(spec, partLabel);
   // 이미 공유 중인 행의 제목·항목도 같이 갱신(upsert 가 덮는다).
@@ -266,7 +267,7 @@ export async function deletePledgeAction(id: string): Promise<PledgeActionResult
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("commitments").delete().eq("id", id).eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidateAll();
   return { ok: true };
 }
@@ -299,7 +300,7 @@ export async function saveManualBodyAction(input: {
     .from("profiles")
     .update({ height_cm: Math.round(h), weight_kg: r1(w) })
     .eq("user_id", user.id);
-  if (pErr) return { ok: false, error: pErr.message };
+  if (pErr) return { ok: false, error: toUserError(pErr) };
   const { error } = await supabase.from("body_compositions").insert({
     user_id: user.id,
     measured_at: seoulYmd(),
@@ -308,7 +309,7 @@ export async function saveManualBodyAction(input: {
     body_fat_kg: r1((w * bf) / 100),
     skeletal_muscle_kg: r1(smm),
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/commitments/new");
   return { ok: true };
 }
@@ -330,7 +331,7 @@ export async function toggleMealSkipAction(input: {
     ? supabase.from("meal_skips").upsert({ user_id: user.id, for_date: input.forDate, meal: input.meal }, { onConflict: "user_id,for_date,meal" })
     : supabase.from("meal_skips").delete().eq("user_id", user.id).eq("for_date", input.forDate).eq("meal", input.meal);
   const { error } = await q;
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }

@@ -21,6 +21,7 @@ import { applyDeposit } from "@/features/groups/gym";
 import { cosmetic, isCosmeticSlot } from "@/features/groups/cosmetics";
 import { weekRange } from "@/features/groups/ranking";
 import { seoulYmd } from "@/features/routine/data";
+import { toUserError } from "@/lib/user-error";
 
 export type GroupActionResult =
   | { ok: true; id?: string }
@@ -57,7 +58,7 @@ export async function createGroupAction(name: string): Promise<GroupActionResult
   const { error: memErr } = await supabase
     .from("group_members")
     .insert({ group_id: id, user_id: user.id, role: "owner", display_name: displayName });
-  if (memErr) return { ok: false, error: memErr.message };
+  if (memErr) return { ok: false, error: toUserError(memErr) };
 
   revalidatePath("/groups");
   return { ok: true, id };
@@ -92,7 +93,7 @@ export async function leaveGroupAction(groupId: string): Promise<GroupActionResu
     .delete()
     .eq("group_id", groupId)
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/groups");
   return { ok: true };
@@ -170,7 +171,7 @@ export async function setCheerAction(
       .eq("from_user", user.id)
       .eq("to_user", toUser)
       .eq("for_date", forDate);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     revalidatePath(`/groups/${groupId}`);
     return { ok: true };
   }
@@ -190,7 +191,7 @@ export async function setCheerAction(
     },
     { onConflict: "group_id,from_user,to_user,for_date" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   await notifyCheerRecipient(supabase, groupId, toUser, user.id);
 
@@ -229,7 +230,7 @@ export async function setGroupChallengeAction(
     },
     { onConflict: "group_id,week_from" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
 }
@@ -247,7 +248,7 @@ export async function clearGroupChallengeAction(
     .delete()
     .eq("group_id", groupId)
     .eq("week_from", from);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
 }
@@ -288,7 +289,7 @@ export async function depositCoinsAction(
     },
     { onConflict: "group_id" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath(`/groups`);
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
@@ -328,7 +329,7 @@ export async function buyPetItemAction(
     },
     { onConflict: "group_id" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/groups");
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
@@ -371,7 +372,7 @@ export async function equipPetItemAction(
     { group_id: groupId, equipped, updated_at: new Date().toISOString() },
     { onConflict: "group_id" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/groups");
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
@@ -389,7 +390,7 @@ export async function setGroupPetNameAction(
     { group_id: groupId, name: name.trim().slice(0, 12), updated_at: new Date().toISOString() },
     { onConflict: "group_id" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath(`/groups`);
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
@@ -406,7 +407,7 @@ export async function deleteGroupAction(groupId: string): Promise<GroupActionRes
     .delete()
     .eq("id", groupId)
     .eq("owner_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/groups");
   return { ok: true };

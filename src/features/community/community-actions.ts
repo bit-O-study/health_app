@@ -24,6 +24,7 @@ import { checkCommunityText } from "./banned-words.server";
 import { resolveVisibility, type Visibility } from "./feed";
 import { getAuthorProfile, getPostComments, type AuthorProfile, type CommentPage } from "./data-access";
 import { normalizeQuestionTag } from "./community";
+import { toUserError } from "@/lib/user-error";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -144,7 +145,7 @@ export async function createCommunityPostAction(input: {
     const { data: existing } = await supabase.from("community_posts").select("id").eq("id", input.submissionId).eq("user_id", user.id).maybeSingle();
     if (existing) { revalidatePath("/community"); return { ok: true, id: existing.id }; }
   }
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true, id: (data as { id: string }).id };
 }
@@ -164,7 +165,7 @@ export async function deleteCommunityPostAction(id: string): Promise<ActionResul
     .maybeSingle();
   const { error } = await supabase.from("community_posts").delete().eq("id", id);
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   const photoPath = communityPhotoPath(
     (before as { photo_url?: string | null } | null)?.photo_url,
     (before as { user_id?: string } | null)?.user_id,
@@ -215,7 +216,7 @@ export async function editCommunityPostAction(
     .update(patch)
     .eq("id", id);
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true };
 }
@@ -242,7 +243,7 @@ export async function toggleLikeAction(
       .delete()
       .eq("post_id", postId)
       .eq("user_id", user.id);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     revalidatePath("/community");
     return { ok: true, liked: false };
   }
@@ -250,7 +251,7 @@ export async function toggleLikeAction(
   const { error } = await supabase
     .from("community_likes")
     .insert({ post_id: postId, user_id: user.id });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true, liked: true };
 }
@@ -293,7 +294,7 @@ export async function addCommentAction(
     })
     .select("id")
     .single();
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   // 글쓴이(·답글이면 부모 댓글 쓴 사람)에게 푸시 — 응답을 기다리게 하지 않는다(앱 안 알림은 DB 트리거가 이미 만들었다).
   const commentId = (created as { id: string }).id;
   after(() => pushCommentNotification("comment", commentId));
@@ -320,7 +321,7 @@ export async function deleteCommentAction(id: string): Promise<ActionResult> {
     .delete()
     .eq("id", id)
     .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true };
 }
@@ -343,7 +344,7 @@ export async function toggleSaveAction(
     .maybeSingle();
   if (existing) {
     const { error } = await supabase.from(table).delete().eq("post_id", postId).eq("user_id", user.id);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     return { ok: true, saved: false };
   }
   const { error } = await supabase.from(table).insert({ post_id: postId, user_id: user.id });
@@ -365,7 +366,7 @@ export async function setQuestionResolvedAction(postId: string, resolved: boolea
     .eq("user_id", user.id)
     .eq("post_type", "question")
     .select("id");
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   if (!data || data.length === 0) return { ok: false, error: "내 질문만 바꿀 수 있어요." };
   revalidatePath("/community");
   return { ok: true };
@@ -377,7 +378,7 @@ export async function markCommunityNotificationsReadAction(ids?: string[]): Prom
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc("mark_community_notifications_read", { ids: ids && ids.length ? ids : null });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   return { ok: true };
 }
 
@@ -397,7 +398,7 @@ export async function acceptAnswerAction(postId: string, commentId: string | nul
     .eq("user_id", user.id)
     .eq("post_type", "question")
     .select("id");
-  if (error) return { ok: false, error: error.message.includes("채택") ? error.message : "채택하지 못했어요." };
+  if (error) return { ok: false, error: toUserError(error).includes("채택") ? error.message : "채택하지 못했어요." };
   if (!data || data.length === 0) return { ok: false, error: "내 질문에서만 채택할 수 있어요." };
   if (commentId) after(() => pushCommentNotification("accepted", commentId));
   revalidatePath("/community");
@@ -425,7 +426,7 @@ export async function toggleCommentLikeAction(
     .maybeSingle();
   if (existing) {
     const { error } = await supabase.from("comment_likes").delete().eq("comment_id", commentId).eq("user_id", user.id);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     return { ok: true, liked: false };
   }
   const { error } = await supabase.from("comment_likes").insert({ comment_id: commentId, user_id: user.id });

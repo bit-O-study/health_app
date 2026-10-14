@@ -37,6 +37,7 @@ import {
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getPlanForDay } from "@/features/routine/plan";
 import { carryOverCompletions } from "@/features/routine/completion-carry";
+import { toUserError } from "@/lib/user-error";
 
 export type DailyPlanItem = {
   exerciseId: string;
@@ -153,7 +154,7 @@ export async function pinRoutineFocusesForTodayAction(
       .from("daily_plan")
       .insert(rows)
       .select("id, position");
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
     // ⚠ 오늘 이미 완료해 둔 세트가 '풀리지' 않게: 완료기록(exercise_completions)이 가리키던
     // 옛 루틴 행 id 를 방금 만든 daily_plan 행 id 로 옮긴다(같은 position = 같은 운동, 1:1).
@@ -184,7 +185,7 @@ export async function pinRoutineFocusesForTodayAction(
       ),
     );
     const failed = updResults.find((u) => u.error);
-    if (failed?.error) return { ok: false, error: failed.error.message };
+    if (failed?.error) return { ok: false, error: toUserError(failed.error) };
   }
 
   revalidatePath("/routine");
@@ -212,7 +213,7 @@ export async function clearDailyPlanForDateAction(
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", dateYmd);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");
@@ -262,7 +263,7 @@ export async function exitTodayOnlyAction(): Promise<SaveDailyPlanResult> {
       .eq("today_added_date", today),
   ]);
   const err = dp.error || dc.error || ov.error || rd.error;
-  if (err) return { ok: false, error: err.message };
+  if (err) return { ok: false, error: toUserError(err) };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");
@@ -312,7 +313,7 @@ export async function saveDailyPlanAction(
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
     .eq("focus", focus);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   if (items.length > 0) {
     const rows = items.map((it, index) => ({
@@ -331,7 +332,7 @@ export async function saveDailyPlanAction(
       .from("daily_plan")
       .insert(rows)
       .select("id, exercise_id");
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
     // ⚠ 통째로 지우고 다시 넣으므로 행 id 가 새로 생긴다. 오늘 완료기록이 옛 행 id 를
     //   가리킨 채 남으면 화면엔 완료로 보이는데 **완료 취소가 안 먹는다** → 새 행으로 옮긴다.
@@ -419,7 +420,7 @@ export async function addExercisesTodayOnlyAction(
   });
 
   const ins = await supabase.from("daily_plan").insert(rows);
-  if (ins.error) return { ok: false, error: ins.error.message };
+  if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");
@@ -492,7 +493,7 @@ export async function replaceExerciseTodayOnlyAction(input: {
     })
     .eq("user_id", user.id)
     .eq("id", targetId);
-  if (updated.error) return { ok: false, error: updated.error.message };
+  if (updated.error) return { ok: false, error: toUserError(updated.error) };
   revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };

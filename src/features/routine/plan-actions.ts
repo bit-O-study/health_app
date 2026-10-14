@@ -57,6 +57,7 @@ import {
 } from "@/features/routine/arm-routine-swap";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
 import { isSupersetGroup } from "@/features/workout-timer/superset";
+import { toUserError } from "@/lib/user-error";
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
 export type AddedTodayExercise = {
@@ -659,7 +660,7 @@ export async function updateExerciseMemoAction(
       .eq("id", rowId),
   ]);
   if (re.error && dp.error) {
-    return { ok: false, error: re.error.message };
+    return { ok: false, error: toUserError(re.error) };
   }
   return { ok: true };
 }
@@ -757,7 +758,7 @@ export async function addExerciseToTodayAction(
       })
       .select("id")
       .single();
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
     insertedId = (ins.data as { id: string }).id;
   } else {
     // 오버라이드 없음 → 기본 루틴의 그 일차에 append (오늘 이후에도 유지).
@@ -785,7 +786,7 @@ export async function addExerciseToTodayAction(
       })
       .select("id")
       .single();
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
     insertedId = (ins.data as { id: string }).id;
   }
 

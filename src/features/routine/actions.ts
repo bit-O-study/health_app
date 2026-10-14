@@ -45,6 +45,7 @@ import {
 } from "@/features/routine/day-index-migration";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
 import { shouldAdvanceStartDate } from "@/features/routine/defer-carry";
+import { toUserError } from "@/lib/user-error";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -133,7 +134,7 @@ export async function saveRoutineAction(
     .single();
 
   if (error) {
-    return { ok: false, error: error.message };
+    return { ok: false, error: toUserError(error) };
   }
 
   // 새 루틴으로 바꾸면 오늘 / 미래의"오늘만 변경" 오버라이드도 모두 무효화해야 한다.
@@ -332,7 +333,7 @@ export async function reorderUpcomingSevenDaysAction(
     )
     .select("updated_at")
     .single();
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   await Promise.all([
     supabase

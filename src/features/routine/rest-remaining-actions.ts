@@ -9,6 +9,7 @@ import {
 import { seoulYmd } from "@/features/routine/data";
 import type { RestRemainingInput } from "@/features/routine/rest-remaining";
 import { finalizeSetProgress } from "@/features/routine/set-progress-store";
+import { toUserError } from "@/lib/user-error";
 
 /**
  * 오늘의 '아직 안 끝난' 운동들을 휴식(skipped) 처리한다. 완료(done)한 운동은 건드리지 않는다.
@@ -44,7 +45,7 @@ export async function restRemainingTodayAction(
     const { error } = await supabase
       .from("exercise_completions")
       .upsert(rows, { onConflict: "user_id,for_date,exercise_row_id" });
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
   }
 
   const cond: { kind: "warmup" | "cooldown"; row: RestRemainingInput["warmup"][number] }[] = [
@@ -75,7 +76,7 @@ export async function restRemainingTodayAction(
         incline: row.snapshot?.incline ?? null,
       })),
     );
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
   }
 
   revalidatePath("/routine");

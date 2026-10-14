@@ -7,6 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { FLOWS, type Flow } from "@/features/cycle/cycle";
+import { toUserError } from "@/lib/user-error";
 
 export type CycleActionResult = { ok: true } | { ok: false; error: string };
 
@@ -37,7 +38,7 @@ export async function setCycleDayAction(
       .delete()
       .eq("user_id", user.id)
       .eq("for_date", dateYmd);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     revalidatePath("/cycle");
     revalidatePath("/calendar");
     return { ok: true };
@@ -54,7 +55,7 @@ export async function setCycleDayAction(
     },
     { onConflict: "user_id,for_date" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/cycle");
   revalidatePath("/calendar");
   return { ok: true };

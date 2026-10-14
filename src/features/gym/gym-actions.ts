@@ -16,6 +16,7 @@ import {
   type GymCandidate,
   type RegisteredGym,
 } from "@/features/gym/gym-search";
+import { toUserError } from "@/lib/user-error";
 
 /**
  * 카카오 로컬(키워드) 장소검색으로 실제 헬스장 찾기.
@@ -148,7 +149,7 @@ export async function upsertGymAction(
       })
       .select("id")
       .single();
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     gymId = (data as { id: string }).id;
   } else {
     // 공용 이름·주소는 등록자만 수정한다. 다른 회원은 자기 기구 보고만 저장한다.
@@ -163,7 +164,7 @@ export async function upsertGymAction(
         .from("gyms")
         .update({ name, address: address || null, updated_at: nowIso })
         .eq("id", gymId);
-      if (error) return { ok: false, error: error.message };
+      if (error) return { ok: false, error: toUserError(error) };
     }
   }
 
@@ -176,7 +177,7 @@ export async function upsertGymAction(
       updated_at: nowIso,
     })
     .eq("user_id", user.id);
-  if (linkErr) return { ok: false, error: linkErr.message };
+  if (linkErr) return { ok: false, error: toUserError(linkErr) };
 
   revalidatePath("/settings");
   revalidatePath("/settings/gym");

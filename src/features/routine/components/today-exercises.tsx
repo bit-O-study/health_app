@@ -37,6 +37,7 @@ import {
   getTodayCompletedItems,
   getLastExerciseValues,
   getRecentDoneRecords,
+  recentDoneLoadFailed,
 } from "@/features/routine/exercise-completions";
 import { getUserProfile } from "@/features/profile/data-access";
 import { buildAdviceMap } from "@/features/routine/overload-advice";
@@ -163,6 +164,7 @@ export async function TodayExercises({
     completedCond,
     lastValues,
     doneRecords,
+    historyFailed,
     profile,
     postureEnabled,
     equipmentScan,
@@ -179,6 +181,8 @@ export async function TodayExercises({
     getLastExerciseValues(),
     // 과부하 추천의 근거. `getLastExerciseValues` 와 **같은 조회**(cache)라 왕복이 안 는다.
     getRecentDoneRecords(),
+    // 그 조회가 실패했나(같은 cache — 왕복 0). 실패하면 아래에서 "계획값으로 보인다"고 알린다.
+    recentDoneLoadFailed(),
     // 목표 횟수 기준(경력)을 처방과 맞추기 위해. 상위 page 가 이미 부른 cache() 라 왕복 0.
     getUserProfile(),
     isAiFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
@@ -624,6 +628,11 @@ export async function TodayExercises({
     <RestTimerProvider sound={restSound} haptic={restHaptic}>
       <TodayOrderScope>
         <section className="space-y-3">
+          {historyFailed && !lockWeightReps ? (
+            <p role="status" className="rounded-xl bg-warn/10 px-3 py-2 text-xs font-semibold text-warn" data-testid="history-load-failed">
+              지난 기록을 불러오지 못해 무게·횟수가 계획값으로 보여요. 잠시 뒤 새로고침해 주세요.
+            </p>
+          ) : null}
           {/* 섹션 제목 위계: h2(아이콘칩 + 굵게) → 하위 섹션 h3(같은 모양, 한 단계 작게).
               예전엔 여기만 회색 대문자 라벨이라 아래 '본운동/워밍업' 과 규칙이 달랐다. */}
           <div className="flex flex-wrap items-center justify-between gap-2">

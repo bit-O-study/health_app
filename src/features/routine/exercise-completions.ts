@@ -240,10 +240,10 @@ const LAST_VALUES_MAX_ROWS = 3000;
  * 과부하 판단이 균일 세트로만 계산돼 1RM·볼륨이 틀어진다(2.1 에서 겪은 결함).
  * 최신순(내림차순)이라 운동별 첫 항목이 가장 최근 값이다.
  */
-export const getRecentDoneRecords = cache(
-  async function getRecentDoneRecords(): Promise<ProgressRecord[]> {
+const loadRecentDone = cache(
+  async function loadRecentDone(): Promise<{ records: ProgressRecord[]; failed: boolean }> {
     const user = await getCurrentUser();
-    if (!user) return [];
+    if (!user) return { records: [], failed: false };
     const supabase = await createSupabaseServerClient();
     const since = new Date(Date.now() - LAST_VALUES_WINDOW_DAYS * 86_400_000)
       .toISOString()
@@ -252,14 +252,17 @@ export const getRecentDoneRecords = cache(
       .from("exercise_completions")
       .select("exercise_id, equipment, sets, reps, weight_kg, set_details, for_date")
       .eq("user_id", user.id)
-      // 진행 중(partial) 기록은 아직 기록이 아니다 — 굳은 것(done·skipped)만.
-      .neq("status", "partial")
       .eq("status", "done")
       .gte("for_date", since)
       .order("for_date", { ascending: false })
       .limit(LAST_VALUES_MAX_ROWS);
-    if (error || !data) return [];
-    return (
+    // 🔴 실패를 '기록 없음'과 구분한다(2026-10-14). 예전엔 빈 목록을 돌려줘서, 잠깐 조회가 실패하면
+    //    지난번 무게 대신 기본 무게가 뜨고 증량 추천이 사라졌다 — 무게가 갑자기 달라 보였다.
+    if (error || !data) {
+      console.error("[exercise-completions] 최근 기록을 불러오지 못했어요", error?.code ?? "no data");
+      return { records: [], failed: true };
+    }
+    const records = (
       data as {
         exercise_id: string | null;
         equipment?: unknown;
@@ -280,8 +283,19 @@ export const getRecentDoneRecords = cache(
       weightKg: num(r.weight_kg ?? null),
       setDetails: parseSetDetails(r.set_details),
     }));
+    return { records, failed: false };
   },
 );
+
+/** 최근 완료(done) 기록 — 미리채움·과부하 추천. 조회가 실패하면 빈 목록(실패 여부는 `recentDoneLoadFailed`). */
+export const getRecentDoneRecords = cache(async function getRecentDoneRecords(): Promise<ProgressRecord[]> {
+  return (await loadRecentDone()).records;
+});
+
+/** 최근 기록 조회가 실패했나 — 화면이 "지난 기록을 못 불러왔다"고 말하게(같은 조회라 왕복 0). */
+export const recentDoneLoadFailed = cache(async function recentDoneLoadFailed(): Promise<boolean> {
+  return (await loadRecentDone()).failed;
+});
 
 /**
  * 운동별 '마지막으로 실제 한 값'(가장 최근 done 완료 스냅샷). 운동모드/루틴이 다시 돌아오면

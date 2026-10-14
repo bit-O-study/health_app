@@ -18,39 +18,13 @@ import {
 } from "@/features/groups/group-actions";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import { sendGroupInviteCard } from "@/features/groups/share-invite";
+import { loadKakao } from "@/features/groups/kakao-sdk";
 import { groupInviteOrigin, groupInviteUrl } from "@/features/groups/invite-link";
 import {
   DEFAULT_GROUP_MODE,
   GROUP_INVITE_DESCRIPTION,
   type GroupMode,
 } from "@/features/groups/group-mode";
-
-type KakaoLike = {
-  isInitialized: () => boolean;
-  init: (key: string) => void;
-  Share?: { sendDefault: (opts: unknown) => void };
-};
-
-/** 카카오 JS SDK 로드 + init. 키(NEXT_PUBLIC_KAKAO_JS_KEY) 없으면 null. */
-async function loadKakao(): Promise<KakaoLike | null> {
-  const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
-  if (!key || typeof window === "undefined") return null;
-  const w = window as unknown as { Kakao?: KakaoLike };
-  if (!w.Kakao) {
-    await new Promise<void>((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js";
-      s.async = true;
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error("sdk load fail"));
-      document.head.appendChild(s);
-    }).catch(() => {});
-  }
-  const Kakao = w.Kakao;
-  if (!Kakao) return null;
-  if (!Kakao.isInitialized()) Kakao.init(key);
-  return Kakao;
-}
 
 export function GroupControls({
   groupId,

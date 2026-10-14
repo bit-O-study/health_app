@@ -4683,6 +4683,8 @@ create table if not exists public.pt_notifications (
 );
 create index if not exists pt_links_member_idx on public.pt_links(member_id);
 create index if not exists pt_invites_trainer_idx on public.pt_invites(trainer_id,created_at);
+-- 2026-10-14: 카카오톡 공유로 보내는 초대는 휴대폰 번호가 없다.
+alter table public.pt_invites alter column phone drop not null;
 alter table public.pt_passes enable row level security;
 alter table public.pt_links enable row level security;
 alter table public.pt_invites enable row level security;
@@ -4724,19 +4726,25 @@ begin
  update pt_passes set status=case when p_active then 'active' else 'canceled' end,starts_on=p_start,ends_on=p_end,seats=p_seats,updated_at=now() where trainer_id=p_trainer;
  if not found then raise exception '신청 내역이 없어요.'; end if;
 end $$;
+-- 2026-10-14: 'KAKAO'(카카오톡 공유 · 무료) — 번호 없이도 되고 발송 대기 행을 만들지 않는다.
 create or replace function public.pt_create_invite(p_hash text,p_phone text,p_channel text,p_url text) returns uuid
 language plpgsql security definer set search_path=public as $$
-declare v_pass pt_passes; v_invite uuid; v_notification uuid;
+declare v_pass pt_passes; v_invite uuid; v_notification uuid; v_phone text := nullif(btrim(coalesce(p_phone,'')),'');
 begin
  select * into v_pass from pt_passes where trainer_id=auth.uid() for update;
  if not public.pt_has_pass() then raise exception '활성 정액권이 필요해요.'; end if;
- if p_phone !~ '^01[0-9]{8,9}$' or p_channel not in ('ATA','LMS') or length(p_url)>600 or p_url !~ '^https?://' then raise exception '초대 정보를 확인해 주세요.'; end if;
+ if p_channel not in ('ATA','LMS','KAKAO') or length(p_url)>600 or p_url !~ '^https?://' then raise exception '초대 정보를 확인해 주세요.'; end if;
+ -- 알림톡·문자는 번호가 있어야 보낸다. 카카오톡 공유는 번호가 없어도 되지만, 넣었으면 맞는 번호여야 한다.
+ if (v_phone is null and p_channel <> 'KAKAO') or (v_phone is not null and v_phone !~ '^01[0-9]{8,9}$') then raise exception '초대 정보를 확인해 주세요.'; end if;
  if (select count(*) from pt_invites where trainer_id=auth.uid() and created_at>now()-interval '1 day') >= 50 then raise exception '오늘 초대 한도를 넘었어요.'; end if;
  if (select count(*) from pt_links where trainer_id=auth.uid() and active)>=v_pass.seats then raise exception '정액권의 회원 수 한도에 도달했어요.'; end if;
- update pt_invites set canceled=true where trainer_id=auth.uid() and phone=p_phone and accepted_by is null;
- insert into pt_invites(trainer_id,token_hash,phone) values(auth.uid(),p_hash,p_phone) returning id into v_invite;
+ if v_phone is not null then
+  update pt_invites set canceled=true where trainer_id=auth.uid() and phone=v_phone and accepted_by is null;
+ end if;
+ insert into pt_invites(trainer_id,token_hash,phone) values(auth.uid(),p_hash,v_phone) returning id into v_invite;
+ if p_channel = 'KAKAO' then return null; end if;
  insert into pt_notifications(created_by,trainer_id,invite_id,kind,channel,phone,payload)
- values(auth.uid(),auth.uid(),v_invite,'invite',p_channel,p_phone,jsonb_build_object('trainer',v_pass.name,'url',p_url)) returning id into v_notification;
+ values(auth.uid(),auth.uid(),v_invite,'invite',p_channel,v_phone,jsonb_build_object('trainer',v_pass.name,'url',p_url)) returning id into v_notification;
  return v_notification;
 end $$;
 create or replace function public.pt_preview_invite(p_hash text) returns jsonb

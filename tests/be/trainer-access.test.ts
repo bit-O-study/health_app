@@ -25,6 +25,7 @@ test.skipIf(!hasDbCreds)("independent trainer: pass, explicit consent, masking, 
     await db.query("begin");
     await db.query(readFileSync("supabase/migrations/202609220002_independent_trainers.sql", "utf8"));
     await db.query(readFileSync("supabase/migrations/202609250002_trainer_member_detail.sql", "utf8"));
+    await db.query(readFileSync("supabase/migrations/202610140001_pt_invite_kakao_share.sql", "utf8"));
     for (const id of [trainer, member, stranger, admin]) {
       await db.query("insert into auth.users(id,email,raw_user_meta_data) values($1,$2,'{}')", [id,email(id)]);
     }
@@ -54,6 +55,16 @@ test.skipIf(!hasDbCreds)("independent trainer: pass, explicit consent, masking, 
     await db.query("select public.pt_admin_pass($1,(now() at time zone 'Asia/Seoul')::date-1,(now() at time zone 'Asia/Seoul')::date+30,15,true)", [trainer]);
     await as(trainer);
     await db.query("select public.pt_create_invite($1,'01087654321','ATA','https://example.com/invite')", [hash("a")]);
+    // 카카오톡 공유(무료, 2026-10-14) — 번호 없이 초대만 만들고 발송 대기 행은 만들지 않는다.
+    expect((await db.query("select public.pt_create_invite($1,null,'KAKAO','https://example.com/kakao') id", [hash("k")])).rows[0].id).toBeNull();
+    await denied("select public.pt_create_invite($1,null,'ATA','https://example.com/no-phone')", [hash("n")]);
+    await denied("select public.pt_create_invite($1,'123','KAKAO','https://example.com/bad-phone')", [hash("p")]);
+    await db.query("reset role");
+    expect((await db.query("select phone from public.pt_invites where token_hash=$1", [hash("k")])).rows).toEqual([{ phone: null }]);
+    expect((await db.query("select count(*)::int n from public.pt_notifications where trainer_id=$1", [trainer])).rows[0].n).toBe(1);
+    // 번호 없는 초대를 만들어도 번호로 보낸 앞선 초대는 취소되지 않는다.
+    expect((await db.query("select canceled from public.pt_invites where token_hash=$1", [hash("a")])).rows[0].canceled).toBe(false);
+    await as(trainer);
     expect((await db.query("select count(*)::int n from public.pt_links")).rows[0].n).toBe(0);
     await as(member);
     const link = (await db.query("select public.pt_accept_invite($1,true,false,false,false) id", [hash("a")])).rows[0].id;

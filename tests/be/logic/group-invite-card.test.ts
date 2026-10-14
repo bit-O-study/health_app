@@ -18,6 +18,15 @@ describe("button-only Kakao group invitations", () => {
     expect(sendDefault.mock.calls[0][0]).toMatchObject({ buttons: [{ title: "그룹 참여하기", link: { webUrl: card.url, mobileWebUrl: card.url } }] });
     expect(native).not.toHaveBeenCalled();
   });
+  it("uses the caller's button label for other invitations (trainer invite)", async () => {
+    native.mockResolvedValue(undefined);
+    const sendDefault = vi.fn();
+    const trainer = { ...card, button: "초대 확인하기" };
+    expect(await sendGroupInviteCard(trainer, true, vi.fn())).toBe(true);
+    expect(native.mock.calls[0][0]).toMatchObject({ buttonTitle: "초대 확인하기", imageLinkUrl: card.url });
+    expect(await sendGroupInviteCard(trainer, false, async () => ({ Share: { sendDefault } }))).toBe(true);
+    expect(sendDefault.mock.calls[0][0]).toMatchObject({ buttons: [{ title: "초대 확인하기" }] });
+  });
   it("surfaces native failure instead of disguising it as a successful link share", async () => {
     native.mockRejectedValue(new Error("SDK unavailable"));
     const web = vi.fn();

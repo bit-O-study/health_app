@@ -6,11 +6,15 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { seoulYmd } from "@/features/routine/data";
 
 /**
  * 본운동 행 삭제. rowId 는 routine_exercises.id 또는 daily_plan.id 일 수 있어
- * 양쪽 테이블 모두에서 시도하고, 해당 행의 완료 기록(exercise_completions)도 제거.
- * (기록·점수에서도 함께 사라짐)
+ * 양쪽 테이블 모두에서 시도하고, **오늘의** 완료 기록(exercise_completions)도 제거.
+ *
+ * 🔴 지난 날짜의 기록은 지우지 않는다(2026-10-14). 예전엔 날짜 조건 없이 그 행의 기록을 전부
+ *    지웠는데, 루틴 행은 매주 같은 id 를 쓰므로 운동 하나를 지우면 그 운동의 지난 기록이 통째로 사라졌다.
+ *    기록은 운동·무게를 스스로 담고 있어(스냅샷) 행이 없어져도 그대로 보인다.
  */
 export async function deleteMainExerciseAction(rowId: string): Promise<void> {
   if (!rowId) return;
@@ -29,6 +33,7 @@ export async function deleteMainExerciseAction(rowId: string): Promise<void> {
       .from("exercise_completions")
       .delete()
       .eq("user_id", user.id)
+      .eq("for_date", seoulYmd())
       .eq("exercise_row_id", rowId),
   ]);
 
@@ -38,7 +43,8 @@ export async function deleteMainExerciseAction(rowId: string): Promise<void> {
 
 /**
  * 워밍업/마무리 행 삭제. rowId 는 routine_conditioning.id 또는
- * daily_conditioning.id 일 수 있음. 두 테이블 + conditioning_completions 모두 제거.
+ * daily_conditioning.id 일 수 있음. 두 테이블 + **오늘의** conditioning_completions 제거.
+ * (지난 날짜의 기록은 남긴다 — 위 본운동과 같은 이유.)
  */
 export async function deleteConditioningRowAction(
   rowId: string,
@@ -63,6 +69,7 @@ export async function deleteConditioningRowAction(
       .from("conditioning_completions")
       .delete()
       .eq("user_id", user.id)
+      .eq("for_date", seoulYmd())
       .eq("source_row_id", rowId),
   ]);
 

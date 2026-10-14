@@ -152,7 +152,7 @@ export function TodayEditBar() {
       <ConfirmDialog
         open={askDelete}
         title="운동 삭제"
-        message={`선택한 ${count}개 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.`}
+        message={`선택한 ${count}개 운동을 삭제할까요? 오늘 기록에서도 빠져요. 지난 기록은 그대로 남아요.`}
         confirmLabel="삭제"
         tone="danger"
         onConfirm={confirmDelete}

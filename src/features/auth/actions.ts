@@ -22,7 +22,7 @@ export async function destinationAfterLogin(requested: string): Promise<string> 
 
 /**
  * 새 비밀번호로 변경(임시 비번 → 본인 비번). 클라이언트가 supabase.auth.updateUser
- * 로 비번을 바꾼 뒤 호출 — must_change_password 플래그를 내린다(본인-only update RLS).
+ * 로 비번을 바꾼 뒤 호출 — must_change_password 플래그를 내린다(DB 함수가 비번이 바뀌었는지 확인).
  */
 export async function clearMustChangePasswordAction(): Promise<AuthActionResult> {
   const supabase = await createSupabaseServerClient();
@@ -30,10 +30,10 @@ export async function clearMustChangePasswordAction(): Promise<AuthActionResult>
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
-  const { error } = await supabase
-    .from("profiles")
-    .update({ must_change_password: false })
-    .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  // 비밀번호가 임시 비밀번호에서 실제로 바뀌었을 때만 내려간다(DB 함수가 확인 — 2026-10-14).
+  // 예전엔 본인 권한으로 플래그를 직접 내릴 수 있어, 비밀번호를 안 바꾸고도 건너뛸 수 있었다.
+  const { data, error } = await supabase.rpc("clear_must_change_password");
+  if (error) return { ok: false, error: "비밀번호 변경을 마무리하지 못했어요. 다시 시도해 주세요." };
+  if (data !== true) return { ok: false, error: "새 비밀번호로 바뀌지 않았어요. 다른 비밀번호로 다시 바꿔 주세요." };
   return { ok: true };
 }

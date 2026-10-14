@@ -2042,6 +2042,9 @@ $$;
 
 -- 관리자 전용: 회원 비밀번호를 임시 비밀번호로 초기화.
 -- auth.users.encrypted_password 를 bcrypt(pgcrypto) 로 갱신 + must_change_password=true.
+-- 2026-10-14: 임시 비밀번호 지문을 남기고, 플래그는 clear_must_change_password() 로만 내린다.
+alter table public.profiles add column if not exists password_reset_fp text;
+
 create or replace function public.admin_reset_user_password(
   p_user_id uuid, p_password text
 ) returns void
@@ -2060,11 +2063,45 @@ begin
   if not found then
     raise exception 'user not found';
   end if;
-  update public.profiles set must_change_password = true where user_id = p_user_id;
+  update public.profiles
+     set must_change_password = true,
+         password_reset_fp = (select md5(encrypted_password) from auth.users where id = p_user_id)
+   where user_id = p_user_id;
 end;
 $$;
 revoke all on function public.admin_reset_user_password(uuid, text) from public, anon;
 grant execute on function public.admin_reset_user_password(uuid, text) to authenticated;
+
+create or replace function public.clear_must_change_password() returns boolean
+language plpgsql security definer set search_path = public, auth as $$
+declare v_fp text; v_now text;
+begin
+  if auth.uid() is null then return false; end if;
+  select password_reset_fp into v_fp from public.profiles where user_id = auth.uid();
+  select md5(encrypted_password) into v_now from auth.users where id = auth.uid();
+  -- 아직 임시 비밀번호 그대로면 내리지 않는다.
+  if v_fp is not null and v_now is not distinct from v_fp then return false; end if;
+  update public.profiles set must_change_password = false, password_reset_fp = null where user_id = auth.uid();
+  return true;
+end;
+$$;
+revoke all on function public.clear_must_change_password() from public, anon;
+grant execute on function public.clear_must_change_password() to authenticated;
+
+create or replace function public.profiles_guard_password_flag() returns trigger
+language plpgsql as $$
+begin
+  if current_user in ('authenticated', 'anon') then
+    new.must_change_password := old.must_change_password;
+    new.password_reset_fp := old.password_reset_fp;
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists profiles_guard_password_flag on public.profiles;
+create trigger profiles_guard_password_flag
+  before update on public.profiles
+  for each row execute function public.profiles_guard_password_flag();
 
 -- 아이디(이메일) 찾기: 이름 + 휴대폰 일치 시 이메일 반환(없으면 null). 탈퇴 회원 제외.
 -- 익명 호출 허용 — 로그인 전 화면에서 사용. 휴대폰 OTP 가 실질적 게이트.

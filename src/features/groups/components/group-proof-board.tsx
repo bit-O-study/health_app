@@ -12,6 +12,7 @@ import { deleteGroupProofAction } from "@/features/groups/proof-actions";
 import { GroupSwitcher } from "@/features/groups/components/group-switcher";
 import { ProofRecorder } from "@/features/groups/components/proof-recorder";
 import { ProofMemberSheet } from "@/features/groups/components/proof-member-sheet";
+import { useConfirm } from "@/components/use-confirm";
 
 /** 인증 시각 → 한국시간 "오후 3:24". */
 function formatTime(iso: string): string {
@@ -120,13 +121,14 @@ export function GroupProofBoard({
   const [deleting, setDeleting] = useState(false);
   // 탭한 그룹원 — 그 사람의 오늘 운동·식단 시트를 연다.
   const [selected, setSelected] = useState<ProofMember | null>(null);
+  const [confirm, confirmDialog] = useConfirm();
 
   const posted = board.members.filter((m) => m.proof);
   const pending = board.members.filter((m) => !m.proof);
 
   async function removeMine() {
     if (deleting) return;
-    if (!confirm("오늘 인증을 삭제할까요?")) return;
+    if (!(await confirm("오늘 인증을 삭제할까요?", { confirmLabel: "삭제", tone: "danger" }))) return;
     setDeleting(true);
     await deleteGroupProofAction(board.id);
     setDeleting(false);
@@ -213,6 +215,7 @@ export function GroupProofBoard({
           onClose={() => setSelected(null)}
         />
       ) : null}
+      {confirmDialog}
     </div>
   );
 }

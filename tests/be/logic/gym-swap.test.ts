@@ -42,3 +42,19 @@ describe("남의 루틴 — 내 헬스장에 없는 기구는 무엇으로(2026-
     expect([euro("덤벨"), euro("머신"), euro("케이블"), euro("스미스")]).toEqual(["로", "으로", "로", "로"]);
   });
 });
+
+describe("대체 계산기 — 요청당 한 번만 계산(2026-10-08 검토)", () => {
+  it("같은 (운동, 기구)는 다시 계산하지 않고, 근육 몫도 운동마다 한 번만 구한다", async () => {
+    const { createGymSwapper } = await import("@/features/routine-share/gym-swap");
+    let calls = 0;
+    const counted = (id: string) => { calls += 1; return stimOf(id); };
+    const swapper = createGymSwapper(ALL_EXERCISES, primaryBodyPart, counted, new Set(["dumbbell"]));
+    const first = swapper("lat-pulldown", "machine");
+    const afterFirst = calls;
+    expect(swapper("lat-pulldown", "machine")).toBe(first);
+    expect(calls).toBe(afterFirst);
+    // 같은 부위 다른 운동 — 이미 구한 근육 몫은 다시 안 구한다(늘어나는 건 새 운동 하나뿐).
+    swapper("seated-cable-row", "cable");
+    expect(calls - afterFirst).toBeLessThanOrEqual(1);
+  });
+});

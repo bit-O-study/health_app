@@ -72,6 +72,15 @@ describe("1년 돌아보기(라이트 2단계 4)", () => {
     expect(r.longestWeekStreak).toBe(3);
     expect(r.topExercise).toEqual({ exerciseId: "squat", days: 3 });
     expect(r.bestPr?.gainKg).toBe(5);
+    // 러닝을 안 넘기면 0(예전 호출과 같다).
+    expect([r.runKm, r.runCount]).toEqual([0, 0]);
+    // 러닝 — 범위 안의 거리·횟수만(2026-10-14).
+    const withRuns = yearReview(vol, exDays, [], today, [
+      { date: "2026-09-30", distanceM: 5230 },
+      { date: "2026-09-20", distanceM: 3000 },
+      { date: "2025-01-01", distanceM: 9000 }, // 범위 밖
+    ]);
+    expect([withRuns.runKm, withRuns.runCount]).toEqual([8.2, 2]);
     const last = r.weeks[YEAR_WEEKS - 1];
     expect(last[0].date).toBe("2026-09-28");
     expect(last[1].level).toBe(2); // 9/29 1000kg — 볼륨 둘(1000·2000) 중 아래쪽

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { ALL_EXERCISES, getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { prescriptionNote, validPrescription, type PrescriptionInput } from "./member-report";
+import { pushMemberPrescription } from "./trainer-push";
 
 export async function searchPrescriptionExercises(query: string) {
   if (!await getCurrentUser() || typeof query !== "string") return [];
@@ -55,6 +56,8 @@ export async function prescribeMemberExercise(
   });
   if (error) return { ok: false, error: "처방을 저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
   if (data !== true) return { ok: false, error: "권한이 없거나 회원의 운동이 변경됐어요. 새로고침 후 다시 확인해 주세요." };
+  // 회원 앱에 푸시(2026-10-14) — 처방이 왔다는 걸 앱을 열지 않아도 안다.
+  pushMemberPrescription(memberId);
   revalidatePrescription(connectionId);
   return { ok: true };
 }
@@ -84,6 +87,7 @@ export async function prescribeMemberToday(
   if (error) return { ok: false, error: "처방을 저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
   if (data !== true)
     return { ok: false, error: "권한이 없거나 회원이 오늘 운동을 바꿨어요. 새로고침 후 다시 확인해 주세요." };
+  pushMemberPrescription(memberId);
   revalidatePrescription(connectionId);
   return { ok: true };
 }

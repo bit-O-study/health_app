@@ -10,7 +10,7 @@ import { silenceDevOverlay } from "./helpers/dev-overlay";
  */
 async function squatToday(page: Page, baseURL: string) {
   await silenceDevOverlay(page);
-  const { supabase, user_id } = await createTestAccount(page.context(), baseURL, false);
+  const { supabase, user_id } = await createTestAccount(page.context(), baseURL, false, { showCheckin: true });
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
   const routine = await supabase.from("user_routines").insert({
     user_id, splits: 0, variant_id: "custom",

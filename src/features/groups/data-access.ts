@@ -191,6 +191,11 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     { data: condDateRows },
     { data: cheerRows },
     { data: challengeRow },
+    // 그룹 공유 펫 코인용 누적 운동 수 + 펫 행 — 멤버 목록만 있으면 되므로 이 차례에 같이(2026-10-14).
+    // 예전엔 이 묶음이 끝난 뒤 두 번 더 따로 다녀왔다(누적 수 → 펫).
+    { count: exAll },
+    { count: condAll },
+    { data: petRow },
   ] = await Promise.all([
     supabase
       .from("profiles")
@@ -244,6 +249,23 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .select("metric, target")
       .eq("group_id", groupId)
       .eq("week_from", from)
+      .maybeSingle(),
+    // 그룹 전체 누적 운동 수를 '한 번에' 집계(멤버별 2×N → 2쿼리).
+
+    supabase
+      .from("exercise_completions")
+      .select("id", { count: "exact", head: true })
+      .in("user_id", memberIds)
+      .eq("status", "done"),
+    supabase
+      .from("conditioning_completions")
+      .select("id", { count: "exact", head: true })
+      .in("user_id", memberIds)
+      .eq("status", "done"),
+    supabase
+      .from("group_pets")
+      .select("name, level, coins, progress, synced_workouts, owned, equipped")
+      .eq("group_id", groupId)
       .maybeSingle(),
   ]);
 
@@ -377,19 +399,6 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     addStreakDate(r.user_id, r.for_date);
   }
 
-  // 그룹 공유 펫 코인용 — 그룹 전체 누적 운동 수를 '한 번에' 집계(멤버별 2×N → 2쿼리).
-  const [{ count: exAll }, { count: condAll }] = await Promise.all([
-    supabase
-      .from("exercise_completions")
-      .select("id", { count: "exact", head: true })
-      .in("user_id", memberIds)
-      .eq("status", "done"),
-    supabase
-      .from("conditioning_completions")
-      .select("id", { count: "exact", head: true })
-      .in("user_id", memberIds)
-      .eq("status", "done"),
-  ]);
   const groupWorkouts = (exAll ?? 0) + (condAll ?? 0);
 
   for (const s of stats.values()) {
@@ -423,12 +432,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     }));
   }
 
-  // 그룹 공유 펫 — 그룹 전체 누적 운동(groupWorkouts, 위에서 집계)으로 코인 적립.
-  const { data: petRow } = await supabase
-    .from("group_pets")
-    .select("name, level, coins, progress, synced_workouts, owned, equipped")
-    .eq("group_id", groupId)
-    .maybeSingle();
+  // 그룹 공유 펫 — 그룹 전체 누적 운동(groupWorkouts, 위에서 집계)으로 코인 적립. 펫 행은 위에서 같이 읽었다.
   const pr = petRow as {
     name: string | null;
     level: number | null;

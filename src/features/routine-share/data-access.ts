@@ -11,7 +11,7 @@ import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import { makeStimulusOf } from "@/features/routine/fit-data";
-import { gymSwapFor } from "@/features/routine-share/gym-swap";
+import { createGymSwapper } from "@/features/routine-share/gym-swap";
 import { getConditioningItem } from "@/features/routine/conditioning-catalog";
 import type {
   ApplyTarget,
@@ -87,18 +87,21 @@ export async function getRoutineShares(
   const rows = data as Row[];
   if (rows.length === 0) return [];
 
-  const { data: mySaves } = user
-    ? await supabase
-        .from("routine_share_saves")
-        .select("share_id")
-        .eq("user_id", user.id)
-        .in("share_id", rows.map((r) => r.id))
-    : { data: [] };
+  // 내 저장 목록과 내 헬스장 기구를 같이 읽는다(헬스장은 '없으면 무엇으로' 대체에 쓴다).
+  const [{ data: mySaves }, gym] = await Promise.all([
+    user
+      ? supabase
+          .from("routine_share_saves")
+          .select("share_id")
+          .eq("user_id", user.id)
+          .in("share_id", rows.map((r) => r.id))
+      : Promise.resolve({ data: [] as { share_id: string }[] }),
+    user ? getCurrentGym().catch(() => null) : Promise.resolve(null),
+  ]);
   const savedByMe = new Set(((mySaves ?? []) as { share_id: string }[]).map((x) => x.share_id));
-  // 내 헬스장 기구 — 등록했으면 루틴 운동마다 '없으면 무엇으로' 대체를 붙인다.
-  const gym = user ? await getCurrentGym().catch(() => null) : null;
   const gymSet = gym ? toGymEquipmentSet(gym.equipmentIds ?? null) : null;
-  const stimulusOf = makeStimulusOf();
+  // 요청당 한 번 — 카탈로그 색인과 (운동, 기구)별 결과를 다시 쓴다. 헬스장이 없으면 계산하지 않는다.
+  const swap = gymSet ? createGymSwapper(ALL_EXERCISES, primaryBodyPart, makeStimulusOf(), gymSet) : null;
 
   const { data: likes } = await supabase
     .from("routine_share_likes")
@@ -136,7 +139,7 @@ export async function getRoutineShares(
       exercises: ex.map((e) => ({
         ...e,
         name: getCatalogExercise(e.exercise_id)?.name ?? e.exercise_id,
-        ...(gymSet ? { gymSwap: gymSwapFor(e.exercise_id, e.equipment, gymSet, ALL_EXERCISES, primaryBodyPart, stimulusOf) } : {}),
+        ...(swap ? { gymSwap: swap(e.exercise_id, e.equipment) } : {}),
       })),
       conditioning: asConditioning(r.conditioning)
         .sort((a, b) => a.position - b.position)

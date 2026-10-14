@@ -33,3 +33,10 @@ describe("수면 회복 상태", () => {
     ], NOW)).toBeNull();
   });
 });
+
+describe("워치 수면 → 컨디션 체크 답(2026-10-14)", () => {
+  it("짧으면 못 잤어요, 보통이면 보통, 충분하거나 길면 잘 잤어요", async () => {
+    const { sleepLevelFor } = await import("@/features/routine/checkin");
+    expect([sleepLevelFor("low"), sleepLevelFor("moderate"), sleepLevelFor("good"), sleepLevelFor("long")]).toEqual([1, 2, 3, 3]);
+  });
+});

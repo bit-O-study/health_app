@@ -3,9 +3,9 @@ import { CalendarHeart, CheckCircle2, ChevronRight, Lightbulb, Moon, Sparkles, T
 
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
-import { growthStories, plateaus, recoveryByPart, recoveryInputs, restingParts } from "@/features/routine/fit-insights";
+import { growthStories, plateaus, restingParts } from "@/features/routine/fit-insights";
+import { loadRecovery } from "@/features/routine/recovery-data";
 import { makeStimulusOf } from "@/features/routine/fit-data";
-import { getTodayCheckin } from "@/features/routine/checkin-data";
 import { whenText } from "@/features/routine/fit-view";
 import { sessionReport } from "@/features/lite/session-report";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
@@ -20,16 +20,16 @@ const ICON = { cycle: CalendarHeart, today: CheckCircle2, rest: Moon, plateau: L
 
 /** 홈 · 오늘 한 줄 데이터(라이트). 홈의 다른 조회와 **같이** 시작해 화면이 늦게 밀리지 않게 한다. */
 export async function loadHomeBriefing(): Promise<Briefing | null> {
-  const [recent, starts, checkin] = await Promise.all([
+  const [recent, starts, mine] = await Promise.all([
     loadRecentRecords().catch(() => null),
     getPeriodStartDates().catch(() => [] as string[]),
-    getTodayCheckin().catch(() => null),
+    loadRecovery().catch(() => null),
   ]);
   if (!recent) return null;
   const { records, today } = recent;
   const now = new Date();
   const stimulusOf = makeStimulusOf();
-  const recovery = recoveryByPart(recoveryInputs(records, now), stimulusOf, now, checkin);
+  const recovery = mine?.rows ?? [];
   const session = sessionReport(records, today, stimulusOf);
   const mainRecovery = session?.mainPart ? recovery.find((r) => r.part === session.mainPart) : null;
   // 다 회복된 부위 중 가장 오래 쉰 곳(한 번이라도 한 부위만).

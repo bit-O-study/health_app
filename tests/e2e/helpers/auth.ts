@@ -133,9 +133,9 @@ async function ensureTodayIsWorkoutDay(page: Page): Promise<void> {
 }
 
 /** Prepare an account without opening a page. */
-export async function createOnboardedAccount(page: Page): Promise<string> {
+export async function createOnboardedAccount(page: Page, opts: { showCheckin?: boolean } = {}): Promise<string> {
   const baseURL = test.info().project.use.baseURL ?? "http://localhost:3000";
-  const email = await prepareOnboardedAccount(page.context(), baseURL);
+  const email = await prepareOnboardedAccount(page.context(), baseURL, opts);
   lastSignedUpEmail = email;
   return email;
 }

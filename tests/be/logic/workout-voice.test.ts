@@ -43,7 +43,19 @@ describe("음성 코치 문장 — 화면 글자가 아니라 말로", () => {
     expect(speakable("손바닥을 안→밖으로 돌리며 전면·측면 자극")).toBe("손바닥을 안에서 밖으로 돌리며 전면, 측면 자극");
     expect(speakable("측면 삼각근 개입↑ · 20kg")).toBe("측면 삼각근 개입 증가, 20킬로");
     expect(speakable("정점에서 1초 멈춤 + 둔근 짜내듯")).toBe("정점에서 1초 멈춤, 둔근 짜내듯");
-    expect(speakable("머리 뒤로 X")).toBe("머리 뒤로 금지");
+    // 'X'(하지 말 것)는 요령 문구에서만 '금지'로 — 일반 문장의 X 는 그대로.
+    expect(speechForSetStart({ setNo: 1, cue: "머리 뒤로 X" })).toBe("1세트. 머리 뒤로 금지.");
+    expect(speakable("X 자세")).toBe("X 자세");
+  });
+  it("🔴 부호·날짜를 말로 — 플러스·마이너스는 읽고, 숫자 사이 '/' 는 그대로(2026-10-08 검토)", () => {
+    expect(speakable("+5kg 늘었어요")).toBe("플러스 5킬로 늘었어요");
+    expect(speakable("지난번보다 −2.5kg")).toBe("지난번보다 마이너스 2.5킬로");
+    expect(speakable("10/10 저녁")).toBe("10/10 저녁");
+    expect(speakable("밀기/당기기")).toBe("밀기, 당기기");
+    expect(speakable("B-스탠스 3세트")).toBe("B-스탠스 3세트");
+  });
+  it("무게 0 은 '0킬로'가 아니라 맨몸", () => {
+    expect(speechForSetStart({ setNo: 2, totalSets: 3, reps: 10, weightKg: 0, cue: null })).toBe("2세트, 10회 맨몸.");
   });
   it("🔴 실제 요령 문구 전부 — 음성으로 바꾸면 기호가 하나도 안 남는다", () => {
     const ids = ["bench-press", "squat", "deadlift", "pull-up", "lat-pulldown", "lateral-raise", "arnold-press", "hip-thrust", "dips", "plank", "leg-press", "barbell-row"];

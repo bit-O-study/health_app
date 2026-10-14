@@ -26,6 +26,7 @@ import {
   DEPOSIT_INFO_KEY,
   parseDepositInfo,
 } from "@/features/billing/deposit-info";
+import { toUserError } from "@/lib/user-error";
 
 export type AdminActionResult = { ok: true } | { ok: false; error: string };
 
@@ -50,7 +51,7 @@ export async function addAdminAction(email: string): Promise<AdminActionResult> 
   const { error } = await supabase
     .from("admins")
     .upsert({ email: e }, { onConflict: "email" });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/admin/settings");
   return { ok: true };
@@ -76,7 +77,7 @@ export async function removeAdminAction(
     .from("admins")
     .delete()
     .eq("email", email.trim().toLowerCase());
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/admin/settings");
   return { ok: true };
@@ -96,7 +97,7 @@ export async function addPostModeratorAction(
   const { error } = await supabase
     .from("post_moderators")
     .upsert({ email: e }, { onConflict: "email" });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/admin/settings");
   return { ok: true };
@@ -114,7 +115,7 @@ export async function removePostModeratorAction(
     .from("post_moderators")
     .delete()
     .eq("email", email.trim().toLowerCase());
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/admin/settings");
   return { ok: true };
@@ -138,7 +139,7 @@ async function setUserBan(
     p_banned_at: bannedAt,
     p_reason: reason,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/members");
   return { ok: true };
 }
@@ -193,7 +194,7 @@ export async function resetMemberPasswordAction(
     p_user_id: userId,
     p_password: temp,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   let emailed = false;
   let note: string | undefined;
@@ -242,7 +243,7 @@ export async function setDebugFeatureAction(
     },
     { onConflict: "key" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   // 공개 범위는 홈 격자와 루트 하단 앱 목록에도 적용한다.
   revalidatePath("/admin/settings");
   revalidatePath("/calendar");
@@ -271,7 +272,7 @@ export async function setGroupModeAction(
     { key: GROUP_MODE_KEY, value: mode, updated_at: new Date().toISOString() },
     { onConflict: "key" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/settings");
   revalidatePath("/groups");
   return { ok: true };
@@ -297,7 +298,7 @@ async function writeDebugAccounts(
     { key: DEBUG_ACCOUNTS_KEY, value: list, updated_at: new Date().toISOString() },
     { onConflict: "key" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/settings");
   return { ok: true };
 }
@@ -342,7 +343,7 @@ export async function restoreUserAction(
   const { error } = await supabase.rpc("admin_restore_user", {
     p_user_id: userId,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/members");
   return { ok: true };
 }
@@ -363,7 +364,7 @@ export async function setDepositInfoAction(
     { key: DEPOSIT_INFO_KEY, value: info, updated_at: new Date().toISOString() },
     { onConflict: "key" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/settings");
   return { ok: true };
 }

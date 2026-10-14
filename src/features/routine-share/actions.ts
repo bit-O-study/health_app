@@ -28,6 +28,7 @@ import {
   type ShareConditioning,
   type ShareExercise,
 } from "@/features/routine-share/share";
+import { toUserError } from "@/lib/user-error";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -123,7 +124,7 @@ export async function shareRoutineDayAction(input: {
     .select("id")
     .single();
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   revalidatePath("/plan");
   return { ok: true, id: (data as { id: string }).id };
@@ -192,10 +193,10 @@ export async function applyRoutineShareAction(
     .delete()
     .eq("user_id", user.id)
     .eq("day_index", dayIndex);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   const ins = await supabase.from("routine_exercises").insert(rows);
-  if (ins.error) return { ok: false, error: ins.error.message };
+  if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
   if (condSnap.length > 0) {
     const delCond = await supabase
@@ -203,11 +204,11 @@ export async function applyRoutineShareAction(
       .delete()
       .eq("user_id", user.id)
       .eq("focus", focus);
-    if (delCond.error) return { ok: false, error: delCond.error.message };
+    if (delCond.error) return { ok: false, error: toUserError(delCond.error) };
     const insCond = await supabase
       .from("routine_conditioning")
       .insert(toConditioningRows(condSnap, user.id, focus));
-    if (insCond.error) return { ok: false, error: insCond.error.message };
+    if (insCond.error) return { ok: false, error: toUserError(insCond.error) };
   }
 
   // 담긴 수 +1 — 남의 글이라 update 권한이 없어 security definer rpc 로.
@@ -244,13 +245,13 @@ export async function toggleRoutineShareLikeAction(
       .delete()
       .eq("share_id", shareId)
       .eq("user_id", user.id);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     return { ok: true, liked: false };
   }
   const { error } = await supabase
     .from("routine_share_likes")
     .insert({ share_id: shareId, user_id: user.id });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   return { ok: true, liked: true };
 }
 
@@ -265,7 +266,7 @@ export async function deleteRoutineShareAction(
     .from("routine_shares")
     .delete()
     .eq("id", shareId);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true };
 }
@@ -319,7 +320,7 @@ export async function toggleRoutineShareSaveAction(
     .maybeSingle();
   if (existing) {
     const { error } = await supabase.from("routine_share_saves").delete().eq("share_id", shareId).eq("user_id", user.id);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: toUserError(error) };
     return { ok: true, saved: false };
   }
   const { error } = await supabase.from("routine_share_saves").insert({ share_id: shareId, user_id: user.id });

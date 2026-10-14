@@ -35,11 +35,14 @@ afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
 function browserContext() {
   const cookies: { name: string; value: string; url: string }[] = [];
+  const initScripts: unknown[][] = [];
   const context = {
     cookies: async () => cookies,
     addCookies: async (values: typeof cookies) => { cookies.push(...values); },
+    // 2026-10-08: 계정 도우미가 '오늘 컨디션 팝업 건너뜀'을 브라우저 저장소에 심는다.
+    addInitScript: async (...args: unknown[]) => { initScripts.push(args); },
   } as unknown as BrowserContext;
-  return { context, cookies };
+  return { context, cookies, initScripts };
 }
 
 it("prepares only the new user's profile and 4-set squat, and installs the real SDK session cookie", async () => {

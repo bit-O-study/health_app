@@ -10,6 +10,7 @@ import {
   isValidReason,
   type ReportTargetKind,
 } from "@/features/community/report";
+import { toUserError } from "@/lib/user-error";
 
 type ActionResult = { ok: true } | { ok: false; error: string };
 
@@ -94,7 +95,7 @@ export async function reportContentAction(input: {
   if (error?.code === "23505") {
     return { ok: false, error: "이미 신고한 게시물이에요." };
   }
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/admin/reports");
   return { ok: true };
 }
@@ -117,7 +118,7 @@ export async function blockAuthorAction(input: {
   if (!authorId) return { ok: false, error: "삭제되었거나 볼 수 없는 게시물이에요." };
   if (authorId === user.id) return { ok: false, error: "나를 차단할 수는 없어요." };
   const { error } = await supabase.from("user_blocks").insert({ blocker_id: user.id, blocked_id: authorId });
-  if (error && error.code !== "23505") return { ok: false, error: error.message };
+  if (error && error.code !== "23505") return { ok: false, error: toUserError(error) };
   // ⚠ 여기서 화면을 다시 그리게(revalidate) 하지 않는다 — 상세 화면에서 막으면 그 글이 바로
   //   '찾을 수 없음' 으로 바뀌어 "차단했어요" 안내도 못 보고 막다른 화면에 선다. 화면 쪽이 안내 뒤 이동·새로고침한다.
   return { ok: true };
@@ -130,7 +131,7 @@ export async function unblockUserAction(blockedId: string): Promise<ActionResult
   if (!blockedId) return { ok: false, error: "잘못된 요청입니다." };
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("user_blocks").delete().eq("blocker_id", user.id).eq("blocked_id", blockedId);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/community");
   return { ok: true };
 }

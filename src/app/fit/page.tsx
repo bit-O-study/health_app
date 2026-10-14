@@ -77,7 +77,9 @@ export default async function FitPage({
     name: p.name,
     equipment: p.equipment,
     equipmentLabel: isEquipmentId(p.equipment) ? EQUIPMENT_LABELS[p.equipment] : p.equipment,
-    prescription: p.prescription
+    prescription: p.pyramid
+      ? `${p.pyramid.length}세트 × 피라미드 ${p.pyramid.map((s) => `${s.weightKg}kg×${s.reps}`).join(" → ")}`
+      : p.prescription
       ? `${p.prescription.sets}세트 × ${p.prescription.reps}회${p.prescription.weightKg ? ` · ${p.prescription.weightKg}kg` : ""}`
       : null,
     fills: p.fills.map((f) => ({ label: subLabel(f.sub), sets: fmtSets(f.add) })),

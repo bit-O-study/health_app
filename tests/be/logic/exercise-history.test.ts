@@ -49,4 +49,9 @@ describe("종목 요약 — 첫 기록 → 최근 3번 평균 · 하는 간격",
     expect(s).toEqual({ firstOneRmKg: 80, recentOneRmKg: 93.3, changeKg: 13.3, everyDays: 7 });
     expect(sessionSummary(exerciseSessions([rec("2026-10-05", "plank", null, 60)], "plank"))).toBeNull();
   });
+
+  it("🔴 기록이 3번 이하면 첫 기록을 '최근 평균'에서 뺀다 — 80 → 100 은 +20(예전엔 첫 기록이 섞여 +10)", () => {
+    const rows = [rec("2026-09-01", "deadlift", 60, 10), rec("2026-09-15", "deadlift", 75, 10)]; // 80 · 100
+    expect(sessionSummary(exerciseSessions(rows, "deadlift"))).toMatchObject({ firstOneRmKg: 80, recentOneRmKg: 100, changeKg: 20 });
+  });
 });

@@ -221,3 +221,24 @@ describe("끝난 런닝(run) — 2026-09-28 런닝 1단계", () => {
     expect(pendingLabel([main("r1"), run("s1")])).toBe("벤치프레스, 야외 런닝 3.21km");
   });
 });
+
+describe("완료한 시각(completed_at, 2026-10-08) — 회복 계산용", () => {
+  const NOW = Date.parse("2026-10-08T15:10:00Z"); // 서울 10/9 00:10
+  it("큐가 보낸 '누른 순간'이 최근 48시간 안이면 그대로 — 자정 넘겨 올라간 23:50 세트", async () => {
+    const { resolveDoneAt } = await import("@/lib/offline/queued-date");
+    const pressed = Date.parse("2026-10-08T14:50:00Z"); // 서울 10/8 23:50
+    expect(resolveDoneAt(pressed, NOW)).toBe("2026-10-08T14:50:00.000Z");
+  });
+  it("없거나 너무 옛날·미래(기기 시계 오류)면 지금 — 미래 5분 안은 지금으로 맞춘다", async () => {
+    const { resolveDoneAt } = await import("@/lib/offline/queued-date");
+    expect(resolveDoneAt(undefined, NOW)).toBe(new Date(NOW).toISOString());
+    expect(resolveDoneAt(NOW - 3 * 86_400_000, NOW)).toBe(new Date(NOW).toISOString());
+    expect(resolveDoneAt(NOW + 60 * 60_000, NOW)).toBe(new Date(NOW).toISOString());
+    expect(resolveDoneAt(NOW + 2 * 60_000, NOW)).toBe(new Date(NOW).toISOString());
+  });
+  it("🔴 큐가 다시 올릴 때 누른 순간을 같이 넘긴다", async () => {
+    const { readFileSync } = await import("node:fs");
+    expect(readFileSync("src/lib/offline/pending-queue.ts", "utf8")).toContain("setExerciseStatusAction(w.rowId, w.status, w.snapshot, w.forDate, w.queuedAt)");
+    expect(readFileSync("src/features/routine/exercise-completion-actions.ts", "utf8")).toContain('status === "done" ? { completed_at: resolveDoneAt(doneAtMs, Date.now()) }');
+  });
+});

@@ -57,6 +57,7 @@ import {
 } from "@/features/routine/arm-routine-swap";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
 import { isSupersetGroup } from "@/features/workout-timer/superset";
+import { toUserError } from "@/lib/user-error";
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
 export type AddedTodayExercise = {
@@ -246,7 +247,12 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   if (!replacement.ok) return replacement;
 
   // 워밍업·마무리도 기본 추천으로 함께 채운다
-  await registerRecommendedConditioningAction();
+  // 워밍업·마무리 재설정이 실패하면 알린다(예전엔 조용히 비거나 옛 것이 남았다).
+  try {
+    await registerRecommendedConditioningAction();
+  } catch {
+    return { ok: false, error: "워밍업·마무리를 채우지 못했어요. 다시 시도해 주세요." };
+  }
 
   revalidatePath("/routine");
   return { ok: true };
@@ -536,7 +542,10 @@ export async function saveMuscleSelectionAction(
 /**
  * 본운동 1행의 세트·횟수·무게를 즉시 수정한다. rowId 는 routine_exercises
  * 또는 daily_plan 의 id 일 수 있어 두 테이블 모두에 update 시도한다.
- * 완료/스킵 기록(exercise_completions)은 건드리지 않는다.
+ * 완료/스킵 기록(exercise_completions)은 **오늘 것만** 같이 고친다.
+ *
+ * 🔴 지난 날짜의 기록은 고치지 않는다(2026-10-14). 예전엔 날짜 조건 없이 그 행의 기록을 전부
+ *    덮어써서, 오늘 무게를 고치면 지난 기록까지 같은 값이 됐다(성장 그래프·증량 추천이 틀어진다).
  */
 export async function updateExerciseAction(
   rowId: string,
@@ -594,7 +603,7 @@ export async function updateExerciseAction(
               ? values.memo.trim().slice(0, 1000)
               : null,
         };
-  await Promise.all([
+  const results = await Promise.all([
     supabase
       .from("routine_exercises")
       .update(planUpdate)
@@ -605,13 +614,16 @@ export async function updateExerciseAction(
       .update(planUpdate)
       .eq("user_id", user.id)
       .eq("id", rowId),
-    // 이미 done/skip 처리된 기록의 snapshot 도 함께 갱신 — 기록·점수가 옛값으로 남지 않게.
+    // 오늘 이미 done/skip 처리된 기록의 snapshot 도 함께 갱신 — 오늘 기록·점수가 옛값으로 남지 않게.
     supabase
       .from("exercise_completions")
       .update(update)
       .eq("user_id", user.id)
+      .eq("for_date", seoulYmd())
       .eq("exercise_row_id", rowId),
   ]);
+  // 예전엔 결과를 안 봐서 저장이 실패해도 성공으로 보였다.
+  if (results.some((r) => r.error)) return { ok: false, error: "저장하지 못했어요. 다시 시도해 주세요." };
 
   // 클라이언트가 로컬 state 로 즉시 반영. revalidate 생략 — 인라인 저장이 즉시 끝난 느낌으로.
   return { ok: true };
@@ -648,7 +660,7 @@ export async function updateExerciseMemoAction(
       .eq("id", rowId),
   ]);
   if (re.error && dp.error) {
-    return { ok: false, error: re.error.message };
+    return { ok: false, error: toUserError(re.error) };
   }
   return { ok: true };
 }
@@ -746,7 +758,7 @@ export async function addExerciseToTodayAction(
       })
       .select("id")
       .single();
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
     insertedId = (ins.data as { id: string }).id;
   } else {
     // 오버라이드 없음 → 기본 루틴의 그 일차에 append (오늘 이후에도 유지).
@@ -774,7 +786,7 @@ export async function addExerciseToTodayAction(
       })
       .select("id")
       .single();
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
     insertedId = (ins.data as { id: string }).id;
   }
 

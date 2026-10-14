@@ -1,6 +1,8 @@
 "use server";
 
 import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
+import { weightGridKg } from "@/features/routine/progress";
+import { pyramidSets, recommendsPyramid } from "@/features/routine/pyramid";
 import { revalidatePath } from "next/cache";
 
 import {
@@ -35,6 +37,7 @@ import {
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getPlanForDay } from "@/features/routine/plan";
 import { carryOverCompletions } from "@/features/routine/completion-carry";
+import { toUserError } from "@/lib/user-error";
 
 export type DailyPlanItem = {
   exerciseId: string;
@@ -78,13 +81,14 @@ export async function pinRoutineFocusesForTodayAction(
   // 오늘 더한 부위/세부근육을 기억한다 — 아직 운동을 안 담았어도 오늘 화면의
   // '운동 추가'에서 그 부위를 고를 수 있어야 한다. **날짜 한정이라 내일 루틴엔 영향 없음.**
   if (addedBlocks && addedBlocks.trim() && addedBlocks !== "direct") {
-    await supabase
+    const { error } = await supabase
       .from("user_routines")
       .update({
         today_added_date: seoulYmd(),
         today_added_blocks: addedBlocks.trim().slice(0, 200),
       })
       .eq("user_id", user.id);
+    if (error) return { ok: false, error: "부위를 더하지 못했어요. 다시 시도해 주세요." };
   }
 
   const routine = await getUserRoutine();
@@ -150,7 +154,7 @@ export async function pinRoutineFocusesForTodayAction(
       .from("daily_plan")
       .insert(rows)
       .select("id, position");
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
     // ⚠ 오늘 이미 완료해 둔 세트가 '풀리지' 않게: 완료기록(exercise_completions)이 가리키던
     // 옛 루틴 행 id 를 방금 만든 daily_plan 행 id 로 옮긴다(같은 position = 같은 운동, 1:1).
@@ -181,7 +185,7 @@ export async function pinRoutineFocusesForTodayAction(
       ),
     );
     const failed = updResults.find((u) => u.error);
-    if (failed?.error) return { ok: false, error: failed.error.message };
+    if (failed?.error) return { ok: false, error: toUserError(failed.error) };
   }
 
   revalidatePath("/routine");
@@ -209,7 +213,7 @@ export async function clearDailyPlanForDateAction(
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", dateYmd);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");
@@ -259,7 +263,7 @@ export async function exitTodayOnlyAction(): Promise<SaveDailyPlanResult> {
       .eq("today_added_date", today),
   ]);
   const err = dp.error || dc.error || ov.error || rd.error;
-  if (err) return { ok: false, error: err.message };
+  if (err) return { ok: false, error: toUserError(err) };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");
@@ -309,7 +313,7 @@ export async function saveDailyPlanAction(
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
     .eq("focus", focus);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   if (items.length > 0) {
     const rows = items.map((it, index) => ({
@@ -328,7 +332,7 @@ export async function saveDailyPlanAction(
       .from("daily_plan")
       .insert(rows)
       .select("id, exercise_id");
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
     // ⚠ 통째로 지우고 다시 넣으므로 행 id 가 새로 생긴다. 오늘 완료기록이 옛 행 id 를
     //   가리킨 채 남으면 화면엔 완료로 보이는데 **완료 취소가 안 먹는다** → 새 행으로 옮긴다.
@@ -400,6 +404,10 @@ export async function addExercisesTodayOnlyAction(
           equipment: it.equipment,
         })
       : { sets: 3, reps: 10, weightKg: null };
+    // 큰 복합 운동 · 중급 이상이면 피라미드로 권한다(2026-10-14). 못 만들면 같은 무게·같은 횟수.
+    const pyramid = recommendsPyramid(it.exerciseId, profile?.experience)
+      ? pyramidSets(p.weightKg, p.reps, p.sets, weightGridKg(it.exerciseId, it.equipment) ?? 1)
+      : null;
     return {
       user_id: user.id,
       for_date: todayYmd,
@@ -407,14 +415,12 @@ export async function addExercisesTodayOnlyAction(
       position: pos++,
       exercise_id: it.exerciseId,
       equipment: it.equipment,
-      sets: p.sets,
-      reps: p.reps,
-      weight_kg: p.weightKg,
+      ...toRowFields({ sets: p.sets, reps: p.reps, weightKg: p.weightKg, setDetails: pyramid }),
     };
   });
 
   const ins = await supabase.from("daily_plan").insert(rows);
-  if (ins.error) return { ok: false, error: ins.error.message };
+  if (ins.error) return { ok: false, error: toUserError(ins.error) };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");
@@ -487,7 +493,7 @@ export async function replaceExerciseTodayOnlyAction(input: {
     })
     .eq("user_id", user.id)
     .eq("id", targetId);
-  if (updated.error) return { ok: false, error: updated.error.message };
+  if (updated.error) return { ok: false, error: toUserError(updated.error) };
   revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };

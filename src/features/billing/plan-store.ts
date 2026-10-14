@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { isEntitled } from "@/features/billing/subscription";
 import { getMySubscription } from "@/features/billing/subscription-store";
@@ -54,7 +56,9 @@ export type PlanResolution = {
  * 🔴 요금제는 **구독 만료 시각**에서 나온다(`isEntitled`). 해지·환불·결제 실패는 만료로
  * 저절로 반영된다. 조회가 실패하면 무료 — 실수로 주는 쪽보다 안전하다.
  */
-export async function resolvePlanDetail(): Promise<PlanResolution> {
+// 요청 단위 cache(2026-10-14) — 한 화면에서 맞춤 운동 · AI 한도 · 메뉴 표시가 저마다 불러서
+// 구독 · 팀 · 트레이너 연결을 두세 번씩 읽었다.
+export const resolvePlanDetail = cache(async function resolvePlanDetail(): Promise<PlanResolution> {
   try {
     const [personalSub, team, trainer] = await Promise.all([
       getMySubscription(),
@@ -73,7 +77,7 @@ export async function resolvePlanDetail(): Promise<PlanResolution> {
   } catch {
     return { plan: "free", personal: "free", sponsored: false };
   }
-}
+});
 
 export async function resolvePlan(): Promise<PlanId> {
   return (await resolvePlanDetail()).plan;

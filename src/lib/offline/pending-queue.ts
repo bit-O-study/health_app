@@ -134,7 +134,7 @@ export function isPendingStored(key: string): boolean {
 function send(w: PendingWrite) {
   if (w.kind === "run") return recordRunSessionAction(w.session);
   return w.kind === "main"
-    ? setExerciseStatusAction(w.rowId, w.status, w.snapshot, w.forDate)
+    ? setExerciseStatusAction(w.rowId, w.status, w.snapshot, w.forDate, w.queuedAt)
     : setConditioningStatusAction(
         w.condKind,
         w.rowId,

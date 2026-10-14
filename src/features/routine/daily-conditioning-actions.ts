@@ -15,6 +15,7 @@ import type {
   ConditioningInput,
   SaveConditioningResult,
 } from "@/features/routine/conditioning-actions";
+import { toUserError } from "@/lib/user-error";
 
 /** YYYY-MM-DD 형식 간이 검증 */
 function isValidYmd(s: string): boolean {
@@ -50,7 +51,7 @@ export async function saveDailyConditioningAction(
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
     .eq("kind", kind);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   if (items.length > 0) {
     const rows = items.map((it, index) => ({
@@ -66,7 +67,7 @@ export async function saveDailyConditioningAction(
       reps: it.reps,
     }));
     const ins = await supabase.from("daily_conditioning").insert(rows);
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   }
 
   revalidatePath("/routine");

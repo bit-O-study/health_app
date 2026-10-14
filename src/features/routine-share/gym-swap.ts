@@ -40,6 +40,64 @@ export function muscleOverlap(a: Record<string, number>, b: Record<string, numbe
   return shared / total;
 }
 
+/**
+ * 한 요청에서 여러 루틴·운동을 볼 때 쓰는 대체 계산기 — 카탈로그 색인(부위별 · 근육 몫)을 한 번만 만들고,
+ * 같은 (운동, 기구)는 결과를 다시 쓴다. 예전엔 운동마다 카탈로그 전체를 처음부터 훑었다(2026-10-08 검토).
+ */
+export function createGymSwapper(
+  catalog: readonly CatalogExercise[],
+  partOf: (exerciseId: string) => string,
+  stimulusOf: StimulusOf,
+  gym: ReadonlySet<string> | null,
+  limit = 2,
+): (exerciseId: string, equipment: string) => GymSwap {
+  const byId = new Map(catalog.map((c) => [c.id, c]));
+  const shareCache = new Map<string, Record<string, number>>();
+  const shareOf = (id: string) => {
+    let v = shareCache.get(id);
+    if (!v) shareCache.set(id, (v = setShare(stimulusOf(id))));
+    return v;
+  };
+  let byPart: Map<string, CatalogExercise[]> | null = null;
+  const availableInPart = (part: string) => {
+    if (!byPart) {
+      byPart = new Map();
+      for (const c of catalog) {
+        if (gym && !isExerciseAvailable(c, gym)) continue;
+        const p = partOf(c.id);
+        byPart.set(p, [...(byPart.get(p) ?? []), c]);
+      }
+    }
+    return byPart.get(part) ?? [];
+  };
+  const memo = new Map<string, GymSwap>();
+  return (exerciseId, equipment) => {
+    const key = `${exerciseId}|${equipment}`;
+    const hit = memo.get(key);
+    if (hit) return hit;
+    const result = ((): GymSwap => {
+      if (gym === null) return { kind: "ok" };
+      const ex = byId.get(exerciseId);
+      if (!ex) return { kind: "ok" };
+      if (isEquipmentAvailable(equipment as EquipmentId, gym)) return { kind: "ok" };
+      const variant = ex.equipments.find((v) => v.equipment !== equipment && isEquipmentAvailable(v.equipment, gym));
+      if (variant) return { kind: "other-equipment", equipment: variant.equipment };
+      const base = shareOf(exerciseId);
+      const options = availableInPart(partOf(exerciseId))
+        .filter((c) => c.id !== exerciseId)
+        .map((c) => ({ c, overlap: muscleOverlap(base, shareOf(c.id)) }))
+        .filter((x) => x.overlap >= MIN_OVERLAP)
+        .sort((a, b) => b.overlap - a.overlap)
+        .slice(0, limit)
+        .map(({ c, overlap }) => ({ exerciseId: c.id, name: c.name, equipment: pickAvailableEquipment(c, gym), overlapPct: Math.round(overlap * 100) }));
+      return options.length ? { kind: "replace", options } : { kind: "none" };
+    })();
+    memo.set(key, result);
+    return result;
+  };
+}
+
+/** 한 번만 물을 때(테스트 등) — createGymSwapper 를 한 번 쓰고 버린다. */
 export function gymSwapFor(
   exerciseId: string,
   equipment: string,
@@ -49,21 +107,5 @@ export function gymSwapFor(
   stimulusOf: StimulusOf,
   limit = 2,
 ): GymSwap {
-  if (gym === null) return { kind: "ok" };
-  const ex = catalog.find((c) => c.id === exerciseId);
-  if (!ex) return { kind: "ok" };
-  if (isEquipmentAvailable(equipment as EquipmentId, gym)) return { kind: "ok" };
-  const variant = ex.equipments.find((v) => v.equipment !== equipment && isEquipmentAvailable(v.equipment, gym));
-  if (variant) return { kind: "other-equipment", equipment: variant.equipment };
-
-  const base = setShare(stimulusOf(exerciseId));
-  const part = partOf(exerciseId);
-  const options = catalog
-    .filter((c) => c.id !== exerciseId && partOf(c.id) === part && isExerciseAvailable(c, gym))
-    .map((c) => ({ c, overlap: muscleOverlap(base, setShare(stimulusOf(c.id))) }))
-    .filter((x) => x.overlap >= MIN_OVERLAP)
-    .sort((a, b) => b.overlap - a.overlap)
-    .slice(0, limit)
-    .map(({ c, overlap }) => ({ exerciseId: c.id, name: c.name, equipment: pickAvailableEquipment(c, gym), overlapPct: Math.round(overlap * 100) }));
-  return options.length ? { kind: "replace", options } : { kind: "none" };
+  return createGymSwapper(catalog, partOf, stimulusOf, gym, limit)(exerciseId, equipment);
 }

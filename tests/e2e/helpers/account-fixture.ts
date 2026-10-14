@@ -31,7 +31,12 @@ function supabaseEnv(): Record<string, string | undefined> {
 }
 
 /** Fresh Auth account and UI-equivalent profile; never shares server state between tests. */
-export async function createTestAccount(context: BrowserContext, baseURL: string, lockWeightReps = false) {
+/**
+ * @param opts.showCheckin 운동 탭에 들어가면 자동으로 뜨는 '오늘 컨디션' 팝업(2026-10-08 dev 병합)을 그대로 띄울지.
+ *   기본은 '오늘 건너뜀' 표시를 남겨 안 띄운다 — 팝업이 뒤 버튼 클릭을 막아 운동 탭을 쓰는 다른 테스트가 전부 멈췄다.
+ *   팝업 자체를 시험하는 테스트만 true.
+ */
+export async function createTestAccount(context: BrowserContext, baseURL: string, lockWeightReps = false, opts: { showCheckin?: boolean } = {}) {
   const email = freshEmail();
   const env = supabaseEnv();
   const supabase = createServerClient(
@@ -79,12 +84,23 @@ export async function createTestAccount(context: BrowserContext, baseURL: string
     lock_weight_reps: lockWeightReps,
   });
   if (profile.error) throw profile.error;
+  if (!opts.showCheckin) await dismissDailyCheckin(context, user_id);
   return { email, supabase, user_id };
 }
 
+/** 오늘(서울)·내일 '컨디션 팝업 건너뜀' — 자정을 넘기는 테스트에서도 다시 안 뜨게. 앱이 쓰는 키 그대로. */
+export async function dismissDailyCheckin(context: BrowserContext, userId: string) {
+  const day = (offset: number) =>
+    new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date(Date.now() + offset * 86_400_000));
+  const keys = [day(0), day(1)].map((d) => `helssu.checkin-dismissed.${userId}.${d}`);
+  await context.addInitScript((ks: string[]) => {
+    try { for (const k of ks) window.localStorage.setItem(k, "1"); } catch { /* 저장소를 못 쓰면 팝업이 뜬다 */ }
+  }, keys);
+}
+
 /** Same empty manual fullbody routine produced by the default UI onboarding. */
-export async function prepareOnboardedAccount(context: BrowserContext, baseURL: string): Promise<string> {
-  const { email, supabase, user_id } = await createTestAccount(context, baseURL);
+export async function prepareOnboardedAccount(context: BrowserContext, baseURL: string, opts: { showCheckin?: boolean } = {}): Promise<string> {
+  const { email, supabase, user_id } = await createTestAccount(context, baseURL, false, opts);
   const routine = await supabase.from("user_routines").insert({
     user_id, splits: 3, variant_id: "fullbody-3", custom_week: null,
     baseline_routine: { splits: 3, variant_id: "fullbody-3", custom_week: null },

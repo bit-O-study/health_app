@@ -69,6 +69,7 @@ test("오늘만 부위 추가해도 방금 완료한 운동은 완료로 유지(
   await dismissNudge(page);
   await page.getByRole("button", { name: "가슴", exact: true }).first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });

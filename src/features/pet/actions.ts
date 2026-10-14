@@ -8,6 +8,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { roomItem, type RoomCat } from "@/features/pet/catalog";
+import { toUserError } from "@/lib/user-error";
 
 export type PetActionResult = { ok: true } | { ok: false; error: string };
 
@@ -57,7 +58,7 @@ async function save(
     { user_id: userId, ...patch, updated_at: new Date().toISOString() },
     { onConflict: "user_id" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePet();
   return { ok: true };
 }

@@ -65,6 +65,20 @@ test("인바디가 없으면 직접 입력해야 만들 수 있고, 예상은 �
   await expect(page.getByTestId("pledge-errors")).toContainText("단백질");
   await page.getByTestId("protein").fill("112");
 
+  // 숫자 칸은 다 지워진다(2026-10-14) — 예전엔 지우는 순간 8000 이 다시 찍혀 새로 칠 수 없었다.
+  await page.getByRole("button", { name: "걸음 다짐 켜기" }).click();
+  const steps = page.getByLabel("하루 걸음");
+  await expect(steps).toHaveValue("8000");
+  await steps.fill("");
+  await expect(steps).toHaveValue("");
+  await steps.pressSequentially("6000");
+  await expect(steps).toHaveValue("6000");
+  // 꼭 있어야 하는 값이라, 비운 채 칸을 떠나면 마지막 값으로 돌아온다.
+  await steps.fill("");
+  await steps.blur();
+  await expect(steps).toHaveValue("6000");
+  await page.getByRole("button", { name: "걸음 다짐 끄기" }).click();
+
   // 무료 — 목표로 만들기는 잠겨 있다(990원 라이트부터).
   await page.getByTestId("goal-mode").click();
   await expect(page.getByTestId("goal-locked")).toBeVisible();

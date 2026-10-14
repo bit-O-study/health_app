@@ -49,6 +49,7 @@ test("오늘만 운동 바꾸기에서 세부근육(가슴 상부)까지 고르�
   // 부위 배지 → 오늘만 운동 바꾸기 시트
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
+  await page.getByRole("tab", { name: "부위 바꾸기" }).click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });

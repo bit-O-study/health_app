@@ -35,6 +35,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
   const [steps, setSteps] = useState<number | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
   const [diag, setDiag] = useState<string | null>(null);
+  const [diagOpen, setDiagOpen] = useState(false);
   const [pending, start] = useTransition();
 
   // 화면 디버그(🩺 진단칩): '디버그 계정'(관리자 지정)에게만 앱에서 노출한다. 일반 사용자
@@ -161,8 +162,11 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
       {diag ? (
         <button
           type="button"
-          onClick={() => window.alert(diag)}
-          className="max-w-[280px] break-all rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-right text-xs font-semibold leading-tight text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
+          // 탭하면 진단 전문을 그 자리에서 펼친다(2026-10-14 — 앱에서 어색한 기본 알림창 대신).
+          onClick={() => setDiagOpen((v) => !v)}
+          aria-expanded={diagOpen}
+          data-open={diagOpen}
+          className="data-[open=false]:line-clamp-2 max-w-[280px] break-all rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-right text-xs font-semibold leading-tight text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
         >
           🩺 {diag} (탭하면 전체보기)
         </button>

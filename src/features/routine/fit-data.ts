@@ -14,6 +14,7 @@ import {
   partRows,
   pickExercises,
   recoveringSubs,
+  stillRecovering,
   subRows,
   weeklyStimulus,
   withPlanned,
@@ -27,19 +28,19 @@ import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { isExerciseAvailable, pickAvailableEquipment, toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
-import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
+import { getPainAreas } from "@/features/routine/checkin-data";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import { getUserProfile } from "@/features/profile/data-access";
 import { prescribe, type Prescription } from "@/features/routine/prescription";
 import { isEquipmentId, type BodyPart } from "@/features/routine/exercise-catalog-labels";
-import type { ProgressRecord } from "@/features/routine/progress";
+import { weightGridKg, type ProgressRecord } from "@/features/routine/progress";
+import { pyramidSets, recommendsPyramid } from "@/features/routine/pyramid";
+import type { SetDetail } from "@/features/routine/set-details";
 import { loadRecentRecords } from "@/features/lite/recent-records";
 import {
   growthStories,
   plateaus,
   restingParts,
-  recoveryByPart,
-  doneAtOf,
   type RecoveryRow,
   type GrowthStory,
   type Plateau,
@@ -85,7 +86,7 @@ export type FitView = {
   /** 오늘 운동이 1회 분량만큼 찼다(또는 오늘 추천을 이미 담았다) — 추천을 더 내밀지 않는다. */
   todayFull: boolean;
   /** 추천 + 처방(세트·횟수·무게, 오늘만 담을 때와 같은 값). */
-  picks: (FitPick & { prescription: Prescription | null })[];
+  picks: (FitPick & { prescription: Prescription | null; /** 피라미드로 권할 때의 세트별 값(담을 때와 같은 규칙). */ pyramid: SetDetail[] | null })[];
   balance: BalanceRow[];
   /** 지난 7일 운동한 날. 0 이면 설문(성별·경력) 목표만으로 추천한다. */
   daysThisWeek: number;
@@ -115,11 +116,11 @@ export async function loadFitView(opts?: {
   const supabase = await createSupabaseServerClient();
   const today = seoulYmd();
   const from = addDaysYmd(today, -6);
-  const [profile, recs, gym, pain, todayIds, checkin] = await Promise.all([
+  const [profile, recs, gym, pain, todayIds, recovered] = await Promise.all([
     getUserProfile().catch(() => null),
     supabase
       .from("exercise_completions")
-      .select("exercise_id, for_date, sets, reps, set_details, created_at")
+      .select("exercise_id, for_date, sets, reps, set_details")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", from)
@@ -127,8 +128,8 @@ export async function loadFitView(opts?: {
     getCurrentGym().catch(() => null),
     getPainAreas(),
     todayExerciseIds(),
-    // 부위별 회복 — 오늘 근육통·잠 체크인을 반영한다.
-    getTodayCheckin().catch(() => null),
+    // 부위별 회복 — 내 몸 기준(예상 최대 · 평소 소화량 · 골격근량)과 오늘 체크인. 다른 화면과 같은 계산.
+    import("@/features/routine/recovery-data").then((m) => m.loadRecovery()).catch(() => null),
   ]);
 
   const raw = (recs.data ?? []) as {
@@ -137,26 +138,13 @@ export async function loadFitView(opts?: {
     sets: number | null;
     reps: number | null;
     set_details: unknown;
-    created_at: string | null;
   }[];
   const records: FitRecord[] = raw.map((r) => ({
     exerciseId: r.exercise_id,
     forDate: r.for_date,
     sets: Array.isArray(r.set_details) && r.set_details.length > 0 ? r.set_details.length : Number(r.sets) || 0,
   }));
-  // 부위별 회복 — 끝낸 시각 기준(없거나 나중에 채운 기록이면 그날 저녁 7시). 세트마다 횟수로 강도(무거움·가벼움)를 본다.
-  const recovery = recoveryByPart(
-    raw.map((r, i) => ({
-      exerciseId: r.exercise_id,
-      reps: Array.isArray(r.set_details) && r.set_details.length > 0
-        ? (r.set_details as { reps?: unknown }[]).map((d) => Number(d?.reps) || 0)
-        : Array.from({ length: records[i].sets }, () => Number(r.reps) || 0),
-      doneAt: doneAtOf(r.created_at, r.for_date),
-    })),
-    makeStimulusOf(),
-    new Date(),
-    checkin,
-  );
+  const recovery = recovered?.rows ?? [];
 
   const stimulusOf = makeStimulusOf();
   // 몸 목표 스타일(설정·가입 설문) — 안 골랐으면 성별 표.
@@ -188,7 +176,8 @@ export async function loadFitView(opts?: {
     // 1회 운동 시간에 맞춰 추천 개수(30분 2 · 45분 3 · 60분 4).
     n: opts?.n ?? fitPickCount(profile?.sessionMinutes),
     exclude: todayIds,
-    recovering: recoveringSubs(records, stimulusOf, today, addDaysYmd(today, -1)),
+    // 회복 카드와 같은 계산을 따른다 — 가볍게 한 부위는 피하지 않는다.
+    recovering: stillRecovering(recoveringSubs(records, stimulusOf, today, addDaysYmd(today, -1)), recovered?.rows),
   });
 
   return {
@@ -199,9 +188,8 @@ export async function loadFitView(opts?: {
     lacking: mostLacking(planRows, 3),
     plannedCount: planned.count,
     todayFull,
-    picks: picks.map((p) => ({
-      ...p,
-      prescription: profile
+    picks: picks.map((p) => {
+      const prescription = profile
         ? prescribe(p.exerciseId, {
             gender: profile.gender === "female" ? "female" : "male",
             experience: profile.experience,
@@ -209,8 +197,13 @@ export async function loadFitView(opts?: {
             weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
             equipment: isEquipmentId(p.equipment) ? p.equipment : undefined,
           })
-        : null,
-    })),
+        : null;
+      // 큰 복합 운동 · 중급 이상은 피라미드로 — 오늘만 담을 때(daily-plan-actions)와 같은 규칙.
+      const pyramid = prescription && recommendsPyramid(p.exerciseId, profile?.experience)
+        ? pyramidSets(prescription.weightKg, prescription.reps, prescription.sets, weightGridKg(p.exerciseId, p.equipment) ?? 1)
+        : null;
+      return { ...p, prescription, pyramid };
+    }),
     balance: balanceRows(targets, stim),
     daysThisWeek: new Set(records.map((r) => r.forDate)).size,
     recovery,

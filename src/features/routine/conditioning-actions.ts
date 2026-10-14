@@ -18,6 +18,7 @@ import {
   isConditioningKind,
   type ConditioningKind,
 } from "@/features/routine/conditioning-catalog";
+import { toUserError } from "@/lib/user-error";
 
 export type SaveConditioningResult =
   | { ok: true }
@@ -62,7 +63,7 @@ export async function updateConditioningMemoAction(
       .eq("user_id", user.id)
       .eq("id", rowId),
   ]);
-  if (rc.error && dc.error) return { ok: false, error: rc.error.message };
+  if (rc.error && dc.error) return { ok: false, error: toUserError(rc.error) };
   return { ok: true };
 }
 
@@ -110,7 +111,7 @@ export async function saveConditioningAction(
     .eq("user_id", user.id)
     .eq("focus", focus)
     .eq("kind", kind);
-  if (del.error) return { ok: false, error: del.error.message };
+  if (del.error) return { ok: false, error: toUserError(del.error) };
 
   if (items.length > 0) {
     const rows = items.map((it, index) => ({
@@ -127,7 +128,7 @@ export async function saveConditioningAction(
       memo: memoByItem.get(it.itemId) ?? null,
     }));
     const ins = await supabase.from("routine_conditioning").insert(rows);
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   }
 
   revalidatePath("/routine");
@@ -165,10 +166,16 @@ export async function registerRecommendedConditioningAction(): Promise<void> {
     ),
   );
 
-  await supabase.from("routine_conditioning").delete().eq("user_id", user.id);
-
+  // 새 것을 먼저 넣고, 넣는 데 성공했을 때만 옛 것을 지운다(2026-10-14).
+  // 예전엔 전부 지운 뒤 넣었고 둘 다 결과를 안 봐서, 넣기가 실패하면 워밍업·마무리가 통째로 비었다.
+  const { data: old } = await supabase.from("routine_conditioning").select("id").eq("user_id", user.id);
   if (rows.length > 0) {
-    await supabase.from("routine_conditioning").insert(rows);
+    const { error } = await supabase.from("routine_conditioning").insert(rows);
+    if (error) throw new Error("추천 워밍업·마무리를 넣지 못했어요.");
+  }
+  const oldIds = ((old ?? []) as { id: string }[]).map((r) => r.id);
+  if (oldIds.length > 0) {
+    await supabase.from("routine_conditioning").delete().eq("user_id", user.id).in("id", oldIds);
   }
 
   revalidatePath("/routine");
@@ -227,7 +234,7 @@ export async function addConditioningToTodayAction(
       sets: d.sets,
       reps: d.reps,
     });
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   } else {
     const { data: tail } = await supabase
       .from("routine_conditioning")
@@ -250,7 +257,7 @@ export async function addConditioningToTodayAction(
       sets: d.sets,
       reps: d.reps,
     });
-    if (ins.error) return { ok: false, error: ins.error.message };
+    if (ins.error) return { ok: false, error: toUserError(ins.error) };
   }
 
   // 신규 행 추가 — 클라이언트가 router.refresh() 로 보여줌

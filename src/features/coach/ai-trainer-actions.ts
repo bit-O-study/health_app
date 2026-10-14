@@ -45,6 +45,7 @@ import { applyItemsTodayOnly, type ApplyMode } from "@/features/routine/today-ap
 import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { trainerStateLines } from "@/features/routine/checkin";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
+import { toUserError } from "@/lib/user-error";
 
 export type GenerateTodayPlanResult =
   | { ok: true; plan: TodayPlan }
@@ -94,7 +95,7 @@ export async function generateTodayPlanAction(minutesInput?: unknown): Promise<G
     return { ok: false, error: "추천에 필요한 정보를 읽지 못했어요. 잠시 뒤 다시 시도해 주세요." };
   }
   const quota = await consumeAiQuota("trainer");
-  if (!quota.ok) return { ok: false, error: quota.message };
+  if (!quota.ok) return { ok: false, error: toUserError(quota) };
 
   const lines = trainerStateLines(myStateLines(state, (id) => EXERCISES[id]?.name ?? id), checkin, painAreas);
   const res = await callAI(TRAINER_SYSTEM, buildTrainerUserText(lines, candidates, minutes), { maxTokens: 700 });
@@ -165,7 +166,7 @@ export async function reviewTodayDietAction(): Promise<DietReviewResult> {
     return { ok: false, error: "오늘 먹은 걸 한 끼 이상 기록하면 봐 드릴게요." };
   }
   const quota = await consumeAiQuota("diet-coach");
-  if (!quota.ok) return { ok: false, error: quota.message };
+  if (!quota.ok) return { ok: false, error: toUserError(quota) };
 
   const hour = Number(
     new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Seoul", hour: "numeric", hour12: false }).format(new Date()),
@@ -194,7 +195,7 @@ export async function suggestTrainerCommitmentsAction(): Promise<CommitmentSugge
   const state = await loadMyState();
   if (!state) return { ok: false, error: "추천에 필요한 정보를 읽지 못했어요." };
   const quota = await consumeAiQuota("coach");
-  if (!quota.ok) return { ok: false, error: quota.message };
+  if (!quota.ok) return { ok: false, error: toUserError(quota) };
   const lines = myStateLines(state, (id) => EXERCISES[id]?.name ?? id);
   const res = await callAI(COMMITMENT_SYSTEM, `회원 상태:\n${lines.join("\n") || "기록이 거의 없음"}`);
   if (!res.ok) {

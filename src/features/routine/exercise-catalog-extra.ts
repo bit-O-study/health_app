@@ -9217,6 +9217,36 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
       }
     ]
   },
+  "hip-cars": {
+    "id": "hip-cars",
+    "name": "힙 CARs (고관절 돌리기)",
+    "target": "고관절 회전근 · 중둔근",
+    "equipments": [
+      {
+        "equipment": "bodyweight"
+      }
+    ]
+  },
+  "shoulder-cars": {
+    "id": "shoulder-cars",
+    "name": "숄더 CARs (어깨 돌리기)",
+    "target": "회전근개 · 전거근 · 승모근",
+    "equipments": [
+      {
+        "equipment": "bodyweight"
+      }
+    ]
+  },
+  "ytw-raise": {
+    "id": "ytw-raise",
+    "name": "Y-T-W 레이즈",
+    "target": "하부·중부승모근 · 후면삼각근 · 회전근개",
+    "equipments": [
+      {
+        "equipment": "bodyweight"
+      }
+    ]
+  },
   "no-money-exercise": {
     "id": "no-money-exercise",
     "name": "노 머니 익서사이즈",

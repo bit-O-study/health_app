@@ -7,6 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { isCommitmentMetric } from "@/features/commitments/commitment";
+import { toUserError } from "@/lib/user-error";
 
 export type CommitmentActionResult =
   | { ok: true; id?: string }
@@ -56,7 +57,7 @@ export async function addCommitmentAction(input: {
     })
     .select("id")
     .maybeSingle();
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/commitments");
   revalidatePath("/calendar");
@@ -71,7 +72,7 @@ export async function deleteCommitmentAction(
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("commitments").delete().eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/commitments");
   revalidatePath("/calendar");
   return { ok: true };
@@ -108,7 +109,7 @@ export async function toggleCommitmentCheckAction(input: {
     .eq("commitment_id", input.commitmentId)
     .eq("for_date", input.forDate)
     .maybeSingle();
-  if (readErr) return { ok: false, error: readErr.message };
+  if (readErr) return { ok: false, error: toUserError(readErr) };
 
   const current: string[] = Array.isArray(row?.checked_ids)
     ? (row!.checked_ids as string[]).filter((x) => typeof x === "string")
@@ -126,7 +127,7 @@ export async function toggleCommitmentCheckAction(input: {
     },
     { onConflict: "user_id,commitment_id,for_date" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
 
   revalidatePath("/commitments");
   revalidatePath("/home");

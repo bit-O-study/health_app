@@ -8,6 +8,7 @@ import {
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import { MEALS, type Meal } from "@/features/diet/meal";
+import { toUserError } from "@/lib/user-error";
 
 export type MealPhotoResult = { ok: true } | { ok: false; error: string };
 
@@ -43,7 +44,7 @@ export async function addMealPhotoAction(
     photo_url: url.slice(0, 500),
     position: nextPos,
   });
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -67,7 +68,7 @@ export async function removeMealPhotoAction(
     .eq("for_date", date)
     .eq("meal", meal)
     .eq("photo_url", photoUrl);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -89,7 +90,7 @@ export async function clearMealPhotosAction(
     .eq("user_id", user.id)
     .eq("for_date", date)
     .eq("meal", meal);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: toUserError(error) };
   revalidatePath("/diet");
   return { ok: true };
 }

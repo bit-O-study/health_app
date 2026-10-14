@@ -8,6 +8,7 @@ import {
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import type { RestRemainingInput } from "@/features/routine/rest-remaining";
+import { finalizeSetProgress } from "@/features/routine/set-progress-store";
 
 /**
  * 오늘의 '아직 안 끝난' 운동들을 휴식(skipped) 처리한다. 완료(done)한 운동은 건드리지 않는다.
@@ -22,8 +23,12 @@ export async function restRemainingTodayAction(
 
   const today = seoulYmd();
 
-  if (opts.planRows.length > 0) {
-    const rows = opts.planRows.map((p) => ({
+  // 세트를 몇 개 끝낸 운동은 '건너뜀'이 아니다 — 한 만큼 완료로 굳히고 아래 건너뜀 목록에서 뺀다.
+  const kept = new Set(await finalizeSetProgress(supabase, user.id, { on: today }));
+  const planRows = opts.planRows.filter((p) => !kept.has(p.rowId));
+
+  if (planRows.length > 0) {
+    const rows = planRows.map((p) => ({
       user_id: user.id,
       for_date: today,
       exercise_row_id: p.rowId,

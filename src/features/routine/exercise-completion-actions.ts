@@ -97,6 +97,21 @@ export async function setExerciseStatusAction(
       }
     }
   } else {
+    // 세트를 몇 개 끝낸 운동을 건너뛰면 '건너뜀'으로 덮지 않는다 — 한 만큼 완료로 굳힌다(2026-10-14).
+    if (status === "skipped") {
+      const kept = await supabase
+        .from("exercise_completions")
+        .update({ status: "done" })
+        .eq("user_id", user.id)
+        .eq("for_date", today)
+        .eq("exercise_row_id", exerciseRowId)
+        .eq("status", "partial")
+        .select("id");
+      if (!kept.error && (kept.data?.length ?? 0) > 0) {
+        revalidatePath("/routine");
+        return { ok: true };
+      }
+    }
     // 같은 운동이 여러 번 있어도 서로 삭제되지 않게 (부위:운동) 로 미리 지우지 않는다.
     // 같은 행 재완료는 아래 upsert(exercise_row_id 기준)가 처리한다.
     const { error } = await supabase.from("exercise_completions").upsert(

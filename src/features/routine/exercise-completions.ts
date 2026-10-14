@@ -84,6 +84,8 @@ export async function getStatusMapToday(
     .from("exercise_completions")
     .select("exercise_row_id, status, focus, exercise_id")
     .eq("user_id", user.id)
+    // 진행 중(partial) 기록은 아직 기록이 아니다 — 굳은 것(done·skipped)만.
+    .neq("status", "partial")
     .eq("for_date", todayYmd);
 
   if (error || !data) return new Map();
@@ -135,6 +137,8 @@ export const getTodayCompletedItems = cache(async function getTodayCompletedItem
       "exercise_row_id, status, focus, exercise_id, equipment, sets, reps, weight_kg, set_details",
     )
     .eq("user_id", user.id)
+    // 진행 중(partial) 기록은 아직 기록이 아니다 — 굳은 것(done·skipped)만.
+    .neq("status", "partial")
     .eq("for_date", todayYmd);
 
   if (error || !data) return [];
@@ -188,6 +192,8 @@ export async function getRecentExerciseCompletions(
       "for_date, exercise_row_id, exercise_id, status, focus, equipment, sets, reps, weight_kg, set_details",
     )
     .eq("user_id", user.id)
+    // 진행 중(partial) 기록은 아직 기록이 아니다 — 굳은 것(done·skipped)만.
+    .neq("status", "partial")
     .gte("for_date", fromStr)
     .order("for_date", { ascending: false });
 
@@ -246,6 +252,8 @@ export const getRecentDoneRecords = cache(
       .from("exercise_completions")
       .select("exercise_id, equipment, sets, reps, weight_kg, set_details, for_date")
       .eq("user_id", user.id)
+      // 진행 중(partial) 기록은 아직 기록이 아니다 — 굳은 것(done·skipped)만.
+      .neq("status", "partial")
       .eq("status", "done")
       .gte("for_date", since)
       .order("for_date", { ascending: false })

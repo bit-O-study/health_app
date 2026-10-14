@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { finalizeSetProgress } from "@/features/routine/set-progress-store";
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -20,6 +22,8 @@ export async function startActiveSessionAction(
   if (!user) return;
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
+  // 지난 날 끝내지 않고 둔 진행 기록(세트 몇 개만 한 운동)을 한 만큼 완료로 굳힌다.
+  await finalizeSetProgress(supabase, user.id, { before: seoulYmd() });
   await supabase.from("workout_active_state").upsert(
     {
       user_id: user.id,
@@ -74,6 +78,9 @@ export async function endActiveSessionAction(): Promise<void> {
   const user = await getCurrentUser();
   if (!user) return;
   const supabase = await createSupabaseServerClient();
+  // 운동을 끝냈다 — 세트 몇 개만 하고 둔 운동을 한 만큼 완료로 굳힌다(그대로 두면 기록에 안 잡힌다).
+  const done = await finalizeSetProgress(supabase, user.id);
+  if (done.length > 0) revalidatePath("/routine");
   await supabase
     .from("workout_active_state")
     .update({

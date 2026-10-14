@@ -10,6 +10,7 @@ import {
   scrubSteps,
   setValueAt,
 } from "@/features/workout-timer/set-target";
+import { progressSnapshot, withSetDone } from "@/features/workout-timer/set-progress";
 
 const PYRAMID = [
   { weightKg: 60, reps: 12 },
@@ -113,5 +114,30 @@ describe("추천 횟수 — 경력표의 10회가 아니라 내가 평소 하는
   it("계획이 횟수를 정했으면 그 값을 따른다", () => {
     const records = ["2026-09-01", "2026-09-08", "2026-09-15"].map((d) => rec(d, 40, 15));
     expect(overloadPlan(records, "lat-pulldown", "intermediate", 8).targetReps).toBe(8);
+  });
+});
+
+describe("세트 완료마다 기록 — 끝낸 세트의 실제 값(2026-10-14)", () => {
+  it("끝낸 세트가 없으면 남길 기록이 없다", () => {
+    expect(progressSnapshot([], 0, { w: 60, reps: 8 })).toBeNull();
+  });
+
+  it("모든 세트가 같은 값이면 균일 세트, 하나라도 다르면 세트별로 남는다", () => {
+    const same = [{ w: 60, reps: 8 }, { w: 60, reps: 8 }];
+    expect(progressSnapshot(same, 2, { w: 60, reps: 8 })).toEqual({ sets: 2, reps: 8, weightKg: 60, setDetails: null });
+    expect(progressSnapshot([{ w: 60, reps: 8 }, { w: 65, reps: 6 }], 2, { w: 65, reps: 6 })).toEqual({
+      sets: 2, reps: 8, weightKg: 60, setDetails: [{ weightKg: 60, reps: 8 }, { weightKg: 65, reps: 6 }],
+    });
+  });
+
+  it("끝낸 세트 수만큼만 — 저장된 값이 모자라면 지금 값으로 채운다", () => {
+    expect(progressSnapshot([{ w: 60, reps: 8 }, { w: 65, reps: 8 }], 1, { w: 70, reps: 5 })).toEqual({ sets: 1, reps: 8, weightKg: 60, setDetails: null });
+    expect(progressSnapshot(undefined, 2, { w: 70, reps: 5 })).toEqual({ sets: 2, reps: 5, weightKg: 70, setDetails: null });
+  });
+
+  it("세트를 끝내면 그 자리에 값을 넣고 뒤는 버린다 — 취소했다 다시 한 세트가 옛 값을 물지 않게", () => {
+    expect(withSetDone([{ w: 60, reps: 8 }, { w: 65, reps: 8 }], 1, { w: 62.5, reps: 7 })).toEqual([{ w: 60, reps: 8 }, { w: 62.5, reps: 7 }]);
+    expect(withSetDone(undefined, 0, { w: 60, reps: 8 })).toEqual([{ w: 60, reps: 8 }]);
+    expect(withSetDone([], 2, { w: 60, reps: 8 })).toHaveLength(3);
   });
 });

@@ -131,6 +131,8 @@ import {
   writeWorkoutVoice,
 } from "@/features/workout-timer/workout-voice";
 import { recordedSetDetails, scrubSteps, setValueAt, type SetValue } from "@/features/workout-timer/set-target";
+import { progressSnapshot, withSetDone } from "@/features/workout-timer/set-progress";
+import { recordSetProgressAction } from "@/features/routine/set-progress-actions";
 import { speak, stopSpeaking } from "@/features/workout-timer/speech";
 import { RepCameraSheet } from "@/features/workout-timer/rep-camera-sheet";
 import { checkNewRecord, newRecordMessage } from "@/features/routine/personal-record";
@@ -1061,12 +1063,18 @@ export function GuidedOverlay({
       exerciseCompletionKey(item.focus, item.exerciseId),
     );
     setSetsDone(next);
+    // 방금 끝낸 세트의 실제 값을 쌓는다 — 기록은 마지막 칸 값이 아니라 세트마다 한 값으로 남는다.
+    const stored = storedEdit(item);
+    const done = withSetDone(stored.doneSets, setsDone, currentSetValue(item));
+    setMainEdit(item.rowId, { ...stored, doneSets: done });
     if (next >= mainSets) {
       // 세트를 다 채우면 자동으로 '완료' 처리(운동 넘어감).
       // 묶음이어도 마찬가지 — 다음 활성 항목이 곧 남은 짝이라 흐름이 그대로 이어진다.
-      dispatch("done");
+      dispatch("done", next);
       return;
     }
+    // 세트 완료마다 서버에 남긴다(진행 중 기록) — 여기서 넘기거나 운동을 끝내도 한 세트는 남는다.
+    sendProgress(item, done, next);
 
     // 슈퍼세트: 짝이 남아 있으면 **쉬지 않고** 바로 넘어간다. 그게 슈퍼세트다.
     const partner = nextInSuperset(supersetItems, processed, index);
@@ -1115,6 +1123,34 @@ export function GuidedOverlay({
       exerciseCompletionKey(item.focus, item.exerciseId),
     );
     setSetsDone(next);
+    // 세트 완료를 취소하면 그 기록도 취소한다 — 한 세트 줄이고, 0세트면 진행 기록을 지운다.
+    const stored = storedEdit(item);
+    const done = (stored.doneSets ?? []).slice(0, next);
+    setMainEdit(item.rowId, { ...stored, doneSets: done });
+    sendProgress(item, done, next);
+  }
+
+  /** 그날 보관소의 이 운동 값(없으면 계획값). */
+  function storedEdit(it: Extract<GuidedItem, { kind: "main" }>): MainEdit {
+    return getMainEdit(it.rowId) ?? { w: it.weightKg, reps: it.reps, sets: it.sets };
+  }
+
+  /** 지금 하고 있는 세트의 실제 값 — 화면의 칸에 있는 값. */
+  function currentSetValue(it: Extract<GuidedItem, { kind: "main" }>): SetValue {
+    if (it.setDetails && it.setDetails.length > 0) return valueOfSet(it, setsDone);
+    return editable ? { w: editW, reps: editReps } : { w: it.weightKg, reps: it.reps };
+  }
+
+  /**
+   * 끝낸 세트 `count` 개를 서버에 진행 기록으로 남긴다(0이면 지운다). 화면은 기다리지 않는다 —
+   * 오프라인이라 못 보내도 끝낼 때 전체 기록을 다시 보내므로 잃는 것은 없다.
+   */
+  function sendProgress(it: Extract<GuidedItem, { kind: "main" }>, done: readonly SetValue[], count: number) {
+    const snap = progressSnapshot(done, count, currentSetValue(it));
+    void recordSetProgressAction(
+      it.rowId,
+      snap ? { exerciseId: it.exerciseId, equipment: it.equipment, focus: it.focus, ...snap } : null,
+    ).catch(() => {});
   }
 
   /* ── 드래그(스와이프) 네비게이션 — 왼쪽으로 밀면 다음, 오른쪽으로 밀면 이전.
@@ -1327,14 +1363,14 @@ export function GuidedOverlay({
    * 액션 실패 시 상단 배너로 알리고 재시도 가능(fireAndTrack).
    * 더블 탭은 workingRef 로 300ms 차단.
    */
-  function dispatch(status: "done" | "skipped") {
+  function dispatch(requested: "done" | "skipped", doneCount?: number) {
     if (workingRef.current || finishing || !item) return;
     workingRef.current = true;
     setWorking(true);
 
     // 고정 끔이면 운동모드에서 정한 값을 완료 기록에 반영(계획은 불변).
     // 본운동=무게/횟수/세트, 컨디셔닝=시간/속도/경사.
-    const captured: GuidedItem =
+    const base: GuidedItem =
       item.kind === "main" && !lockWeightReps
         ? capturedMain(item)
         : item.kind !== "main" && !lockWeightReps
@@ -1347,6 +1383,14 @@ export function GuidedOverlay({
               reps: editCondReps,
             }
           : item; // advance 직전에 캡쳐
+    // 끝낸 세트의 실제 값으로 기록한다. 세트를 몇 개 하고 넘기면 '건너뜀'이 아니라 **한 만큼 완료**다.
+    const doneN = base.kind === "main" ? (doneCount ?? (requested === "skipped" ? setsDone : 0)) : 0;
+    const snap =
+      base.kind === "main" && doneN > 0
+        ? progressSnapshot(getMainEdit(base.rowId)?.doneSets, doneN, { w: base.weightKg, reps: base.reps })
+        : null;
+    const captured: GuidedItem = base.kind === "main" && snap ? { ...base, ...snap } : base;
+    const status: "done" | "skipped" = snap ? "done" : requested;
     const isMain = captured.kind === "main";
 
     // 0) 공유 오버라이드 즉시 갱신 — 운동 끝나고 바로 다시 시작해도(서버 새로고침 전)
@@ -1357,7 +1401,7 @@ export function GuidedOverlay({
     fireAndTrack(captured, status);
 
     // 2) 완료 면 휴식 타이머 즉시(사용자 설정 휴식 시간)
-    if (status === "done" && isMain && !isLast) {
+    if (requested === "done" && isMain && !isLast) {
       // 쉬는 동안 다음 운동을 미리 알려 준다(한 줄 코치) — 이름과 그 운동의 조심 한 줄.
       const afterSet = new Set(processed).add(captured.rowId);
       const ni =

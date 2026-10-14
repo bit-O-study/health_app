@@ -1334,7 +1334,9 @@ create table if not exists public.exercise_completions (
 alter table public.exercise_completions add column if not exists status text not null default 'done';
 alter table public.exercise_completions drop constraint if exists exercise_completions_status_check;
 alter table public.exercise_completions
-  add constraint exercise_completions_status_check check (status in ('done', 'skipped'));
+  add constraint exercise_completions_status_check check (status in ('done', 'skipped', 'partial'));
+-- 'partial'(2026-10-14) = 세트를 몇 개 끝낸 진행 중 기록. 넘기거나 운동을 끝내면 한 만큼만 'done' 으로 굳힌다.
+-- 읽는 쪽은 done/skipped 만 본다(통계·목록에 안 잡힌다).
 
 -- exercise_row_id 는 routine_exercises.id 또는 daily_plan.id 를 모두 가리킬 수
 -- 있어야 하므로 외래키 제약을 제거하고 앱에서 처리한다.

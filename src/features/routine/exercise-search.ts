@@ -70,6 +70,16 @@ export const EXERCISE_KEYWORDS: Record<string, string[]> = {
   "chin-tuck": ["턱 당기기", "거북목", "일자목", "자세", "자세교정"],
 };
 
+/**
+ * 자세·가동성 묶음 — 키워드에 "가동성" · "자세" 가 있는 운동(2026-10-14).
+ * 운동 종목 화면의 "자세·가동성" 칩이 쓴다. 이름 순.
+ */
+export function mobilityExerciseIds(): string[] {
+  return Object.entries(EXERCISE_KEYWORDS)
+    .filter(([, kw]) => kw.includes("가동성") || kw.includes("자세"))
+    .map(([id]) => id);
+}
+
 const STOPWORDS = new Set([
   "운동", "있는데", "있는", "있어", "하는", "해주는", "쓰고", "쓰는", "쓰면",
   "좀", "그", "이런", "저런", "머지", "뭐지", "뭐야", "뭐", "어떤", "거", "것",

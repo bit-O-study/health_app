@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { searchExercises, tokenize } from "@/features/routine/exercise-search";
+import { mobilityExerciseIds, searchExercises, tokenize } from "@/features/routine/exercise-search";
 
 describe("tokenize — 질의에서 키워드 추출", () => {
   it("불용어·조사 제거", () => {
@@ -71,5 +71,14 @@ describe("자세·가동성 운동 찾기(2026-10-14)", () => {
   it("'가동성' · '굽은 어깨'로 찾으면 흩어져 있던 운동이 같이 나온다", () => {
     expect(ids("가동성")).toEqual(expect.arrayContaining(["wall-angel", "hip-cars", "shoulder-cars", "world-s-greatest-stretch"]));
     expect(ids("굽은 어깨")).toEqual(expect.arrayContaining(["wall-angel", "ytw-raise", "wall-slide"]));
+  });
+});
+
+describe("자세·가동성 묶음(2026-10-14)", () => {
+  it("월엔젤·힙 CARs·Y-T-W 같은 운동이 한 묶음으로 나오고, 근력 운동은 안 들어간다", () => {
+    const ids = mobilityExerciseIds();
+    expect(ids).toEqual(expect.arrayContaining(["wall-angel", "hip-cars", "shoulder-cars", "ytw-raise", "cat-cow", "chin-tuck"]));
+    expect(ids).not.toContain("bench-press");
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });

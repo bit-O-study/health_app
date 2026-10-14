@@ -10,6 +10,8 @@ import {
 } from "@/features/routine/exercise-catalog";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { ExerciseLibrary } from "@/features/exercises/components/exercise-library";
+import { getCatalogExercise } from "@/features/routine/exercise-catalog";
+import { mobilityExerciseIds } from "@/features/routine/exercise-search";
 import { absoluteUrl } from "@/lib/seo";
 
 // 순수 카탈로그(인메모리) 데이터만 쓰므로 정적 렌더 — 사용자별 데이터 없음.
@@ -36,6 +38,10 @@ export default function ExercisesPage() {
   const grouped = groupedByBodyPart();
   const sections: { part: BodyPart; items: CatalogExercise[] }[] =
     BODY_PART_ORDER.map((part) => ({ part, items: grouped[part] }));
+  // 자세·가동성(2026-10-14) — 부위 아래 흩어져 있던 운동을 한 묶음으로(월엔젤·힙 CARs·Y-T-W …).
+  const mobility = mobilityExerciseIds()
+    .map((id) => getCatalogExercise(id))
+    .filter((ex): ex is CatalogExercise => !!ex);
 
   // 공통 머리글 + 부위 칩 + 부위별 그룹 목록(2026-09-16 8단계) — 영문 머리말·설명 문장은 뺐다.
   return (
@@ -47,7 +53,7 @@ export default function ExercisesPage() {
         <div className="flex justify-end">
           <ExerciseFinder />
         </div>
-        <ExerciseLibrary sections={sections} />
+        <ExerciseLibrary sections={sections} mobility={mobility} />
       </main>
     </div>
   );

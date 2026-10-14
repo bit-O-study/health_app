@@ -258,6 +258,24 @@ export function WorkoutSessionTimer({
     }
   }, []);
 
+  // 운동모드 화면은 따로 받는 묶음이다 — 연결돼 있을 때 미리 받아 둔다(2026-10-14).
+  // 🔴 안 받아 둔 채 지하(오프라인)에서 '운동 시작·다시 운동하기'를 누르면 화면을 못 받아
+  //    오류 → 새로고침 → '오프라인이에요'로 떨어졌다("오프라인일 때 눌러도 안 된다").
+  //    한 번 받으면 service worker 가 간직해 다음부터는 연결 없이도 열린다.
+  useEffect(() => {
+    void import("@/features/workout-timer/guided-workout").catch(() => {
+      /* 지금 오프라인 — 예전에 받아 둔 것이 있으면 그걸로 열린다 */
+    });
+  }, []);
+
+  // 운동모드가 열려 있는데 시간이 멈춰 있으면 다시 흐르게 한다 — 운동모드 안에는
+  // '다시 시작' 버튼이 없어서, 운동법 보기에서 돌아오면 시간이 멈춘 채로 남았다.
+  useEffect(() => {
+    if (guided && state && state.pausedAt !== null) resume();
+    // resume 은 state 만 본다
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guided, state]);
+
   // 1) localStorage 복원 + 자정 롤오버 체크
   useEffect(() => {
     lastActivityRef.current = Date.now(); // 무활동 기준 시각 초기화
@@ -265,9 +283,8 @@ export function WorkoutSessionTimer({
     // ⚠ 먼저 '안 보던 동안'의 시간을 제외한다(reconcile). 타이머를 켜둔 채 앱을
     //    며칠 닫아두면 그 며칠(어제·그제·일주일)이 경과시간으로 잡히는데, 이를
     //    빼고 나서 롤오버를 판정해야 옛 날짜 캘린더에 그 시간이 잘못 가산되지 않는다.
-    // ⚠ 앱이 '새로 켜진'(콜드 스타트 = 팅김·강제종료 복귀) 경우엔 더 엄격하게 —
-    //    죽어 있던 구간을 빼고 **정지 상태**로 되살린다. 사용자가 '다시 운동하기'를
-    //    누른 시점부터 다시 흐르므로, 튕긴 시간이 운동시간에 얹히지 않는다.
+    // ⚠ 앱이 '새로 켜진'(콜드 스타트) 경우 — 30분 넘게 죽어 있었으면 그 구간을 빼고
+    //    **정지 상태**로 되살린다. 그보다 짧으면 백그라운드와 같이 시간이 그대로 흐른다.
     const restored = reconcileResume(
       consumeColdStart() ? freezeOnColdStart(raw, Date.now()) : raw,
       Date.now(),
@@ -338,7 +355,7 @@ export function WorkoutSessionTimer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  // 3) 백그라운드에서 다시 보일 때 — 안 보던 동안 시간을 경과에서 제외(하트비트 기반).
+  // 3) 백그라운드에서 다시 보일 때 — 시간은 그대로 흐른다. 30분 넘게 안 봤을 때만 그 구간 제외.
   useEffect(() => {
     function onVisible() {
       if (document.visibilityState !== "visible") return;

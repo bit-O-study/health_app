@@ -121,6 +121,24 @@ export function stalledSessionCount(sessions: readonly ExerciseSession[]): numbe
   return oldestFirst.length - 1 - lastImprovedIndex;
 }
 
+/** 내 평소 횟수를 믿을 만큼 쌓였다고 보는 세션 수, 그리고 돌아보는 세션 수. */
+export const USUAL_REPS_MIN_SESSIONS = 3;
+export const USUAL_REPS_WINDOW = 5;
+
+/**
+ * 이 종목에서 **내가 평소 하는 횟수** — 최근 세션들의 가운데 값(2026-10-14).
+ *
+ * 🔴 계획이 횟수를 안 정했을 때 예전엔 경력표(중급 10회 · 초급 12회)만 써서, 15회씩 하는 사람에게도
+ *    디로드·증량 추천이 늘 "10회"였다. 3세션 이상 쌓였으면 내 횟수를 목표로 쓴다.
+ *    (가운데 값이라 한 번 많이/적게 한 날에 끌려가지 않는다 — '지난번 = 목표'가 되는 것도 막는다.)
+ */
+export function usualReps(sessions: readonly ExerciseSession[]): number | null {
+  const reps = sessions.slice(0, USUAL_REPS_WINDOW).map((s) => s.reps).filter((r) => r > 0);
+  if (reps.length < USUAL_REPS_MIN_SESSIONS) return null;
+  const sorted = [...reps].sort((x, y) => x - y);
+  return sorted[Math.floor(sorted.length / 2)];
+}
+
 /**
  * 다음 세션 추천. 기록이 없으면 `none`.
  *
@@ -135,11 +153,11 @@ export function overloadPlan(
   /** 사용자가 정한 그 종목의 증량 단위(kg). 없으면 기구·종목 크기로 정한 기본값. */
   stepOverrideKg?: number | null,
 ): OverloadPlan {
+  const sessions = exerciseHistory(records, exerciseId);
   const target =
     todayTargetReps && todayTargetReps > 0
       ? Math.round(todayTargetReps)
-      : targetReps(exerciseId, experience);
-  const sessions = exerciseHistory(records, exerciseId);
+      : (usualReps(sessions) ?? targetReps(exerciseId, experience));
   const last = sessions[0];
   // 🔴 기구를 안 받았으면 **마지막 기록의 기구**를 쓴다. 예전엔 그냥 기본값(2kg)으로
   //    떨어져서, 같은 바벨 스쿼트인데 운동모드는 +5kg(바벨)를, 성장 그래프는 +2kg를

@@ -26,6 +26,7 @@ import {
 } from "@/features/commitments/prediction";
 import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-catalog-labels";
 import { PredictionCard } from "@/features/commitments/components/prediction-card";
+import { draftNeedsSync, draftText, parseDraft } from "@/features/commitments/number-draft";
 
 type Group = { id: string; name: string };
 
@@ -241,13 +242,14 @@ export function PledgeForm({
                       ))}
                     </select>
                     <span className="text-sm">주</span>
-                    <input
+                    <DraftNumber
                       aria-label="주 몇 회"
-                      type="number"
                       min={1}
                       max={7}
                       value={s.perWeek}
-                      onChange={(e) => set({ strength: replaceAt(spec.strength!, i, { ...s, perWeek: clampInt(e.target.value, 1, 7) }) })}
+                      onChange={(v) => {
+                        if (v !== undefined) set({ strength: replaceAt(spec.strength!, i, { ...s, perWeek: Math.min(7, v) }) });
+                      }}
                       className="h-10 w-14 rounded-md border border-zinc-300 bg-white px-2 text-sm tabular-nums dark:border-zinc-600 dark:bg-zinc-800"
                     />
                     <span className="text-sm">회</span>
@@ -287,8 +289,8 @@ export function PledgeForm({
             >
               {spec.steps ? (
                 <>
-                  <NumRow label="하루 걸음" value={spec.steps.steps} onChange={(v) => set({ steps: { ...spec.steps!, steps: v ?? 8000 } })} />
-                  <NumRow label="주 며칠" value={spec.steps.perWeek} onChange={(v) => set({ steps: { ...spec.steps!, perWeek: Math.min(7, v ?? 5) } })} />
+                  <NumRow label="하루 걸음" value={spec.steps.steps} keep onChange={(v) => v !== undefined && set({ steps: { ...spec.steps!, steps: v } })} />
+                  <NumRow label="주 며칠" value={spec.steps.perWeek} keep onChange={(v) => v !== undefined && set({ steps: { ...spec.steps!, perWeek: Math.min(7, v) } })} />
                 </>
               ) : null}
             </Section>
@@ -428,13 +430,14 @@ function GoalPanel({
       ) : (
         <label className="flex items-center gap-2 text-sm font-semibold">
           {goal.type === "lose_weight" ? "몇 kg 뺄까요" : "골격근 몇 kg 늘릴까요"}
-          <input
+          <DraftNumber
             aria-label="목표 kg"
-            type="number"
             min={0.5}
             step={0.5}
+            integer={false}
+            empty={0}
             value={goal.kg}
-            onChange={(e) => setGoal({ ...goal, kg: Number(e.target.value) || 0 })}
+            onChange={(v) => setGoal({ ...goal, kg: v ?? 0 })}
             className={field}
             data-testid="goal-kg"
           />
@@ -508,30 +511,71 @@ function NumRow({
   placeholder,
   onChange,
   testId,
+  keep,
 }: {
   label: string;
   value: number | undefined;
   placeholder?: string;
   onChange: (v: number | undefined) => void;
   testId?: string;
+  /** 꼭 있어야 하는 값 — 비워 둔 채 칸을 떠나면 마지막 값으로 돌아온다. */
+  keep?: boolean;
 }) {
   return (
     <label className="flex items-center justify-between gap-2 pt-1 text-sm">
       <span className="text-zinc-700 dark:text-zinc-200">{label}</span>
-      <input
-        type="number"
-        inputMode="numeric"
+      <DraftNumber
         min={0}
-        value={value ?? ""}
+        value={value}
         placeholder={placeholder}
-        onChange={(e) => {
-          const n = Math.floor(Number(e.target.value));
-          onChange(e.target.value === "" || !(n > 0) ? undefined : n);
+        onChange={(v) => {
+          if (v !== undefined || !keep) onChange(v);
         }}
         className={field}
         data-testid={testId}
       />
     </label>
+  );
+}
+
+/**
+ * 숫자 칸 — 치는 글자는 그대로 두고 값만 따로 읽는다(`number-draft.ts`).
+ * 비우면 값 없음(`empty` 를 주면 그 값)을 알리고, 칸을 떠날 때 글자를 실제 값에 맞춘다.
+ */
+function DraftNumber({
+  value,
+  onChange,
+  integer = true,
+  empty,
+  ...rest
+}: {
+  value: number | undefined;
+  onChange: (v: number | undefined) => void;
+  integer?: boolean;
+  /** 빈 칸일 때 밖으로 내보내는 값. */
+  empty?: number;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "type">) {
+  const [text, setText] = useState(draftText(value));
+  const [seen, setSeen] = useState(value);
+  if (seen !== value) {
+    setSeen(value);
+    if (draftNeedsSync(text, value, integer, empty)) setText(draftText(value));
+  }
+  return (
+    <input
+      {...rest}
+      type="number"
+      inputMode={integer ? "numeric" : "decimal"}
+      value={text}
+      onChange={(e) => {
+        setText(e.target.value);
+        onChange(parseDraft(e.target.value, integer) ?? empty);
+      }}
+      onBlur={() => {
+        // 범위를 넘겨 쳤거나(주 9회 → 7) 꼭 있어야 하는 칸을 비웠으면 실제 값으로 맞춘다.
+        if (value !== undefined && value !== empty) setText(draftText(value));
+      }}
+    />
   );
 }
 
@@ -544,11 +588,6 @@ function clean(s: PledgeSpec): PledgeSpec {
 
 function replaceAt<T>(xs: T[], i: number, v: T): T[] {
   return xs.map((x, j) => (j === i ? v : x));
-}
-
-function clampInt(v: string, lo: number, hi: number): number {
-  const n = Math.round(Number(v));
-  return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : lo;
 }
 
 function nextPart(list: StrengthPledge[]): StrengthPledge["part"] {

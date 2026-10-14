@@ -34,6 +34,8 @@ export function PWARegister() {
 
     const recover = (msg: string) => {
       if (!isChunkLoadError(msg)) return;
+      // 오프라인이면 새로고침해도 못 받는다 — 보던 화면을 버리고 오프라인 안내로 떨어질 뿐.
+      if (navigator.onLine === false) return;
       // 에러 바운더리(error.tsx)의 자동 리로드와 30초 가드를 공유(중복 리로드 방지).
       let last = 0;
       try {

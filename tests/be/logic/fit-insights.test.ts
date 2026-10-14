@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { buildRecoveryProfile, defaultRecoveryProfile, muscleFactor, setHardness } from "@/features/routine/recovery-load";
+
 import {
   growthStories,
   plateauAdvice,
@@ -111,7 +113,10 @@ describe("D 쉬는 부위", () => {
   });
 });
 
-describe("부위별 회복 — 근육 크기 · 세트 · 강도 · 쌓인 피로 · 체크인(2026-10-08)", () => {
+describe("부위별 회복 — 근육 크기 · 내 소화량에 견준 부하 · 강도 · 쌓인 피로 · 체크인", () => {
+  // 내 몸 기준 — 부위마다 한 번에 힘든 세트 6개를 소화한다. 무게를 안 넘긴 세트는 힘든 정도 0.6.
+  // → 10회 12세트 = 7.2 힘든 세트 = 부하 1.2, 6세트 = 0.6, 3세트 = 0.3.
+  const P = { ...defaultRecoveryProfile(), capacity: { chest: 6, back: 6, shoulder: 6, arm: 6, lower: 6, core: 6 } };
   // 세부 근육 점수 — 실제 표 대신 단순하게(운동 하나 = 한 부위 100점).
   const stim = (id: string): Record<string, number> =>
     ({ bench: { "chest-mid": 100 }, squat: { "lower-quads": 100 }, curl: { "arm-biceps-long": 100 } } as Record<string, Record<string, number>>)[id] ?? {};
@@ -120,39 +125,43 @@ describe("부위별 회복 — 근육 크기 · 세트 · 강도 · 쌓인 피�
   const row = (rows: ReturnType<typeof recoveryByPart>, part: string) => rows.find((r) => r.part === part)!;
 
   it("작은 근육은 빨리, 하체는 오래 — 같은 세트여도", () => {
-    expect([recoveryHours("arm", 12), recoveryHours("chest", 12), recoveryHours("lower", 12)]).toEqual([48, 72, 84]);
-    expect([recoveryHours("shoulder", 3), recoveryHours("back", 6), recoveryHours("lower", 6)]).toEqual([16, 48, 60]);
+    expect([recoveryHours("arm", 1), recoveryHours("chest", 1), recoveryHours("lower", 1)]).toEqual([48, 72, 84]);
+    // 평소의 절반만 하면 시간도 절반, 4분의 1이 안 되면 회복이 필요 없다. 넘겨 해도 1.3배에서 멈춘다.
+    expect([recoveryHours("chest", 0.5), recoveryHours("chest", 0.24), recoveryHours("chest", 0.2), recoveryHours("chest", 3)]).toEqual([36, 0, 0, 94]);
   });
 
   it("무거운 무게(5회 이하)는 1.2배, 가벼운 펌핑(15회 이상)은 0.85배", () => {
-    expect(recoveryHours("chest", 12, "heavy")).toBe(86);
-    expect(recoveryHours("chest", 12, "light")).toBe(61);
+    expect(recoveryHours("chest", 1, "heavy")).toBe(86);
+    expect(recoveryHours("chest", 1, "light")).toBe(61);
   });
 
-  it("어제 같은 시각 가슴 12세트(10회)와 팔 12세트 — 24시간 뒤 가슴 33%·48시간 남음, 팔 50%·24시간 남음", () => {
+  it("어제 같은 시각 가슴 12세트(10회)와 팔 6세트 — 평소보다 20% 더 한 가슴은 62시간, 절반쯤 한 팔은 5시간 남음", () => {
     const rows = recoveryByPart(
       [
         { exerciseId: "bench", reps: reps(6, 10), doneAt: "2026-10-07T11:00:00Z" },
         { exerciseId: "bench", reps: reps(6, 10), doneAt: "2026-10-07T12:00:00Z" }, // 같은 날 = 한 번(12세트)
-        { exerciseId: "curl", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" },
+        { exerciseId: "curl", reps: reps(6, 10), doneAt: "2026-10-07T12:00:00Z" },
       ],
       stim,
       NOW,
+      null,
+      P,
     );
-    expect(row(rows, "chest")).toMatchObject({ pct: 33, hoursLeft: 48, sets: 12, intensity: "normal", stacked: false, lastAt: "2026-10-07T12:00:00.000Z" });
-    expect(row(rows, "arm")).toMatchObject({ pct: 50, hoursLeft: 24 });
-    expect(row(rows, "lower")).toMatchObject({ pct: 100, hoursLeft: 0, lastAt: null });
+    // 가슴: 72시간 × 1.2 = 86시간 필요, 24시간 지남. 팔: 48시간 × 0.6 = 29시간 필요.
+    expect(row(rows, "chest")).toMatchObject({ pct: 28, hoursLeft: 62, sets: 12, loadPct: 120, intensity: "normal", stacked: false, lastAt: "2026-10-07T12:00:00.000Z" });
+    expect(row(rows, "arm")).toMatchObject({ pct: 83, hoursLeft: 5, loadPct: 60 });
+    expect(row(rows, "lower")).toMatchObject({ pct: 100, hoursLeft: 0, lastAt: null, easy: null });
   });
 
   it("무거운 무게로 하면 같은 세트도 더 오래 걸린다", () => {
-    const normal = row(recoveryByPart([{ exerciseId: "bench", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW), "chest");
-    const heavy = row(recoveryByPart([{ exerciseId: "bench", reps: reps(12, 4), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW), "chest");
+    const normal = row(recoveryByPart([{ exerciseId: "bench", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW, null, P), "chest");
+    const heavy = row(recoveryByPart([{ exerciseId: "bench", reps: reps(12, 4), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW, null, P), "chest");
     expect(heavy.intensity).toBe("heavy");
     expect(heavy.hoursLeft).toBeGreaterThan(normal.hoursLeft);
   });
 
   it("다 안 풀린 채 또 하면 피로가 쌓인다(남은 시간 절반을 얹는다)", () => {
-    // 10/6 12시 하체 12세트(84시간 → 10/10 0시까지) · 10/7 12시 또 하체 6세트(60시간 + 남은 60시간의 절반 30)
+    // 10/6 12시 하체 12세트(84 × 1.2 = 101시간) · 10/7 12시 또 하체 6세트(84 × 0.6 = 50시간 + 남은 77시간의 절반)
     const rows = recoveryByPart(
       [
         { exerciseId: "squat", reps: reps(12, 8), doneAt: "2026-10-06T12:00:00Z" },
@@ -160,23 +169,46 @@ describe("부위별 회복 — 근육 크기 · 세트 · 강도 · 쌓인 피�
       ],
       stim,
       NOW,
+      null,
+      P,
     );
-    expect(row(rows, "lower")).toMatchObject({ stacked: true, sets: 6, hoursLeft: 66 }); // 90 - 24
+    expect(row(rows, "lower")).toMatchObject({ stacked: true, sets: 6, hoursLeft: 65 }); // 50 + 38.5 - 24
   });
 
   it("오늘 근육통 '심해요'·잠 '못 잤어요'면 남은 시간이 길어지고, 다 풀린 부위엔 영향 없다", () => {
     const recs = [{ exerciseId: "bench", reps: reps(12, 10), doneAt: "2026-10-07T12:00:00Z" }];
-    const base = row(recoveryByPart(recs, stim, NOW), "chest");
-    const sore = row(recoveryByPart(recs, stim, NOW, { soreness: 1, sleep: 1 }), "chest");
-    expect(sore.hoursLeft).toBe(Math.ceil(48 * 1.25 * 1.1));
+    const base = row(recoveryByPart(recs, stim, NOW, null, P), "chest");
+    const sore = row(recoveryByPart(recs, stim, NOW, { soreness: 1, sleep: 1 }, P), "chest");
+    expect(sore.hoursLeft).toBe(Math.ceil((86 - 24) * 1.25 * 1.1));
     expect(sore.condition).toEqual(["soreness", "sleep"]);
     expect(sore.pct).toBeLessThan(base.pct);
-    expect(row(recoveryByPart(recs, stim, NOW, { soreness: 1, sleep: 1 }), "lower")).toMatchObject({ pct: 100, condition: [] });
+    expect(row(recoveryByPart(recs, stim, NOW, { soreness: 1, sleep: 1 }, P), "lower")).toMatchObject({ pct: 100, condition: [] });
   });
 
-  it("시간이 다 지나면 회복됨, 0.5세트 미만으로 거든 건 안 센다", () => {
-    const rows = recoveryByPart([{ exerciseId: "curl", reps: reps(3, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW);
-    expect(row(rows, "arm").pct).toBe(100); // 작은 근육 3세트 = 16시간
+  it("시간이 다 지나면 회복됨", () => {
+    const rows = recoveryByPart([{ exerciseId: "curl", reps: reps(3, 10), doneAt: "2026-10-07T12:00:00Z" }], stim, NOW, null, P);
+    expect(row(rows, "arm").pct).toBe(100); // 작은 근육 · 부하 0.3 = 14시간
+  });
+
+  it("내가 100kg 드는데 20kg 으로 깔짝 한 날은 회복이 필요 없다 — 같은 세트를 80kg 으로 하면 회복한다(2026-10-14)", () => {
+    const mine = { ...P, oneRmOf: () => 100 };
+    const at = "2026-10-08T10:00:00Z"; // 2시간 전
+    const light = row(recoveryByPart([{ exerciseId: "bench", reps: reps(4, 10), weights: reps(4, 20), doneAt: at }], stim, NOW, null, mine), "chest");
+    expect(light).toMatchObject({ pct: 100, hoursLeft: 0, lastAt: null });
+    expect(light.easy).toMatchObject({ at: "2026-10-08T10:00:00.000Z" });
+    expect(light.easy!.loadPct).toBeLessThan(5);
+    // 80kg 6회 = 그 무게로 할 수 있는 7.5회 중 6회 → 세트마다 0.72, 4세트 = 2.9 힘든 세트 = 내 소화량의 48%.
+    const hard = row(recoveryByPart([{ exerciseId: "bench", reps: reps(4, 6), weights: reps(4, 80), doneAt: at }], stim, NOW, null, mine), "chest");
+    expect(hard).toMatchObject({ loadPct: 48, easy: null });
+    expect(hard.hoursLeft).toBe(32); // 72 × 0.48 = 34시간 − 2시간
+  });
+
+  it("같은 운동도 소화량이 큰 사람은 덜 쉰다", () => {
+    const recs = [{ exerciseId: "bench", reps: reps(8, 10), doneAt: "2026-10-08T10:00:00Z" }];
+    const small = row(recoveryByPart(recs, stim, NOW, null, P), "chest");
+    const big = row(recoveryByPart(recs, stim, NOW, null, { ...P, capacity: { ...P.capacity, chest: 12 } }), "chest");
+    expect(big.hoursLeft).toBeLessThan(small.hoursLeft);
+    expect([small.loadPct, big.loadPct]).toEqual([80, 40]);
   });
 });
 
@@ -185,5 +217,44 @@ describe("끝낸 시각 — 나중에 채운 기록은 그날 저녁으로", () 
     expect(doneAtOf("2026-10-07T11:30:00Z", "2026-10-07")).toBe("2026-10-07T11:30:00.000Z"); // 10/7 20:30 서울
     expect(doneAtOf("2026-10-08T03:00:00Z", "2026-09-28")).toBe("2026-09-28T10:00:00Z"); // 9/28 운동을 10/8 에 채움
     expect(doneAtOf(null, "2026-10-01")).toBe("2026-10-01T10:00:00Z");
+  });
+});
+
+describe("내 몸 기준 — 예상 최대 · 소화량 · 골격근량(2026-10-14)", () => {
+  const stim = (id: string): Record<string, number> => (id === "bench" ? { "chest-mid": 100 } : {});
+  const NOW = new Date("2026-10-08T12:00:00Z");
+  const rec = (date: string, kg: number, reps: number, sets: number) => ({
+    forDate: date, exerciseId: "bench", status: "done" as const, sets, reps, weightKg: kg, setDetails: null, doneAt: `${date}T10:00:00Z`,
+  });
+
+  it("세트의 힘든 정도 — 그 무게로 할 수 있는 횟수 중 몇 회를 했나", () => {
+    expect(setHardness({ reps: 10, weightKg: 20 }, 100)).toBeLessThan(0.03); // 120회 중 10회
+    expect(setHardness({ reps: 6, weightKg: 80 }, 100)).toBeCloseTo(0.716, 2); // 7.5회 중 6회
+    expect(setHardness({ reps: 8, weightKg: 80 }, 100)).toBe(1); // 한계까지
+    expect(setHardness({ reps: 5, weightKg: null }, null, 20)).toBeCloseTo(0.125, 3); // 맨몸 — 최고 20회 중 5회
+    expect(setHardness({ reps: 10, weightKg: 40 }, null)).toBe(0.6); // 모르면 보통 세트
+  });
+
+  it("예상 최대는 내 기록에서, 소화량은 최근 며칠을 뺀 6주 동안 평소 한 양에서 나온다", () => {
+    // 9월에 80kg 8회(1RM 101.3) 10세트씩 4번 — 세트마다 한계 → 하루 10 힘든 세트.
+    const history = ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29"].map((d) => rec(d, 80, 8, 10));
+    const p = buildRecoveryProfile([...history, rec("2026-10-08", 20, 10, 4)], stim, NOW, { experience: "beginner" });
+    expect(p.oneRmOf("bench")).toBe(101.3);
+    expect(p.capacity.chest).toBe(10); // 초급 바닥값(4.5)보다 내 기록이 크다
+    expect(p.capacity.lower).toBe(4.5); // 기록이 없는 부위는 경력 바닥값
+  });
+
+  it("기록이 없는 종목은 몸으로 어림한 최대를 쓴다 — 처음 가볍게 해 본 날을 한계로 보지 않는다", () => {
+    const p = buildRecoveryProfile([rec("2026-10-08", 20, 10, 4)], stim, NOW, {}, () => 60);
+    expect(p.oneRmOf("bench")).toBe(60); // 오늘 20kg 10회(1RM 26.7)보다 몸으로 어림한 60
+    expect(buildRecoveryProfile([], stim, NOW, {}).oneRmOf("bench")).toBeNull();
+  });
+
+  it("골격근량이 많으면 소화량도 크다(체중 대비, 성별 평균에 견줘 0.8~1.25배)", () => {
+    expect(muscleFactor({ gender: "male", weightKg: 80, skeletalMuscleKg: 40 })).toBeCloseTo(1.136, 2);
+    expect(muscleFactor({ gender: "female", weightKg: 60, skeletalMuscleKg: 20 })).toBeCloseTo(0.877, 2);
+    expect(muscleFactor({ gender: "male", weightKg: 80, skeletalMuscleKg: 60 })).toBe(1.25);
+    expect(muscleFactor({ weightKg: 80 })).toBe(1);
+    expect(defaultRecoveryProfile({ experience: "advanced", gender: "male", weightKg: 80, skeletalMuscleKg: 40 }).capacity.chest).toBe(10.8);
   });
 });

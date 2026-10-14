@@ -93,6 +93,12 @@ describe("app error recovery decision", () => {
     expect(shouldRecoverAppError(error, now - 5_000, now)).toBe(false);
   });
 
+  it("오프라인이면 새로고침하지 않는다 — 보던 화면을 버리고 오프라인 안내로 떨어질 뿐이다", () => {
+    const error = new Error("ChunkLoadError: Loading chunk 1 failed");
+    expect(shouldRecoverAppError(error, 0, now, false)).toBe(false);
+    expect(shouldRecoverAppError(error, 0, now, true)).toBe(true);
+  });
+
   it("진단 정보는 허용 필드만 길이 제한해 만든다", () => {
     const error = Object.assign(new Error("m".repeat(700)), {
       digest: "d".repeat(200),

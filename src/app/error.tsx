@@ -38,7 +38,7 @@ export default function RouteError({
     } catch {
       /* sessionStorage 불가 — 그냥 진행 */
     }
-    if (shouldRecoverAppError(error, last, now)) {
+    if (shouldRecoverAppError(error, last, now, navigator.onLine !== false)) {
       try {
         sessionStorage.setItem(AUTO_RELOAD_KEY, String(now));
       } catch {

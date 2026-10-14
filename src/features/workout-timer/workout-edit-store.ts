@@ -11,7 +11,13 @@
 import { seoulTodayYmd } from "@/features/workout-timer/timer-store";
 import { pickSetsDone } from "@/features/workout-timer/sets-done";
 
-export type MainEdit = { w: number | null; reps: number; sets: number };
+export type MainEdit = {
+  w: number | null;
+  reps: number;
+  sets: number;
+  /** 세트마다 값이 다른 운동(피라미드 등)에서 그 세트만 고친 값. 키 = 세트 번호(0부터). */
+  bySet?: Record<string, { w: number | null; reps: number }>;
+};
 export type CondEdit = {
   duration: number | null;
   speed: number | null;

@@ -90,12 +90,18 @@ export function shouldAutoReload(
   return now - lastReloadAt >= windowMs;
 }
 
+/**
+ * 🔴 오프라인이면 새로고침으로 고쳐지지 않는다(2026-10-14) — 새로고침하면 보던 화면을
+ *    버리고 '오프라인이에요'로 떨어질 뿐이다. 그 자리에서 '다시 시도'를 보여 준다.
+ */
 export function shouldRecoverAppError(
   error: AppErrorLike,
   lastReloadAt: number,
   now: number,
+  online = true,
 ): boolean {
   return (
+    online &&
     isRecoverableLoadError(error?.message) &&
     shouldAutoReload(lastReloadAt, now)
   );

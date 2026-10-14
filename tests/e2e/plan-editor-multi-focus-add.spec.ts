@@ -31,7 +31,7 @@ test("복합 일차는 선택한 이두 슬롯에 운동 행을 추가한다", a
   const email = await signUpAndOnboard(page);
   await setCustomWeek(email, ["shoulder", "biceps"]);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   const day = page.locator('[data-plan-day-index="0"]');
   await day.getByRole("button", { name: "운동 추가" }).click();
@@ -56,7 +56,7 @@ test("단일 부위 일차는 선택 메뉴 없이 바로 운동 행을 추가�
   const email = await signUpAndOnboard(page);
   await setCustomWeek(email, ["biceps"]);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   const day = page.locator('[data-plan-day-index="0"]');
   await day.getByRole("button", { name: "운동 추가" }).click();

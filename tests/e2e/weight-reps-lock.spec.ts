@@ -40,7 +40,7 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
   const email = await createOnboardedAccount(page);
   await seedSquat(email, false);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
 
   // 메인 스쿼트 행: 무게·횟수는 물론 세트수도 안 보이고(운동모드에서 설정), 칼로리만.
   const squatRow = page.locator("li").filter({ hasText: "스쿼트" }).first();
@@ -82,7 +82,7 @@ test("고정 끔: 운동모드 무게를 탭해 직접 입력한 값이 기록�
   const email = await createOnboardedAccount(page);
   await seedSquat(email, false);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
 
   const overlay = page.getByTestId("guided-scroll");
@@ -116,7 +116,7 @@ test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬�
   const email = await createOnboardedAccount(page);
   await seedSquat(email, true);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
 
   // 메인 스쿼트 행: 무게(60kg)가 보인다.
   const squatRow = page.locator("li").filter({ hasText: "스쿼트" }).first();
@@ -144,7 +144,7 @@ test("고정 끔: 워밍업(런닝) 시간을 운동모드에서 바꿔 기록�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
 
   const overlay = page.getByTestId("guided-scroll");

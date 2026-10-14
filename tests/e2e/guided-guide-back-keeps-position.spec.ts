@@ -35,7 +35,7 @@ test("운동법 보고 뒤로 오면 보던 운동에서 이어본다(첫 운동
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);
@@ -58,7 +58,7 @@ test("운동법 보고 뒤로 오면 보던 운동에서 이어본다(첫 운동
   await expect(page).toHaveURL(/\/exercises\//, { timeout: 30000 });
 
   // 뒤로 → 운동 모드가 다시 열리고, 해머컬에서 이어봐야 한다
-  await page.goBack({ waitUntil: "networkidle" });
+  await page.goBack({ waitUntil: "load" });
   await page.waitForTimeout(1200);
   await expect(overlay.getByRole("heading", { name: "해머컬" })).toBeVisible({
     timeout: 8000,

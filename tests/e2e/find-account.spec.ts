@@ -24,7 +24,7 @@ test("아이디 찾기: 이름 + 휴대폰 → 가입 이메일 표시", async (
     [uname, uphone, email],
   );
 
-  await page.goto("/find-id", { waitUntil: "networkidle" });
+  await page.goto("/find-id", { waitUntil: "load" });
   await page.fill("#name", uname);
   await page.fill("#phone", uphone);
   await page.getByRole("button", { name: "아이디 찾기" }).click();
@@ -40,7 +40,7 @@ test("아이디 찾기: 이름 + 휴대폰 → 가입 이메일 표시", async (
 });
 
 test("아이디 찾기: 일치 정보 없으면 안내", async ({ page }) => {
-  await page.goto("/find-id", { waitUntil: "networkidle" });
+  await page.goto("/find-id", { waitUntil: "load" });
   await page.fill("#name", `없는사람${Date.now()}`);
   await page.fill("#phone", "010-0000-0000");
   await page.getByRole("button", { name: "아이디 찾기" }).click();
@@ -55,7 +55,7 @@ test("비밀번호 찾기: 이메일 인증번호 → 새 비번 설정 → 새 
   // 가입 시 휴대폰은 +821012345678(010-1234-5678). 이메일은 고유하므로 매칭 충돌 없음.
   const NEWPW = "resetpw99887";
 
-  await page.goto("/find-password", { waitUntil: "networkidle" });
+  await page.goto("/find-password", { waitUntil: "load" });
   await page.fill("#email", email);
   await page.fill("#phone", "010-1234-5678");
   await page.getByRole("button", { name: "인증번호 받기" }).click();
@@ -92,7 +92,7 @@ test("비밀번호 찾기: 이메일 인증번호 → 새 비번 설정 → 새 
   // 새 비밀번호로 실제 로그인되는지 확인(새 컨텍스트).
   const cctx = await browser.newContext();
   const cpage = await cctx.newPage();
-  await cpage.goto("/login", { waitUntil: "networkidle" });
+  await cpage.goto("/login", { waitUntil: "load" });
   await cpage.fill("#email", email);
   await cpage.fill("#password", NEWPW);
   await cpage.getByRole("button", { name: "로그인" }).last().click();
@@ -103,7 +103,7 @@ test("비밀번호 찾기: 이메일 인증번호 → 새 비번 설정 → 새 
 });
 
 test("비밀번호 찾기: 일치하는 계정 없으면 안내(메일 안 감)", async ({ page }) => {
-  await page.goto("/find-password", { waitUntil: "networkidle" });
+  await page.goto("/find-password", { waitUntil: "load" });
   await page.fill("#email", `nobody_${Date.now()}@example.com`);
   await page.fill("#phone", "010-0000-0000");
   await page.getByRole("button", { name: "인증번호 받기" }).click();

@@ -12,8 +12,8 @@ test("모달이 떠 있을 때 뒤로가기는 모달만 닫고, 화면은 그�
   await signUpAndOnboard(page);
   await seedRecommendedExercises(page);
 
-  await page.goto("/home", { waitUntil: "networkidle" });
-  await page.goto("/community", { waitUntil: "networkidle" });
+  await page.goto("/home", { waitUntil: "load" });
+  await page.goto("/community", { waitUntil: "load" });
   await page.getByRole("button", { name: "루틴", exact: true }).click();
 
   const compose = page.getByRole("dialog", { name: "내 루틴 추천글 쓰기" });

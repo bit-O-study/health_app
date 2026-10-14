@@ -31,7 +31,7 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
   await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
@@ -94,7 +94,7 @@ test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
   await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
@@ -149,7 +149,7 @@ test("워밍업도 실사 시연 사진 + 설정값(세트·횟수) 칩이 뜬�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
   await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
@@ -198,7 +198,7 @@ test("워밍업 런닝은 시간·속도·경사 설정값이 모두 뜬다", as
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
   await expect(page.getByTestId("guided-scroll")).toBeVisible();
 

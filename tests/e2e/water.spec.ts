@@ -39,7 +39,7 @@ test("컵을 누르면 수분이 쌓이고 DB 에 남는다", async ({ page }) =
   await expect.poll(() => waterMl(email), { timeout: 10000 }).toBe(350);
 
   // 새로고침해도 남아 있다(화면 상태가 아니라 기록이다).
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "load" });
   await expect(page.getByTestId("water-card")).toHaveAttribute("data-ml", "350", {
     timeout: 8000,
   });
@@ -49,7 +49,7 @@ test("연타해도 잔이 사라지지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.goto("/diet", { waitUntil: "networkidle" });
+  await page.goto("/diet", { waitUntil: "load" });
   const card = page.getByTestId("water-card");
   await expect(card).toBeVisible({ timeout: 8000 });
 
@@ -65,7 +65,7 @@ test("기록 목록에서 잘못 담은 잔만 골라 지운다", async ({ page 
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.goto("/diet", { waitUntil: "networkidle" });
+  await page.goto("/diet", { waitUntil: "load" });
   const card = page.getByTestId("water-card");
   await expect(card).toBeVisible({ timeout: 8000 });
 
@@ -123,7 +123,7 @@ test("목표는 체중에서 계산한다 — 70kg면 2.3L", async ({ page }) =>
     email,
   ]);
 
-  await page.goto("/diet", { waitUntil: "networkidle" });
+  await page.goto("/diet", { waitUntil: "load" });
   const card = page.getByTestId("water-card");
   await expect(card).toBeVisible({ timeout: 8000 });
   await expect(card).toContainText("/ 2.3L");

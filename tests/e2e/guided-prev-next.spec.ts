@@ -32,7 +32,7 @@ async function seedTwo(email: string) {
 
 async function startGuided(page: Page, email: string) {
   await seedTwo(email);
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);

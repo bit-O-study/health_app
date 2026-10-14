@@ -19,7 +19,7 @@ for (let offset = 0; offset < guideIds.length; offset += 12) {
   await createOnboardedAccount(page);
 
   for (const id of batchIds) {
-    await page.goto(`/exercises/${id}`, { waitUntil: "networkidle" });
+    await page.goto(`/exercises/${id}`, { waitUntil: "load" });
     const video = page.locator("video").first();
     await expect(video).toBeVisible({ timeout: 15_000 });
 
@@ -53,6 +53,17 @@ for (let offset = 0; offset < guideIds.length; offset += 12) {
     expect(await video.evaluate((v: HTMLVideoElement) => v.duration)).toBeCloseTo(isMotion ? 8 : 9, 1);
     await video.evaluate(async (v: HTMLVideoElement) => { v.muted = true; await v.play(); });
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThan(0);
+    // 재생 시작 직후엔 앞부분만 버퍼됐을 수 있다. 목표 프레임을 받은 뒤 seek 해 Range 요청 교체 경쟁을 피한다.
+    await page.waitForFunction(
+      (time) => {
+        const v = document.querySelector("video");
+        return !!v && (v.error !== null || Array.from({ length: v.buffered.length }, (_, i) =>
+          v.buffered.start(i) <= time && v.buffered.end(i) >= time,
+        ).some(Boolean));
+      },
+      7.5,
+      { timeout: 20_000 },
+    );
     await video.evaluate((v: HTMLVideoElement) => { v.pause(); v.currentTime = 7.5; });
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => ({
       ready: v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA,
@@ -70,7 +81,7 @@ for (let offset = 0; offset < guideIds.length; offset += 12) {
   if (offset !== 0) return;
 
   // An equipment change must update both the explanation and demonstration.
-  await page.goto("/exercises/bench-press?eq=barbell", { waitUntil: "networkidle" });
+  await page.goto("/exercises/bench-press?eq=barbell", { waitUntil: "load" });
   await expect(page.locator("video").first()).toHaveAttribute("src", "/exercise-guides/ai-v2/bench-press.mp4");
   await page.getByRole("link", { name: "덤벨", exact: true }).click();
   await expect(page).toHaveURL(/eq=dumbbell/);

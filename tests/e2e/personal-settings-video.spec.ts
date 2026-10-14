@@ -34,7 +34,7 @@ test("운동영상 안 보기 ON → 가이드 없이 타이머만 + 운동 완�
   await seedRecommendedExercises(page); // 오늘 운동 채움(가이드 큐 생성)
 
   // 개인설정에서 '운동영상 안 보기' 켜기
-  await page.goto("/settings/personal", { waitUntil: "networkidle" });
+  await page.goto("/settings/personal", { waitUntil: "load" });
   await page.getByRole("switch", { name: "운동영상 안 보기" }).click();
   await page.waitForTimeout(800);
 
@@ -46,7 +46,7 @@ test("운동영상 안 보기 ON → 가이드 없이 타이머만 + 운동 완�
   expect(pref[0]?.hide).toBe(true);
 
   // 메인으로 → 운동 시작
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(800);
@@ -86,7 +86,7 @@ test("영상 보기: 운동모드 안엔 시간만, 나오면 '다시 운동하�
   await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);

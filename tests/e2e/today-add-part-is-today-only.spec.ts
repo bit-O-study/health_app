@@ -40,7 +40,7 @@ test("오늘만 부위 추가는 daily_plan(오늘)만 — routine_exercises 영
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 오늘만 운동 바꾸기 → 어깨 → 오늘만 부위 추가

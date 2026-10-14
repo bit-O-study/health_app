@@ -55,7 +55,7 @@ test("전체 바꾸기: 등 완료 후 가슴으로 바꿔도 등 완료가 오�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 새 부위(가슴) 본운동이 보인다.
@@ -70,7 +70,7 @@ test("부위 추가: 등에 가슴을 더하면 등과 가슴이 함께 보인�
   const email = await signUpAndOnboard(page);
   await setBackToday(email);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await expect(page.getByText("데드리프트").first()).toBeVisible();
 
@@ -90,7 +90,7 @@ test("부위 추가: 등에 가슴을 더하면 등과 가슴이 함께 보인�
 
   // 홈으로 — 등(데드리프트, 고정됨)과 가슴이 함께 보여야 한다.
   // 추천으로 채운 가슴 운동은 경력에 따라 달라진다(초급은 벤치프레스 대신 머신 체스트 프레스가 먼저) — 부위로 확인한다.
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await expect(page.getByText("데드리프트").first()).toBeVisible();
   await expect(page.getByRole("heading", { name: /가슴/ }).first()).toBeVisible();

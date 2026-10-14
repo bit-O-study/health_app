@@ -11,7 +11,7 @@ test("설정 백링크는 들어온 경로로 되돌아간다", async ({ page })
   await createOnboardedAccount(page);
 
   // 홈 → 설정 → 마이페이지 로 들어간 뒤 뒤로 두 번.
-  await page.goto("/home", { waitUntil: "networkidle" });
+  await page.goto("/home", { waitUntil: "load" });
   await page.getByRole("link", { name: "설정" }).first().click();
   await page.waitForURL("**/settings");
 

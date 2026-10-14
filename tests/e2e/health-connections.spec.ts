@@ -15,7 +15,7 @@ test("설정에서 건강 연동으로 들어가 항목과 이유를 볼 수 있
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/settings", { waitUntil: "load" });
   await page.getByRole("link", { name: /건강 연동/ }).click();
   await expect(
     page.getByRole("heading", { name: "건강 연동", level: 1 }),
@@ -34,7 +34,7 @@ test("수면 항목은 구현 상태이며 웹에서는 연결 버튼이 잠긴�
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings/health", { waitUntil: "networkidle" });
+  await page.goto("/settings/health", { waitUntil: "load" });
   const sleep = page.getByTestId("health-feature-sleep");
   await expect(sleep).toBeVisible({ timeout: 10_000 });
   await expect(sleep).not.toContainText("준비 중");
@@ -45,7 +45,7 @@ test("웹에서는 앱에서만 된다고 알리고 연결 버튼이 잠긴다",
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings/health", { waitUntil: "networkidle" });
+  await page.goto("/settings/health", { waitUntil: "load" });
   await expect(page.getByTestId("health-web-notice")).toBeVisible({
     timeout: 10_000,
   });
@@ -58,6 +58,6 @@ test("웹에서는 앱에서만 된다고 알리고 연결 버튼이 잠긴다",
 });
 
 test("로그인 안 하면 로그인으로 보낸다", async ({ page }) => {
-  await page.goto("/settings/health", { waitUntil: "networkidle" });
+  await page.goto("/settings/health", { waitUntil: "load" });
   await expect(page).toHaveURL(/\/login/);
 });

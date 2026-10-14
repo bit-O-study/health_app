@@ -290,7 +290,7 @@ test("운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 
     ["rest"],
   ]);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   const day0 = page.locator('[data-plan-day-index="0"]');
   const day1 = page.locator('[data-plan-day-index="1"]');
   await expect(day0).toContainText("등 · 팔");
@@ -418,8 +418,8 @@ test("같은 팔 블록을 가진 두 탭의 오래된 교환은 운동 행을 �
 
   const stalePage = await page.context().newPage();
   await Promise.all([
-    page.goto("/plan", { waitUntil: "networkidle" }),
-    stalePage.goto("/plan", { waitUntil: "networkidle" }),
+    page.goto("/plan", { waitUntil: "load" }),
+    stalePage.goto("/plan", { waitUntil: "load" }),
   ]);
   const expected = await loadRoutineSnapshot(email);
   const before = await loadExerciseSnapshot(email);
@@ -690,7 +690,7 @@ test("본운동 저장 중에는 새 편집을 만들 수 없어 이전 저장 �
 
   const email = await signUpAndOnboard(page);
   await seedArmRoutine(email);
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   const day0 = page.locator('[data-plan-day-index="0"]');
 
   let releaseRequest!: () => void;
@@ -741,7 +741,7 @@ test("이미 열린 운동 검색 포털은 본운동 저장이 시작되면 닫
 
   const email = await signUpAndOnboard(page);
   await seedArmRoutine(email);
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   const day0 = page.locator('[data-plan-day-index="0"]');
 
   await day0
@@ -796,7 +796,7 @@ test("미저장 워밍업 편집과 워밍업 저장 중 상태는 팔 교환을
   const email = await signUpAndOnboard(page);
   await seedArmRoutine(email);
   const before = await loadExerciseSnapshot(email);
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   const warmup = page.getByTestId("conditioning-editor-0:back:warmup");
   await warmup.getByRole("button", { name: "추가" }).click();
@@ -859,7 +859,7 @@ test("교환 확인 모달은 배경을 inert 처리하고 실행 시 dirty 상�
   const email = await signUpAndOnboard(page);
   await seedArmRoutine(email);
   const before = await loadExerciseSnapshot(email);
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await chooseDayOneAsSwapTarget(page);
 
   const dialog = page.getByRole("dialog");
@@ -914,7 +914,7 @@ for (const dirtyCase of dirtyCases) {
       ["rest"],
     ]);
 
-    await page.goto("/plan", { waitUntil: "networkidle" });
+    await page.goto("/plan", { waitUntil: "load" });
     const editedDay = page.locator(
       `[data-plan-day-index="${dirtyCase.dayIndex}"]`,
     );
@@ -957,7 +957,7 @@ test("오래된 화면의 교환 충돌은 팔 행을 부분 변경하지 않는
   await seedArmRoutine(email);
   const before = await loadExerciseSnapshot(email);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await dbQuery(
     `update public.user_routines
         set custom_week=jsonb_set(custom_week, '{6}', '["core"]'::jsonb)
@@ -1002,7 +1002,7 @@ test("손상되었거나 4블록인 원본 주간에는 팔 교환 컨트롤을 
       where user_id=(select id from auth.users where lower(email)=lower($1))`,
     [email],
   );
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await expect(page.getByTestId("arm-swap-button")).toHaveCount(0);
 
   await dbQuery(
@@ -1011,7 +1011,7 @@ test("손상되었거나 4블록인 원본 주간에는 팔 교환 컨트롤을 
       where user_id=(select id from auth.users where lower(email)=lower($1))`,
     [email],
   );
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "load" });
   await expect(page.getByTestId("arm-swap-button")).toHaveCount(0);
 });
 
@@ -1055,7 +1055,7 @@ test("레거시 문자열 주간은 선택한 사용자만 정규화해 팔 행 
     "rest",
   ]);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await chooseDayOneAsSwapTarget(page, "2일차 · 팔");
   await Promise.all([
     // 모달 history.back()의 동일 문서 이동이 아니라 저장 후 실제 reload를 기다린다.

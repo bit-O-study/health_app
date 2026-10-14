@@ -45,7 +45,7 @@ async function setupTwoLowerDays(page: Page): Promise<string> {
        (${uid}, 1, 'lower', 2, 'leg-curl', 'machine', 4, 12, 30)`,
     [email],
   );
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   return email;
 }
@@ -141,7 +141,7 @@ test("휴식일에도 '편집하기'가 보이고 7일 순서를 바꿀 수 있�
      values (${uid}, 1, 'lower', 0, 'squat', 'barbell', 4, 8, 60)`,
     [email],
   );
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 오늘은 휴식 — 그래도 편집하기 버튼이 보여야 한다(이 PR 의 핵심 수정).

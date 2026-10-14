@@ -309,19 +309,71 @@ self.addEventListener("notificationclick", (event) => {
 /**
  * 운동 시연 영상 — 본 것만 담고, 담은 건 오프라인에서도 재생된다.
  *
- * 🔴 **캐시에는 언제나 전체(200)만 담는다.** `<video preload="metadata">` 는
- * `bytes=0-` 같은 부분 요청을 보내는데, 그 206 응답을 캐시해 두면 다음에 전체를
- * 요청했을 때 잘린 조각이 나가 재생이 깨진다. 그래서 캐시 키는 Range 를 뗀 URL 이고,
- * 부분 요청은 담아 둔 전체를 잘라 206 으로 만들어 준다(`parseRange`).
+ * 온라인 Range 요청은 서버 응답을 그대로 전달한다. Chromium이 서비스 워커가 만든
+ * 206 응답을 seek 중 읽을 때 `PIPELINE_ERROR_READ` 를 내는 경우가 있어, 오프라인일
+ * 때만 저장된 전체 영상에서 Range 응답을 만든다.
  */
 async function mediaWithRange(request) {
   const range = request.headers.get("range");
-  // 캐시 키·받아올 요청 모두 Range 없는 '전체' 요청이다.
-  // 브라우저의 부분 다운로드 캐시와 섞지 않는다. 전체 파일은 아래 CacheStorage에 보관한다.
+  // CacheStorage 키는 Range 를 뗀 URL 이다. 온라인 Range 요청은 원 서버로 보낸다.
   const key = new Request(request.url, { cache: "no-store" });
   const cache = await caches.open(MEDIA_CACHE);
 
   let full = await cache.match(key);
+
+  if (range) {
+    let response;
+    try {
+      // 온라인에서는 원 서버의 206 을 그대로 돌려 브라우저가 Range 응답을 직접 읽게 한다.
+      response = await fetch(request);
+    } catch (e) {
+      // 네트워크가 끊긴 경우에만 저장된 전체로 오프라인 Range 응답을 만든다.
+      if (!full) throw e;
+    }
+
+    if (response) {
+      if (response.status < 200 || response.status >= 300) return response;
+
+      if (!full) {
+        if (response.status === 200) {
+          const len = Number(response.headers.get("content-length") || 0);
+          if (len && len <= MAX_MEDIA_BYTES) {
+            await cache.put(key, response.clone()).catch(() => {});
+            await trimMedia(cache);
+          }
+        } else if (response.status === 206) {
+          const match = /^bytes (\d+)-(\d+)\/(\d+)$/.exec(response.headers.get("content-range") || "");
+          const total = Number(match?.[3] || 0);
+          if (total && total <= MAX_MEDIA_BYTES) {
+            if (match?.[1] === "0" && Number(match[2]) + 1 === total) {
+              // bytes=0- 는 이 짧은 영상 전체를 포함한다. CacheStorage에는 200 으로 보관한다.
+              const headers = new Headers(response.headers);
+              headers.delete("content-range");
+              headers.set("content-length", String(total));
+              const cachedFull = new Response(response.clone().body, { status: 200, headers });
+              await cache.put(key, cachedFull).catch(() => {});
+              await trimMedia(cache);
+            } else {
+              // 초기 Range 가 일부만 와도 본 영상은 오프라인 재생을 위해 전체를 보관한다.
+              try {
+                const complete = await fetch(key);
+                const len = Number(complete.headers.get("content-length") || 0);
+                if (complete.status === 200 && len && len <= MAX_MEDIA_BYTES) {
+                  await cache.put(key, complete.clone()).catch(() => {});
+                  await trimMedia(cache);
+                }
+              } catch {
+                /* Keep the online Range response even if background caching fails. */
+              }
+            }
+          }
+        }
+      }
+
+      return response;
+    }
+  }
+
   if (!full) {
     let res;
     try {

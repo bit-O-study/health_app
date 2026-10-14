@@ -25,7 +25,7 @@ test("식약처 DB 결과가 검색 목록에 합쳐진다", async ({ page }) =>
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await signUpAndOnboard(page);
 
-  await page.goto("/diet", { waitUntil: "networkidle" });
+  await page.goto("/diet", { waitUntil: "load" });
   await page.getByRole("button", { name: /추가|기록/ }).first().click();
 
   const search = page.getByLabel("음식 검색");
@@ -42,7 +42,7 @@ test("식약처에서 받은 음식을 그대로 담을 수 있다", async ({ pa
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await signUpAndOnboard(page);
 
-  await page.goto("/diet", { waitUntil: "networkidle" });
+  await page.goto("/diet", { waitUntil: "load" });
   await page.getByRole("button", { name: /추가|기록/ }).first().click();
 
   const search = page.getByLabel("음식 검색");

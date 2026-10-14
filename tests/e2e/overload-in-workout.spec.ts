@@ -75,7 +75,7 @@ test("운동모드에서 추천이 근거와 함께 보이고, '적용'이 무�
   await seedCompletion(email, { daysAgo: 14, reps: 6, weightKg: 100 });
   await seedCompletion(email, { daysAgo: 7, reps: 6, weightKg: 105 });
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);
@@ -106,7 +106,7 @@ test("정체하면 운동모드에서도 디로드를 권한다", async ({ page 
     await seedCompletion(email, { daysAgo, reps: 6, weightKg: 100 });
   }
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);
@@ -123,7 +123,7 @@ test("기록이 없는 운동에는 추천을 붙이지 않는다", async ({ pag
   const email = await signUpAndOnboard(page);
   await seedLowerDayWithSquat(email);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);
@@ -150,7 +150,7 @@ test("계획 편집(무게 고정 모드)에서도 추천이 보이고 '적용'�
   await seedCompletion(email, { daysAgo: 14, reps: 6, weightKg: 100 });
   await seedCompletion(email, { daysAgo: 7, reps: 6, weightKg: 105 });
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   const hint = page.getByTestId("overload-hint-squat").first();
   await expect(hint).toBeVisible({ timeout: 10000 });

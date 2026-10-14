@@ -35,7 +35,7 @@ test("체형정보: 지표별 추이그래프 + 기록은 버튼(#13/14/15)", as
     [email],
   );
 
-  await page.goto("/settings/profile", { waitUntil: "networkidle" });
+  await page.goto("/settings/profile", { waitUntil: "load" });
   await page.waitForTimeout(600);
 
   // #13/#15: 지표별 개별 차트 — 몸무게·근육량 추이가 각각 있어야 한다.
@@ -57,7 +57,7 @@ test("체형정보: 지표별 추이그래프 + 기록은 버튼(#13/14/15)", as
   ).toBeVisible({ timeout: 8000 });
 
   // 캘린더 '현재 체중' 카드도 언제 잰 값인지 같이 보여준다.
-  await page.goto("/calendar", { waitUntil: "networkidle" });
+  await page.goto("/calendar", { waitUntil: "load" });
   const weightCard = page
     .locator("div")
     .filter({ hasText: /^현재 체중/ })

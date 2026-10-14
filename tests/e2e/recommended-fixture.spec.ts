@@ -22,7 +22,7 @@ for (const variant of ["fullbody", "custom-side"]) {
     await dbQuery("update public.routine_exercises set weight_kg=999, memo='temporary' where user_id=(select id from auth.users where email=$1)", [email]);
     await test.step("Direct recommendation preparation", async () => {
       await prepareRecommendedExercises(email);
-      await page.goto("/routine", { waitUntil: "networkidle" });
+      await page.goto("/routine", { waitUntil: "load" });
       await expect(page.getByRole("button", { name: "운동 시작" })).toBeVisible();
     });
     expect(await snapshot()).toEqual(expected);

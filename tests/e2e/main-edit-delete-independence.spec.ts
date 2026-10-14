@@ -47,7 +47,7 @@ test("메인 편집 삭제도 일차별 독립 — 다른 날 같은 운동은 �
   );
 
   // 오늘(0일차) 메인 → 편집 → 랫풀다운 체크 → 삭제
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "편집하기" }).click();
   await page

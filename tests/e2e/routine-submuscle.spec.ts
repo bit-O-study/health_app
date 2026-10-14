@@ -9,7 +9,7 @@ test("루틴 빌더: 부위 추가 → 가슴 → '가슴 상부' 세부근육�
   page,
 }) => {
   await createOnboardedAccount(page);
-  await page.goto("/settings/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings/routine", { waitUntil: "load" });
 
   // 커스텀 빌더 진입
   await page.getByRole("button", { name: "커스텀" }).click();
@@ -32,7 +32,7 @@ test("루틴 빌더: 부위 추가 → 가슴 → '가슴 상부' 세부근육�
 
 test("루틴 빌더: 부위 추가 → 팔 → '이두'가 보이고 추가된다", async ({ page }) => {
   await createOnboardedAccount(page);
-  await page.goto("/settings/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "커스텀" }).click();
 
   await page.getByRole("button", { name: "부위 추가" }).first().click();

@@ -31,7 +31,7 @@ test("보조 세부근육 슬롯은 등록 화면에서 세부근육명으로 �
     [email, JSON.stringify(week)],
   );
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   // 가슴 슬롯 헤더가 "가슴 상부 …" 로 (부모 "가슴" 단독이 아님)
   await expect(page.getByText("가슴 상부").first()).toBeVisible();

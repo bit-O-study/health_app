@@ -21,7 +21,7 @@ async function captureAuthorizeUrl(
     await route.fulfill({ status: 200, body: "intercepted" });
   });
 
-  await page.goto("/login", { waitUntil: "networkidle" });
+  await page.goto("/login", { waitUntil: "load" });
   await page.getByRole("button", { name: label }).click();
   await expect.poll(() => captured, { timeout: 15_000 }).not.toBeNull();
   return new URL(captured!);
@@ -60,7 +60,7 @@ test("로그인 후 갈 곳(redirect)이 있으면 콜백 next 로 이어진다"
     await route.fulfill({ status: 200, body: "intercepted" });
   });
 
-  await page.goto("/login?redirect=%2Fplan", { waitUntil: "networkidle" });
+  await page.goto("/login?redirect=%2Fplan", { waitUntil: "load" });
   await page.getByRole("button", { name: "구글로 계속하기" }).click();
   await expect.poll(() => captured, { timeout: 15_000 }).not.toBeNull();
 
@@ -73,7 +73,7 @@ test("로그인 후 갈 곳(redirect)이 있으면 콜백 next 로 이어진다"
 test("★ 공급자 인증이 실패하면 /login 에서 이유를 보여준다", async ({ page }) => {
   // 콜백 라우트는 error 를 /login?error= 로 넘긴다 — 화면에 그대로 떠야 한다.
   await page.goto("/auth/callback?error=access_denied", {
-    waitUntil: "networkidle",
+    waitUntil: "load",
   });
 
   await expect(page).toHaveURL(/\/login\?error=access_denied/);

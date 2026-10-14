@@ -43,7 +43,7 @@ test("오늘만 부위 추가: 편집기 부위 선택지는 추가 요청한 �
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudge(page);
 

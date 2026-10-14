@@ -43,7 +43,7 @@ test("시간 기반 운동(플랭크)은 운동모드에서 초 타이머가 뜨
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudge(page);
   await page.getByRole("button", { name: "운동 시작" }).click();

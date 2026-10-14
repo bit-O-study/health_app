@@ -43,7 +43,7 @@ test("런닝모드 기록(완료기록만)은 마무리운동 목록에 안 뜬�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 마무리운동 목록에 '런닝' 이 뜨면 안 된다(고스트 재출현 X).
@@ -71,7 +71,7 @@ test("루틴에서 추가한 마무리 런닝은 목록에 뜬다(#18)", async (
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 마무리운동에 '런닝' 이 보여야 한다.

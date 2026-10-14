@@ -66,7 +66,7 @@ async function setupTodayOnly(page: Page): Promise<string> {
      values (${uid}, ${today}, 'lower', 0, 'rdl', 'barbell', 4, 8, 60)`,
     [email],
   );
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   return email;
 }
@@ -124,7 +124,7 @@ test("오늘만 상태 + 7일 순서변경 → '예'면 오늘만 해제만(순�
 
   // 해제 후 일반 상태 — 다시 드래그하면 모달 없이 순서변경이 반영된다.
   // (해제 후 편집 상태가 남을 수 있어 페이지를 새로 로드해 결정적으로 만든다.)
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "편집하기" }).click();
   await dragCard(page, 0, 1);

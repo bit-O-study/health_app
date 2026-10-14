@@ -18,7 +18,7 @@ test("루틴 빌더: 추천으로 저장하면 운동이 등록되고 운동 화
     email,
   ]);
 
-  await page.goto("/settings/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings/routine", { waitUntil: "load" });
 
   // 추천 모드 선택(기본값이지만 명시) 후 저장
   await page.getByTestId("fillmode-recommend").click();

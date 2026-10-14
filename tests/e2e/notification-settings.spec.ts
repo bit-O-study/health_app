@@ -14,7 +14,7 @@ test("설정에서 들어가 종류를 끄면 바로 저장된다", async ({ pag
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await createOnboardedAccount(page);
 
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/settings", { waitUntil: "load" });
   await page.getByRole("link", { name: /알림 설정/ }).click();
   await expect(page).toHaveURL(/\/settings\/notifications$/);
   await expect(page.getByRole("heading", { name: "알림 설정" })).toBeVisible();
@@ -37,7 +37,7 @@ test("설정에서 들어가 종류를 끄면 바로 저장된다", async ({ pag
   expect(row.workout).toBe(true);
 
   // 새로고침해도 유지된다.
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "load" });
   await expect(
     page.getByRole("switch", { name: "식단 리마인더" }),
   ).toHaveAttribute("aria-checked", "false");
@@ -49,7 +49,7 @@ test("야간 방해 금지는 기본으로 켜져 있고 시간을 바꿀 수 �
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await createOnboardedAccount(page);
 
-  await page.goto("/settings/notifications", { waitUntil: "networkidle" });
+  await page.goto("/settings/notifications", { waitUntil: "load" });
   const quiet = page.getByRole("switch", { name: "야간 방해 금지" });
   await expect(quiet).toHaveAttribute("aria-checked", "true");
 
@@ -75,7 +75,7 @@ test("방해 금지를 끄면 시간 선택이 사라진다", async ({ page }) =
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings/notifications", { waitUntil: "networkidle" });
+  await page.goto("/settings/notifications", { waitUntil: "load" });
   await expect(page.getByLabel("방해 금지 시작 시각")).toBeVisible();
   await page.getByRole("switch", { name: "야간 방해 금지" }).click();
   await expect(page.getByLabel("방해 금지 시작 시각")).toHaveCount(0);
@@ -84,7 +84,7 @@ test("방해 금지를 끄면 시간 선택이 사라진다", async ({ page }) =
 test("남의 설정은 못 읽고 못 쓴다(RLS)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await createOnboardedAccount(page);
-  await page.goto("/settings/notifications", { waitUntil: "networkidle" });
+  await page.goto("/settings/notifications", { waitUntil: "load" });
   await page.getByRole("switch", { name: "식단 리마인더" }).click();
   await expect(page.getByText("저장했습니다.")).toBeVisible({ timeout: 10_000 });
 

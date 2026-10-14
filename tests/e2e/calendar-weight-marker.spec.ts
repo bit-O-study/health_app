@@ -29,11 +29,11 @@ test("웨이트 완료한 날은 캘린더에 덤벨 마커가 뜬다", async ({
   );
 
   // 완료 전: 캘린더에 덤벨 마커 없음.
-  await page.goto("/calendar", { waitUntil: "networkidle" });
+  await page.goto("/calendar", { waitUntil: "load" });
   await expect(page.getByLabel("웨이트한 날")).toHaveCount(0);
 
   // 근력 운동 완료(메인 '오늘 전부 완료').
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   const row = page.locator("li").filter({ hasText: "스쿼트" }).first();
   await expect(row).toBeVisible({ timeout: 8000 });
@@ -48,6 +48,6 @@ test("웨이트 완료한 날은 캘린더에 덤벨 마커가 뜬다", async ({
   });
 
   // 완료 후: 캘린더에 덤벨 마커가 최소 1개(오늘) 뜬다.
-  await page.goto("/calendar", { waitUntil: "networkidle" });
+  await page.goto("/calendar", { waitUntil: "load" });
   await expect(page.getByLabel("웨이트한 날").first()).toBeVisible({ timeout: 8000 });
 });

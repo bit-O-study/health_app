@@ -24,8 +24,8 @@ test("운동 탭을 새로 열어도 직전 화면으로 튕기지 않는다", a
   });
 
   // 다른 화면을 보다가(= lastRoute 저장) 운동 탭을 하드 로드.
-  await page.goto("/settings", { waitUntil: "networkidle" });
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings", { waitUntil: "load" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(1500); // 복원이 있었다면 이 사이에 replace 가 돈다.
 
   await expect(page).toHaveURL(/\/routine$/);

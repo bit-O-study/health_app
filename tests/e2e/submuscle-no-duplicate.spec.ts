@@ -37,7 +37,7 @@ test("같은 날 가슴 상부+하부는 메인에서 운동/키가 복제되지
   );
   await seedRecommendedExercisesViaUI(page);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(1000);
 
   // React "two children with the same key" 콘솔 에러가 없어야 한다.

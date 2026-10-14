@@ -93,7 +93,7 @@ test("루틴 변경으로 행 UUID 가 새로 생겨도 오늘 완료한 운동�
   );
   expect(Number(comps[0].n)).toBe(2);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 본운동(벤치프레스가 든 리스트)에 '완료' 배지가 보여야 한다 — 행 id 가 바뀌었어도
@@ -166,7 +166,7 @@ test("부분 완료: 완료한 운동만 루틴 변경 뒤에도 완료로 남�
   );
   expect(Number(comps[0].n)).toBe(1);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 벤치프레스 행: 행 UUID 가 바뀌었어도 완료 유지

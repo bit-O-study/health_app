@@ -43,7 +43,7 @@ test("장기 정체 대체운동은 오늘 계획만 바꾸고 영구 루틴은 
     );
   }
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
 
   const recommendations = page.getByRole("region", { name: "추천 대체운동" });

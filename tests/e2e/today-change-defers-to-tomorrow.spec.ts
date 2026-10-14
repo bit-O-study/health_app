@@ -34,7 +34,7 @@ test("오늘만 전체 바꾸기 → 루틴이 하루 밀린다(start_date +1, �
   const startBefore = before[0]?.start_date;
   expect(startBefore).toBeTruthy();
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // '오늘만 운동 바꾸기' 열고, 부위 선택 후 '운동 전체 바꾸기'

@@ -58,6 +58,10 @@ missing DDL) to the live DB via the Supabase SQL editor or the pooler.
 
 ## FE: E2E
 
+- For navigation, use `page.goto()` with `waitUntil: "load"` (or its default), then
+  wait for the route-specific URL or visible UI with a Playwright assertion. Avoid
+  `networkidle`: background requests can extend it after the page is ready. Keep it
+  only when network completion itself is part of the behavior being tested.
 - `helpers/auth.ts` — `createOnboardedAccount(page)` creates an independent account
   without navigation; use it when the test opens its own first page or seeds a workout.
   `signUpAndOnboard(page)` creates an independent account and

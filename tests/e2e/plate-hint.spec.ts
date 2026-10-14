@@ -37,7 +37,7 @@ async function seedLowerDay(
 }
 
 async function startWorkout(page: import("@playwright/test").Page) {
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);
@@ -101,7 +101,7 @@ test("봉 무게를 바꾸면 다시 계산하고, 그 선택이 유지된다", 
 
   // 새로고침 후 운동모드로 다시 들어와도 고른 봉 무게가 남아 있어야 한다
   // — 매번 다시 고르게 하면 있으나 마나다.
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "load" });
   await page.waitForTimeout(1000);
   // 세션이 살아 있으므로 '운동 시작' 이 아니라 '다시 운동하기' 로 들어간다.
   await page.getByRole("button", { name: "다시 운동하기" }).click();
@@ -140,7 +140,7 @@ test("계획 편집(무게 고정 모드)에서도 원판 구성이 보인다", 
     [email],
   );
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   const hint = page.getByTestId("plate-hint").first();
   await expect(hint).toBeVisible({ timeout: 10000 });

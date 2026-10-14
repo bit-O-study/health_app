@@ -50,7 +50,7 @@ test("가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타
 
 test("성장 그래프 페이지가 열린다", async ({ page }) => {
   await createOnboardedAccount(page);
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await expect(
     page.getByRole("heading", { name: "성장 그래프" }),
   ).toBeVisible();

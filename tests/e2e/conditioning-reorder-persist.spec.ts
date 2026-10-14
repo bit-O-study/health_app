@@ -62,7 +62,7 @@ test("루틴변경으로 마무리 종목이 달라지면(런닝→차일드포�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 오늘 부위가 등으로 바뀌어 마무리 종목이 차일드포즈(런닝과 다른 종목)가 됐다.

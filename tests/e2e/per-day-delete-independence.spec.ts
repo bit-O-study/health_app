@@ -51,7 +51,7 @@ test("같은 부위 두 일차 — 한 일차 운동 삭제가 다른 일차에 
   expect(before.get(3)).toBeGreaterThan(1);
 
   // /plan 에서 "3일 · 하체"(2일차) 섹션에서만 운동 1개 삭제 후 저장.
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(800);
   const day3 = page.locator('[data-plan-day-index="2"]');
   await expect(day3).toHaveCount(1);

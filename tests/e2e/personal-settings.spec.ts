@@ -13,7 +13,7 @@ test("개인설정 페이지가 에러 없이 뜨고 토글이 동작한다", as
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings/personal", { waitUntil: "networkidle" });
+  await page.goto("/settings/personal", { waitUntil: "load" });
 
   // RSC 경계 위반(아이콘 함수 prop)으로 터지던 페이지 — 정상 렌더 가드.
   await expect(page.getByRole("heading", { name: "개인설정" })).toBeVisible();
@@ -34,7 +34,7 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
-  await page.goto("/settings/personal", { waitUntil: "networkidle" });
+  await page.goto("/settings/personal", { waitUntil: "load" });
 
   // 알림음 피커가 뜨고, 종류 3종 + 미리듣기가 있다.
   await expect(page.getByText("휴식 종료 알림음")).toBeVisible();
@@ -83,7 +83,7 @@ test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);

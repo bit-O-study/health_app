@@ -57,7 +57,7 @@ test("부위를 바꾸면 다른 워밍업은 완료로 번지지 않는다", as
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 오늘은 가슴 → 가슴 워밍업(캣카우)이 보이고, 그건 완료가 아니어야 한다(런닝 완료가 번지면 안 됨).
@@ -111,7 +111,7 @@ test("같은 종목(런닝)이 여러 개면 하나만 완료해도 나머지는
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 런닝 행이 2개 보이고, 그 중 '완료' 배지는 정확히 1개여야 한다(형제까지 번지면 안 됨).
@@ -158,7 +158,7 @@ test("본운동도 부위를 바꾸면 새 부위 운동은 완료로 안 뜬다
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 새 부위(가슴) 본운동(벤치프레스)은 완료가 아니어야 한다.

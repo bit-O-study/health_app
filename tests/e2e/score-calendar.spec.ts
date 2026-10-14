@@ -42,13 +42,13 @@ test("운동 완료 → 점수와 캘린더에 반영된다", async ({ page }) =
   await page.waitForTimeout(1500);
 
   // 운동 점수 — page renders and reflects activity (completed count / score)
-  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  await page.goto("/settings/score", { waitUntil: "load" });
   await expect(page.getByRole("heading", { name: /점수|운동 점수/ }).first()).toBeVisible();
   // no Next error overlay / runtime error text
   await expect(page.locator("body")).not.toContainText("Unhandled Runtime Error");
 
   // 운동 캘린더(기록) — current month grid renders without error
-  await page.goto("/settings/history", { waitUntil: "networkidle" });
+  await page.goto("/settings/history", { waitUntil: "load" });
   await expect(page.locator("body")).not.toContainText("Unhandled Runtime Error");
   // weekday header of the calendar should be present
   await expect(page.getByText("월", { exact: true }).first()).toBeVisible();
@@ -63,7 +63,7 @@ test("부위별 밸런스 3D 마네킹이 점수 화면에 렌더된다", async 
   page.on("pageerror", (e) => errors.push(String(e)));
 
   await createOnboardedAccount(page);
-  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  await page.goto("/settings/score", { waitUntil: "load" });
 
   const balance = page.locator("section", { hasText: "부위별 밸런스" });
   await expect(balance).toBeVisible();
@@ -98,7 +98,7 @@ test("세부근육 단위 밸런스: 토글 + 분포가 운동 기록으로 나�
     [email],
   );
 
-  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  await page.goto("/settings/score", { waitUntil: "load" });
   const balance = page.locator("section", { hasText: "부위별 밸런스" });
 
   // 세부근육 토글이 보이고, 누르면 세부근육 분포가 나타난다
@@ -125,7 +125,7 @@ test("체성분이 있어도 운동 완료가 부위별 점수에 반영된다",
     [email],
   );
 
-  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  await page.goto("/settings/score", { waitUntil: "load" });
   const balance = page.locator("section", { hasText: "부위별 밸런스" });
   // 운동이 반영되므로 "운동량 기반" 배지여야 하고, "체성분 기반" 이면 안 된다.
   await expect(balance.getByText("운동량 기반")).toBeVisible();

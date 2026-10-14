@@ -160,7 +160,7 @@ test("설정 → 내 데이터 내보내기 화면에서 네 가지를 받을 �
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/settings", { waitUntil: "load" });
   await page.getByRole("link", { name: /내 데이터 내보내기/ }).click();
   await page.waitForURL("**/settings/export");
 
@@ -172,7 +172,7 @@ test("설정 → 내 데이터 내보내기 화면에서 네 가지를 받을 �
   await expect(page.getByText(/앱 푸시 토큰/)).toBeVisible();
 
   // 계정 삭제 안내에서도 먼저 받아 가라고 알린다.
-  await page.goto("/account-deletion", { waitUntil: "networkidle" });
+  await page.goto("/account-deletion", { waitUntil: "load" });
   await expect(
     page.getByRole("link", { name: "내 데이터 내보내기" }),
   ).toBeVisible();

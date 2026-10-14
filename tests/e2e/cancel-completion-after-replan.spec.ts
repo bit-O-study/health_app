@@ -71,7 +71,7 @@ test("옛 행 id 를 가리키는 완료기록도 완료 취소가 된다", asyn
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(1000);
   await dismissNudges(page);
 
@@ -96,7 +96,7 @@ test("옛 행 id 를 가리키는 완료기록도 완료 취소가 된다", asyn
   expect(Number(left[0].n)).toBe(0);
 
   // 새로고침해도 완료가 아니어야 한다.
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   const rowAfter = page.locator("li").filter({ hasText: "랫풀다운" }).first();
   await expect(rowAfter.getByText("완료", { exact: true })).toHaveCount(0);

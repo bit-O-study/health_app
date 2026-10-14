@@ -6,7 +6,7 @@ test("운동 영상을 올려 티칭받는 동선으로 문구가 안내된다",
   await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "운동 시작" }).click();
 
   const upload = page.getByRole("button", { name: "영상 올리고 티칭받기" });

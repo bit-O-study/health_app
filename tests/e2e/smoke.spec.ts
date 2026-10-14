@@ -30,7 +30,7 @@ test("주요 페이지가 회원가입 후 에러 없이 렌더된다", async ({
   const failures: string[] = [];
   for (const r of ROUTES) {
     pageErrors.length = 0;
-    const resp = await page.goto(r.path, { waitUntil: "networkidle" });
+    const resp = await page.goto(r.path, { waitUntil: "load" });
     await page.waitForTimeout(400);
     const status = resp?.status() ?? 0;
     const body = await page.locator("body").innerText().catch(() => "");

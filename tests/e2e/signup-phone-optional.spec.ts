@@ -13,7 +13,7 @@ import { freshEmail, TEST_PASSWORD } from "./helpers/auth";
  */
 
 async function openSignupForm(page: import("@playwright/test").Page) {
-  await page.goto("/login", { waitUntil: "networkidle" });
+  await page.goto("/login", { waitUntil: "load" });
   await page.getByRole("button", { name: "회원가입" }).click();
   await page.waitForSelector("#name", { timeout: 15_000 });
 }

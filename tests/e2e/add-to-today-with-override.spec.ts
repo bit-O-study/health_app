@@ -42,7 +42,7 @@ test("오늘 등이 오늘만 변경(오버라이드) 상태여도 추가한 운
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   await page.getByRole("button", { name: "편집하기" }).first().click();

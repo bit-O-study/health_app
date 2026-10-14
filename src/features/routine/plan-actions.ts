@@ -246,7 +246,12 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   if (!replacement.ok) return replacement;
 
   // 워밍업·마무리도 기본 추천으로 함께 채운다
-  await registerRecommendedConditioningAction();
+  // 워밍업·마무리 재설정이 실패하면 알린다(예전엔 조용히 비거나 옛 것이 남았다).
+  try {
+    await registerRecommendedConditioningAction();
+  } catch {
+    return { ok: false, error: "워밍업·마무리를 채우지 못했어요. 다시 시도해 주세요." };
+  }
 
   revalidatePath("/routine");
   return { ok: true };

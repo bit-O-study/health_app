@@ -80,13 +80,14 @@ export async function pinRoutineFocusesForTodayAction(
   // 오늘 더한 부위/세부근육을 기억한다 — 아직 운동을 안 담았어도 오늘 화면의
   // '운동 추가'에서 그 부위를 고를 수 있어야 한다. **날짜 한정이라 내일 루틴엔 영향 없음.**
   if (addedBlocks && addedBlocks.trim() && addedBlocks !== "direct") {
-    await supabase
+    const { error } = await supabase
       .from("user_routines")
       .update({
         today_added_date: seoulYmd(),
         today_added_blocks: addedBlocks.trim().slice(0, 200),
       })
       .eq("user_id", user.id);
+    if (error) return { ok: false, error: "부위를 더하지 못했어요. 다시 시도해 주세요." };
   }
 
   const routine = await getUserRoutine();

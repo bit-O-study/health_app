@@ -40,7 +40,8 @@ export function MarkAllDoneButton({
       const res = await callIdempotentAction(() =>
         markAllTodayCompleteAction({ planRows, warmup, cooldown }),
       );
-      if (res.ok) {
+      // 서버가 저장 실패를 알리면(res.value.ok === false) 성공으로 보지 않는다.
+      if (res.ok && res.value.ok) {
         // 성공 응답 뒤 추가 RSC 갱신이 이전 완료 상태를 복원하지 않게 한다.
         window.location.reload();
         return;

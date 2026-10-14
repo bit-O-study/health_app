@@ -45,7 +45,8 @@ export async function applyItemsTodayOnly(
   if (mode === "replace") {
     // 오늘 할 운동이 있을 때만 미룬다 — 쉬는 날에 밀면 내일 운동까지 하루씩 밀린다.
     if ((await todayExerciseIds()).size > 0) {
-      await deferRoutineOneDayAction("direct");
+      const deferred = await deferRoutineOneDayAction("direct");
+      if (!deferred.ok) return deferred;
       const cleared = await clearDailyPlanForDateAction(seoulYmd());
       if (!cleared.ok) return cleared;
     }

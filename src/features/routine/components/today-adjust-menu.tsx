@@ -24,6 +24,7 @@ import {
   deferRoutineOneDayAction,
   restartRoutineFromTodayAction,
   undoTodayRestAction,
+  type TodayActionResult,
 } from "@/features/routine/actions";
 import {
   clearDailyPlanForDateAction,
@@ -101,6 +102,8 @@ export function TodayAdjustMenu({
   // 쉬는 날에 열면 '다시 운동하기'가 가장 할 법한 일이다.
   const [tab, setTab] = useState<TabId>(isRestToday ? "rest" : "add");
   const [pending, start] = useTransition();
+  // 저장이 실패하면 말한다(2026-10-14) — 예전엔 실패해도 그냥 다시 읽혀 "눌렀는데 안 바뀐다"가 됐다.
+  const [error, setError] = useState<string | null>(null);
   useBackClose(open, () => close());
 
   const closeSheet = () => {
@@ -115,9 +118,14 @@ export function TodayAdjustMenu({
     setTab(isRestToday ? "rest" : "add");
   }
 
-  function run(action: () => Promise<void>) {
+  function run(action: () => Promise<TodayActionResult>) {
+    setError(null);
     start(async () => {
-      await action();
+      const r = await action();
+      if (!r.ok) {
+        setError(r.error);
+        return;
+      }
       // 모달 back()이 갱신된 서버 화면을 이전 상태로 되돌리지 않도록 문서를 다시 읽는다.
       window.location.reload();
     });
@@ -137,12 +145,16 @@ export function TodayAdjustMenu({
   function replaceAndGo() {
     if (picked.size === 0) return;
     const focuses = Array.from(picked).join(",");
+    setError(null);
     start(async () => {
-      if (isRestToday) await undoTodayRestAction();
+      const undo = isRestToday ? await undoTodayRestAction() : ({ ok: true } as const);
+      if (!undo.ok) return setError(undo.error);
       // 루틴 전체를 하루씩 민다(오늘 원래 운동→내일, 아무 날도 안 사라짐) + 오늘을
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
-      await deferRoutineOneDayAction(focuses);
-      await clearDailyPlanForDateAction(seoulYmd());
+      const deferred = await deferRoutineOneDayAction(focuses);
+      if (!deferred.ok) return setError(deferred.error);
+      const cleared = await clearDailyPlanForDateAction(seoulYmd());
+      if (!cleared.ok) return setError("오늘 운동을 비우지 못했어요. 다시 시도해 주세요.");
       // 서버 액션의 revalidate 와 클라이언트 push 가 경합하면 /routine 에 남을 수 있다.
       window.location.assign(`/plan/today?focus=${focuses}`);
     });
@@ -153,10 +165,13 @@ export function TodayAdjustMenu({
   function addAndGo() {
     if (picked.size === 0) return;
     const focuses = Array.from(picked).join(",");
+    setError(null);
     start(async () => {
-      if (isRestToday) await undoTodayRestAction();
+      const undo = isRestToday ? await undoTodayRestAction() : ({ ok: true } as const);
+      if (!undo.ok) return setError(undo.error);
       // 고른 부위/세부근육을 오늘 한정으로 기억(아직 안 담아도 '운동 추가'에서 고를 수 있게).
-      await pinRoutineFocusesForTodayAction(focuses);
+      const pinned = await pinRoutineFocusesForTodayAction(focuses);
+      if (!pinned.ok) return setError("부위를 더하지 못했어요. 다시 시도해 주세요.");
       // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
@@ -190,6 +205,11 @@ export function TodayAdjustMenu({
             )}
             오늘부터 다시 시작하기
           </button>
+          {error && !open ? (
+            <p role="alert" className="w-full text-xs font-semibold text-danger">
+              {error}
+            </p>
+          ) : null}
         </div>
       ) : null}
 
@@ -396,6 +416,11 @@ export function TodayAdjustMenu({
               ) : null}
             </div>
 
+            {error ? (
+              <p role="alert" className="mt-3 text-sm font-semibold text-danger">
+                {error}
+              </p>
+            ) : null}
             {pending ? (
               <p className="mt-3 flex items-center justify-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                 <Loader2

@@ -165,10 +165,16 @@ export async function registerRecommendedConditioningAction(): Promise<void> {
     ),
   );
 
-  await supabase.from("routine_conditioning").delete().eq("user_id", user.id);
-
+  // 새 것을 먼저 넣고, 넣는 데 성공했을 때만 옛 것을 지운다(2026-10-14).
+  // 예전엔 전부 지운 뒤 넣었고 둘 다 결과를 안 봐서, 넣기가 실패하면 워밍업·마무리가 통째로 비었다.
+  const { data: old } = await supabase.from("routine_conditioning").select("id").eq("user_id", user.id);
   if (rows.length > 0) {
-    await supabase.from("routine_conditioning").insert(rows);
+    const { error } = await supabase.from("routine_conditioning").insert(rows);
+    if (error) throw new Error("추천 워밍업·마무리를 넣지 못했어요.");
+  }
+  const oldIds = ((old ?? []) as { id: string }[]).map((r) => r.id);
+  if (oldIds.length > 0) {
+    await supabase.from("routine_conditioning").delete().eq("user_id", user.id).in("id", oldIds);
   }
 
   revalidatePath("/routine");

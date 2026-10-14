@@ -30,6 +30,7 @@ export default async function YearReviewPage() {
     ["운동한 날", `${r.days}일`],
     ["총 볼륨", `${r.volumeKg.toLocaleString("ko-KR")}kg`],
     ["가장 길게 이어 간 주", `${r.longestWeekStreak}주`],
+    ["달린 거리", r.runCount > 0 ? `${r.runKm.toLocaleString("ko-KR")}km · ${r.runCount}번` : "—"],
     ["가장 많이 한 운동", r.topExercise ? `${name(r.topExercise.exerciseId)} ${r.topExercise.days}일` : "—"],
     ["가장 크게 오른 신기록", r.bestPr ? `${name(r.bestPr.exerciseId)} +${r.bestPr.gainKg}kg` : "—"],
   ];

@@ -12,6 +12,14 @@ import type { SetDetail } from "@/features/routine/set-details";
 export type Level = 1 | 2 | 3;
 export type Checkin = { sleep: Level; soreness: Level; energy: Level };
 
+/**
+ * 워치로 잰 수면 → "잠은 잘 잤나요?" 답(2026-10-14). 짧으면 못 잤어요, 보통이면 보통, 충분하면 잘 잤어요.
+ * (등급은 sleep-recovery.ts 의 수면 시간 구간을 그대로 쓴다.)
+ */
+export function sleepLevelFor(level: "low" | "moderate" | "good" | "long"): Level {
+  return level === "low" ? 1 : level === "moderate" ? 2 : 3;
+}
+
 export const CHECKIN_QUESTIONS: { key: keyof Checkin; label: string; options: [string, string, string] }[] = [
   { key: "sleep", label: "잠은 잘 잤나요?", options: ["못 잤어요", "보통", "잘 잤어요"] },
   { key: "soreness", label: "근육통은요?", options: ["심해요", "조금", "없어요"] },

@@ -31,6 +31,7 @@ import {
   Volume2,
   VolumeX,
   X,
+  History,
 } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
@@ -1521,6 +1522,18 @@ export function GuidedOverlay({
     router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}&from=workout`);
   }
 
+  // 이 종목의 지난 기록(2026-10-14) — 세트 사이에 지난번 세트·최대 무게 추이를 본다.
+  // 종목별 기록 화면은 있었는데 리포트 한 곳에서만 들어갈 수 있었다. 돌아오면 운동모드가 다시 열린다.
+  function viewHistory() {
+    if (!item || item.kind !== "main") return;
+    try {
+      sessionStorage.setItem("heltch.resumeWorkout", "1");
+    } catch {
+      /* noop */
+    }
+    router.push(`/fit/records?ex=${encodeURIComponent(item.exerciseId)}`);
+  }
+
   // 몰입형(2026-09-25 사용자 선택 '몰입') — 운동모드는 항상 어두운 무대.
   // `dark` 를 루트에 걸어 안쪽 컴포넌트(스크러버·원판·추천·다이얼로그)가 전부 다크 토큰을 쓴다.
   const glass =
@@ -1755,6 +1768,17 @@ export function GuidedOverlay({
                   <StickyNote aria-hidden="true" size={13} />
                   {currentMemo(item) ? "메모 수정" : "메모"}
                 </button>
+                {item.kind === "main" ? (
+                  <button
+                    type="button"
+                    onClick={viewHistory}
+                    data-testid="workout-history-open"
+                    className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                  >
+                    <History aria-hidden="true" size={13} />
+                    지난 기록
+                  </button>
+                ) : null}
                 {postureEnabled && item.kind === "main" ? (
                   <button
                     type="button"

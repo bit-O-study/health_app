@@ -22,7 +22,7 @@ export async function TrainerSectionPage({ section, query = "" }: {section:"memb
   const status:Record<string,string>={queued:"발송 대기",processing:"접수 중",submitted:"업체 접수 · 수신 미확인",failed:"발송 요청 실패",unknown:"결과 확인 필요"};
   return <div className="app-page"><PageHeader branded title={title}/><main className="app-container space-y-5"><h2 className="text-2xl font-bold">{title}</h2>
     {section==="notifications" ? <>
-      <p className="text-sm text-muted">초대·연결 해제 내역과 알림톡·문자 접수 상태를 확인하세요.<br />업체 접수는 휴대폰 수신 완료를 뜻하지 않아요.</p>
+      <p className="text-sm text-muted">초대·연결 해제 내역과 알림톡·문자 접수 상태를 확인하세요.<br />회원이 연결을 끊으면 앱 알림으로도 알려 드려요.</p>
       {!messagingReady ? <p role="status" className="app-card p-4 text-sm">초대는 회원 관리에서 카카오톡으로 직접 보내요.<br />여기에는 알림톡·문자로 자동 발송한 내역만 나와요.</p>:null}
       {!admin || notifications?.error || disconnected?.error ? <p role="alert">알림 내역을 불러오지 못했어요.<br />잠시 후 다시 확인해 주세요.</p>:null}
       <div className="app-card divide-y divide-line">{notifications?.data?.map(note=><article key={note.id} className="space-y-2 p-4"><h3 className="font-semibold">{note.kind==="invite"?"회원 초대":"회원 연결 해제"}{note.payload?.member ? ` · ${note.payload.member}`:""}</h3><p className="text-sm text-brand">{note.channel==="ATA"?"알림톡":"문자"} · {status[note.status]??note.status}</p><time className="text-xs text-muted">{new Date(note.created_at).toLocaleString("ko-KR",{timeZone:"Asia/Seoul"})}</time></article>)}</div>

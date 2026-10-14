@@ -6,6 +6,7 @@ import { BODY_PART_LABEL, type BodyPart } from "@/features/routine/exercise-cata
 import { shortVolume, whenText } from "@/features/routine/fit-view";
 import { compareText } from "@/features/lite/session-report";
 import { loadSessionReport } from "@/features/lite/session-report-data";
+import { WorkoutHeartRate } from "@/features/lite/components/workout-heart-rate";
 
 const name = (id: string) => getCatalogExercise(id)?.name ?? id;
 const md = (ymd: string) => `${Number(ymd.slice(5, 7))}/${Number(ymd.slice(8, 10))}`;
@@ -22,7 +23,7 @@ const signedNum = (n: number) => { const r = Math.round(n * 10) / 10; return `${
 export async function SessionReportCard() {
   const data = await loadSessionReport().catch(() => null);
   if (!data) return null;
-  const { report: r, full, ready } = data;
+  const { report: r, full, ready, window } = data;
   const diff = r.lastSamePart ? r.volumeKg - r.lastSamePart.volumeKg : null;
 
   return (
@@ -75,6 +76,7 @@ export async function SessionReportCard() {
               ))}
             </ul>
           ) : null}
+          {window ? <WorkoutHeartRate start={window.start} end={window.end} /> : null}
           {ready.length ? (
             <p className="border-t border-zinc-100 pt-2 text-xs text-zinc-600 dark:border-white/[0.06] dark:text-zinc-300" data-testid="session-report-ready">
               다시 하기 좋은 때 · {ready.map((x) => `${BODY_PART_LABEL[x.part as BodyPart]} ${whenText(x.at)}`).join(" · ")}

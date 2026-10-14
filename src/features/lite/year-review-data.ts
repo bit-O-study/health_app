@@ -23,7 +23,7 @@ export async function loadYearReview(): Promise<YearReviewView | null> {
   const from = new Date(Date.parse(`${mondayOf(today)}T00:00:00Z`) - (YEAR_WEEKS - 1) * 7 * 86_400_000)
     .toISOString()
     .slice(0, 10);
-  const [rows, plan] = await Promise.all([
+  const [rows, plan, runRows] = await Promise.all([
     fetchAllPages<Record<string, unknown>>((a, b) =>
       supabase
         .from("exercise_completions")
@@ -35,7 +35,13 @@ export async function loadYearReview(): Promise<YearReviewView | null> {
         .range(a, b),
     ),
     resolvePlan(),
+    // 러닝도 1년 정리에(2026-10-14).
+    supabase.from("run_sessions").select("for_date, distance_m").eq("user_id", user.id).gte("for_date", from).lte("for_date", today),
   ]);
+  const runs = ((runRows.data ?? []) as { for_date: string; distance_m: number | string | null }[]).map((r) => ({
+    date: String(r.for_date),
+    distanceM: Number(r.distance_m) || 0,
+  }));
   const records: ProgressRecord[] = rows.map((r) => ({
     forDate: String(r.for_date),
     exerciseId: (r.exercise_id as string | null) ?? null,
@@ -57,7 +63,7 @@ export async function loadYearReview(): Promise<YearReviewView | null> {
   }
   const exerciseDays = new Map([...exDays.entries()].map(([id, s]) => [id, s.size]));
   return {
-    ...yearReview(dayVolume, exerciseDays, prEvents(records, 500), today),
+    ...yearReview(dayVolume, exerciseDays, prEvents(records, 500), today, runs),
     full: hasPlan(plan, "lite"),
   };
 }

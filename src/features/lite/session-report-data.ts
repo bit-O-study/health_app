@@ -15,7 +15,7 @@ export type ReadyAt = { part: PartId; at: string };
  * 운동 끝 리포트 데이터 — 오늘 끝낸 운동 + 지난 120일(지난번·신기록 비교용) + 오늘 한 부위가 언제 풀리는지.
  * 오늘 끝낸 운동이 없으면 null(카드를 안 그린다).
  */
-export async function loadSessionReport(): Promise<{ report: SessionReport; full: boolean; ready: ReadyAt[] } | null> {
+export async function loadSessionReport(): Promise<{ report: SessionReport; full: boolean; ready: ReadyAt[]; window: { start: string; end: string } | null } | null> {
   const [recent, plan, recovered] = await Promise.all([loadRecentRecords(), resolvePlan(), loadRecovery().catch(() => null)]);
   if (!recent) return null;
   const stimulusOf = makeStimulusOf();
@@ -27,5 +27,10 @@ export async function loadSessionReport(): Promise<{ report: SessionReport; full
     .filter((r) => r.hoursLeft > 0 && r.lastAt && new Date(Date.parse(r.lastAt) + 9 * 3_600_000).toISOString().slice(0, 10) === recent.today)
     .map((r) => ({ part: r.part, at: new Date(now.getTime() + r.hoursLeft * 3_600_000).toISOString() }))
     .sort((a, b) => b.at.localeCompare(a.at));
-  return { report, full: hasPlan(plan, "lite"), ready };
+  // 오늘 운동한 시간대 — 심박 요약(워치)을 읽을 구간. 첫 완료 15분 전부터 마지막 완료까지.
+  const times = recent.records.filter((r) => r.forDate === recent.today).map((r) => Date.parse(r.doneAt)).filter(Number.isFinite);
+  const window = times.length
+    ? { start: new Date(Math.min(...times) - 15 * 60_000).toISOString(), end: new Date(Math.max(...times) + 60_000).toISOString() }
+    : null;
+  return { report, full: hasPlan(plan, "lite"), ready, window };
 }

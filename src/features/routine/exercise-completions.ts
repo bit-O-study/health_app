@@ -210,6 +210,8 @@ export type LastExerciseValues = {
   weightKg: number | null;
   reps: number | null;
   sets: number | null;
+  /** 지난번을 세트마다 다르게 했으면(피라미드 등) 그 세트들. 균일이면 null. */
+  setDetails?: SetDetail[] | null;
 };
 
 /** '마지막 실제값'을 찾아볼 기간(일). 이보다 오래된 기록은 미리채움 근거로 안 쓴다. */
@@ -288,6 +290,7 @@ export const getLastExerciseValues = cache(async function getLastExerciseValues(
       weightKg: r.weightKg,
       reps: r.reps,
       sets: r.sets,
+      setDetails: r.setDetails ?? null,
     });
   }
   return out;

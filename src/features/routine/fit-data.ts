@@ -32,7 +32,9 @@ import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 import { getUserProfile } from "@/features/profile/data-access";
 import { prescribe, type Prescription } from "@/features/routine/prescription";
 import { isEquipmentId, type BodyPart } from "@/features/routine/exercise-catalog-labels";
-import type { ProgressRecord } from "@/features/routine/progress";
+import { weightGridKg, type ProgressRecord } from "@/features/routine/progress";
+import { pyramidSets, recommendsPyramid } from "@/features/routine/pyramid";
+import type { SetDetail } from "@/features/routine/set-details";
 import { loadRecentRecords } from "@/features/lite/recent-records";
 import {
   growthStories,
@@ -83,7 +85,7 @@ export type FitView = {
   /** 오늘 운동이 1회 분량만큼 찼다(또는 오늘 추천을 이미 담았다) — 추천을 더 내밀지 않는다. */
   todayFull: boolean;
   /** 추천 + 처방(세트·횟수·무게, 오늘만 담을 때와 같은 값). */
-  picks: (FitPick & { prescription: Prescription | null })[];
+  picks: (FitPick & { prescription: Prescription | null; /** 피라미드로 권할 때의 세트별 값(담을 때와 같은 규칙). */ pyramid: SetDetail[] | null })[];
   balance: BalanceRow[];
   /** 지난 7일 운동한 날. 0 이면 설문(성별·경력) 목표만으로 추천한다. */
   daysThisWeek: number;
@@ -184,9 +186,8 @@ export async function loadFitView(opts?: {
     lacking: mostLacking(planRows, 3),
     plannedCount: planned.count,
     todayFull,
-    picks: picks.map((p) => ({
-      ...p,
-      prescription: profile
+    picks: picks.map((p) => {
+      const prescription = profile
         ? prescribe(p.exerciseId, {
             gender: profile.gender === "female" ? "female" : "male",
             experience: profile.experience,
@@ -194,8 +195,13 @@ export async function loadFitView(opts?: {
             weightKg: profile.weightKg ?? DEFAULT_WEIGHT_KG,
             equipment: isEquipmentId(p.equipment) ? p.equipment : undefined,
           })
-        : null,
-    })),
+        : null;
+      // 큰 복합 운동 · 중급 이상은 피라미드로 — 오늘만 담을 때(daily-plan-actions)와 같은 규칙.
+      const pyramid = prescription && recommendsPyramid(p.exerciseId, profile?.experience)
+        ? pyramidSets(prescription.weightKg, prescription.reps, prescription.sets, weightGridKg(p.exerciseId, p.equipment) ?? 1)
+        : null;
+      return { ...p, prescription, pyramid };
+    }),
     balance: balanceRows(targets, stim),
     daysThisWeek: new Set(records.map((r) => r.forDate)).size,
     recovery,

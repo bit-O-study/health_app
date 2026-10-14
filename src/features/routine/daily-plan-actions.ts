@@ -1,6 +1,8 @@
 "use server";
 
 import { DEFAULT_WEIGHT_KG } from "@/features/routine/default-weight";
+import { weightGridKg } from "@/features/routine/progress";
+import { pyramidSets, recommendsPyramid } from "@/features/routine/pyramid";
 import { revalidatePath } from "next/cache";
 
 import {
@@ -400,6 +402,10 @@ export async function addExercisesTodayOnlyAction(
           equipment: it.equipment,
         })
       : { sets: 3, reps: 10, weightKg: null };
+    // 큰 복합 운동 · 중급 이상이면 피라미드로 권한다(2026-10-14). 못 만들면 같은 무게·같은 횟수.
+    const pyramid = recommendsPyramid(it.exerciseId, profile?.experience)
+      ? pyramidSets(p.weightKg, p.reps, p.sets, weightGridKg(it.exerciseId, it.equipment) ?? 1)
+      : null;
     return {
       user_id: user.id,
       for_date: todayYmd,
@@ -407,9 +413,7 @@ export async function addExercisesTodayOnlyAction(
       position: pos++,
       exercise_id: it.exerciseId,
       equipment: it.equipment,
-      sets: p.sets,
-      reps: p.reps,
-      weight_kg: p.weightKg,
+      ...toRowFields({ sets: p.sets, reps: p.reps, weightKg: p.weightKg, setDetails: pyramid }),
     };
   });
 

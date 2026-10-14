@@ -49,6 +49,9 @@ import { normalizeGroups } from "@/features/workout-timer/superset";
 import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { getExerciseMediaMapAll, selectExerciseMedia } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
+import { stepOverrideFor } from "@/features/routine/weight-steps";
+import { weightGridKg } from "@/features/routine/progress";
+import { prefillFromLast } from "@/features/routine/pyramid";
 import {
   conditioningCompletionKey,
   getTodayCompletedConditioning,
@@ -223,12 +226,9 @@ export async function TodayExercises({
     : orderedPlan.map((p) => {
         const last = lastValues.get(p.exerciseId);
         if (!last) return p;
-        return {
-          ...p,
-          weightKg: last.weightKg ?? p.weightKg,
-          reps: last.reps ?? p.reps,
-          sets: last.sets ?? p.sets,
-        };
+        // 세트별(피라미드 등)까지 지난번 그대로 — 추천 피라미드는 내 지난번 무게로 다시 만든다(pyramid.ts).
+        const grid = weightGridKg(p.exerciseId, p.equipment, stepOverrideFor(weightSteps, p.exerciseId)) ?? 1;
+        return { ...p, ...prefillFromLast({ sets: p.sets, reps: p.reps, weightKg: p.weightKg, setDetails: p.setDetails ?? null }, last, grid) };
       });
 
   /**

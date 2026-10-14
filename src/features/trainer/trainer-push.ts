@@ -13,11 +13,15 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
  * 응답을 보낸 뒤(after) 보낸다 — 푸시가 늦어도 화면은 기다리지 않는다. 실패는 조용히 넘긴다(본 동작은 이미 끝났다).
  */
 function pushLater(userId: string, payload: { type: string; title: string; body: string; url: string }) {
-  after(async () => {
-    const admin = createSupabaseAdminClient();
-    if (!admin) return;
-    await notifyUser(admin, userId, payload).catch(() => {});
-  });
+  try {
+    after(async () => {
+      const admin = createSupabaseAdminClient();
+      if (!admin) return;
+      await notifyUser(admin, userId, payload).catch(() => {});
+    });
+  } catch {
+    /* 요청 밖(스크립트 등)에서는 푸시를 건너뛴다 — 처방·연결 해제 자체는 이미 끝났다 */
+  }
 }
 
 /** 회원이 연결을 끊었을 때 — 트레이너에게. `notificationId` 는 pt_disconnect 가 만든 알림 행. */

@@ -2,6 +2,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mock = vi.hoisted(() => ({ user: vi.fn(), rpc: vi.fn(), revalidate: vi.fn() }));
 vi.mock("@/lib/supabase/server", () => ({ getCurrentUser: mock.user, createSupabaseServerClient: async () => ({ rpc: mock.rpc }) }));
 vi.mock("next/cache", () => ({ revalidatePath: mock.revalidate }));
+// 처방하면 회원에게 앱 푸시(2026-10-14) — 응답 뒤(after) 보내므로 여기서는 부른 것만 본다.
+const push = vi.hoisted(() => ({ member: vi.fn(), trainer: vi.fn() }));
+vi.mock("@/features/trainer/trainer-push", () => ({ pushMemberPrescription: push.member, pushTrainerDisconnect: push.trainer }));
 vi.mock("@/features/routine/exercise-catalog", () => ({ ALL_EXERCISES: [], getCatalogExercise: (id: string) => id === "squat" ? { name: "스쿼트", equipments: [{ equipment: "barbell" }] } : undefined }));
 import { prescribeMemberExercise, prescribeMemberToday } from "@/features/trainer/prescription-actions";
 import { getMemberReport, getMemberTodayPlan } from "@/features/trainer/member-report-data";
@@ -54,6 +57,8 @@ describe("오늘만 처방 서버 액션", () => {
       p_expected_exercise_id: "squat", p_patch: input,
     }));
     expect(mock.rpc).not.toHaveBeenCalledWith("pt_prescribe_exercise", expect.anything());
+    // 처방이 저장되면 그 회원에게 앱 푸시(2026-10-14).
+    expect(push.member).toHaveBeenCalledWith("m");
   });
   it("코멘트 문구에 '오늘' 축이 박힌다(회원이 루틴 변경으로 오해하지 않게)", async () => {
     await prescribeMemberToday("g", "m", "chest", 0, "squat", input);
@@ -98,3 +103,4 @@ describe("오늘 계획 조회", () => {
     expect(await getMemberTodayPlan("g", "m")).toBeNull();
   });
 });
+

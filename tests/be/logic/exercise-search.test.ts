@@ -56,3 +56,20 @@ describe("searchExercises — 자연어 묘사로 운동 추론", () => {
     expect(searchExercises("덤벨", 3).length).toBeLessThanOrEqual(3);
   });
 });
+
+describe("자세·가동성 운동 찾기(2026-10-14)", () => {
+  const ids = (q: string) => searchExercises(q, 20).map((h) => h.id);
+  it("월엔젤은 다른 표기로도 나온다 — '웰엔젤' · '월 엔젤' · 'wall angel'", () => {
+    for (const q of ["웰엔젤", "월 엔젤", "월엔젤", "wall angel"]) expect(ids(q)[0], q).toBe("wall-angel");
+  });
+  it("새로 넣은 운동이 이름으로 나온다", () => {
+    expect(ids("월드 그레이티스트 스트레치")[0]).toBe("world-s-greatest-stretch");
+    expect(ids("힙 CARs")[0]).toBe("hip-cars");
+    expect(ids("숄더 CARs")[0]).toBe("shoulder-cars");
+    expect(ids("YTW")[0]).toBe("ytw-raise");
+  });
+  it("'가동성' · '굽은 어깨'로 찾으면 흩어져 있던 운동이 같이 나온다", () => {
+    expect(ids("가동성")).toEqual(expect.arrayContaining(["wall-angel", "hip-cars", "shoulder-cars", "world-s-greatest-stretch"]));
+    expect(ids("굽은 어깨")).toEqual(expect.arrayContaining(["wall-angel", "ytw-raise", "wall-slide"]));
+  });
+});

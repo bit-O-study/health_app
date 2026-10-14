@@ -1,5 +1,6 @@
 package app.helssu.twa;
 
+import android.graphics.Bitmap;
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -69,6 +70,9 @@ public class MainActivity extends BridgeActivity {
     private static final int MAX_RELOADS = 6;
     private int reloadAttempts = 0;
     private boolean loadFailed = false;
+    // 이번 로드에서 메인 페이지 오류가 났는가(2026-10-14). WebView 는 오류 화면에도 onPageFinished 를 부르는데,
+    // 거기서 실패 표시를 지워 버려 아래 자동 재시도·복귀 시 재로드가 한 번도 돌지 않았다.
+    private boolean errorThisLoad = false;
     private final Handler retryHandler = new Handler(Looper.getMainLooper());
 
     @Override
@@ -170,9 +174,16 @@ public class MainActivity extends BridgeActivity {
         // BridgeWebViewClient 를 상속해 브릿지/네비게이션 동작은 그대로 유지한다.
         webView.setWebViewClient(new BridgeWebViewClient(this.getBridge()) {
             @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                errorThisLoad = false;
+            }
+
+            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                // 정상 로드 → 실패 상태·재시도 카운터 리셋.
+                // 정상 로드일 때만 실패 상태·재시도 카운터 리셋 — 오류 화면의 '완료'는 성공이 아니다.
+                if (errorThisLoad) return;
                 loadFailed = false;
                 reloadAttempts = 0;
             }
@@ -189,6 +200,7 @@ public class MainActivity extends BridgeActivity {
                     return;
                 }
                 loadFailed = true;
+                errorThisLoad = true;
                 scheduleReload(view);
             }
 

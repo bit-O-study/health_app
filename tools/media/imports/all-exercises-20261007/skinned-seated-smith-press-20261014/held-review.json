@@ -1,0 +1,36 @@
+{
+  "id": "seated-smith-machine-shoulder-press",
+  "status": "held-do-not-publish",
+  "source": "https://www.strengthlog.com/seated-smith-machine-shoulder-press/",
+  "reason": "Current seated rig upper-chest-contact pose has 96.68-degree wrist deviation. Alternate lower-deviation poses put elbows behind back or approach chin. No ROM shortening adopted.",
+  "evidence": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014/native/fit-result.json",
+      "sha256": "0397726f373fcc5163b1abd793eda587fc4506fc86f97a08b6cd4699edae48e2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014/native/grid-contact.json",
+      "sha256": "49da79623357b3ef15cff29d77b649625b79e9fcff0b9220a2896f65e039d4ad"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014/native/grid-pole.json",
+      "sha256": "a1d534483595d8ba53abefde2b24f324bd76e2e723a26cd7b3f440c6c2c9ab52"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014/native/grid-scan.json",
+      "sha256": "057d5f99fe741c17950decdc4b46594e333302426fa9c6b36bf9520791023951"
+    }
+  ],
+  "replacement": "smith-machine-close-grip-bench-press",
+  "guards": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014/finalize.cjs",
+      "sha256": "88ae56b142915278466ea8f1d00c3f60879bc05c22bc0b4494268122ba1fd709"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014/publish-native.mjs",
+      "sha256": "c1ecad7f15baaaed98add9c8a3ffeb13511798f66009421271b62a46a0e41fe8"
+    }
+  ],
+  "completedAt": "2026-10-14T13:18:38.465Z"
+}

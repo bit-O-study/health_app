@@ -1,0 +1,15 @@
+{
+  "samples": 481,
+  "allJointDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "handHeadMinGap": 0.03232910321852045,
+  "palmNormalError": 5.141458177689483e-16,
+  "headHandSamples": 4434,
+  "phaseSeconds": {
+    "hold": [
+      0,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall; hand versus head skin projected XY neighbor radius.15, not exact triangle collision"
+}

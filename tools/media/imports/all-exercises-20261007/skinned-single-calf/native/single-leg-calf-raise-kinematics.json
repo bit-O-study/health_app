@@ -1,0 +1,15 @@
+{
+  "sampleCount": 481,
+  "pivotMaxDrift": 0.07314590115306618,
+  "soleToeMaxDrift": 0.06292553521176447,
+  "heelRise": 1.2275035152301594,
+  "loopPivotDrift": 0,
+  "units": "model world units; body height approximately 17",
+  "stepMinClearance": -5.908677991328659e-10,
+  "heelMaxZ": 0.45901242253627567,
+  "heelStartBelowStep": 0.3606214109490278,
+  "supportMinClearance": 0.0000026663988919040094,
+  "supportMaxClearance": 0.0000026663988985653475,
+  "supportWristDrift": 2.6645352591003757e-15,
+  "freeFootMinHeight": 1.9260681550735406
+}

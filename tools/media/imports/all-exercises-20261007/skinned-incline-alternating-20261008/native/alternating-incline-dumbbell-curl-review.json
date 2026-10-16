@@ -1,0 +1,139 @@
+{
+  "id": "alternating-incline-dumbbell-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/alternate-incline-dumbbell-curl.html"
+  ],
+  "phaseSeconds": {
+    "left": {
+      "startHold": [
+        0,
+        0.2
+      ],
+      "curl": [
+        0.2,
+        1.9
+      ],
+      "peakHold": [
+        1.9,
+        2.1
+      ],
+      "lower": [
+        2.1,
+        3.8
+      ],
+      "endHold": [
+        3.8,
+        4
+      ]
+    },
+    "right": {
+      "startHold": [
+        4,
+        4.2
+      ],
+      "curl": [
+        4.2,
+        5.9
+      ],
+      "peakHold": [
+        5.9,
+        6.1
+      ],
+      "lower": [
+        6.1,
+        7.8
+      ],
+      "endHold": [
+        7.8,
+        8
+      ]
+    }
+  },
+  "checks": {
+    "exercise": "Alternating incline dumbbell curl; one full left repetition followed by one right repetition, fixed upperarms and no trunk motion.",
+    "equipment": "Two dumbbells and incline bench with full backpad and supporting posts. Body, seat-side and backpad clearances checked throughout481samples.",
+    "setup": "Torso reclined45degrees with backrest at posed back plane, pelvis contacting seat, feet grounded. Side and back views inspected.",
+    "hands": "Both fixed supinated grips, palms forward at bottom and up at peak. No hand rotation into hammer grip; closeups inspected.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed, no optical-flow ghosting. Fixed bilateral elbows and conservative plate/body/bench clearance verified numerically; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "0fe6613bf9063601e2e04bc9dbd407122c36bb075ba055b15a6904531336bdc2",
+  "rigSourceSha256": "71708af0ffe8ce91e25af2cda372466800c44b07d548e994e99509f2eff0635f",
+  "videoSha256": "04514cd5037f4640513c4fc885b068c2c480866c5cc4c6cb2a4c29fe55dd2dc7",
+  "darkVideoSha256": "1563748f25b6f764b4c207812cb6b4d678dfb2e3eb98028d72600894c71cfe29",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-alternating-20261008/native/alternating-incline-dumbbell-curl.mp4",
+      "sha256": "04514cd5037f4640513c4fc885b068c2c480866c5cc4c6cb2a4c29fe55dd2dc7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 60090,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-alternating-20261008/native/alternating-incline-dumbbell-curl-dark.mp4",
+      "sha256": "1563748f25b6f764b4c207812cb6b4d678dfb2e3eb98028d72600894c71cfe29",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 49760,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 0,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.27215363729933567,
+    "minEquipmentBenchClearance": 0.282519913718632,
+    "seatContactError": 3.3096472229487972e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.1271359676547565,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "minEquipmentBackPadClearance": 0.3826614787190202,
+    "backContactError": 0,
+    "inactiveArmDrift": 0,
+    "leftPeakTravel": 4.1526921498309655,
+    "rightPeakTravel": 4.1526921498309655
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T06:28:18.354Z",
+  "limitations": "Barefoot mannequin,45degree backrest variant. No physical-device or biomechanical certification."
+}

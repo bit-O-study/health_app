@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-barbell-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5988a089bfe8e9a23f34b8fe069d5f6b33464cec3f1177d4e0825fa4095587d8",
+  "rigSourceSha256": "721ca378272847d195116a8285352614391505a517a0cb7da897782a3c6ad1cd",
+  "videoSha256": "54c5931e8634d3a7f9b70de0389af7cc26a4ef18241bc0f16b16f2b140f5e7c9",
+  "darkVideoSha256": "e93673c63f7adefa626872555d6a308c485dbb93c80b3a07c06799363afcc6c2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104652,
+  "darkBytes": 85920,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:06:58.548Z"
+}

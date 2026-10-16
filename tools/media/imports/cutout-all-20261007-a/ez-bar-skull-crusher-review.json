@@ -1,0 +1,22 @@
+{
+  "id": "ez-bar-skull-crusher",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6637681d72a129db632991b0bab37f9ad4ee1b51b6e53c804686dfc75af28a6d",
+  "videoSha256": "93622771c6dc4a6563a4adbc6575119c250b60d095820dbf6a905996c00ea51b",
+  "darkVideoSha256": "8a95bb1a06b3f627c790448e04bc8125ebf664228364dc6bd8800f28df438c76",
+  "darkBytes": 228786,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 268445,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T01:00:24.479Z",
+  "date": "2026-10-07T01:01:14.944Z",
+  "status": "hold",
+  "published": false,
+  "notes": "Multiple poses lose bench legs and shoes; thigh alpha hole in last pose. Both theme 32-frame contact sheets and first/final full-size composites show defects. Needs equipment/body-preserving matte, do not publish.",
+  "scope": "Original source and light/dark rendered JPG contact sheets. Not production or physical device."
+}

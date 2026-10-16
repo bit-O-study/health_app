@@ -1,0 +1,15 @@
+{
+  "id": "cross-body-shoulder-stretch",
+  "prompt": "Scientific educational fitness illustration, a single full-body adult athletic woman demonstrating a correctly held cross-body shoulder stretch. Original character with dark tied-back hair, fitted teal short-sleeve shirt, dark charcoal leggings, black athletic shoes. Standing upright facing the camera, feet hip width firmly level, knees relaxed, neutral spine and head, both shoulders down away from ears. Her RIGHT arm extends horizontally across the front of her upper chest toward HER LEFT, the right elbow straight but not hyperextended and right hand relaxed. Her LEFT elbow is bent and her LEFT hand gently supports the back of the RIGHT upper arm just ABOVE the right elbow, drawing the right arm toward the chest without pressing on the elbow joint. Exactly two arms and two hands, anatomically clear shoulder-elbow-wrist continuity. Keep the shoulder blade stable without torso rotation, no shrugging, no strained face. Full body centered within 80% of a square canvas, ample room around hands/head/feet. Crisp clean realistic 3D educational illustration with natural proportions, no labels, no arrows, no motion blur, no text, no gym equipment. True transparent alpha background including all gaps around arms and between legs, no floor or shadow, no white outline or colored fringe. This is a STATIC held stretch pose for an instructional loop, not a moving repetition.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://library.theprehabguys.com/vimeo-video/shoulder-across-body-stretch/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "rigSource": "cross-body-shoulder-stretch-rig.png",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold",
+  "cutout": true,
+  "registeredAt": "2026-10-07T01:44:12.120Z"
+}

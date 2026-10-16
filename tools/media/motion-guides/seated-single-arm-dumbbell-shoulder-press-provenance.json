@@ -1,0 +1,112 @@
+{
+  "id": "seated-single-arm-dumbbell-shoulder-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "press": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/studio.mjs",
+      "sha256": "0dce5ecfd62f409dedc4e7f6d12914666a396f7b9148639a2204a18c9d976730"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/motion.mjs",
+      "sha256": "e6471ca7a0d687dc399220e4a24388d2b58a1911feefff648cfd7fb21662e7a2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/render.mjs",
+      "sha256": "11e0d7efb9aee8d5ee041a30677e05c052269bfd25ebcfd2de0c942d1eaa11f3"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://us.physitrack.com/home-exercise-video/seated-single-arm-dumbbell-shoulder-press",
+    "https://www.bodytrainer.tv/en/exercise/dumbbell_shoulder_press_seated_one_arm"
+  ],
+  "sourceSummary": "Physitrack describes seated one-arm shoulder press from shoulder height overhead and back; Bodytrainer specifies back-pad support and free-hand bench stabilization. This demo uses left working arm, forward-facing palm and fixed right palm on a bench side support. Repeat on the other side outside this8second loop.",
+  "motion": "Left-arm seated dumbbell overhead press. Right hand rests on bench side support; back, seat, torso and feet remain stable.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.285942049628969,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.8983961550729624,
+    "minEquipmentBenchClearance": 8.024087359039115,
+    "seatContactError": 7.264309553889348e-8,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05964874225834519,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "elbowBendMin": 17.50360129927465,
+    "elbowBendMax": 114.23644567170501,
+    "peakElbowBend": 17.50360129927465,
+    "inactiveWristDrift": 0,
+    "backContactError": 0.0001794541975400632,
+    "handSupportError": 0,
+    "handPadMinXZMargin": 0.1787678455913868,
+    "minEquipmentSupportClearance": 2.9563451168121744
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/native/seated-single-arm-dumbbell-shoulder-press.jpg",
+    "sha256": "b91879f8f3892a5e8bf4d964dd6d44e884c7ca8013621d58501b3c1a103b5d44",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/render.mjs seated-single-arm-dumbbell-shoulder-press"
+}

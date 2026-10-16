@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-lying-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "94c259025b061b27c07a306f2e11f16893193a646c48e82c8c3735233198914e",
+  "rigSourceSha256": "17851b7af0497ed6bb94275febaf84c638e7991afa3293a16e3c2afbd60cd87a",
+  "videoSha256": "441f4553b2da8a04ac198a79068cc40f09887ab57ffb5482239099c043ae4fbc",
+  "darkVideoSha256": "70130b07d34fadf8d58e7a2f4de0938b5775187f0cafe5a7ddacef28d1e8fcb3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 92628,
+  "darkBytes": 73253,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:17:33.619Z"
+}

@@ -1,0 +1,109 @@
+{
+  "id": "single-arm-cable-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-cable-20261008/native/single-arm-cable-curl.mp4",
+      "sha256": "2eaa7ceb071a935e8e28d0d76bab82c12b06e8fc4563fc2ed47a563ecfe348b9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 62767,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-cable-20261008/native/single-arm-cable-curl-dark.mp4",
+      "sha256": "b842b8711a1d21784421da3b7af4ffbca5ffa653000036f9d57cc14cb26996ab",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 58116,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 2.609024107869118e-15,
+    "pulleyRimError": 9.43689570931383e-16,
+    "connectorRadiusError": 1.0824674490095276e-15,
+    "stackRiseRange": [
+      0,
+      4.601177188807601
+    ],
+    "cableBodyMinClearance": 0.9046712008435431,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 1.466587386380936e-15,
+    "elbowBendRange": [
+      19.999999999999975,
+      108.00000000000003
+    ],
+    "handleGripWidth": 1.5,
+    "bodyMachineClearance": 2.036105107843457,
+    "barRise": 5.015704258526371,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.1553310282544498,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/one-arm-cable-curl.html",
+    "https://www.youtube.com/watch?v=C2RhWTlwx_U"
+  ],
+  "sourceSha256": "2e2af62949f067b7ec07936e85cb6d0315a2d6ef592af5f8148f12c380338e3a",
+  "rigSourceSha256": "d024c1eaf091e169fe4f7badff5549ffba59a344b33b0cafd3b477887e359f52",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "2eaa7ceb071a935e8e28d0d76bab82c12b06e8fc4563fc2ed47a563ecfe348b9",
+  "darkVideoSha256": "b842b8711a1d21784421da3b7af4ffbca5ffa653000036f9d57cc14cb26996ab",
+  "checks": {
+    "exercise": "Standing left-arm supinated low-cable curl with opposite arm fixed. Upperarm fixed, elbow20-108degrees. Demonstrates one side of an exercise repeated bilaterally.",
+    "equipment": "Single D handle with straight rotating grip shaft and polygonal rounded frame. Apex ring connects to continuous low/upper pulley cable and moving selected stack. Station aligned with active arm.",
+    "setup": "Upright fixed torso and feet facing low pulley. Opposite wrist/upperarm/elbow fixed481samples. Entire upstroke stack rises monotonically0-4.60118world.",
+    "hands": "Final hand0/210 inspected: underhand fingers curl around shaft; D frame swivels independently around grip axis toward pulley. Grip anchor0 and axis error1.47e-15. Apex distance1.2world constant.",
+    "feet": "Feet fixed floor -8.175231.17phase body-frame clearance2.03611, body-handle1.15533 and body-incoming-cable0.90467world positive.",
+    "movement": "Final both-theme32frame sheets plus side210/stack210 inspected. Cable ring/tangent/rim/stack endpoint checks481samples. Analytic length drift3.55e-15, exact pose loop. Both full decodes and mobile Edge play/seek/loop passed. Smooth0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "cableChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.0007151736378574469,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.16999999999999993,
+    "endpointStackError": 0,
+    "oppositeWristDrift": 0,
+    "connectorReachError": 6.661338147750939e-16
+  },
+  "reviewedAt": "2026-10-08T07:00:31.134Z",
+  "limitations": "Root visual review pending. Generic compact station and simplified polygonal D frame/connector, no force/friction simulation. Rendered polygonal cable length drift 0.0007151736378574469world; analytical arc length constant.17phase vertex clearance is not exhaustive triangle or all-machine-component collision proof. Barefoot/angular elbow mannequin.8second controlled demonstration is not a repetition prescription."
+}

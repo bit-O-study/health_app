@@ -8,5 +8,7 @@
   "cycle": "reverse",
   "id": "cable-overhead-triceps-extension",
   "registeredAt": "2026-09-13T01:41:34.626Z",
-  "cutout": false
+  "cutout": true,
+  "rigSource": "cable-overhead-triceps-extension-alpha-edit.png",
+  "renderer": "generated-alpha-edit-v1"
 }

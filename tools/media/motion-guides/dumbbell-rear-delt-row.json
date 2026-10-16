@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-rear-delt-row",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-rear-delt-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.fitmetrics.ch/en/exercise/6a887801a9bd9-seated-dumbbell-rear-delt-row"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:39:50.241Z"
+}

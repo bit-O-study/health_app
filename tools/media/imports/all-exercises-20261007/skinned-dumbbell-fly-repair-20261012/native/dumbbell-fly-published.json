@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b8034fb65efcdfc9569ffe8b0dc2746c03b42847e4b247329c0a862e3c048e4a",
+  "rigSourceSha256": "0d9849ab4d3e4c4e83a3452d5caf29398f88448e1aa0117c0e84efe3158069ec",
+  "videoSha256": "f6d2123351a4bf488bde7f18cf6e268d2a30de0df34471fd197508446fe423a6",
+  "darkVideoSha256": "70a64dad0bb91f47a244793919ee307d619de0fa54c638045819aefc16eb2732",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99604,
+  "darkBytes": 80794,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:55:57.481Z"
+}

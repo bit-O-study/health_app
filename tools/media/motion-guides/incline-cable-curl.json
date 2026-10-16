@@ -1,0 +1,15 @@
+{
+  "id": "incline-cable-curl",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "incline-cable-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://criticalbody.com/incline-cable-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T05:42:41.447Z"
+}

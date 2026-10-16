@@ -1,0 +1,23 @@
+{
+  "samples": 481,
+  "elbowDrift": 5.322338765917037,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.27079560966595645,
+  "minEquipmentBenchClearance": 6.091701236376394,
+  "seatContactError": 7.264309553889348e-8,
+  "soleMinY": -7.751374738328083,
+  "soleMaxY": -7.751374738328083,
+  "floorY": -7.751375,
+  "loopDrift": 0,
+  "maxGripStep": 0.060058176599898226,
+  "units": "world units; bar shaft, plates and collars versus all posed non-hand body vertices and sampled seat/backpad surfaces",
+  "elbowBendMin": 7.197998134166166,
+  "elbowBendMax": 123.28185881879043,
+  "peakElbowBend": 7.197998134166166,
+  "barGripError": 3.552713678800501e-15,
+  "gripSpanDrift": 7.105427357601002e-15,
+  "backGapMin": 0,
+  "backGapMax": 0.03569674804644818,
+  "minBackPadClearance": 2.984602390170132
+}

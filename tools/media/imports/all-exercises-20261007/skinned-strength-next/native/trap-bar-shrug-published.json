@@ -1,0 +1,18 @@
+{
+  "id": "trap-bar-shrug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2bf0aa416339151a2f3914553b7b4e4c3354073ca9f18c00ea1e04c5bec1e9d3",
+  "rigSourceSha256": "31492a226e71d546c59cfed0af180219441f2129fb1d3e4c378eea822ea148e3",
+  "videoSha256": "9d89b943f9e593d5d5cfd02a43c2cada8e4f71ab3daa796a97175e874d249d21",
+  "darkVideoSha256": "1685f7aaf40377e3a9dec8d2531b6cddeabd29d57abf5dd9f8ffe4c7c058602f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 88948,
+  "darkBytes": 80520,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:15:00.528Z"
+}

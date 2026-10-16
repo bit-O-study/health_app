@@ -1,0 +1,14 @@
+{
+  "id": "seated-dumbbell-shoulder-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-dumbbell-shoulder-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/seated-overhead-dumbbell-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:39:05.760Z"
+}

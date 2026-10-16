@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-prone-quad-20261014/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('new THREE.Vector3(.65,-.75,-4.2)','new THREE.Vector3(.65,0,-4.2)');fs.writeFileSync(p,s);

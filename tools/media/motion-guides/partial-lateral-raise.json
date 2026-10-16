@@ -1,0 +1,14 @@
+{
+  "id": "partial-lateral-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "partial-lateral-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/node/48993"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:49:29.241Z"
+}

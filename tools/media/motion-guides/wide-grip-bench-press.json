@@ -1,0 +1,14 @@
+{
+  "id": "wide-grip-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/wide-grip-barbell-bench-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:34:07.460Z"
+}

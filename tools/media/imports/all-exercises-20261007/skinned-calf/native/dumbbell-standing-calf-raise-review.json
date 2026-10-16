@@ -1,0 +1,82 @@
+{
+  "id": "dumbbell-standing-calf-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://pcoschallenge.org/pcos5k/pcos-challenge-5k-training-guide.pdf",
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/standing-dumbbell-calf-raise/"
+  ],
+  "checks": {
+    "exercise": "Bilateral standing dumbbell calf raise, floor variant; heel raise distinct from squat.",
+    "equipment": "Two complete rigid dumbbells held at sides, no equipment disappears.",
+    "setup": "Upright trunk, stable knees; both feet and full body visible. Ground corrected to model sole height.",
+    "hands": "Neutral grip remains attached throughout; closeup inspected.",
+    "feet": "Toe2 pivot fixed across 481 samples; actual toe sole drift <0.04 while heels rise >0.8. Foot closeup and side previews show plantarflexion, no whole-body sliding.",
+    "movement": "Both encoded 32-frame sheets reviewed; native 192-frame decode and mobile Edge play/seek/loop passed."
+  },
+  "sourceSha256": "4aeb6d568d4704be27c3fb7c48570a32aec29d31274aa8facbe0e94697db0225",
+  "rigSourceSha256": "ae863127eb24360ba540d8f826d8bfe466193673050103983801f5d4bf707472",
+  "videoSha256": "5fa59b87168e6ee4f4b24406aed8eb3b7564742dfab78fc49c0a8211b9f330ed",
+  "darkVideoSha256": "2aba81363605763cc4f0526e476bdd69ff8f55ec29f5231e39594c6b80243534",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-calf/native/dumbbell-standing-calf-raise.mp4",
+      "sha256": "5fa59b87168e6ee4f4b24406aed8eb3b7564742dfab78fc49c0a8211b9f330ed",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 133725,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-calf/native/dumbbell-standing-calf-raise-dark.mp4",
+      "sha256": "2aba81363605763cc4f0526e476bdd69ff8f55ec29f5231e39594c6b80243534",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 122519,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "sampleCount": 481,
+    "pivotMaxDrift": 9.155133597044475e-16,
+    "soleToeMaxDrift": 0.025823767459910947,
+    "heelRise": 0.8765146868274414,
+    "loopPivotDrift": 0,
+    "units": "model world units; body height approximately 17"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T03:42:04.752Z",
+  "limitations": "Mannequin/barefeet style. Real app/device not tested. Toe skin drift 0.026 model units due to skin weighting; bone pivot fixed. Catalog squat instructions need root correction."
+}

@@ -1,0 +1,16 @@
+{
+  "id": "reverse-prayer-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-prayer-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.dentalcare.com/en-us/ce-courses/ce667/risk-factors-and-microbreaks",
+    "https://assets.ctfassets.net/u2qv1tdtdbbu/1VIC8VKvYnGAvNo1KU0hHB/c4f8aa144a3474ba190b2144ca154d3c/ce667.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:12:03.894Z"
+}

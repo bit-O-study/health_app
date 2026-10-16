@@ -1,0 +1,24 @@
+{
+  "id": "wide-grip-lat-pulldown",
+  "status": "hold-equipment-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "First pose loses center-right bar segment near right hand and main suspension cable.",
+    "Machine uprights and weight-stack rails have extensive transparent gaps; last pose loses large vertical support sections.",
+    "Not a local thin-cable-only defect; full structure damaged."
+  ],
+  "evidence": {
+    "id": "wide-grip-lat-pulldown",
+    "sourceSha256": "276373c711f4bc54dda82c75211c9284ff059933f2b9f38b602053536b5d3d59",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 3.26500000001397,
+    "published": false
+  },
+  "validation": "Endpoint light composites inspected. Full inference, video render,32-frame/decode/browser intentionally omitted after clear endpoint failure.",
+  "published": false
+}

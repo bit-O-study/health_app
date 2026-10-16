@@ -1,0 +1,15 @@
+{
+  "id": "overhead-triceps-stretch",
+  "prompt": "Scientific educational fitness illustration of ONE adult athletic woman performing a correctly held OVERHEAD TRICEPS STRETCH, no equipment. Full body rear three-quarter view so both arm chains and hands are clearly readable. Original character, dark tied-back hair, fitted teal sleeveless athletic top, dark charcoal leggings, black athletic shoes. Stand upright, feet hip-width planted evenly, neutral pelvis/spine/head without arching or leaning. Her RIGHT upper arm rises alongside the right ear with right elbow pointing straight up; RIGHT elbow deeply bends so the RIGHT forearm runs down behind her head and right hand rests on upper back between shoulder blades. Her LEFT arm reaches overhead with left elbow pointing outward; LEFT hand gently cups the raised RIGHT elbow from above to assist the stretch. Clear natural right shoulder-upperarm-elbow-forearm-wrist-hand continuity, distinct from left assisting arm. Exactly two arms, two elbows, two hands, anatomically correct fingers. No fused limbs, no extra joints, no equipment, no towel, no labels, no text or arrows. Calm static hold, not a repetition. Professional realistic3D educational style. Whole figure including raised elbow and both shoes fits within central80percent of square canvas, ample margins, crisp edges, no motion blur. TRUE transparent alpha background including gaps between arms and head and legs, no floor/shadow/checkerboard/colored fringe.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.mayoclinic.org/healthy-lifestyle/adult-health/multimedia/shoulder-stretches/vid-20084699"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "rigSource": "overhead-triceps-stretch-rig.png",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold",
+  "cutout": true,
+  "registeredAt": "2026-10-07T04:14:09.320Z"
+}

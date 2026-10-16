@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3de915b0250d8d6145e05221ee61cded50b8efaeeaf5538c0d1bfa0f8363224f",
+  "rigSourceSha256": "fb112e2894e3bd7b28bc919458124a6742ea352d430de4e454a2d0c4d0ec2d36",
+  "videoSha256": "f973c4c14dea66aa592d3f9c98c0bef7700de2cec9bddb13b28400a88f9d8009",
+  "darkVideoSha256": "31c559442c8bcdc7f58d1e3fe281c0b05761f7013139a3d9d780940777ce095a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 80451,
+  "darkBytes": 69136,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:50:13.310Z"
+}

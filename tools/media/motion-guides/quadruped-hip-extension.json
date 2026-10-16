@@ -1,0 +1,15 @@
+{
+  "id": "quadruped-hip-extension",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "quadruped-hip-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://pureformphysio.ca/wp-content/uploads/2015/05/Prevention_of_Running_Injuries-version-2.0.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T13:42:45.049Z"
+}

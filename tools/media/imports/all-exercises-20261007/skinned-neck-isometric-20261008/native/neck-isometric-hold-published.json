@@ -1,0 +1,18 @@
+{
+  "id": "neck-isometric-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7fe2ea83793824da671a5127ac3d75b11112b5ef00d92e6c6b6da07d69a5bc84",
+  "rigSourceSha256": "d20075c074146317e7b3c302846820689784e05d3705f663fe8e331b31786b99",
+  "videoSha256": "e442e8b53c76738aac674fefe95aa6c360dbdcd0d262a7854cf9fc80e11165d6",
+  "darkVideoSha256": "0d6f111e8532f2ead08708894c1e7db24862957c26c58378e434949bea142300",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16432,
+  "darkBytes": 15472,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T04:16:47.718Z"
+}

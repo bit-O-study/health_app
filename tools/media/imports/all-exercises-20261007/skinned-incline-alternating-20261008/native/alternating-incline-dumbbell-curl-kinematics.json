@@ -1,0 +1,20 @@
+{
+  "samples": 481,
+  "elbowDrift": 0,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.27215363729933567,
+  "minEquipmentBenchClearance": 0.282519913718632,
+  "seatContactError": 3.3096472229487972e-9,
+  "soleMinY": -7.751374738328083,
+  "soleMaxY": -7.751374738328083,
+  "floorY": -7.751375,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.1271359676547565,
+  "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+  "minEquipmentBackPadClearance": 0.3826614787190202,
+  "backContactError": 0,
+  "inactiveArmDrift": 0,
+  "leftPeakTravel": 4.1526921498309655,
+  "rightPeakTravel": 4.1526921498309655
+}

@@ -1,0 +1,20 @@
+{
+  "samples": 481,
+  "elbowDrift": 4.285942049628969,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 1.8983961550729613,
+  "minDumbbellPairClearance": 4.413614898287199,
+  "soleMinY": -8.175230979919434,
+  "soleMaxY": -8.175230979919434,
+  "floorY": -8.175230979919434,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.059648742258344406,
+  "units": "world units; conservative plate-cylinder versus posed central body vertices; dumbbell-pair bounding spheres radius1.35",
+  "elbowBendMin": 17.503601299274607,
+  "elbowBendMax": 114.23644567170501,
+  "peakElbowBend": 17.503601299274607,
+  "maxSameDirectionProduct": 0,
+  "leftRise": 3.8401789328673246,
+  "rightDrop": 3.8401789328673246
+}

@@ -1,0 +1,86 @@
+{
+  "id": "backward-arm-circle",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.ohio.edu/wellworks/movement-library"
+  ],
+  "checks": {
+    "exercise": "Exact catalog backward-arm-circle: backward small circles around fixed shoulder with both arms out at shoulder height.",
+    "equipment": "Bodyweight; no weights or machine. Both empty hands remain intact.",
+    "setup": "Upright torso and stationary relaxed shoulders, hip-width grounded feet. Front-oblique full view preserves all fingertips and feet.",
+    "hands": "Both palms down after correcting initial asymmetric wrist orientation; open fingers intact. Enlarged hand, side and back views checked.",
+    "feet": "481 actual skinned sole checks within 0.001 world unit floor tolerance; bilateral feet remain fixed.",
+    "movement": "Agent visually inspected all four final 32-frame encoded sheets and enlarged hand/side/back. Smooth continuous same-direction circles; no transition ghosts. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "cae6fc7834dc186672a5b898c3f0239025327bea3aae5d37769a02edab400727",
+  "rigSourceSha256": "6c1e9a66fab26e124ef90696d92575bce56ef880f1de6e0e695ecad818df6224",
+  "videoSha256": "c69939b5a624bbf7350daafeb75a5fb7c57a4e2966c583b380b82e83ed68d421",
+  "darkVideoSha256": "d79f2abc78e8d3ff1b6786175029c91463ae45c0f12c538e7e8335d5ef401d65",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-new-resume/native/backward-arm-circle.mp4",
+      "sha256": "c69939b5a624bbf7350daafeb75a5fb7c57a4e2966c583b380b82e83ed68d421",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 71101,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-new-resume/native/backward-arm-circle-dark.mp4",
+      "sha256": "d79f2abc78e8d3ff1b6786175029c91463ae45c0f12c538e7e8335d5ef401d65",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 72748,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "shoulderDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "loopDrift": 8.95090418262362e-16,
+    "wristCircleRadius": 0.8783624864304427,
+    "radiusVariation": 4.107825191113079e-15,
+    "maxRadiusStep": 0.022994819424832794,
+    "cycles": 2,
+    "direction": "backward",
+    "units": "world units, body approximately 17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T04:53:45.579Z",
+  "limitations": "Stylized gray barefoot mannequin, small-circle variant. No physical device or expert certification. Direction must stay exact-ID specific."
+}

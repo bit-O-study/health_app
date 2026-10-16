@@ -4,3 +4,7 @@ gradlew text eol=lf
 
 # Preserve byte-exact render inputs and verification SHA values across platforms.
 tools/media/motion-refresh/skinned-3d/** -text whitespace=cr-at-eol
+
+# Preserve imported exercise render provenance and SHA-256 evidence.
+tools/media/imports/** -text whitespace=cr-at-eol
+tools/media/motion-guides/** -text whitespace=cr-at-eol

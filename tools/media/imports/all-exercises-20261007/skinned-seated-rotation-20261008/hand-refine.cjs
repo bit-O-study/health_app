@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008';let s=fs.readFileSync(b+'/motion.mjs','utf8').replace("side==='L'?5.2:3.9","side==='L'?5.2:3.8").replace("side==='L'?2.95:3.45","side==='L'?2.95:3.75");fs.writeFileSync(b+'/motion.mjs',s);

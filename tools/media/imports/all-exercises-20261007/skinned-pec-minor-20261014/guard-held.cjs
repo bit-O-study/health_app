@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/';for(const f of ['publish-native.mjs','finalize.cjs']){const s=fs.readFileSync(b+f,'utf8');fs.writeFileSync(b+f,"throw new Error('HELD pec-minor-stretch: elbow deformation and bidirectional hand/forearm penetration; see held-review.json');\n"+s);}

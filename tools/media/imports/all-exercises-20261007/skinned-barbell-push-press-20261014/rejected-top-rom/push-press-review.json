@@ -1,0 +1,129 @@
+{
+  "id": "push-press",
+  "status": "pending-rom-correction",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.crossfit.com/essentials/the-push-press",
+    "https://www.muscleandstrength.com/exercises/push-press"
+  ],
+  "phaseSeconds": {
+    "rackHold": [
+      0,
+      0.8
+    ],
+    "dip": [
+      0.8,
+      1.5
+    ],
+    "drive": [
+      1.5,
+      1.9
+    ],
+    "press": [
+      1.9,
+      2.6
+    ],
+    "overheadHold": [
+      2.6,
+      4
+    ],
+    "controlledLower": [
+      4,
+      7
+    ],
+    "rackEndHold": [
+      7,
+      8
+    ]
+  },
+  "kinematics": {
+    "samples": 481,
+    "kneeAngleMin": 139.0784082461946,
+    "kneeAngleMax": 180,
+    "elbowFlexMin": 36.2480916016132,
+    "elbowFlexMax": 165.26196344420742,
+    "wristAngleMin": 10.009190747604496,
+    "wristAngleMax": 60.578865240514205,
+    "pelvisDrop": 0.55,
+    "footDrift": 4.48508116795402e-15,
+    "minBodyFloorGap": -5.329070518200751e-15,
+    "minClothFloorGap": 5.127029888837779,
+    "minEquipmentVertexGap": 0.005507220964638848,
+    "minShaftTriangleGap": 0.005000000114864039,
+    "minHeadTriangleGap": 0.09552917179531642,
+    "soleError": 5.329070518200751e-15,
+    "gripSpanMin": 5.199999999999994,
+    "gripSpanMax": 5.200000000000005,
+    "maxBarGripError": 3.1086244689504383e-15,
+    "torsoRotationDrift": 0,
+    "loopDrift": 0,
+    "armAngleDriftDuringDipDrive": 1.1368683772161603e-13,
+    "kneeAngleAtPressStart": 180,
+    "units": "World units/degrees. Shaft radial distance to projected non-hand mesh triangles, exact within shaft span; conservative plate-cylinder vertex distances."
+  },
+  "checks": {
+    "exercise": "Standing front-rack barbell push press.",
+    "equipment": "Rigid barbell and intact plates, symmetric overhand grip.",
+    "setup": "Upper chest/clavicle rack, hands just outside shoulder width.",
+    "movement": "Upright shallow dip followed immediately by leg drive; arms press after knees/hips extend. Slow controlled return.",
+    "feet": "Both soles planted, stationary481samples.",
+    "anatomy": "Wrist/elbow/knee angles and torso alignment checked; shaft-to-mesh triangle gap checked481samples."
+  },
+  "sourceSha256": "db0fbdfae6eb5073754cea685acac4495c799293c36815e56eb32d15f2ddaeff",
+  "rigSourceSha256": "39b07dbf9edf614931bbc392497430ed7e916e35b540c2fdfb06fbc5ee701788",
+  "videoSha256": "8f2cb314fe5b6cb499add20a875dbe048620cb05ccabc5e87c25b426eb55968d",
+  "darkVideoSha256": "733cfa5c2d5c2d84e8817de19f32d463b1d445df77fc6f1ddc6748556d506991",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-push-press-20261014/native/push-press.mp4",
+      "sha256": "8f2cb314fe5b6cb499add20a875dbe048620cb05ccabc5e87c25b426eb55968d",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 95932,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-push-press-20261014/native/push-press-dark.mp4",
+      "sha256": "733cfa5c2d5c2d84e8817de19f32d463b1d445df77fc6f1ddc6748556d506991",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 88818,
+      "decode": "passed"
+    }
+  ],
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Barefoot mannequin and kinematic demonstration, not force simulation. One repetition after unracking; rack/walkout omitted. Front bar rests at upper-chest/clavicle level with.005model-unit mesh clearance; full overhand grip and wrist extension measured. Source explosive drive depicted in.4sec and arm press in.7sec. Soft elbow finish rather than forced hyperextension. No clinical/device validation.",
+  "reason": "Top elbow36.25degrees after grip width adjustment; original top bar height must increase to achieve source lockout."
+}

@@ -1,0 +1,31 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": 2.616719170234205e-7,
+  "minSeatGap": 0.008499927356904635,
+  "maxSeatGap": 0.009567663847472652,
+  "minArmSeatGap": 0.7407054108791957,
+  "peakSideBend": 12.000000000000005,
+  "maxWristStep": 0.028312890045260407,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

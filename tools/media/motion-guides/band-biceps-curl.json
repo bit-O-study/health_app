@@ -8,5 +8,7 @@
   "cycle": "reverse",
   "id": "band-biceps-curl",
   "registeredAt": "2026-09-11T16:41:14.886Z",
-  "cutout": false
+  "cutout": true,
+  "rigSource": "band-biceps-curl-alpha-edit.png",
+  "renderer": "generated-alpha-edit-v1"
 }

@@ -1,0 +1,15 @@
+{
+  "id": "kettlebell-biceps-curl",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-biceps-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/kettlebell-biceps-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:20:48.215Z"
+}

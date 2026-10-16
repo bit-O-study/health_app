@@ -1,0 +1,16 @@
+{
+  "id": "wrist-mobility-circle",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wrist-mobility-circle-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.wyevalley.nhs.uk/media/1425978/lymphoedema-upper-arms-exercise-final-060624.pdf",
+    "https://www.uhsussex.nhs.uk/wp-content/uploads/2025/06/2551-strengthening-and-stretching-part-1-2025.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T06:03:37.715Z"
+}

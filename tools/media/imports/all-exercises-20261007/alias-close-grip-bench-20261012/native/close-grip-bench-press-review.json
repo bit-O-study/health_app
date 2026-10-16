@@ -1,0 +1,79 @@
+{
+  "id": "close-grip-bench-press",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/alias-close-grip-bench-20261012/native/close-grip-bench-press.mp4",
+      "sha256": "dcae10adffb2bb527a0b99787238d8482d03cbd2580d2a5a870e3489daf603bd",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 241445,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/alias-close-grip-bench-20261012/native/close-grip-bench-press-dark.mp4",
+      "sha256": "6b3107711eaabb1a00db9f22e7f4f110a3bc1e93b6bc5159282a60d7c207a3cc",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 239811,
+      "decode": "passed"
+    }
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/close-grip-bench-press.html"
+  ],
+  "sourceSha256": "f085497c43b058691c13772cc6b04eb02af0ff27c2b661f05ffcf4c4c73f7b5c",
+  "rigSourceSha256": "1f11f9763e0e59a4d213f75bcbfc358d48c3b4f069f2902f1227793f00aafa78",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "dcae10adffb2bb527a0b99787238d8482d03cbd2580d2a5a870e3489daf603bd",
+  "darkVideoSha256": "6b3107711eaabb1a00db9f22e7f4f110a3bc1e93b6bc5159282a60d7c207a3cc",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Fresh original16panel and two-theme32frame inspection: both catalog IDs same flat close-grip barbell bench press. Original M&S shoulder-width grip protocol independently checked; no incline or Smith variant.",
+    "equipment": "Straight barbell with small plates and complete flat bench survives cutout.",
+    "setup": "Head, back and hips remain supported and approximately stationary.",
+    "hands": "Narrow approximately shoulder-width grip stays attached to bar, with elbows close to trunk.",
+    "feet": "Both shoes remain planted on the floor beside the bench.",
+    "movement": "Bar rises from lower chest above torso and returns; no conspicuous duplicated arms or disconnected plates in either 32-frame sheet. Exact unchanged source MP4s retained. Legacy16 reverse cadence starts lower chest, presses upward, and returns; no new phase override."
+  },
+  "limitations": [
+    "Exact legacy16pose cutout interpolation reuse; no new continuous3D or481sample kinematics claimed.",
+    "Original mild body/bench shape changes and interpolation softness retained. Camera overlap limits far-hand detail.",
+    "Original cycle begins at lower chest and presses up before returning; preserves legacy16 reverse timing.",
+    "Pale cutout halo visible around dark-theme outlines; no gross component dropout observed."
+  ],
+  "reviewedAt": "2026-10-12T01:31:02.438Z",
+  "reviewer": "wrist subagent, root final adoption pending"
+}

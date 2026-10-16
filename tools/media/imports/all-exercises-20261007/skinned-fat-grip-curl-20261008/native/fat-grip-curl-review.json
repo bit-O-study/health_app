@@ -1,0 +1,91 @@
+{
+  "id": "fat-grip-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-fat-grip-curl-20261008/native/fat-grip-curl.mp4",
+      "sha256": "1d3f2145cc86750c76301e726f9518829115350b92a66d0346e984bfbd43d3c8",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 89501,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-fat-grip-curl-20261008/native/fat-grip-curl-dark.mp4",
+      "sha256": "dc309f5f93f39c23cb243eeefad0a3bfa5be1bb8508b3c26f911a75787cb231b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 76688,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.9991722838696e-15,
+    "gripTangentAxisError": 1.5905664321074658e-15,
+    "elbowBendRange": [
+      15.053561940918362,
+      107.63884705963683
+    ],
+    "gripSleeveRadius": 0.2,
+    "underlyingHandleRadius": 0.12,
+    "dumbbellRise": 5.309959877783474,
+    "collisionSamples": 17,
+    "bodyDumbbellMinClearance": 0.1442551361746543,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://fatgripz.com/pages/quick-start-guide",
+    "https://fatgripz.com/pages/getting-started-with-fat-gripz"
+  ],
+  "sourceSha256": "c48163fca3e5a30c31b7b5eb335fe0f0a939fd478de69b10029d79818590b370",
+  "rigSourceSha256": "d58b97a204dfc49cd65438b56ee188e5ec898cf2c8d64a1c99dab033836009dc",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "videoSha256": "1d3f2145cc86750c76301e726f9518829115350b92a66d0346e984bfbd43d3c8",
+  "darkVideoSha256": "dc309f5f93f39c23cb243eeefad0a3bfa5be1bb8508b3c26f911a75787cb231b",
+  "checks": {
+    "exercise": "Standing bilateral supinated fat-grip dumbbell curl: both palms forward at bottom, elbow-driven upward curl, fixed upperarms.",
+    "equipment": "Two hex dumbbells with blue thick grip sleeves radius0.20 over metal handles radius0.12. Palm-facing slim seam, symmetric heads and caps preserved. Generic smaller thick sleeve, not branded dimensional replica.",
+    "setup": "Upright fixed torso and shoulders; grounded hip-width stance. Slight elbow bend15.05degrees at bottom, upperarms held mildly outward/forward to clear hips.",
+    "hands": "Hand0/210 and opposite hand210 inspected. Palms face forward/up as forearms rise, fingers curl around thicker sleeves with opposed thumbs.481sample local grip drift2e-15 and axis error1.6e-15.",
+    "feet": "Static grounded feet. Lowest foot vertex -8.1752309799 agrees with floor -8.175231.17phase conservative cylinder checks covering sleeve and both heads against non-arm body vertices give minimum0.144255model units.",
+    "movement": "Both final encoded32frame theme sheets and side210 inspected; continuous anatomy and dumbbells without interpolation ghosts. Fixed joint drift0 and exact loop. Full decode and mobile Edge play/seek/loop passed. Smooth phase0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T02:20:56.086Z",
+  "limitations": "Root review pending. Barefoot anatomical mannequin and mildly angular elbow skin; closed grip is stylized, not soft-tissue pressure simulation. Collision proof is17sample non-arm skinned vertices against conservative cylinders, not all triangle intersections or hand contact certification. Generic sleeve size differs from branded dimensions; no physical-device or clinical certification."
+}

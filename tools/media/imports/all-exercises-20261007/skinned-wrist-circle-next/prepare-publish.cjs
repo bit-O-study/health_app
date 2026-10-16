@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-wrist-circle-next/publish-native.mjs';fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('Small shoulder circles with fixed feet and torso','Isolated wrist circles in both directions with stationary elbow/forearm and fixed feet/torso'));

@@ -1,0 +1,22 @@
+{
+  "id": "dumbbell-pullover",
+  "renderVersion": 5,
+  "panels": 8,
+  "cutout": true,
+  "sourceSha256": "0f4d6e7c65630b12c9e7ca1fd404057bbbd4ef855e6fc9ad9158ea7393785c72",
+  "videoSha256": "1c48538f36010a53e04c5b2bd3120b38fa62f493260bc4aadab3dc98018a7a12",
+  "darkVideoSha256": "753073d79665b5dc46c79ff3289eb3147377c52cda983ecb22a4ea75adcb004b",
+  "darkBytes": 192523,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 131955,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T01:02:27.734Z",
+  "date": "2026-10-07T01:03:02.483Z",
+  "status": "recommended-pass",
+  "published": false,
+  "notes": "Original bench and white shoe RGB/alpha restored in asset-specific ROIs. Body, hair, dumbbell and bench preserved; large studio background removed. Both theme32-frame sheets and first/last poses inspected; Edge play/seek/loop passed. Existing sparse eight-pose optical-flow renderer still causes brief dumbbell motion smearing at interpolated frames; cutout improvement only, not a motion-quality overhaul.",
+  "scope": "Original source and light/dark rendered JPG contact sheets. Not production or physical device."
+}

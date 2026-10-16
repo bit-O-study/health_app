@@ -1,0 +1,16 @@
+{
+  "id": "cable-drag-curl",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-drag-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/cable-drag-curl.html",
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/drag-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:33:34.900Z"
+}

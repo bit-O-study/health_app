@@ -1,0 +1,18 @@
+{
+  "id": "leg-swing",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3b6c5aceb16ed0973fe53fded1158df535c11bd7ac2d1decbe711cee1754f12f",
+  "rigSourceSha256": "7151178d47227cbb41c988e161ce3f3eb43d621ea3561fcf156821bdd9355660",
+  "videoSha256": "17dda7db0134c24dbcc79f7ef58ecdee9f640016864e3cd69ba7050a79e30a76",
+  "darkVideoSha256": "d83a57b6d7a1b18886ee68e5a39973db2997ce3d0c11d678461f51413a2445e0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77843,
+  "darkBytes": 79155,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:57:59.148Z"
+}

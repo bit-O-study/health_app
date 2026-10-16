@@ -1,0 +1,158 @@
+{
+  "id": "smith-machine-wide-grip-bench-press",
+  "benchGeometry": {
+    "backUp": [
+      0,
+      0,
+      -1
+    ],
+    "angleAboveHorizontal": 0,
+    "backPadLocalYAxisRotationDegrees": -90,
+    "sourceAngleSpecified": true,
+    "implementationChoiceDegrees": 0
+  },
+  "sourceGapCalibration": {
+    "restHeightWorld": 17.46880625,
+    "assumedHeightMetres": 1.8,
+    "shaftGapWorld": 0.254,
+    "equivalentInches": 1.0304081310650521
+  },
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "topStartHold": [
+        0,
+        0.4
+      ],
+      "lower": [
+        0.4,
+        4.8
+      ],
+      "bottomPause": [
+        4.8,
+        5.2
+      ],
+      "press": [
+        5.2,
+        7.4
+      ],
+      "topEndHold": [
+        7.4,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/studio.mjs",
+      "sha256": "5e67a7888ed5d69c98207dc68c2cf4477f370b9fc040ac0584e5b5e4f8697e29"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/motion.mjs",
+      "sha256": "d654085dfcfe9b77f7da1d2b4586250003c090c610dacb3448dba505985a56e2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/render.mjs",
+      "sha256": "99672aa0c81fd91e0f2d2eee69014110760e1a34aacd64328680c74b1313688c"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-wide-grip-bench-press.html"
+  ],
+  "sourceSummary": "Muscle and Strength specifies a flat bench, wider than shoulder-width grip, lowering to about1inch above the chest and pausing, then pressing without elbow lockout. Lowering takes about twice as long as raising. This depicts the repetition after unracking, starting at the top.",
+  "motion": "Flat-bench Smith wide-grip press. Closed overhand span7.4world units versus4.038 shoulder-joint span. Shaft approaches chest with0.254world-unit clearance, approximately1inch if mannequin height is1.8m for its roughly18world-unit stature. Elbows135.389degrees at bottom to8degrees at top. Bar X/Z fixed; sleeves follow vertical rails. Lowering4.4seconds, raising2.2seconds, bottom pause0.4seconds.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.195905786649769,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.2552214067292212,
+    "minEquipmentBenchClearance": 2.7366389535491322,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05888767207002865,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 2.815352307184251,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.778737351923273,
+    "minimumBackGap": 0,
+    "backContactError": 0.03816772154103809,
+    "minHeadClearance": 1.3440212609028936,
+    "minElbowFlex": 8.000000000116303,
+    "maxElbowFlex": 135.38876496078342,
+    "minimumElbowAboveShoulder": -1.7623053278991865,
+    "wristDeviationRange": [
+      8.226727979198342,
+      22.278043043484512
+    ],
+    "bottomWristDeviation": [
+      22.278043043484512,
+      22.278043043484512
+    ],
+    "topWristDeviation": [
+      17.400660500987186,
+      17.400660500987186
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 6.217248937900877e-15,
+    "minNonChestClearance": 0.48664158331560337,
+    "bottomChestClearance": 0.2552214067292212,
+    "endTopChestClearance": 4.390008785666058,
+    "minimumShaftTriangleGap": 0.25400002418874956,
+    "minimumPalmTowardFeet": 1,
+    "minimumBodyRailGap": 2.918051322341148,
+    "minimumBodyFrameGap": 2.410966693897897,
+    "minimumEquipmentFrameGap": 0.13573908706237958,
+    "sliderRailError": 4.884981308350689e-15,
+    "minimumBarBelowRailTop": 0.7500000000000006,
+    "minimumFrameBaseGap": 0,
+    "barXZDrift": 4.884981308350689e-15,
+    "minimumHeadTriangleGap": 1.7603769617851475,
+    "maximumElbowLateralDistance": 3.931943878828042,
+    "gripSpan": 7.399999999999996
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press.jpg",
+    "sha256": "501f5c53e36c4ce8d7e49828a90c338ab5372e172a3d4a72ff3e7fe5d865dfdd",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/render.mjs smith-machine-wide-grip-bench-press"
+}

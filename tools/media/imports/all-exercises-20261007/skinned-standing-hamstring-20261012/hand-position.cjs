@@ -1,0 +1,1 @@
+const fs=require('fs'),p=__dirname+'/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('sign*.45,1.65,.8','sign*.55,1.65,-.2').replace('new THREE.Vector3(0,-.8,.6)','new THREE.Vector3(0,-.92,.38)');fs.writeFileSync(p,s);

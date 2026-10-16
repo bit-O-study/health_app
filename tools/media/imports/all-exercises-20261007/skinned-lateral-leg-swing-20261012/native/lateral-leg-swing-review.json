@@ -1,0 +1,106 @@
+{
+  "id": "lateral-leg-swing",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.inclusivesport.gov.sg/learning-opportunities/resources/warm-up-cool-down-exercises/"
+  ],
+  "checks": {
+    "exercise": "Exact lateral leg swing; sideways across front and outward, not sagittal swing.",
+    "equipment": "Bodyweight facing fixed wall support.",
+    "setup": "Both palms at wall, LEFTfoot planted, trunk/pelvis stable, RIGHTknee gently bent.",
+    "hands": "Both palms maintain near wall contact; actual hand skin stays in front of torso/garment.",
+    "feet": "481 actual support sole/heel fixed, swinging foot above floor and legs/garment positively separated even while crossing.",
+    "movement": "Final both32frame sheets and inward/outward peaks, waist, feet and support enlargements reviewed. Continuous4second cycles; decode and Edge pass."
+  },
+  "sourceSha256": "cfbf88e780b60053905a048833044fa025a8229239542f086a176a9f4f175279",
+  "rigSourceSha256": "b48a7c6552766cef21d8193522f0da6d8301db2832f9100c95b212a6aa34618d",
+  "videoSha256": "698b965945208600df9142ce077e602f5185e7d3f8bf438a8b3824c04baef30d",
+  "darkVideoSha256": "2806a23dd7c9be2cac6a21abb76d9e4e1446dccbcf804a356e19935ff4f2f354",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-lateral-leg-swing-20261012/native/lateral-leg-swing.mp4",
+      "sha256": "698b965945208600df9142ce077e602f5185e7d3f8bf438a8b3824c04baef30d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 58856,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-lateral-leg-swing-20261012/native/lateral-leg-swing-dark.mp4",
+      "sha256": "2806a23dd7c9be2cac6a21abb76d9e4e1446dccbcf804a356e19935ff4f2f354",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 59950,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "supportHandDrift": 0,
+    "supportFootDrift": 0,
+    "supportHeelDrift": 0,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.01564154265992701,
+    "minHandBodyPlaneGap": 1.3120987944384779,
+    "minLegSkinGarmentSectionGap": 0.18982601110012887,
+    "minWallGap": 0.009507297668169379,
+    "supportFloorError": 1.7763568394002505e-15,
+    "minSwingFloorGap": 0.7770935972909756,
+    "swingFootXRange": [
+      -6.069898687920611,
+      2.565964758653343
+    ],
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "inwardPeaks": [
+        1,
+        5
+      ],
+      "outwardPeaks": [
+        3,
+        7
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T05:03:27.040Z",
+  "limitations": "One side shown; repeat other side separately. Demonstration angles are not prescribed clinical ROM. Sampled skin/section evidence is not exhaustive triangle collision or balance-force simulation. No physical-device certification."
+}

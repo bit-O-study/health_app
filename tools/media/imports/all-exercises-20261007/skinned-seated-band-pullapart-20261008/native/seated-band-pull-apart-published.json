@@ -1,0 +1,18 @@
+{
+  "id": "seated-band-pull-apart",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fe024353e28974fc5acbb46721b6df281105817e950c7dfa9dc2041a45246778",
+  "rigSourceSha256": "e5789826cc753d4c2bc7177bd2fe4d46bcbe82dbda3c128def3194f3512b0e1d",
+  "videoSha256": "3c757b93ce8e79219b5e0b57aeaf851ecc63cdef215a8337d1ed55b7a4541266",
+  "darkVideoSha256": "ff7ba163d63c2bc2bf0628390e58c6e07b7af5ae0b8243e394343ad11d13e4c9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 68022,
+  "darkBytes": 71920,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:51:11.445Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "reverse-grip-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8109bf80136bc04470cc88655fe37a8c4050a9fa0667b415d20527f98824409a",
+  "rigSourceSha256": "6e23c8313974bef9363604046d09c709ea1822af50fc12b14b9f9fd39b6662ef",
+  "videoSha256": "9ba8055778fd51c83d5aca75624ef9be9c0b791aa79b55afc392575bfe8d014b",
+  "darkVideoSha256": "f6d964ac911b6ea9d26b6378daf0e64a7b74f70bd2313f7bb716949fef1179e4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 122312,
+  "darkBytes": 107893,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T05:11:57.640Z"
+}

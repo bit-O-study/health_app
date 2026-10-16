@@ -1,0 +1,18 @@
+{
+  "id": "cuban-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c614eb4763c329ef7bf581676fc5a479fee8e23f919c73729f5a474f45b28361",
+  "rigSourceSha256": "dcd91e88dbfdc38083d676fcf26761d5e102e7c5a873dc025380c798a0c0b513",
+  "videoSha256": "382efa5f2cc905d5e0f5375cabd4b762b1feb62c4bbb302dd8cfc90bca940d2a",
+  "darkVideoSha256": "111ff1c69220a7022a2b1c8eeb164edb9910f3eb7a658a396e68f4d5973aa91b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 126235,
+  "darkBytes": 111408,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:11:30.407Z"
+}

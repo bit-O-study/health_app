@@ -1,0 +1,53 @@
+{
+  "chosen": {
+    "triangle": 78510,
+    "ids": [
+      10508,
+      33711,
+      49949
+    ],
+    "restNormal": [
+      -0.6561406572466191,
+      -0.7338327840908202,
+      0.17597977980862045
+    ],
+    "restCentroid": [
+      5.080746354166666,
+      2.185871875,
+      2.5236052083333336
+    ]
+  },
+  "restFingerFlexionTowardSelectedSurface": [
+    0.2923624941643756,
+    0.20159710658539418,
+    0.20314066439384432,
+    0.157613147463346
+  ],
+  "frames": [
+    {
+      "frame": 0,
+      "actualPalmTriangleNormal": [
+        -0.1466455456492751,
+        -0.8754346717355886,
+        -0.46055316681619807
+      ],
+      "palmUpComponent": -0.8754346717355886,
+      "actualWristAngleDegrees": 9.959788813722069,
+      "handDisplacementTowardNeutralPalm": 0.1726612613116325,
+      "flexionDirection": true
+    },
+    {
+      "frame": 210,
+      "actualPalmTriangleNormal": [
+        -0.1466455262408794,
+        -0.5567463128625929,
+        -0.8176360025998387
+      ],
+      "palmUpComponent": -0.5567463128625929,
+      "actualWristAngleDegrees": 33.002022707529015,
+      "handDisplacementTowardNeutralPalm": 0.5338060549045718,
+      "flexionDirection": true
+    }
+  ],
+  "identification": "Palm side independently corroborated by all four original relaxed finger chains curling toward selected surface; selected actual outward mesh triangle lies over metacarpal palm center. Opposite-side photographs retained for anatomical visual review."
+}

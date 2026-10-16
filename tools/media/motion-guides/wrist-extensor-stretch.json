@@ -1,0 +1,15 @@
+{
+  "id": "wrist-extensor-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wrist-extensor-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://leedscommunityhealthcare.nhs.uk/our-services-a-z/musculoskeletal-msk/elbow-problems/new-undiagnosed-elbow-problems/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T00:21:42.391Z"
+}

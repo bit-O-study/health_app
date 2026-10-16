@@ -1,0 +1,15 @@
+{
+  "id": "wide-grip-cable-pushdown",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-cable-pushdown-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://criticalbody.com/wide-grip-tricep-pushdown/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T04:19:23.925Z"
+}

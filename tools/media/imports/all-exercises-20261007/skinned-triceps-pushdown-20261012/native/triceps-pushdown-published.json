@@ -1,0 +1,18 @@
+{
+  "id": "triceps-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2b06a6275f29dc15239a9218b95be7924c01e61c5cdc21a53a5389aad1593247",
+  "rigSourceSha256": "2161db07bfdebc04456fc309237b4e97e0afe21a524b302205d519f676609dee",
+  "videoSha256": "6570793b3581e5d63ff22bfbb3cf084683169c8289fcf8614e4a324ff9ea174e",
+  "darkVideoSha256": "225ab5ba5fbae43df8bbd4f7b686b18b8b381f067eda411dffd8d43126693af7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79004,
+  "darkBytes": 76484,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:07:42.867Z"
+}

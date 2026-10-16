@@ -1,0 +1,15 @@
+{
+  "id": "hip-circle",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "hip-circle-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.leicspart.nhs.uk/wp-content/uploads/2022/07/133-Falls-service-balance-exercises-5-Rutland-A5.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:34:39.984Z"
+}

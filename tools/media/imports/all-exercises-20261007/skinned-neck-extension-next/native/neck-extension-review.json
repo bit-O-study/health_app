@@ -1,0 +1,116 @@
+{
+  "id": "neck-extension",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.eput.nhs.uk/wp-content/uploads/2025/03/a4whiplash.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact catalog neck-extension: head gently tilts skyward from a mildly retracted chin, without trunk extension.",
+    "equipment": "Bodyweight, no external load or hand pulling. Standing active mobility demonstration.",
+    "setup": "Upright stable torso and stationary shoulders. Camera preserves whole body and emphasizes near-side cervical extension.",
+    "hands": "Both hands relaxed alongside thighs with continuous geometry, no hand force applied to head.",
+    "feet": "481 actual skinned sole checks within0.001 world-unit floor tolerance; bilateral feet remain fixed.",
+    "movement": "Final both32-frame sheets and enlarged neck/side previews visually inspected by agent. Chin/neck continuous, no clipping or optical flow ghosts. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "9957acca5eb004e740976540885db02394b383e069173af254e32b7f4deb9dec",
+  "rigSourceSha256": "637f7cd607ddd7db9bb9505a71730a9843643439eaf0504a5e6e2e6609473938",
+  "videoSha256": "2b55704bef363ac3925bbec851f278a473c4c71bbbf621aec3463715e27b5ff4",
+  "darkVideoSha256": "d1cdbfa834e845d452bf89558bb0eb796754495f80d286e97e5d38c7cfe08bc3",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-neck-extension-next/native/neck-extension.mp4",
+      "sha256": "2b55704bef363ac3925bbec851f278a473c4c71bbbf621aec3463715e27b5ff4",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 27630,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-neck-extension-next/native/neck-extension-dark.mp4",
+      "sha256": "d1cdbfa834e845d452bf89558bb0eb796754495f80d286e97e5d38c7cfe08bc3",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 30050,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "shoulderDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "loopDrift": 0,
+    "headAngleDegrees": 28.000000000000053,
+    "neckMinEdgeStretch": 0.5722041049563162,
+    "neckMaxEdgeStretch": 3.6124751687417826,
+    "neckFinite": true,
+    "neckVertices": 15680,
+    "neckEdges": 88946,
+    "phaseSeconds": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "move": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "return": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "side": "look upward with head only",
+    "peakHeadQuaternion": [
+      -0.24192189559966767,
+      0,
+      0,
+      0.9702957262759964
+    ],
+    "units": "world units, body approximately 17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:17:12.474Z",
+  "limitations": "Standing active unweighted mobility variant, stylized gray barefoot mannequin. No physical-device or clinical certification. Conservative demonstrative range and tempo, no symptom-specific prescription."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "neck-extension",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "neck-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.eput.nhs.uk/wp-content/uploads/2025/03/a4whiplash.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T05:21:33.986Z"
+}

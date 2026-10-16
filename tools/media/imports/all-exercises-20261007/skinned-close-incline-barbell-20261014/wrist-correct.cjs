@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/';let s=fs.readFileSync(b+'motion.mjs','utf8').replace('new THREE.Vector3(0,Math.cos(rad(30)),.5)','new THREE.Vector3(0,Math.cos(rad(22.5)),Math.sin(rad(22.5)))');fs.writeFileSync(b+'motion.mjs',s);

@@ -1,0 +1,143 @@
+{
+  "id": "cuban-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://macrosinc.net/exercises/shoulders/dumbbell-cuban-press/",
+    "https://musclewiki.com/exercise/dumbbell-cuban-press"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "raise": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ],
+    "stages": {
+      "row": [
+        0.4,
+        1.1
+      ],
+      "externalRotation": [
+        1.1,
+        3.1
+      ],
+      "press": [
+        3.1,
+        3.8
+      ],
+      "pressReturn": [
+        4.2,
+        4.9
+      ],
+      "rotationReturn": [
+        4.9,
+        6.9
+      ],
+      "rowReturn": [
+        6.9,
+        7.6
+      ]
+    }
+  },
+  "checks": {
+    "exercise": "Standing bilateral dumbbell Cuban press with distinct row,external rotation,overhead press and reverse sequence.",
+    "equipment": "Two intact dumbbells with grip sockets fixed and conservative plate/body clearance over481samples.",
+    "setup": "Upright standing torso, fixed feet on floor, no bench.",
+    "hands": "Pronated closed grips: palms rearward at bottom,down at row end,forward after rotation and during overhead press. Fullsize hand views for every stage inspected.",
+    "feet": "Both feet stationary with soles meeting floor throughout481samples.",
+    "movement": "Final both32frame sheets and hand/side previews reviewed. Continuous procedural motion without optical-flow ghosts; full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "c614eb4763c329ef7bf581676fc5a479fee8e23f919c73729f5a474f45b28361",
+  "rigSourceSha256": "dcd91e88dbfdc38083d676fcf26761d5e102e7c5a873dc025380c798a0c0b513",
+  "videoSha256": "382efa5f2cc905d5e0f5375cabd4b762b1feb62c4bbb302dd8cfc90bca940d2a",
+  "darkVideoSha256": "111ff1c69220a7022a2b1c8eeb164edb9910f3eb7a658a396e68f4d5973aa91b",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cuban-press-20261008/native/cuban-press.mp4",
+      "sha256": "382efa5f2cc905d5e0f5375cabd4b762b1feb62c4bbb302dd8cfc90bca940d2a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 126235,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cuban-press-20261008/native/cuban-press-dark.mp4",
+      "sha256": "111ff1c69220a7022a2b1c8eeb164edb9910f3eb7a658a396e68f4d5973aa91b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 111408,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 5.488389351564344,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.21186178302874623,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.29479330205968984,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices",
+    "elbowBendMin": 7.913852172931901,
+    "elbowBendMax": 90.00000000000004,
+    "minAbduction": 12.035156773079464,
+    "maxAbduction": 170.17852056596186,
+    "rotationElbowDrift": 2.6681468187551037e-15,
+    "rotationStartDegrees": -1.9392259685351503e-14,
+    "rotationEndDegrees": 90,
+    "pairBoundingSphereGap": 1.2382346710919157
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T08:09:24.148Z",
+  "limitations": "Barefoot standing mannequin; row,rotation and press combination; light-weight technique demonstration. No physical-device or biomechanical certification."
+}

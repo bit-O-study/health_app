@@ -1,0 +1,145 @@
+{
+  "id": "big-toe-extension",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://myjointhealthhub.bnssg.nhs.uk/foot-ankle-pain/bunions-hallux-valgus/"
+  ],
+  "checks": {
+    "exercise": "Exact big-toe-extension, active bilateral great-toe lifting; no passive stretch.",
+    "equipment": "Bodyweight, stable seat, empty hands and no band.",
+    "setup": "Seated, feet flat, ankles/heels/balls of feet stationary. Wide setup and enlarged foot views reviewed.",
+    "hands": "Hands down outside chair, no assistance or contact with toes.481 arm-seat clearance checks passed.",
+    "feet": "481 skin sole/heel/ball/lesser-toe surface checks and toe-tip kinematics. Lesser toes stay near floor and bones remain stationary; no floor penetration. Skin and garment seat gap verified.",
+    "movement": "Both32frame encoded sheets and enlarged rest/peak feet reviewed.30degree great-toe extension and return; smooth timing. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "4d0d4c416da0680d853783104c4ff27b658ddaefb8eda23cf9669be54a6bbd34",
+  "rigSourceSha256": "38a684a2926a146b8fbb98b93a2f73e27563f689f0d584f188e5e3fd6ceaf52f",
+  "videoSha256": "1cf48f13280a74089ab5465adde9e7f3bb8d7ae437489c37199cf6c2b03ca8ba",
+  "darkVideoSha256": "6f809d6a5df684ab0852d6fffbc918c55e2c9c3836adc80b776fa92e885b719a",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-big-toe-20261008/native/big-toe-extension.mp4",
+      "sha256": "1cf48f13280a74089ab5465adde9e7f3bb8d7ae437489c37199cf6c2b03ca8ba",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 27548,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-big-toe-20261008/native/big-toe-extension-dark.mp4",
+      "sha256": "6f809d6a5df684ab0852d6fffbc918c55e2c9c3836adc80b776fa92e885b719a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 26040,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "lesserToeDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": 0.0011434909033454232,
+    "heelFloorGap": 0.010424875624553742,
+    "ballFloorGap": 0.002118810319169384,
+    "minSeatGap": 0.008499927356904635,
+    "minArmSeatGap": 0.7407054108791957,
+    "peakToeDegrees": 29.999999999999996,
+    "toeTipRise": 0.31302088113743576,
+    "lesserToeFloorGaps": {
+      "2.L": {
+        "min": 0.006471492380297761,
+        "max": 0.006471492380297761
+      },
+      "3.L": {
+        "min": 0.010800328182508423,
+        "max": 0.010800328182508423
+      },
+      "4.L": {
+        "min": 0.014112419445819313,
+        "max": 0.014112419445819313
+      },
+      "5.L": {
+        "min": 0.02685688133909192,
+        "max": 0.02685688133909192
+      },
+      "2.R": {
+        "min": 0.006471492380297761,
+        "max": 0.006471492380297761
+      },
+      "3.R": {
+        "min": 0.010800328182508423,
+        "max": 0.010800328182508423
+      },
+      "4.R": {
+        "min": 0.014112419445819313,
+        "max": 0.014112419445819313
+      },
+      "5.R": {
+        "min": 0.02685688133909192,
+        "max": 0.02685688133909192
+      }
+    },
+    "maxToeStep": 0.0029185893554744637,
+    "phaseSeconds": {
+      "restStart": [
+        0,
+        0.4
+      ],
+      "move": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "return": [
+        4.2,
+        7.6
+      ],
+      "restEnd": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T06:42:16.204Z",
+  "limitations": "Isolates active big-toe lifting from source Toe Yoga sequence; no lesser-toe lifting phase or therapeutic dosage is implied.30degrees and8seconds are illustrative. Minor shared skin weights permit millimetric movement near second-toe web despite fixed lesser-toe bones. Contact is checked with sampled skin vertices; no full triangle collision solver or physical-device certification."
+}

@@ -1,5 +1,143 @@
 # 헬쑤 개발 로드맵 — 업무 기준 문서
 
+## 2026-10-16 영상 변경 커밋·푸시
+
+- 사용자 요청: 누적 운동 영상 작업 커밋 및 푸시. 원격 dev 9133143a(기존 작업본보다69커밋앞섬) 기반 별도 worktree health-video-publish / video/publish-20261014에 영상 변경을 충돌 없이 적용. 기존 작업본의 billing/commitments/home/performance 변경과 임시파일은 제외해 보존.
+- 공개 영상307종/양테마검수288종. 영상/설명/자막/회귀테스트/재현입력/검수기록 포함. Git 줄바꿈 변환으로 provenance SHA가 달라지는 문제를 .gitattributes의 imports·motion-guides -text 설정으로 수정, 원본 바이트 복사. source chain1564개/출처195건오류0, 최근3등록/6영상SHA통과. 원본입력중 ignore된 필수이미지19개만 명시적으로 포함.
+- 단위검사: 기존 corepack pnpm test:unit은 Node20/Corepack ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING로 실행불가. Node22 실행파일로 동일 Vitest entry 실행. 기존본에서 single-arm-landmine-press 설명누락2실패를 발견하여 HEAD원본항목복원, 해당8tests 및 전체3271통과. 최신dev 통합후 node node_modules/vitest/vitest.mjs run tests/be/logic: 304파일/3429tests통과,1skip.
+- 스키마: 동일 Node22로 node_modules/vitest/vitest.mjs run tests/be/schema-sync.test.ts, 네트워크허용 환경에서113통과. 샌드박스 DB EACCES 후재실행.
+- 린트: 기존 작업본에서 node node_modules/eslint/bin/eslint.js 전체검사2378errors/1197warnings(제작도구 CommonJS require규칙·복제라이브러리 및 기존코드 포함), 미통과. 최신통합본 변경앱파일/설명/자막/회귀tests 대상ESLint는통과. 전체린트통과로간주하지 않음.
+- 타입/빌드: 기존본 tsc --noEmit --incremental false 통과. 최신통합본 Node22 next build --webpack 성공(TypeScript포함). 초기 Turbopack 외부node_modules junction 오류는webpack사용, 샌드박스 폰트연결EACCES와 검증폴더.env누락은 환경설정/네트워크허용 후해결. 환경파일은git미포함.
+- E2E: Node22 node_modules/@playwright/test/cli.js test --max-failures=1, mobile-chromium/http://localhost:3192, 네트워크허용. 2통과/1실패/453미실행. tests/e2e/add-appends-bottom.spec.ts:37 daily-checkin-modal visible 기대하지만 hidden(15초). 테스트계정4개정리완료. 영상변경과무관한영역이라 이번작업에서 임의수정하지않음. 브라우저전체통과아님.
+- 변경앱/문서/테스트 diff --check 통과. SHA고정 제작원본과외부라이브러리의기존공백/EOF경고는 원본해시보존을위해미변경. Android변경없음,실기기추가검사없음.
+- 2026-10-16 사용자 명시 커밋·푸시 요청으로 위 검증 한계를 유지한 채 영상 전용 브랜치에 저장. 전체 테스트 재실행: Node24 Vitest 304파일/3429개 통과, 선택 검사1개 제외. 제작 원본·의존성1564개 SHA 전부 일치. 변경 앱·문서·테스트 diffcheck 통과. 공개 경로 MP4 변경438개(219종 라이트·다크), 총4710파일. 전체 카탈로그 제작 완료나 운영 배포 완료를 뜻하지 않는다.
+
+
+## 2026-10-14 재개 12차: 신규 3종 검수·등록 완료
+
+- [완료] smith-machine-wide-grip-bench-press / cable-spider-curl / quadruped-hip-extension 양테마6영상 로컬등록. public304→307/양테마285→288. 부모 최종양32시트와 손/발/무릎/가슴/의복/레일/풀리/스택/측면 확대검토,481표본·전체decode·Edge재생/탐색/loop·SHA 통과. 세 publisher 각각exit0, 6필드 사전검사 확인.
+- Smith wide: M&S 원문 평벤치/어깨보다넓은그립/가슴약1인치간격/상단잠금금지/하강시간상승의2배. 그립7.4world 대 어깨폭4.038, 하단triangle+.25400002/가슴+.25522141(키1.8m 가정 약1.0304인치, 스케일한계기록), 비가슴+.48664158/머리+1.34402. 손목8.2267–22.278도/팔꿈치8–135.3888도. 발·좌면·그립·loop0, 바XZ/슬리브4.9e-15/frame+.135739. 상단시작0–.4/하강.4–4.8/하단4.8–5.2/상승5.2–7.4/상단7.4–8, continuous 단일 timing.
+- Cable spider: BreakingMuscle 저풀리변형/45도가슴지지/회외직선바/상완수직고정/팔꿈치5–120도. 3풀리low-row기구, 481 cableLength오차7.1e-15/tangent2.44e-15/connector3.33e-16. stack0→6.139865/상승역행0/하단여유.17/상단3.860135. cableBody+1.11119/cloth+3.85691/pad+1.61362/frame+.708028, barMachine+.566995/benchMachine+.864075/bodyMachine+.698329. 양손·가슴·발·풀리·스택확대검토, smooth. 일반도식기구 및 softfinish 한계기록 보존.
+- Quadruped: PureFormPhysio Daniel Sivertson PDF p5 Figure3 원문/원본이미지 부모검토. 양손/LEFT무릎지지·지지발들기·RIGHT다리만뒤로신전(버드독과구별). 손끝관통 수정후 heel+.02565/중수골palm+.04807/손끝+.01649~.06544, palm normalY−.98064/팔꿈치내각172.55도. 양무릎시작+.020/지지무릎전구간+.020/작동무릎최소+.01575. 전체피부바닥+.01575/의복+.53486/손팔-몸의복+.45993/허리353ray전부hit+.08281/gusset+.07274, 피부다리분리+.33946. 의복중앙연결포함분리지표0은 실제피부충돌아님을 별도 leg-separation에 기록. heel좌표±1.67109,-7.725729,5.291209 기록, 곡면전체접촉주장없음. 고정지지/loop0, smooth. publisher의 이전운동 note를 게시전교정.
+- [완료] 설명/가이드 신규2회귀실패→177통과, quadruped1실패→178통과. 최종6파일225tests, 공유ESLint 및 설명수정후 전체tsc88912 exit0. 3등록/6영상SHA통과, 출처195건감사 errors0.
+- [완료] live audit 전체1351: 양테마288/동작34/누끼19/신규1003/레거시7. 기존보류8종 보존, 신규보류없음. 세작업자완료, 영상자동생성없음.
+- [대기] 나머지신규/보류수정 및 운영배포/실기기. 전체미완료. 이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 11차: 신규 3종 검수·등록 완료
+
+- [완료] kneeling-hip-flexor-stretch / barbell-spider-curl / smith-machine-close-grip-bench-press 양테마6영상 로컬등록. public301→304/양테마282→285. 부모 최종양32시트 및 손/발/뒤발등/측면/가슴지지/의복/레일슬리브 확대검토,481표본·전체decode·Edge재생/탐색/loop·SHA 통과. 세 publisher 각각exit0, 등록 전6필드검사 확인.
+- Half kneeling hip flexor: NHS 원문 한쪽무릎런지/골반·무릎정면/몸통수직/골반전진. 골반 +1.11197, 뒤고관절0→15도, stretch2/3/2/1. 뒤무릎 +.00146~.035/뒤발목등+.03346/앞sole+.020, gusset+.07101/허리353ray+.07737/양손몸의복+1.50209. 발·뒤무릎drift6.8e-15/loop0. 최종측면/허리/발등 시각검토, 곡면전체면접촉 아님 등 후보한계기록 보존.
+- Barbell spider: BreakingMuscle 원문 약45도벤치가슴지지/머리목패드밖/언더핸드/상완수직고정. 팔꿈치5→120도, 수직오차2.22e-16, 회외normal .9507. 초기 바-프레임−.22560 발견후 지지대배치수정(ROM/카메라유지), 최종481 bodyBar+.903456/skinPad+.012/clothPad+.27157/bodyFrame+.55003/barFrame+.83506/plateFrame+4.14487/feet0. smooth, 일반도식벤치/softfinish 한계기록. 초기25표본 preflight 거부 후 최종481로 재통과.
+- Smith close grip: M&S 원문 평벤치/좁은오버핸드/팔꿈치몸옆/가슴거의닿기/잠금금지. 그립3.0world(약30cm), 팔꿈치143.99→8도, 전구간손목최대25.33084도. shaft triangle+.03500003/시작가슴+.03530860/비가슴+.89204/머리+1.7130. 발·좌면·그립·loop0, 바XZ/슬리브오차3.6e-15. 최종레일높이/슬리브/가슴/손목확대검토, smooth.
+- [보류] seated-smith-machine-shoulder-press: StrengthLog 상부가슴시작 변형에서 손목96.68도. 손목대안은 팔꿈치등뒤/턱접근 문제로 미채택, ROM축소없이 HOLD. skinned-seated-smith-press-20261014/held-review.json 및 HOLD.json 증거SHA보존, finalize/publisher 첫줄차단. 보류총8종, 공개등록없음. 실제완료3종은 위 대체운동포함.
+- [완료] 설명/가이드 회귀 최초3실패→174통과, 대체운동1실패→175통과. 최종6파일222tests, 공유ESLint통과. 대체설명수정후 전체tsc17874 exit0. 3등록/6영상SHA통과, 출처192건감사 errors0. 첫단일등록검사는 specs생성전 mismatch였으며 build-motion-specs후 통과, 최종전체3등록 재통과.
+- [완료] live audit 전체1351: 양테마285/동작34/누끼19/신규1006/레거시7. 세작업자완료, 영상자동생성없음.
+- [대기] 나머지신규/보류수정 및 운영배포/실기기. 전체미완료. 이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 10차: 신규 3종 검수·등록 완료
+
+- [완료] smith-machine-incline-press / kettlebell-triceps-extension / kneeling-hamstring-stretch 양테마6영상 로컬등록. public298→301/양테마279→282. 부모 최종양32시트 및 손/발/가슴/손목/레일슬리브/머리주변/측면/의복확대검토,481표본·전체decode·Edge재생/탐색/loop·SHA 통과. 세 publisher 각각exit0.
+- Smith incline: 수평30도벤치/어깨폭오버핸드/상부가슴접촉/수직레일. 고정손방향에서 중간손목50.06도발생하여 연속손방향보정후25.9775도통과(바경로/접촉/그립/시작끝각유지). 최종팔꿈치8–151.8173도,shaft triangle+.001/nonchest+.44494/head+1.3171,bodyRail+3.7868/bodyFrame+2.3944/barFrame+.13574,레일슬리브오차3.55e-15/상단여유+.75/basefloor0. 발/좌면/그립/loop drift0, equipment key smith검증.
+- Kettlebell extension: 한개벨양쪽horns양손파지,상단시작내림→펴기 continuous. 부모초기검토에서과도하게긴손잡이발견,본문직경2.7/전체높이3.54 비율1.311로형상보정후재렌더(원문제품280/210참고,정밀복제품아님). 최종481 bodyHandle+1.10498/allSkinFrame+.133307/skinBell+.0765269/cloth+4.95527/손간+2.29121,고정·loop0. 팔꿈치9.96165–90도 softfinish/일반도식핸들비율한계기록.
+- Kneeling hamstring: Physitrack 원문 앞다리직선/발끝위/등곧게힌지,15→45도·stretch2/3/2/1. 사타구니피부노출·의복자기접힘을연결gusset표면/골반가중치/법선보정으로해소(ROM·카메라동일),부모동일확대재검토. 최종481 앞뒤꿈치/뒤무릎+.020,전체피부바닥+.01699(뒤발목),손몸/의복분리+1.50209,허리353ray전부hit gap+.07814/gusset solid Z-ray+.06847. gusset footprint밖miss162–237/pose 한계명시. 하체drift7.1e-15/loop0.
+- [보류] lying-quad-stretch: 손발목양방향관통0/0·머리gap+.03373로보정했으나 무릎gap1.055world(약10.5cm)잔존. 무릎낮추면발/둔부관통재발,ROM155→160유지. held-review/SHA 및finalize/publisher차단보존,7번째보류. 대체kneelinghamstring채택하여실제3종완료.
+- [완료] 4종설명/가이드 의미회귀 수정전4실패→171tests통과. 최종6파일218tests,공유/자막ESLint,대체설명수정후전체tsc79798 exit0. 3등록·6영상해시/출처189건감사errors0. 이전reverse incline 및incline close의review limitations45도잔재를실제30도로교정(finalize·격리review·공유note),영상/provenance불변·해시재확인.
+- [완료] live audit 전체1351: 양테마282/동작34/누끼19/신규1009/레거시7. 기존보류포함7종보존,작업자완료,상주자동생성없음.
+- [대기] 나머지신규/보류수정 및운영배포·실기기. 전체미완료,이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 9차: 신규 3종 검수·등록 완료
+
+- [완료] incline-close-grip-bench-press / incline-cable-triceps-extension / cobra-stretch 양테마6영상 로컬등록. public295→298/양테마276→279. 부모 최종양32시트·손/중간손목/가슴/발/측면·등받이지지·허리앞/반대손 확대검토,481표본·decode·Edge재생/탐색/loop·SHA 통과. 세 publisher 각각exit0. 기존별칭 중복등록없음.
+- incline close grip: 수평30도벤치(원문각도미지정,구현선택),어깨폭오버핸드/흉골아래가슴접촉. 최종shaft triangle+.001/nonchest+.91359/head+2.29434, palm-feet dot≥.991445, seat/feet/grip/loop drift0. 중간손목40.1817도검사실패본을rejected-wrist-max에보존하고 손그립방향보정후34.7803도통과. 바하단접촉/상단8도유지, 최종팔꿈치하단124.247/전구간최대130.427도. 벤치backUp=(0,.5,-sqrt(3)/2)수평30도 provenance기록.
+- incline cable: 원문30도/낮은풀리등지고등지지/어깨폭직선바/상단시작 continuous. 케이블등받이−.02338은기계후방배치로,옷좌면−.00202는좌면.003낮춰해결(ROM유지). 최종481 skinBench수치0/clothBench+.0009812/cableBench+.348059/cableBody+1.03229, 발gap2.62e-7/fixed·loop0. 실제수평30도오차3.55e-15, 팔꿈치5→95도/전완수평아래5도,끝5도한계보존.
+- cobra: IMSA 원문 골반/발등바닥·손지지·가슴전상방상승. 낮은코브라 spine10→55도, 팔꿈치내각35.24→85.98도(완전신전형아님). 손고정,근위손바닥+.0227/손끝+.0283~.0537,발등+.014995/발가락+.014374,팔몸+.20077,허리353ray×481전부hit gap+.098538. 하체/손/loop drift≈0,곡면손바닥전체접촉아님한계보존. stretch2/3/2/1.
+- [완료] 설명/가이드 수정전 의미회귀3실패→수정후167tests. 최종6파일214tests, 공유/자막ESLint, 공유설명수정후전체tsc69173 exit0. 3등록·6영상해시 및 출처186건감사 errors0 통과.
+- [완료] live audit 전체1351: 양테마279/동작34/누끼19/신규1012/레거시7. 기존보류6종보존,세작업자완료,상주자동생성없음.
+- [대기] 나머지신규/보류수정 및운영배포·실기기. 전체미완료, 이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 8차: 신규 3종 검수·등록 완료
+
+- [완료] reverse-grip-incline-press / sphinx-stretch / cable-lying-triceps-extension 양테마6영상 로컬등록. public292→295/양테마273→276. 부모 최종양32시트·손/가슴/발·전완/앞골반/허리·측면 접촉확대검토,481표본·decode·Edge재생/탐색/loop·SHA 통과. 세 publisher 각각exit0.
+- reverse incline: 원문30도벤치/넓은언더핸드/윗가슴비접촉/잠그지않는끝각. grip6.8/shoulder4.038, elbow8–134.2304도, shaft삼각형+.035/가슴+.037597/머리+1.3385, 손바닥머리방향dot≥.9999999999. 발/좌면/그립/loop drift0.
+- sphinx: IMSA 원문 전완평행·엎드린다리·가벼운상체신전. spine15→35도, skinmat+.0096767/cloth+.0111763/앞골반cloth+.0652337, 허리353ray×481전부hit gap+.0996773. 상단팔꿈치가어깨보다약5.5cm앞·발등전체대신발가락윗면접촉·전완소량이동 한계기록. stretch2/3/2/1.
+- cable lying: 평벤치·머리쪽낮은풀리·오버핸드바·상완고정90→5도. 후두패드를좁혀목관통수정, 좌면.007낮춰접촉침범해소(ROM불변). 최종481 skinBench수치0/clothBench+.007/barBench+3.29254/cableBench+1.21178, bodyBar+1.10659/cableBody+1.06581, 발gap2.62e-7/fixed·loop0. 5도softfinish·중립머리지지등원문차이한계보존.
+- [보류] cross-body-cable-extension: ROM115→5유지에도 D외곽−.09769/shaft−.08257/cable−.02488/cloth−.07336 예비표본 충돌잔존. 최초481·최신25표본SHA와held-review.json 보존, finalize/publisher HELD차단. 출처GIF403, 임의그립변형없음. 대체 cable lying 채택하여 실제완료3종충족. 보류총6종.
+- [완료] 최종6파일211tests, 공유/자막ESLint, 대체설명수정후전체tsc38470 exit0. 3등록·6영상해시 및 출처183건감사 errors0 통과.
+- [완료] live audit 전체1351: 양테마276/동작34/누끼19/신규1015/레거시7. 세작업자완료, 상주자동생성없음.
+- [대기] 나머지신규/보류수정 및운영배포·실기기. 전체미완료, 이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 7차: 신규 3종 검수·등록 완료
+
+- [완료] close-grip-floor-press / single-arm-cable-overhead-extension / wall-slide 양테마6영상 로컬등록. 실제신규3종 public289→292/양테마270→273. 부모 최종양32시트·손/팔꿈치/발/측면/어깨/벽손날/전면해부 확대검토,481표본·decode·Edge재생/탐색/loop·SHA 통과. 세 publisher 각각exit0.
+- close floor barbell: 그립4.9/상완벌림10.33도·하단팔꿈치109.20→상단5도, 하단수직전완offset8.9e-16/상완바닥gap0. 손목최대27.01/shaft신체삼각형+.94497/원판바닥+2.8946. 등skin gap.05116/끝5도 등한계출처기록보존.
+- single cable overhead: 원문대로상단시작→내림→올림 continuous. 손잡이외곽손목관통−.117 발견후 그립축에맞춘D면으로교정, ROM90→5유지. 최종481 전체손피부-D외곽+.0865043/cableBody+.780659/clothCable+2.36480, 반대팔/몸통/발drift0. 상단손바닥앞Z+.974112.
+- wall slide: OUH p33 손날접촉변형. 전완벽겹침을 팔꿈치굽힘방향보정으로해소, 손목궤적/어깨ROM유지. 최종481 전체피부/의복-벽 및littlefinger gap+.02, hand/body X/Z분리gap+.7718/waist+.0420, 발/몸/루프drift0. 부모전면확대에서가슴윤곽연속확인.
+- [완료] 최종6파일207tests, 공유및자막ESLint, 공유설명수정후전체tsc52713 exit0. 3등록·6영상해시/출처180건 errors0 통과.
+- [완료] live audit 전체1351: 양테마273/동작34/누끼19/신규1018/레거시7. 기존보류5종보존. 세작업자완료,상주자동생성없음.
+- [대기] 나머지신규/기존보류수정 및운영배포·실기기. 전체미완료, 이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 6차: 신규 3종 검수·등록 완료
+
+- [완료] push-press / bar-cable-overhead-triceps-extension / neck-cars 양테마6영상 로컬등록. 이번 실제완료3종, public286→289/양테마267→270. 부모 최종양32시트와 각 손/어깨/목/좌면/발/측면/허리 확대검토,481표본·decode·Edge재생/탐색/loop·SHA 통과.
+- push-press: 실제팔길이에맞춰그립6.5/상단높이보정, 최종팔꿈치5–150.58도/손목1.46–58.15도, 바몸통삼각형최소+.005/머리+.08671. 원문넓은그립선택형, 5도softfinish한계기록. 기존36도끝각영상 rejected-top-rom 보존. 최종 root 양32/rack0/hand0,156/side90/waist90 확인.
+- bar cable overhead: native팔꿈치회전면교정으로톱니돌출해결, ROM90→5도유지. 시작손바닥Y+.950702, bodyBar1.106588/cableBody.387185/clothCable1.954695 양수. 겨드랑이접힘과5도끝각한계기록.
+- neck CARs: 앉은몸통고정1방향8초continuous원. 굴곡25/신전20/회전±35/측굴±20, 발/몸통/골반drift0. 좌면gap+.00849993/머리어깨+.23618. frame408 neckedge비율.07146 미세접힘 한계와확대증거보존, root 추가시각검토통과.
+- [완료] 최종6파일204tests, 공유/자막ESLint, 전체tsc33657 exit0. 3등록·6영상해시 및 출처177건감사 errors0. 첫push publisher는 hands검토필드누락으로중단; 해당실제검토기록추가후 source/영상/복사해시재확인·등록단계만재개하여exit0, 중복없음확인.
+- [완료] live audit 전체1351: 양테마270/동작34/누끼19/신규1021/레거시7. 기존보류5종보존. 세작업자완료,상주자동생성없음.
+- [대기] 나머지신규/기존보류수정 및 운영배포·실기기. 전체운동제작미완료, 이번health커밋/푸시/배포없음.
+
+## 2026-10-14 재개 5차: 덤벨 푸시 프레스 반영, 2후보 보류
+
+- [완료] dumbbell-push-press 양테마2영상 등록. 부모 양32·hand156/side90/waist90확대검토,481표본·decode·Edge재생/탐색/loop·SHA통과. 딥.8–1.5/하체드라이브1.5–1.9/팔프레스1.9–2.6/머리위2.6–4/복귀4–7초,단일continuous. 팔끝2.86도soft끝각 등 원문과차이기록.
+- [보류] high-lunge-stretch: 후면둔부구형돌출이 underlying skin에도존재. 골반/요추정렬과hipweight보정으로미해결. skinned-high-lunge-20261014/held-review.json 및finalize/publisher HELD차단. 남은MP4미승인본,게시금지.
+- [보류] single-arm-cable-triceps-kickback: 지지손피부+shorts6137ray에서최소+.01190/근위손바닥+.06625로보정했으나 중간phase120/360 D손잡이-의복gap−.05311잔존. 추가dense481 exit0에서46/481음수·frame131최저−.08505 확정(피부+.01270). ROM유지한기하수정후에도미해결,held-review.json 및finalize/publisher HELD차단,최종MP4없음.
+- [완료] public286/양테마267,동작34/누끼19/신규1024/레거시7(전체1351). 6파일201tests/최신1등록2해시/출처감사173건errors0 통과. 공유3종설명후전체tsc54279 exit0,공유및최종자막ESLint통과, diffcheck통과.
+- [대기] 나머지신규 및기존보류수정,운영배포/실기기. 전체미완료,이번health커밋/푸시/배포없음. 이번3작업자및진단세션종료,상주자동생성없음.
+
+
+## 2026-10-14 재개 4차: 신규 3종 반영
+
+- [완료] dumbbell-floor-fly / wide-grip-cable-pushdown / dynamic-hamstring-stretch 양테마6영상 등록. 부모 양32시트 및 손/측면/발/후면허리 확대 검토,481표본·양decode·Edge재생/탐색/loop·SHA 검증 통과.
+- floor fly 팔꿈치30도 전구간유지/상완바닥gap9.65e-12/덤벨바닥+.37162. widepush grip/shoulder1.21394, 실제elbow118.581→4.964도, 원문lockout대비soft끝각 한계기록. dynamic hamstring 앞무릎180도/뒤153.385도/중립발·척추/힌지0→55도 continuous4초왕복2회. 허리 기존bin근사−.000747 경고를보존하고 실제피부삼각형ray353개×481전부hit/최소gap+.086307 검증,부모확대피부관통없음.
+- [완료] public285/양테마266,동작34/누끼19/신규1025/레거시7(전체1351). 6파일198tests/최신3등록6해시/출처173건감사 통과. 공유3종설명후 전체tsc89260 exit0,공유ESLint94776 exit0,최종자막ESLint/diffcheck 통과.
+- [대기] 나머지 신규 및 보류결함 수정, 운영배포·실기기. 전체미완료,이번health커밋/푸시/배포없음. 이번3작업자와렌더프로세스종료,자동생성없음.
+
+
+## 2026-10-14 재개 3차: 신규 3종 반영
+
+- [완료] close-grip-dumbbell-floor-press / close-grip-pushdown / dynamic-calf-stretch 양테마6영상 등록. 부모 양32시트·손/측면/발 최대전진 확대 검토,481표본·decode·Edge재생/탐색/loop·SHA 검증 통과.
+- close floor: 중립 손바닥 안쪽 .9982, 하단상완벌림10.366도(기존44.43도), 바닥접촉. close pushdown: grip/shoulder .663, 실제119.52→10.98도; 좁은전완기하 softfinish 및 출처1초유지 대비.4초 차이 기록(충돌회피ROM축소아님). dynamic calf:4초왕복2회 continuous, 뒤무릎180도/양손벽+.00905/양발sole0, 원본 heel곡률+.01042 고정 한계기록.
+- [완료] public282/양테마263, 동작34/누끼19/신규1028/레거시7(총1351). 최신3등록6해시/출처170건감사/6파일195tests 통과. 공유설명후 전체tsc28481 exit0, 공유ESLint99653 exit0, 자막ESLint 및diffcheck 통과.
+- [대기] 나머지 신규 및 보류결함 수정. 전체 미완료, health 운영배포/실기기/커밋/푸시 없음. 이번3작업자종료,자동생성프로세스없음.
+- 별도 사용자 요청: 메모 APK는 MeetingMinutes main d61dcce로 GitHub에 업로드 완료. health영상 커밋과 무관.
+
+
+## 2026-10-14 재개 2차: 신규 2종 반영, 소흉근 후보 보류
+
+- [완료] single-arm-dumbbell-floor-press / reverse-grip-ez-pushdown 양테마4영상 등록. 부모 양32시트·손/빈손 바닥 지지 확대 검토 후 채택. 481표본·전체 decode·Edge 재생/탐색/loop·출처와 해시 검증 통과. 한팔 프레스는 빈손바닥 gap .003375/전신고정, EZ 언더핸드는 해부학적 손바닥 투영 +.86163(기존 오버핸드 -.86163) 확인.
+- [완료] 등록279/양테마검토260, 동작34/누끼19/신규1031/레거시7. 6파일192tests, 최신2등록4해시, 출처167건감사, 대상ESLint 통과. 공유3종 설명 수정 후 전체tsc78791 exit0.
+- [보류] pec-minor-stretch: 부모 full/side/hand210 검토에서 팔꿈치 삼각 돌출 확인. 양방향 접촉 검사에서 손가락/반대쪽 전완 내부 표본 631/874개 확인(이전 단방향 양수 gap은 통과 근거 아님). skinned-pec-minor-20261014/held-review.json에 증거 보존, finalize/publisher HELD 차단. 최종 렌더·게시 없음. 다음에는 실제 팔꿈치 skin weight와 맞잡는 손의 형태를 수정한 뒤 양방향 충돌 검증 필요.
+- 이번 재개로 신규5종/양테마10영상 추가(274→279). 전체1351종 미완료. 운영배포/실기기/커밋/푸시 없음. 이번 작업자 모두 종료, 자동 생성 프로세스 없음.
+
+
+## 2026-10-14 재개 1차: 신규 3종 반영
+
+- 덤벨 플로어 프레스 / EZ바 케이블 푸시다운 / 상부 승모근 스트레칭 양테마6영상 등록. 부모 양32시트·손/측면/목/발 확대 검토 후 게시. 481표본·접촉/해부·decode·Edge·SHA 검증. floor는 수직전완/후면상완바닥접촉 우선, 하단실제109.2도 vs 출처약90도 차이 기록. upper-trap 측굴후전굴순서와 actual20.24/9.86도 확인.
+- public277/양테마258, 동작34/누끼19/신규1033/레거시7(전체1351 미완료).
+- 6파일189tests,3등록6해시,출처165건감사,대상ESLint/diffcheck 통과. 공유설명후 전체tsc62680 exit0.
+- 다음 미제작3종 선정·제작 계속. 운영배포/실기기/커밋/푸시 없음.
+
+
+## 2026-10-14 사용자 요청으로 영상 제작 일시 중단
+
+진행 중이던 마지막 후보까지 등록 후 신규 제작을 중단했다. 메모 프로젝트 입력 문제·채팅 이슈·APK 작업으로 전환.
+
+- 마지막 5개: v-bar-pushdown, wrist-flexor-stretch, underhand-barbell-row, single-arm-cable-pushdown, wrist-extensor-stretch.
+- public 274종, 양테마 검토 완료 255종. 전체 1351종 완료 아님: 신규 1036, 동작 재검토 34, 누끼 재검토 19, 레거시 재제작 7.
+- 전체 6파일 186테스트, TypeScript, ESLint, diff 검사 통과. 마지막5종/10MP4 해시·스펙 검사 및 출처162건 감사 통과.
+- forward-fold topology 및 behind-neck press 후보는 보류 유지. 새 영상 작업은 사용자 재개 요청 전 시작하지 않는다.
+
+
 
 > 개발 전에 `docs/원칙.md`와 이 문서를 순서대로 읽는다. 진행 상황은 이 문서의 상태와 하위 업무로 관리한다.
 
@@ -218,6 +356,134 @@
   - `releases/apk/HISTORY.md` 에 `verify` 기록 완료(logcat 보관) → 롤백 후보로 등록
 
 ### 1.2 [진행중] 번들·영상·3D 메모리 최적화
+- [진행중] 2026-10-08 사용자 전체운동 완료까지 연속제작 지시
+  - [진행중] 재개2차 single-arm-dumbbell-floor-press / reverse-grip-ez-pushdown / pec-minor-stretch 제작·접촉·해부 검수. 공유설명/guide/요약145tests 통과, 게시 전 양테마481/decode/Edge/SHA 검증 대기.
+  - [진행중] 2026-10-14 사용자 영상 재개 요청: 기존 3종 병행 제작 방식으로 다음 미제작 운동 선정·제작·검수 재개.
+    - [완료] 시작 audit: 전체1351, 공개274/양테마255, 동작34/누끼19/신규1036/레거시7.
+    - [진행중] 새 3종 출처·변형 선정, 격리 렌더 및 공유 설명 일치 검토.
+    - [대기] 양테마 시각검토·481표본·decode·Edge·SHA 및 등록 후 회귀 검사.
+    - [대기] 운영 배포·실기기 확인(현재 요청 범위는 제작 계속).
+  - [완료] 2026-10-14 연속23차 공개269/양테마250: 와이드바벨로우/일반트라이셉스푸시다운 신규2종4영상. row의복손조각발견·수정·양테마재검토,481/decode/Edge/SHA 통과. 6파일182tests·2등록4해시·출처157종·전체tsc24601 exit0(후속underhand설명추가전).
+  - [진행중] 언더핸드바벨로우/V바푸시다운/손목굴근스트레칭 신규. 전체1351 중 양테마250, 나머지1101 처리 필요.
+  - [완료] 2026-10-12 연속22차 중간 공개267/양테마248: 케이블바인클라인컬 신규 양테마부모검토·481/decode/Edge/SHA 통과. 6파일180tests·1등록2해시 통과. 비하인드넥프레스 교체는 손목개선후어깨메쉬단절로보류,원본보존.
+  - [완료] 연속22차 후속 후보 통합은 연속23차 기록 참조.
+  - [완료] 2026-10-12 연속21차 공개266/양테마247: 좌우레그스윙·리버스그립벤치·손가락펴기·와이드인클라인벤치·인클라인케이블컬 신규5종10영상, 스탠딩바벨프레스 기존결함 교체. 부모 양테마/확대검토·481/decode/Edge/SHA 통과. 6파일177tests·4등록8해시·출처154종·ESLint·전체tsc27006 exit0·diffcheck 통과.
+  - [완료] 연속21차 후속 후보 처리 현황은 연속22차 기록 참조.
+  - [완료] 2026-10-12 연속20차 공개260/양테마241: 케틀벨컨센트레이션·스텝종아리·레그스윙 신규3종6영상, 덤벨벤치·플라이 기존결함 교체. 원본/기록 독점백업 및SHA guard. 6파일171tests·5등록10해시·ESLint통과,259전체tsc exit0.
+  - [완료] 연속20차 후속 후보 통합은 연속21차 기록 참조.
+  - [완료] 2026-10-12 연속19차 공개255/양테마236: 템포벤치·Larsen·케이블컨센트레이션·서서대퇴사두 신규4종8영상. 양테마/접촉확대검토 및 6파일166tests·4등록8해시 통과. 251전체tsc exit0.
+  - [완료] 연속19차 후속 후보 통합은 연속20차 기록 참조.
+  - [완료] 2026-10-12 연속18차 공개251/양테마232: 와이드벤치·스포토·문틀스트레칭·힙서클·정지벤치 신규5종10영상, 머신비셉스 별칭/머신프리처 결함교체. 6파일162tests·7등록14해시통과. oneLiner 누락 수정 후 전체tsc 재검사중.
+  - [완료] 연속18차 후속 후보 통합은 연속19차 기록 참조.
+  - [완료] 2026-10-12 연속17차 공개244/양테마225: 원판프리처·바벨JM·코너스트레칭·머신해머·한팔머신 신규5종10영상. 코너 허리 의복 결함 수정 후 시각검토 통과. 출처 URL 3종 정정 및 영상 불변 확인. 6파일156tests·6등록/12해시 통과, 239 당시 ESLint/전체tsc exit0 확인.
+  - [완료] 연속17차 후속 후보 통합은 연속18차 기록 참조.
+  - [완료] 2026-10-12 연속16차 공개239/양테마220: 케이블프리처·덤벨Z·바벨Z·템포컬 신규4종8영상.부모양시트·481/decode/Edge/SHA통과,6파일151tests·최신2등록/4해시일치.
+  - [완료] 2026-10-12 연속15차 공개235/양테마216: wide-grip-preacher-curl/lat-stretch 신규,양시트·481/decode/Edge/SHA통과.6파일147tests·2등록/4해시일치.233까지ESLint/전체tsc exit0확인.
+  - [완료] 2026-10-12 연속14차 dumbbell-side-bend 반영,공개233/양테마214. 부모양시트/빈손확대·481/decode/Edge/SHA통과,6파일145tests·1등록/2해시검증.초기팔꿈치피부결함보존후수정완료.
+  - [완료] 2026-10-12 연속13차 공개232/양테마213: 이두벽스트레칭신규,standing-cable-curl원본보존후연속3D/다크교체. 부모양시트·손/풀리/스택확대·481/decode/Edge/SHA통과,6파일145tests·2등록/4해시통과.
+  - [완료] 2026-10-12 연속12차 공개231/양테마211: EZ프리처·리버스프리처·바벨풀오버 신규3종6영상,부모양시트·그립확대·481표본·decode/Edge/SHA통과.6파일142tests·최신2등록/4해시일치.229까지ESLint/전체tsc통과.
+  - [진행중] plate-loaded-preacher-curl/jm-press/doorway-chest-stretch 격리제작,corner-pec-stretch 부모발견허리/의복단차진단후재검토.239단계ESLint95439/tsc9266결과확인.
+  - [대기] standing-forward-fold 깊은접힘 의복돌출결함수정. skinned-forward-fold-20261012/native/standing-forward-fold/seat-210.png 증거보존,미게시/미승인. 전체범위에서제외하지않음.
+  - [완료] 2026-10-12 연속11차 공개228/양테마208: 한팔라잉삼두·발목가동성·한팔프리처·덤벨JM 신규4종8영상. 각 양테마시트/481표본/재생/decode/SHA통과,6파일139tests·4등록/8해시·diffcheck통과.224까지ESLint/전체tsc exit0확인. 후속EZ프리처/바벨풀오버/포워드폴드제작중.
+  - [완료] 2026-10-12 연속10차 공개224/양테마204: 215 이후 신규6종12영상+정확별칭3항목 추가, 원본16포즈 타이밍 보존. 각 부모양테마검토·publisher guard·재생/decode/SHA 통과, 설명 오류 수정. 최신6파일135tests 및5등록/10해시일치. 전체1351 중 신규1082/동작38/누끼20/구형7 남음.
+  - [완료] 한팔라잉삼두·발목가동성·한팔프리처·덤벨JM 검토/반영은 연속11차139tests로완료. ESLint95773/tsc7769 exit0확인. 포워드폴드는별도수정대기로이관.
+  - [완료] 연속9차 single-arm-dumbbell-bench-press / behind-the-back-cable-curl / seated-glute-stretch 추가. 공개215/양테마195,이번신규41종+정확별칭3항목. 출처/기구/동작 및 양시트/접촉확대/481/decode/Edge/SHA검증.3등록/사양/6해시일치,6파일126tests통과,이전212까지ESLint/전체tsc통과확인.
+  - [완료] seated-band-pull-apart / dumbbell-preacher-curl / standing-it-band-stretch 연속10차 반영/135tests검증완료.
+  - [완료] 연속8차 신규4종(flat neutral press/single rope curl/reverse press/seated hamstring) 및 정확별칭2종(pronated dumbbell curl/dumbbell wrist extension). 공개212/양테마192,이번신규38종+별칭3항목. 출처/기구/동작 및 양시트/접촉확대/decode/Edge/SHA검증.6등록/사양/12해시일치,6파일123tests통과.
+  - [진행중] 최신ESLint/전체타입후속확인, single-arm-dumbbell-bench-press 검토대기, behind-the-back-cable-curl / seated-glute-stretch 격리제작.
+  - [완료] 연속7차 dumbbell-lying-triceps-extension / levator-scapulae-stretch / kettlebell-biceps-curl 추가. 공개206/양테마186,이번신규34종+정확별칭1항목. 평벤치지지·손보조없는목스트레칭·회외케틀벨그립 출처일치 확인,481표본/양시트/접촉확대/decode/Edge/SHA검증.3등록/사양/6해시일치,6파일116tests통과. 이전203까지전체tsc도통과확인.
+  - [진행중] neutral-grip-dumbbell-press / single-rope-cable-curl / seated-hamstring-stretch 격리제작,후속통합/검증 계속.
+  - [완료] 연속6차 신규 cuban-press / band-hammer-curl / reverse-prayer-stretch 및 정확별칭 ez-bar-reverse-curl 추가. 기존 reverse-ez-bar-curl 양MP4재사용임 명시/aliasOf·originFiles 해시 기록. 공개203/양테마183, 이번신규31종+별칭1항목. 부모양시트/접촉확대·decode·Edge·SHA검증,4등록/사양/8해시일치,6파일113tests·ESLint통과.
+  - [진행중] 전체타입 후속확인 및 dumbbell-lying-triceps-extension / kettlebell-biceps-curl / levator-scapulae-stretch 격리 제작.
+  - [완료] 연속5차 8종16영상 추가(6way/케이블드래그/앉은리어델트로우/사각근스트레칭/템포레터럴/하이케이블컬/덤벨외회전/합장스트레칭). 이번28종56영상, 공개199/양테마179. 각481표본·양시트·접촉확대·decode·Edge·SHA 게시guard 통과. 설명/가이드/요약 동작일치 수정.
+  - [진행중] 최신2종 포함 회귀/타입/진행표 갱신. cuban-press / band-hammer-curl / reverse-prayer-stretch 격리 제작 중.
+  - [진행중] 양테마151/1351에서 미제작·기존보류 전체 범위,3작업 완료슬롯 연속배정. seated-dumbbell-shrug 후속 반영, cable-reverse-curl / big-toe-extension / isometric-lateral-raise-hold 제작 중.
+  - [완료] 1차 alternating-incline-dumbbell-curl / close-grip-ez-bar-curl / seated-thoracic-rotation 양테마6영상 반영. 481표본·양32frame·확대시각·decode·Edge play/seek/loop·출처/SHA 검증. 교대4초씩/좁은EZ회외그립/앉은교차팔30도회전. 손-전완겹침수정후양수간격확인. 공개174/양테마154, 동작38/누끼20/신규1132/구형7(1351).
+  - [완료] 1차 설명·가이드·요약3종 수정, alternating 타이밍 추가(각팔 .2/1.9/2.1/3.8초). RED→GREEN: 6파일84개+리뷰4개=88개 통과, 대상ESLint·전체tsc --noEmit --incremental false 통과.
+  - [진행중] 후속 설명·자막 동기화와 배치별 회귀/린트/타입·진행기록
+    - [완료] 후속5종 seated-dumbbell-shrug / isometric-lateral-raise-hold / big-toe-extension / cable-reverse-curl / partial-lateral-raise 양테마10영상 추가. 현재공개179/양테마159,동작38/누끼20/신규1127/구형7. 총이번8종16영상.
+    - [완료] 홀드각192decodedframe동일,엄지30도·뒤꿈치/발볼고정,케이블481표본연결·이론길이drift0/스택상승4.2465world,partial하단12→45도. 양32frame·확대·전체decode·Edge·SHA 검증. 설명/가이드/요약과자막동기화,6파일89tests·ESLint·전체tsc 통과. 앞선리뷰4tests 통과. 추가파일해시대조일치.
+    - [진행중] seated-single-arm-dumbbell-shoulder-press / cable-ez-bar-curl / foot-arch-doming 격리 제작.
+    - [완료] 연속제작3차: 위3종 및 dumbbell-seesaw-press / single-arm-cable-curl / toe-tap / incline-dumbbell-triceps-extension / cable-rope-curl 추가8종16영상 반영. 이번총16종32영상,공개187/양테마167,동작38/누끼20/신규1119/구형7. 481표본·양32frame·접촉확대·decode·Edge·SHA검증,8최신등록/양manifest/16해시대조일치. 아치surface morph·발길이단축,교대toe-tap timing,시소반대방향,덤벨머리/벤치간격및로프양갈래길이검증근거격리보존.
+    - [완료] 3차설명/가이드/요약·타이밍회귀6파일97개,대상ESLint·전체tsc --noEmit --incremental false 통과.
+    - [진행중] neutral-grip-incline-dumbbell-press / wide-grip-cable-curl / ankle-rock 부모검토대기. dumbbell-6-way-raise / cable-wrist-curl / scalene-neck-stretch 격리제작중.
+    - [완료] 연속4차 neutral-grip-incline-dumbbell-press / wide-grip-cable-curl / ankle-rock / cable-wrist-curl 추가4종8영상. 이번20종40영상,공개191/양테마171,동작38/누끼20/신규1115/구형7. 중립인클라인하단어깨높이시범,넓은그립어깨1.364배,발목continuous앞발/뒤꿈치들기,손목30도신전→25도굴곡/전완지지. ankle좌우시각차이481skin대조시높이차0 확인. 양32frame/확대/decode/Edge/SHA·4등록/양manifest/8해시일치.6파일101tests·ESLint·전체tsc통과.
+    - [진행중] sixway(smooth)후보부모양시트확인/설명통합대기,scalene손어깨접촉검증,cable-drag-curl,dumbbell-rear-delt-row(앉은변형) 격리제작.
+  - [대기] 실기기·운영 검증
+- [진행중] 2026-10-08 계속 요청: 양테마148 이후 신규3종
+  - [완료] incline-dumbbell-reverse-curl / isometric-curl-hold / seated-side-stretch 신규3종 양테마6영상 로컬 반영. skinned-{incline-reverse,isometric-curl,seated-side}-20261008 격리 원본/출처/재현/검증/게시증거.
+  - [완료] 부모 양테마32frame·손/측면/좌면 확대 검토,481표본·접촉/기구간격·decode·mobile Edge play/seek/loop·SHA 통과. 홀드영상 양테마 각192프레임 동일. seated-side 피부/의복 좌면간격+.0085~.0096world 및 팔-좌면edge최소+.7407 보정검증. 도구1001초무응답은 중단·분리실행으로복구.
+  - [완료]3종설명/가이드/요약, smooth/hold/stretch 각1종 자막회귀.6파일80tests+리뷰4tests·대상ESLint·전체tsc --noEmit --incremental false 통과. 최종3등록/양manifest/6MP4SHA일치. 공개171/양테마151, 동작38/누끼20/신규1135/구형7(1351), 전체미완료.
+  - [대기] 실기기·운영 검증
+- [진행중] 2026-10-08 계속 요청: 후속 신규3종 제작
+  - [완료] single-arm-incline-dumbbell-curl / partial-barbell-curl / neck-isometric-hold 신규3종 양테마6영상 로컬 반영. skinned-{incline-single,partial-barbell,neck-isometric}-20261008 격리 원본/출처/재현/검증/게시증거.
+  - [완료] 부모 최종양테마32frame·손/측면 확대검토,481표본·접지/그립/기구간격/정적자세·decode·mobile Edge play/seek/loop·입력체인SHA 검증. 최종3등록중복없음/양manifest/6MP4SHA일치. 파셜은 하단→전완수평 범위, 목은 이마에한손을댄 정적등척성(힘자체는영상검증불가).
+  - [완료]3종 method/guide/summary 및 smooth2종/hold1종 자막회귀.6파일77tests+리뷰4tests·대상ESLint·전체tsc --noEmit --incremental false 통과. 공개168/양테마148, 동작38/누끼20/신규1138/구형7(1351), 전체미완료.
+  - [대기] 실기기 및 운영 검증
+- [진행중] 2026-10-08 3개씩 추가 요청: 다음 신규3종
+  - [완료] incline-hammer-curl / kettlebell-hammer-curl / standing-back-extension-stretch 신규3종 양테마6영상 로컬 반영. 격리 skinned-{incline-hammer,kettlebell-hammer,back-extension}-20261008에 원본·출처·재현·검증·게시증거 보존.
+  - [완료] 부모 양테마32frame·손/측후면 확대 확인,481표본·기구간격·접지·loop·decode·mobile Edge play/seek/loop·SHA 통과. 허리신전 손 뜸/의복겹침 보정 후 피부+shorts 표본 최소gap+.027world, 손바닥방향2차검토. 정확삼각형충돌증명은 아닌 표본검사 한계 기록.
+  - [완료]3종 method/guide/summary 수정 및 smooth2종/stretch1종 자막회귀.6파일74tests+리뷰4tests·대상ESLint·전체tsc --noEmit --incremental false 통과.3등록중복없음·양manifest·6MP4SHA일치. 공개165/양테마145, 동작38/누끼20/신규1141/구형7(1351), 전체제작미완료.
+  - [대기] 실제 기기 및 운영 검증
+- [진행중] 2026-10-08 영상 계속 요청: 신규3종 병렬 제작
+  - [완료] seated-bent-over-lateral-raise / fat-grip-curl / shoulder-extension-stretch 신규3종 양테마6영상 로컬 반영. imports/all-exercises-20261007/skinned-{seated-rear,fat-grip-curl,shoulder-extension}-20261008에 격리 원본·출처·재현·검증 보존.
+  - [완료] 부모 양테마32프레임과 손/측후면확대 검토,481표본 관절/그립/접지/loop, 기구간격, 전체decode 및 mobile Edge play/seek/loop 통과. 최종3등록 중복없음·양manifest·6MP4 SHA 일치. 초기 양팔 엄지선행 shoulder-extension의 피부변형 후보 제외, CUH 한팔 active 기본형으로 재제작 후 승인.
+  - [완료]3종 method/guide/summary 동기화 및 smooth2종/stretch1종 자막 회귀.6파일71tests+리뷰4tests, 대상ESLint·전체tsc --noEmit --incremental false·diffcheck 통과. 공개162/양테마142, 동작검토38/누끼20/신규1144/구형7(1351). 전체 제작 미완료, 이번 생성작업 종료.
+  - [대기] 실제 기기 및 운영 검증
+- [진행중] 2026-10-07 계속 추가 요청: 다음 신규3D 병렬 배치
+  - [완료] 신규5종/양테마10영상 로컬 반영: seated-dumbbell-shoulder-press, shoulder-flexion-stretch, reverse-ez-bar-curl, seated-arnold-press, thoracic-rotation. 격리3작업 후 완료슬롯 연속 배정, 원본/출처/재현/검증증거 각 imports/all-exercises-20261007/skinned-* 폴더 보존.
+  - [완료] 부모 양테마32프레임·손/측면/후면 검토 및481표본 접촉/관절/루프·전체decode·mobile Edge 재생/탐색/반복·입력체인 SHA 확인. EZ바 허벅지 간섭과 Arnold 얼굴 간격 보정 후 최종 채택.
+  - [완료]5종 설명/가이드 수정, 공개smooth 자막 타이밍 회귀 추가.6파일68tests+리뷰4tests, 대상ESLint·전체tsc --noEmit --incremental false·diffcheck 통과. 공개159/양테마139, 동작38/누끼20/신규1147/구형7(1351). 전체 제작 미완료.
+  - [대기] 실제 기기 및 운영 검증
+- [진행중] 2026-10-07 추가 계속 요청: 신규 연속3D 3작업 재개
+  - [완료] 신규5종/양테마10영상 로컬 반영: seated-dumbbell-curl, standing-side-bend-stretch, plate-curl, finger-stretch, seated-dumbbell-lateral-raise. 3작업 시작 후 완료 슬롯에 후속종목 배정. 격리 skinned-seated-curl/side-bend-next/plate-curl-next/finger-stretch-next/seated-lateral 폴더에 원본·출처·재현·리뷰·채택증거 보존.
+  - [완료] 부모 양테마 최종32프레임과 손/반대손/손바닥/측면/후면 확대 검토.481표본 관절·그립·접지·loop, 원판/덤벨과 신체·벤치 간격, 전체decode 및 mobile Edge play/seek/loop 검증. 공개10MP4 SHA/정확5등록/양manifest 최종대조 통과. 손가락은 가볍게굽힘→펴기 능동버전, 옆굴곡은 NHS2초 유지 대신 영상3초 시범으로 provenance에 차이 기록.
+  - [완료] 5종 exact method/guide/summary 수정 및 실패회귀→통과. 플레이트 publisher의 중복 timing controlled 제거해 실제 smooth 보존, 공개경로에서 phase검증 회귀 추가. 공개154종 자막사양 동기화.
+  - [완료] 대상6파일63tests+리뷰게이트4tests, 대상ESLint·전체tsc --noEmit --incremental false·git diff --check 통과. 현재 양테마134/동작검토38/누끼20/신규1152/구형7(총1351), 전체목표 미완료. 이번 생성프로세스 종료, 후속 미제작·보류영상 작업 재개 가능.
+  - [대기] 실제 기기 및 운영 검증
+- [진행중] 2026-10-07 후속 사용자 영상전용·3작업 연속 지시
+  - [완료] 3작업에 후속 종목을 연속 배정하여 신규12종/양테마24영상 로컬 반영: barbell-wrist-curl, barbell-reverse-wrist-curl, trap-bar-shrug, neck-flexion, neck-lateral-flexion, neck-retraction, behind-the-back-shrug, neck-extension, smith-machine-shrug, wrist-rotation, wrist-mobility-circle, single-arm-overhead-dumbbell-extension.
+  - [완료] 부모 최종24영상32프레임·손/목/측면 확대 검토, 각481표본 관절/그립/접지/loop 및 전체192frame decode·mobile Edge play/seek/loop·source-chain SHA 통과. skinned-wrist-next/mobility-next/strength-next/neck-retraction-next/behind-shrug/neck-extension-next/smith-shrug/wrist-third/wrist-circle-next/single-triceps 내 native 검토·채택증거 보존.
+  - [완료] 실제 영상과 다른12종 앱 설명 수정, 실패회귀 재현 후 통과. 목3종 stretch(2/5/7초), 손목순환2종 continuous, 바벨손목2+슈러그3종 controlled(3.2/3.68/7.68초) 자막 동기화. 싱글삼두·목신전 smooth. controlled-timing-evidence.json에 기존 영상SHA 보존 확인.
+  - [완료] 6파일57tests 및 리뷰게이트4tests, 대상ESLint·git diff --check 통과. 공개149종 자막사양 갱신. 실파일 집계 양테마129/동작검토38/누끼20/신규1157/구형7, 전체1351종 목표 미완료.
+  - [완료] 최종 전체 tsc --noEmit --incremental false 통과. 이번 생성 프로세스 종료, 재개 기록 보존. 후속 미제작 종목은 전체 목표에서 계속 진행 필요.
+  - [대기] 운영 및 실제 기기 검증
+- [진행중] 2026-10-07 사용자 요청 병렬 배치: 리스트 컬 연속3D·미등록 동작·기존 누끼 보정
+  - [완료] 격리3작업 병렬 완료: arm-circle/backward-arm-circle 신규2종, reverse-wrist-curl 연속3D 재제작1종 양테마6영상 반영. 기존 리스트 컬 JPG/spec/영상/리뷰/검증은 skinned-wrist-resume/backup-before-continuous-3d에 해시 백업.
+  - [완료] 부모가 최종6영상32프레임 시트와 손목0/210·측면210 확대 검토. 481표본 접지/고정점/loop, 전체decode, mobile Edge localhost 재생/탐색/loop 및 source-chain SHA 검증. 각 native 리뷰/게시 증거 보존.
+  - [완료] 암 서클 회전방향 및 리스트 컬 손바닥 아래/허벅지지지 앱 설명 추가. continuous 자막이 전프레임 동작 안내를 유지하도록 실패 회귀 후 수정. 최종6파일41개·리뷰게이트4개·대상ESLint 통과, 공개137종 자막 사양 동기화.
+  - [보류] belt-squat 플랫폼/지지대 누끼 복원 및 barbell-overhead-press 4px 보간 후보는 레버/원판/바 잔상으로 공개 미반영. cutout-resume 내 원본·후보·SHA·review 보존.
+  - [완료] 실파일 진행표 양테마117/동작검토38/누끼20/신규1169/구형7, 전체1351종 목표는 미완료.
+  - [완료] 최종 전체 tsc --noEmit --incremental false 통과. 실제기기/운영배포/전체E2E는 미실행.
+  - [대기] 운영 및 실제 기기 검증
+- [진행중] 2026-10-07 재개: standing-toe-raise 최종 검증 및 reverse-wrist-curl 벤치 보존 후보 마무리
+  - [완료] 토 레이즈 기존 반영 파일·설명·검토 기록과 리스트 컬 보류 사유 확인
+  - [완료] 토 레이즈 양테마32프레임/발·손지지 확대, 원본·의존성·공개 SHA, 전체decode, mobile Edge localhost 재생/7.5초탐색/loop 재검증. native/standing-toe-raise-resume-verification.json
+  - [완료] 리스트 컬 static-bench 후보의 adaptive aobmc/8px/vsbmc 양테마192프레임 추가 렌더·decode·Edge 통과. 손/덤벨 잔상·벤치 흰 손상 남아 시각 보류, 공개파일 유지. wrist-cutout/adaptive-review.json
+  - [완료] 자막 사양 누락 회귀 실패 재현 후 build-motion-specs로 공개134종 목록/렌더버전 동기화. Node24 Vitest5파일39개·리뷰게이트4개 및 대상ESLint 통과, 진행표/재개 기록 갱신. 시스템Node ERR_REQUIRE_ESM은 기존Node24 사용으로 해소.
+  - [대기] 리스트 컬 고정 원본/연속 리그 재제작 및 시각 승인
+  - [완료] 최종 전체 TypeScript --noEmit 통과. 이번 작업에서 앱 전체E2E/실기기/배포는 미실행.
+  - [대기] 운영 배포 및 실제 기기 확인
+- [진행중] 2026-10-07 후속: band-lateral-raise 신규16자세 투명원본·양테마8초24fps 추가, ab-rollout 공식u2net으로 신발/바퀴 보존 개선 반영. 등록148/렌더147/시각검토106/양테마79. 신규필요1197, 기존누끼검토27, 동작검토41,구형재제작7. 양테마32프레임/전체decode/모바일Edge play·seek·loop 및 미디어단위4파일18개 통과. 소스·rig·영상 exactSHA 기록. chest-dip은 종아리누락/기구안쪽배경잔여로 보류. alias18후보중 정확동일기구/동작3개 추가영상검토중(아직연결없음).
+
+- [진행중] 2026-10-07 기존 제작 영상 포함 누끼 후속 제작
+  - [완료] 체스트딥 후보2개 재제작·alpha 검증. 가장자리/기구 안쪽 잔여로 rejected, 앱 미반영. guide-review 테스트4개 통과.
+  - [완료] 사용자 지시로 로컬 u2netp 2종 실제 병렬 실행. 3종/4후보 양테마8영상 완성, 480px/8초/24fps decode 통과. 드래그 컬 보정본만 양테마32시점+mobile Edge 재생/탐색/반복 통과 후 로컬 앱 교체(원본 백업). 공개104 유지, 양테마70.
+  - [완료] 누끼 캐시 테스트1·리뷰검증4·대상ESLint·tsc --noEmit·git diff --check 통과. 체스트딥 기구 안 잔여/스모 스쿼트 원본 테두리 결함으로 새 후보 미반영. batch-review.json 근거.
+  - [대기] 나머지 후보 보정·재생·해시 검증 및 운영/실기기 확인
+  - [완료] 기존146종 실제SHA 분류: 양테마승인69/공개본 추가검토35/품질보류41/미렌더1. imports/cutout-review-20261007/existing-video-audit.json
+  - [진행중] 전체1351종 완료까지 지속 제작: 기존 원본6종 병렬 누끼/검토, 신규 박스 스쿼트 원본 제작. 메모리 가드에 따라 추론 슬롯1~2 조절.
+  - [완료] 전체1351종 진행표 생성: 양테마76/기존누끼추가28/동작검토41/구형재제작7/신규필요1199. 이번6종 양테마12영상 로컬 앱 반영, 원본/이전영상백업. docs/EXERCISE-VIDEO-PROGRESS.md
+  - [완료] 앱 미디어 단위4파일18개·리뷰검증4개·대상ESLint·TypeScript 통과. 후보 파일decode와Edge재생은각검토JSON에기록. 전체E2E/배포/실기기미검증.
+  - [진행중] 나머지 보류·신규 종목 지속제작. U2Net 정식모델MD5검증완료, 첫/끝자세기구보존 비교 후 모델별큐선택.
+
+- [진행중] 2026-10-06 앱 전반 속도 점검 — 로컬 개선 완료, 운영/실기기 대기
+  - [완료] 프로덕션 빌드 + mobile-edge로 주요 화면 9개를 각 3회 전후 측정. 라이트 테스트 계정, 식단 30일·운동 15일·그룹 1개, 개인 다짐 없음.
+  - [완료] 홈 미사용 식단 상세 조회 제거, 다짐 없는 경우 체성분/과거 집계 생략, 요청 내부 요금제 판정 공유(React cache, 사용자 간 공유 없음).
+  - [완료] 재방문 2회 평균 document responseEnd: 홈 551→322ms, 개인 다짐 414→295ms, 그룹별 다짐 481→415ms. 서버 Supabase 호출: 각각 35→20, 26→14, 23→15회.
+  - [완료] 관련 단위 4파일 74개, 타입 검사·대상 린트·프로덕션 빌드, 9화면 성능 E2E 통과. 기존 다짐 회귀 결과는 아래 보고서에 기록.
+  - [대기] 운영 배포/실기기 네트워크 및 활성 다짐이 많은 계정 측정. 로컬 수치를 배포 성능으로 일반화하지 않음.
+  - 근거·재현 방법: [PERFORMANCE-20261006.md](PERFORMANCE-20261006.md)
 
 - [진행중] 화면별 번들 크기와 WebView 메모리 기준값 측정
   - [완료] 빌드 산출물·정적 자산·클라이언트 의존성 조사
@@ -1847,3 +2113,52 @@
 - 전체 E2E 명령: E2E_BASE_URL=http://127.0.0.1:3123 Node24 playwright test --config scripts/workout-edge.config.ts --max-failures=1. 2개 통과/1개 실패/413개 미실행. add-appends-bottom.spec.ts가 새 모달을 닫지 않아 타임아웃. 테스트 계정4개 정리.
 - 새 동선에 맞게 모달 표시/닫기 대기 추가, 운동 선택 버튼은 숨겨진 dialog와 혼동하지 않도록 role+exact name으로 특정. 후속 add-appends-bottom 1개 통과(18초), 계정1개 정리. 컨디션 daily-checkin 3개·workout-condition-watch 1개·group-pledges 1개도 재실행 통과. 해당 통합 실행은 운동 선택 셀렉터 보완 전이라 5통과/1실패였고, 보완 후 실패한 검사만 재실행해 통과.
 - 전체 E2E 나머지413개 및 Android 실기기는 미검증. 전체 게이트 통과로 표시하지 않으며 커밋 상태와 별도로 남긴다. 검증 로그 .tmp-commit-{unit,lint-final,e2e,target-e2e,build}.log (Git 제외).
+
+- [진행중] 전체 운동 영상 2026-10-07 추가 체크포인트: cross-body-shoulder-stretch 신규1종 양테마 로컬반영. 등록147/렌더146/시각검토105/양테마77, 신규필요1198. 192프레임 동일·전체디코드·Edge 모바일 재생/탐색/반복 통과; 상세 EXERCISE-VIDEO-PROGRESS.md. 전체완료/운영배포/실기기 검증 아님.
+
+- [진행중] 2026-10-07 별칭 연결 추가: hammer-curl→hammer-curl-2(덤벨), ez-bar-curl→ez-bar-curl-2(바벨)의 동일동작/기구를 원본·현재MP4·rig·양테마32프레임·decode·Edge로 확인하여 exact 파일 복사와 aliasOf 추적정보로 연결. 신규영상2개 생성이 아니라 기존검증영상2개를 누락ID에 재사용한 것. 현재 등록150/렌더149/검토108/양테마81; 신규필요1195. 증거 imports/all-exercises-20261007/alias-validation/{review,adopted}.json. bench-dip 별칭은 아직미반영. 모든 작업프로세스 종료, 개발서버 유지.
+
+- [진행중] 2026-10-07 다음배치: band-triceps-pushdown 신규16자세 alpha보존 양테마영상 추가. 고정점/밴드/신발/팔동작32프레임,전체decode,Edge재생/7.5초탐색/loop 확인. 등록151/렌더150/검토109/양테마82, 신규필요1194. 원본/프롬프트/prepare/render/publish/해시증거 imports/all-exercises-20261007/band-triceps-pushdown/. bench-dip alias는 최저팔꿈치각도가대상90도안내와달라보류(alias-validation-bench/review.json). 저메모리색상마스크 low-row/machine-rear-delt 후보진행, 공개는최종시각검토후결정.
+
+- 저메모리 배경마스크 배치 최종: low-row-machine 및 machine-rear-delt-fly는 누끼·기구·신발 보존 개선이나 minterpolate 전환팔/손잡이잔상으로 hold-motion. low-row1.25/5.25초 신규/기존공개원본 비교에서 원본영상에도잔상확인, source8키포즈는단일윤곽. 두후보미반영. seated-calf-raise는회색배경/인체색겹침으로마스크부적합. 증거 cutout-all-20261007-b/border-comparison.json. band-triceps-pushdown 대상ESLint와미디어4파일18테스트 통과. 전체목표는미완료로유지, 모든생성/검증프로세스종료. 다음은잔상종목원본포즈추가/렌더보정, 기존27누끼및41동작검토, 미제작1194 진행.
+
+- 2026-10-07 잔상보정 조사: rear-delt 새16컷alpha원본 생성·양테마검토했으나 첫전환간격 여전히커서 hold-source-spacing, 공개교체없음. 원본과프롬프트·SHA·판정 imports/all-exercises-20261007/rear-delt-dense/. 기존2D rigid리그는원근변화 때문에 pivot/손접촉유지불가: 근사173→202px 축손거리, 동일길이회전시35.5px 손끝오차. cutout-all-20261007-b/rig-feasibility/assessment.json. 다음은가려진팔/기계레이어와수평면투영 또는정확한중간자세보정 필요.
+
+- 2026-10-07 low-row 잔상재검증: bilat8/bidir8/bilat16 세설정 정·역2초 총6클립 제작비교.1.375초 팔/복부/케이블의 잔상또는블록번짐이모두남아 미반영.단순보간설정으로해결못함. cutout-all-20261007-a/low-row-flow/review.json에필터/해시/판정. lying-triceps-extension은u2net+원본검은벤치복원조합으로 주요1/11/16포즈기구/팔경계개선,전체재생검증진행중.
+
+- [진행중] 2026-10-07 보류2종 해결: lying-triceps-extension u2net+원본검은벤치복원/하단잔여12px이하제거 및 ez-bar-skull-crusher u2net 양테마 교체. sourceSHA유지,기존MP4백업,후보/공개SHA일치검증,root양테마32프레임확인,전체decode와Edge모바일play/7.5seek/loop통과. adoption-6.json/adoption-7.json 및각final-review근거. 등록151/렌더150/검토109 유지, 양테마84/기존누끼검토25/동작검토41/구형7/신규필요1194. 미디어4파일18개+리뷰4개=22개 및diffcheck통과. 실기기/운영/커밋/푸시없음. 모든생성프로세스종료;다음기존25종배경처리와41종동작및신규1194진행. low-row3보간설정과rear-delt16컷/2D리그는품질불충분근거보존/미반영.
+
+
+### 2026-10-07 운동 영상 전체 제작 후속 (1.2 진행 중)
+- [완료] wall-calf-stretch 신규 양테마 정적 유지 영상과 calf-stretch 동일동작 ID 재사용. triceps-pushdown-2 누끼/기구·케이블 복원 양테마 교체. 원본과 이전 영상 백업 및 exact SHA 기록.
+- [완료] calf 두 ID의 운동법에 잘못 들어간 스쿼트 안내를 벽 지지 종아리 유지 스트레칭으로 수정. methodSteps 회귀 2개 포함 미디어 단위 5파일20개, 대상 ESLint와 tsc --noEmit 및 git diff --check 통과.
+- [완료] 신규 hold 각192프레임 동일/전체decode/모바일 Edge play·seek·loop, pushdown 양테마32프레임 root 검토 및 동일 재생 검사 통과. 근거 imports/all-exercises-20261007/wall-calf-stretch/ 및 adoption-8.json, B/cable-batch-review.json.
+- [보류] seated-calf-raise/belt-squat/rope-pushdown/overhead 기구 소실, TRX-row 끈 사이 배경과 보간 번짐, sumo-squat 원본 배경 결함. 후보만 보존.
+- [진행중] 전체1351종: 양테마87, 기존누끼24, 동작검토41, 구형재제작7, 신규1192. 등록153/렌더152/검토111. 다음 standing-cable-curl 후보와 나머지 제작 계속.
+- [대기] 전체 목표/실기기/운영 배포 검증. 이번 변경 커밋·푸시 없음.
+
+- 2026-10-07 배치 종료: standing-cable-curl 원본기구복원은 성공했지만 2.5초 손/바 이중잔상(root 확대검토 확인)으로 hold-motion. cable-rope-hammer-curl-2는 원본타워상단 잘림+분할기구소실로 보류. B/curl-batch-review.json. 신규 앱 반영 없음, 양테마87/기존누끼24/동작41/구형7/신규1192 유지. 리뷰 SHA 게이트4개 추가통과, 합계24개. 모든 후보 처리 프로세스 종료, 기존 개발서버 유지. 다음은 아직 시도하지 않은 케이블 운동(low-cable-fly, wide-grip-lat-pulldown 등)의 원본검토와 신규 운동 제작; 이미 기록한 소스/동작 보류는 단순 동일 재시도 대신 원본 재제작 필요. 전체 목표 active, 미완료.
+
+### 2026-10-07 전체 운동 영상 후속 — 1.2 진행 중
+- 2026-10-07 신규 band-front-raise 양테마 추가: 생성 alpha 원본16컷 중 어깨높이를 넘는13~16 제외, 1~12 상승/정점유지/역순하강. 모든 cell 원본보존, 양테마32frame 육안/전체decode/480x480 24fps 8초/최종 Edge mobile play·seek·loop 통과. 미디어4파일18개+SHA리뷰4개=22개 통과. 등록154/렌더153/검토112, 양테마88/기존누끼24/동작41/구형7/신규1191. 경미한 원본 몸통/실루엣 변화는 기록. 증거 imports/all-exercises-20261007/band-front-raise/ (prompt.txt, source-reference.json, 원본PNG, 재현prepare/render/publish, render-evidence, playback, published-evidence).
+- 병렬4종 판정: low-cable-fly/wide-grip-lat-pulldown/cable-lateral-raise-2는 u2net 기구·케이블 소실로 보류; cable-front-raise는 기구복원 성공했으나2.5초 손/바/케이블 이중잔상으로 미반영. A 각review 및 B/raise-batch-review.json. 모든후보프로세스 종료, 기존개발서버 유지. 다음 미시도 케이블 운동(straight-arm-pulldown-2,cable-rear-delt-fly-2,face-pull-2,cable-upright-row,cable-glute-kickback,lat-pulldown) 및 신규 종목 제작. 전체목표 진행중; 실기기/운영배포/커밋/푸시 없음.
+
+- [진행중] 2026-10-07 기존영상 후속 감사: cutout-holds.json에 기존누끼 대상24종 모두의 실패증거/원본SHA 연결(collect-cutout-holds.mjs,24/24). 같은 설정 재시도 대신 기구복원/소스재제작 판단에 사용; 공개품질승인 파일은 아님. 마지막6케이블 u2net first/last기구소실확인으로 full생략, A 각review/B last-cable-batch-review.json. 가슴3종 기존SHA그대로 실패재현: bench source4→5불연속,fly 덤벨잔상,smith 머리가림/격자/다크없음; 기존5MP4 decode통과와 분리해 보류. motion-review-chest/review.json. 집계88/24/41/7/1191 유지. 대상도구ESLint/diffcheck통과. 신규외회전 source수정,rope원본alpha편집,기존3D미리보기재사용검토 병렬진행중.
+
+### 2026-10-07 1.2 운동 전체 제작 — 3D 재사용/알파편집 반영
+- 2026-10-07 체크포인트: 등록156/렌더155/검토114, 양테마91/기존누끼23/동작41/구형7/신규1189. rope-triceps-pushdown imagegen alpha-edit로 기구/로프 보존후 양테마교체(adoption-9.json). 원본JPG/이전MP4/spec백업, editedPNG rigSource SHA등록, custom renderer지정. RGB는완전동일아님(MAE5.92/255), 원본16자세시각비교/양테마32frame/전체decode/Edge통과.
+- 기존skinned-pilot 미등록정확ID14종중 cross-body-hammer-curl/scaption 2종을 기존3D모델·동작으로 native480x480/24fps/8초192frames 직접재렌더. 앱정확배경 #fafafa/#09090b, 광학보간없음. 4영상32frame root검토·전체decode·Edge play/seek/loop 통과, sourcechain/의존성스냅샷SHA 검증, provenance JSON과16컷진단atlas 및spec등록. 증거 skinned-reuse-audit/native/*-review.json 및 publish-native.mjs. 파일68~114KB, 원1080/60보존. 작은다크덤벨대비/맨발마네킹스타일한계기록.
+- 신규 band-external-rotation 생성+표적수정도 팔이길어지는잘못된동작이라 source-only보류. 원본/프롬프트보존. 대신 기존3D리그17각도 검사에서 고정팔꿈치/90도 유지가능; rig-feasibility.json/rig-kinematic-proof.json. 다음격리3D모션으로 제작하고 피부·밴드접촉시각검증필요.
+- 가슴3종은 기존실패그대로 재현하여 미승인(motion-review-chest/). 남은누끼23종 실패색인 cutout-holds.json 23/23. 다음은 나머지3D미리보기12종 native통합검토와 장비소실후보alpha-edit,3D외회전구현. 이번미디어4파일18개+exactSHA리뷰4개=22개통과. 전체목표진행중, 실기기/배포/커밋/푸시없음. 모든배치작업종료,기존개발서버유지.
+
+- 영상 1.2 진행 중: 2026-10-07 추가 반영: 덤벨 컬·숄더프레스·레이즈 8종 native 480×480/24fps/8초 양테마 영상 추가(skinned-reuse-shoulders 3종, skinned-reuse-next 5종). 케이블 오버헤드 익스텐션 alpha-edit 배경 제거본 교체(adoption-10). 양테마 최종32프레임, 손·측면, 전체192프레임 디코딩, Edge 재생·탐색·반복 및 원본/의존성 SHA 검증. 등록164/렌더163/검토122, 양테마100/기존누끼22/동작41/구형7/신규1181. 미디어 테스트18개와 리뷰게이트4개 통과. 실제 기기·운영 배포·커밋·푸시 없음. 밴드 외회전은 관절수학 검증은 통과했으나 팔꿈치 피부변형으로 보류. 다음 4종(alternating-dumbbell-front-raise, wide-grip-barbell-curl, close-grip-barbell-curl, wide-grip-upright-row)은 skinned-reuse-final 격리 제작 중. 전체 목표 진행 중.
+
+- 영상1.2 진행중: 2026-10-07 최신: 양테마검증106/동작검토40/기존누끼21/신규1177/구형7(전체1351). 등록168/렌더167/검토127. 신규4종 alternating-dumbbell-front-raise,wide-grip-barbell-curl,close-grip-barbell-curl,wide-grip-upright-row native480/24/8초 추가, skinned-reuse-final 원본/의존성 SHA·양테마32frame·전체decode·Edge 검증. low-cable-fly alpha-edit 기구보존 누끼교체(adoption-11, RGB MAE11.46/255). zottman-curl-2는 동일기구/동작의 zottman-curl 검증파일로 교체하고 이전원본/spec/영상/검증백업(alias-zottman); 별도신규동작생성 아님. 대상ESLint 및 미디어18+리뷰게이트4 테스트 통과. 코어3종 dead-bug/bird-dog/reverse-crunch는 원본/현영상32frame+decode 검토 후 전환잔상/배경문제로 보류(motion-review-core). 외회전 피부보정2안은 관절수학통과하지만 팔꿈치함몰 지속으로 보류(rig/repair-review.json). 다음 dumbbell-standing-calf-raise 새3D/잘못된스쿼트설명 보정 병렬진행. 실기기/배포/커밋/푸시 없음. 전체목표 진행 중.
+
+- 영상1.2 진행중: 2026-10-07 카프 추가: dumbbell-standing-calf-raise 신규연속3D 양테마480/24/8초 반영(skinned-calf). 앞꿈치pivot 고정481샘플/발바닥접지변위/뒤꿈치상승/loop 수치와 feet0·210/side210 및 양테마32frame root검토, 전체decode/Edge재생·탐색·반복 통과. 원본모델·모션·studio·의존성SHA 검증. 등록169/렌더168/검토128, 양테마107/동작40/누끼21/신규1176/구형7(전체1351). 스쿼트형 methodSteps를 카프동작으로 교정하고 exactID guide/oneLiner 추가; 기존카테고리에는 calf가없어 분류값유지, 실제안내는 exactID우선. 회귀2건포함5파일20+리뷰4=24테스트통과, 별도 agent 인접14테스트/대상lint/전체tsc 통과. B straight-arm-pulldown-2 원본상단잘림, wide-grip-lat-pulldown 편집본기하변형은 보류(원본/비교보존). 기존하체4종 원본/MP4 decode·32frame 검사에서 low-bar 위치불명확, curtsy전환잔상, jump머리잘림·잔상, hip-adduction기구변형 기록(motion-review-lower). 다음 step-calf-raise 별도3D 제작중. 실기기/배포/커밋/푸시 없음, 전체목표 진행중.
+
+- 영상1.2 진행중: 2026-10-07 스텝/누끼 배치: step-calf-raise 신규3D 양테마 반영(skinned-step-calf), 발판관통검출 후 실제foot skin접지보정 및481샘플 충돌/heel drop검증, root 양테마32frame/feet0·210 확인. exactID methodSteps/guide/summary 스쿼트오류 수정, 회귀2건 및 인접16tests/대상lint/전체tsc 통과. band-biceps-curl alpha-edit v2 원본위치·밴드보존으로 교체(adoption-12, v1geometry실패보존, v2MAE9.84). conventional-deadlift는 guarded u2net16pose 기구보존 누끼제작 후 원본/양테마32frame 검토·full decode·Edge play/seek/loop통과, NASM source대조/6체크승인, 이전영상/spec백업 및 cutPNG16SHA provenance 추적(deadlift-cutout). 등록170/렌더169/검토130, 양테마110/동작39/누끼20/신규1175/구형7. 통합미디어+스텝회귀5파일20개 및리뷰게이트4개통과. 다음 single-leg-calf-raise 격리3D 제작중. 전체목표진행중, 실기기/배포/커밋/푸시없음.
+
+- 영상1.2 진행중: 2026-10-07 싱글 카프: single-leg-calf-raise 신규 연속3D 양테마480/24/8초를 로컬 앱에 반영(skinned-single-calf). 같은쪽 덤벨, 반대손 고정지지, 반대무릎 굽힘, 작업발 발판지지 구현. 양테마32frame 및 support/feet/side 확대 root 검토,481샘플 접촉/발판관통/자유발높이/loop 검증, 전체decode/Edge 재생·탐색·반복 및 source-chain SHA 검증. 앱 method/guide/summary를 영상과 같은 발판 버전으로 정정. 미디어+회귀5파일20개 및 리뷰게이트4개 통과, agent 인접18tests/대상lint/전체tsc 통과. 등록171/렌더170/검토131, 양테마111/동작39/누끼20/신규1174/구형7. 다음 standing-toe-raise 신규3D와 reverse-wrist-curl 기구보존 누끼 병렬 진행. overhead-cutout u2net은 바/팔소실 보류; cable-rear-delt-fly-2 alpha는 기구보존됐으나 전환 잔상으로 미반영, barbell-overhead-press alpha-edit 진행. 실기기/배포/커밋/푸시 없음. 전체1351종 목표 진행 중.
+
+- 영상1.2 진행중: 후속 진행: barbell-overhead-press alpha-edit도 바/팔 보존은 성공했지만 1.25·1.5초 보간 잔상으로 hold-motion. 별도 보간 설정 비교 중이며 기존파일은 유지. standing-toe-raise는 발뒤꿈치481샘플 접지 통과 후 손가락·의자 접촉 수정 중으로 아직 승인하지 않음. wrist-cutout은 original bench 픽셀 복원 후 검토 진행.

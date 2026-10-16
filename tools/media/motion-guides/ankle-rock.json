@@ -1,0 +1,15 @@
+{
+  "id": "ankle-rock",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "ankle-rock-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.stchristophers.org.uk/wp-content/uploads/dlm_uploads/2024/07/StChris_Seated_Exercises.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:23:56.376Z"
+}

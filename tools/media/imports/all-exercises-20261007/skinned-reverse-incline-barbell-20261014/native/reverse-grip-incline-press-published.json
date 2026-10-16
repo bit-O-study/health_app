@@ -1,0 +1,18 @@
+{
+  "id": "reverse-grip-incline-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "01c83892c6f70acb16cc463efb9c2cb980d867b695c7220601fccecec946d282",
+  "rigSourceSha256": "e7f25b72f396d83a936805d16625b26db3354df4d764a871bef91dc73dd72367",
+  "videoSha256": "e2fa573317ce420b848ec0673abcf776eb68ab9c619baf6d94e3ba0ea1529c20",
+  "darkVideoSha256": "5cdd9ab93d45ea761663b78344f6e3226b2c9e28ef4a1db353af1742aea74872",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121586,
+  "darkBytes": 109482,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T06:24:11.082Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "reverse-wrist-curl",
+  "status": "held-visual-defects",
+  "published": false,
+  "candidate": "local/reverse-wrist-curl-adaptive/public/exercise-guides/ai-v3",
+  "sourceSha256": "43007d27d2d5728a863daf2160efbffa88481b16ebe337631431a0f0a4e1ecf4",
+  "videoSha256": "841282784fbde4965f4615024323cac906c8b5971456ccfa72a6260f67d4dfbe",
+  "darkVideoSha256": "5230c3f477a597d69ffb30217e7849c57bb01415d6b37eb35ee67099e775eac9",
+  "change": "Re-rendered existing static-bench frames using adaptive overlapped block motion compensation, 8px blocks and variable-size compensation. Existing originals and public videos preserved.",
+  "viewed": ["original eight-pose sheet", "static-bench both 32-frame sheets", "adaptive dark 32-frame sheet", "adaptive light and dark 480px frames at 2.125s"],
+  "findings": ["Bench support and foot remain visible", "Light bench pad retains broken white/pixel edge", "Dark hand/dumbbell ghost contours remain during intermediate wrist motion", "Optical-flow setting change does not resolve source and matte defects"],
+  "validation": {"frames":192,"width":480,"height":480,"fps":24,"seconds":8,"fullDecode":"passed","mobileEdge":"both themes play/seek/loop passed; not physical device"},
+  "evidence": ["adaptive-render.json", "playback-reverse-wrist-curl-adaptive.json", "adaptive-dark-sheet.jpg", "adaptive-light-mid.png", "adaptive-dark-mid.png"],
+  "next": "Rebuild wrist motion from a stable source/continuous rig; do not publish this candidate or solve ghosting by dropping motion frames."
+}

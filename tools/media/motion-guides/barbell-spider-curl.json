@@ -1,0 +1,15 @@
+{
+  "id": "barbell-spider-curl",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "barbell-spider-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://breakingmuscle.com/spider-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T13:12:16.741Z"
+}

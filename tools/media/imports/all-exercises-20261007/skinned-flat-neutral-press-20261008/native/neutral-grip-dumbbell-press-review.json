@@ -1,0 +1,119 @@
+{
+  "id": "neutral-grip-dumbbell-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/palms-in-dumbbell-bench-press.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "extend": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Flat-bench bilateral neutral-grip dumbbell chest press with simultaneous shoulder movement and elbow extension.",
+    "equipment": "Two intact dumbbells and flat bench with fitted head cushion. Central body, head, seat, backpad and dumbbell-pair clearance checked throughout481samples.",
+    "setup": "Back supported on horizontal pad, head on fitted cushion, pelvis on seat, both feet grounded. Side and back previews inspected.",
+    "hands": "Neutral palms-facing grip follows each forearm through flexion/extension with stable grip sockets and wrapped fingers.",
+    "feet": "Both feet remain fixed, sole-floor contact verified over481samples.",
+    "movement": "Final both32frame sheets and hand/side/back views reviewed; controlled chest press and return without optical-flow ghosts. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "42b073ab971afcda9cf8547eadefb1334ddebf5b00c05e2c232a0b123eaed025",
+  "rigSourceSha256": "a176c8e54ce314ce5edaef559a6e825a12000a82ae472880e881504843436050",
+  "videoSha256": "d7f83cc7a933800a0c968fada40b79dba9d701320cf5128108950ffaf6517551",
+  "darkVideoSha256": "df4db0643a98e1b4b9be2b2f1927fbc44ab4b704a2ccd8189dce3a8c9fcbdf9d",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-flat-neutral-press-20261008/native/neutral-grip-dumbbell-press.mp4",
+      "sha256": "d7f83cc7a933800a0c968fada40b79dba9d701320cf5128108950ffaf6517551",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 84676,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-flat-neutral-press-20261008/native/neutral-grip-dumbbell-press-dark.mp4",
+      "sha256": "df4db0643a98e1b4b9be2b2f1927fbc44ab4b704a2ccd8189dce3a8c9fcbdf9d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 73561,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.482894019657701,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.5460203179906533,
+    "minEquipmentBenchClearance": 2.6977031725578415,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.08738175659431502,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.188115342574696,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.786010545973203,
+    "minimumBackGap": 0,
+    "backContactError": 0.040587563761368184,
+    "minHeadClearance": 1.5812275938099163,
+    "minDumbbellPairClearance": 0.6700815942275398,
+    "minElbowFlex": 5.846694886037496,
+    "maxElbowFlex": 126.86989764584399
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T08:22:49.750Z",
+  "limitations": "Barefoot mannequin, flat bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification."
+}

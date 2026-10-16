@@ -1,0 +1,15 @@
+{
+  "id": "seated-band-pull-apart",
+  "equipment": "band",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-band-pull-apart-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://your-pt.com/exercises/band-pull-apart/",
+    "https://www.eatthis.com/chair-exercises-shoulder-mobility-after-55/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:51:11.439Z"
+}

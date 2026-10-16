@@ -1,0 +1,79 @@
+{
+  "id": "cossack-squat-2",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/alias-cossack-20261012/native/cossack-squat-2.mp4",
+      "sha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 192386,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/alias-cossack-20261012/native/cossack-squat-2-dark.mp4",
+      "sha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 231839,
+      "decode": "passed"
+    }
+  ],
+  "sources": [
+    "https://www.strengthlog.com/cossack-squat/",
+    "https://fitwell.recreation.ucla.edu/file/a6080b05-ec33-4e68-81eb-df30a07d82df"
+  ],
+  "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+  "rigSourceSha256": "3e2368d3643ebdeadbfdb1e258205a9999f8d52b9121f9cfa403764e22f2f191",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "videoSha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+  "darkVideoSha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Original16panel and fresh light/dark32frame sheets inspected: same bodyweight Cossack squat exact synonym. Source StrengthLog and UCLA page3 Level2 independently checked.",
+    "equipment": "맨몸 동작이며 불필요한 기구가 등장하지 않음",
+    "setup": "정면 전신 구도에서 양팔을 앞으로 들고 넓은 발 간격을 유지함",
+    "hands": "양손과 양팔이 전 구간 동일한 앞으로 뻗은 자세로 유지됨",
+    "feet": "Bent anatomical left leg stays planted at screen right; anatomical right leg straight at screen left with heel supported and toes lifted. Restored white shoes intact in both themes, dark outline/softness retained.",
+    "movement": "Wide-stance central stand to deep anatomical left-side squat then return center. No side-step and no alternating second side within8second cycle. Same byte-identical published video, legacy16 reverse order preserved."
+  },
+  "limitations": [
+    "Exact legacy16pose cutout interpolation reuse; no new continuous3D or481sample kinematics claimed.",
+    "Source cartoon uses simplified anatomy. Original white-shoe outline restoration and interpolation softness retained.",
+    "One side is demonstrated per8second cycle; opposite-side repetitions belong to exercise instructions, not shown within this video."
+  ],
+  "reviewedAt": "2026-10-12T01:49:05.835Z",
+  "reviewer": "wrist subagent, root final adoption pending"
+}

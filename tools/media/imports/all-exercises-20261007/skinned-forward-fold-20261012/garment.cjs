@@ -1,0 +1,1 @@
+const fs=require('fs'),p=__dirname+'/studio.mjs';let s=fs.readFileSync(p,'utf8').replace('const looseness = .10 + .12 * THREE.MathUtils.smoothstep(-p.y, .4, 2.7);','const looseness = (.10 + .12 * THREE.MathUtils.smoothstep(-p.y, .4, 2.7))*(.15+.85*THREE.MathUtils.smoothstep(Math.abs(p.x),.1,.8));');fs.writeFileSync(p,s);

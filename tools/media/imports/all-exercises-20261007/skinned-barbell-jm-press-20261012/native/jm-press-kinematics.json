@@ -1,0 +1,38 @@
+{
+  "samples": 481,
+  "elbowDrift": 2.7534360659875223,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.7455876900556387,
+  "minEquipmentBenchClearance": 4.049394045592251,
+  "seatContactError": 7.916880484515332e-10,
+  "soleMinY": -7.751374738328083,
+  "soleMaxY": -7.751374738328083,
+  "floorY": -7.751375,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.037053173264471814,
+  "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+  "minEquipmentHeadPadClearance": 2.832661629136149,
+  "headSupportError": 0,
+  "minEquipmentBackPadClearance": 3.282158258706728,
+  "minimumBackGap": 0,
+  "backContactError": 0.02423544243831799,
+  "minHeadClearance": 0.7455876900556387,
+  "minElbowFlex": 7.5953104244634115,
+  "maxElbowFlex": 144.53564990128643,
+  "minimumElbowAboveShoulder": 0.9831957300817313,
+  "wristDeviationRange": [
+    9.983983416057143,
+    31.941109796154112
+  ],
+  "bottomWristDeviation": [
+    31.941109796154112,
+    31.941109796154112
+  ],
+  "topWristDeviation": [
+    11.837143521558367,
+    11.837143521558367
+  ],
+  "barGripPlaneError": 0,
+  "gripSpanChange": 8.881784197001252e-15
+}

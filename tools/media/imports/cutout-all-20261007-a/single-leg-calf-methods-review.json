@@ -1,0 +1,23 @@
+{
+  "id": "single-leg-calf-raise",
+  "status": "implemented",
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/single-leg-standing-dumbbell-calf-raise/",
+    "https://healthsciences.unimelb.edu.au/departments/physiotherapy/chesm/video-library/exercise/knee-oa/calf-strengthening"
+  ],
+  "sourceScope": "M&F same-side dumbbell, single-leg forefoot support on raised surface, heel lower/rise. Actual skinned-single-calf/native 32-frame sheet and review inspected: step variant.",
+  "files": [
+    "src/features/routine/exercise-catalog-extra-methods.ts",
+    "src/features/workout-timer/exercise-guides.ts",
+    "tests/be/logic/single-leg-calf-raise-methods.test.ts"
+  ],
+  "changes": "Exact-ID methodSteps, guide and summary aligned to final step video: one forefoot on step edge, same-side dumbbell/opposite hand support, free knee bent, lower heel below step then rise and switch sides. Floor-lowering instruction removed.",
+  "verification": {
+    "red": "2 tests reproduced incorrect squat guidance",
+    "green": "After step alignment:6 related files18 tests passed",
+    "eslint": "Changed sources and new test passed",
+    "typescript": "Full tsc --noEmit passed"
+  },
+  "preserved": "Previous calf/stretch edits preserved; no docs/public/global category changes.",
+  "variant": "step"
+}

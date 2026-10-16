@@ -1,0 +1,15 @@
+{
+  "id": "seated-glute-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-glute-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://health.clevelandclinic.org/piriformis-syndrome-stretches-exercises"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:44:31.943Z"
+}

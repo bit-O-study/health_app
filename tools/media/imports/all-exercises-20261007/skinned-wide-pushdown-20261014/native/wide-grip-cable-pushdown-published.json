@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-cable-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7a67b9ce9d4bc153d2efa3428055bc692c19961e87ca82c2f3d8ae627a9ddae9",
+  "rigSourceSha256": "9da1448109d49a6185894ad3514cbdfd683481a633c20163534a186ff6e03388",
+  "videoSha256": "2fb6cb1b8e4c99dda6a7d2a46aecf168e22c8de491c9eeb1bd2cc7b584d03a95",
+  "darkVideoSha256": "04de212fb00df4388fdd1ac91608ebf9f551a772fac2d5b52096fa307c6b46a2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 82799,
+  "darkBytes": 81518,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T04:19:23.929Z"
+}

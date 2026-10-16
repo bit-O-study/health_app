@@ -1,0 +1,175 @@
+{
+  "id": "dynamic-calf-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "forwardPeaks": [
+        2,
+        6
+      ],
+      "returnPeaks": [
+        0,
+        4,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/studio.mjs",
+      "sha256": "371f75ae1a0a2a860524bfdeb84764d47ac47cbbc3654a00fafbc18a59746d04"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/motion.mjs",
+      "sha256": "d294c18156c158233fb5af3ab8c9c2def185fa7b05b2ae4fff073767374bd595"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/render.mjs",
+      "sha256": "983ea009509f9d9558b36ac48900d1002341c0f2a6352d09c7f3868e218e558c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/source.json",
+      "sha256": "648a78c2af288c9423a76c00cc8f37634cd8b0063713a9d21df2aaf329873188"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://simplypt.com/dynamic-calf-stretch/"
+  ],
+  "sourceSummary": "SimplyPT primary dynamic calf instructions: use wall or chair balance; step one foot back, rear heel down and rear knee straight, gently shift forward/back for10–15 slow repetitions then switch sides. Full extracted protocol and fetched blog redirect URL in source.json.",
+  "motion": "RIGHT rear knee remains straight180degrees, both feet and palms fixed; upright body shifts forward/back on rear leg inclination20–28degrees. Front knee flexes naturally. Two smooth4second cycles, forward peaks2/6seconds, return0/4/8seconds; no sustained hold.",
+  "kinematics": {
+    "samples": 481,
+    "handDrift": 4.070144838902081e-15,
+    "footDrift": 4.446439748506845e-15,
+    "heelDrift": 4.446439748506845e-15,
+    "floorError": 3.552713678800501e-15,
+    "footSkinGap": {
+      "L": {
+        "min": [
+          -3.552713678800501e-15,
+          2.6645352591003757e-15
+        ],
+        "heel": [
+          0.010424613952633166,
+          0.010424613952639383
+        ],
+        "tip": [
+          0.009899862364678214,
+          0.009899862364685319
+        ]
+      },
+      "R": {
+        "min": [
+          -3.552713678800501e-15,
+          8.881784197001252e-16
+        ],
+        "heel": [
+          0.010424613952633166,
+          0.010424613952638495
+        ],
+        "tip": [
+          0.009899862364678214,
+          0.00989986236468443
+        ]
+      }
+    },
+    "rearKnee": [
+      179.99999879258172,
+      180
+    ],
+    "frontKnee": [
+      124.5163548931185,
+      146.8438731571399
+    ],
+    "handWallGap": {
+      "L": [
+        0.009053177115017519,
+        0.009053177115025512
+      ],
+      "R": [
+        0.009053177115017519,
+        0.009053177115025512
+      ]
+    },
+    "wallGap": [
+      0.009053177115017519,
+      0.009053177115025512
+    ],
+    "waistGap": [
+      0.017090648923614227,
+      0.019215192527390457
+    ],
+    "legGap": [
+      1.2861323523272874,
+      1.766436074082498
+    ],
+    "handBodyGap": [
+      0.38913964750226704,
+      0.6192681159065749
+    ],
+    "IKError": 3.4684476073050936e-15,
+    "loopDrift": 0,
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "forwardPeaks": [
+        2,
+        6
+      ],
+      "returnPeaks": [
+        0,
+        4,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/native/dynamic-calf-stretch.jpg",
+    "sha256": "d6fe58879e4ad6fa4da81c370b8ca7d5f9730f400a41ad9579b7a3d79222b513",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/render.mjs dynamic-calf-stretch"
+}

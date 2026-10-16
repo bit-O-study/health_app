@@ -1,0 +1,18 @@
+{
+  "id": "fat-grip-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c48163fca3e5a30c31b7b5eb335fe0f0a939fd478de69b10029d79818590b370",
+  "rigSourceSha256": "d58b97a204dfc49cd65438b56ee188e5ec898cf2c8d64a1c99dab033836009dc",
+  "videoSha256": "1d3f2145cc86750c76301e726f9518829115350b92a66d0346e984bfbd43d3c8",
+  "darkVideoSha256": "dc309f5f93f39c23cb243eeefad0a3bfa5be1bb8508b3c26f911a75787cb231b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 89501,
+  "darkBytes": 76688,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T02:21:36.527Z"
+}

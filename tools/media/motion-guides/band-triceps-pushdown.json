@@ -1,0 +1,15 @@
+{
+  "id": "band-triceps-pushdown",
+  "prompt": "Create a transparent animation source atlas for a STANDING BILATERAL RESISTANCE BAND TRICEPS PUSHDOWN. EXACTLY16 equal square cells in a4 by4 grid, read row-major. Clean original realistic3D fitness illustration. Same adult athletic woman wearing fitted teal tee, charcoal leggings, black sneakers, three-quarter SIDE VIEW facing RIGHT. Her full body AND complete simple dark-gray fixed upright support post to her right must fit inside EVERYcell with generous8% padding all sides. A bright RED elastic resistance band is securely anchored to a visible ring near the top of the post, ABOVE her head. Two red band branches descend directly from that SAME fixed high anchor to her left and right hands, always connected and taut. NO cable pulley or weights. Feet hip width planted at same pixels, knees relaxed, spine neutral, torso slightly inclined only5degrees and absolutely still. Upper arms vertical beside ribs and both elbows STATIONARY at the waist throughout. Only forearms rotate DOWN by extending elbows: first frame elbows bent90degrees with forearms roughly horizontal forward and hands in front of waist; last frame arms nearly straight downward and hands just in front of thighs, no hyperextension. Sixteen smooth gradual successive poses of ONE push DOWN: elbow interior angles90,96,102,108,114,120,126,132,138,144,150,156,162,168,174,178degrees. DO NOT reset at row boundaries, DO NOT start return phase, DO NOT move upper arms or shoulders; software will reverse these poses for return. Both hands grip band ends with palms facing down through neutral wrists. Show continuous shoulder-elbow-wrist anatomy, never add or merge limbs. Head/torso/hips/feet/post/anchor in exactly same location and scale every cell, fullhead/shoes and fullpost never clipped. TRUE transparent background including gaps, no white matte, no castshadow, no ground plane, no text labels or gridlines. Keep red band opaque and visible, preserve dark post entirely. Consistent identical person, camera and illumination in all16cells.",
+  "equipment": "band",
+  "sources": [
+    "https://m.media-amazon.com/images/G/01/AmazonBasics/Tube_Resistance_Bands_Manual_Page_Order._CB502058776_.pdf"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "rigSource": "band-triceps-pushdown-rig.png",
+  "renderer": "generated-alpha-atlas-v1",
+  "timing": "push-return",
+  "cutout": true,
+  "registeredAt": "2026-10-07T02:01:09.779Z"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "crunch",
+  "renderVersion": 5,
+  "panels": 8,
+  "cutout": true,
+  "sourceSha256": "b080d733615e0ee63920351655735437902a3859b74df40b40b6228bd6bbf8a2",
+  "videoSha256": "355a1a325119b8ccca86fc2d87aa23f1da8a4e7697330a6159a8044ad2450ec1",
+  "darkVideoSha256": "ca9717b9ea90ece003ec79e3e51064bfce8a157ce8c74b95abfcc37aae75289b",
+  "darkBytes": 106451,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 91814,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T00:52:36.238Z",
+  "date": "2026-10-07T00:53:15.316Z",
+  "status": "recommended-pass",
+  "published": false,
+  "method": "Original source inspected; u2netp per-panel cutout; original eight poses and reverse timing retained",
+  "visualChecks": {
+    "source": true,
+    "lightContactSheet32Frames": true,
+    "darkContactSheet32Frames": true,
+    "fullSizeFirstAndHighestPose": true,
+    "bodyPreserved": true,
+    "largeBackgroundResidue": false
+  },
+  "notes": "Intentional dark renderer rim retained. Knee/hip gap and head contour inspected. Reviewed local MP4, not device or production app."
+}

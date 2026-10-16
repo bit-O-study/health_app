@@ -1,0 +1,14 @@
+{
+  "id": "z-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "z-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://musclewiki.com/exercise/barbell-z-press"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:54:15.961Z"
+}

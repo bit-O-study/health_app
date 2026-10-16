@@ -1,0 +1,20 @@
+{
+  "samples": 481,
+  "elbowDrift": 2.0554130276728664,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.11077722666571604,
+  "soleMinY": -8.175230979919434,
+  "soleMaxY": -8.175230979919434,
+  "floorY": -8.175230979919434,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.011136314809041682,
+  "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices",
+  "minEquipmentClothClearance": 0.024227093544009648,
+  "minEquipmentFloorClearance": 5.524350411041989,
+  "pelvisDrift": 0,
+  "minTrunkTilt": -20,
+  "maxTrunkTilt": 0,
+  "freeHandHeadClearance": 0.07278681275868437,
+  "freeHandHeadOffsetDrift": 7.3585260461886e-15
+}

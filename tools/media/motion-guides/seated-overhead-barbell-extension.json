@@ -1,0 +1,14 @@
+{
+  "id": "seated-overhead-barbell-extension",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-overhead-barbell-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/seated-barbell-overhead-triceps-extension/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T01:54:52.962Z"
+}

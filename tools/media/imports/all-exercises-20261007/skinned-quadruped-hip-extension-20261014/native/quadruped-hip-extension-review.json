@@ -1,0 +1,256 @@
+{
+  "id": "quadruped-hip-extension",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://pureformphysio.ca/wp-content/uploads/2015/05/Prevention_of_Running_Injuries-version-2.0.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact four-point hip extension: leg only extends, both arms support; not opposite-arm bird dog.",
+    "equipment": "Bodyweight on mat, no added resistance.",
+    "setup": "Both hands under shoulders, LEFT knee under hip and supporting foot lifted, neutral spine and square pelvis.",
+    "hands": "Both palms down; heel and5finger tips floor clearance checked481samples. Actual palm-triangle normal Y below-.9 bilaterally; hand/arm vs body and cloth separating checks positive.",
+    "feet": "Support foot lifted as primary Figure3. LEFT knee supported throughout; both knees supported at start. Working leg returns without floor penetration.",
+    "movement": "Both32frame sheets and bilateral hand/feet/side/rear waist closeups inspected. RIGHT knee straightens backward to horizontal leg without trunk/pelvis drift; smooth timing. Both decode and Edge playback/seek/loop passed."
+  },
+  "sourceSha256": "56aab0cde68eba96f2b0b4ed93825d87d8b95ac0bb9f66bee93a1aab96d14132",
+  "rigSourceSha256": "4c652989b2ff82a3fdca98f51862aebb886937a518556c47c1df60ec150c5601",
+  "videoSha256": "0a76968836f7dbbf601dea12f9121dd01e985329998e5a8226813ad60a7e0a6b",
+  "darkVideoSha256": "fe4623ad9a8e0424789bc41a3f8f5c2f723ee2e0ef93b00bc864a7626161c19e",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/native/quadruped-hip-extension.mp4",
+      "sha256": "0a76968836f7dbbf601dea12f9121dd01e985329998e5a8226813ad60a7e0a6b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 49547,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/native/quadruped-hip-extension-dark.mp4",
+      "sha256": "fe4623ad9a8e0424789bc41a3f8f5c2f723ee2e0ef93b00bc864a7626161c19e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 51453,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "skinLegSeparatingGap": [
+      0.3394628914467662,
+      0.3554120028253943
+    ],
+    "samples": 481,
+    "skinFloor": [
+      0.0157451230327581,
+      0.016494473454692127
+    ],
+    "clothFloor": [
+      0.5348581270138064,
+      0.5700577204451269
+    ],
+    "knees": {
+      "L": [
+        0.019999998127056884,
+        0.019999998127056884
+      ],
+      "R": [
+        0.0157451230327581,
+        4.062216372633706
+      ]
+    },
+    "initialKnees": {
+      "L": 0.019999998127056884,
+      "R": 0.019999998127056884
+    },
+    "handContacts": {
+      "L": {
+        "heel": [
+          0.02564594612472071,
+          0.02564594612472071
+        ],
+        "palm": [
+          0.04806824971133583,
+          0.04806824971133583
+        ],
+        "tips": [
+          [
+            0.06544019588890304,
+            0.06544019588890304
+          ],
+          [
+            0.027774148750475014,
+            0.027774148750475014
+          ],
+          [
+            0.017212427108311168,
+            0.017212427108311168
+          ],
+          [
+            0.016494473454692127,
+            0.016494473454692127
+          ],
+          [
+            0.03650266815854408,
+            0.03650266815854408
+          ]
+        ]
+      },
+      "R": {
+        "heel": [
+          0.02564594612472071,
+          0.02564594612472071
+        ],
+        "palm": [
+          0.04806824971133583,
+          0.04806824971133583
+        ],
+        "tips": [
+          [
+            0.06544019588890304,
+            0.06544019588890304
+          ],
+          [
+            0.027774148750475014,
+            0.027774148750475014
+          ],
+          [
+            0.017212427108311168,
+            0.017212427108311168
+          ],
+          [
+            0.016494473454692127,
+            0.016494473454692127
+          ],
+          [
+            0.03650266815854408,
+            0.03650266815854408
+          ]
+        ]
+      }
+    },
+    "palmNormal": {
+      "L": [
+        -0.014813369487634703,
+        -0.980636230868324,
+        0.19527710258192052
+      ],
+      "R": [
+        0.01481336948763462,
+        -0.9806362308683241,
+        0.19527710258192063
+      ]
+    },
+    "gussetGap": [
+      0.0727398927579237,
+      0.07322248553505073
+    ],
+    "gussetHits": [
+      368,
+      485
+    ],
+    "gussetMisses": [
+      175,
+      292
+    ],
+    "waistGap": [
+      0.08281087227465278,
+      0.08587567166917442
+    ],
+    "waistSamples": {
+      "hits": 353,
+      "misses": 0
+    },
+    "armBodyClothGap": [
+      0.45992947494514524,
+      0.45992947494514524
+    ],
+    "handSeparation": [
+      2.0600123477837404,
+      2.0600123477837404
+    ],
+    "legGap": [
+      0,
+      2.9198311131112984
+    ],
+    "kneeAngle": {
+      "L": [
+        75.96375653207352,
+        75.96375653207352
+      ],
+      "R": [
+        75.96375653207352,
+        180
+      ]
+    },
+    "armElbow": [
+      172.5523586143719,
+      172.5523586143719
+    ],
+    "wristBend": [
+      83.20677081981371,
+      83.20677081981371
+    ],
+    "supportedDrift": 0,
+    "loop": 0,
+    "phase": {
+      "timing": "smooth",
+      "start": [
+        0,
+        0.4
+      ],
+      "extend": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "return": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "Model body about17units tall; .02units about2mm at1.7m scale"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Only RIGHT leg cycle demonstrated; source alternates legs and suggests3sets12to15 repetitions. Timing and exact angles are illustrative. Palm heel and fingertips support a curved hand; not entire palm surface contact. Elbows retain about7.45degrees bend. Gusset Z-ray solid intervals sampled at cloth vertices; missing body footprint rays are recorded separately. Leg section metric includes joined garment centre and can be zero; independent481skin-only bilateral separating plane verifies legs remain apart. Waist rays and36direction height-section arm/body/cloth separating checks supplement final closeups, not exhaustive continuous triangle/cloth simulation. No physical device verification.",
+  "reviewedAt": "2026-10-14T13:42:18.795Z"
+}

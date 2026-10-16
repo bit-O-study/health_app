@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-floor-fly",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-floor-fly-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://training.fit/exercise/dumbbell-floor-flys/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T04:20:49.941Z"
+}

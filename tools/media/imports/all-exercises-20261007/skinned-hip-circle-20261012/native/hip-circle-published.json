@@ -1,0 +1,18 @@
+{
+  "id": "hip-circle",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e47897c829fa6daced37a0787fb9be0acfc7fb423ed2b8c399ac336cb47a041c",
+  "rigSourceSha256": "2a17dcde0d8e3e5da1b4564b3197da99c93b90e60ce55419097f6c75b30cd890",
+  "videoSha256": "9543d78541dd9260a3a79248ebfad0950a11ff0e47e0c5f803b342d0c3711e59",
+  "darkVideoSha256": "244cdbc1a6a89702603f0322813265fae3c280698854715522a149b776326eb2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 139122,
+  "darkBytes": 146608,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:34:39.990Z"
+}

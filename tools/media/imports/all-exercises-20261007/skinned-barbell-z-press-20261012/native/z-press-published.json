@@ -1,0 +1,18 @@
+{
+  "id": "z-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e67ef6496247aa0a406114e34b869fde5526db96070c9b12ad0d4f8cd2e7531c",
+  "rigSourceSha256": "35598dad6d61f0e876dc3bda510b3331bba4a3e444174773b125d56a6f991393",
+  "videoSha256": "acb908d883080d6d97ec0d3f38e4abf665756547e95c75b0480d06aba18e1ec7",
+  "darkVideoSha256": "f483f1d5c0549d2e99caf613a5263c2939e6c7c9d0bcb6925039141343c44a25",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 118736,
+  "darkBytes": 105816,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:54:15.964Z"
+}

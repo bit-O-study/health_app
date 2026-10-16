@@ -1,0 +1,11 @@
+{
+  "id": "straight-arm-pulldown-2",
+  "status": "hold-source-clipping",
+  "sourceSha256": "230669eaaea0d1ce2339c9e9e13d70ffcc068361c2755a4f8c9dcea4f3237921",
+  "inspected": "Original16pose atlas; first row top frame reaches/crosses source top edge. No top margin, cut framing in1..4. Standard4px panel inset removes further top machine pixels.",
+  "reason": "Background-only alpha edit cannot recover absent machine framing without changing geometry. Parent explicitly requested hold if original clipping.",
+  "nextStep": "Use complete-framing original or separately authorize a reframing/redraw candidate; do not label a background-only edit as faithful restoration.",
+  "imagegenCalled": false,
+  "fullRender": false,
+  "published": false
+}

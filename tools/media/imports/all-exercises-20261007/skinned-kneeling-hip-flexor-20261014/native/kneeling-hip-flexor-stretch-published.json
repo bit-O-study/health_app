@@ -1,0 +1,18 @@
+{
+  "id": "kneeling-hip-flexor-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "89df7aa6d447dd3aa7f9612aec42ec1d04b3c48475fd66e2cbf87a1e7e033bae",
+  "rigSourceSha256": "a347bf794bb5ffbd9e07e41b0d696f71b3c7851ada4563d578d527102057b63b",
+  "videoSha256": "137330962c85d9c115a486cb9cf6d85de1fc7cd1e28d8d02ceb806c90c86e5d8",
+  "darkVideoSha256": "f677d236e325551e29e09781fcc1ca06fe3752de0641ed6ce3cc09dd71c80596",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 87875,
+  "darkBytes": 93798,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T13:05:33.027Z"
+}

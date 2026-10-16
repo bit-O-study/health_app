@@ -1,0 +1,43 @@
+{
+  "samples": 481,
+  "feetDrift": 5.324731943421296e-15,
+  "heelAnchorDrift": 5.899414787844033e-15,
+  "loopDrift": 0,
+  "hipHingeDegrees": 45.00000000000001,
+  "handsDrift": 8.200633644425975e-15,
+  "palmWallGaps": {
+    "L": {
+      "min": 0.009507279786769018,
+      "max": 0.009507279786782341
+    },
+    "R": {
+      "min": 0.009507279786769018,
+      "max": 0.009507279786782341
+    }
+  },
+  "minElbowDegrees": 179.99999852122065,
+  "minWallSkinGap": 0.009507279786769018,
+  "minWallGarmentGap": 3.9436481965465937,
+  "minFloorClearance": -5.329070518200751e-15,
+  "maxFloorClearance": 4.440892098500626e-15,
+  "minLegSkinGarmentSectionGap": 0.5156882132572461,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

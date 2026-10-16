@@ -1,0 +1,18 @@
+{
+  "id": "standing-side-bend-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ddf726187b51d73a4dba53827f1e7392b83ae06cb72890765d852e1fa7bdfc32",
+  "rigSourceSha256": "f779f117a3807c52a8900c4e81f04742109fac0f84571e239accd0c98e99f502",
+  "videoSha256": "91c615ce1c2006b18729552f59c4a50025aaad3c24c48cf32027070efe1c4d21",
+  "darkVideoSha256": "c313cf4f6b1e8cc3cefebae6acfea8f3f03e2734173b0160df8fef27f8b5ee82",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 63590,
+  "darkBytes": 68568,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:06:22.576Z"
+}

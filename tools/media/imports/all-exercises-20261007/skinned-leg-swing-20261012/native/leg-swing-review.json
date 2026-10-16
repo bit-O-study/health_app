@@ -1,0 +1,106 @@
+{
+  "id": "leg-swing",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.sussex.ac.uk/sport/documents/forward-leg-swings.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact forward/back leg swing, not hip hinge or lateral leg swing.",
+    "equipment": "Bodyweight with fixed wall support.",
+    "setup": "Tall trunk, LEFTfoot and LEFTpalm fixed, RIGHTknee soft.",
+    "hands": "LEFTpalm near wall contact throughout; relaxed RIGHThand clears skin and shorts.",
+    "feet": "481 actual support sole/heel fixed and swinging sole above floor; positive bilateral skin/garment separation.",
+    "movement": "Final both32frame sheets and forward/back peaks, waist, feet and support enlargements reviewed. Continuous4second swings,2cycles; decode and Edge pass."
+  },
+  "sourceSha256": "3b6c5aceb16ed0973fe53fded1158df535c11bd7ac2d1decbe711cee1754f12f",
+  "rigSourceSha256": "7151178d47227cbb41c988e161ce3f3eb43d621ea3561fcf156821bdd9355660",
+  "videoSha256": "17dda7db0134c24dbcc79f7ef58ecdee9f640016864e3cd69ba7050a79e30a76",
+  "darkVideoSha256": "d83a57b6d7a1b18886ee68e5a39973db2997ce3d0c11d678461f51413a2445e0",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-leg-swing-20261012/native/leg-swing.mp4",
+      "sha256": "17dda7db0134c24dbcc79f7ef58ecdee9f640016864e3cd69ba7050a79e30a76",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 77843,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-leg-swing-20261012/native/leg-swing-dark.mp4",
+      "sha256": "d83a57b6d7a1b18886ee68e5a39973db2997ce3d0c11d678461f51413a2445e0",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79155,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "supportHandDrift": 0,
+    "supportFootDrift": 0,
+    "supportHeelDrift": 0,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.0273471950728712,
+    "minHandBodyPlaneGap": 0.9439499324763485,
+    "minLegSkinGarmentSectionGap": 0.2804730614239271,
+    "minWallGap": 0.014107261905383695,
+    "supportFloorError": 1.7763568394002505e-15,
+    "minSwingFloorGap": 0.13179521069363442,
+    "swingFootZRange": [
+      -4.090887347370993,
+      3.785111608181627
+    ],
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "forwardPeaks": [
+        1,
+        5
+      ],
+      "backwardPeaks": [
+        3,
+        7
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:56:31.579Z",
+  "limitations": "One side shown; repeat other side separately.35degree forward/20degree backward demo are not clinical ROM prescription. Geometric skin/section checks are sampled evidence, not exhaustive triangle collision or balance-force simulation. No physical-device certification."
+}

@@ -1,0 +1,109 @@
+{
+  "id": "single-arm-overhead-dumbbell-extension",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/one-arm-dumbbell-extension.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "extend": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Single-arm standing overhead triceps extension. Left elbow extends from a deep posterior bend to a soft top position then lowers; upperarm stays fixed.",
+    "equipment": "Only one intact dumbbell in left hand; right hand empty and relaxed. Plates, shaft and grip maintained through full range.",
+    "setup": "Upright planted stance, elevated left upperarm beside head; rear-oblique full camera makes the posterior dumbbell arc visible.",
+    "hands": "Palm-forward closed grip; hand and side closeups0/105/210/345 inspected. Dumbbell remains attached to wrist grip socket, no grip flips.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed, no optical-flow ghosting. Fixed elbow/shoulder and conservative plate/head-torso clearance verified numerically; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "1b68fd00585798b0731e07089fde27ce2c63cb87fdc89db663fc3af74483c0d2",
+  "rigSourceSha256": "6bca5d6d404382ae2d5fc9c21aa77f0f27862c6b489c140571d0ed61d27ecee4",
+  "videoSha256": "b07e66696ac12ac861113a11537a4dd43365f1a94f849587e80d223c52c8bc8f",
+  "darkVideoSha256": "eabc138a2ed423d9ec5edbdcf03b9523d22d4018cceb54678ca15ee9dc065e3a",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-triceps/native/single-arm-overhead-dumbbell-extension.mp4",
+      "sha256": "b07e66696ac12ac861113a11537a4dd43365f1a94f849587e80d223c52c8bc8f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 49413,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-triceps/native/single-arm-overhead-dumbbell-extension-dark.mp4",
+      "sha256": "eabc138a2ed423d9ec5edbdcf03b9523d22d4018cceb54678ca15ee9dc065e3a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 45193,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 0,
+    "shoulderDrift": 0,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 2.0985702163453066,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.1753,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0685221886231054,
+    "units": "world units, body height approximately17; equipment clearance uses conservative plate-cylinder bounds against posed central torso/head vertices"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:30:56.070Z",
+  "limitations": "Barefoot mannequin; left-side demonstration only. Starts after overhead setup at flexed elbow, no physical-device or biomechanical certification."
+}

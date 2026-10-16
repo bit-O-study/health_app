@@ -1,0 +1,1 @@
+const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014';let s=fs.readFileSync(b+'/motion.mjs','utf8').replace('new THREE.Vector3(sign*.25,-1,-.1)','new THREE.Vector3(sign*.25,-1,-.4)');fs.writeFileSync(b+'/motion.mjs',s);

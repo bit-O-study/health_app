@@ -1,0 +1,109 @@
+{
+  "id": "incline-cable-triceps-extension",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "continuous: raised hold0-.4, lowering.4-3.8, bent hold3.8-4.2, extension4.2-7.6, raised hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/motion.mjs",
+      "sha256": "ada1059eefd15ccc5bc5114b1c4745cbb2fadec53f2be275e3180a6d33fcdedc"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/studio.mjs",
+      "sha256": "f3607523897ebf71e441b64022476120342b603e81ecbe39ee3162da805c32e7"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/render.mjs",
+      "sha256": "1008604a37db0a202f8223b9d17c7dc095d3cbc08c9c08432604ecf63059bfa2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/cable.mjs",
+      "sha256": "c069bee100e4d589546810e4d228c3481bf8754472d9ddb3c91d274507883362"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/node/4110"
+  ],
+  "sourceSummary": "Muscle and Strength Incline Cable Tricep Extension node4110 specifies30degree bench facing away from low pulley, straight bar overhand approximately shoulder width, back against pad and arms raised at start. Elbow-only lowering behind head until forearms slightly below horizontal, then extension and brief pause.",
+  "motion": "30degree incline-bench bilateral straight-bar cable extension. Head-side low pulley, fixed vertical upperarms, raised start and95to5degree elbow bend. Native hinge plane aligned without ROM reduction. Back support and grounded feet; continuous8second cycle lowering first.",
+  "kinematics": {
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 2.3314683517128287e-15,
+    "pulleyRimError": 1.7208456881689926e-15,
+    "connectorRadiusError": 1.6375789613221059e-15,
+    "stackRiseRange": [
+      0,
+      5.19088095779205
+    ],
+    "cableBodyMinClearance": 1.032290464394665,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.4424906541753444e-15,
+    "gripTangentAxisError": 1.1389935954777104e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      95
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8935158397010937,
+    "barGripWidth": 3.457906299643233,
+    "barRise": 3.8459623323360574,
+    "collisionSamples": 481,
+    "bodyBarMinClearance": 0.847749552099904,
+    "footMinY": -7.751374738328083,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 12.408858149200377,
+    "stackBaseGap": 0.1699999999999997,
+    "stackUpperGap": 4.6591190422079505,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0029415843587798918,
+    "floorGap": 2.616719170234205e-7,
+    "clothBarMinClearance": 8.762359387397753,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.412203687323199e-13,
+    "handSeparationX": 2.1319126869598346,
+    "handRingGapX": 1.0209563434799174,
+    "palmProjectionRange": [
+      -0.9507020329002343,
+      -0.950702032900233
+    ],
+    "bentPalmUpMinimum": 0.9741118312317043,
+    "clothCableGap": 8.93198388941093,
+    "benchInclineError": 3.552713678800501e-15,
+    "skinBench": -2.7755575615628914e-16,
+    "clothBench": 0.000981193610502168,
+    "barBench": 1.1795671337547393,
+    "cableBench": 0.34805916383667346
+  }
+}

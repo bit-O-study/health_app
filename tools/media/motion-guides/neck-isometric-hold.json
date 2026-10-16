@@ -1,0 +1,15 @@
+{
+  "id": "neck-isometric-hold",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "neck-isometric-hold-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.eput.nhs.uk/wp-content/uploads/2025/03/a4whiplash.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T04:16:47.713Z"
+}

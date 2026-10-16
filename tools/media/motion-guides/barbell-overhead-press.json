@@ -2,10 +2,13 @@
   "id": "barbell-overhead-press",
   "equipment": "barbell",
   "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "barbell-overhead-press-provenance.json",
+  "cutout": true,
   "sources": [
     "https://www.muscleandstrength.com/exercises/military-press.html"
   ],
-  "prompt": "Square2048x2048 opaquegraystudio contact sheet, exact4x4 equallysized squareframes. Originalgray3D anatomical mannequin tealshorts grayshoes. STANDING STRICT BARBELL OVERHEAD PRESS in16successive raisingposes. VERY WIDE VIEW: entire person plus bar raised overhead occupiesonly55% ofeachframeheight. Emptyspaceabove raisedbar20%oftileheight. Fullbarplatesmustneverapproachtopedge. Feetshoulderwidth fixedflat. Startbarfrontshoulders, closedoverhandgrip justoutside shoulders, elbowsunderbar. Graduallypressup pastface, chinretractsforclearance, finishbarovermidfoot witharmsstraight andheadbetweenarms. Neutralspine, nostandingbackbend, nokneebend orlegdrive. Samecamera, bodysize, feetposition everyframe. No text orlogos.",
-  "registeredAt": "2026-09-09T09:02:16.698Z",
-  "cutout": false
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T05:00:31.385Z"
 }

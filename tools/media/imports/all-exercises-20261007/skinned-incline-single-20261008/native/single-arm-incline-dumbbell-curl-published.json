@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-incline-dumbbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5907464595e1979b6cde3e1d4a09f7c5abaf5b92b110ba3fa7d8f6c219de66ac",
+  "rigSourceSha256": "55fcdfb5bbb979db49da95cfe9737d6fbcfdfda7211ec77430e3d74faf5b6918",
+  "videoSha256": "32022196e073c8ce1c0ea2399ebe67703766df1d771c74734a95ac007132c2c2",
+  "darkVideoSha256": "3b3754c46ef6ecc4d752a3814875ac59ea86472fb26d47f573a98a6ea18d61c1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 56100,
+  "darkBytes": 45591,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T04:14:58.767Z"
+}

@@ -1,0 +1,176 @@
+{
+  "id": "reverse-grip-incline-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/reverse-grip-incline-bench-press.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerNearUpperChest": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Reverse-grip incline press, 30degree bench, upper-chest approach without body contact;134.23degree bottom elbow flexion to8degree soft top.",
+    "equipment": "One rigid straight barbell,shaft/plates/collars versus non-hand body vertices, shaft versus body triangles, sampled bench/head/back pads checked481poses.",
+    "setup": "Head/back/pelvis supported on 30-degree incline bench and cushion,both feet grounded.",
+    "hands": "Closed underhand wide grips,fixed span and bar plane.Wrist deviation and palm-toward-head direction measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "01c83892c6f70acb16cc463efb9c2cb980d867b695c7220601fccecec946d282",
+  "rigSourceSha256": "e7f25b72f396d83a936805d16625b26db3354df4d764a871bef91dc73dd72367",
+  "videoSha256": "e2fa573317ce420b848ec0673abcf776eb68ab9c619baf6d94e3ba0ea1529c20",
+  "darkVideoSha256": "5cdd9ab93d45ea761663b78344f6e3226b2c9e28ef4a1db353af1742aea74872",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press.mp4",
+      "sha256": "e2fa573317ce420b848ec0673abcf776eb68ab9c619baf6d94e3ba0ea1529c20",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 121586,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press-dark.mp4",
+      "sha256": "5cdd9ab93d45ea761663b78344f6e3226b2c9e28ef4a1db353af1742aea74872",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 109482,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.63261135558298,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.03759706802127005,
+    "minEquipmentBenchClearance": 4.212940111966676,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.04363995484319286,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 2.7676867213253327,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.56599651795744,
+    "minimumBackGap": 0,
+    "backContactError": 0.037041352916150405,
+    "minHeadClearance": 1.3385105918348952,
+    "minElbowFlex": 8.00000000013861,
+    "maxElbowFlex": 134.23041340607486,
+    "minimumElbowAboveShoulder": -2.4833623354167718,
+    "wristDeviationRange": [
+      14.118578740638263,
+      31.66908764303999
+    ],
+    "bottomWristDeviation": [
+      24.369800552471958,
+      24.369800552471958
+    ],
+    "topWristDeviation": [
+      14.370391507158788,
+      14.370391507158788
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 5.329070518200751e-15,
+    "minNonChestClearance": 0.46354794211169037,
+    "startChestContact": 0.03759706802127005,
+    "endChestContact": 0.03759706802127005,
+    "minimumShaftTriangleGap": 0.03500000704313505,
+    "minimumPalmTowardHead": 0.9999999999999999
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T06:22:39.413Z",
+  "limitations": "Barefoot mannequin, 30-degree incline bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification. Shaft triangle inspection applies to triangles fully within the shaft span; plate and collar checks use conservative cylinders against vertices. Bench/pad clearances use sampled surfaces. M&S30degree non-contact/no-lockout protocol selected; the conflicting M&F chest-touch/lockout variant is not mixed in.",
+  "visualReview": {
+    "status": "passed",
+    "evidence": [
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press-32.jpg",
+        "sha256": "b165d1e9ceaf756bdf098a27d4322c26dbed9bc1adcc186dc44f696df41144de"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press-dark-32.jpg",
+        "sha256": "43053dddbde2b5e53ec6e0c48dd204783116b53fa55c56f04e9ed488da33b68c"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press/hand-0.png",
+        "sha256": "35492d60edb13764886d8f07bfe5437065217022784d759f5f4af3c918b10c9e"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press/hand-210.png",
+        "sha256": "78bc30a4d8956a953cd3477ec2db4564ec3d4ac88eb19896f923336185c5864e"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press/side-0.png",
+        "sha256": "78edfdab6287337a319e2ea99714ffb161e414ae10c29595c1377c5982d97f80"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press/side-210.png",
+        "sha256": "fdbc69c70bec52d3c8616d66646149991b8385affca15fb184ed012770b6dccf"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press/chest-0.png",
+        "sha256": "a0c47b71c4d29ff2e6467148dea2217b332a7795ca117062d23c6012c16b883c"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-incline-barbell-20261014/native/reverse-grip-incline-press/feet-0.png",
+        "sha256": "7fc09a03cb9af65cecc47784693e178d0ae8345ebcd1799c22ffefc99f81d5ff"
+      }
+    ],
+    "observations": "Both32-frame sheets: continuous symmetrical underhand pressing with stable feet, pelvis, head and back. Closeups: thumbs wrap shaft, palms face head, upper-chest approach stays clear, no hand/arm/clothing fragments or ghosting. Top retains8degree flexion. Diagnostic chest/feet views are extra views only; source render camera unchanged."
+  }
+}

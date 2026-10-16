@@ -1,0 +1,18 @@
+{
+  "id": "behind-the-back-cable-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "14a05472b1e1ef11abf1440d22b3c913fdc5177dc3e1dc5c92b5d095a8440096",
+  "rigSourceSha256": "edc160cd17b7e34a7ca329687fcc1f47cfa6990fc0f679f33c202adfd77c8ddd",
+  "videoSha256": "7f0c87e1edaea21e08597f6ffaf70446330914af3d99eb9ab93876027c9881d6",
+  "darkVideoSha256": "0750603241b9a3a3904c043960744be03ccc7b2f3d34c3ed94b722e1cce3e56f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 69090,
+  "darkBytes": 64977,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:41:49.913Z"
+}

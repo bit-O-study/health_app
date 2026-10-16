@@ -1,0 +1,16 @@
+{
+  "id": "ez-bar-reverse-curl",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "ez-bar-reverse-curl-provenance.json",
+  "aliasOf": "reverse-ez-bar-curl",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/reverse-ez-bar-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:13:44.594Z"
+}

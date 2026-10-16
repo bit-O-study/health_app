@@ -1,0 +1,97 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": 2.616719170234205e-7,
+  "minSeatGap": 0.008499927356904635,
+  "maxSeatGap": 0.008499927356904635,
+  "minArmSeatGap": 0.7407054108791957,
+  "headAngles": {
+    "pitch": [
+      -20,
+      25.000000000000004
+    ],
+    "yaw": [
+      -35,
+      35
+    ],
+    "roll": [
+      -20.000000000000007,
+      20.000000000000004
+    ]
+  },
+  "neckSurface": {
+    "minEdgeStretch": 0.07145687220929771,
+    "maxEdgeStretch": 2.714293163873386,
+    "finite": true,
+    "vertices": 15680,
+    "edges": 88946
+  },
+  "minHeadShoulderVerticalGap": 0.23617964422456383,
+  "minBackrestSDF": 2.4951680521478137,
+  "maxChestTilt": 0,
+  "maxWristStep": 0,
+  "phaseSamples": [
+    {
+      "seconds": 0,
+      "sideDegrees": 0,
+      "forwardDegrees": 25.000000000000007
+    },
+    {
+      "seconds": 1,
+      "sideDegrees": -20.83221899741965,
+      "forwardDegrees": 18.40990257669732
+    },
+    {
+      "seconds": 2,
+      "sideDegrees": -17.92503996193869,
+      "forwardDegrees": 2.5000000000000036
+    },
+    {
+      "seconds": 3,
+      "sideDegrees": -7.71237491070117,
+      "forwardDegrees": -13.409902576697322
+    },
+    {
+      "seconds": 4,
+      "sideDegrees": -1.0464113672462123e-15,
+      "forwardDegrees": -20
+    },
+    {
+      "seconds": 5,
+      "sideDegrees": 7.71237491070117,
+      "forwardDegrees": -13.409902576697322
+    },
+    {
+      "seconds": 6,
+      "sideDegrees": 17.925039961938687,
+      "forwardDegrees": 2.4999999999999964
+    },
+    {
+      "seconds": 7,
+      "sideDegrees": 20.832218997419666,
+      "forwardDegrees": 18.409902576697313
+    },
+    {
+      "seconds": 8,
+      "sideDegrees": 0,
+      "forwardDegrees": 25.000000000000007
+    }
+  ],
+  "phaseSeconds": {
+    "continuous": [
+      0,
+      8
+    ],
+    "period": 8,
+    "flexion": [
+      0,
+      8
+    ],
+    "rightRotationSidebend": 2,
+    "extension": 4,
+    "leftRotationSidebend": 6
+  },
+  "units": "world units, body approximately17 tall"
+}

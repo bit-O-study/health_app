@@ -1,0 +1,103 @@
+{
+  "id": "standing-side-bend-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.nhs.uk/live-well/exercise/flexibility-exercises/"
+  ],
+  "checks": {
+    "exercise": "Exact catalog standing-side-bend-stretch: left torso bends sideways and left hand descends beside thigh, neck aligned, pelvis stable.",
+    "equipment": "Bodyweight; no dumbbell, overhead arm or external support.",
+    "setup": "Standing hip-width, both knees/feet stationary. Frontal oblique full-body view shows torso bending without axial rotation.",
+    "hands": "Relaxed hands beside thighs; actual skin lateral separation exceeds0.15world units across481samples. Enlarged left hand and side/back checked for thigh/shorts penetration.",
+    "feet": "481 actual skinned sole checks within0.001 world-unit floor tolerance, both feet and hip anchors fixed.",
+    "movement": "Final both32-frame encoded sheets visually inspected by agent with side/back/hand closeups. Distributed torso bend and controlled return, no ghosts. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "ddf726187b51d73a4dba53827f1e7392b83ae06cb72890765d852e1fa7bdfc32",
+  "rigSourceSha256": "f779f117a3807c52a8900c4e81f04742109fac0f84571e239accd0c98e99f502",
+  "videoSha256": "91c615ce1c2006b18729552f59c4a50025aaad3c24c48cf32027070efe1c4d21",
+  "darkVideoSha256": "c313cf4f6b1e8cc3cefebae6acfea8f3f03e2734173b0160df8fef27f8b5ee82",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-side-bend-next/native/standing-side-bend-stretch.mp4",
+      "sha256": "91c615ce1c2006b18729552f59c4a50025aaad3c24c48cf32027070efe1c4d21",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 63590,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-side-bend-next/native/standing-side-bend-stretch-dark.mp4",
+      "sha256": "c313cf4f6b1e8cc3cefebae6acfea8f3f03e2734173b0160df8fef27f8b5ee82",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 68568,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "hipDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "minimumHandBodyLateralGap": 0.2754939383024686,
+    "leftHandLowering": 0.8752698024060235,
+    "trunkAngleDegrees": 17.999999999999968,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "side": "left body-side bend, opposite side repeated separately",
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:05:11.822Z",
+  "limitations": "One-sided standing arms-down variation; perform opposite side separately. Hand travels beside thigh with small clearance, not forced skin contact.3sec illustrative pause vs NHS2sec instruction. Stylized gray barefoot mannequin; no clinical or physical-device certification."
+}

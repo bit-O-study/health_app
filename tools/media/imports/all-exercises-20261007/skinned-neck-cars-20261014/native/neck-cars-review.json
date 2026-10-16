@@ -1,0 +1,170 @@
+{
+  "id": "neck-cars",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://help.neckcare.com/controlled-articular-rotations"
+  ],
+  "checks": {
+    "exercise": "Exact neck CARs: multi-axis controlled circle, distinct from isolated rotation or tilt.",
+    "equipment": "Bodyweight on stable four-leg backed chair.",
+    "setup": "Seated tall, shoulders/torso/pelvis fixed and both feet planted.",
+    "hands": "Relaxed hands beside chair, no head pulling.481skin/seat edge checks and separated arms.",
+    "feet": "481actual skin sole and seat contact checks with stationary feet/pelvis.",
+    "movement": "Actual head angles trace full circle continuously;481neck surface and head/shoulder separation checks. Both final32sheets and all four neck phases plus side/seat/hands/feet enlargements reviewed. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "5326db9a461a52241ca49996d994243b96e8bdfc2737eab9eace8a780b0a5526",
+  "rigSourceSha256": "e0abe3a9007aac2aee50569bafb8fb50c9a30094b8448cfc46a73dde599e9a7d",
+  "videoSha256": "00671f1c101e56d4dcd41480f97fe2c81737f71d26fd8387bb9292e3720117e6",
+  "darkVideoSha256": "d7f7af199c755a40e43c651db88f514fb2c0e89d93f313b3e6fb8017408e99df",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/native/neck-cars.mp4",
+      "sha256": "00671f1c101e56d4dcd41480f97fe2c81737f71d26fd8387bb9292e3720117e6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 50077,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/native/neck-cars-dark.mp4",
+      "sha256": "d7f7af199c755a40e43c651db88f514fb2c0e89d93f313b3e6fb8017408e99df",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 54708,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "minArmSeatGap": 0.7407054108791957,
+    "headAngles": {
+      "pitch": [
+        -20,
+        25.000000000000004
+      ],
+      "yaw": [
+        -35,
+        35
+      ],
+      "roll": [
+        -20.000000000000007,
+        20.000000000000004
+      ]
+    },
+    "neckSurface": {
+      "minEdgeStretch": 0.07145687220929771,
+      "maxEdgeStretch": 2.714293163873386,
+      "finite": true,
+      "vertices": 15680,
+      "edges": 88946
+    },
+    "minHeadShoulderVerticalGap": 0.23617964422456383,
+    "minBackrestSDF": 2.4951680521478137,
+    "maxChestTilt": 0,
+    "maxWristStep": 0,
+    "phaseSamples": [
+      {
+        "seconds": 0,
+        "sideDegrees": 0,
+        "forwardDegrees": 25.000000000000007
+      },
+      {
+        "seconds": 1,
+        "sideDegrees": -20.83221899741965,
+        "forwardDegrees": 18.40990257669732
+      },
+      {
+        "seconds": 2,
+        "sideDegrees": -17.92503996193869,
+        "forwardDegrees": 2.5000000000000036
+      },
+      {
+        "seconds": 3,
+        "sideDegrees": -7.71237491070117,
+        "forwardDegrees": -13.409902576697322
+      },
+      {
+        "seconds": 4,
+        "sideDegrees": -1.0464113672462123e-15,
+        "forwardDegrees": -20
+      },
+      {
+        "seconds": 5,
+        "sideDegrees": 7.71237491070117,
+        "forwardDegrees": -13.409902576697322
+      },
+      {
+        "seconds": 6,
+        "sideDegrees": 17.925039961938687,
+        "forwardDegrees": 2.4999999999999964
+      },
+      {
+        "seconds": 7,
+        "sideDegrees": 20.832218997419666,
+        "forwardDegrees": 18.409902576697313
+      },
+      {
+        "seconds": 8,
+        "sideDegrees": 0,
+        "forwardDegrees": 25.000000000000007
+      }
+    ],
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 8,
+      "flexion": [
+        0,
+        8
+      ],
+      "rightRotationSidebend": 2,
+      "extension": 4,
+      "leftRotationSidebend": 6
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T05:35:33.181Z",
+  "limitations": "One direction and one cycle shown.25flexion20extension35rotation20sidebend degrees and8second illustration are not prescribed by source or a universal maximum. Worst neck01edge at frame408 compresses .0684036to.0048879world; dedicated front/side408enlargements show continuous surface with a small fold, not a visible tear. Neck triangle-edge deformation ratios are descriptive finite-skin checks, not validated physiological tissue strain; visual review remains required. Sampled contacts and head/shoulder vertical plane are not exhaustive collision or force simulation. No physical-device certification."
+}

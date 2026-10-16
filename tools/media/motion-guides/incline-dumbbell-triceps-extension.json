@@ -1,0 +1,14 @@
+{
+  "id": "incline-dumbbell-triceps-extension",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "incline-dumbbell-triceps-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://weighttraining.guide/exercises/incline-dumbbell-triceps-extension/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:13:40.733Z"
+}

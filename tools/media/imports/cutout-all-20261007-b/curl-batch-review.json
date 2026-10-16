@@ -1,0 +1,53 @@
+[
+    {
+        "id":  "standing-cable-curl",
+        "sourceSha256":  "7f4ff7ea3f58ad4a6e37abf5be551e3b63e5a96e663d22d4f80f343cda66fc75",
+        "model":  "u2net",
+        "panelsProcessed":  [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8
+                            ],
+        "seconds":  10.062999999965541,
+        "published":  false,
+        "modelMd5":  "60024c5c889badc19c04ad937298a77b",
+        "peakRssMiB":  1002.8,
+        "minFreeGiB":  2.838,
+        "status":  "hold-motion",
+        "variant":  "-u2net-cable",
+        "method":  "Original equipment restored through connected white-background mask; body uses u2net mask, floor shadows excluded. 8 original poses retained.",
+        "reason":  "Cutout and original tower/cable restoration improved, but existing8-pose optical-flow interpolation creates doubled/translucent bar and hands at2.5s (second row third frame). Full decode and Edge playback pass do not resolve visual motion defect.",
+        "inspected":  [
+                          "source8",
+                          "all8-composite-poses",
+                          "both32frame-sheets",
+                          "fullsize-transition-2.5.png"
+                      ]
+    },
+    {
+        "id":  "cable-rope-hammer-curl-2",
+        "sourceSha256":  "4addd84f5fce7210c1df4e5eb88c25fff8f579fd2e5be2c16caec55a51963b5d",
+        "model":  "u2net",
+        "panelsProcessed":  [
+                                1,
+                                16
+                            ],
+        "seconds":  3.9070000000065193,
+        "published":  false,
+        "modelMd5":  "60024c5c889badc19c04ad937298a77b",
+        "peakRssMiB":  920.2,
+        "minFreeGiB":  3.364,
+        "status":  "hold-source-and-cutout",
+        "reason":  "Original 16-panel sheet cuts off tower top at panel boundaries. u2net removes entire tower and cable. Gray background and metallic highlights overlap; dark threshold cannot restore full equipment faithfully. No full render.",
+        "inspected":  [
+                          "original16",
+                          "endpoint1-light",
+                          "endpoint16-dark"
+                      ]
+    }
+]

@@ -1,0 +1,115 @@
+{
+  "id": "dumbbell-external-rotation",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.youtube.com/watch?v=7q_mjaj363A",
+    "https://library.theprehabguys.com/vimeo-video/shoulder-external-rotation-with-dumbbells-2/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "raise": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Standing bilateral90/90 dumbbell external shoulder rotation, forearms forward-horizontal to upright-vertical with stationary elbows.",
+    "equipment": "Two intact dumbbells with grip sockets fixed and conservative plate/body clearance over481samples.",
+    "setup": "Upright standing torso, fixed feet on floor, no bench.",
+    "hands": "Closed grips; palms down with horizontal forearms, then forward at vertical forearms; wrist alignment and handle attachment inspected in fullsize start/peak views.",
+    "feet": "Both feet stationary with soles meeting floor throughout481samples.",
+    "movement": "Final both32frame sheets and hand/side previews reviewed. Continuous procedural motion without optical-flow ghosts; full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "c264f1fcab14a1de9b8575301b67935b00f65fc717ccf335f52c3a00bf36b9e2",
+  "rigSourceSha256": "a5c5b39cfcce87251547aabe73c2d466c5c725ae64f8bf3dbb866c330d4734a5",
+  "videoSha256": "700f8dfd20f94039a957867ab38b7573d5ece9eb7d1c84902754f1579761db09",
+  "darkVideoSha256": "d955d0e7979493da809407f830403982349c22f231a8d3ac9186e18c3ab0d3e8",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-external-rotation-20261008/native/dumbbell-external-rotation.mp4",
+      "sha256": "700f8dfd20f94039a957867ab38b7573d5ece9eb7d1c84902754f1579761db09",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 93288,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-external-rotation-20261008/native/dumbbell-external-rotation-dark.mp4",
+      "sha256": "d955d0e7979493da809407f830403982349c22f231a8d3ac9186e18c3ab0d3e8",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79749,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 1.1986424564952127e-15,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 2.596227046520907,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05417074601505934,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices",
+    "elbowBendMin": 89.99999999999994,
+    "elbowBendMax": 90.00000000000004,
+    "minAbduction": 90,
+    "maxAbduction": 90.00000000000006,
+    "forearmStartDegrees": -1.9392259685351503e-14,
+    "forearmPeakDegrees": 90.00000000000001
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:41:36.979Z",
+  "limitations": "Barefoot standing mannequin; standing90/90 variant only. No physical-device or biomechanical certification."
+}

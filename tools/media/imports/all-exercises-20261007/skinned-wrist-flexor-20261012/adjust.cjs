@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-wrist-flexor-20261012/';for(const f of ['motion.mjs','studio.mjs']){let s=fs.readFileSync(b+f,'utf8').replaceAll('-.3,-.35,1','-.55,-.5,1');fs.writeFileSync(b+f,s);}

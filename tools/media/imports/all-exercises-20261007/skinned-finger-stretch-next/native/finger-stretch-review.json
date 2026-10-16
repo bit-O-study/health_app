@@ -1,0 +1,117 @@
+{
+  "id": "finger-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.wyevalley.nhs.uk/media/1425978/lymphoedema-upper-arms-exercise-final-060624.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact catalog finger-stretch, active opening/straightening and relaxed spreading from gently bent fingers. Both hands simultaneously, no pulling with opposite hand.",
+    "equipment": "Bodyweight, empty hands and no hand gripper, band or added weights.",
+    "setup": "Standing upright with elbows at sides and forearms horizontal; hands stay at fixed positions.",
+    "hands": "Dorsal and palmar enlarged views at closed/intermediate/open poses reviewed. Five fingers continuous, relaxed thumb releases with fingers. No aggressive fist squeeze or finger hyperextension.",
+    "feet": "481 actual skinned sole checks within0.001 world-unit floor tolerance; bilateral feet fixed.",
+    "movement": "Final both32-frame encoded sheets visually inspected by agent. Smooth finger-joint movement without moving wrists/elbows, no ghosting. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "d3a0681103eeb81e6250501e2cf2ca19a066794ef7426ed1e11dff79d0952e45",
+  "rigSourceSha256": "79862ee990132e268811ac5833adc281143c0af2dc078b06a1545a81f2a86261",
+  "videoSha256": "2619b6d25eceb57db2ca33fe21bcdb32fc3363294ab93681c918dc054d431f3d",
+  "darkVideoSha256": "7f57fd79ed0a5326f7411d442a86b5195de244b9395c82d56030c048f6350073",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/native/finger-stretch.mp4",
+      "sha256": "2619b6d25eceb57db2ca33fe21bcdb32fc3363294ab93681c918dc054d431f3d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 30328,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/native/finger-stretch-dark.mp4",
+      "sha256": "7f57fd79ed0a5326f7411d442a86b5195de244b9395c82d56030c048f6350073",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 29472,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "elbowDrift": 0,
+    "wristCenterDrift": 0,
+    "handDirectionDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "closedFingerAngles": [
+      55,
+      70,
+      39.999999999999986
+    ],
+    "openFingerAngles": [
+      0,
+      0,
+      0
+    ],
+    "middleTipMotion": 1.3128154218107588,
+    "maxTipStep": 0.015652518809285924,
+    "phaseSeconds": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "open": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "close": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:13:30.752Z",
+  "limitations": "Active finger-opening variation with gently bent fingers, not passive finger-extension stretch or tightly clenched fist. Natural rest-model finger spread is modest. Stylized gray barefoot mannequin; no clinical or physical-device certification."
+}

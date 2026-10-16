@@ -1,0 +1,15 @@
+{
+  "id": "finger-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "finger-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.wyevalley.nhs.uk/media/1425978/lymphoedema-upper-arms-exercise-final-060624.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:26:32.434Z"
+}

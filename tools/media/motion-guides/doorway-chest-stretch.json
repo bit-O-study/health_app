@@ -1,0 +1,15 @@
+{
+  "id": "doorway-chest-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "doorway-chest-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/anterior-shoulder-stretch/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:34:32.770Z"
+}

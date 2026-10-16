@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cc19e73b79e0591a3d649beeca63e1a6bfdf34ade93e38950b46e84e8b9340c5",
+  "rigSourceSha256": "375b15c81b5fadf0af436509884fc1e022dab0be7bbec7f5e4ce132f638795c5",
+  "videoSha256": "d37a2d4a8c8c73a942b82ba21d6f6f3ba23dbf47ba2e2dc809686c857634e333",
+  "darkVideoSha256": "a4f9e88f6d6cedaecd28216139aa7895ad5424828b320508b235f17c3d113692",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79267,
+  "darkBytes": 75550,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T02:20:02.079Z"
+}

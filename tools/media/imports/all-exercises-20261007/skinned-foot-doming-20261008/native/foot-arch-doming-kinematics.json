@@ -1,0 +1,37 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "toeBoneDrift": 0,
+  "archRise": 0.11673688888549805,
+  "footShortening": 0.059999942779541016,
+  "heelBackDrift": 0,
+  "heelHeightDrift": 0,
+  "ballHeightDrift": 0.00009192876967389907,
+  "loopSurfaceDrift": 0,
+  "minFloorClearance": 0.002118810319169384,
+  "heelFloorGap": 0.010424875624553742,
+  "ballFloorGap": 0.002210739088843283,
+  "minSeatGap": 0.008499927356904635,
+  "minArmSeatGap": 0.7407054108791957,
+  "maxArchStep": 0.002079481698107344,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

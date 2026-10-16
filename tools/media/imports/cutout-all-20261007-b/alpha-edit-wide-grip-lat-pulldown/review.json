@@ -1,0 +1,29 @@
+{
+  "candidateSize": [
+    1254,
+    1254
+  ],
+  "originalSize": [
+    1254,
+    1254
+  ],
+  "sourceSha256": "276373c711f4bc54dda82c75211c9284ff059933f2b9f38b602053536b5d3d59",
+  "candidateSha256": "a5cfa8c0bc0e037a54073ad6cee9c5f677451076f5eecb696c75af9701966a3f",
+  "alphaZeroFraction": 0.6603290522958113,
+  "opaqueFraction": 0.15387061244527878,
+  "opaqueRgbMAE": 30.93133551547613,
+  "published": false,
+  "id": "wide-grip-lat-pulldown",
+  "status": "hold-alpha-edit-geometry",
+  "generator": "built-in image_gen",
+  "reason": "First-pose side-by-side comparison shows bar, seat, body and shoes shifted/rescaled despite unchanged atlas dimensions; foreground not faithfully preserved.",
+  "inspected": [
+    "original16",
+    "light16atlas",
+    "dark16atlas",
+    "comparison-first.jpg"
+  ],
+  "fullRender": false,
+  "playbackTest": false,
+  "promptFile": "prompt.txt"
+}

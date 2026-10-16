@@ -1,0 +1,121 @@
+{
+  "id": "close-grip-dumbbell-floor-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://assets.crossfit.com/pdfs/seminars/SMERefs/Powerlift/CrossFitSeminarGuidePowerlifting.pdf"
+  ],
+  "phaseSeconds": {
+    "bottomHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "topHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "bottomEndHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Close-grip bilateral neutral dumbbell floor press with elbows close to torso.",
+    "equipment": "Two dumbbells; no bench. All non-hand body vertices and dumbbell-pair/floor clearances sampled481times.",
+    "setup": "Bent knees,head and pelvis on floor; back near floor without penetration.",
+    "hands": "Neutral palms-inward grip; bottom forearms vertical and wrists stacked over elbows. Anatomical palm-normal inward projection minimum.998198 across481samples.",
+    "feet": "Stationary feet,heel/toe and sole floor gaps checked.",
+    "movement": "Smooth .4/3.8/4.2/7.6 timing; bottom rest preserved across looping boundary. Final both32frame sheets and hand210/side0/back210 closeups visually reviewed without ghosting or equipment/limb loss."
+  },
+  "sourceSha256": "497ce80654befa7f79ef69827a9ab83b5b8170274278948b57f88826e4df59be",
+  "rigSourceSha256": "99d15a9f2c6ad3ffd4d5e89fb9b5ecd37f5059e8db744c5f333b5bb1c41ec0fb",
+  "videoSha256": "12c13a6d80a42895e9047ec7db425446824ae11223936f1e2124ffcb805606bd",
+  "darkVideoSha256": "795c40ebc2398f661e048bc2fe71492244c30422a7785c18d313243c8b52e54c",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-floor-press-20261014/native/close-grip-dumbbell-floor-press.mp4",
+      "sha256": "12c13a6d80a42895e9047ec7db425446824ae11223936f1e2124ffcb805606bd",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85171,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-floor-press-20261014/native/close-grip-dumbbell-floor-press-dark.mp4",
+      "sha256": "795c40ebc2398f661e048bc2fe71492244c30422a7785c18d313243c8b52e54c",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 70311,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "floorY": -2.966217236366944,
+    "minBodyFloorGap": -6.703082533476845e-12,
+    "minClothFloorGap": 0,
+    "minEquipmentBodyClearance": 0.5214324054982326,
+    "minHeadClearance": 2.415220499597619,
+    "minDumbbellPairClearance": 0.6700815942275486,
+    "minEquipmentFloorGap": 2.744600049397121,
+    "maxBackGap": 0.045387383161350936,
+    "maxHeadGap": 3.135269821541442e-13,
+    "maxFootGap": 6.039613253960852e-14,
+    "heelGap": 0.010424613952576323,
+    "toeGap": 0.00990000497343635,
+    "bottomUpperArmGap": 6.703082533476845e-12,
+    "minElbowFlex": 5.846694886037496,
+    "maxElbowFlex": 109.19556712162455,
+    "bottomVerticalForearmOffset": 1.4043333874306805e-15,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "loopDrift": 0,
+    "minPalmInwardDot": 0.9981983842903885,
+    "bottomUpperArmAbductionDegrees": 10.366322603450467,
+    "bottomWristSpan": 4.902112699613235,
+    "units": "Model world units; conservative dumbbell plate cylinders; posed mesh vertex checks."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Barefoot mannequin. CrossFit guide page14 specifies inward palms and elbows tight to sides; floor version without optional band selected. Actual bottom ROM follows posterior upper-arm floor contact with vertical forearms. Back surface moves within .05world-unit floor gap without penetration. No device or clinical validation.",
+  "reviewedAt": "2026-10-14T02:15:54.681Z"
+}

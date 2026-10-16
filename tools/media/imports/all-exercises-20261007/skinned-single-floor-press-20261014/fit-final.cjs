@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-single-floor-press-20261014';let s=fs.readFileSync(b+'/studio.mjs','utf8').replace('window.inspectPose(0).freePalmMin','window.inspectPose(0).mins.freeHand');fs.writeFileSync(b+'/studio.mjs',s);

@@ -1,0 +1,18 @@
+{
+  "id": "bar-cable-overhead-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b29ee208a1c1b20c55d2ff5979be10b3e2bffa00ab41a895a27d5401c825afce",
+  "rigSourceSha256": "e8a16a215288c846a0bfb857b6daf7fc91e027a056ab30e945d5dad8c8304b13",
+  "videoSha256": "f197b9ea128a43beeb7110ad4639e12182dc25dafd04a3a1e4ed11fc56cb1efe",
+  "darkVideoSha256": "e8d9ac1e894c15760907de99c167854a716605f835b4cd24051076bb04d0b646",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 88430,
+  "darkBytes": 86298,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T05:38:49.179Z"
+}

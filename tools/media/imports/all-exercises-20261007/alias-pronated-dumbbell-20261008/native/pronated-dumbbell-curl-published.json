@@ -1,0 +1,18 @@
+{
+  "id": "pronated-dumbbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f19d9916356a98914da5b8ebfb4f85cd16a0b716e74cbe85d450c2f23fca47c7",
+  "rigSourceSha256": "516c12edb591691f2611618e405ad6971302c83147dc234ec7532741a5c2d82b",
+  "videoSha256": "6c15046b85c15c3b4780e1d804fdb4ac55338a4acd49049855a95fb1daa39285",
+  "darkVideoSha256": "f6cc4d240c1fab5a0500a30ff9003db6e1ca29ce30455aa1e23f6c6ef2a7d54a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 87063,
+  "darkBytes": 72211,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:30:02.023Z"
+}

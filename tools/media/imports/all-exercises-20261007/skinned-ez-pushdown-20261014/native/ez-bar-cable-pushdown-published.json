@@ -1,0 +1,18 @@
+{
+  "id": "ez-bar-cable-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c3679ea6a9626e6bd50426db91d81199b5e08900843bb07069d7a8c92035cfe1",
+  "rigSourceSha256": "c67773372b5b07960c29bd4945bfc43aa357ba3d06ae55ae254744c6c0559766",
+  "videoSha256": "d1c9c1d30796346518880bd35802075a15fad4bc3803a5e73994deaa07de0e9e",
+  "darkVideoSha256": "3424cf3c7c1f858107dec74b85aab07ca41965c3a1998eb7ec9d0791e0cc9ac1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81354,
+  "darkBytes": 78201,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T01:52:38.667Z"
+}

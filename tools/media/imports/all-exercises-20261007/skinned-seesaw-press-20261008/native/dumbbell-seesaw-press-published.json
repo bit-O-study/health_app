@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-seesaw-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "541450f9d295189aef737a5530afa42c10df24da5e62a64290585f3510325219",
+  "rigSourceSha256": "2e4ed5e92e1c4ee5fafa5b662ccb51d97ef99f8e20af88c71e2b80bf843d3c84",
+  "videoSha256": "7a1dd8cdfbeb4287d997178a25ea967fe1fbba924b89a7dda7bd6aee898d1ba9",
+  "darkVideoSha256": "48c44d2df00b9e79e5981726dbbe585e94da613cb140ff070cafa5a87045f86e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 94318,
+  "darkBytes": 82604,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:04:38.082Z"
+}

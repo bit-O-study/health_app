@@ -1,0 +1,15 @@
+{
+  "id": "dumbbell-external-rotation",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-external-rotation-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.youtube.com/watch?v=7q_mjaj363A",
+    "https://library.theprehabguys.com/vimeo-video/shoulder-external-rotation-with-dumbbells-2/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:44:31.724Z"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "seated-smith-machine-shoulder-press",
+  "status": "held-do-not-publish",
+  "source": "https://www.strengthlog.com/seated-smith-machine-shoulder-press/",
+  "reason": "Current seated rig upper-chest-contact pose has 96.68-degree wrist deviation. Alternate lower-deviation poses put elbows behind back or approach chin. No ROM shortening adopted.",
+  "evidence": [
+    "native/fit-result.json",
+    "native/grid-contact.json",
+    "native/grid-pole.json",
+    "native/grid-scan.json"
+  ],
+  "replacement": "smith-machine-close-grip-bench-press"
+}

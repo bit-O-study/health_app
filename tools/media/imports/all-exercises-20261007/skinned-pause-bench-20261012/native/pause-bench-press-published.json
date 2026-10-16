@@ -1,0 +1,18 @@
+{
+  "id": "pause-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f0b1e5f3ad595a9c5c20fbba30824220275d558da812686c0e6c255755dfc411",
+  "rigSourceSha256": "36f20bf7be31249802854b1d60e76b0bb0699bea0d552327352d996fd42bfb08",
+  "videoSha256": "6d146abe6293645fb28530aee6aa1fac4be8a064a440cfc96419aada4a89682c",
+  "darkVideoSha256": "78e1024b80c85d8eef7961f9dd9681a2242507d237d17325c033dcc6f9784641",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 117934,
+  "darkBytes": 102457,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:37:48.282Z"
+}

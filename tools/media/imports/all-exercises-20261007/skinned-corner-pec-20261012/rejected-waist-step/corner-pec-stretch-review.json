@@ -1,0 +1,116 @@
+{
+  "id": "corner-pec-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.leedsth.nhs.uk/patients/resources/physiotherapy-exercises-for-breast-pain-with-chest-wall-musculoskeletal-symptoms/"
+  ],
+  "checks": {
+    "exercise": "Exact corner-pec-stretch, bent-elbow corner chest stretch.",
+    "equipment": "Bodyweight with two perpendicular walls.",
+    "setup": "Facing corner, left foot forward, right foot back, both palms against separate walls near chest height.",
+    "hands": "Palms face respective walls, fingers up with preserved roll; both wrists fixed and palm skin gap checked over481 poses.",
+    "feet": "Both sole and heel anchors fixed; legs and garment have positive separation throughout481 poses.",
+    "movement": "Both final32frame sheets and hands/back/side/feet enlargements reviewed. Chest advances with bent elbows while palms remain fixed; stretch2/3/2/1. Decode and Edge pass."
+  },
+  "sourceSha256": "f5d048a73cda5c3fc104756628a3a97540543731a5ad4c30a8c16b143f81a547",
+  "rigSourceSha256": "1e5cbd070dcb7b88668c8446eff136aa3c29272f0827feb50a563bbe7210964c",
+  "videoSha256": "833f4d9d72750d5475ab4b5542c1e0d29d50f54727415e7882e73f518301e468",
+  "darkVideoSha256": "90d44268715c72d67c1635bb736f710c2d5ac9a3fbc040a1d2973d88000d6669",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/native/corner-pec-stretch.mp4",
+      "sha256": "833f4d9d72750d5475ab4b5542c1e0d29d50f54727415e7882e73f518301e468",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 45993,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/native/corner-pec-stretch-dark.mp4",
+      "sha256": "90d44268715c72d67c1635bb736f710c2d5ac9a3fbc040a1d2973d88000d6669",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 45646,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 5.0292000132872715e-15,
+    "heelAnchorDrift": 5.108232534890496e-15,
+    "loopDrift": 0,
+    "chestAdvance": 0.7,
+    "handsDrift": 4.189529226675416e-15,
+    "palmWallGaps": {
+      "L": {
+        "min": 0.012272445557433898,
+        "max": 0.012272445557438338
+      },
+      "R": {
+        "min": 0.012272445557433898,
+        "max": 0.012272445557438338
+      }
+    },
+    "minElbowDegrees": 76.3610083683724,
+    "minWallSkinGap": 0.012272445557433898,
+    "minWallGarmentGap": 1.8229133638782011,
+    "minFloorClearance": -4.440892098500626e-15,
+    "maxFloorClearance": 2.6645352591003757e-15,
+    "minLegSkinGarmentSectionGap": 0.38385521347802287,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:47:03.104Z",
+  "limitations": "0.7world chest travel and3second hold illustrate motion and are not clinical prescription. Source foot distances represented as staggered stance, not measured patient distances. All skinned vertices checked against both wall half-spaces; palm support sampled within0.9world of each wrist. Leg separation sampled, not exhaustive triangle collision. No physical-device certification."
+}

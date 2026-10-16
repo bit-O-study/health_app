@@ -1,0 +1,13 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "shoulderDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "loopDrift": 8.95090418262362e-16,
+  "wristCircleRadius": 0.8783624864304427,
+  "radiusVariation": 4.107825191113079e-15,
+  "maxRadiusStep": 0.022994819424832794,
+  "cycles": 2,
+  "direction": "backward",
+  "units": "world units, body approximately 17 tall"
+}

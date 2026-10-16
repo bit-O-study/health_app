@@ -1,0 +1,16 @@
+{
+  "id": "neck-cars",
+  "url": "https://help.neckcare.com/controlled-articular-rotations",
+  "title": "Controlled Articular Rotations (CARs)",
+  "provider": "NeckCare original system exercise guidance",
+  "access": "Full page text opened2026-10-14",
+  "protocol": "Slow controlled head circle within available pain-free active motion while the rest of the body stays still; sitting and standing positions are discussed; smaller pain-free arc is an easier option.",
+  "variant": "Seated stable chair, relaxed hands, both soles fixed. One continuous eight-second circle: flexion, right rotation/side bend, extension, left rotation/side bend, flexion. No hand assistance.",
+  "demonstrationAngles": {
+    "flexion": 25,
+    "extension": 20,
+    "rotation": 35,
+    "lateralFlexion": 20
+  },
+  "limitations": "Angles and8second cycle are illustrative, not a prescribed source dose or universal maximum range. One direction shown. Source makes broad health claims; candidate only depicts movement and does not reproduce treatment claims."
+}

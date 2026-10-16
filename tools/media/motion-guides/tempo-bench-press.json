@@ -1,0 +1,14 @@
+{
+  "id": "tempo-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "tempo-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.socalpowerlifting.net/post/methods-and-benefits-of-a-tempo-bench"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:39:56.182Z"
+}

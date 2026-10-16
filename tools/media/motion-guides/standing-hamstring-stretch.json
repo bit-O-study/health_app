@@ -1,0 +1,15 @@
+{
+  "id": "standing-hamstring-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-hamstring-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/cardiac-rehabilitation-exercise-programme/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T01:54:58.666Z"
+}

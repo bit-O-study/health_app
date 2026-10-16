@@ -1,0 +1,18 @@
+{
+  "id": "seated-dumbbell-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c7b89cd2f1f6104131539ad0b4f5660e15442a3fbf9d708c1a30df5528aeae4c",
+  "rigSourceSha256": "6ad75892b2e4ff22c7769f9503131032423e647185cd023521035d4cc044fde6",
+  "videoSha256": "5a9f2aef2e0165dc5a6441314b8c9b0d7cdc33c782578095de017a5dd009f769",
+  "darkVideoSha256": "856a1343b0e756b298c30fc782199251926ed30d69deda66a1704d1567c4c74b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103855,
+  "darkBytes": 87454,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:26:40.541Z"
+}

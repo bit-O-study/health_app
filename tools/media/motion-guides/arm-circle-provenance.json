@@ -1,0 +1,79 @@
+{
+  "id": "arm-circle",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": "two 4 second circles; continuous move throughout, no hold or reversal",
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-new-resume/studio.mjs",
+      "sha256": "0a99b82a56ad4ae78f4f4b6a25e2376dec6111f43a21c8ec27e90f551154039c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-new-resume/motion.mjs",
+      "sha256": "1e652718d7ec41fe44920546f20cc74875978c33b5d569a1c6a7530046ed0924"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-new-resume/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-new-resume/render.mjs",
+      "sha256": "31cb78366bb98ba5f11614beb49abb8a286d6e7f617bd64bd5761ec8b80178d1"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.ohio.edu/wellworks/movement-library"
+  ],
+  "sourceSummary": "Ohio University WellWorks Movement Library Arm Circles: stand tall, arms to sides parallel floor, small circles one direction then switch. Separate catalog IDs show forward and backward directions.",
+  "motion": "Small shoulder-centered 9.8 degree conical circles. Extended elbows, palms down, no equipment. Feet, shoulders and torso remain fixed; slight chest breathing.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "shoulderDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "loopDrift": 1.047382306668854e-15,
+    "wristCircleRadius": 0.8783624864304427,
+    "radiusVariation": 3.885780586188048e-15,
+    "maxRadiusStep": 0.02299481942483332,
+    "cycles": 2,
+    "direction": "forward",
+    "units": "world units, body approximately 17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-new-resume/native/arm-circle.jpg",
+    "sha256": "9d96bebeb943aae5f59cff484fb1d8eb6815e9c2d12fc31c4d7fb3b36ced29d8",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-new-resume/render.mjs arm-circle"
+}

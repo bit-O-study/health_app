@@ -1,0 +1,15 @@
+{
+  "id": "ankle-mobility-drill",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "ankle-mobility-drill-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.opalreturntowork.nhs.uk/exercises/knee-to-wall-stretch/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:12:20.830Z"
+}

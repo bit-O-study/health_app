@@ -1,0 +1,73 @@
+{
+  "id": "single-arm-dumbbell-lateral-raise",
+  "status": "passed-isolated-candidate",
+  "sourceSha256": "60d50a304df0bba0c67b829f5984cde0355b7c6c950e91e31a9c6baacc9fe8c8",
+  "rigSourceSha256": "f8e453f02cdd85d8b4080c54bf4fc11298c9057f323f3d4284bc3456c1c258d3",
+  "themes": [
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-shoulders/native/single-arm-dumbbell-lateral-raise.mp4",
+      "suffix": "",
+      "sha256": "5a0df9e92dc72a03e99cbd49747087d253d226b71eaed4c967e59cf304ec989f",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 63499,
+      "decode": "passed"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-shoulders/native/single-arm-dumbbell-lateral-raise-dark.mp4",
+      "suffix": "-dark",
+      "sha256": "8e2134bc37790c350e3e2eb549e2bdb3356a7d53be27f87a8825034d6e73c517",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 55243,
+      "decode": "passed"
+    }
+  ],
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/one-arm-dumbbell-lateral-raise.html"
+  ],
+  "checks": {
+    "exercise": "single-arm-dumbbell-lateral-raise; Single-arm sideways raise to shoulder height, controlled lowering and stable torso.",
+    "equipment": "Correct number of dumbbells retained through both final 32-frame sheets.",
+    "setup": "Standing upright; stationary trunk visible in full and side views.",
+    "hands": "Root inspected hand-105 and side-210: handle stays with grip; palms-forward press or pronated raise.",
+    "feet": "Both feet remain planted and fully inside final frame.",
+    "movement": "Single-arm sideways raise to shoulder height, controlled lowering and stable torso. Root inspected final light and dark 32-frame sheets; no optical-flow ghost limbs."
+  },
+  "videoSha256": "5a0df9e92dc72a03e99cbd49747087d253d226b71eaed4c967e59cf304ec989f",
+  "darkVideoSha256": "8e2134bc37790c350e3e2eb549e2bdb3356a7d53be27f87a8825034d6e73c517",
+  "reviewedAt": "2026-10-07T03:30:21.031Z",
+  "limitations": "Stylized barefoot mannequin; simplified fingers and dark dumbbells have lower contrast. Local browser verification only, not physical-device or biomechanical certification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  }
+}

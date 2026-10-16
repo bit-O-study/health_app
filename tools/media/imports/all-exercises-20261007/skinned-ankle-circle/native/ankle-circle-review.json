@@ -1,0 +1,86 @@
+{
+  "id": "ankle-circle",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/ankle-circles-standing-with-chair-%2528warm-up%2529"
+  ],
+  "checks": {
+    "exercise": "Standing supported ankle circles, right ankle rotating in both directions with fixed ankle center.",
+    "equipment": "No weights; stable side support stand with floor base.",
+    "setup": "Upright torso, static lightly bent free knee, stationary grounded opposite leg.",
+    "hands": "Right hand maintains contact with support pad; open left hand at side, no hidden dumbbell.",
+    "feet": "Active toe describes circle with horizontal and vertical ranges >0.7, minimum clearance >0.2; planted foot and active ankle center fixed. Foot/side previews inspected.",
+    "movement": "Both final 32-frame sheets inspected; full 192-frame decode and mobile Edge play/seek/loop pass. Exact reverse trajectory and loop verified."
+  },
+  "sourceSha256": "1289c7053faf5b2db99a3e2b80f4d9f3b30bd72844def029a0a950d860d43c5e",
+  "rigSourceSha256": "5869dffe3198db022229f33c6ca3ef7ef88ab2f9b64bcae588dc481211d8ce77",
+  "videoSha256": "4f817d2e76a62efbb30f467a299e5085a7a5dbf3f3ac261f05ea90ed5412b761",
+  "darkVideoSha256": "b1834fb998e0675eba3984b48342329dfbd844a686d347b7dfaa55c250f4d601",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ankle-circle/native/ankle-circle.mp4",
+      "sha256": "4f817d2e76a62efbb30f467a299e5085a7a5dbf3f3ac261f05ea90ed5412b761",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 32018,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ankle-circle/native/ankle-circle-dark.mp4",
+      "sha256": "b1834fb998e0675eba3984b48342329dfbd844a686d347b7dfaa55c250f4d601",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 31016,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "plantedFootDrift": 0,
+    "activeAnkleDrift": 0,
+    "toeHorizontalRange": 0.9033334654352647,
+    "toeVerticalRange": 0.9040461631242831,
+    "activeToeMinGroundClearance": 0.25652335638054247,
+    "supportClearance": 0.0000026663988967889907,
+    "supportWristDrift": 0,
+    "loopDrift": 0,
+    "reverseMatch": 7.444291678311382e-15,
+    "units": "model world units, body height approximately 17"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T04:12:03.562Z",
+  "limitations": "Right side demonstration; repeat opposite side. Mannequin/barefeet style, support stand instead of chair/table. App/physical-device testing not included."
+}

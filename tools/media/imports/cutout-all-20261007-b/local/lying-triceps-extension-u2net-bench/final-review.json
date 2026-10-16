@@ -1,0 +1,76 @@
+{
+  "id": "lying-triceps-extension",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b73fee7de01788e9220aeb19e74b1f2af725909cf3bff87b2da81ec1c1c4e1bc",
+  "videoSha256": "60fc65d4d54d5cf708fe9e80d1f1017cbbfe58d34c59aa40e1a3c4eba052a8c5",
+  "darkVideoSha256": "d7a834f74ba2ad4eb6dea53aef7cce02ca256fa6ae069c377a255f2d2ee73ef3",
+  "darkBytes": 201165,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 239188,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T02:12:44.000Z",
+  "variant": "-u2net-bench",
+  "review": "recommended-pass",
+  "inspected": [
+    "source-16-panels",
+    "light-contact-sheet-32-frames",
+    "dark-contact-sheet-32-frames"
+  ],
+  "correction": "Officialu2net clears arm interior across16poses; source blackbench restored with asset-specific luminanceROI, detached lowerfloor specks<=12px removed. Both32frame sheets and1/10/11/12/16 inspected. Existing16pose opticalflow, not3D biomechanical validation.",
+  "cutCacheSha256": [
+    "2818ee32c7c07ab8eae05dac746b9b896f7cea603a47e4e729909c97afea4881",
+    "be11430564f8a02eff632bcda7cf22175f3dfc2725e5fa09627dc454849842dc",
+    "c74a859c9ac52c6a086ce122b758091e76dfa89daa5987805a41ee03687adb7c",
+    "a4d758585ac09d753bb239da6e50eb35ec5af1f9668b32a34c28a62583ba008d",
+    "1e1bbfa47febcc7aa7c336150d66b30e077c8a20b1135532977b99e20416fd6d",
+    "891abe28c8d42775367d723a8ed3b16e43bb33f17bbb5be7e21d82588715bfc7",
+    "fb8f0611c937366490c1ed361af7ece680335ce56659eebec032e718e9be7b93",
+    "3c8b41fd603d6c4a3a1f348643ec4986810d3df749f57179ba8f33ac458e9132",
+    "22ea70e421b118137650a07dda59aa460e4e53424295c07b59dd62e6423f0c3e",
+    "8ce99524a4640ff19523c66e5422a6202a91c3f480860a7f67b6b5f1d761229f",
+    "7c3d1a5348885744ce877364b55dbf5d5d7cc82fdb2afae91569b39e07a80916",
+    "6645e9499172b46db4ce6cda6e24c9e9be27f0ebbdeff9b3cba1e81f037e9581",
+    "bdb776791327a5c2af3852ef9e282cb61b8a834f33283062943f87bdcb6e6261",
+    "3f8fa4dd3b5f2457e1710cf8c48c32e6425c9ff5ba056cd1718f43b3a5c6225f",
+    "89c172611d58c9ce96df0377d3a020ce1448d9b183d48207d999e563df5ea873",
+    "03dcd6c89c2c89fd7f365afd0b18bc3b36335eb269b2c9b65543f8368b87096e"
+  ],
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+  "published": false,
+  "model": "u2net",
+  "modelMd5": "60024c5c889badc19c04ad937298a77b",
+  "peakRssMiB": 1004.1,
+  "minFreeGiB": 2.719,
+  "limitations": [
+    "Existing16pose optical-flow animation retained; no new3D rig or anatomical simulation.",
+    "LocalMP4 mobileEdge emulation verified; physicaldevice/appdeployment notverified."
+  ]
+}

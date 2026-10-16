@@ -1,0 +1,64 @@
+{
+  "id": "cross-body-cable-extension",
+  "status": "held-contact-collisions",
+  "sources": [
+    "https://www.strengthlog.com/crossbody-cable-triceps-extension/"
+  ],
+  "samples": 25,
+  "minima": {
+    "handSeparationX": {
+      "value": -1.6468884388281255,
+      "frame": 40
+    },
+    "handSeparationZ": {
+      "value": 0.5027544956457664,
+      "frame": 0
+    },
+    "frameBody": {
+      "value": -0.09768621539770432,
+      "frame": 60
+    },
+    "shaftBody": {
+      "value": -0.08256552616797838,
+      "frame": 420
+    },
+    "cableBody": {
+      "value": -0.024880884101624014,
+      "frame": 80
+    },
+    "clothEquipment": {
+      "value": -0.07336408240333069,
+      "frame": 140
+    },
+    "footMinY": {
+      "value": -8.175230979919434,
+      "frame": 0
+    },
+    "bodyMachine": {
+      "value": 3.952783483104506,
+      "frame": 240
+    }
+  },
+  "previousDense481": "rejected-initial/cross-body-cable-extension-geometry.json",
+  "reason": "D-frame, shaft, cable and clothing collisions remain after shoulder-plane depth correction. Hand-hand Z separation positive; not enough for equipment clearance. ROM115to5degrees unchanged.",
+  "sourceAttachmentCheck": "Original GIF fetch received403 after approved download. No unsupported bare-cable substitution made.",
+  "next": "Preserve candidate and replace this batch with cable-lying-triceps-extension. No final MP4 or decode/playback pass claimed.",
+  "sha256": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cross-body-cable-20261014/studio.mjs",
+      "sha256": "875e84fb40e0940243801a3273fa1e10856e5e507b716c5f256d82b731271441"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cross-body-cable-20261014/motion.mjs",
+      "sha256": "3c6ce22620d16cbd024dbc2dd70861c50b446de256b10d5c3a00ae88718701c5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cross-body-cable-20261014/cable.mjs",
+      "sha256": "44c6cb5e65e1daa6acc729dee012cb1712b864b896ad645e9566c5939a044346"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cross-body-cable-20261014/native/cross-body-cable-extension-geometry.json",
+      "sha256": "154e9d42669787cfa2802b1162d8a6a09a6dc1a6bbdfb7683437210e3c38b514"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "isometric-curl-hold",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "hold: fixed bilateral90degree elbow posture0-8seconds",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/motion.mjs",
+      "sha256": "09d208b19da0a2411102ebe4d09665cce24d86fb70e5e296c37cfea4c770ab24"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/studio.mjs",
+      "sha256": "2d78811d3f08f63c03c2a16bbff9f4735fc02160675b5d466b4724cb6a5f5733"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/render.mjs",
+      "sha256": "1f34947cc5a5fe5bd35cf3c6d198ddfef7dd48f7e154c78c2a491ddf864e87b7"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://archive.t-nation.com/training/tip-the-worlds-hardest-curl-workout/"
+  ],
+  "sourceSummary": "Dan North T Nation isometric curl drop-set explicitly holds dumbbells or barbell at90degrees for10/8/6/4/2seconds. Candidate shows one8second bilateral dumbbell hold only, not the drop-set or subsequent dynamic curls.",
+  "motion": "Standing bilateral supinated dumbbell hold, elbows90degrees and horizontal forearms, static wrists/shoulders/torso/feet for all481samples; no animated breathing or curling. Hold timing0-8seconds.",
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 7.682533882252787e-16,
+    "elbowBendRange": [
+      90.00000000000001,
+      90.00000000000001
+    ],
+    "handleRadius": 0.12,
+    "dumbbellRise": 0,
+    "collisionSamples": 17,
+    "bodyDumbbellMinClearance": 2.1333115526097965,
+    "footMinY": -8.175230979919434,
+    "previewIdenticalFrames": 4
+  }
+}

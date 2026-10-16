@@ -1,0 +1,110 @@
+{
+  "id": "seated-dumbbell-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-dumbbell-curl.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "curl": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Seated simultaneous dumbbell biceps curl, fixed upperarms and controlled forearm flexion then lowering; no trunk or leg drive.",
+    "equipment": "Two intact dumbbells, stable flat bench with four legs. Conservative plate clearance from thigh/body and bench checked throughout481samples.",
+    "setup": "Upright seated torso, thighs forward, lower legs vertical and feet supported. Garment-seat contact and floor contact checked with side preview and geometry.",
+    "hands": "Fixed supinated closed grips, palms forward at bottom and upward at peak; both dumbbells remain rigidly attached to hand sockets. Hand closeups inspected.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed, no optical-flow ghosting. Fixed bilateral elbows and conservative plate/body/bench clearance verified numerically; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "2f5b67920faf1687701914fc9f0c3440676d672525bdfa769491a414c1f849a8",
+  "rigSourceSha256": "086e846ef1299374d97a00c9b000876fcbff377f01ba91f796df60c9ce1e1974",
+  "videoSha256": "3dd213390145e138c037fb6ba21738dde7964147d9bc4627812729ca39a7291f",
+  "darkVideoSha256": "fc7c7c03461ebe6b2adf8ae5c476563dc3bc16910ffb3a3c0faf28e91f8247fe",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-curl/native/seated-dumbbell-curl.mp4",
+      "sha256": "3dd213390145e138c037fb6ba21738dde7964147d9bc4627812729ca39a7291f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 90242,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-curl/native/seated-dumbbell-curl-dark.mp4",
+      "sha256": "fc7c7c03461ebe6b2adf8ae5c476563dc3bc16910ffb3a3c0faf28e91f8247fe",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 74417,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 0,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.22951245761951772,
+    "minEquipmentBenchClearance": 0.28229228200712336,
+    "seatContactError": 7.264309553889348e-8,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0635825891396614,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:05:44.845Z",
+  "limitations": "Barefoot mannequin; depicts simultaneous fixed-supination curls seated on a flat bench. No physical-device or biomechanical certification."
+}

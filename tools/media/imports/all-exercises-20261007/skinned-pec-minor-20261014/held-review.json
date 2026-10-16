@@ -1,0 +1,129 @@
+{
+  "id": "pec-minor-stretch",
+  "status": "held-source-deformation-and-contact",
+  "published": false,
+  "source": {
+    "url": "https://www.healthnz.govt.nz/health-topics/conditions-treatments/bones-and-joints/exercises-for-your-shoulders",
+    "protocol": "Pec minor stretch: grasp hands behind back and pull both arms backward. Source hold30–60seconds, repeat5.",
+    "verified": "Full text via redirected healthinfo.org.nz/patientinfo/380935.pdf and find Pec minor 2026-10-14",
+    "variant": "Standing bilateral hands grasp behind pelvis, move backward2seconds,hold3,return2,rest1; illustrative timing not prescribed clinical dose."
+  },
+  "reason": [
+    "Side view retains triangular elbow silhouette and rear view upper-arm bend artifact, confirmed by parent visual review.",
+    "Strengthened bidirectional hand/contralateral forearm ray check detects penetration despite previous one-direction check passing."
+  ],
+  "contacts": [
+    {
+      "frame": 0,
+      "gap": -0.3283793431122457,
+      "inside": 631,
+      "overlap": 7396,
+      "handBodyGap": 1.6616382665503144,
+      "handClothGap": 1.5538369359292508,
+      "handBodyPlaneGap": 1.410113538780559,
+      "handClothPlaneGap": 1.3694015734071092,
+      "handTargetError": 1.047382306668854e-15
+    },
+    {
+      "frame": 210,
+      "gap": -0.7602836247689186,
+      "inside": 874,
+      "overlap": 7507,
+      "handBodyGap": 2.749706295596642,
+      "handClothGap": null,
+      "handBodyPlaneGap": 2.5101135387805584,
+      "handClothPlaneGap": 2.4694015734071084,
+      "handTargetError": 1.88411095042053e-15
+    }
+  ],
+  "elbowWeightInspection": {
+    "L": {
+      "influenceVertexCounts": {
+        "upperarm02.L": 391,
+        "lowerarm01.L": 438,
+        "upperarm01.L": 6,
+        "lowerarm02.L": 6
+      },
+      "upperLowerMixedVertices": 391,
+      "sampleVertexIds": [
+        10137,
+        10138,
+        10141,
+        10144,
+        10145,
+        10151,
+        10153,
+        10154
+      ]
+    },
+    "R": {
+      "influenceVertexCounts": {
+        "upperarm02.R": 391,
+        "lowerarm01.R": 438,
+        "upperarm01.R": 6,
+        "lowerarm02.R": 6
+      },
+      "upperLowerMixedVertices": 391,
+      "sampleVertexIds": [
+        3477,
+        3478,
+        3481,
+        3484,
+        3485,
+        3491,
+        3493,
+        3494
+      ]
+    }
+  },
+  "diagnosis": "The original skin near each elbow blends upperarm and lowerarm influences. This is consistent with twist/linear-skinning deformation risk but does not establish an exact defective weight. Large roll correction moved distortion to shoulders and was rejected; preserving rest bend plane improved initial notch but did not meet visual acceptance.",
+  "attempts": [
+    "Initial hands beyond reachable chain rejected by explicit IK target error. Reach corrected without reducing requested backward-arm movement.",
+    "Upper/lower bone bend-plane basis correction rejected because shoulder skin distortion increased.",
+    "Rest elbow bend-plane preservation and near-straight reachable arms improved notch but parent still found silhouette defect.",
+    "Unidirectional near-contact was not treated as final approval; reverse-direction test revealed finger/other-forearm penetration."
+  ],
+  "remaining": "Needs arm skin/twist deformation redesign plus a true two-hand grasp avoiding the opposite forearm. Preserve full intended movement. Do not publish or treat as alias.",
+  "notCompleted": [
+    "final481bidirectional-contact acceptance",
+    "final both-theme MP4",
+    "decode",
+    "Edge playback",
+    "publisher acceptance"
+  ],
+  "evidence": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/studio.mjs",
+      "sha256": "3234ebf2ab30d765b15342be590a55eea6509d13604906ea824414744e4212c0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/motion.mjs",
+      "sha256": "a1bcb271d942994e1470e1dc87ee564368bef2663a2d052c4b71460d8c571bc8"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/source.json",
+      "sha256": "dd228df0fed1323715cb4404b77e28e38191020ab8b44be3a3e8910cbdaa557c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/native/pec-minor-stretch-contacts-preview.json",
+      "sha256": "ca93eb11c6f3156d238cece2c5fd4261cb359cda835bb24b4cf058b86ec59a14"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/native/pec-minor-stretch/full-210.png",
+      "sha256": "29b342df36730f0403d9f725ba6b746d619078f0ea77fc7cebef4f59d662c477"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/native/pec-minor-stretch/hand-210.png",
+      "sha256": "0b118a26e1c397754c34c13b019fc2fa735884b6fe11645c128e2288faf09d05"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-pec-minor-20261014/native/pec-minor-stretch/side-210.png",
+      "sha256": "dd832cdecb3ddd4276ece05055373e0e9b9354a65c0732cd29bc761bb907dbdd"
+    }
+  ],
+  "reviewedAt": "2026-10-14T02:08:40.274Z"
+}

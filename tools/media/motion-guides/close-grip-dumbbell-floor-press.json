@@ -1,0 +1,14 @@
+{
+  "id": "close-grip-dumbbell-floor-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "close-grip-dumbbell-floor-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://assets.crossfit.com/pdfs/seminars/SMERefs/Powerlift/CrossFitSeminarGuidePowerlifting.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T02:16:52.055Z"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "tempo-lateral-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "tempo-lateral-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://pelank.com/exercises/dumbbell-lateral-raise/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:40:12.405Z"
+}

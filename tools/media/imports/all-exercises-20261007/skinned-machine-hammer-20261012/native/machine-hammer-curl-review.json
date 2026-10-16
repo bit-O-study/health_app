@@ -1,0 +1,116 @@
+{
+  "id": "machine-hammer-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-machine-hammer-20261012/native/machine-hammer-curl.mp4",
+      "sha256": "097fce1ace0228739c92bc322cf0922eb4abe2be36bc6a3ed284ec824a077366",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 122747,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-machine-hammer-20261012/native/machine-hammer-curl-dark.mp4",
+      "sha256": "1f3655231873f51eda74b8303044d128c4423753f18381582f40a7fc63765122",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 109607,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.0796169701996884e-15,
+    "elbowBendRange": [
+      12.474649649449617,
+      111.95845005536137
+    ],
+    "machineBodyClearance": 0.4993302608916751,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "machinePadClearance": 0.8570657646348079,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ],
+    "socketSymmetryError": 1.9984014443252818e-15,
+    "gripWidth": 3.752033722171005,
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.9695177576669264,
+    "phaseAnchorError": 0,
+    "machineHandError": 4.189529226675416e-15,
+    "pivotElbowAxisError": 0,
+    "pivotDrift": 0,
+    "platePivotRadiusDrift": 8.881784197001252e-16,
+    "plateFloorClearance": 5.632246877876503,
+    "plateRises": [
+      3.509169661769781,
+      3.509169661769781
+    ],
+    "plateUpwardDrops": 0
+  },
+  "sources": [
+    "https://www.legendfitness.com/product/unilateral-seated-bicep-curl/",
+    "https://weighttraining.guide/exercises/machine-preacher-curl/"
+  ],
+  "sourceSha256": "d5c7a7e26345af6cdee85106a24007266be48da46a2524e6b45d5177876ce320",
+  "rigSourceSha256": "4d7c11001c1bbaf7f04691284a2470b3a35e021b271159e7002ae9013d9b1fbe",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "machine"
+  ],
+  "videoSha256": "097fce1ace0228739c92bc322cf0922eb4abe2be36bc6a3ed284ec824a077366",
+  "darkVideoSha256": "1f3655231873f51eda74b8303044d128c4423753f18381582f40a7fc63765122",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Seated machine hammer curl on plate-loaded independent levers, both moving together. Legend Fitness6007 manufacturer explicitly supports neutral-grip exercises using rotating handles. Original WeightTraining.guide machine preacher tutorial supports upperarms on pads, stationary body and controlled curl toward shoulders.",
+    "equipment": "New neutral-grip handles perpendicular to forearms; lateral lever linkage attaches below each grip. Two rigid lever assemblies carry respective plates and collars. Final light/dark32frame sheets and support210 inspected. Different wrist and handle geometry from supinated plate-loaded candidate, not reused video.",
+    "setup": "Fixed upperarms on contoured31.5degree pad; fixed torso, seat and legs. Side210 and support210 inspected. Pivot-elbow Y/Z axis error0, pivot drift0. Body-pad minimum0.063702; arm-pad gap0.000248 to0.028603.",
+    "hands": "Palms face each other, thumbs uppermost along handle direction, wrists straight. Hand210/support210 closeups inspected.481sample handle-axis error1.08e-15 and hand-lever error4.19e-15. Grip width3.752 versus shoulder3.87, ratio0.9695. No grip reversal or floating handles.",
+    "feet": "Feet0 inspected: soles grounded within2.62e-7 rig units. Side frame floor rails remain outside feet; mannequin seated and stationary.",
+    "movement": "Elbow12.47 to111.96degrees.481sample fixed-joint/loop/phase/pivot-axis errors0; plate-pivot radius drift8.88e-16. Plates rise3.50917, minimum plate-floor5.63225.17mesh samples machine-body0.49933 and machine-pad0.857066. Actual single smooth0.4/3.8/4.2/7.6. Full decode and mobile Edge play/seek/loop both pass."
+  },
+  "limitations": [
+    "Generic independent rigid levers reflect plate-loaded machine principles; no dimensional reproduction of Legend6007 or any branded product. Each side moves simultaneously in this demonstration.",
+    "Contoured U-shaped preacher pad has31.5degree slope with about45degree upperarms; pad notch avoids chest penetration. Skin-to-pad gap changes0.000248 to0.028603 with skinning.",
+    "Source tutorial says hold for a count of two; this video uses editorial0.4second squeeze within8second cycle rather than literal two-second pause.",
+    "Barefoot generic mannequin and simplified finger/elbow skin, no foam compression or muscle deformation.",
+    "Seventeen sampled deformed meshes versus lever capsules and plate cylinders; intentional hand/arm contact excluded from body clearance. Moving equipment pad clearance sampled at mesh vertices, not continuous collision simulation."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T03:52:29.923Z"
+}

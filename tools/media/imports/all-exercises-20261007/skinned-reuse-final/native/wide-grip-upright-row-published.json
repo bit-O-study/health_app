@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-upright-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1ef2a73462abcc5a1c26e19a93b3affc26bb553b62b0ad8f65e09d8b75241c60",
+  "rigSourceSha256": "00effa2881b9a335ca6b99b972c7a493cac6ab930ffd2fccbb6cd2d2f685fe0d",
+  "videoSha256": "35378b961e85406f21a011b67966dfa254e28e65721608f612da41c1340f144e",
+  "darkVideoSha256": "c814c2ec8cdce1b7536bf4b2a6c410b12e0224b2ac0fd260816ed061cd3a54fe",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 123126,
+  "darkBytes": 105978,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:37:04.784Z"
+}

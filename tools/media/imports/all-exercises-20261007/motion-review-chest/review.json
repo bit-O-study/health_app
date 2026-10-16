@@ -1,0 +1,45 @@
+{
+  "reviewedAt": "2026-10-07T03:11:46.221Z",
+  "scope": "Isolated evidence only; no shared media/review/manifest changes",
+  "decode": "All five existing MP4 fully decoded successfully; see file-evidence.json",
+  "items": [
+    {
+      "id": "dumbbell-bench-press",
+      "decision": "hold-motion",
+      "finding": "Current SHA matches pending review. Dark 1.125 s far dumbbell plate has split smeared translucent contours; compared with 1.0 s. Source poses 4 to 5 reset hand/dumbbell position and lower wrist before continuing upward, creating discontinuity. Both 32-frame sheets inspected. Do not approve unchanged clips.",
+      "screenshots": [
+        "dumbbell-bench-press-dark-1.png",
+        "dumbbell-bench-press-dark-1.125.png"
+      ],
+      "repair": "Correct discontinuous source progression (especially panels 4 to 5) and preserve rigid dumbbell plates with hand contact through interpolation. Build isolated candidate and compare full-resolution transition frames before full both-theme review.",
+      "sourceSha256": "b442342e2c1957a80bdd5a3f987800eb9d3cd505b9f26706874e7545259b27a8",
+      "visualScope": "Original 16-panel atlas plus current 32-frame contact sheet for each existing theme, selected 480px frames",
+      "browserPlayback": "not run: visual rejection is decisive; browser playback cannot repair quality failure"
+    },
+    {
+      "id": "dumbbell-fly",
+      "decision": "hold-motion",
+      "finding": "Current SHA matches rejected review. Dark sheet row4 column2 shows detached fading dumbbell contours during return. Full-resolution 6.375 s shows faint downward extension below image-left dumbbell/forearm; 4.25 s near wide endpoint is cleaner. Both 32-frame sheets inspected; no stale-only review issue.",
+      "screenshots": [
+        "dumbbell-fly-dark-4.25.png",
+        "dumbbell-fly-dark-6.375.png"
+      ],
+      "repair": "Use a temporally consistent dumbbell/arm path with stable bench/body and rigid dumbbell shapes; inspect return transition densely. Existing 16 panels already interpolate poorly, so do not merely increase output FPS.",
+      "sourceSha256": "e2d8dcd74a30f965da361c27a80cc19f985c8ad43afad24967c35020eee0f5e3",
+      "visualScope": "Original 16-panel atlas plus current 32-frame contact sheet for each existing theme, selected 480px frames",
+      "browserPlayback": "not run: visual rejection is decisive; browser playback cannot repair quality failure"
+    },
+    {
+      "id": "smith-machine-bench-press",
+      "decision": "hold-source-remake",
+      "finding": "Light SHA unchanged from rejection; dark file missing. Source head is mostly hidden behind near shoulder and rail. At 3 s head placement/contact cannot be reliably reviewed. Source atlas separators survive render edges and machine uprights are clipped at top.",
+      "screenshots": [
+        "smith-machine-bench-press-3.png"
+      ],
+      "repair": "Regenerate camera/setup with head and neck visible on bench, full rail equipment inside margin, fixed bar grip and guided vertical track. Remove atlas borders before compositing and produce both themes.",
+      "sourceSha256": "c36f24b07305737b72cefba1c3b8bb8c953edaf921ba87711604ca7bee469026",
+      "visualScope": "Original 16-panel atlas plus current 32-frame contact sheet for each existing theme, selected 480px frames",
+      "browserPlayback": "not run: visual rejection is decisive; browser playback cannot repair quality failure"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "samples": 481,
+  "supportHandDrift": 2.8223476486757627e-15,
+  "loopDrift": 0,
+  "minWaistGarmentRadialGap": 0.029197053162077324,
+  "minHandBodyPlaneGap": 0.9439499324763485,
+  "minLegSkinGarmentSectionGap": 0.2806994623383512,
+  "minWallGap": 0.014107261905379254,
+  "maxForefootGap": 3.5701930301001994e-10,
+  "minStepSDF": -3.5702019118843964e-10,
+  "heelRange": [
+    -0.3509603912346657,
+    0.010424613952636719
+  ],
+  "bilateralHeelDifference": 0,
+  "minKneeAngle": 180,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

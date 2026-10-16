@@ -1,0 +1,18 @@
+{
+  "id": "larsen-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4bf2b0516b0d989e09882db5ecba5b934d5d9b22b041e007346b2ea96310f0ba",
+  "rigSourceSha256": "6243278311c8d2451bfcacd4ee340234ad9acf370457e6b4b42e8e52099c7cb0",
+  "videoSha256": "420ee514f69b5e2309a25f15c727168d6c7bcce7e862eb2532209fd25a40139f",
+  "darkVideoSha256": "6ebc2affa5090bc7862a0eab69adcaa0e08460f19bc644b99d7da09a99b51163",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 115789,
+  "darkBytes": 100343,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:44:04.368Z"
+}

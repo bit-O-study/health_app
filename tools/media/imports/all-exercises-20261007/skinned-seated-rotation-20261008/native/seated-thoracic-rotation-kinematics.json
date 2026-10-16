@@ -1,0 +1,52 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": 2.616719170234205e-7,
+  "minSeatGap": 0.008499927356904635,
+  "maxSeatGap": 0.008499927356904635,
+  "contactClearances": {
+    "leftHand": {
+      "minimum": 0.4678511957789224,
+      "overlappingSamples": 481
+    },
+    "rightHand": {
+      "minimum": 0.1482061479398613,
+      "overlappingSamples": 481
+    },
+    "crossForearms": {
+      "minimum": null,
+      "overlappingSamples": 0
+    },
+    "leftForearmTorso": {
+      "minimum": 0.6928609133067178,
+      "overlappingSamples": 481
+    },
+    "rightForearmTorso": {
+      "minimum": 0.7398468042622413,
+      "overlappingSamples": 481
+    }
+  },
+  "peakRotation": 29.999999999999996,
+  "maxWristStep": 0.032859220011392874,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

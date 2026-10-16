@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-dumbbell-floor-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "497ce80654befa7f79ef69827a9ab83b5b8170274278948b57f88826e4df59be",
+  "rigSourceSha256": "99d15a9f2c6ad3ffd4d5e89fb9b5ecd37f5059e8db744c5f333b5bb1c41ec0fb",
+  "videoSha256": "12c13a6d80a42895e9047ec7db425446824ae11223936f1e2124ffcb805606bd",
+  "darkVideoSha256": "795c40ebc2398f661e048bc2fe71492244c30422a7785c18d313243c8b52e54c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 85171,
+  "darkBytes": 70311,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T02:16:52.066Z"
+}

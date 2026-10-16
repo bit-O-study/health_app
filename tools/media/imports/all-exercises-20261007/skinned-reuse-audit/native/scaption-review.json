@@ -1,0 +1,73 @@
+{
+  "id": "scaption",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://fit-pro.com/article-356-Functionally-Fit-Standing-Shoulder-Scaption.html"
+  ],
+  "checks": {
+    "exercise": "Scaption: simultaneous thumbs-up diagonal raise below shoulder level, seen in full and side views.",
+    "equipment": "Two solid hex dumbbells remain attached to hands in both themes; no weight disappearance or optical-flow ghosting.",
+    "setup": "Upright stable torso and complete head/body in frame; original 3D geometry preserved. Scene background changed to app light/dark exact colors.",
+    "hands": "Neutral grip maintained; close-up hand and side source poses inspected. Cross-body peak weight remains in front of torso.",
+    "feet": "Both feet visibly planted and stationary throughout final 32-frame sheets; no clipping.",
+    "movement": "Native 192 frames at 24 fps for 8 seconds, sampled continuously from same procedural motion; both-theme 32-frame visual review and full decode pass. Mobile Edge play, seek to 7.5s and loop pass."
+  },
+  "sourceSha256": "39f11896b1c9a57ff8ff82c9c8f2e448daa3992077238342d9248cf213717e3a",
+  "rigSourceSha256": "eb8d726ab5e11559ee67edc1de1af04ade5caad26be914c40ec221e26e07492f",
+  "videoSha256": "f7dc0e41e99f744b2bf6126e3e1d23b908a003bb32ce5c96896715ffb9f80eb1",
+  "darkVideoSha256": "89295c85d1fb53a3674c54f82461faff23434f50d7702f7ad5c8e1c82f61db8f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/native/scaption.mp4",
+      "sha256": "f7dc0e41e99f744b2bf6126e3e1d23b908a003bb32ce5c96896715ffb9f80eb1",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 114336,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/native/scaption-dark.mp4",
+      "sha256": "89295c85d1fb53a3674c54f82461faff23434f50d7702f7ad5c8e1c82f61db8f",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 96692,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-07T03:19:34.658Z",
+  "limitations": "Mannequin animation, not biomechanical certification. Small dark weights have lower contrast but remain discernible; bare feet are original modeled style. App integration/physical device not performed.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "good-morning",
+  "date": "2026-10-07T00:51:22.917Z",
+  "status": "recommended-pass",
+  "published": false,
+  "method": "Original source inspected; u2netp per-panel cutout; original 16 poses and reverse timing retained",
+  "visualChecks": {
+    "source": true,
+    "lightContactSheet32Frames": true,
+    "darkContactSheet32Frames": true,
+    "fullSizeFirstAndDeepestPose": true,
+    "bodyAndBarbellPreserved": true,
+    "largeBackgroundResidue": false
+  },
+  "notes": "Intentional renderer rim remains on dark theme. Reviewed local MP4, not device or production app.",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f60d91f5fd03ab1e51783f6a9b4294f70128e485d5719db1e016239727be42b1",
+  "videoSha256": "1048aa002877245d7e55abfe4e2a839a6d74e5455d9b942754dbcd3e50da2bf7",
+  "darkVideoSha256": "82c30a7b7cbcffcf1f383800937cf2a4a82321934da51493a280701e47d7f69a",
+  "darkBytes": 168350,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 149537,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T00:50:02.530Z"
+}

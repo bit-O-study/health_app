@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-side-bend",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "446688476b715323dcdd75bfba757b08147a3204cab468bbc6e354990fb4d1ba",
+  "rigSourceSha256": "2e33fd4c9295d538ce7bd9daacb1737df746ee25358fcf184b1e112aa55e8ee7",
+  "videoSha256": "a476f79eed94b0fbd127f0ff9886162a2e8441e5d1fa26f73266000e458b87bb",
+  "darkVideoSha256": "d1443c846aeb72238f1de470d66e28a41b79662b1aaf91583af4e72fad5267a2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96125,
+  "darkBytes": 98335,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:38:35.584Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-bench-press",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f085497c43b058691c13772cc6b04eb02af0ff27c2b661f05ffcf4c4c73f7b5c",
+  "rigSourceSha256": "1f11f9763e0e59a4d213f75bcbfc358d48c3b4f069f2902f1227793f00aafa78",
+  "videoSha256": "dcae10adffb2bb527a0b99787238d8482d03cbd2580d2a5a870e3489daf603bd",
+  "darkVideoSha256": "6b3107711eaabb1a00db9f22e7f4f110a3bc1e93b6bc5159282a60d7c207a3cc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 241445,
+  "darkBytes": 239811,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:06:43.166Z"
+}

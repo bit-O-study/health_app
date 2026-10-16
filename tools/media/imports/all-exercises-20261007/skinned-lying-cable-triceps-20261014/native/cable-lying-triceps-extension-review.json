@@ -1,0 +1,129 @@
+{
+  "id": "cable-lying-triceps-extension",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-lying-cable-triceps-20261014/native/cable-lying-triceps-extension.mp4",
+      "sha256": "cdc355f528e7fb274db89d71717088ccb62225c5c1bda0d2cdaa67ee8519d9fd",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 82787,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-lying-cable-triceps-20261014/native/cable-lying-triceps-extension-dark.mp4",
+      "sha256": "32db296a5c72fd71440b71c27ee12a9519048b7835d8063a41047a1b4c7621ee",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78643,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 2.7200464103316335e-15,
+    "pulleyRimError": 1.4432899320127035e-15,
+    "connectorRadiusError": 8.604228440844963e-16,
+    "stackRiseRange": [
+      0,
+      5.044120649155284
+    ],
+    "cableBodyMinClearance": 1.0658110734905013,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.4424906541753444e-15,
+    "gripTangentAxisError": 1.3414875847488985e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      89.99999999999997
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8935158397010932,
+    "barGripWidth": 3.4579062996432306,
+    "barRise": 3.520299453323953,
+    "collisionSamples": 481,
+    "bodyBarMinClearance": 1.1065879259428084,
+    "footMinY": -7.751374738328083,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 6.719195425254632,
+    "stackBaseGap": 0.1699999999999997,
+    "stackUpperGap": 4.805879350844717,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0031849543250785928,
+    "floorGap": 2.616719170234205e-7,
+    "clothBarMinClearance": 7.095429354424728,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.4477308241112041e-13,
+    "handSeparationX": 2.1319126869598337,
+    "handRingGapX": 1.020956343479917,
+    "palmProjectionRange": [
+      -0.9507020329002341,
+      -0.9507020329002331
+    ],
+    "startPalmUpMinimum": 0.9507020329002336,
+    "clothCableGap": 7.18645909870113,
+    "skinBench": -2.220446049250313e-16,
+    "clothBench": 0.006999999208312041,
+    "barBench": 3.292542990589037,
+    "cableBench": 1.21178058887677
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/lying-cable-tricep-extension.html"
+  ],
+  "sourceSha256": "cd05dc63e38c5efb4a4f1e1990d8e7ec3b01044d2211be0768e34b03a6867981",
+  "rigSourceSha256": "c54097562f90267e8daa9d3b2c2f30ea8858116cb1f985c81e74dfe1f60686ef",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T06:39:36.697Z",
+  "reviewer": "wrist agent; root final adoption pending",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "cdc355f528e7fb274db89d71717088ccb62225c5c1bda0d2cdaa67ee8519d9fd",
+  "darkVideoSha256": "32db296a5c72fd71440b71c27ee12a9519048b7835d8063a41047a1b4c7621ee",
+  "checks": {
+    "exercise": "New exact cable-lying-triceps-extension cable ID. Muscle & Strength original Lying Cable Tricep Extension verified: supine flat bench, head toward low pulley, shoulder-width overhand straight bar, fixed upperarms raised, bent start and extension upward.",
+    "equipment": "One rigid straight bar and centered ring connect to head-side low pulley. Cable tangencies, rim contact, ring attachment and constant total length verified in481 samples, with stack rising monotonically during extension. Full non-gripping-body and clothing clearance positive.",
+    "setup": "Body lies on flat bench with separate shallow head pad. Head-pad extent narrowed to posterior skull to avoid neck intrusion; seat lowered.007 model units to remove a.00508 skin overlap. Final complete skin-to-bench minimum numerical0, clothing-to-bench+.007, bar-to-bench+3.29254, cable-to-bench+1.21178.",
+    "hands": "Both overhand hand axes stay along straight bar. Grip ratio.893516 shoulder width, grip anchor error below2.45e-15, hand separation+2.13191 and hand-to-center-ring Xgap+1.02096. Hand0/210 closeups inspected; corrected native elbow plane retained without ROM reduction.",
+    "feet": "Both feet fixed and grounded: floor gap2.62e-7 model units, fixed-joint drift0 across481 samples. Foot placements visible in both theme sheets and side view.",
+    "movement": "Continuous90-to5-degree elbow extension and return with fixed upperarms. Single smooth timing: bent hold0-.4, extend.4-3.8, hold3.8-4.2, return4.2-7.6, hold7.6-8. Full phase error1.45e-13, loop drift0. Final both-theme32frame sheets, hand/shoulder/side views inspected; both MP4480x480/24fps/8sec/192frames fully decoded and Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "The source requests full extension; modeled finish retains5 degrees of elbow flexion. Grip is approximately shoulder width at0.893516 shoulder joint spacing.",
+    "A shallow posterior skull pad supports the head in a neutral position. The source tip asks head up and eyes forward; no active neck lift is demonstrated.",
+    "Generic procedural anatomy and machine; mild continuous shoulder/axillary folds remain visible. Bench seat and back sections differ by approximately.038 model units in top height.",
+    "Collision evidence is481 discrete skin-vertex and equipment-distance samples, not continuous analytic mesh collision proof. Intentional shaft grip contact is excluded; central ring separation is explicitly checked.",
+    "Playback is local mobile Edge emulation, not the app on a physical device. Standard8-second timing is editorial."
+  ]
+}

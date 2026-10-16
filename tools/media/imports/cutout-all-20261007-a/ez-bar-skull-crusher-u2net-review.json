@@ -1,0 +1,48 @@
+{
+  "id": "ez-bar-skull-crusher",
+  "status": "recommended-cutout-replacement-subject-to-root-motion-review",
+  "sourceSha256": "6637681d72a129db632991b0bab37f9ad4ee1b51b6e53c804686dfc75af28a6d",
+  "sourceUnchanged": true,
+  "videoSha256": "b5543297a91245ee991db5770b639c572e5fa989b2d197f224d9cf33b10efd63",
+  "darkVideoSha256": "135a117911ebfc0d7392739ea134b72e92cb1c08b0cb13f8992cfa214a98008a",
+  "review": {
+    "viewed": "Original 16-panel JPG, composited endpoint poses 1/8/12/16, both 32-frame video contact sheets",
+    "preservation": "Bench top and both legs, feet/shoes, bar and plates preserved. No u2netp thigh hole or vanishing bench observed. No manual ROI restoration required.",
+    "limitations": "Small stair-step edges visible at full 480px due low-resolution source panels/postprocessed mask. Dark outer rim is intentionally added by shared compositor. Source has small upper-arm/torso position shifts; not claiming strict pixel-locked biomechanics.",
+    "largeGhosting": "No low-row-style duplicated arms or missing equipment observed in 32-frame inspection."
+  },
+  "validation": {
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "fullDecode": "passed by motion-build",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "minFreeGiB": 2.64,
+    "peakRssMiB": 1003.9,
+    "memoryGuard": "3GiB initial / 1.5GiB runtime"
+  },
+  "published": false
+}

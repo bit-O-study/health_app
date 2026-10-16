@@ -1,0 +1,16 @@
+{
+  "id": "ez-bar-cable-pushdown",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "ez-bar-cable-pushdown-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://sweat.com/exercises/ez-bar-tricep-pushdown",
+    "https://www.strengthlog.com/tricep-pushdown-with-bar/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T01:52:38.659Z"
+}

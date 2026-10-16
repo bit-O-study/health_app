@@ -1,0 +1,109 @@
+{
+  "id": "wide-grip-cable-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/native/wide-grip-cable-curl.mp4",
+      "sha256": "74223590a3e285ddf28138927405c75e2d06fc5f99e4158b89a5b61b25107f62",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79199,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/native/wide-grip-cable-curl-dark.mp4",
+      "sha256": "8c290992a58f2892d56e5940bc33d2f4d341a1a58a7eff0ab341eaf57d24412d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78754,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 2.6645352591003757e-15,
+    "pulleyRimError": 9.43689570931383e-16,
+    "connectorRadiusError": 4.718447854656915e-16,
+    "stackRiseRange": [
+      0,
+      4.6034215771470794
+    ],
+    "cableBodyMinClearance": 1.5745076558862,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.220446049250313e-15,
+    "gripTangentAxisError": 1.6169856191383123e-15,
+    "elbowBendRange": [
+      22.861831095572576,
+      107.63884705963683
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.364187173670149,
+    "barGripWidth": 5.2794043621034765,
+    "barRise": 5.015704258526371,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.1440159917877946,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/wide-grip-cable-curl.html",
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/cable-biceps-curl/"
+  ],
+  "sourceSha256": "f5bed1810b3c83f61495da37683cae26f6f353c66d113dbc5de8df2f6ab442b3",
+  "rigSourceSha256": "bf7375af4163d74437b4b4da9e78dd813a7ef26e59a6c6b2dd734a8ce36f6321",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "74223590a3e285ddf28138927405c75e2d06fc5f99e4158b89a5b61b25107f62",
+  "darkVideoSha256": "8c290992a58f2892d56e5940bc33d2f4d341a1a58a7eff0ab341eaf57d24412d",
+  "checks": {
+    "exercise": "Standing wide supinated straight-bar low-cable curl. Grip5.27940world / shoulder3.87 =1.36419, fixed mild upperarm abduction. Elbow22.8618-107.6388degrees.",
+    "equipment": "One rigid7.2world straight attachment bar with central ring. Continuous cable wraps low and upper pulleys and terminates at moving selected stack; fixed lower block and guide rods.",
+    "setup": "Stable torso/shoulders/elbows/feet481samples. No shrug or shoulder swing. Station remains in front; smooth upstroke stack rise0-4.60342world monotonic.",
+    "hands": "Hand210/support210 enlarged views inspected: palms forward/up under straight bar with fingers wrapped.481sample grip error2.22e-15/axis1.62e-15, constant width.",
+    "feet": "Feet remain floor -8.175231.17phase nonarm-body/bar clearance1.14402 and full-body/incoming-cable1.57451world positive.",
+    "movement": "Final both-theme32frame sheets/full210/side210 plus both hand closeups inspected.481sample ring/tangent/rim/stack endpoint and cable path checks passed. Analytic length drift3.55e-15, loop0. Both full decodes and mobile Edge play/seek/loop passed. Single smooth0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "cableChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.0007201303113504309,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.16999999999999993,
+    "endpointStackError": 0,
+    "gripWidthDrift": 4.440892098500626e-15
+  },
+  "reviewedAt": "2026-10-08T07:13:26.204Z",
+  "limitations": "Root visual review pending. Original M&S wide-curl instructions have inconsistent rope/neutral words despite straight-bar setup; M&F underhand bar/palms-forward wording supports implemented grip. Generic station/no force/pulley-spin simulation. Rendered cable arc polyline length drift 0.0007201303113504309world.17phase sampled vertex clearances are not exhaustive triangle/machine collision proof. Barefoot/angular elbow mannequin. Editorial8second timing."
+}

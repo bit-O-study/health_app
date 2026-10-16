@@ -1,0 +1,18 @@
+{
+  "id": "barbell-spider-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e7cdd00a88d497264d96a6ea851abaaa318e055fc9d4c8eebe59e957f1c7d317",
+  "rigSourceSha256": "bfc61b70ece00d00f2e52c684fd5665a743915c348aa19be175bfb5eeed28e23",
+  "videoSha256": "f6c5092a3682d251f8667fcb5d2dfd2f6a530473245a81308730915fcfff426a",
+  "darkVideoSha256": "8a1c29070cce8b61f1355d10e12c72e048f4644e7d883d6845b433271b970822",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 100965,
+  "darkBytes": 88465,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T13:12:16.744Z"
+}

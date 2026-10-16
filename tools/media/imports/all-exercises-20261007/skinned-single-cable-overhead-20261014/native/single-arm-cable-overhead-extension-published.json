@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-cable-overhead-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0eb2c52c8c1982e4ead78145c0ae45eb79db2dfd29d3ca25f359c64afc0566da",
+  "rigSourceSha256": "8bd34c1e46d1e4821f76128d471aefd46f106fd9111105e9582c88435f8a1f83",
+  "videoSha256": "c8ab595c8246dcb58491711a81cc1a010208b1a01aae5f8f1c03a0aa8f959151",
+  "darkVideoSha256": "2ea9c395bd46001c7f8a7c4b1347374ac743f2abb69113005cc52d7597bdd5e5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 63507,
+  "darkBytes": 60586,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T05:59:20.207Z"
+}

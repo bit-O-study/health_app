@@ -1,0 +1,15 @@
+{
+  "id": "wrist-rotation",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wrist-rotation-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://orthoinfo.aaos.org/globalassets/pdfs/2024-therapeutic-exercise-program-for-lateral-and-medial-epicondylitis.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T05:30:48.032Z"
+}

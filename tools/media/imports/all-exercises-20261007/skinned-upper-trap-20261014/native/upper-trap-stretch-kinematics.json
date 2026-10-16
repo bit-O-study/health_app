@@ -1,0 +1,83 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": 2.616719170234205e-7,
+  "minSeatGap": 0.008499927356904635,
+  "maxSeatGap": 0.008499927356904635,
+  "minArmSeatGap": 0.7407054108791957,
+  "peakSideBend": 20.237650576362405,
+  "peakForwardBend": 9.861861541500843,
+  "forwardAtOneSecond": 0,
+  "minHeadShoulderVerticalGap": 0.30395685565892094,
+  "minBackrestSDF": 2.4951680521478137,
+  "maxChestTilt": 0,
+  "maxWristStep": 0,
+  "phaseSamples": [
+    {
+      "seconds": 0,
+      "sideDegrees": 0,
+      "forwardDegrees": 0
+    },
+    {
+      "seconds": 1,
+      "sideDegrees": 18.841600000000003,
+      "forwardDegrees": 0
+    },
+    {
+      "seconds": 1.25,
+      "sideDegrees": 20.00251780473776,
+      "forwardDegrees": 1.0210134915986466
+    },
+    {
+      "seconds": 1.5,
+      "sideDegrees": 20.05890303229393,
+      "forwardDegrees": 4.931506335496348
+    },
+    {
+      "seconds": 2,
+      "sideDegrees": 20.237650576362405,
+      "forwardDegrees": 9.861861541500843
+    },
+    {
+      "seconds": 5,
+      "sideDegrees": 20.237650576362405,
+      "forwardDegrees": 9.861861541500843
+    },
+    {
+      "seconds": 6,
+      "sideDegrees": 18.841599999999996,
+      "forwardDegrees": 0
+    },
+    {
+      "seconds": 7,
+      "sideDegrees": 0,
+      "forwardDegrees": 0
+    },
+    {
+      "seconds": 8,
+      "sideDegrees": 0,
+      "forwardDegrees": 0
+    }
+  ],
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

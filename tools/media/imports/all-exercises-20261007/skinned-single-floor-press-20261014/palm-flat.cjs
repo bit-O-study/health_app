@@ -1,0 +1,2 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-single-floor-press-20261014';let m=fs.readFileSync(b+'/motion.mjs','utf8').replace('const targetWorld=new THREE.Quaternion()',`if(side==='R'){for(let f=1;f<=5;f++)byName['finger'+f+'-1.R'].quaternion.setFromAxisAngle(across,rad(f===1?-25:-10));}
+    const targetWorld=new THREE.Quaternion()`);fs.writeFileSync(b+'/motion.mjs',m);let s=fs.readFileSync(b+'/studio.mjs','utf8').replace('window.inspectPose(0).mins.freeHand','window.inspectPose(0).freePalmMin');fs.writeFileSync(b+'/studio.mjs',s);

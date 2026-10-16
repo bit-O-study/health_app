@@ -1,0 +1,127 @@
+{
+  "id": "cossack-squat-2",
+  "aliasOf": "cossack-squat",
+  "reuseKind": "Exact catalog synonym; original MP4 bytes unchanged; legacy sixteen-pose cutout interpolation, not new continuous3D render",
+  "sourceUrls": [
+    "https://www.strengthlog.com/cossack-squat/",
+    "https://fitwell.recreation.ucla.edu/file/a6080b05-ec33-4e68-81eb-df30a07d82df"
+  ],
+  "inputs": [],
+  "dependencies": [],
+  "originFiles": [
+    {
+      "path": "tools/media/motion-guides/cossack-squat.json",
+      "sha256": "e26c55414f30596f161443b64bbe102fa0605b7d902eca8f7450e3e1fd9d98e1"
+    },
+    {
+      "path": "tools/media/motion-guides/cossack-squat.jpg",
+      "sha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6"
+    },
+    {
+      "path": "public/exercise-guides/ai-v3/cossack-squat.mp4",
+      "sha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b"
+    },
+    {
+      "path": "public/exercise-guides/ai-v3/cossack-squat-dark.mp4",
+      "sha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6"
+    }
+  ],
+  "aliasEvidence": "Both catalog entries identify bodyweight Cossack squat. Fixed wide stance, arms forward, deep lateral squat to left anatomical side, opposite knee straight and toe raised, bent-side foot planted; returns to center. StrengthLog original independently confirms protocol. Video demonstrates one side per cycle, not an alternating full cycle. Target generic shoulder-width squat instructions flagged to root for correction.",
+  "timingAudit": {
+    "timing": "legacy16-reverse",
+    "order": [
+      0,
+      0,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      15,
+      15,
+      15,
+      14,
+      13,
+      12,
+      11,
+      10,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sourceFrameRate": 5,
+    "seconds": 8,
+    "specTimingKey": "omitted to preserve original legacy16 behavior"
+  },
+  "originalReview": {
+    "status": "passed",
+    "checks": {
+      "exercise": "고정된 와이드 스탠스에서 한쪽으로 깊게 이동하는 코사크 스쿼트가 명확함",
+      "equipment": "맨몸 동작이며 불필요한 기구가 등장하지 않음",
+      "setup": "정면 전신 구도에서 양팔을 앞으로 들고 넓은 발 간격을 유지함",
+      "hands": "양손과 양팔이 전 구간 동일한 앞으로 뻗은 자세로 유지됨",
+      "feet": "굽히는 쪽 발은 지면에 고정되고 반대쪽 다리는 곧게 펴지며 발끝이 위로 회전함",
+      "movement": "중앙 선 자세에서 한쪽 골반으로 점진 하강한 뒤 같은 순서로 복귀하며 프레임 연결이 연속적임"
+    },
+    "note": "2026-10-07 source-outline restoration of white shoes after u2netp cutout. Both 32-frame theme sheets and mobile Edge play/seek/loop checked. Evidence: tools/media/imports/cutout-all-20261007-b/batch-review.json. Original source retained; previous videos backed up. Physical device/deployment unverified.",
+    "id": "cossack-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cossack-squat/",
+      "https://fitwell.recreation.ucla.edu/file/a6080b05-ec33-4e68-81eb-df30a07d82df"
+    ],
+    "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+    "videoSha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+    "darkVideoSha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+    "reviewedAt": "2026-10-07T00:55:25.667Z"
+  },
+  "originalVerification": {
+    "id": "cossack-squat",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+    "videoSha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+    "darkVideoSha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+    "darkBytes": 231839,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 192386,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T00:53:42.269Z",
+    "cutoutModel": "u2netp",
+    "candidateEvidence": "tools/media/imports/cutout-all-20261007-b/batch-review.json"
+  },
+  "limitations": [
+    "Exact legacy16pose cutout interpolation reuse; no new continuous3D or481sample kinematics claimed.",
+    "Source cartoon uses simplified anatomy. Original white-shoe outline restoration and interpolation softness retained.",
+    "One side is demonstrated per8second cycle; opposite-side repetitions belong to exercise instructions, not shown within this video."
+  ],
+  "sourceRecheck": "StrengthLog: wide stance, one knee deeply flexed, other knee straight/toes raised, return center and repeat opposite side. UCLA Bruin P.A.W.S. strength guide page3 exercise7 Level2: deep lateral lunge with straight-leg toes lifted; hands forward. Both opened and checked 2026-10-12."
+}

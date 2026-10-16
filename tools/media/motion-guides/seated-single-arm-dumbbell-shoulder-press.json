@@ -1,0 +1,15 @@
+{
+  "id": "seated-single-arm-dumbbell-shoulder-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-single-arm-dumbbell-shoulder-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/seated-single-arm-dumbbell-shoulder-press",
+    "https://www.bodytrainer.tv/en/exercise/dumbbell_shoulder_press_seated_one_arm"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:59:55.790Z"
+}

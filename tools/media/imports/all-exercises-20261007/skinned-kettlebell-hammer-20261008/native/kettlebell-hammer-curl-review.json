@@ -1,0 +1,92 @@
+{
+  "id": "kettlebell-hammer-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-hammer-20261008/native/kettlebell-hammer-curl.mp4",
+      "sha256": "9df2ac33880e6d6b4cf5f20d67f0a8f728aa02bc394da03c36ecd71c74c5f27d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 92514,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-hammer-20261008/native/kettlebell-hammer-curl-dark.mp4",
+      "sha256": "d3f387f95cb578cf41b88c72dbc18974855d2e136b1096a6d7b37736a07abca8",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85187,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.025966904339278e-15,
+    "gripTangentAxisError": 1.0371267395744221e-15,
+    "elbowBendRange": [
+      11.987750010188396,
+      93.92219992937721
+    ],
+    "bellRadius": 0.68,
+    "gripToBellCenter": 1.48,
+    "dumbbellRise": 4.579548916154998,
+    "collisionSamples": 17,
+    "bodyBellMinClearance": 0.5185944667376153,
+    "footMinY": -8.175230979919434,
+    "bellLeverLengthError": 8.881784197001252e-16,
+    "oppositeBellsMinGap": 3.084773727060088
+  },
+  "sources": [
+    "https://www.muscleandfitness.com/workouts/arm-exercises/bis-tris-kettlebell-blast/"
+  ],
+  "sourceSha256": "ef776dc71c7832f49a37d018a4efe125aaf53edd5cd033c84afebbb3c7d55cb0",
+  "rigSourceSha256": "51667eb1ce33e70df959ed877d7c308e3e8ce14da86d430856fcdf2e6b6be037",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "kettlebell"
+  ],
+  "videoSha256": "9df2ac33880e6d6b4cf5f20d67f0a8f728aa02bc394da03c36ecd71c74c5f27d",
+  "darkVideoSha256": "d3f387f95cb578cf41b88c72dbc18974855d2e136b1096a6d7b37736a07abca8",
+  "checks": {
+    "exercise": "Standing bilateral kettlebell hammer curl, neutral palms facing inward, fixed wrists and upperarms; curl just past90degree elbow flexion.",
+    "equipment": "Two rigid kettlebells each with closed U handle and spherical body with flattened base. Bell center offset1.48model units beyond grip creates the source-specific forward lever arm.",
+    "setup": "Upright grounded hip-width stance, fixed shoulders and upperarms. Slight starting bend11.99degrees and top93.92degrees, no torso swing.",
+    "hands": "Hand0/210 and opposite-hand210 inspected. Fingers wrap straight grip with opposing thumb; neutral grip throughout.481sample local grip2.03e-15, handle-axis1.04e-15 and rigid bell lever checks pass.",
+    "feet": "Stationary feet at floor -8.175231; lowest vertex -8.1752309799.17phase non-hand body vertices including forearms have minimum0.518594clearance to conservative bell spheres; opposite bells remain separated.",
+    "movement": "Both encoded32frame sheets and side0/210 inspected; continuous geometry, no optical-flow ghosts, fixed joint drift0 and exact loop. Both full decodes and mobile Edge play/seek/loop pass. Smooth phase0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T02:31:55.556Z",
+  "limitations": "Root visual review pending. Barefoot mannequin, mildly angular elbow skin and stylized closed grip. Collision check samples17phases and non-hand vertices against bell bounding spheres, not exhaustive handle/hand or triangle intersection proof. Smooth8second demonstration differs from source3-2-0-2 workout prescription. Source photograph is local research evidence, not published video artwork. No physical-device or clinical certification."
+}

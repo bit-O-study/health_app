@@ -1,0 +1,15 @@
+{
+  "id": "dynamic-calf-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dynamic-calf-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://simplypt.com/dynamic-calf-stretch/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T02:21:19.431Z"
+}

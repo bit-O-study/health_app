@@ -1,0 +1,23 @@
+[
+  {
+    "id": "sissy-squat",
+    "sourceSha256": "d5832aa12cea1fc6389de47a9ea1a7a2658b412511f3b193ed2df06f07aa71d3",
+    "panels": 16,
+    "sourceViewed": true,
+    "notes": "Preserve fixed upright support bar and closed white shoes."
+  },
+  {
+    "id": "ab-rollout",
+    "sourceSha256": "a3cbf26badd56a0a51130fc673cab7a545bf7d622e7e720991c83cbbbb48b077",
+    "panels": 16,
+    "sourceViewed": true,
+    "notes": "Preserve ab wheel, shoes, knee and hand contact."
+  },
+  {
+    "id": "inverted-row",
+    "sourceSha256": "6f2be15318064c862f12f717dda4756254869e712d5101574a57288ae7bdf628",
+    "panels": 8,
+    "sourceViewed": true,
+    "notes": "Original heel position shifts across frames and figure appears unsupported; full movement quality review needed before approval."
+  }
+]

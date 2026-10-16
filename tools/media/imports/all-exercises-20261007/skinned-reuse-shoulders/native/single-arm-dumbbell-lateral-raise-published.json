@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-dumbbell-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "60d50a304df0bba0c67b829f5984cde0355b7c6c950e91e31a9c6baacc9fe8c8",
+  "rigSourceSha256": "f8e453f02cdd85d8b4080c54bf4fc11298c9057f323f3d4284bc3456c1c258d3",
+  "videoSha256": "5a0df9e92dc72a03e99cbd49747087d253d226b71eaed4c967e59cf304ec989f",
+  "darkVideoSha256": "8e2134bc37790c350e3e2eb549e2bdb3356a7d53be27f87a8825034d6e73c517",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 63499,
+  "darkBytes": 55243,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:30:37.041Z"
+}

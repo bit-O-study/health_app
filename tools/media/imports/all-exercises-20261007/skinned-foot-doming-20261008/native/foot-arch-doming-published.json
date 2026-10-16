@@ -1,0 +1,18 @@
+{
+  "id": "foot-arch-doming",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9c8426104545f103a6ab2d32c10f17edf6f8f78afeba2d144b27e76904f29fb4",
+  "rigSourceSha256": "997f05f4cecaf462eb8e032fa3c0dd1d131d7ff11bbdd00cf12bad5b1e0724af",
+  "videoSha256": "0ed07f182ed57fbca0a0f6fb10126c72423971c8070b8d62a0e5dec6640a89c9",
+  "darkVideoSha256": "b2d36b53b93ca793ea92c9d9fb4da9a0b5df5c4cf14fe084e85b4c7803348147",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 38636,
+  "darkBytes": 41270,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:59:03.637Z"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-jm-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-jm-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.roypumphrey.com/dumbbell-jm-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:15:29.130Z"
+}

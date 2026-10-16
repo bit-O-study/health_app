@@ -1,0 +1,118 @@
+{
+  "id": "behind-the-back-cable-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-behind-cable-20261008/native/behind-the-back-cable-curl.mp4",
+      "sha256": "7f0c87e1edaea21e08597f6ffaf70446330914af3d99eb9ab93876027c9881d6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 69090,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-behind-cable-20261008/native/behind-the-back-cable-curl-dark.mp4",
+      "sha256": "0750603241b9a3a3904c043960744be03ccc7b2f3d34c3ed94b722e1cce3e56f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 64977,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 2.609024107869118e-15,
+    "pulleyRimError": 1.0547118733938987e-15,
+    "connectorRadiusError": 9.43689570931383e-16,
+    "stackRiseRange": [
+      0,
+      6.149689143260023
+    ],
+    "cableBodyMinClearance": 0.5506986386330306,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 1.3351557049740772e-15,
+    "elbowBendRange": [
+      15.053561940918362,
+      124.22456782052673
+    ],
+    "handleGripWidth": 1.5,
+    "bodyMachineClearance": 3.6001421564676095,
+    "barRise": 4.588612745942096,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.08206604406502976,
+    "footMinY": -8.213090136462487
+  },
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/behind-back-one-arm-cable-curl/",
+    "https://www.muscleandfitness.com/workouts/arm-exercises/how-master-behind-back-curl/"
+  ],
+  "sourceSha256": "14a05472b1e1ef11abf1440d22b3c913fdc5177dc3e1dc5c92b5d095a8440096",
+  "rigSourceSha256": "edc160cd17b7e34a7ca329687fcc1f47cfa6990fc0f679f33c202adfd77c8ddd",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "checks": {
+    "exercise": "M&F Behind-the-Back One-Arm Cable Curl: working upperarm remains behind body and low pulley is behind torso. Distinct from front low-pulley curl.",
+    "equipment": "Exact cable catalog. Supinated D handle, back-facing machine, analytical lower tangent/upper arc/selected-stack cable path.",
+    "setup": "Left working arm fixed25degrees behind torso with slight lateral clearance; right foot forward in staggered stance. Free right arm rests beside body, source hand-on-hip detail omitted.",
+    "hands": "Closed supinated grip, Dhandle ring rotates toward actual low pulley. Final hand210 inspected.481sample grip-anchor0 and grip-axis1.34e-15.",
+    "feet": "Both feet stationary, staggered z difference recorded; left/right sole minima -8.21309014 with floor -8.213091. Base thickness adjusted to meet same floor.",
+    "movement": "Final both32sheets, hand210, feet0, side210, corrected pulley210/stack210 closeups reviewed. Elbow15.05to124.22degrees; cable and grip preserved, stack rises6.14969monotonically.17pose body-handle.08207/body-cable.55070/machine3.60014. Smooth.4/3.8/4.2/7.6."
+  },
+  "detailChecks": {
+    "samples": 481,
+    "upstrokeStackDrop": 0,
+    "polylineLengthDrift": 0.000489162499739848,
+    "stackBaseGap": 0.17,
+    "footFloorMaxGap": 8.635375152721281e-7,
+    "staggerZ": 1.2094169602041154,
+    "upperarmPosteriorRange": [
+      24.999999999999993,
+      24.999999999999993
+    ]
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "7f0c87e1edaea21e08597f6ffaf70446330914af3d99eb9ab93876027c9881d6",
+  "darkVideoSha256": "0750603241b9a3a3904c043960744be03ccc7b2f3d34c3ed94b722e1cce3e56f",
+  "limitations": [
+    "Root visual review pending; no publication.",
+    "Free arm rests at side instead of source hand on hip; wrist kept aligned, slight initial elbow bend, editorial timing.",
+    "Generic machine and D handle; no dynamic load/inertia simulation.",
+    "17pose sampled body vertices, arm excluded from handle metric; no exhaustive cloth/handle triangle proof.",
+    "Barefoot anatomical mannequin, minor angular elbow skin. Local Edge emulation only."
+  ],
+  "reviewedAt": "2026-10-08T08:37:19.207Z"
+}

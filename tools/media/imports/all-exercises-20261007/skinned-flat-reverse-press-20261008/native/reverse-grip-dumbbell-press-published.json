@@ -1,0 +1,18 @@
+{
+  "id": "reverse-grip-dumbbell-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "52e4fba9485569720942d3d8e795ad8234a36c08027f591b037ce7fc46598fb9",
+  "rigSourceSha256": "d291c1a57113bc86f741ee7b28e287fb57bd04a1c90f83d91788705f50c77179",
+  "videoSha256": "9b98d90f7eb523d8ee40fdeca1d16c5dc3d0c0980ad4b6b3ce98c0bd69648393",
+  "darkVideoSha256": "11111a1aec051d576ef7c04f1443f03a3fd4d9c516c528c2f38136778b11452a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79961,
+  "darkBytes": 70844,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:35:45.734Z"
+}

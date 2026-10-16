@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-external-rotation",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c264f1fcab14a1de9b8575301b67935b00f65fc717ccf335f52c3a00bf36b9e2",
+  "rigSourceSha256": "a5c5b39cfcce87251547aabe73c2d466c5c725ae64f8bf3dbb866c330d4734a5",
+  "videoSha256": "700f8dfd20f94039a957867ab38b7573d5ece9eb7d1c84902754f1579761db09",
+  "darkVideoSha256": "d955d0e7979493da809407f830403982349c22f231a8d3ac9186e18c3ab0d3e8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 93288,
+  "darkBytes": 79749,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:44:31.728Z"
+}

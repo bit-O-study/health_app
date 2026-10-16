@@ -1,0 +1,86 @@
+{
+  "id": "single-arm-cable-triceps-kickback",
+  "status": "held-collision",
+  "reason": "After the permitted geometry correction, D-handle still intersects shorts at phase120/360. No final videos or publication.",
+  "current17Sample": {
+    "frame": 120,
+    "bodyHandleGap": 0.039763945722168154,
+    "clothHandleGap": -0.05311190585750104,
+    "clothCableGap": 1.104150684875701
+  },
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/cable-kickback/",
+    "https://www.muscleandstrength.com/node/4127"
+  ],
+  "preservedSupport": {
+    "gap": 0.011900482911028742,
+    "proximalPalmGap": 0.06625266305079514,
+    "hits": 6137
+  },
+  "next": "Dense481 finished. Handle/shorts conflict persists; rework support/equipment geometry with positive clothing clearance before any new final render. No final video/decode/Edge claims. Parent requested hold after this correction.",
+  "createdAt": "2026-10-14T05:05:14.607Z",
+  "dense481": {
+    "samples": 481,
+    "negativeClothHandleSamples": 46,
+    "clothHandleMinimum": {
+      "frame": 131,
+      "gap": -0.08505191289402747
+    },
+    "bodyHandleMinimum": {
+      "frame": 131,
+      "gap": 0.012697570529186686
+    },
+    "clothCableMinimum": 0.7435086700889055,
+    "bodyCableMinimum": 0.23106758582080336,
+    "supportGap": 0.011900482911028742,
+    "supportPalmGap": 0.06625266305079514,
+    "supportHits": 6137,
+    "floorGap": 0
+  },
+  "sourceHashes": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/motion.mjs",
+      "sha256": "af00115911568e340b4afdbf143172f9f0eec30e16ef72e13fe17f90eb056554"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/studio.mjs",
+      "sha256": "407bc5c0177e8762236e22346ff1b0c35915c5e4f062248f4627c7e0c7497f9e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/cable.mjs",
+      "sha256": "20314c2602a7fd65938e396d5469f025d3963cdbe4bb147d92cc6c7f8991bb84"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/render.mjs",
+      "sha256": "625ea2fe4f7e4d249843e9ea8e50322c047cbcc76022f78b93d5fb3e68232f4f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/native/single-arm-cable-triceps-kickback-geometry.json",
+      "sha256": "dc25ae6336cedbcde7cb0830c9492151ca2c93415ccca66d5b6a27a0abbdd289"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/native/single-arm-cable-triceps-kickback-poses.json",
+      "sha256": "e474cf163cfa6c65b65b01131b8d10457054a0e1f25026a21128e851a0486165"
+    }
+  ],
+  "processes": "Dense preview28805 exited0; diagnostic129 evidence render exited0. No final render was started.",
+  "evidence": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/native/single-arm-cable-triceps-kickback/hand-129.png",
+      "sha256": "aaebaf6ea6d3a52c8c8de3623c1f06fc1cfb73420f68a174128c71c707c13ab5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/native/single-arm-cable-triceps-kickback/full-129.png",
+      "sha256": "afb2fab6b1e61fcce4652134053ad77baa2aecb3a9866a2f0312b0ef7e2dad63"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-kickback-20261014/native/single-arm-cable-triceps-kickback/side-129.png",
+      "sha256": "aeb19d889177d852c2f1b10eb4b7658cf58936b702267bd1281488770b71d906"
+    }
+  ],
+  "guards": "Final render blocked without --preview; finalize and publisher always throw HELD. Publisher expected exit1 confirmed."
+}

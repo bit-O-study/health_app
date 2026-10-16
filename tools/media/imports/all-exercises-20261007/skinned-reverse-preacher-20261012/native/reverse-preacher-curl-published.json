@@ -1,0 +1,18 @@
+{
+  "id": "reverse-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "42e719d2936daadcd0d0a1f44fd45f7ce9f47bf6fd0aef117aeb6a2db32c38fd",
+  "rigSourceSha256": "97d1f7ba7f799a2ec9387d9892656145f16d65124f4ac2c7ee9aca499dc4c1ba",
+  "videoSha256": "221b6055ebd252077a70966d642eb89849c981bab16e95f74c6a87670a676305",
+  "darkVideoSha256": "f704b1b8223f7b516f40a8b23759a1c9e442a30afe4480185fc6274bc33008fd",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99572,
+  "darkBytes": 85832,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:22:32.314Z"
+}

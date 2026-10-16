@@ -1,0 +1,119 @@
+{
+  "id": "dumbbell-bench-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/dumbbell-bench-press/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "extend": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Flat-bench bilateral pronated-grip dumbbell chest press with simultaneous shoulder movement and elbow extension.",
+    "equipment": "Two intact dumbbells and flat bench with fitted head cushion. All non-hand body, head, seat, backpad and dumbbell-pair clearance checked throughout481samples.",
+    "setup": "Back supported on horizontal pad, head on fitted cushion, pelvis on seat, both feet grounded. Side and back previews inspected.",
+    "hands": "Pronated palms-forward grip follows each forearm through flexion/extension with stable grip sockets and wrapped fingers.",
+    "feet": "Both feet remain fixed, sole-floor contact verified over481samples.",
+    "movement": "Final both32frame sheets and hand/side/back views reviewed; controlled chest press and return without optical-flow ghosts. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "3de915b0250d8d6145e05221ee61cded50b8efaeeaf5538c0d1bfa0f8363224f",
+  "rigSourceSha256": "fb112e2894e3bd7b28bc919458124a6742ea352d430de4e454a2d0c4d0ec2d36",
+  "videoSha256": "f973c4c14dea66aa592d3f9c98c0bef7700de2cec9bddb13b28400a88f9d8009",
+  "darkVideoSha256": "31c559442c8bcdc7f58d1e3fe281c0b05761f7013139a3d9d780940777ce095a",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-bench-repair-20261012/native/dumbbell-bench-press.mp4",
+      "sha256": "f973c4c14dea66aa592d3f9c98c0bef7700de2cec9bddb13b28400a88f9d8009",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 80451,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-bench-repair-20261012/native/dumbbell-bench-press-dark.mp4",
+      "sha256": "31c559442c8bcdc7f58d1e3fe281c0b05761f7013139a3d9d780940777ce095a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 69136,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.482894019657701,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.5301423627583064,
+    "minEquipmentBenchClearance": 2.8702681575075646,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.08745200529571887,
+    "units": "world units; conservative plate-cylinder versus posed all non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.514855324161734,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.952169766803109,
+    "minimumBackGap": 0,
+    "backContactError": 0.030118434276550587,
+    "minHeadClearance": 2.1507411512956014,
+    "minDumbbellPairClearance": 1.0930611821647442,
+    "minElbowFlex": 5.846694886037496,
+    "maxElbowFlex": 126.86989764584402
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:48:11.975Z",
+  "limitations": "Barefoot mannequin, flat bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification."
+}

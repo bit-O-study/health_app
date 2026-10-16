@@ -1,0 +1,117 @@
+{
+  "id": "v-bar-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-v-bar-pushdown-20261014/native/v-bar-pushdown.mp4",
+      "sha256": "8292e728da3af48c2e1b131d672e0e9ee3d6790e6fee65d2bd34a105b6663015",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79165,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-v-bar-pushdown-20261014/native/v-bar-pushdown-dark.mp4",
+      "sha256": "345b56c710f1de9299edaff4a060ce559ff00cfebb371f95606a3b9766406ba2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75093,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.773959005888173e-15,
+    "pulleyRimError": 1.5543122344752192e-15,
+    "connectorRadiusError": 7.216449660063518e-16,
+    "stackRiseRange": [
+      0,
+      5.256148071672418
+    ],
+    "cableBodyMinClearance": 1.7203709829219331,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.6011864169946884e-15,
+    "gripTangentAxisError": 7.771561172376096e-16,
+    "elbowBendRange": [
+      4.999999999999918,
+      95.00000000000003
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8475005214921939,
+    "barGripWidth": 3.2798270181747906,
+    "barRise": 5.755301504620822,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.6459268200824079,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.8024422434594258,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 7.593851928327582,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.00037063208324994434,
+    "floorGap": 2.008056654290158e-8,
+    "conservativeCapBodyGap": 0.5259268200824079,
+    "conservativeCapClothGap": 0.4262050949432433,
+    "clothBarMinClearance": 0.5462050949432433
+  },
+  "sources": [
+    "https://sweat.com/exercises/v-bar-tricep-pushdown",
+    "https://www.youtube.com/watch?v=HIKzvHkibWc"
+  ],
+  "sourceSha256": "c160483eff8c48864ef7486684761c893a80fa5287ef7bf7463bcdf459b89aa1",
+  "rigSourceSha256": "4377645a24c8f128181fd11d2f5bcd7d8c0fed475757db46ecd1853ed0d6d7eb",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T00:11:59.060Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "8292e728da3af48c2e1b131d672e0e9ee3d6790e6fee65d2bd34a105b6663015",
+  "darkVideoSha256": "345b56c710f1de9299edaff4a060ce559ff00cfebb371f95606a3b9766406ba2",
+  "checks": {
+    "exercise": "Exact v-bar-pushdown catalog cable variant; new rigid90degree V attachment and45degree grip axes, not a straight-bar alias.",
+    "equipment": "Two angled branches and end stops, central apex connector, fixed HIGH pulley and rising stack. Conserved cable length and monotonic loading checked481 samples.",
+    "setup": "Standing facing high pulley, upperarms fixed15degrees forward, planted feet. Both32theme sheets plus side210/pulley105/feet0 visually checked.",
+    "hands": "45degree partial-neutral overhand grip with thumb toward apex on each branch; grip1.60e-15 and axis7.77e-16. Hand0/210 visually inspected. Grip width84.75% shoulder width.",
+    "feet": "Fixed feet; sole gap2.01e-8. No foot or torso movement during press.",
+    "movement": "95degree flexed start, press down to5degree soft extension. smooth hold0-.4, press.4-3.8, hold3.8-4.2, return4.2-7.6, hold7.6-8. Stack0to5.256 upward with zero reversals.481 joint/cable and17 deformed mesh clearance samples pass; decode and Edge play/seek/loop pass both themes."
+  },
+  "limitations": [
+    "Sweat source describes extended starting position; video begins at flexed point in same cycle. Source specifies chestward flexion without exact degrees;95degree start chosen so V apex reaches chest region and high pulley provides continuous resistance.",
+    "Generic90degree V attachment and simplified finger/elbow skin; not branded equipment.",
+    "Mesh distances sampled17 poses, not continuous physical simulation. Conservative end-stop body and cloth gap bounds .5259/.4262.",
+    "Local mobile Edge emulation only, not physical device or integrated app."
+  ]
+}

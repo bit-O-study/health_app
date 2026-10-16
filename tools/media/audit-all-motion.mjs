@@ -1,0 +1,14 @@
+import {existsSync,readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {selectReviewedGuides,selectReviewedDarkGuides} from './guide-review.mjs';
+const read=p=>JSON.parse(readFileSync(p,'utf8'));
+const sha=p=>existsSync(p)?createHash('sha256').update(readFileSync(p)).digest('hex'):null;
+const root='tools/media/motion-guides',pub='public/exercise-guides';
+const catalog=read('tools/media/ai-guides/catalog.json'),reviews=read(root+'/reviews.json');
+const artifacts=catalog.map(x=>{const spec=existsSync(root+'/'+x.id+'.json')?read(root+'/'+x.id+'.json'):{};return {id:x.id,sourceSha256:sha(root+'/'+x.id+'.jpg'),videoSha256:sha(pub+'/ai-v3/'+x.id+'.mp4'),darkVideoSha256:sha(pub+'/ai-v3/'+x.id+'-dark.mp4'),...(spec.rigSource?{rigSourceSha256:sha(root+'/'+spec.rigSource)}:{})}});
+const reviewed=new Set(selectReviewedGuides(reviews,artifacts)),both=new Set(selectReviewedDarkGuides(reviews,artifacts));
+const entries=catalog.map((x,i)=>{const a=artifacts[i],legacy=existsSync(pub+'/ai-v2/'+x.id+'.mp4');return {id:x.id,name:x.name,equipment:x.equipments.map(e=>e.equipment),registered:existsSync(root+'/'+x.id+'.json'),legacyVideo:legacy,...a,status:both.has(x.id)?'reviewed-both-themes':reviewed.has(x.id)?'needs-cutout-review':a.videoSha256?'needs-motion-review':legacy?'legacy-needs-remake':'needs-new-video'}});
+const counts={};for(const e of entries)counts[e.status]=(counts[e.status]??0)+1;
+if(new Set(entries.map(e=>e.id)).size!==catalog.length)throw Error('Duplicate catalog id');
+const report={updatedAt:new Date().toISOString(),scope:'Catalog IDs; equivalent equipment/movement aliases require review before new generation. Reviewed themes are not physical-device or biomechanical certification.',total:catalog.length,counts,entries};
+writeFileSync('tools/media/motion-refresh/all-exercises-progress.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({total:report.total,counts}));

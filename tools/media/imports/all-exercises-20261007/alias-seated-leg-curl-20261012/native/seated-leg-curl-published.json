@@ -1,0 +1,18 @@
+{
+  "id": "seated-leg-curl",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bea603089ed9fee2ef1f10e8727483e8b9536de1bbba5f2e8d621f0bc640bf08",
+  "rigSourceSha256": "7fea3e6ce6b140b9ede4656891a6a7c031e8400d190d28a18a91ab33e19e29b7",
+  "videoSha256": "86218055fc775fd8e0f47dafc3e3352bca31fa656ea2559933c3ba13629a1d72",
+  "darkVideoSha256": "501dff4e10254c7f0fbab1081bfa28b1eef8b5a4553cdf96104de27d4147ed15",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 239714,
+  "darkBytes": 252678,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:06:34.873Z"
+}

@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),p=__dirname+'/studio.mjs';let s=fs.readFileSync(p,'utf8').replace('equipmentBodyClearance=Math.min(equipmentBodyClearance,sdf(v.clone().applyMatrix4(inv)));','{const gap=sdf(v.clone().applyMatrix4(inv));if(gap<equipmentBodyClearance){equipmentBodyClearance=gap;result.closestBody=v.toArray();}}');fs.writeFileSync(p,s);

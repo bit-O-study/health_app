@@ -1,0 +1,109 @@
+{
+  "id": "step-calf-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://eastsussexmsk.nhs.uk/wp-content/uploads/2020/04/total-knee-replacement-booklet-1.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact step calf stretch, lowering heels below step; not concentric calf raise.",
+    "equipment": "Bodyweight with low step and fixed wall support.",
+    "setup": "Both forefeet on step edge, heels free behind, knees straight.",
+    "hands": "LEFTpalm maintains wall near-contact; RIGHTarm relaxed clear of body and garment.",
+    "feet": "481 actual forefoot skin contacts at step top, nonnegative step-boxSDF within numerical tolerance, symmetrical heel lowering.",
+    "movement": "Final both32frame sheets and feet/side/waist/support enlargements visually reviewed;2/3/2/1stretch timing. Decode/Edge pass."
+  },
+  "sourceSha256": "703f15eef8c2712ef775d7fc1bad20b9bb2703bd38998c5168c1ee84db380618",
+  "rigSourceSha256": "c52430a462deb0184b57275d5f80a385a3d9fb3c4138a609c3907ba55d2b9096",
+  "videoSha256": "7daa026f4d146d5ff05c8aa0eeb6b3a735fbf74f2a6376fc3ab547770d6efc58",
+  "darkVideoSha256": "4c8eb46839af77c49b09fd93d814be0e6993c3e3deeb364c3869b81f6ae67c45",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-step-calf-20261012/native/step-calf-stretch.mp4",
+      "sha256": "7daa026f4d146d5ff05c8aa0eeb6b3a735fbf74f2a6376fc3ab547770d6efc58",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 49946,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-step-calf-20261012/native/step-calf-stretch-dark.mp4",
+      "sha256": "4c8eb46839af77c49b09fd93d814be0e6993c3e3deeb364c3869b81f6ae67c45",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 55146,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "supportHandDrift": 2.8223476486757627e-15,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.029197053162077324,
+    "minHandBodyPlaneGap": 0.9439499324763485,
+    "minLegSkinGarmentSectionGap": 0.2806994623383512,
+    "minWallGap": 0.014107261905379254,
+    "maxForefootGap": 3.5701930301001994e-10,
+    "minStepSDF": -3.5702019118843964e-10,
+    "heelRange": [
+      -0.3509603912346657,
+      0.010424613952636719
+    ],
+    "bilateralHeelDifference": 0,
+    "minKneeAngle": 180,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:52:42.106Z",
+  "limitations": "3second hold and15degree hindfoot illustration are not clinical prescription. Adult postoperative source used for exercise form only. Foot surface contacts roll slightly along step during ankle tilt; this is not a no-slip force simulation.481 sampled skin/section checks are not exhaustive triangle collision. No physical-device certification."
+}

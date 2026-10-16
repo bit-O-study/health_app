@@ -1,0 +1,18 @@
+{
+  "id": "barbell-wrist-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f8fc921f8337bd7cb44f1bf0e6c026d3013cf48051fdf77f9dc390ba6c1d0779",
+  "rigSourceSha256": "8a935c4abae39931c40b5872638bf28509fc687301662924fc82a42da873aedb",
+  "videoSha256": "c542e82e4e7488d7be44a3bfef9852a7a131e963e5f95806c4e0a97165a41f6c",
+  "darkVideoSha256": "5ca24df4b3b0c766c3f4f033c5c8016c50faf2780c12712d98f604eb6af0ed68",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 86834,
+  "darkBytes": 80045,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:14:35.468Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "tempo-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8163a6795320acdd06b71c593e8ed7d0502095c248a3b2648651f40ae0960a30",
+  "rigSourceSha256": "983fd43ed59782a9c3ae1ce0aa4f7872085da5cedfc171fa1f0858470b0ef139",
+  "videoSha256": "382f694c97d58fa66a7bee977a5641f67cc32724a8919ad0fb04d36925d2d6d0",
+  "darkVideoSha256": "459ac29b2a83457e4383c6682669beb3f2668e2797f0b3aaa13f435f1186dbe4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 85516,
+  "darkBytes": 74317,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:40:12.409Z"
+}

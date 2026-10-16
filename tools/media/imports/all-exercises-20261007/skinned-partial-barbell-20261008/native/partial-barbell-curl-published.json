@@ -1,0 +1,18 @@
+{
+  "id": "partial-barbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c347ec908d327e9d33ebfb1f7efd2678a47e6f61a6478fcf822e969f167c4a2f",
+  "rigSourceSha256": "6ff2469c56a1931324fa8cacf0b7fbc5092e62e30659e1e604f8e682799155a2",
+  "videoSha256": "ad64dd521fcbb95a3810b377f2e664e228c0f3f9299c4ee9424d0cad5212a360",
+  "darkVideoSha256": "f02a3708969fa0d3cf832f8c73d0210a8e3a7a9ae941785b013455f047dd0c81",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 89271,
+  "darkBytes": 77208,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T04:14:28.402Z"
+}

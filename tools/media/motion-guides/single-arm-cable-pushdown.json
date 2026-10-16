@@ -1,0 +1,15 @@
+{
+  "id": "single-arm-cable-pushdown",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-arm-cable-pushdown-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://criticalbody.com/one-arm-tricep-pushdown/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T00:21:00.817Z"
+}

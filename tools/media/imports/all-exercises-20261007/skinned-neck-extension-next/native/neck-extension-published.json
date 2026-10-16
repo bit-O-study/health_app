@@ -1,0 +1,18 @@
+{
+  "id": "neck-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9957acca5eb004e740976540885db02394b383e069173af254e32b7f4deb9dec",
+  "rigSourceSha256": "637f7cd607ddd7db9bb9505a71730a9843643439eaf0504a5e6e2e6609473938",
+  "videoSha256": "2b55704bef363ac3925bbec851f278a473c4c71bbbf621aec3463715e27b5ff4",
+  "darkVideoSha256": "d1cdbfa834e845d452bf89558bb0eb796754495f80d286e97e5d38c7cfe08bc3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 27630,
+  "darkBytes": 30050,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:21:33.990Z"
+}

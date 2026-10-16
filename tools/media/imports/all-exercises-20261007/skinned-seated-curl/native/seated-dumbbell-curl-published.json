@@ -1,0 +1,18 @@
+{
+  "id": "seated-dumbbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2f5b67920faf1687701914fc9f0c3440676d672525bdfa769491a414c1f849a8",
+  "rigSourceSha256": "086e846ef1299374d97a00c9b000876fcbff377f01ba91f796df60c9ce1e1974",
+  "videoSha256": "3dd213390145e138c037fb6ba21738dde7964147d9bc4627812729ca39a7291f",
+  "darkVideoSha256": "fc7c7c03461ebe6b2adf8ae5c476563dc3bc16910ffb3a3c0faf28e91f8247fe",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90242,
+  "darkBytes": 74417,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:06:49.700Z"
+}

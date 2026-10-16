@@ -1,0 +1,22 @@
+{
+  "originalRigLicense": "See tools/media/motion-refresh/skinned-3d/provenance.json and LICENSE.ASSETS.md (MakeHuman graphical assets CC0)",
+  "inputs": [
+    {
+      "file": "tools/media/motion-refresh/skinned-3d/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "tools/media/motion-refresh/skinned-3d/studio-batch.mjs",
+      "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/band-external-rotation/rig/exercise-motion.mjs",
+      "sha256": "c84fe3c933428a4e4dfb7551844895ab31cf82b1aa020f6e63082d8754bf778e"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/band-external-rotation/rig/studio.mjs",
+      "sha256": "8365f94e472aa4b776a42dd123f40c78ac0edf82cbe1e185727e706e513aa867"
+    }
+  ],
+  "isolatedOutput": "tools/media/imports/all-exercises-20261007/band-external-rotation/rig/"
+}

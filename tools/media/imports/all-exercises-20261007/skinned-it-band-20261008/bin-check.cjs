@@ -1,0 +1,1 @@
+const fs=require('fs'),p=__dirname+'/studio.mjs';let s=fs.readFileSync(p,'utf8').replace('for(const [a,b]of bins.values())','for(const [binKey,[a,b]]of bins)').replace('result.legSectionGap=Math.min(result.legSectionGap,best);','if(best<result.legSectionGap){result.legSectionGap=best;result.legSectionY=binKey*.10;}');fs.writeFileSync(p,s);

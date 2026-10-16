@@ -1,0 +1,73 @@
+{
+  "id": "close-grip-barbell-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/close-grip-standing-barbell-curl.html"
+  ],
+  "checks": {
+    "exercise": "Supinated barbell curl with narrower-than-shoulder grip and fixed hand spacing.",
+    "equipment": "One horizontal rigid barbell with plates, fixed hand spacing and continuous grip contacts.",
+    "setup": "Upright stable torso, complete body and equipment visible in final full camera. Exact scene theme colors; original procedural 3D geometry preserved.",
+    "hands": "Hand close-ups and final encoded sheets confirm exercise-specific grip and continuous hand-weight attachment. Grip-width and side-view checks distinguish barbell variants; full-cycle sheets checked.",
+    "feet": "Both feet stationary on floor across final 32-frame sheets; no foot clipping or sliding.",
+    "movement": "Both final 32-frame sheets inspected. Native 192 frames at 24fps/8sec without optical flow, full decode passed. Mobile Edge both themes play, 7.5s seek and loop passed."
+  },
+  "sourceSha256": "bca4c496f180382b40a3aed38c4259e2af8efc6d4f346f5eea741c9153ee7b92",
+  "rigSourceSha256": "a1c68fdb3b9d152a3a34baf1a816c4d34691abf100aa951ebb80551a6a10c3f2",
+  "videoSha256": "989b32d801cb8fe8010a664119762512f74f3f7dee2bb3f1d26cfec245b5ce3f",
+  "darkVideoSha256": "502de2964d11cf4db136d262f9bfc4faf2699fd8e4bbb70ab90b301497c52640",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-final/native/close-grip-barbell-curl.mp4",
+      "sha256": "989b32d801cb8fe8010a664119762512f74f3f7dee2bb3f1d26cfec245b5ce3f",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 109476,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-final/native/close-grip-barbell-curl-dark.mp4",
+      "sha256": "502de2964d11cf4db136d262f9bfc4faf2699fd8e4bbb70ab90b301497c52640",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 88715,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-07T03:35:40.425Z",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "3D mannequin and bare feet style retained; dark weights have lower contrast but remain present. No app integration or physical-device certification. Full-frame final movies preserve equipment endpoints and complete body."
+}

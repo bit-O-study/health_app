@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-hammer-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ef776dc71c7832f49a37d018a4efe125aaf53edd5cd033c84afebbb3c7d55cb0",
+  "rigSourceSha256": "51667eb1ce33e70df959ed877d7c308e3e8ce14da86d430856fcdf2e6b6be037",
+  "videoSha256": "9df2ac33880e6d6b4cf5f20d67f0a8f728aa02bc394da03c36ecd71c74c5f27d",
+  "darkVideoSha256": "d3f387f95cb578cf41b88c72dbc18974855d2e136b1096a6d7b37736a07abca8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 92514,
+  "darkBytes": 85187,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T02:32:34.011Z"
+}

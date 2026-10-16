@@ -1,0 +1,22 @@
+{
+  "samples": 481,
+  "elbowDrift": 4.420753783546141,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.5296356912916547,
+  "soleMinY": -3.3659280501498534,
+  "soleMaxY": -3.3659280501498534,
+  "floorY": -3.3659280516696906,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.0637034086848332,
+  "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+  "elbowBendMin": 6.415305653484451,
+  "elbowBendMax": 114.23644567170501,
+  "peakElbowBend": 6.415305653484451,
+  "pelvisFloorGap": 0,
+  "minimumBodyFloorGap": 1.519837145025349e-9,
+  "heelFloorGap": 1.519837145025349e-9,
+  "trunkDrift": 0,
+  "equipmentPairClearance": 1.5299418188833567,
+  "kneeFlexDegrees": 6.692926842537623
+}

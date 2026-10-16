@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-neck-retraction-next/studio.mjs';let s=fs.readFileSync(p,'utf8').replace("camera.position.set(exercise==='neck-retraction'?14:3,7,22)","camera.position.set(22,7,12)").replace("else camera.position.set(exercise==='neck-retraction'?24:5,4.5,32)","else camera.position.set(32,4.5,12)");fs.writeFileSync(p,s);

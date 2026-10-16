@@ -1,0 +1,18 @@
+{
+  "id": "high-cable-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4c22a4848fa8d9ff17f4e7edd50ed3c840bd85b0fce2710fe1ae663cb63168bc",
+  "rigSourceSha256": "e355697a64a003904bf2dcb047a8f69a45d2e1dcb29c3d4370d53755a88407bd",
+  "videoSha256": "b9903a52c816ab2a1ac7c47b0eaea439a458072277ac68be156334293dda48bd",
+  "darkVideoSha256": "dfef9d9d7e4310962bbd9924f80779543437d80e42d960d6dc794aaee38ca2d6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78843,
+  "darkBytes": 75286,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:40:19.439Z"
+}

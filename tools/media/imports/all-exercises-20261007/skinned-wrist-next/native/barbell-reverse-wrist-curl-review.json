@@ -1,0 +1,88 @@
+{
+  "id": "barbell-reverse-wrist-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-next/native/barbell-reverse-wrist-curl.mp4",
+      "sha256": "c2b0a60a89ae6635c9fb4d74d12a83378af883516c372a79a1645142327dbe42",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 83737,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-next/native/barbell-reverse-wrist-curl-dark.mp4",
+      "sha256": "fad63c75be0f7874c3b2589897e78643fa61ea9aebc5762e0905e12b57adab37",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75350,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "gripBarAxisError": 6.661338147750939e-16,
+    "gripCenterLineError": 0,
+    "loopDrift": 0,
+    "palmYRange": [
+      -0.9999998249000763,
+      -0.6682791817332534
+    ],
+    "barRise": 1.0092790890500858,
+    "footMinY": -7.751374738328083,
+    "forearmThighMinSampledGap": 0.00010400899976548139,
+    "sampleCount": 556
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/reverse-barbell-wrist-curl.html"
+  ],
+  "sourceSha256": "6d127cc7d470e89e520aea422ad9d093f8f79b26f546672dd154eda69c434bcb",
+  "rigSourceSha256": "d3a42eee9eb7e03df9a33e89dc1301cff60f1802826608274176affb4b2f7437",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "c2b0a60a89ae6635c9fb4d74d12a83378af883516c372a79a1645142327dbe42",
+  "darkVideoSha256": "fad63c75be0f7874c3b2589897e78643fa61ea9aebc5762e0905e12b57adab37",
+  "checks": {
+    "exercise": "Seated pronated barbell wrist extension; forearms supported on thighs, wrists beyond knees.",
+    "equipment": "One continuous straight shaft with symmetric small round plates and collars. Entire bar remains in frame on both themes.",
+    "setup": "Fixed seated forward lean, elbows and forearms fixed against thighs. Side and full previews checked; wrist action isolated.",
+    "hands": "Both palms stay downward across the arc. Dorsal hand surfaces upward; thumb opposition and closed grip inspected in hand-0/210.",
+    "feet": "Both feet fixed at floor; actual skin minimum -7.751374738 against floor -7.751375, with stable seat and thighs.",
+    "movement": "Both final 32-frame sheets inspected: no bar bending, floating, split limbs or interpolation ghosts. Both full decodes and mobile Edge play/seek/loop pass."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:11:02.352Z",
+  "limitations": "Isolated agent review; root visual approval pending. Barefoot mannequin and slightly angular elbow skin retained. Thigh support uses sampled vertex neighborhoods, not full triangle collision proof. No physical-device verification."
+}

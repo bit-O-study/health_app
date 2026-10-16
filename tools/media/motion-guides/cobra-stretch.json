@@ -1,0 +1,15 @@
+{
+  "id": "cobra-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cobra-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://digitalcommons.imsa.edu/yoga_crit_inst/34/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T08:37:32.924Z"
+}

@@ -1,0 +1,100 @@
+{
+  "id": "dumbbell-preacher-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-preacher-20261008/native/dumbbell-preacher-curl.mp4",
+      "sha256": "3edca94e6538e820582f39ee6fa56a9f25ea0512bdd2b3bd2e91eb8cdd7a44e5",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 90281,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-preacher-20261008/native/dumbbell-preacher-curl-dark.mp4",
+      "sha256": "1441e19c0f778cec75cada532fe86800196a3187c433eed3c0263bfe39403512",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78655,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.4054300946555644e-15,
+    "elbowBendRange": [
+      12.474649649449617,
+      111.95845005536138
+    ],
+    "equipmentBodyClearance": 0.5747470008852636,
+    "equipmentBenchClearance": 2.9992962442784665,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "equipmentPad": 2.8498379397942433,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ]
+  },
+  "sources": [
+    "https://www.criticalbench.com/exercises/dumbbell-two-arm-preacher-curls.htm"
+  ],
+  "sourceSha256": "2897b3c19716fb41a6b61f9d76d905e9519e358282786518541be125ca4948f0",
+  "rigSourceSha256": "da6145cecff3301120fde179cc445cee591ceb375c7babb615caf7ca52503f9d",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "videoSha256": "3edca94e6538e820582f39ee6fa56a9f25ea0512bdd2b3bd2e91eb8cdd7a44e5",
+  "darkVideoSha256": "1441e19c0f778cec75cada532fe86800196a3187c433eed3c0263bfe39403512",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Bilateral seated supinated dumbbell preacher curl, distinct from single-arm variation; CriticalBench Two-Armed Dumbbell Preacher Curls original verified.",
+    "equipment": "Two rigid hex dumbbells with visible straight grips; generic U-notched sloping preacher pad, stable seat and post/base. Both-theme32frame sheets and hand210 inspected.",
+    "setup": "Upperarms45degrees forward/down, resting on31.5degree contoured pad; torso inside chest notch without penetration. Support0/210 and side210 visually inspected.17samples bodyPad minimum0.06370169, armPad gap0.000248?0.028603.",
+    "hands": "Both palms up throughout; rigid local grip socket drift0 across481, dumbbell axes error1.41e-15. Fingers wrap visible shaft. No grip switching.",
+    "feet": "Both feet grounded with sole floor gap2.62e-7; feet and legs fixed. Feet0 closeup inspected; body rests on seat.",
+    "movement": "Elbow bend12.47465?111.95845degrees, fixed shoulder/elbow positions, loop drift0; smooth .4/3.8/4.2/7.6. Equipment/body minimum0.574747, bench2.999296, pad2.849838. Full two-theme decode and Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Generic contoured U-shaped preacher pad is not a model-specific equipment replica. Central notch avoids torso penetration; pad slope31.5degrees vs upperarm45degrees, arm surface changes with skinning and maximum gap0.028603rig units.",
+    "Barefoot generic mannequin and simplified fingers/skin at elbows; no muscles deformation or foam compression simulation.",
+    "Body/equipment clearance sampled and approximate; pad skin/equipment vertex checks17poses, joint/grip checks481poses.",
+    "Source prescribes controlled return and contraction without resting; .4second peak hold is editorial animation timing, not prescribed training tempo."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T01:21:16.690Z"
+}

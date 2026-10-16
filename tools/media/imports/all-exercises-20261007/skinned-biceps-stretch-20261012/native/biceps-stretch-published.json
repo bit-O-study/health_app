@@ -1,0 +1,18 @@
+{
+  "id": "biceps-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5004626099c6ccf7f651ab6c4d0c280759327526c6665b3b3d4be77386b9749f",
+  "rigSourceSha256": "8d5f0d783cd741ce3c57b6e46e51e1444355b3268dd15e739cece2a9276a438c",
+  "videoSha256": "1bc4e7c6a0587d90e17ac1b3bcaf0e2d6394ee29860e0fd34883ba3e388e31e3",
+  "darkVideoSha256": "fbad7cc2de9908cccf4d2327eb25cb1786a4d4497134466fe66404225a448a40",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 52395,
+  "darkBytes": 51302,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:30:20.697Z"
+}

@@ -1,0 +1,163 @@
+{
+  "id": "dynamic-calf-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://simplypt.com/dynamic-calf-stretch/"
+  ],
+  "checks": {
+    "exercise": "Exact dynamic straight-knee calf wall stretch.",
+    "equipment": "Bodyweight and fixed wall support.",
+    "setup": "RIGHT leg behind with straight knee and heel down; LEFT front knee flexes.",
+    "hands": "Both actual hand surfaces stay near wall and clear of body/garment throughout481samples.",
+    "feet": "Both ankle/actual heel anchors fixed and sole floor clearance checked481samples.",
+    "movement": "Both final32frame sheets and peak/hand/feet/side enlargements reviewed. Two continuous4second cycles; full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "d6fe58879e4ad6fa4da81c370b8ca7d5f9730f400a41ad9579b7a3d79222b513",
+  "rigSourceSha256": "0d3ec97106fa0fc607c4aebd06d69457bb2eb83747ce1958ae561eb3289e6b84",
+  "videoSha256": "46d8be76522692fcf6ba089bc5ed7f1d1721fb9d559a841e8f98a3ffe4ce56ac",
+  "darkVideoSha256": "9725895b02be62375cc014076a8efbc4c85df10c79c466b7f7aa09e065a3bcc4",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/native/dynamic-calf-stretch.mp4",
+      "sha256": "46d8be76522692fcf6ba089bc5ed7f1d1721fb9d559a841e8f98a3ffe4ce56ac",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 102927,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/native/dynamic-calf-stretch-dark.mp4",
+      "sha256": "9725895b02be62375cc014076a8efbc4c85df10c79c466b7f7aa09e065a3bcc4",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 101764,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "handDrift": 4.070144838902081e-15,
+    "footDrift": 4.446439748506845e-15,
+    "heelDrift": 4.446439748506845e-15,
+    "floorError": 3.552713678800501e-15,
+    "footSkinGap": {
+      "L": {
+        "min": [
+          -3.552713678800501e-15,
+          2.6645352591003757e-15
+        ],
+        "heel": [
+          0.010424613952633166,
+          0.010424613952639383
+        ],
+        "tip": [
+          0.009899862364678214,
+          0.009899862364685319
+        ]
+      },
+      "R": {
+        "min": [
+          -3.552713678800501e-15,
+          8.881784197001252e-16
+        ],
+        "heel": [
+          0.010424613952633166,
+          0.010424613952638495
+        ],
+        "tip": [
+          0.009899862364678214,
+          0.00989986236468443
+        ]
+      }
+    },
+    "rearKnee": [
+      179.99999879258172,
+      180
+    ],
+    "frontKnee": [
+      124.5163548931185,
+      146.8438731571399
+    ],
+    "handWallGap": {
+      "L": [
+        0.009053177115017519,
+        0.009053177115025512
+      ],
+      "R": [
+        0.009053177115017519,
+        0.009053177115025512
+      ]
+    },
+    "wallGap": [
+      0.009053177115017519,
+      0.009053177115025512
+    ],
+    "waistGap": [
+      0.017090648923614227,
+      0.019215192527390457
+    ],
+    "legGap": [
+      1.2861323523272874,
+      1.766436074082498
+    ],
+    "handBodyGap": [
+      0.38913964750226704,
+      0.6192681159065749
+    ],
+    "IKError": 3.4684476073050936e-15,
+    "loopDrift": 0,
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "forwardPeaks": [
+        2,
+        6
+      ],
+      "returnPeaks": [
+        0,
+        4,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T02:20:57.177Z",
+  "limitations": "One side shown; repeat other side separately. Source10–15 repetitions versus two demonstration cycles. Demonstration angles are not prescribed clinical ROM. Original sole curvature leaves heel-region minimum +0.0104246 world units (about1mm at1.7m body height) identically on both feet throughout; lowest sole vertices contact floor. This is not an animated heel lift. Sampled skin/section evidence is not exhaustive triangle collision or balance-force simulation. No physical-device certification."
+}

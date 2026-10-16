@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2897b3c19716fb41a6b61f9d76d905e9519e358282786518541be125ca4948f0",
+  "rigSourceSha256": "da6145cecff3301120fde179cc445cee591ceb375c7babb615caf7ca52503f9d",
+  "videoSha256": "3edca94e6538e820582f39ee6fa56a9f25ea0512bdd2b3bd2e91eb8cdd7a44e5",
+  "darkVideoSha256": "1441e19c0f778cec75cada532fe86800196a3187c433eed3c0263bfe39403512",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90281,
+  "darkBytes": 78655,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T01:44:25.331Z"
+}

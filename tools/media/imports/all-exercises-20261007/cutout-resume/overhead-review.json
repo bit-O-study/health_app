@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-07T04:50:50.139421+00:00",
+  "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+  "filter": "scale=in_range=full:out_range=tv,format=yuv420p,tpad=stop_mode=clone:stop_duration=1,minterpolate=fps=24:mi_mode=mci:mc_mode=obmc:me_mode=bidir:mb_size=4:search_param=64:vsbmc=1:scd=none",
+  "records": [
+    {
+      "theme": "light",
+      "path": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\all-exercises-20261007\\cutout-resume\\barbell-overhead-press.mp4",
+      "sha256": "f5c86f8d6845082712f8391f395f304608b4e938bfc02ee7f25c9b216cd046e4",
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "path": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\all-exercises-20261007\\cutout-resume\\barbell-overhead-press-dark.mp4",
+      "sha256": "a140eb3d094c2d884c40508591b3fec95b55c3205377dca9f16eef48d76a7c2e",
+      "decode": "passed"
+    }
+  ],
+  "published": false,
+  "id": "barbell-overhead-press",
+  "review": "hold-motion",
+  "reason": "4px bidirectional blocks preserve baseline arms/shaft, but 1.25s still has translucent second plate and second bar above actual shaft; 1.5s dark has doubled wrist/elbow outline. Both32frame sheets and fullsize1.25/1.5 inspected. No publication.",
+  "hypothesis": "A smaller4px block could track the thin bar better than default16; this controlled trial did not remove ghosting.",
+  "nextAction": "New temporal source or separately tracked bar/arm layers required; do not repeat parameter-only retuning.",
+  "playback": "Not required for visually rejected candidate; full decode passed both themes."
+}

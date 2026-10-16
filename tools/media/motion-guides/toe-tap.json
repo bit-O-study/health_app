@@ -1,0 +1,16 @@
+{
+  "id": "toe-tap",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "alternating",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "toe-tap-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nbt.nhs.uk/our-services/a-z-services/physiotherapy/specialist-physiotherapy-service/therapy-erehab-video-resources/therapy-erehab-lower-limb-co-ordination",
+    "https://flipbooks.leedsth.nhs.uk/LN003869.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:09:54.223Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "wrist-mobility-circle",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3708817759da27c84ee997ebe71271f157b5cbd9f59d2dc635ef4e2398f5ac77",
+  "rigSourceSha256": "959827a18f1c068b159607054d2ac99cf586715aaa9a465fb75243eb49c5382d",
+  "videoSha256": "4c074cd0fe8894057d0ad44e3e32b617622d9952f889eb3ca33d6758dfa46282",
+  "darkVideoSha256": "ee91d5e81b9510c46d3ba0528580bf66e7066378dbc801e38a61ac75785ad533",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 40579,
+  "darkBytes": 41714,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T06:03:37.720Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "underhand-barbell-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b706ca98550a07852d9bef179406b9e60f7b5c7b070a17ebd3ed8850db86ed76",
+  "rigSourceSha256": "5f6025ecba8076d68bc8752887feefc8476d91e8013db945ea9293d3dc8eeff9",
+  "videoSha256": "cb4373575be25c764e844d4103ef46ca21855ae27cda2d71df828352b4e7f332",
+  "darkVideoSha256": "e4844a1276e28688b0f1d66bc3f66362ddf2ffec9de861016b13b22201252174",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104527,
+  "darkBytes": 86183,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:16:09.179Z"
+}

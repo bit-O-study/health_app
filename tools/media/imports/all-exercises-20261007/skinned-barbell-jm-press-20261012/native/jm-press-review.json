@@ -1,0 +1,133 @@
+{
+  "id": "jm-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/jm-press-2/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "extend": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerTowardChin": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Barbell JM press,combined humeral motion and elbow flexion;bar lowers toward chin with elbows remaining above chest region.",
+    "equipment": "One rigid straight barbell,shaft/plates/collars versus all non-hand body vertices and bench/head/back pads checked481poses.",
+    "setup": "Head/back/pelvis supported on flat bench and cushion,both feet grounded.",
+    "hands": "Closed overhand shoulder-width grips,fixed span and bar plane.Wrist deviation measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "7208889c1ed4c438578bc5212cc328b6fd3c41fa179aecb9e200b17356aaa26c",
+  "rigSourceSha256": "39f4bbf6e8ad9b8063b801457aaa0deb9355b5b185fd9013c3aee4c7ba17f048",
+  "videoSha256": "61e30078023db7b6c7e13960eb4bad3a539832f72b7f1b200c4d0888334b77d6",
+  "darkVideoSha256": "63767c29a65b78bedec4f1ff95caa9f626d5b2e0d5d6f48f2ee2ce2d4631843f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-jm-press-20261012/native/jm-press.mp4",
+      "sha256": "61e30078023db7b6c7e13960eb4bad3a539832f72b7f1b200c4d0888334b77d6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 120549,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-jm-press-20261012/native/jm-press-dark.mp4",
+      "sha256": "63767c29a65b78bedec4f1ff95caa9f626d5b2e0d5d6f48f2ee2ce2d4631843f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 102108,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 2.7534360659875223,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.7455876900556387,
+    "minEquipmentBenchClearance": 4.049394045592251,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.037053173264471814,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 2.832661629136149,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 3.282158258706728,
+    "minimumBackGap": 0,
+    "backContactError": 0.02423544243831799,
+    "minHeadClearance": 0.7455876900556387,
+    "minElbowFlex": 7.5953104244634115,
+    "maxElbowFlex": 144.53564990128643,
+    "minimumElbowAboveShoulder": 0.9831957300817313,
+    "wristDeviationRange": [
+      9.983983416057143,
+      31.941109796154112
+    ],
+    "bottomWristDeviation": [
+      31.941109796154112,
+      31.941109796154112
+    ],
+    "topWristDeviation": [
+      11.837143521558367,
+      11.837143521558367
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 8.881784197001252e-15
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T03:49:41.106Z",
+  "limitations": "Barefoot mannequin, flat bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification."
+}

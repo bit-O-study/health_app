@@ -1,0 +1,18 @@
+{
+  "id": "thoracic-rotation",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "14f6e5f95f278c4c5adb00cfe902f75dd78c895af820d62d4907de65a3e4ec63",
+  "rigSourceSha256": "1f037f15e04c2f06c117a45671aebbbcf4e2a921ebb9c9995cf32efb11c3f33f",
+  "videoSha256": "f4fdf02de1703a25cdcdbb2695ba737ccb6c212d4ae9349bba675c6f7eb43945",
+  "darkVideoSha256": "24022a21efbeaed602f561a60c372eb49d8d80f34d7df8aee86aad13526d1f06",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 73340,
+  "darkBytes": 80453,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:47:30.027Z"
+}

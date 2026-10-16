@@ -1,0 +1,18 @@
+{
+  "id": "neck-lateral-flexion",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "93d2e6acdcf11ce7520240f1f5446e449f14c126e449e0ccc52b4b412c52ae7f",
+  "rigSourceSha256": "c800af914acb90e93b16d3941005673dcae36671be607b77e1f58f9faad9e062",
+  "videoSha256": "4810b156cae5dfe07eba7c8d4c32f46fc782aefe1cf9672ffabf9aeeefa697bb",
+  "darkVideoSha256": "dc6e40bbe9865a36195e6569962b6b43ca83751ebeb3726632cec73a147345f8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 26549,
+  "darkBytes": 28243,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:14:53.978Z"
+}

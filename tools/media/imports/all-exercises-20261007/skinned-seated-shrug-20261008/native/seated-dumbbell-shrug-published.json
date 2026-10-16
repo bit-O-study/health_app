@@ -1,0 +1,18 @@
+{
+  "id": "seated-dumbbell-shrug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "13179bafaf5dec4fae487a0774dcac1056c277f64a6b518555cdd1c727bd97af",
+  "rigSourceSha256": "ea4e18b8a2dd781cca0dafffb6da039100fb378e929835d71159b6718875eae5",
+  "videoSha256": "6c6c3462cdc790e53e8a82e87fd66c3ce3aeaab41a1d0dea518ca14ff1bf60d5",
+  "darkVideoSha256": "0884fd14cd36af345e37d7551144e58a6858f9a447ebf84b59a79f215fd0ee4f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 47318,
+  "darkBytes": 41503,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:40:09.372Z"
+}

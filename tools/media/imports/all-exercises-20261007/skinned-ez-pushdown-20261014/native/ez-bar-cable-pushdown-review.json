@@ -1,0 +1,117 @@
+{
+  "id": "ez-bar-cable-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/native/ez-bar-cable-pushdown.mp4",
+      "sha256": "d1c9c1d30796346518880bd35802075a15fad4bc3803a5e73994deaa07de0e9e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 81354,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/native/ez-bar-cable-pushdown-dark.mp4",
+      "sha256": "3424cf3c7c1f858107dec74b85aab07ca41965c3a1998eb7ec9d0791e0cc9ac1",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78201,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 5.162537064506978e-15,
+    "pulleyRimError": 1.3322676295501878e-15,
+    "connectorRadiusError": 6.106226635438361e-16,
+    "stackRiseRange": [
+      0,
+      6.031160543738447
+    ],
+    "cableBodyMinClearance": 1.042000205898804,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.9984014443252818e-15,
+    "gripTangentAxisError": 7.696856831808123e-16,
+    "elbowBendRange": [
+      4.999999999999918,
+      119.99999999999999
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8573499859223285,
+    "barGripWidth": 3.3179444455194114,
+    "barRise": 6.100065242244293,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.7297783721361462,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.7971781610736419,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.818839456261553,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.00035011330979273225,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 0.6302453226048926,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 2.149391775674303e-13
+  },
+  "sources": [
+    "https://sweat.com/exercises/ez-bar-tricep-pushdown",
+    "https://www.strengthlog.com/tricep-pushdown-with-bar/"
+  ],
+  "sourceSha256": "c3679ea6a9626e6bd50426db91d81199b5e08900843bb07069d7a8c92035cfe1",
+  "rigSourceSha256": "c67773372b5b07960c29bd4945bfc43aa357ba3d06ae55ae254744c6c0559766",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T01:51:45.173Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "d1c9c1d30796346518880bd35802075a15fad4bc3803a5e73994deaa07de0e9e",
+  "darkVideoSha256": "3424cf3c7c1f858107dec74b85aab07ca41965c3a1998eb7ec9d0791e0cc9ac1",
+  "checks": {
+    "exercise": "Exact ez-bar-cable-pushdown catalog cable exercise. New25degree cambered grip segments distinguish attachment and hand orientation from straight or V bars.",
+    "equipment": "One rigid curved EZ attachment with central ring, fixed HIGH pulley, and stack.481samples fixed station0, cable length3.55e-15 and monotonic rising stack0to6.03116.",
+    "setup": "Standing facing pulley with upper arms15degrees forward and fixed body. Both32theme sheets and side/feet/pulley closeups inspected.",
+    "hands": "Both overhand grips follow25degree inclined bar segments; partial pronation follows actual shaft axes. Grip1.998e-15 and axis7.70e-16 across481poses. Hand0/210 inspected; width85.73% shoulder width.",
+    "feet": "Fixed feet/root, sole gap2.01e-8; feet0 inspected.",
+    "movement": "Elbow120to5degrees. Smooth hold0-.4/3.8-4.2/7.6-8, pushdown.4-3.8, controlled return4.2-7.6. Full481phase angle error2.15e-13, loop0.17deformed body/cloth samples include forearms and exclude intentional hand grip; bodybar.72978/clothbar.63025/cable1.042/machine.79718 clear. Both complete decode and Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Sweat EZ source exposes setup only; full elbow movement supported by StrengthLog bar pushdown. Sweat starts extended, while video starts flexed in the same cycle.",
+    "Generic cambered attachment, simplified hand/elbow skin;5degree soft finish rather than forced locked elbow.",
+    "17deformed-mesh samples, not continuous physical collision simulation.",
+    "Local mobile Edge emulation only; physical device and integrated app verification not claimed."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-6-way-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6c7e8e7ba87385d893efd533ca74b91c69838c1c6ce241d81f7d4706e28019c2",
+  "rigSourceSha256": "d0fb2b54e0687c684aa0333043d39848a12ee195ff1791cad0bec7dd615e4432",
+  "videoSha256": "d602bf0650f122d2049ce063971b64df21e3205565ca3bc9f9c93f94ef158621",
+  "darkVideoSha256": "24f8d8e704d4941fc7849294dc59890292a35d36368eb861086217a335f6a917",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 133411,
+  "darkBytes": 116683,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:28:51.851Z"
+}

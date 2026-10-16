@@ -1,0 +1,1 @@
+const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012';let s=fs.readFileSync(b+'/motion.mjs','utf8').replace("rest('upperleg01','lowerleg01','R'),new THREE.Vector3(0,-1,0)","rest('upperleg01','lowerleg01','R'),new THREE.Vector3(1.1,-4.15,0)");fs.writeFileSync(b+'/motion.mjs',s);

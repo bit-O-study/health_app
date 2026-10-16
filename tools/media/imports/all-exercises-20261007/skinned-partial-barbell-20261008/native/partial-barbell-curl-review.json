@@ -1,0 +1,91 @@
+{
+  "id": "partial-barbell-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-partial-barbell-20261008/native/partial-barbell-curl.mp4",
+      "sha256": "ad64dd521fcbb95a3810b377f2e664e228c0f3f9299c4ee9424d0cad5212a360",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 89271,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-partial-barbell-20261008/native/partial-barbell-curl-dark.mp4",
+      "sha256": "f02a3708969fa0d3cf832f8c73d0210a8e3a7a9ae941785b013455f047dd0c81",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 77208,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "topForearmVertical": 0,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.3322676295501878e-15,
+    "gripTangentAxisError": 1.7567876183194556e-15,
+    "elbowBendRange": [
+      9.99999999999994,
+      82
+    ],
+    "barGripWidth": 4.282093700356766,
+    "barRise": 3.6908923068691664,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.5333836395688017,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/videos/how-to-perform-bicep-curl-21s",
+    "https://www.muscleandfitness.com/flexonline/training/partial-growth/"
+  ],
+  "sourceSha256": "c347ec908d327e9d33ebfb1f7efd2678a47e6f61a6478fcf822e969f167c4a2f",
+  "rigSourceSha256": "6ff2469c56a1931324fa8cacf0b7fbc5092e62e30659e1e604f8e682799155a2",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "ad64dd521fcbb95a3810b377f2e664e228c0f3f9299c4ee9424d0cad5212a360",
+  "darkVideoSha256": "f02a3708969fa0d3cf832f8c73d0210a8e3a7a9ae941785b013455f047dd0c81",
+  "checks": {
+    "exercise": "Standing lower-half partial straight-bar curl with supinated grip. Stops at horizontal forearms, then returns to lower position. Not a full curl, top-half curl or complete21s sequence.",
+    "equipment": "One rigid straight bar with two end plates and collars, symmetric bilateral grip. Equipment matches catalog barbell.",
+    "setup": "Upright static torso and grounded stance; upperarms fixed8degrees forward, elbow bend10-82degrees. Endpoint wrist and elbow heights equal exactly at frame240.",
+    "hands": "Hand0/210 and opposite hand210 inspected. Supinated closed grip and opposed thumbs on same shaft;481sample grip-anchor error1.34e-15 and tangent-axis error1.76e-15.",
+    "feet": "Feet static at floor -8.175231 with minvertex -8.1752309799.17phase body-to-shaft sampled vertex clearance minimum0.533384model units.",
+    "movement": "Both encoded32frame sheets and side0/210 inspected; short ROM is visible, no optical-flow ghosts or changing bar shape. Fixed upperarm/elbow/feet drift0 and exact loop0. Both full decodes and mobile Edge play/seek/loop pass. Smooth phase0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T04:13:53.060Z",
+  "limitations": "Root review pending. Barefoot anatomical mannequin with mildly angular elbow skin and stylized fingers. Collision metric samples17phases of non-arm body vertices against shaft; not exhaustive plate/hand or triangle collision proof. Lower-half standalone variation selected from generic partial-curl category, not source21rep protocol or Arnold bottom-third overload prescription. No physical-device or clinical certification."
+}

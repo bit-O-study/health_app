@@ -1,0 +1,108 @@
+{
+  "id": "dumbbell-seesaw-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "leftPressRightLower": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "leftLowerRightPress": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/studio.mjs",
+      "sha256": "7bce5e7e623706adf194b78ba05fe50d64a9e3d68a16cf7c775928a0b0ff44d0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/motion.mjs",
+      "sha256": "c770f56b3fcf291e9c57beca2927c5de3e08221cede5767e1202c740e0be9530"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/render.mjs",
+      "sha256": "6561bebdf569c7eddc9206304670bea66866529bb9ff26381189448ca20da399"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/how-to-do-the-seesaw-dumbbell-press/"
+  ],
+  "sourceSummary": "Muscle and Fitness seesaw dumbbell press allows standing or seated, palms forward, and simultaneous lowering of one dumbbell while the other presses. This standing loop begins in an established split-arm position; initial setup press is omitted. It is opposite-phase seesaw, not sequential alternating reps or a side-bending Arnold-grip press.",
+  "motion": "Standing seesaw press: left arm shoulder-to-overhead while right arm overhead-to-shoulder, then reverse. Forward palms, fixed torso and grounded feet.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.285942049628969,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.8983961550729613,
+    "minDumbbellPairClearance": 4.413614898287199,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.059648742258344406,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices; dumbbell-pair bounding spheres radius1.35",
+    "elbowBendMin": 17.503601299274607,
+    "elbowBendMax": 114.23644567170501,
+    "peakElbowBend": 17.503601299274607,
+    "maxSameDirectionProduct": 0,
+    "leftRise": 3.8401789328673246,
+    "rightDrop": 3.8401789328673246
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/native/dumbbell-seesaw-press.jpg",
+    "sha256": "541450f9d295189aef737a5530afa42c10df24da5e62a64290585f3510325219",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/render.mjs dumbbell-seesaw-press"
+}

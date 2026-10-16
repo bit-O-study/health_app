@@ -1,0 +1,2 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-wrist-circle-next/studio.mjs';let s=fs.readFileSync(p,'utf8').replace("  result.handles=dumbbells.map",`  result.palms=['L','R'].map(side=>{const index=vec(dataByName['finger2-1.'+side].head),little=vec(dataByName['finger5-1.'+side].head);return index.add(little).multiplyScalar(.5).sub(vec(dataByName['wrist.'+side].head)).normalize().applyQuaternion(byName['wrist.'+side].getWorldQuaternion(new THREE.Quaternion())).toArray();});
+  result.handles=dumbbells.map`);fs.writeFileSync(p,s);

@@ -1,0 +1,204 @@
+{
+  "id": "incline-close-grip-bench-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/incline-close-grip-bench-press.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerToSternum": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Incline close-grip bench press,30degree bench, lower-sternum chest contact;124.247degree bottom elbow flexion to8degree soft top.",
+    "equipment": "One rigid straight barbell,shaft/plates/collars versus non-hand body vertices, shaft versus body triangles, sampled bench/head/back pads checked481poses.",
+    "setup": "Head/back/pelvis supported on 30-degree incline bench and cushion,both feet grounded.",
+    "hands": "Closed overhand shoulder-width grips,fixed span and bar plane.Wrist deviation and palm-toward-feet direction measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "aa8a2317600513ce6796acf207221ab93e4a3413eb464bb3303393d1b493d9c1",
+  "rigSourceSha256": "485a163b930a91655a955685d91678fb22552363aaf7f1a983e5d397c5dc0e1a",
+  "videoSha256": "91a2a5742b2cb777a81c744b216a2fca8f2c358d0417ad779e0cc10b3dae9163",
+  "darkVideoSha256": "535d9c23a2a3cc0c9d07b99613b59f556724223ed6b747baad18efa0aba29616",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press.mp4",
+      "sha256": "91a2a5742b2cb777a81c744b216a2fca8f2c358d0417ad779e0cc10b3dae9163",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 118576,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press-dark.mp4",
+      "sha256": "535d9c23a2a3cc0c9d07b99613b59f556724223ed6b747baad18efa0aba29616",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 110486,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.9142970587647685,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.009964940776441278,
+    "minEquipmentBenchClearance": 3.286406133359952,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05280886753135973,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.547319031902378,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.2603049200470293,
+    "minimumBackGap": 0,
+    "backContactError": 0.035932029004420496,
+    "minHeadClearance": 2.2943407750593243,
+    "minElbowFlex": 8.000000000322165,
+    "maxElbowFlex": 130.4267261714512,
+    "minimumElbowAboveShoulder": -2.526206087557843,
+    "wristDeviationRange": [
+      0.7122811768874443,
+      34.780268160349195
+    ],
+    "bottomWristDeviation": [
+      34.780268160349195,
+      34.780268160349195
+    ],
+    "topWristDeviation": [
+      0.7122811768874443,
+      0.7122811768874443
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 8.881784197001252e-15,
+    "minNonChestClearance": 0.913589628293446,
+    "startChestContact": 0.009964940776441278,
+    "endChestContact": 0.009964940776441278,
+    "minimumShaftTriangleGap": 0.0010000092607645727,
+    "minimumPalmTowardFeet": 0.9914448613738104
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T08:36:43.328Z",
+  "limitations": "Barefoot mannequin, 30-degree incline bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification. Shaft triangle inspection applies to triangles fully within the shaft span; plates/collars use conservative cylinders against vertices. Bench/pad clearances use sampled surfaces. Source does not prescribe numeric bench angle. Shoulder-joint width4.038 versus grip4.2 documented;close-grip-incline-press alias is not separately produced or counted.",
+  "visualReview": {
+    "status": "passed",
+    "evidence": [
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press-32.jpg",
+        "sha256": "f3192590c65722362a2eab5a7f6324e8d24be5f75d551a672e829bd05b3a96ca"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press-dark-32.jpg",
+        "sha256": "71d16e0f6d1ccbd82725e7c61249771ce41fcaee4c427bea24feadd99ebcbf5f"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/hand-0.png",
+        "sha256": "ceb05d070b746011f0ea59465edd9809b4eb9a7c7de97c37e95a1b7eb46973fb"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/hand-105.png",
+        "sha256": "4c55573cdaa508f460092d4ee2e4127187cef22b1af5d450c84b20da4b5c00ff"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/hand-210.png",
+        "sha256": "36da144af3aa39ab43bd7dd8feabbff4e4bc9bea5f635aa0245a437e281067c9"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/side-0.png",
+        "sha256": "00c103594876f7b3fdf5e738ac08960a8ad534dc158fde2220add9369a1a0098"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/side-210.png",
+        "sha256": "fa0888389c49112837b1267228d543c3d03cd8f21c436fa0f9914891fa130708"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/chest-0.png",
+        "sha256": "6943e45127b37df35a35091ca2f67b1c32e981bff467a3947bd9f9254305c534"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/native/incline-close-grip-bench-press/feet-0.png",
+        "sha256": "7fc09a03cb9af65cecc47784693e178d0ae8345ebcd1799c22ffefc99f81d5ff"
+      }
+    ],
+    "observations": "Both32-frame sheets show symmetrical continuous narrow overhand pressing; feet,pelvis,head and back remain stable. Hand closeups show thumb-wrapped grips and single silhouettes throughout. Lower-sternum contact and bench setup inspected in chest/side views. No ghosting,clothing fragments or obvious equipment penetration seen. Full source range retained after wrist correction."
+  },
+  "wristCorrection": {
+    "priorMaxDegrees": 40.181712231202546,
+    "finalMaxDegrees": 34.780268160349195,
+    "preserved": "Lower bar XYZ and chest triangle tolerance,top elbow8degree,grip width,bench and camera.",
+    "change": "Palm longitudinal direction30 to22.5degrees from world up; solved top bar height+0.0313131 to retain8degree endpoint.",
+    "priorFiles": [
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/rejected-wrist-max/motion.mjs",
+        "sha256": "a1d8ad23b1a750d15ee44da18c89a44482fa917f2b89002d12f9f8725cab2b44"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/rejected-wrist-max/incline-close-grip-bench-press.mp4",
+        "sha256": "ea670053b91cbb3d379c22b4339289bf1a2258685fee90f7d6c134ccd1f315fc"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/rejected-wrist-max/incline-close-grip-bench-press-dark.mp4",
+        "sha256": "2b164cc146315d8a51320fcfb12cdfa757b6742a61fd4495f767eaebeba1fc37"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-close-incline-barbell-20261014/rejected-wrist-max/incline-close-grip-bench-press-poses.json",
+        "sha256": "d1818df2283f178e66d7011ce3765762ebbdf51c78a135658de182cd676ff4e4"
+      }
+    ]
+  }
+}

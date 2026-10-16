@@ -1,0 +1,14 @@
+{
+  "id": "single-arm-dumbbell-bench-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-arm-dumbbell-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/single-arm-dumbbell-bench-press"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:41:24.843Z"
+}

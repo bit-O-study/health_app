@@ -1,0 +1,21 @@
+{
+  "id": "band-biceps-curl",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+  "videoSha256": "618246a733d3ae228326ce603b2c18b34d130e030e7b2ff28f9d6f7a918d76a2",
+  "darkVideoSha256": "1792a88de40f5a56d18ef15cc164a13a3c15ff6c2672015599655037c25a58f4",
+  "darkBytes": 156282,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 166209,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T00:51:36.403Z",
+  "date": "2026-10-07T00:52:29.876Z",
+  "status": "hold",
+  "published": false,
+  "reason": "Thin resistance band disappears in multiple frames; opaque gray studio background remains enclosed between right band and leg. Both theme 32-frame contact sheets and first/last poses inspected. Needs explicit per-pose equipment preservation masks; do not publish."
+}

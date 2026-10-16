@@ -1,0 +1,137 @@
+{
+  "id": "tempo-bench-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "topLeadIn": [
+        0,
+        1.5
+      ],
+      "eccentric": [
+        1.5,
+        4.5
+      ],
+      "chestPause": [
+        4.5,
+        5.5
+      ],
+      "concentric": [
+        5.5,
+        6.5
+      ],
+      "topLoopPadding": [
+        6.5,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-tempo-bench-20261012/studio.mjs",
+      "sha256": "5e21f71ebfb323d7d6affd1b1971cf52e0d9411e48500fca699c13dd97589e0c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-tempo-bench-20261012/motion.mjs",
+      "sha256": "ccbd1d5b7fe086f0684febab03773ec0b39cf96df401827598c07182d09d202e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-tempo-bench-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-tempo-bench-20261012/render.mjs",
+      "sha256": "97332e09d1320d50c78568a271f17fbaaa1be17ec669bf1b65c20323d90f8039"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.socalpowerlifting.net/post/methods-and-benefits-of-a-tempo-bench"
+  ],
+  "sourceSummary": "SoCal Powerlifting coach Alex Gaynor describes3:1:1 slow-descent tempo bench: three seconds lowering, one-second chest pause and approximately one-second press. This exact protocol is used. The combined three seconds at top are clip lead-in/loop padding outside the3:1:1 working phases.",
+  "motion": "Tempo bench press3:1:1, continuous timing.6.2world-unit overhand grip. Identical supported geometry but prescribed3second descent and1second ascent, with1second chest-contact pause.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.757290956706755,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": -2.8727020762175925e-15,
+    "minEquipmentBenchClearance": 2.4131982048313563,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.1542556638144413,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.0413329275404046,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.485873741821332,
+    "minimumBackGap": 0,
+    "backContactError": 0.029172396493563735,
+    "minHeadClearance": 1.6211590769293611,
+    "minElbowFlex": 3.771324700296573,
+    "maxElbowFlex": 139.8078552567831,
+    "minimumElbowAboveShoulder": -2.189727846704426,
+    "wristDeviationRange": [
+      3.62671552232065,
+      30.674509994983122
+    ],
+    "bottomWristDeviation": [
+      12.655717804293134,
+      12.655717804293134
+    ],
+    "topWristDeviation": [
+      11.291417128478653,
+      11.291417128478653
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 6.217248937900877e-15,
+    "minNonChestClearance": 0.2215123985807415,
+    "pausedChestContact": -2.8727020762175925e-15,
+    "pauseDrift": 0,
+    "tempoSeconds": {
+      "eccentric": 3,
+      "chestPause": 1,
+      "concentric": 1
+    },
+    "eccentricDistance": 4.939839162469078,
+    "concentricDistance": 4.939839162469078,
+    "meanSpeedRatio": 3
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-tempo-bench-20261012/native/tempo-bench-press.jpg",
+    "sha256": "9013b95da5551c8857ef4383f8fb88fa6872c5e4237bca2e7691bc7e03179f95",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-tempo-bench-20261012/render.mjs tempo-bench-press"
+}

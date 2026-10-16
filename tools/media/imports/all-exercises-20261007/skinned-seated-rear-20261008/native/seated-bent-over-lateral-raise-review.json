@@ -1,0 +1,114 @@
+{
+  "id": "seated-bent-over-lateral-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-reverse-fly.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "raise": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Seated bent-over bilateral dumbbell reverse fly, fixed forward hinge and slight elbow bend, controlled shoulder-level lateral raise and return.",
+    "equipment": "Two intact dumbbells, stable flat bench with four legs. Conservative plate clearance from thigh/body and bench checked throughout481samples.",
+    "setup": "Forward torso hinge held still, stable seat and grounded feet. Seat height adjusted to actual posed garment surface; side/back views inspected.",
+    "hands": "Neutral palms-in start, palms down at peak by arm abduction; closed grips remain attached to rigid dumbbell sockets. Fullsize hand views inspected.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed without optical-flow ghosting. Constant elbow angle, shoulder-level peak, bench/body clearance and foot contact checked throughout481samples; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "d314c43cd8b7a8fcd538feee60132394b63776c256773c3d1daf384a7b6cb866",
+  "rigSourceSha256": "fa50150336250275ec44e3a15feb97e67b88acd9362ea2cfc75b7d723304fe2b",
+  "videoSha256": "59fe0498c21d29ff397a23a3f4e9041fa80556889c92dd5ee631dfb39b315654",
+  "darkVideoSha256": "f1685f0c2a1a6fea35085417bbb0fd3e8b8b659a8fabc8274d1ef6f109be4ec7",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-rear-20261008/native/seated-bent-over-lateral-raise.mp4",
+      "sha256": "59fe0498c21d29ff397a23a3f4e9041fa80556889c92dd5ee631dfb39b315654",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 105638,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-rear-20261008/native/seated-bent-over-lateral-raise-dark.mp4",
+      "sha256": "f1685f0c2a1a6fea35085417bbb0fd3e8b8b659a8fabc8274d1ef6f109be4ec7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88386,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 3.0371506268100394,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.7025144629257123,
+    "minEquipmentBenchClearance": 3.1823232594973505,
+    "seatContactError": 3.02053448919537e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0722150975997114,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "elbowBendMin": 7.969610394321171,
+    "elbowBendMax": 7.9696103943215375,
+    "peakUpperarmHeightError": 0.0013054396359633014,
+    "minEquipmentFloorClearance": 0.519462700758905
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T02:19:23.652Z",
+  "limitations": "Barefoot mannequin on a flat bench. No physical-device or biomechanical certification."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-barbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1d74762c190c9e1eff755a09b11ed9b6853e83c3f823561da4028defabc99766",
+  "rigSourceSha256": "24e7feb1bff011dcb63058facadb6c7d16e8cc2bdfdd8de86dd0d43f4ab4daa1",
+  "videoSha256": "2186bfeadc0106b9d7d8eaebd2e76ff95d4220be18145bdfe817c09f3d1a3de0",
+  "darkVideoSha256": "710653e8df2d34c448f79cea2a62f87a52e13b743e40b4faae18091a6c5badcc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 110407,
+  "darkBytes": 89804,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:36:51.555Z"
+}

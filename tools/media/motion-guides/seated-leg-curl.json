@@ -1,0 +1,14 @@
+{
+  "id": "seated-leg-curl",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "reverse",
+  "rigSource": "seated-leg-curl-provenance.json",
+  "aliasOf": "seated-leg-curl-2",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-leg-curl"
+  ],
+  "sourceKind": "Exact reuse of reviewed original16pose source and both MP4s; alias provenance tracks unchanged hashes",
+  "registeredAt": "2026-10-12T02:06:34.870Z"
+}

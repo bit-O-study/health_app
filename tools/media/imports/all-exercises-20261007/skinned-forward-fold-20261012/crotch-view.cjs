@@ -1,0 +1,1 @@
+const fs=require('fs'),p=__dirname+'/studio.mjs';let s=fs.readFileSync(p,'utf8').replace("target.set(0,-3.25,0);camera.position.set(12,-3,20);camera.zoom=2.5;","target.set(0,.4,-1);camera.position.set(0,-1,-20);camera.zoom=4;");fs.writeFileSync(p,s);

@@ -354,9 +354,9 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "cable",
         method: [
-          "팔꿈치를 옆구리에 고정",
-          "팔만 펴서 끝까지 밀어 삼두 수축",
-          "반동 없이 천천히 복귀",
+          "높은 풀리에 직선바를 연결하고 오버핸드로 잡아 케이블 앞에 선다",
+          "상완을 몸 옆에 고정하고 팔꿈치를 펴 바를 아래로 누른다",
+          "팔꿈치를 과하게 잠그지 않고 통제하며 바를 시작 높이로 돌려보낸다",
         ],
       },
       {
@@ -706,7 +706,7 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "barbell",
         method: [
-          "어깨너비보다 좁게, 손목 부담 없는 폭",
+          "평벤치에 누워 바벨을 어깨너비 정도의 편안한 오버핸드로 잡기",
           "팔꿈치 옆구리 가까이 유지하며 내리기",
           "삼두로 끝까지 밀어 올리기",
         ],
@@ -2137,7 +2137,7 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "cable",
         method: [
-          "로우 풀리에 바 걸고 팔꿈치 몸통 고정",
+          "로우 풀리에 짧은 직선 바를 연결하고 손바닥이 위로 향하게 잡아 상완을 몸통 옆에 고정",
           "팔꿈치 고정한 채 바를 말아 올려 이두 수축",
           "케이블 장력 유지하며 천천히 신장",
         ],

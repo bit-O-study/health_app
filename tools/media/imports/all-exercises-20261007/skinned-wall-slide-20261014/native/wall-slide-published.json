@@ -1,0 +1,18 @@
+{
+  "id": "wall-slide",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "33f40ad03791f989793032c0d1c91692bd6ef76e70f613204b0148e03f8ac4c6",
+  "rigSourceSha256": "04890f0f5f0dec6021ba758806dbbb8b516e3612297dd76de7ab79a59956118d",
+  "videoSha256": "ab69227a596a00aeddc2136941219a86a56dd8817761a06543dd5fb63b97095b",
+  "darkVideoSha256": "94fcd9d757fcb6ba43166d23ac9e94197695713a3e46abe89f210fbad3946e89",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 39297,
+  "darkBytes": 40026,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T06:06:00.350Z"
+}

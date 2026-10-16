@@ -1,0 +1,18 @@
+{
+  "id": "neck-retraction",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3f7bd965ecfaeeae93970f77e0df96e45fd9656ed3535b785b8714b78c6c0da0",
+  "rigSourceSha256": "3348fa13b8fd40f8227ece7d3dff0744d8a1b6e303df0946b59f9106d4268d6c",
+  "videoSha256": "3e637004330d9056b0e5956f267126ce6e4ddee42925b55b84a22ab6d5a2026e",
+  "darkVideoSha256": "1eb48ee50826cb52b06ea730cc9f2037cc5a269ee4646e04be58bd6350692d27",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 23037,
+  "darkBytes": 24747,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:19:15.480Z"
+}

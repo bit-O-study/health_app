@@ -1,0 +1,202 @@
+{
+  "id": "wall-slide",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.ouh.nhs.uk/media/kyypbheo/81702shoulder.pdf"
+  ],
+  "checks": {
+    "exercise": "Wall slide with little-finger edges touching wall and thumbs backward.",
+    "equipment": "Bodyweight and fixed wall support.",
+    "setup": "Standing square to wall, feet planted, elbows bent initially then arms slide upward.",
+    "hands": "Both actual hand surfaces stay near wall and clear of body/garment throughout481samples.",
+    "feet": "Both ankle/actual heel anchors fixed and sole floor clearance checked481samples.",
+    "movement": "Both final32frame sheets and hand/feet/side enlargements reviewed. One smooth rise/return cycle; full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "33f40ad03791f989793032c0d1c91692bd6ef76e70f613204b0148e03f8ac4c6",
+  "rigSourceSha256": "04890f0f5f0dec6021ba758806dbbb8b516e3612297dd76de7ab79a59956118d",
+  "videoSha256": "ab69227a596a00aeddc2136941219a86a56dd8817761a06543dd5fb63b97095b",
+  "darkVideoSha256": "94fcd9d757fcb6ba43166d23ac9e94197695713a3e46abe89f210fbad3946e89",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/native/wall-slide.mp4",
+      "sha256": "ab69227a596a00aeddc2136941219a86a56dd8817761a06543dd5fb63b97095b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 39297,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/native/wall-slide-dark.mp4",
+      "sha256": "94fcd9d757fcb6ba43166d23ac9e94197695713a3e46abe89f210fbad3946e89",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 40026,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "handDrift": 4.3,
+    "footDrift": 0,
+    "heelDrift": 0,
+    "floorError": 1.7763568394002505e-15,
+    "footSkinGap": {
+      "L": {
+        "min": [
+          -1.7763568394002505e-15,
+          -1.7763568394002505e-15
+        ],
+        "heel": [
+          0.010424613952634942,
+          0.010424613952634942
+        ],
+        "tip": [
+          0.009899862364680878,
+          0.009899862364680878
+        ]
+      },
+      "R": {
+        "min": [
+          -1.7763568394002505e-15,
+          -1.7763568394002505e-15
+        ],
+        "heel": [
+          0.010424613952634942,
+          0.010424613952634942
+        ],
+        "tip": [
+          0.009899862364680878,
+          0.009899862364680878
+        ]
+      }
+    },
+    "rearKnee": [
+      180,
+      180
+    ],
+    "frontKnee": [
+      180,
+      180
+    ],
+    "handWallGap": {
+      "L": [
+        0.01999999999999602,
+        0.02000000000000357
+      ],
+      "R": [
+        0.01999999999999602,
+        0.02000000000000357
+      ]
+    },
+    "wallGap": [
+      0.01999999999999602,
+      0.02000000000000357
+    ],
+    "waistGap": [
+      0.042014951591391014,
+      0.04219081362839727
+    ],
+    "legGap": [
+      0.2806994623383512,
+      0.2806994623383512
+    ],
+    "handBodyGap": [
+      -0.37837256140818454,
+      -0.3783725614081761
+    ],
+    "IKError": 5.420799638382024e-15,
+    "loopDrift": 0,
+    "littleFingerGap": {
+      "L": [
+        0.01999999999999602,
+        0.02000000000000357
+      ],
+      "R": [
+        0.01999999999999602,
+        0.02000000000000357
+      ]
+    },
+    "palmNormalLeftX": [
+      -0.9693676460407025,
+      -0.9693676037010481
+    ],
+    "thumbBackwardZ": {
+      "L": [
+        -0.57346234436333,
+        -0.5734623443633275
+      ],
+      "R": [
+        -0.57346234436333,
+        -0.5734623443633275
+      ]
+    },
+    "handHeightBodyGap": [
+      0.7718076173514494,
+      999
+    ],
+    "wristHeight": [
+      6.3,
+      10.6
+    ],
+    "bodyDrift": 0,
+    "phaseSeconds": {
+      "start": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T06:05:13.483Z",
+  "limitations": "One8second demonstration versus source5 to15-20repetitions. Source is postoperative education; rehabilitation timing and clinical recommendations are not generalized. Demonstration range is not prescribed ROM. Skin-edge wall clearance .02worldunits is approximately2mm at1.7m body height. Original curved sole heel clearance .0104246worldunits is constant; lowest sole points contact floor. Global Z-only hand/body gap is diagnostic only because raised hands share Z with head at different X; conservative0.12-height-bin X/Z separating planes are the contact check. Null height gap means hands above all body bins. Sampled surface and separating-plane evidence is not exhaustive collision or force simulation. No physical-device certification."
+}

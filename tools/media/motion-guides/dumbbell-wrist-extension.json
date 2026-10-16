@@ -1,0 +1,17 @@
+{
+  "id": "dumbbell-wrist-extension",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "controlled",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-wrist-extension-provenance.json",
+  "aliasOf": "reverse-wrist-curl",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/dumbbell-wrist-extension/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/29/wrist-curl-extension/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:30:09.761Z"
+}

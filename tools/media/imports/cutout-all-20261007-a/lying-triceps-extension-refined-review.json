@@ -1,0 +1,22 @@
+{
+  "id": "lying-triceps-extension",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b73fee7de01788e9220aeb19e74b1f2af725909cf3bff87b2da81ec1c1c4e1bc",
+  "videoSha256": "643521f7e57dba6fe680b8a480e90feee37e2a9e3d6e00273dcb549a0625a7cf",
+  "darkVideoSha256": "01a9206c9f99280578d643737f798f3568683035028f64b655acf71d7c6d9381",
+  "darkBytes": 203839,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 233101,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T00:59:13.945Z",
+  "date": "2026-10-07T00:59:23.819Z",
+  "status": "hold",
+  "published": false,
+  "notes": "Bench restored from original pixels and enclosed background removed, but inner-arm edge in poses10-12 needs smoother matte. Do not publish. Prior playback refers to previous refinement, not this hash.",
+  "scope": "Original source and light/dark rendered JPG contact sheets. Not production or physical device."
+}

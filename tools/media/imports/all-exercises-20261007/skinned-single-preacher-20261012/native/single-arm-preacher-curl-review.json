@@ -1,0 +1,106 @@
+{
+  "id": "single-arm-preacher-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-preacher-20261012/native/single-arm-preacher-curl.mp4",
+      "sha256": "6afdbbb1580177cf222677ba3a130effa9d795f036898e6f5e557d2cf92a3ab9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 55494,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-preacher-20261012/native/single-arm-preacher-curl-dark.mp4",
+      "sha256": "5c2cf3a2ec40afeded13a193de48f1989bc7ea7fbd90010a6cfd865c933c1216",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 53668,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.4054300946555644e-15,
+    "elbowBendRange": [
+      12.474649649449617,
+      111.95845005536138
+    ],
+    "equipmentBodyClearance": 0.5747470008852636,
+    "equipmentBenchClearance": 2.9992962442784665,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "equipmentPad": 2.8498379397942433,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ],
+    "phaseAnchorError": 0,
+    "oppositePadGapRange": [
+      0.00024812105801103046,
+      0.00024812105801103046
+    ]
+  },
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/dumbbell-preacher-curl-2/"
+  ],
+  "sourceSha256": "7a3d61f90d1d1941bd9a34f148baf7383f88eb1b7431c7c3e109e15800336d45",
+  "rigSourceSha256": "fa1bf8fac383b99e241ea09664b5c66c49793e8097dc255057929977157cf648",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "videoSha256": "6afdbbb1580177cf222677ba3a130effa9d795f036898e6f5e557d2cf92a3ab9",
+  "darkVideoSha256": "5c2cf3a2ec40afeded13a193de48f1989bc7ea7fbd90010a6cfd865c933c1216",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Single left-arm seated supinated dumbbell preacher curl, not a bilateral video alias. M&F original single-dumbbell/upperarm-on-preacher protocol verified.",
+    "equipment": "One actual hex dumbbell with visible grip; generic notched sloping preacher pad and stable seat/post/base. Final both-theme32frame sheets and hand210 directly inspected.",
+    "setup": "Upperarms45degrees forward/down, resting on31.5degree contoured pad; torso inside chest notch without penetration. Support0/210 and side210 visually inspected.17samples bodyPad minimum0.06370169, armPad gap0.000248?0.028603.",
+    "hands": "Left palm up, fingers wrapped around sole dumbbell handle; local grip drift0 and axis1.41e-15 across481samples. Right open free hand and forearm fixed throughout; right upperarm rests on pad. Source does not specify free-hand pose.",
+    "feet": "Both feet grounded with sole floor gap2.62e-7; feet and legs fixed. Feet0 closeup inspected; body rests on seat.",
+    "movement": "Left elbow12.47?111.96degrees; working shoulder/elbow and all opposite-arm joints fixed, loop0; phase anchors .4/3.8/4.2/7.6 verified error0. Body/dumbbell0.574747, bench2.999296,pad2.849838. Opposite arm padgap0.000248 fixed. Final side210/support210/feet0 views, decode and Edge playseekloop passed."
+  },
+  "limitations": [
+    "Generic contoured U-shaped preacher pad is not a model-specific equipment replica. Central notch avoids torso penetration; pad slope31.5degrees vs upperarm45degrees, arm surface changes with skinning and maximum gap0.028603rig units.",
+    "Barefoot generic mannequin and simplified fingers/skin at elbows; no muscles deformation or foam compression simulation.",
+    "Body/equipment clearance sampled and approximate; pad skin/equipment vertex checks17poses, joint/grip checks481poses.",
+    "Free-arm resting/open-hand pose is an editorial choice because source text does not specify it. One side is demonstrated; repetitions on opposite arm are performed separately.",
+    "Eight-second smooth timing with .4second peak pause is editorial, not source-prescribed."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T02:11:54.862Z"
+}

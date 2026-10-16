@@ -1,0 +1,15 @@
+{
+  "id": "wrist-flexor-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wrist-flexor-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/golfers-elbow-stretch/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T00:14:38.841Z"
+}

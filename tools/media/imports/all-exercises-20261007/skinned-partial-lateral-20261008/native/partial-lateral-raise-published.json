@@ -1,0 +1,18 @@
+{
+  "id": "partial-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9ffee09f4d7c2a55ee8b2b33844cf6d27d78e155b943384c9ebcaef198e42715",
+  "rigSourceSha256": "377ab0e3299eba8443fc724a2b1331d1f3d6c700bcfa0f36ecd3676f20043f9a",
+  "videoSha256": "d24741bac0c967ee2fb7c31448e1d0f4b8b90210259b1786e7e63280553124b1",
+  "darkVideoSha256": "a44e9f78c0f54d62dc2f57e7347910579dbfdaa0ce8395bb641eb6faa7c611d6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 85638,
+  "darkBytes": 71444,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:49:29.254Z"
+}

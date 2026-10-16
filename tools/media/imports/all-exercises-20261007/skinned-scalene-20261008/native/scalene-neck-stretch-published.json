@@ -1,0 +1,18 @@
+{
+  "id": "scalene-neck-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b5e6669c67eae307803fa309fdd6509330385af46adbd64ddc6665c33cca6f04",
+  "rigSourceSha256": "3a7dcadae890ebd644bfd3c4156c3714de4b7e19088b1d7f8b9e6f945ecbb823",
+  "videoSha256": "5da8fb988266eb62ee943f1405c8776cb9093794d3ef986cb4b5fc6747ffd62c",
+  "darkVideoSha256": "37bafe8b86f804dbce8b836b034ebcc23d0b23e674444abcae10bb0e4db9c406",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 44283,
+  "darkBytes": 47502,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:40:01.225Z"
+}

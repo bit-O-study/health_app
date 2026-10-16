@@ -1,0 +1,16 @@
+{
+  "id": "tempo-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "tempo-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://centr.com/blogs/features/centr-power-in-gym-your-questions-answered",
+    "https://www.muscleandstrength.com/exercises/standing-dumbbell-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:54:21.531Z"
+}

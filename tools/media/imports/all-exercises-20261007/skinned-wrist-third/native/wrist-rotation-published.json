@@ -1,0 +1,18 @@
+{
+  "id": "wrist-rotation",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c0b2d042c8e9890bd0cff3cd58d26615eb50b21ce5bfb6cbafef67f47c53cde2",
+  "rigSourceSha256": "fe9881dcec17582edf240fb8b4cf3ff00961f8786e6f105190bed384bfba28e7",
+  "videoSha256": "5ea894e3d69a1f40a1669ff31ccad1c271fd63037436643a3c7f150cab68cc98",
+  "darkVideoSha256": "cab36f40f6f97fe449eb41772f4a3ec29b23a0cd2209759456b63cb2eeae8825",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 118562,
+  "darkBytes": 100850,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:30:48.036Z"
+}

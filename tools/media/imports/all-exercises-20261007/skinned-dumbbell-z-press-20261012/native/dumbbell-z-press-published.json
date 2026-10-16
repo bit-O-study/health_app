@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-z-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f667f780153b076919efe7b556510dbbcec9c46a03d6aaf0196414b5a927b2ac",
+  "rigSourceSha256": "e95975cf054bd362a39b7d861eef68f0f269bc153eab24fd8199450c6e60f22a",
+  "videoSha256": "1c99a5a118f9c5922ea54b5b9dafd4a245e80688914c6f8244ebde4cef17bbfb",
+  "darkVideoSha256": "21945c04da641d8641ce9aaf47ade095a07b81921060efeaf4412614afaff23f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104478,
+  "darkBytes": 88697,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:47:26.539Z"
+}

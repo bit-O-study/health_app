@@ -1,0 +1,119 @@
+{
+  "id": "cable-concentration-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-concentration-20261012/native/cable-concentration-curl.mp4",
+      "sha256": "1197816e5f1e85102345398f56c96cae843d3b4ec98b313ce61f76f168150cbf",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 77617,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-concentration-20261012/native/cable-concentration-curl-dark.mp4",
+      "sha256": "c4c94ca4a51606ddcfdfdf7ffd472dba430d22244c6f0163d501462dd8fa9bd1",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75051,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.745569753695064e-15,
+    "elbowBendRange": [
+      13.963966817855107,
+      114.89249419558378
+    ],
+    "bodyBarClearance": 0.7557427282733492,
+    "floorGap": -4.7102017486366776e-7,
+    "collisionSamples": 17,
+    "armThighSignedRange": [
+      0.0032038530465311726,
+      0.034622055836891576
+    ],
+    "armThighDistanceRange": [
+      0.0032038530465311726,
+      0.034622055836891576
+    ],
+    "barGripError": 1.1102230246251565e-15,
+    "gripWidth": 3.826258522192006,
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.9886972925560739,
+    "phaseAnchorError": 0,
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 2.4980018054066022e-15,
+    "pulleyRimError": 5.551115123125783e-16,
+    "connectorRadiusError": 7.771561172376096e-16,
+    "stackRiseRange": [
+      0,
+      5.7938124937617665
+    ],
+    "cableBodyClearance": 0.8793360024493553,
+    "bodyMachineClearance": 0.9111771603056906,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 4.056187506238233,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.002871436917214254
+  },
+  "sources": [
+    "https://criticalbody.com/cable-concentration-curl/"
+  ],
+  "sourceSha256": "dea4d07e6865df5bc183b51749e109677babb91677ccc79093b59cc1782b0211",
+  "rigSourceSha256": "5aebbedc92cb3432a532411fb6a95bdbf7c1702bc3b455ccf0e9d77c40f24d05",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "1197816e5f1e85102345398f56c96cae843d3b4ec98b313ce61f76f168150cbf",
+  "darkVideoSha256": "c4c94ca4a51606ddcfdfdf7ffd472dba430d22244c6f0163d501462dd8fa9bd1",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "CriticalBody original seated cable concentration curl: bilateral underhand straight bar, flat bench, forward trunk lean and backs of upperarms braced against inner knees. Exact cable catalog ID; not unilateral standing variant.",
+    "equipment": "Generic cable tower with extended low pulley between feet, floor return idler and upper pulley to moving stack. Final both-theme 32-frame sheets, pulley105 and side210 inspected: continuous wire and rigid support rail, no cable-body crossing.",
+    "setup": "55degree forward torso lean, knees spread, fixed upperarms and feet. Support210 inspected.17 deformed-mesh samples arm/thigh signed nearest gaps0.003204 to0.034622 rig units, no sampled skin penetration. No preacher pad.",
+    "hands": "Both hands supinated around transverse straight bar; hand210 and pulley105 inspected.481samples bar-to-grip error1.11e-15 and axis error1.75e-15, shoulder-width grip ratio0.988697.",
+    "feet": "Feet0 inspected; fixed bare soles touch floor within4.71e-7 rig units. Rail and low pulley stay centrally between spread feet.",
+    "movement": "One controlled curl with actual smooth0.4/3.8/4.2/7.6 phases.481samples elbow13.96 to114.89degrees; fixedjoints/phase/loop drift0. Stack rises0 to5.793812 with no downward reversal during concentric; cablelength drift3.55e-15, polyline approximation0.002871.17mesh bodybar minimum0.755743, cablebody0.879336, towerbody0.911177. Both480/24/8 MP4 full decode and mobile Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Generic custom three-pulley tower with extended floor pulley, not a commercial machine replica. Rail separation inspected visually; tower uses conservative box and cable uses segment distances at17 deformed mesh samples, not continuous collision physics.",
+    "Source describes one-second squeeze; this8second educational loop uses editorial0.4second peak pause.",
+    "Barefoot generic mannequin with simplified finger and elbow skin. Arm-thigh near contact has small skinning gaps; no tissue compression simulation."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T04:43:57.039Z"
+}

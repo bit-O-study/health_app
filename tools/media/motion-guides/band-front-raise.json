@@ -1,0 +1,15 @@
+{
+  "id": "band-front-raise",
+  "prompt": "Create a transparent 4 by 4 animation atlas, EXACTLY16 equal square cells, of a bilateral resistance BAND FRONT RAISE. Original clean realistic3D fitness illustration, same adult athletic woman teal fitted tee charcoal leggings black shoes in every cell. Fixed three-quarter SIDE view facing RIGHT, showing both arms separately. Entire person and all bands within each cell with generous8% padding, no crop. A single bright red elastic band center is pinned UNDER BOTH planted shoes; two taut branches run continuously from the shoes directly to the two hands. Hands start just in front of thighs and BOTH nearly straight arms rise FORWARD to shoulder height. Palms down, elbows softly bent constant10degrees. Sixteen successive evenly spaced shoulder flexion poses: 0,6,12,18,24,30,36,42,48,54,60,66,72,78,84,90degrees. Row-major chronological, no reset at row boundaries, only ascent (software reverses for descent). Hands do not rise above shoulders. No sideways lateral raise, no biceps curl. Head torso hips knees feet and camera exactly fixed in each cell. Continuous anatomical arms and hands, stable anatomy, band always attached and visible red. TRUE TRANSPARENT background and transparent enclosed gaps, no matte no shadows no floor no text no gridlines. Consistent identical full-body size, lighting and location in all16 cells. Keep the two hands and their band branches separate, keep band opaque.",
+  "equipment": "band",
+  "sources": [
+    "https://www.performancehealth.com/articles/33-theraband-resistance-band-exercises-to-do-at-home"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "rigSource": "band-front-raise-rig.png",
+  "renderer": "generated-alpha-atlas-v1",
+  "timing": "raise-lower",
+  "cutout": true,
+  "registeredAt": "2026-10-07T02:34:00.887Z"
+}

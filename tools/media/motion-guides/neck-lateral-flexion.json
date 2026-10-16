@@ -1,0 +1,15 @@
+{
+  "id": "neck-lateral-flexion",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "neck-lateral-flexion-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.sfh-tr.nhs.uk/services/msk-together-partnership/self-care/neck-pain/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T05:14:53.971Z"
+}

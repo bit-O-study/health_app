@@ -1,0 +1,18 @@
+{
+  "id": "quadruped-hip-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "56aab0cde68eba96f2b0b4ed93825d87d8b95ac0bb9f66bee93a1aab96d14132",
+  "rigSourceSha256": "4c652989b2ff82a3fdca98f51862aebb886937a518556c47c1df60ec150c5601",
+  "videoSha256": "0a76968836f7dbbf601dea12f9121dd01e985329998e5a8226813ad60a7e0a6b",
+  "darkVideoSha256": "fe4623ad9a8e0424789bc41a3f8f5c2f723ee2e0ef93b00bc864a7626161c19e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 49547,
+  "darkBytes": 51453,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T13:42:45.052Z"
+}

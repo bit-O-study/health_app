@@ -1,0 +1,36 @@
+{
+  "samples": 481,
+  "feetDrift": 6.951095629092364e-15,
+  "hipCentersDrift": 4.90457592513324e-16,
+  "heelAnchorDrift": 6.936895214610189e-15,
+  "loopDrift": 0,
+  "hipHingeDegrees": 15.000000000000123,
+  "maxSpineRelativeRotation": 5.16191365590357e-8,
+  "minRightKneeDegrees": 179.99999774112726,
+  "maxRightKneeDegrees": 180,
+  "minFloorClearance": -3.552713678800501e-15,
+  "maxRightHeelGap": 3.552713678800501e-15,
+  "minRightToeGap": 1.0257602126349719,
+  "minSeatGap": 0.005582251263421156,
+  "maxSeatGap": 0.044225840740358624,
+  "minArmSeatGap": 1.247309381455732,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

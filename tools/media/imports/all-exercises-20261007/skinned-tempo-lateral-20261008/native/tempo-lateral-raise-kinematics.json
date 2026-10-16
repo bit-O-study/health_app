@@ -1,0 +1,26 @@
+{
+  "samples": 481,
+  "elbowDrift": 3.3293947714865464,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.5619212100020655,
+  "soleMinY": -8.175230979919434,
+  "soleMaxY": -8.175230979919434,
+  "floorY": -8.175230979919434,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.1280881074064558,
+  "units": "world units; conservative plate-cylinder versus posed central body vertices",
+  "elbowBendMin": 13.999999999999895,
+  "elbowBendMax": 14.000000000000107,
+  "minAbduction": 11.328693339695928,
+  "maxAbduction": 90.00016683442651,
+  "timingChecks": {
+    "startHold": 0,
+    "topHold": 0,
+    "endHold": 0,
+    "midpointSymmetry": 0,
+    "upSeconds": 2,
+    "topSeconds": 1,
+    "downSeconds": 3
+  }
+}

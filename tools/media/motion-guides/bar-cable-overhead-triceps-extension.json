@@ -1,0 +1,15 @@
+{
+  "id": "bar-cable-overhead-triceps-extension",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "bar-cable-overhead-triceps-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-low-pulley-overhead-tricep-extension.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T05:38:49.177Z"
+}

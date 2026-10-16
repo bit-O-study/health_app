@@ -1,0 +1,52 @@
+{
+  "wristFlexionStart": 47.20849258600904,
+  "wristFlexionPeak": 68.12590395704123,
+  "maxWristFlexion": 68.12590395704123,
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "shoulderDrift": 0,
+  "loopDrift": 0,
+  "handRaising": 1.3000000000000007,
+  "elbowOutward": 0.5141929166692187,
+  "elbowRaising": 0.49499381158642675,
+  "handSeparationPlaneGap": 0.0009224284028652472,
+  "minHandGap": 0.0009224284028652472,
+  "maxHandGap": 0.005820780763341704,
+  "minHandBackBaseGap": 0.0009224284028652472,
+  "maxHandBackBaseGap": 0.005820780763341704,
+  "minHandBands": [
+    0.0009224284028652472,
+    0.1882144948167232,
+    0.24713609400775763,
+    0.6759737543285259
+  ],
+  "maxHandBands": [
+    0.005820780763341704,
+    0.18821449481673175,
+    0.24713609400776743,
+    0.6759737543285357
+  ],
+  "minFloorClearance": 2.616719170234205e-7,
+  "minSeatGap": 0.008499927356904635,
+  "maxSeatGap": 0.008499927356904635,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

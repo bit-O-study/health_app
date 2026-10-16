@@ -1,0 +1,3 @@
+﻿const fs=require('fs');
+const p='tests/be/logic/video-next-methods.test.ts';let s=fs.readFileSync(p,'utf8');const anchor='describe("continuous video instructions match the exact equipment and movement", () => {';
+s=s.replace(anchor,anchor+`\n  it("finger extension flattens fingers on a table without wrist extension", () => {\n    const steps = methodSteps("finger-extension-stretch", "bodyweight").join(" ");\n    expect(steps).toContain("탁자");\n    expect(steps).toContain("손바닥이 아래");\n    expect(steps).toContain("손가락을 평평하게");\n    expect(steps).not.toContain("팔꿈치만 펴");\n  });\n`);fs.writeFileSync(p,s);

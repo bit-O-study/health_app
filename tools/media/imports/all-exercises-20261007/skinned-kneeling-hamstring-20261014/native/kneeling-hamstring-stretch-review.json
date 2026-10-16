@@ -1,0 +1,166 @@
+{
+  "id": "kneeling-hamstring-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://ca.physitrack.com/home-exercise-video/half-kneeling-hamstring-stretch---version-2"
+  ],
+  "checks": {
+    "exercise": "Exact half kneeling hamstring stretch, distinct from standing dynamic hinge.",
+    "equipment": "Bodyweight on mat, no equipment substitution.",
+    "setup": "LEFT bent knee supported; RIGHT leg extended straight forward, toes upward. Back stays straight.",
+    "hands": "Both relaxed hands lateral, actual hand/body separating planes positive481samples. No assistance contact claimed.",
+    "feet": "Front heel +.020, rear knee +.020; whole skin floor minimum+.01699, including rear dorsal ankle. Lower body fixed.",
+    "movement": "Both final32frame sheets and hands/feet/side/rear waist closeups inspected;15to45degree straight hip hinge, stretch2/3/2/1seconds. Both decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "77c05da0e4f54a89944bbe6390d184cb9fa95a823316d2b5c2c2ac6c45e51452",
+  "rigSourceSha256": "c92b31527d7b73e2b88d8c4afde050cc7f10558e297d779d7e1624a3a9f1f8f0",
+  "videoSha256": "ea63c45222062653787541906ca05f069be64c3ae41626d031261df05a3737ec",
+  "darkVideoSha256": "631646e2c40b89299287e45740c8d32700f208c234fcbbb908a6e57259e92695",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kneeling-hamstring-20261014/native/kneeling-hamstring-stretch.mp4",
+      "sha256": "ea63c45222062653787541906ca05f069be64c3ae41626d031261df05a3737ec",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 83863,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kneeling-hamstring-20261014/native/kneeling-hamstring-stretch-dark.mp4",
+      "sha256": "631646e2c40b89299287e45740c8d32700f208c234fcbbb908a6e57259e92695",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 91455,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "skinFloor": [
+      0.01698993788612313,
+      0.016989937886125794
+    ],
+    "clothFloor": [
+      0.6469722961444839,
+      0.6469722961444866
+    ],
+    "rearKneeFloor": [
+      0.020000003270696176,
+      0.020000003270697952
+    ],
+    "frontHeelFloor": [
+      0.01999999999999691,
+      0.020000000000004015
+    ],
+    "frontToeFloor": [
+      1.3495158010217052,
+      1.3495158010217123
+    ],
+    "gussetGap": [
+      0.06847124565208129,
+      0.07175868283150655
+    ],
+    "gussetHits": [
+      423,
+      498
+    ],
+    "gussetMisses": [
+      162,
+      237
+    ],
+    "waistGap": [
+      0.07813705619152311,
+      0.08402590210606764
+    ],
+    "waistSamples": {
+      "hits": 353,
+      "misses": 0
+    },
+    "handGap": {
+      "L": [
+        1.502092731941643,
+        1.5020927319416448
+      ],
+      "R": [
+        1.502092731941643,
+        1.5020927319416448
+      ]
+    },
+    "legGap": [
+      2.5249642311355878,
+      2.5249642311355918
+    ],
+    "knee": {
+      "L": [
+        89.99999999999999,
+        90.00000000000003
+      ],
+      "R": [
+        179.99999879258172,
+        180
+      ]
+    },
+    "hinge": [
+      15.000000000000123,
+      45.00000000000001
+    ],
+    "lowerBodyDrift": 7.108895957933346e-15,
+    "loop": 0,
+    "phase": {
+      "timing": "stretch",
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "Model body about17units tall; e.g .02units about2mm at1.7m scale"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "One side, no setup transition. Source prescribes no degree or hold duration;3second hold is illustrative. Gusset Z-ray parity tests actual skin intervals at sampled cloth vertices; rays missing the body footprint recorded, not counted as gap hits. Waist actual ray checks supplement final rear closeups. These checks are not exhaustive continuous triangle collision or cloth physics. No physical device verification.",
+  "reviewedAt": "2026-10-14T12:29:35.287Z"
+}

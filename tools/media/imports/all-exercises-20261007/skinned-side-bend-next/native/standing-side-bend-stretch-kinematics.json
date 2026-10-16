@@ -1,0 +1,30 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "hipDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "minimumHandBodyLateralGap": 0.2754939383024686,
+  "leftHandLowering": 0.8752698024060235,
+  "trunkAngleDegrees": 17.999999999999968,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "side": "left body-side bend, opposite side repeated separately",
+  "units": "world units, body approximately17 tall"
+}

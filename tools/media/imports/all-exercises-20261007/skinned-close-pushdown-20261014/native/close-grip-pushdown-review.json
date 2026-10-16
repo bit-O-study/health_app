@@ -1,0 +1,121 @@
+{
+  "id": "close-grip-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-pushdown-20261014/native/close-grip-pushdown.mp4",
+      "sha256": "d37a2d4a8c8c73a942b82ba21d6f6f3ba23dbf47ba2e2dc809686c857634e333",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79267,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-pushdown-20261014/native/close-grip-pushdown-dark.mp4",
+      "sha256": "a4f9e88f6d6cedaecd28216139aa7895ad5424828b320508b235f17c3d113692",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75550,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.801714581503802e-15,
+    "pulleyRimError": 1.3322676295501878e-15,
+    "connectorRadiusError": 7.216449660063518e-16,
+    "stackRiseRange": [
+      0,
+      6.159117605885914
+    ],
+    "cableBodyMinClearance": 0.6209107762306122,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.5543122344752192e-15,
+    "gripTangentAxisError": 1.764171984283214e-15,
+    "elbowBendRange": [
+      10.979873167581305,
+      119.51965034769577
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.6629672961482286,
+    "barGripWidth": 2.5656834360936447,
+    "barRise": 5.998143628654724,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.097389063446221,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.21729860473292528,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.690882394114086,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.00038787389996386423,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 1.080029246138166,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 7.105427357601002e-14,
+    "handSeparationX": 1.2396898234102518,
+    "handRingGapX": 0.5748449117051259,
+    "palmProjectionRange": [
+      -0.9507020329002341,
+      -0.950702032900233
+    ]
+  },
+  "sources": [
+    "https://criticalbody.com/close-grip-tricep-pushdown/"
+  ],
+  "sourceSha256": "cc19e73b79e0591a3d649beeca63e1a6bfdf34ade93e38950b46e84e8b9340c5",
+  "rigSourceSha256": "375b15c81b5fadf0af436509884fc1e022dab0be7bbec7f5e4ce132f638795c5",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T02:19:30.927Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "d37a2d4a8c8c73a942b82ba21d6f6f3ba23dbf47ba2e2dc809686c857634e333",
+  "darkVideoSha256": "a4f9e88f6d6cedaecd28216139aa7895ad5424828b320508b235f17c3d113692",
+  "checks": {
+    "exercise": "Exact close-grip-pushdown catalog cable variation. CriticalBody narrow overhand straight-bar high-pulley protocol; both final 32-frame sheets visually inspected.",
+    "equipment": "Single rigid straight bar with narrow grip spacing 0.663 shoulder widths; central ring, fixed high pulley, tangent cable and moving stack remain connected. Pulley closeup inspected.",
+    "setup": "Fixed 8 degree torso hinge and upper arms, standing stance. Full 481 samples and 17 deformed mesh checks; bar-body minimum 1.097 and bar-cloth 1.080 model units, cable-body 0.621 and machine-body 0.217.",
+    "hands": "Final hand-0 and hand-210 closeups inspected: overhand contact, thumb wrapping, grip axis stable. Palm projection -0.9507 throughout; hands separated 1.240 and ring clearance 0.575 model units. Narrow grip introduces 9.79 degree inward forearm angle.",
+    "feet": "Feet-0 closeup and both sheets inspected; stance fixed, lowest mesh-floor gap 2.01e-8 model units.",
+    "movement": "Final side-210 inspected. Actual elbow bend 119.52 to 10.98 degrees, smooth pushdown .4-3.8 seconds and return 4.2-7.6; exact phase error 0. Cable total length drift 3.55e-15 and no stack reversal. Both MP4 full decode and local Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Source requests full elbow extension; this demonstration ends at 10.98 degrees actual 3D elbow bend without hyperextension. The sagittal finish remains 5 degrees as the standard straight-bar rig; narrow grip inward forearm component yields the larger 3D angle. This is not a ROM reduction to hide collisions, with full-phase mesh and clearance checks retained.",
+    "Source recommends a one-second contraction hold; demonstration uses the shared smooth 0.4-second end hold within an 8-second controlled cycle.",
+    "Procedural generic anatomy and cable station; not a filmed person or specific machine product. Clearance units are model-space units. Browser test covers local MP4 playback in mobile-size Edge, not a physical device app."
+  ]
+}

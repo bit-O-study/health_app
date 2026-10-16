@@ -1,0 +1,119 @@
+{
+  "id": "dumbbell-push-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous",
+    "phaseSeconds": {
+      "rackHold": [
+        0,
+        0.8
+      ],
+      "dip": [
+        0.8,
+        1.5
+      ],
+      "drive": [
+        1.5,
+        1.9
+      ],
+      "press": [
+        1.9,
+        2.6
+      ],
+      "overheadHold": [
+        2.6,
+        4
+      ],
+      "controlledLower": [
+        4,
+        7
+      ],
+      "rackEndHold": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/studio.mjs",
+      "sha256": "4f074707a7663b483342be95389ebd3c1cb6002af3c9c92fa0bde4171d80765d"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/motion.mjs",
+      "sha256": "1b1133107a1d045ee25ca14c621a9f4d1f86f03c584174c8d4940754f396d776"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/render.mjs",
+      "sha256": "01a53322177f9b47bf52c8938b433bf6adf2440882c26be83381189074c711db"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/dumbbell-push-press/",
+    "https://www.crossfit.com/essentials/the-dumbbell-push-press"
+  ],
+  "sourceSummary": "M&F:dumbbells in front of chest,palms away,elbows down,shallow dip with heels flat,stand powerfully to press overhead,lower slowly. CrossFit:upright torso during dip,immediate drive without bottom pause,hips/knees extend before arm press.",
+  "motion": "Vertical pelvis dip.55units,planted feet,hip/knee extension before arm press,controlled3second lowering. Fixed upright torso throughout.",
+  "kinematics": {
+    "samples": 481,
+    "minKneeAngle": 139.0784082461946,
+    "maxKneeAngle": 180,
+    "minElbowFlex": 2.8647637076576586,
+    "maxElbowFlex": 130.95774143327557,
+    "pelvisDrop": 0.55,
+    "footDrift": 4.48508116795402e-15,
+    "minBodyFloorGap": 8.056311173731956e-11,
+    "minClothFloorGap": 5.127029888918347,
+    "heelGap": 0.010424614033206936,
+    "toeGap": 0.009899849813360007,
+    "soleError": 8.057021716467716e-11,
+    "minEquipmentBodyClearance": 0.5296940598604002,
+    "minHeadClearance": 1.240651644089113,
+    "minDumbbellPairClearance": 1.2875246098317619,
+    "minPalmForwardDot": 0.9535826651341417,
+    "torsoQuaternionDrift": 0,
+    "gripDrift": 0,
+    "loopDrift": 0,
+    "armAngleDriftDuringDipDrive": 0,
+    "kneeAngleAtPressStart": 180,
+    "units": "Model world units/degrees; mesh vertex clearance with conservative plate cylinders."
+  },
+  "limitations": "Barefoot mannequin. M&F palms-forward variant selected; CrossFit informs dip/drive/press sequence. Source explosive drive depicted with.4second drive and.7second arm press; no physics/force simulation. Elbows finish with2.86degree soft bend rather than hard lockout. Heels/toes have native mesh curvature gaps around.01world unit while plantar minimum is grounded. No clinical/device validation.",
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/native/dumbbell-push-press.jpg",
+    "sha256": "24a812d9d9a57953cb50735b7b72bf530bbc597011e6d45953e385a6e430dd85",
+    "panels": 16
+  }
+}

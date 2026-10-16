@@ -1,0 +1,14 @@
+{
+  "samples": 481,
+  "elbowDrift": 0,
+  "shoulderDrift": 0,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 2.0985702163453066,
+  "soleMinY": -8.175230979919434,
+  "soleMaxY": -8.175230979919434,
+  "floorY": -8.1753,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.0685221886231054,
+  "units": "world units, body height approximately17; equipment clearance uses conservative plate-cylinder bounds against posed central torso/head vertices"
+}

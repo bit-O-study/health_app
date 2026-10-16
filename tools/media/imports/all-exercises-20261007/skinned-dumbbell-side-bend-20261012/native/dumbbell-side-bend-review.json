@@ -1,0 +1,115 @@
+{
+  "id": "dumbbell-side-bend",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.strengthlog.com/dumbbell-side-bend/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "bendTowardDumbbell": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "returnUpright": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Left dumbbell side bend,20degree lateral trunk flexion and return upright.",
+    "equipment": "One intact dumbbell,conservative plate clearance against all non-hand posed vertices over481samples.",
+    "setup": "Standing fixed pelvis and grounded feet;trunk bends only in frontal plane.",
+    "hands": "Left closed neutral grip,right open hand beside head without contact;head AABB clearance checked over481samples.",
+    "feet": "Both feet stationary with soles on floor.",
+    "movement": "Both final32frame sheets and hand/freehand/side/back closeups reviewed. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "446688476b715323dcdd75bfba757b08147a3204cab468bbc6e354990fb4d1ba",
+  "rigSourceSha256": "2e33fd4c9295d538ce7bd9daacb1737df746ee25358fcf184b1e112aa55e8ee7",
+  "videoSha256": "a476f79eed94b0fbd127f0ff9886162a2e8441e5d1fa26f73266000e458b87bb",
+  "darkVideoSha256": "d1443c846aeb72238f1de470d66e28a41b79662b1aaf91583af4e72fad5267a2",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-side-bend-20261012/native/dumbbell-side-bend.mp4",
+      "sha256": "a476f79eed94b0fbd127f0ff9886162a2e8441e5d1fa26f73266000e458b87bb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 96125,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-side-bend-20261012/native/dumbbell-side-bend-dark.mp4",
+      "sha256": "d1443c846aeb72238f1de470d66e28a41b79662b1aaf91583af4e72fad5267a2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 98335,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 2.0554130276728664,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.11077722666571604,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.011136314809041682,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices",
+    "minEquipmentClothClearance": 0.024227093544009648,
+    "minEquipmentFloorClearance": 5.524350411041989,
+    "pelvisDrift": 0,
+    "minTrunkTilt": -20,
+    "maxTrunkTilt": 0,
+    "freeHandHeadClearance": 0.07278681275868437,
+    "freeHandHeadOffsetDrift": 7.3585260461886e-15
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:37:48.502Z",
+  "limitations": "Barefoot standing mannequin,left side demonstration. Five spine joints distribute20degree lateral flexion;this is a visual teaching model. No physical-device or biomechanical certification."
+}

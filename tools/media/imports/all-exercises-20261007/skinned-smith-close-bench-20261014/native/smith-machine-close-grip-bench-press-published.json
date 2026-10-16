@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-close-grip-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4fbcd18c593b62107b72d35a8b664df96331fd6d5a902b6244c26ac0f4b58e51",
+  "rigSourceSha256": "1b6f930936048584a854544945aa01fa44df4dcddcc12872ee3c1f0e0fd74d49",
+  "videoSha256": "9d34c56ab08611a055b5d75e426ff72d0c1465195ab22114965a288e9c36f381",
+  "darkVideoSha256": "985b76f287307aa5de8b14d847bda82657b7fee2ca373adc4ff6abd0c45d05bd",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99823,
+  "darkBytes": 91795,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T13:19:04.452Z"
+}

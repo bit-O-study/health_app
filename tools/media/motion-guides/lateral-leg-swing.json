@@ -1,0 +1,15 @@
+{
+  "id": "lateral-leg-swing",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "lateral-leg-swing-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.inclusivesport.gov.sg/learning-opportunities/resources/warm-up-cool-down-exercises/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T05:04:33.732Z"
+}

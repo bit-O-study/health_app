@@ -1,0 +1,141 @@
+{
+  "id": "larsen-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://stronglifts.com/stronglifts-5x5/intermediate/"
+  ],
+  "phaseSeconds": {
+    "bottomStart": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "topHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "bottomEnd": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Larsen press with legs extended forward and feet hovering throughout.",
+    "equipment": "One rigid straight barbell,shaft/plates/collars versus all non-hand body vertices and bench/head/back pads checked481poses.",
+    "setup": "Head/back/pelvis supported on flat bench and cushion,both feet hovering.",
+    "hands": "Closed overhand grips,fixed span and bar plane.Wrist deviation measured throughout.",
+    "feet": "Feet remain stationary above floor; soft straight knees and pelvis support checked481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "4bf2b0516b0d989e09882db5ecba5b934d5d9b22b041e007346b2ea96310f0ba",
+  "rigSourceSha256": "6243278311c8d2451bfcacd4ee340234ad9acf370457e6b4b42e8e52099c7cb0",
+  "videoSha256": "420ee514f69b5e2309a25f15c727168d6c7bcce7e862eb2532209fd25a40139f",
+  "darkVideoSha256": "6ebc2affa5090bc7862a0eab69adcaa0e08460f19bc644b99d7da09a99b51163",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-larsen-20261012/native/larsen-press.mp4",
+      "sha256": "420ee514f69b5e2309a25f15c727168d6c7bcce7e862eb2532209fd25a40139f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 115789,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-larsen-20261012/native/larsen-press-dark.mp4",
+      "sha256": "6ebc2affa5090bc7862a0eab69adcaa0e08460f19bc644b99d7da09a99b51163",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 100343,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.757290956706755,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": -2.8727020762175925e-15,
+    "minEquipmentBenchClearance": 2.4656971340050764,
+    "seatContactError": 0,
+    "soleMinY": -4.665673926027656,
+    "soleMaxY": -4.665673926027656,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.04540002423698453,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.0413329275404046,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.4858748003188462,
+    "minimumBackGap": 0,
+    "backContactError": 0.02917345518597747,
+    "minHeadClearance": 1.6211590769293611,
+    "minElbowFlex": 3.771324700296573,
+    "maxElbowFlex": 139.80792728720195,
+    "minimumElbowAboveShoulder": -2.189727846704426,
+    "wristDeviationRange": [
+      3.62760158495523,
+      30.675001402942932
+    ],
+    "bottomWristDeviation": [
+      12.655717804293134,
+      12.655717804293134
+    ],
+    "topWristDeviation": [
+      11.291417128478653,
+      11.291417128478653
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 6.217248937900877e-15,
+    "minNonChestClearance": 0.22151893824369262,
+    "chestContact": -2.8727020762175925e-15,
+    "footFloorGap": 3.085701073972344,
+    "clothBenchGap": 0,
+    "kneeFlexRange": [
+      3.301824900931405,
+      3.301824900931405
+    ]
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:43:19.497Z",
+  "limitations": "Barefoot mannequin, flat bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification."
+}

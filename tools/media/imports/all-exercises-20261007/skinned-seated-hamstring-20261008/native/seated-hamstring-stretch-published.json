@@ -1,0 +1,18 @@
+{
+  "id": "seated-hamstring-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f980ab2ba344568add0e99d6f56b9548c55fc7d8f6cd62882d5e241ea963864b",
+  "rigSourceSha256": "c63fd1ac300b30cf52bdcce70c1e39e64bbe028106f567c66fc1fd7c046183d4",
+  "videoSha256": "0117f184f1fbf502ec5579a61da0e7d2df8c83aafb6aeec47c48de568bd383d9",
+  "darkVideoSha256": "cafde90d4cc34451d8cae0ff12e1a316744997a60df7db35695c1280c3b02d51",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77685,
+  "darkBytes": 87074,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:35:52.285Z"
+}

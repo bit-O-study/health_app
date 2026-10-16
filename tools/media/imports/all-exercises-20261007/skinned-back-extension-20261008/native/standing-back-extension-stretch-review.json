@@ -1,0 +1,105 @@
+{
+  "id": "standing-back-extension-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.ouh.nhs.uk/media/reoho202/video-transcript.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact standing-back-extension-stretch, hands supporting lower back during gentle standing extension.",
+    "equipment": "Bodyweight, no added equipment.",
+    "setup": "Feet remain fixed and pelvis remains forward; both hands set at lower back above buttocks.",
+    "hands": "Hand/lower-back/side/back enlarged poses visually checked with actual hand-skin gap samples; wrist twist distributed across forearm.",
+    "feet": "481 actual sole checks within0.001world-unit floor tolerance, zero foot drift.",
+    "movement": "Final both32frame encoded sheets reviewed;12degree distributed trunk extension and return without ghosting. Full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "f3a922c58fe21f9809561dc81402191120123ee86fa58abd1ad0790bad6d001e",
+  "rigSourceSha256": "e9583cae73986113de61ee253439d9199d9654bcc0a443058ddd28816c1991d3",
+  "videoSha256": "dce2c575bfc0cdbfb33a8655278ba9701986d76f6dd06b1e064ff62cd5d41684",
+  "darkVideoSha256": "873b3d34abe06f91500a2b1e4f4225d01e445c7059a99f3930a9e40def24687f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-back-extension-20261008/native/standing-back-extension-stretch.mp4",
+      "sha256": "dce2c575bfc0cdbfb33a8655278ba9701986d76f6dd06b1e064ff62cd5d41684",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 39098,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-back-extension-20261008/native/standing-back-extension-stretch-dark.mp4",
+      "sha256": "873b3d34abe06f91500a2b1e4f4225d01e445c7059a99f3930a9e40def24687f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 45786,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "wristDrift": 5.924889052322839e-15,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "startAngle": 0,
+    "peakAngle": -12,
+    "handBackMinGap": 0.027051169228791583,
+    "palmNormalError": 7.784251465316585e-16,
+    "handBackMaxGap": 1.2490121224258797,
+    "phaseSeconds": {
+      "extend": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall; hand gap versus skin and shorts sampled projected XY neighbors within.2, not exact triangle collision"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T02:39:54.157Z",
+  "limitations": "Illustrative12degree extension and3second hold, no clinical prescription. Hand contact sampling includes skin and shorts but approximates triangle geometry, not clinical pressure. Stylized barefoot model and no physical-device certification."
+}

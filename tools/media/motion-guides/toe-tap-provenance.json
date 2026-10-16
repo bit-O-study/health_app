@@ -1,0 +1,155 @@
+{
+  "id": "toe-tap",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "left": [
+        0,
+        4
+      ],
+      "right": [
+        4,
+        8
+      ],
+      "perSide": {
+        "start": [
+          0,
+          0.2
+        ],
+        "move": [
+          0.2,
+          1.9
+        ],
+        "tap": [
+          1.9,
+          2.1
+        ],
+        "return": [
+          2.1,
+          3.8
+        ],
+        "rest": [
+          3.8,
+          4
+        ]
+      }
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-toe-tap-20261008/studio.mjs",
+      "sha256": "9b786b68c6697ec8396d11fb0b6f10e7a18a4085e3f213154f83c6d3bf16651e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-toe-tap-20261008/motion.mjs",
+      "sha256": "22c73b417d0febbd3ad963944c4205192da08bfdb3a2ee833c07527ecfeeb17e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-toe-tap-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-toe-tap-20261008/render.mjs",
+      "sha256": "979304afd7a87ab79f59316bf83118f6622b5336d149d069c17de9e2659c34e7"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.nbt.nhs.uk/our-services/a-z-services/physiotherapy/specialist-physiotherapy-service/therapy-erehab-video-resources/therapy-erehab-lower-limb-co-ordination",
+    "https://flipbooks.leedsth.nhs.uk/LN003869.pdf"
+  ],
+  "sourceSummary": "North Bristol NHS Therapy eRehab Lower Limb Co-ordination, Video5 Toe tapping: seated with flat, step or cup targets, gently tap foot onto target, arms and back unsupported. Leeds NHS LN003869p13 Toe tapping: alternate forward steps, seated modification permitted. This seated flat-floor version alternates legs every4seconds with a brief toe touch. Source does not specify exact ankle angle, distance or8second cycle.",
+  "motion": "Seated alternating forward toe taps: left4seconds then right4seconds. Hip/knee articulation moves ankle forward2world, ankle plantarflexes25degrees so forefoot touches target while heel stays raised. Working foot clears floor during forward and return swing; inactive foot and pelvis remain fixed. Arms/back unsupported. No ankle-only toe raise, raised step or cup.",
+  "kinematics": {
+    "samples": 481,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "inactiveFootDrift": 0,
+    "minFloorClearance": -4.440892098500626e-15,
+    "minSeatGap": 0.014183087848090192,
+    "maxSeatGap": 0.023321009656831038,
+    "minArmSeatGap": 0.7407054108791957,
+    "tapFloorGaps": [
+      -4.440892098500626e-15,
+      -4.440892098500626e-15
+    ],
+    "tapHeelClearances": [
+      0.7552043651385159,
+      0.7552043651385159
+    ],
+    "forwardAnkleTravel": [
+      1.9999999999999991,
+      1.9999999999999991
+    ],
+    "maxAirborneClearance": 0.5499999999999989,
+    "maxAnkleStep": 0.04452047251328441,
+    "phaseSeconds": {
+      "left": [
+        0,
+        4
+      ],
+      "right": [
+        4,
+        8
+      ],
+      "perSide": {
+        "start": [
+          0,
+          0.2
+        ],
+        "move": [
+          0.2,
+          1.9
+        ],
+        "tap": [
+          1.9,
+          2.1
+        ],
+        "return": [
+          2.1,
+          3.8
+        ],
+        "rest": [
+          3.8,
+          4
+        ]
+      }
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-toe-tap-20261008/native/toe-tap.jpg",
+    "sha256": "05501ec8c31a5667d7848d828c97f8c15179e9c068d72b264af8d7ddbee60f38",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-toe-tap-20261008/render.mjs toe-tap"
+}

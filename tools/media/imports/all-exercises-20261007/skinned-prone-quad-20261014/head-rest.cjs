@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-prone-quad-20261014/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('byName.head.quaternion.setFromAxisAngle','byName.neck01.quaternion.setFromAxisAngle(new THREE.Vector3(1,0,0),rad(12));byName.head.quaternion.setFromAxisAngle');fs.writeFileSync(p,s);

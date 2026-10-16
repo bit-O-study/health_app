@@ -1,0 +1,18 @@
+{
+  "id": "alternating-dumbbell-shoulder-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "878a302a39001dbcf9abce24b67a2d9360be0dca397530e92a55d694ffcdd4ba",
+  "rigSourceSha256": "70e534485be9be869f9b2fc04008926e3f1e928d8322dd1a12a8a2592465a395",
+  "videoSha256": "783637e84f7f9668bc28eb120e15a53cceefd2cb18cb13550741870476f361f6",
+  "darkVideoSha256": "6b56b9efd88f8953e392a9f009cd7115f27c8ab6de3cecd5d9ac21fbed94bd8f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 63109,
+  "darkBytes": 56980,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:30:27.593Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-cable-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "446526a29b40f5297bce5662b2ac484ff65783ab40d53885f1ebb8ce86aceec5",
+  "rigSourceSha256": "8cfeca66232d64a4683acfd671cebd13bc9b0e2cf9ab524caea3e1e21331332d",
+  "videoSha256": "d2390bcbb2cc1d31491c9f97afa2f2ef1a1463fd98e2e525dd0e9198ee3c74f7",
+  "darkVideoSha256": "039e8cd372d600094d1dac039078894021bbdfabc14323847234982cff811a86",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65188,
+  "darkBytes": 61442,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:21:00.820Z"
+}

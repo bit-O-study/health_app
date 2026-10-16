@@ -1,0 +1,121 @@
+{
+  "id": "single-arm-dumbbell-floor-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/one-arm-floor-press/"
+  ],
+  "phaseSeconds": {
+    "bottomHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "topHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "bottomEndHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Unilateral left-arm pronated dumbbell floor press; empty right arm extends to floor support.",
+    "equipment": "One left-hand dumbbell; no bench. All non-hand body vertices and free-palm/floor clearances sampled481times.",
+    "setup": "Bent knees,head and pelvis on floor; back near floor without penetration.",
+    "hands": "Fixed overhand grip; bottom forearms vertical and wrists stacked over elbows. Empty right palm planted with.003375world-unit palm gap; fingers open, right wrist fixed.",
+    "feet": "Stationary feet,heel/toe and sole floor gaps checked.",
+    "movement": "Smooth .4/3.8/4.2/7.6 timing; bottom rest preserved across looping boundary. Both final32frame sheets and final freehandSide0/back210/hand210 closeups visually checked."
+  },
+  "sourceSha256": "0bd5f9f8acb414ea8dc3a9fc0387490bc2dca6d74afa08d3c6d5890ebdd51f16",
+  "rigSourceSha256": "9c3cf8c0b71617a6e9c6134ec563a585e228d8d1c12b071f99b468cbd6403331",
+  "videoSha256": "4ba60515db2d091517866375f24b10a659ad3ae1abe18258e88e68f63f1cb05e",
+  "darkVideoSha256": "07cf2daf2582681f9275d994df1d4b3dd9b6cb95f157d643e6e91b1ec44d22f6",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-floor-press-20261014/native/single-arm-dumbbell-floor-press.mp4",
+      "sha256": "4ba60515db2d091517866375f24b10a659ad3ae1abe18258e88e68f63f1cb05e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 48540,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-floor-press-20261014/native/single-arm-dumbbell-floor-press-dark.mp4",
+      "sha256": "07cf2daf2582681f9275d994df1d4b3dd9b6cb95f157d643e6e91b1ec44d22f6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 39434,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "floorY": -2.966217236366944,
+    "minBodyFloorGap": -3.135269821541442e-13,
+    "minClothFloorGap": 0,
+    "minEquipmentBodyClearance": 0.5301423658686593,
+    "minHeadClearance": 2.8559292573869244,
+    "minEquipmentFloorGap": 2.7446000494048146,
+    "maxBackGap": 0.02525084595534066,
+    "maxHeadGap": 3.135269821541442e-13,
+    "maxFootGap": 6.039613253960852e-14,
+    "heelGap": 0.010424613952576323,
+    "toeGap": 0.00990000497343635,
+    "bottomUpperArmGap": 2.8954616482224083e-13,
+    "minElbowFlex": 5.846694886037434,
+    "maxElbowFlex": 109.19556712144097,
+    "bottomVerticalForearmOffset": 9.930136612989092e-16,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "loopDrift": 0,
+    "trunkDrift": 0,
+    "freePalmGap": 0.0033749983041873044,
+    "freeHandGap": 2.815569999370382e-11,
+    "freeHandDrift": 0,
+    "units": "Model world units; conservative dumbbell plate cylinders; posed mesh vertex checks."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Barefoot mannequin. Source says approximately90degree elbows; actual model bottom109.2degrees results from posterior upper-arm skin contacting the floor below the shoulder-joint center, while forearms remain vertical and wrists align with elbows. Back surface moves within .05world-unit floor gap without penetration. One left-arm repetition shown; source advises switching arms for the other side. No device or clinical validation.",
+  "reviewedAt": "2026-10-14T02:05:06.615Z"
+}

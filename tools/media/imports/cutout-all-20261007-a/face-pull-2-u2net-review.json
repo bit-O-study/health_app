@@ -1,0 +1,24 @@
+{
+  "id": "face-pull-2",
+  "status": "hold-major-equipment-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "Whole cable tower and horizontal load cable disappear from both endpoints.",
+    "Rope near hands remains but has no connection to machine."
+  ],
+  "restorationAssessment": "Damage is entire-machine segmentation failure, not precise thin-cable or small black ROI restoration; no blind full-image dark-pixel restoration attempted.",
+  "evidence": {
+    "id": "face-pull-2",
+    "sourceSha256": "345aa2b52d6588b42ff2d6d73ea4baba40d292efe7b022e95781bb8ec33ec63d",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.531000000075437,
+    "published": false
+  },
+  "validation": "First/last light composites inspected against original. Full inference/render,32-frame/full-decode/Edge omitted because endpoint quality failed.",
+  "published": false
+}

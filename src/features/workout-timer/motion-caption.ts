@@ -12,7 +12,7 @@
 
 import MOTION_SPECS from "@/features/workout-timer/motion-specs.json";
 
-export type MotionSpec = { panels: 8 | 16; cycle: "reverse" | "full"; timing?: "smooth" | "hold" };
+export type MotionSpec = { panels: 8 | 16; cycle: "reverse" | "full"; timing?: "smooth" | "hold" | "continuous" | "stretch" | "controlled" | "alternating" };
 export type MotionPhase = "start" | "move" | "peak" | "return";
 /** 자막 칸 — 0 준비(시작 자세) · 1 동작 · 2 정점·돌아오기. */
 export type CaptionSlot = 0 | 1 | 2;
@@ -45,7 +45,23 @@ export function motionOrder(spec: MotionSpec): number[] {
 /** 재생 시각(초) → 지금 동작 구간. 영상이 반복되므로 8초로 나눈 나머지를 본다. */
 export function motionPhaseAt(seconds: number, spec: MotionSpec): MotionPhase {
   const t = ((seconds % MOTION_SECONDS) + MOTION_SECONDS) % MOTION_SECONDS;
-  if (spec.timing === "hold") return "move";
+  if (spec.timing === "hold" || spec.timing === "continuous") return "move";
+  if (spec.timing === "alternating") {
+    const armTime = t % 4;
+    if (armTime < 0.2 || armTime >= 3.8) return "start";
+    if (armTime >= 1.9 && armTime <= 2.1) return "peak";
+    return armTime < 2 ? "move" : "return";
+  }
+  if (spec.timing === "controlled") {
+    if (t === 0 || t >= 7.68) return "start";
+    if (t < 3.2) return "move";
+    return t < 3.68 ? "peak" : "return";
+  }
+  if (spec.timing === "stretch") {
+    if (t === 0 || t >= 7) return "start";
+    if (t < 2) return "move";
+    return t < 5 ? "peak" : "return";
+  }
   if (spec.timing === "smooth") {
     if (t < 0.4 || t >= 7.6) return "start";
     if (t >= 3.8 && t <= 4.2) return "peak";

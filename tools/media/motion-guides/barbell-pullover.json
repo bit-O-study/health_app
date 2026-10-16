@@ -1,0 +1,14 @@
+{
+  "id": "barbell-pullover",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "barbell-pullover-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://musclewiki.com/exercise/barbell-pullover"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:25:07.667Z"
+}

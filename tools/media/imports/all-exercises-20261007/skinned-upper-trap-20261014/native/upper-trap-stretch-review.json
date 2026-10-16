@@ -1,0 +1,156 @@
+{
+  "id": "upper-trap-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://plr.cht.nhs.uk/download/1076/Soft%20tissue%20stretches%20A4"
+  ],
+  "checks": {
+    "exercise": "Exact upper trapezius stretch: seated neck lateral flexion followed by slight forward flexion.",
+    "equipment": "Bodyweight with stable four-leg backed chair; no weights.",
+    "setup": "Seated tall, both feet planted and pelvis stationary; shoulders and arms relaxed.",
+    "hands": "Both arms relaxed beside chair, no head pulling. Skin clears seat edge in481poses.",
+    "feet": "481 actual skin sole checks, feet and pelvis fixed. Skin and garment seat clearance checked at all481 poses.",
+    "movement": "Ear toward shoulder before chin toward chest; torso stays upright.481actual head/shoulder and chair skin checks plus final32-frame sheets and neck/side/seat/feet enlargements reviewed. Decode and Edge passed."
+  },
+  "sourceSha256": "bd5189addcb9ea1cfcb883062c4c49d56a62d9ed5926438e163b5de9f05edba6",
+  "rigSourceSha256": "3df39a93c5ffc956382ea240e09f1c2f612667fb6ea3f66d42f441bfc2a326a1",
+  "videoSha256": "b7f2b2020dab0b9351ecf09364960288b825fb144268b95eefd511846392f33d",
+  "darkVideoSha256": "f573f42d10987a793fecf6131923c223cd1314cff46724b2c06434c9286712e0",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-upper-trap-20261014/native/upper-trap-stretch.mp4",
+      "sha256": "b7f2b2020dab0b9351ecf09364960288b825fb144268b95eefd511846392f33d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 26028,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-upper-trap-20261014/native/upper-trap-stretch-dark.mp4",
+      "sha256": "f573f42d10987a793fecf6131923c223cd1314cff46724b2c06434c9286712e0",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 28035,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "minArmSeatGap": 0.7407054108791957,
+    "peakSideBend": 20.237650576362405,
+    "peakForwardBend": 9.861861541500843,
+    "forwardAtOneSecond": 0,
+    "minHeadShoulderVerticalGap": 0.30395685565892094,
+    "minBackrestSDF": 2.4951680521478137,
+    "maxChestTilt": 0,
+    "maxWristStep": 0,
+    "phaseSamples": [
+      {
+        "seconds": 0,
+        "sideDegrees": 0,
+        "forwardDegrees": 0
+      },
+      {
+        "seconds": 1,
+        "sideDegrees": 18.841600000000003,
+        "forwardDegrees": 0
+      },
+      {
+        "seconds": 1.25,
+        "sideDegrees": 20.00251780473776,
+        "forwardDegrees": 1.0210134915986466
+      },
+      {
+        "seconds": 1.5,
+        "sideDegrees": 20.05890303229393,
+        "forwardDegrees": 4.931506335496348
+      },
+      {
+        "seconds": 2,
+        "sideDegrees": 20.237650576362405,
+        "forwardDegrees": 9.861861541500843
+      },
+      {
+        "seconds": 5,
+        "sideDegrees": 20.237650576362405,
+        "forwardDegrees": 9.861861541500843
+      },
+      {
+        "seconds": 6,
+        "sideDegrees": 18.841599999999996,
+        "forwardDegrees": 0
+      },
+      {
+        "seconds": 7,
+        "sideDegrees": 0,
+        "forwardDegrees": 0
+      },
+      {
+        "seconds": 8,
+        "sideDegrees": 0,
+        "forwardDegrees": 0
+      }
+    ],
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T01:54:50.384Z",
+  "limitations": "Single leftward demonstration; repeat opposite side separately. Source10–30second hold differs from3second illustrative hold.20degree side bend and10degree forward nod are demonstration ranges, not clinical prescription. Vertex contact and vertical head/shoulder separation checks are sampled evidence, not exhaustive surface collision. No physical-device certification."
+}

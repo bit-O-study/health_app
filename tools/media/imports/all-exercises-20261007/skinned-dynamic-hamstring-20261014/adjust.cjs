@@ -1,0 +1,5 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014',c=fs.readFileSync('tools/media/imports/all-exercises-20261007/skinned-dynamic-calf-20261014/studio.mjs','utf8');let s=fs.readFileSync(b+'/studio.mjs','utf8');const start=s.indexOf('const clothPositions'),end=s.indexOf('// Closed eyes');console.log(s.slice(s.indexOf('function clip'),start));s=s.replace('target.set(0,-1.2,1);camera.position.set(22,4,28);camera.zoom=1.25','target.set(0,.3,1.5);camera.position.set(23,4,28);camera.zoom=1.08');
+// Use reviewed higher waist construction; arm/bone material below remains unchanged.
+const cstart=c.indexOf('const clothPositions'),cend=c.indexOf('const restRotations');const send=s.indexOf('const restRotations');s=s.slice(0,start)+c.slice(cstart,cend)+s.slice(send);
+// Raise clipping boundary used before cloth construction.
+s=s.replace('clip(clipped, .55, false)','clip(clipped, 2.0, false)').replace('clip(clipped, .6, false)','clip(clipped, 2.0, false)');fs.writeFileSync(b+'/studio.mjs',s);

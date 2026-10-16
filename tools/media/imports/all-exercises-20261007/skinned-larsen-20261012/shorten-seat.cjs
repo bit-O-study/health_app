@@ -1,0 +1,1 @@
+const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-larsen-20261012/';let s=fs.readFileSync(b+'studio.mjs','utf8').replace('box(3.5,.42,5.8,0,-3.54924085917372,-.7)','box(3.5,.42,4.3,0,-3.54924085917372,-1.45)').replace('[-2.8,1.6]','[-2.8,.4]').replaceAll('z<=2.21','z<=.71').replace('p.z<=2.2','p.z<=.7');fs.writeFileSync(b+'studio.mjs',s);

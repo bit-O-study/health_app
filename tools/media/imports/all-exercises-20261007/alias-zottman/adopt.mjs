@@ -1,0 +1,16 @@
+import {readFileSync,writeFileSync,copyFileSync,existsSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {manageMotionGuides} from '../../../manage-motion-guides.mjs';
+const base='tools/media/imports/all-exercises-20261007/alias-zottman',root='tools/media/motion-guides',pub='public/exercise-guides/ai-v3',sourceId='zottman-curl',targetId='zottman-curl-2';
+const read=p=>JSON.parse(readFileSync(p,'utf8')),write=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n'),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+const r=read(root+'/reviews.json').find(x=>x.id===sourceId),spec=read(root+'/'+sourceId+'.json'),proof=read('tools/media/imports/all-exercises-20261007/skinned-reuse-next/native/zottman-curl-review.json');
+if(r.status!=='passed'||r.sourceSha256!==sha(root+'/'+sourceId+'.jpg')||r.rigSourceSha256!==sha(root+'/'+spec.rigSource)||r.videoSha256!==sha(pub+'/'+sourceId+'.mp4')||r.darkVideoSha256!==sha(pub+'/'+sourceId+'-dark.mp4'))throw Error('Stale approval');
+if(!proof.playback.results.every(x=>x.play&&x.seek&&x.loop)||proof.themes.some(x=>x.decode!=='passed'))throw Error('Missing checks');
+const catalog=read('tools/media/ai-guides/catalog.json');for(const id of [sourceId,targetId])if(!catalog.find(x=>x.id===id)?.equipments.some(x=>x.equipment==='dumbbell'))throw Error('Equipment mismatch');
+const backup=base+'/backup';if(existsSync(backup))throw Error('Already attempted');mkdirSync(backup);
+const old=[];for(const p of [root+'/'+targetId+'.json',root+'/'+targetId+'.jpg',pub+'/'+targetId+'.mp4',pub+'/'+targetId+'-dark.mp4'])if(existsSync(p)){old.push({path:p,sha256:sha(p)});copyFileSync(p,backup+'/'+p.split('/').pop());}
+write(backup+'/metadata.json',{files:old,reviews:read(root+'/reviews.json').filter(x=>x.id===targetId),verification:read(root+'/verification.json').filter(x=>x.id===targetId)});
+copyFileSync(root+'/'+sourceId+'.jpg',root+'/'+targetId+'.jpg');write(root+'/'+targetId+'.json',{...spec,id:targetId,aliasOf:sourceId,aliasReason:'Same bilateral Zottman dumbbell curl: supinated ascent, top pronation, pronated descent; duplicate Korean spelling in catalog.',registeredAt:new Date().toISOString()});for(const s of ['','-dark'])copyFileSync(pub+'/'+sourceId+s+'.mp4',pub+'/'+targetId+s+'.mp4');
+const v=read(root+'/verification.json'),entry=v.find(x=>x.id===sourceId);write(root+'/verification.json',[...v.filter(x=>x.id!==targetId),{...entry,id:targetId,aliasOf:sourceId,verifiedAt:new Date().toISOString()}]);
+await manageMotionGuides('motion-review',targetId,encodeURIComponent(JSON.stringify({status:'passed',checks:r.checks,aliasOf:sourceId,note:'Exact reviewed native3D asset replaces unapproved8pose duplicate. Root inspected source both32frame sheets in previous batch; source/rig/video hashes verified. Same equipment/movement confirmed against both catalog IDs and old prompt. Original assets and review metadata backed up. No new movement generation claimed.'})));
+write(base+'/adopted.json',{at:new Date().toISOString(),sourceId,targetId,sourceSha256:sha(root+'/'+targetId+'.jpg'),videoSha256:sha(pub+'/'+targetId+'.mp4'),darkVideoSha256:sha(pub+'/'+targetId+'-dark.mp4'),proof:'../skinned-reuse-next/native/zottman-curl-review.json'});

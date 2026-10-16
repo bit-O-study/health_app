@@ -1,0 +1,18 @@
+{
+  "id": "ankle-rock",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2c54cf9c0312bb08081933326e31baf378218dbdb74e575abedd2dd0d53a18ac",
+  "rigSourceSha256": "2a0ace5ef414de5410bc9c1d32104e85202604c5d3ce5a841e6ab6f0ff21ca3c",
+  "videoSha256": "1a7db9447bcd65a3d198f8875a3b1a4a776940b57a753d87ff780c32dec61d81",
+  "darkVideoSha256": "dcffbb244c34a454a6f46770ed528d28c87a1e468eaabe50e1efe136a333a17b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 127145,
+  "darkBytes": 126720,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:23:56.389Z"
+}

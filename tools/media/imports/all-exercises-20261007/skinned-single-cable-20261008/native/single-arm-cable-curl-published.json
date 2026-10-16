@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-cable-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2e2af62949f067b7ec07936e85cb6d0315a2d6ef592af5f8148f12c380338e3a",
+  "rigSourceSha256": "d024c1eaf091e169fe4f7badff5549ffba59a344b33b0cafd3b477887e359f52",
+  "videoSha256": "2eaa7ceb071a935e8e28d0d76bab82c12b06e8fc4563fc2ed47a563ecfe348b9",
+  "darkVideoSha256": "b842b8711a1d21784421da3b7af4ffbca5ffa653000036f9d57cc14cb26996ab",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 62767,
+  "darkBytes": 58116,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:05:01.899Z"
+}

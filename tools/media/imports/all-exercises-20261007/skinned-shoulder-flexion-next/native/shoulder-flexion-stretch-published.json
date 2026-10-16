@@ -1,0 +1,18 @@
+{
+  "id": "shoulder-flexion-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "94d6d0b58e79dc7ef35c0a77a0f3a427dbe1c47492aa88205b0a4b973847cd64",
+  "rigSourceSha256": "b96c67f2b229bbc47f051763b75aa00e19d7998e072c0390fce1d7e4fcd15df6",
+  "videoSha256": "63b6dc30f85f6f0acb19e6bc9f2b129f9bccec376a31b96931eb4001751984f9",
+  "darkVideoSha256": "7f9dcff343dcd4de26d08235a1c1b1ee4c7491f16960a44a941c232df3a5c7a8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 52035,
+  "darkBytes": 55061,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:39:30.547Z"
+}

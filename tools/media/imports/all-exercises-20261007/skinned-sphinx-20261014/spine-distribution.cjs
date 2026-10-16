@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-sphinx-20261014/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('(15+19*up)','(15+20*up)').replace("['spine05',.15],['spine04',.2],['spine03',.2],['spine02',.2],['spine01',.25]","['spine05',.1],['spine04',.15],['spine03',.2],['spine02',.25],['spine01',.3]");fs.writeFileSync(p,s);

@@ -1,0 +1,15 @@
+{
+  "id": "dumbbell-push-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-push-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/dumbbell-push-press/",
+    "https://www.crossfit.com/essentials/the-dumbbell-push-press"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T04:49:43.141Z"
+}

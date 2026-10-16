@@ -1,0 +1,113 @@
+{
+  "id": "dumbbell-jm-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "extend": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-jm-press-20261012/studio.mjs",
+      "sha256": "870a0cc2bba33c49c195f22b8772d10a5f393adfa11f21eab0ca14fa5435f3b0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-jm-press-20261012/motion.mjs",
+      "sha256": "6aacdf690749c2e5ec33f0826a5974c2c8ca3da3c6817499e66fa198226f99b1"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-jm-press-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-jm-press-20261012/render.mjs",
+      "sha256": "101981ca7e1b4cd38a4056ffa9afd422e631f38b61bfe0e1fc0b202396af2822"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.roypumphrey.com/dumbbell-jm-press/"
+  ],
+  "sourceSummary": "Roy Pumphrey describes the dumbbell JM press using neutral grips,straight wrists and simultaneous shoulder/humerus and elbow motion,with upper back supported on the bench. This is the neutral-grip dumbbell variant,not the pronated false-grip demonstration by TrainFTW.",
+  "motion": "Neutral-grip dumbbell JM press on flat bench. Both upper arms move toward torso during elbow flexion while elbows remain above shoulder level; dumbbells lower near chin/upper-shoulder line and extend together. This combines humeral motion and elbow flexion,unlike fixed-upperarm skullcrusher.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 2.6701534856344016,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.5515074067688891,
+    "minEquipmentBenchClearance": 3.581204459608444,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0520449676105316,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 1.8175625135186302,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 1.9866714376648487,
+    "minimumBackGap": 0,
+    "backContactError": 0.03081930935883692,
+    "minHeadClearance": 1.358516220092378,
+    "minDumbbellPairClearance": 1.5259305757665942,
+    "minElbowFlex": 7.523113970374203,
+    "maxElbowFlex": 130.73541886883874,
+    "minimumElbowAboveShoulder": 1.2714385228536025
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-jm-press-20261012/native/dumbbell-jm-press.jpg",
+    "sha256": "e73ff0d70aee0a4f6dbd592de6c666f78278f20ebb5b3af3999e1e01b1685e00",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-dumbbell-jm-press-20261012/render.mjs dumbbell-jm-press"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "toe-tap",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "05501ec8c31a5667d7848d828c97f8c15179e9c068d72b264af8d7ddbee60f38",
+  "rigSourceSha256": "d38c71c782e7bf403509a8adff95b17cc4c06d66d9d3de1498ee6d3bee7fa58a",
+  "videoSha256": "767d43be9224ac086dc8ac1c4354545816ec7ecf023db083fb8b8571451032d8",
+  "darkVideoSha256": "ad91680391015737f59b6f3b70335fc2a5e11dcf308bb21a342589d420a31cbb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 55558,
+  "darkBytes": 55812,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:09:54.226Z"
+}

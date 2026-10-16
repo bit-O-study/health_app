@@ -1,0 +1,115 @@
+{
+  "id": "incline-cable-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-20261012/native/incline-cable-curl.mp4",
+      "sha256": "812da67da397a2418c9a2683c0a335c2dc2691b894eefce7a49e0e2ce0f23ddd",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 76199,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-20261012/native/incline-cable-curl-dark.mp4",
+      "sha256": "7d9b56ed6aeea9ca465c76c4b99d015abfccc52e9fa346f36685c65c3608c4d3",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 70369,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "elbowBendRange": [
+      20.487874834618626,
+      121.6309645510124
+    ],
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "gripError": 0,
+    "axisError": 1.394674248254715e-15,
+    "floorGap": 2.616719170234205e-7,
+    "backContactError": 0,
+    "collisionSamples": 17,
+    "bodyCable": 0.1452320073029398,
+    "bodyHandle": 0.31958626739864915,
+    "backPadBody": 1.6653345369377348e-16,
+    "bodyMachine": 1.9348619383238939,
+    "benchCable": 1.248975492116486,
+    "benchHandle": 0.680975492116486,
+    "benchMachine": 1.7850108014620165,
+    "phaseAnchorError": 0,
+    "planeError": 2.220446049250313e-15,
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 2.4702462297909733e-15,
+    "pulleyRimError": 5.551115123125783e-16,
+    "connectorRadiusError": 6.38378239159465e-16,
+    "stackRiseRange": [
+      0,
+      6.703990607942499
+    ],
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 3.1460093920575,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.003117888776003497
+  },
+  "sources": [
+    "https://criticalbody.com/incline-cable-curl/"
+  ],
+  "sourceSha256": "a197d63c724150ceaf91243183528108a789926418fd2317c2d175f40cbbbb67",
+  "rigSourceSha256": "87ceb133c951c411137f35cf417de18fecc679138dab5788850bb60f33f84d23",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "812da67da397a2418c9a2683c0a335c2dc2691b894eefce7a49e0e2ce0f23ddd",
+  "darkVideoSha256": "7d9b56ed6aeea9ca465c76c4b99d015abfccc52e9fa346f36685c65c3608c4d3",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "CriticalBody original incline cable curl explicitly describes seated compact cable machine variation and allows45degree bench. This implements bilateral compact setup, not primary30degree wide-crossover variant. Supinated D-handles, fixed upperarms slightly behind torso line.",
+    "equipment": "Two independent low-pulley towers with extended floor pulley and return idler, two D-handles and45degree incline bench. Final both-theme32-frame sheets and pulley105/side210 inspected. Full visible cable paths remain connected to moving stacks.",
+    "setup": "Back rests on45degree pad, upperarms modestly abducted and behind torso line, torso/shoulders/elbows fixed. Support210/side210 inspected. Backcontact error0, sampled backpad/body minimum1.67e-16, backpad/station boxes gap1.785011. Towers relocated behind pad to eliminate previous collision.",
+    "hands": "Both palms supinated and transverse D-grip shafts align exactly to hand axes. Hand0/210 inspected.481samples grip point error0, griplocal drift0, shaftaxis error1.39e-15. Narrow D-handle frame remains clear of thigh/body throughout17sampled meshes.",
+    "feet": "Feet0 inspected; soles grounded within2.62e-7 rig units and feet remain fixed. Seat and floor rails remain stationary; no visible foot/equipment overlap.",
+    "movement": "Single bilateral curl with actual smooth0.4/3.8/4.2/7.6.481samples elbow20.49 to121.63degrees; loop/fixedjoints/phase errors0. Both stacks rise0 to6.703991 without concentric reversal; cablelength drift7.11e-15, tangent2.47e-15, polyline approximation0.003118.17mesh body-cable0.145232/body-handle0.319586/body-machine1.934862; seat/backpad-cable1.248975/handle0.680975. Both MP4 full decode and mobile Edge play/seek/loop pass."
+  },
+  "limitations": [
+    "Generic procedural dual tower with long floor rails and extended low pulleys, not a dimensional commercial replica. Primary source compact seated variation and45degree option selected deliberately; not30degree wide crossover.",
+    "Bottom uses about20degree elbow flexion instead of locked full extension; upperarms remain behind torso with slight lateral abduction.",
+    "Barefoot generic mannequin and simplified elbow/finger skin. Back contact has no foam compression simulation.",
+    "Seventeen deformed mesh samples against cable/handle capsules and fixed housing/stack boxes. Seat/backpad surface samples test equipment clearances; not exhaustive bench-leg/hardware or continuous collision simulation."
+  ],
+  "reviewer": "wrist subagent; root adoption pending",
+  "reviewedAt": "2026-10-12T05:41:10.930Z"
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "triceps-pushdown-2",
+    "sourceSha256": "5b20ee035168a5fb71de5a8202c1a551c0bc0f82d511ed6b9811cf5b8cdc33ac",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "seconds": 14.797000000020489,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 1001.9,
+    "minFreeGiB": 3.219,
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ],
+    "status": "recommended-pass",
+    "variant": "-u2net-cable",
+    "repair": "Restored original dark machine/cable pixels only within asset ROI. No rectangular background patch.",
+    "fullReview": "Both 32-frame theme sheets, FFmpeg full decode, mobile Edge play/seek/loop passed.",
+    "limitation": "Existing16-pose source/optical-flow retained, not biomechanics/app/device/deployment certification."
+  },
+  {
+    "id": "rope-triceps-pushdown",
+    "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.625,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 995.0,
+    "minFreeGiB": 3.277,
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ],
+    "status": "hold-cutout",
+    "reason": "Official u2net removes the entire cable tower and taut cable, except fragments in rope first pose.",
+    "restorationAssessment": "Unlike pushdown-2, silver upright highlights overlap gray backdrop in luminance. Dark-only source-pixel restoration cannot preserve whole tower; coarse ROI restoration would restore gray background and enclosed machine gaps. Requires per-panel foreground outlines or a better segmentation model.",
+    "fullRender": false
+  },
+  {
+    "id": "cable-overhead-triceps-extension",
+    "sourceSha256": "55573b15a985e6782d7fa823d0b559e9c67d5108722b5eb776d78059072cdc1b",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.547000000020489,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 996.7,
+    "minFreeGiB": 3.238,
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ],
+    "status": "hold-cutout",
+    "reason": "Official u2net removes the entire cable tower and taut cable, except fragments in rope first pose.",
+    "restorationAssessment": "Unlike pushdown-2, silver upright highlights overlap gray backdrop in luminance. Dark-only source-pixel restoration cannot preserve whole tower; coarse ROI restoration would restore gray background and enclosed machine gaps. Requires per-panel foreground outlines or a better segmentation model.",
+    "fullRender": false
+  }
+]

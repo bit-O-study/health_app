@@ -1,0 +1,171 @@
+{
+  "id": "sphinx-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://digitalcommons.imsa.edu/yoga_crit_inst/33/"
+  ],
+  "checks": {
+    "exercise": "Sphinx stretch: prone forearm-supported mild backbend, elbows remain bent.",
+    "equipment": "Bodyweight on flat mat.",
+    "setup": "Parallel legs, toes rearward; hips remain low and fixed, shoulders lift gently.",
+    "hands": "Both palms face down; actual palm/forearm skin mat clearance and arm/body separation checked481samples.",
+    "feet": "Lower body fixed; both toe surfaces remain near mat without penetration. Toes point behind, not tucked under.",
+    "movement": "Final both32frame sheets plus hand/feet/hip/waist side enlargements reviewed.481samples, full decode, Edge play/seek/loop passed."
+  },
+  "sourceSha256": "948bad9f905d85a1fde7624243e32657ad8d511973951f627fa51e3ba10159e1",
+  "rigSourceSha256": "5ff21e9b5c4dacb0660308087ce999fb29ac19f836ffce6fc0080f4474e1fe57",
+  "videoSha256": "3e69a4a1d19ceb3b7ff90509d43f62f73d5016a37c63e469a4bb9b072bd94ca8",
+  "darkVideoSha256": "68c7f265dcd24e5559e67ec106578bfdb7430972e68c80b7e32bb5aa3558816c",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-sphinx-20261014/native/sphinx-stretch.mp4",
+      "sha256": "3e69a4a1d19ceb3b7ff90509d43f62f73d5016a37c63e469a4bb9b072bd94ca8",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 52817,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-sphinx-20261014/native/sphinx-stretch-dark.mp4",
+      "sha256": "68c7f265dcd24e5559e67ec106578bfdb7430972e68c80b7e32bb5aa3558816c",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 57604,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "allSkinFloor": [
+      0.009676719252889932,
+      0.009676719252893484
+    ],
+    "clothFloor": [
+      0.011176329870299817,
+      0.011176329870299817
+    ],
+    "pelvisClothFloor": [
+      0.06523373750612649,
+      0.06523373750612649
+    ],
+    "support": {
+      "L": {
+        "hand": [
+          0.029053143864940623,
+          0.02905314386494595
+        ],
+        "forearm": [
+          0.009676719252889932,
+          0.009676719252893484
+        ],
+        "toes": [
+          0.03693826579442128,
+          0.03693826579442128
+        ]
+      },
+      "R": {
+        "hand": [
+          0.029053143864940623,
+          0.02905314386494595
+        ],
+        "forearm": [
+          0.009676719252889932,
+          0.009676719252893484
+        ],
+        "toes": [
+          0.03693826579442128,
+          0.03693826579442128
+        ]
+      }
+    },
+    "forearmBodyGap": [
+      1.325881583923557,
+      2.097408947135757
+    ],
+    "handSeparation": [
+      2.006402610359067,
+      2.0064026103590735
+    ],
+    "palmNormalY": [
+      -0.9693672586039145,
+      -0.9693672430342442
+    ],
+    "waistExactGap": [
+      0.09967731276943215,
+      0.09981827868414372
+    ],
+    "waistHits": [
+      353,
+      353
+    ],
+    "waistMisses": [
+      0,
+      0
+    ],
+    "lowerBodyDrift": 0,
+    "loopDrift": 0,
+    "elbowShoulderForward": [
+      0.5535122054758865,
+      2.0010495762778335
+    ],
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "spineExtensionDegrees": [
+      15,
+      35
+    ],
+    "units": "World units, body approximately17 high."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T06:23:08.671Z",
+  "limitations": "8second illustration and15-35degree rig articulation are not prescribed clinical ROM or hold duration. Starts with mild backbend and forearms already down; forearms slide backward during rise. Final elbows approximately.55worldunits(5.5cm at1.7m body) forward of shoulder projection. Curved surfaces leave forearm.00968,palm.02905,toe.03694,front-hip clothing.06523 world clearance; closest garment.01118. Fingers are relaxed and not every fingertip is pressed flat. Waist353 radial rays per pose and height-bin convex separating planes are sampled geometric evidence, not force/balance or exhaustive triangle collision simulation. No physical-device certification."
+}

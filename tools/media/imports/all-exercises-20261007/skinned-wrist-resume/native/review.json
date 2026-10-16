@@ -1,0 +1,101 @@
+{
+  "id": "reverse-wrist-curl",
+  "date": "2026-10-07T04:54:29.530Z",
+  "status": "candidate-awaiting-parent-review",
+  "sampleCount": 481,
+  "fixedJointMaxDisplacement": {
+    "root": 0,
+    "upperarm01.L": 0,
+    "lowerarm01.L": 0,
+    "wrist.L": 0,
+    "upperarm01.R": 0,
+    "lowerarm01.R": 0,
+    "wrist.R": 0,
+    "foot.L": 0,
+    "foot.R": 0
+  },
+  "loopMaxDisplacement": 0,
+  "dumbbellVerticalTravel": [
+    1.0268804093326014,
+    1.0268804093326014
+  ],
+  "geometry": {
+    "footMinY": -7.751374738328083,
+    "forearmThighMinSampledGap": 0.00010400899976548139,
+    "sampleCount": 556
+  },
+  "geometryLimit": "Thigh support is sampled vertex-neighborhood clearance, not exhaustive triangle collision proof. Feet minimum uses strongly foot-weighted vertices.",
+  "decode": [
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/native/reverse-wrist-curl.mp4",
+      "sha256": "3865ec6cfc97afb00b2f2afaa2a32ccba8ab446235dd4e2f3f22adabcdee7581",
+      "fullDecode": true
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/native/reverse-wrist-curl-dark.mp4",
+      "sha256": "2691921395d959b2178df49a33dc3acc6a8388209faf0c0c1b933b91d7a6d21f",
+      "fullDecode": true
+    }
+  ],
+  "visual": {
+    "reviewed": [
+      "original public 8-panel source",
+      "32-frame light contact sheet",
+      "32-frame dark contact sheet",
+      "hand-0",
+      "hand-210",
+      "side-210"
+    ],
+    "observations": [
+      "Original source remained unchanged; new scene is continuous skinned 3D, no optical-flow or cutout layers.",
+      "Both dumbbells maintain one contour and stable handle contact. Palms face down and extend through a modest 55 degree arc.",
+      "Forearms rest along thighs with hands beyond knees, static elbow/root/feet across the loop.",
+      "Bench, shorts, body, both feet remain in frame and survive both themes.",
+      "Closeup elbow skin has an angular bend; this is mesh shading, not a disconnected limb. Root review remains required."
+    ]
+  },
+  "sources": [
+    {
+      "url": "https://www.strengthlog.com/dumbbell-wrist-extension/",
+      "accessed": "2026-10-07",
+      "basis": "Overhand grip, forearm supported on thigh or bench, hand lowered then wrist bent upward."
+    },
+    {
+      "url": "https://www.acefitness.org/resources/everyone/exercise-library/29/wrist-curl-extension/",
+      "accessed": "2026-10-07",
+      "basis": "Pronated supported forearms, retain dumbbell grip, isolate wrist action without arm extension or trunk rocking. ACE describes kneeling bench variant; candidate seated-thigh setup follows StrengthLog."
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/motion.mjs",
+      "sha256": "d21ae70f64c70f804fbb3e5215405e31a78e7ce530d67d564175a5302cb34306"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/studio.mjs",
+      "sha256": "872e20afb925692f82fe43657f633007e75ad14ac8482931da72314073a60594"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/render.mjs",
+      "sha256": "c78cec9b4e7f90cbcff3b6b902972e2dcb8221222e49826b24501d34c4bb71ff"
+    }
+  ],
+  "dependencies": [
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

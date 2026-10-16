@@ -1,0 +1,15 @@
+{
+  "id": "step-calf-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "step-calf-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://eastsussexmsk.nhs.uk/wp-content/uploads/2020/04/total-knee-replacement-booklet-1.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:53:38.693Z"
+}

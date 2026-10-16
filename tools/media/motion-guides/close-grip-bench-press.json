@@ -1,0 +1,14 @@
+{
+  "id": "close-grip-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "rigSource": "close-grip-bench-press-provenance.json",
+  "aliasOf": "close-grip-bench-press-2",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/close-grip-bench-press.html"
+  ],
+  "sourceKind": "Exact reuse of reviewed original16pose source and both MP4s; alias provenance tracks unchanged hashes",
+  "registeredAt": "2026-10-12T02:06:43.163Z"
+}

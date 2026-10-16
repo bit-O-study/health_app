@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "54226a871f158f88492257310486a5951fbba9b0cd8d2bbf3db361bdd8354861",
+  "rigSourceSha256": "5768e29817df4731208ae3028f34173906eb04907d66d3d0e395be3ad50b0138",
+  "videoSha256": "30c37e801d34203a8b5ba7dbf2162ce485678292585170a4f8e5f6340d6970be",
+  "darkVideoSha256": "e87f9e6134daeee1decdaabed26d55ee97e9a250504d78172f3ecb347c0cc818",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 114406,
+  "darkBytes": 113640,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T04:00:41.450Z"
+}

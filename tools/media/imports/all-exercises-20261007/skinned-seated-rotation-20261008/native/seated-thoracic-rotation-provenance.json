@@ -1,0 +1,135 @@
+{
+  "id": "seated-thoracic-rotation",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008/studio.mjs",
+      "sha256": "82e9a09459749d526645e497a6a93d19448fbcee69a16f2c0f376ea0fde78aab"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008/motion.mjs",
+      "sha256": "17b4c4ff5633df7ddee427f1ff6ad1eeb76d0fea783444d384ec56a7ef7fbd54"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008/render.mjs",
+      "sha256": "5cead9bc5765506313da79c7d87aa310afa02409ac9d35283647045da3ae1a73"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.southtees.nhs.uk/resources/seated-rotations/"
+  ],
+  "sourceSummary": "South Tees Hospitals NHS Seated rotations: sit upright on chair or bed edge with feet on floor, cross arms over chest, turn body to side keeping bottom seated and follow with head; return. Source gives no numeric ROM or timing. This demonstration uses leftward30degree rotation and2/3/2/1second cycle.",
+  "motion": "Seated upright, arms folded across chest with hands relaxed near opposite upper arms. Trunk and head turn30degrees left, hold and return. Pelvis and feet remain fixed.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "contactClearances": {
+      "leftHand": {
+        "minimum": 0.4678511957789224,
+        "overlappingSamples": 481
+      },
+      "rightHand": {
+        "minimum": 0.1482061479398613,
+        "overlappingSamples": 481
+      },
+      "crossForearms": {
+        "minimum": null,
+        "overlappingSamples": 0
+      },
+      "leftForearmTorso": {
+        "minimum": 0.6928609133067178,
+        "overlappingSamples": 481
+      },
+      "rightForearmTorso": {
+        "minimum": 0.7398468042622413,
+        "overlappingSamples": 481
+      }
+    },
+    "peakRotation": 29.999999999999996,
+    "maxWristStep": 0.032859220011392874,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008/native/seated-thoracic-rotation.jpg",
+    "sha256": "8dc6b09636f0aa46370005630b435836cbc07d7bff74cd4790280a7659c4169c",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-seated-rotation-20261008/render.mjs seated-thoracic-rotation"
+}

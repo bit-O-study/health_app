@@ -1,0 +1,18 @@
+{
+  "id": "corner-pec-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "05c25ed8d137706c25ad14fe69cf5962947c7f2d2d08153f555dc766bfba93c0",
+  "rigSourceSha256": "fc200cdd8076850b76872782be0e55583b5fa7611218e3e5991729cf6b9626c8",
+  "videoSha256": "33840184cb1da1e05c8c09a5648ef820b33b86bcf2072581508a09f99bf97f22",
+  "darkVideoSha256": "01d12e249c1538a1cce69b3d163b725ea62b01271b66b98e4daa9429357fb86c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 45663,
+  "darkBytes": 45781,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T03:59:28.100Z"
+}

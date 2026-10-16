@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "432faa9a50ebb79643e396f3c8bb9a64a920ecd302d27461a28e4f55ada24ef5",
+  "rigSourceSha256": "a3457e1764ce904b06625bdd2a983bc50bba97549acc16efe3a5e6160a340a51",
+  "videoSha256": "500e5e6dd898cfe54ac351c7d6193a1c2a6727b1521695ab42d2e2d5ff560d1f",
+  "darkVideoSha256": "f06c50c4074df782d55d0670e0afcf2839721288b4dad9fe11379b0150b5bbd2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 68324,
+  "darkBytes": 61243,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T08:56:44.709Z"
+}

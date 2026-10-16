@@ -1,0 +1,18 @@
+{
+  "id": "cable-concentration-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "dea4d07e6865df5bc183b51749e109677babb91677ccc79093b59cc1782b0211",
+  "rigSourceSha256": "5aebbedc92cb3432a532411fb6a95bdbf7c1702bc3b455ccf0e9d77c40f24d05",
+  "videoSha256": "1197816e5f1e85102345398f56c96cae843d3b4ec98b313ce61f76f168150cbf",
+  "darkVideoSha256": "c4c94ca4a51606ddcfdfdf7ffd472dba430d22244c6f0163d501462dd8fa9bd1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77617,
+  "darkBytes": 75051,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:44:57.640Z"
+}

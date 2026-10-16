@@ -1,0 +1,188 @@
+{
+  "id": "neck-cars",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 8,
+      "flexion": [
+        0,
+        8
+      ],
+      "rightRotationSidebend": 2,
+      "extension": 4,
+      "leftRotationSidebend": 6
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/studio.mjs",
+      "sha256": "c0d153b42dad204b3dfc438c7c7a36f7480b1d707788f4dbc7ab560c72025ca4"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/motion.mjs",
+      "sha256": "6f9185be9605d865ba6ff012f9f4bb4e647dec8a8fcd5956f9c79abfab5a5f5f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/render.mjs",
+      "sha256": "5b661527fa5884ada8476076d983876d2051bbd64b8e2ca70ae56ef30f823926"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/source.json",
+      "sha256": "3e06b991dd245c653ec5448dd298d2c0402edefae4488b3acaaa86dd9fc53442"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/diagnostic.mjs",
+      "sha256": "f2e4f3511e9eab0c9b1ceb75a97404e2de6538abb5611cae8a2bd7ddbab7c965"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/native/neck-cars-edge-diagnostic.json",
+      "sha256": "87cc783e7a1bf7bb3004ade3408e3b6bfcdaf56629b250b8b188ddfce6d67379"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://help.neckcare.com/controlled-articular-rotations"
+  ],
+  "sourceSummary": "NeckCare original CARs guidance: slow controlled head circle through available pain-free active motion while the rest of the body stays still. Seated and standing positions discussed, smaller pain-free arc offered as easier scaling. Full source page text opened. Broad treatment claims are not adopted.",
+  "motion": "Seated upright on stable chair, relaxed arms, fixed shoulders/torso/pelvis/soles. One eight-second continuous circle: flexion25degrees, right rotation35 plus right sidebend20, extension20, left rotation35 plus left sidebend20, flexion25. Quaternion distributed across four cervical/head bones, no hand assistance or sustained hold.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "minArmSeatGap": 0.7407054108791957,
+    "headAngles": {
+      "pitch": [
+        -20,
+        25.000000000000004
+      ],
+      "yaw": [
+        -35,
+        35
+      ],
+      "roll": [
+        -20.000000000000007,
+        20.000000000000004
+      ]
+    },
+    "neckSurface": {
+      "minEdgeStretch": 0.07145687220929771,
+      "maxEdgeStretch": 2.714293163873386,
+      "finite": true,
+      "vertices": 15680,
+      "edges": 88946
+    },
+    "minHeadShoulderVerticalGap": 0.23617964422456383,
+    "minBackrestSDF": 2.4951680521478137,
+    "maxChestTilt": 0,
+    "maxWristStep": 0,
+    "phaseSamples": [
+      {
+        "seconds": 0,
+        "sideDegrees": 0,
+        "forwardDegrees": 25.000000000000007
+      },
+      {
+        "seconds": 1,
+        "sideDegrees": -20.83221899741965,
+        "forwardDegrees": 18.40990257669732
+      },
+      {
+        "seconds": 2,
+        "sideDegrees": -17.92503996193869,
+        "forwardDegrees": 2.5000000000000036
+      },
+      {
+        "seconds": 3,
+        "sideDegrees": -7.71237491070117,
+        "forwardDegrees": -13.409902576697322
+      },
+      {
+        "seconds": 4,
+        "sideDegrees": -1.0464113672462123e-15,
+        "forwardDegrees": -20
+      },
+      {
+        "seconds": 5,
+        "sideDegrees": 7.71237491070117,
+        "forwardDegrees": -13.409902576697322
+      },
+      {
+        "seconds": 6,
+        "sideDegrees": 17.925039961938687,
+        "forwardDegrees": 2.4999999999999964
+      },
+      {
+        "seconds": 7,
+        "sideDegrees": 20.832218997419666,
+        "forwardDegrees": 18.409902576697313
+      },
+      {
+        "seconds": 8,
+        "sideDegrees": 0,
+        "forwardDegrees": 25.000000000000007
+      }
+    ],
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 8,
+      "flexion": [
+        0,
+        8
+      ],
+      "rightRotationSidebend": 2,
+      "extension": 4,
+      "leftRotationSidebend": 6
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/native/neck-cars.jpg",
+    "sha256": "5326db9a461a52241ca49996d994243b96e8bdfc2737eab9eace8a780b0a5526",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-neck-cars-20261014/render.mjs neck-cars"
+}

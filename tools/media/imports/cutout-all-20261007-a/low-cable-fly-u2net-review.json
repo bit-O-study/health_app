@@ -1,0 +1,24 @@
+{
+  "id": "low-cable-fly",
+  "status": "hold-equipment-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "Both cable towers are completely removed in first and last pose.",
+    "Long cables connecting handles to low pulleys vanish; isolated handle/cable fragments remain.",
+    "Body preserved but full exercise apparatus missing, so not acceptable."
+  ],
+  "evidence": {
+    "id": "low-cable-fly",
+    "sourceSha256": "c5c845a665f1457986da4140a5f905de7dc4854419ec78aedd861db72cdea3a9",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 3.125,
+    "published": false
+  },
+  "validation": "Endpoint light composites inspected. Full inference, video render,32-frame/decode/browser intentionally omitted after clear endpoint failure.",
+  "published": false
+}

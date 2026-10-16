@@ -1,0 +1,44 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "elbowDrift": 0,
+  "wristCenterDrift": 0,
+  "handDirectionDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "closedFingerAngles": [
+    55,
+    70,
+    39.999999999999986
+  ],
+  "openFingerAngles": [
+    0,
+    0,
+    0
+  ],
+  "middleTipMotion": 1.3128154218107588,
+  "maxTipStep": 0.015652518809285924,
+  "phaseSeconds": {
+    "neutral": [
+      0,
+      0.4
+    ],
+    "open": [
+      0.4,
+      3.8
+    ],
+    "peak": [
+      3.8,
+      4.2
+    ],
+    "close": [
+      4.2,
+      7.6
+    ],
+    "rest": [
+      7.6,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

@@ -1,0 +1,35 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "rightWristDrift": 0,
+  "shoulderDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "startAngle": -6.19987065025135e-15,
+  "peakAngle": 154.99999999999997,
+  "maxWristStep": 0.12754439945869708,
+  "elbowLineError": 8.881784197001252e-16,
+  "phaseSeconds": {
+    "neutral": [
+      0,
+      0.4
+    ],
+    "raise": [
+      0.4,
+      3.8
+    ],
+    "peak": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "rest": [
+      7.6,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

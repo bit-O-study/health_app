@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-dumbbell-front-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bd0870031bdae0cb12f1e53319e5e2ac884b44ff7beafd1d08a0cd39b31376e3",
+  "rigSourceSha256": "30e8e6348942a02ef85ea19a9cc41f61d193b66e3902e90b924863c7f5e3ff1d",
+  "videoSha256": "14e42044c9f588821b1217ae602ca58fcaaecefa68d373b5b527ce03fed296f4",
+  "darkVideoSha256": "0234eccc7a860d5ca6fa17aa437fa0555bdcd16b52de404c1823352433019412",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 66983,
+  "darkBytes": 63335,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:30:31.939Z"
+}

@@ -1,0 +1,114 @@
+{
+  "id": "single-arm-cable-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/native/single-arm-cable-pushdown.mp4",
+      "sha256": "d2390bcbb2cc1d31491c9f97afa2f2ef1a1463fd98e2e525dd0e9198ee3c74f7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 65188,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/native/single-arm-cable-pushdown-dark.mp4",
+      "sha256": "039e8cd372d600094d1dac039078894021bbdfabc14323847234982cff811a86",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 61442,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.829470157119431e-15,
+    "pulleyRimError": 1.0547118733938987e-15,
+    "connectorRadiusError": 1.1102230246251565e-15,
+    "stackRiseRange": [
+      0,
+      5.915385601667285
+    ],
+    "cableBodyMinClearance": 0.45347242333970894,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 9.453208419344607e-16,
+    "elbowBendRange": [
+      4.999999999999918,
+      110.00000000000003
+    ],
+    "handleGripWidth": 1.3,
+    "barRise": 5.539662801620907,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.6776213096052345,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.2456446852325287,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.934614398332714,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0003966017336018979,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 1.0890504855920113,
+    "connectorArmLengthError": 6.661338147750939e-16,
+    "stationDrift": 0
+  },
+  "sources": [
+    "https://criticalbody.com/one-arm-tricep-pushdown/"
+  ],
+  "sourceSha256": "446526a29b40f5297bce5662b2ac484ff65783ab40d53885f1ebb8ce86aceec5",
+  "rigSourceSha256": "8cfeca66232d64a4683acfd671cebd13bc9b0e2cf9ab524caea3e1e21331332d",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T00:15:50.868Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "d2390bcbb2cc1d31491c9f97afa2f2ef1a1463fd98e2e525dd0e9198ee3c74f7",
+  "darkVideoSha256": "039e8cd372d600094d1dac039078894021bbdfabc14323847234982cff811a86",
+  "checks": {
+    "exercise": "Exact single-arm-cable-pushdown catalog cable exercise. Anatomical left arm only, high pulley and pronated single D handle, source CriticalBody original single-arm protocol.",
+    "equipment": "One fixed high pulley station aligned to active grip plane. Rigid D frame swivels about horizontal grip shaft to follow cable direction; one connector remains1.1unit from grip.481samples station drift0 and connector length error6.67e-16.",
+    "setup": "Fixed8degree torso lean, upperarm15degree forward, opposite arm and relaxed hand still. Both32theme sheets and side/support/pulley views inspected.",
+    "hands": "Active pronated grip socket stays exactly on D handle shaft; axis9.46e-16, grip0. Dframe inspected hand0/210. Opposite open hand stays fixed.",
+    "feet": "Feet and root stationary across481samples; sole gap2.01e-8, feet0 closeup inspected.",
+    "movement": "Active elbow110to5degrees; opposite wrist remains fixed. smooth hold0-.4, press.4-3.8, hold3.8-4.2, return4.2-7.6, hold7.6-8. Stack0to5.915 strictly nondecreasing during press, length error3.55e-15.17mesh includes forearms with intentional hand grip excluded: frame.6776/cloth1.089/cable.4535/machine.2456 minimum gaps. Both complete decode and Edge play/seek/loop pass."
+  },
+  "limitations": [
+    "Generic Dhandle and machine, simplified finger and elbow skin.",
+    "Soft elbow5degree finish and.4second contraction hold rather than source fully locked elbow and1second hold.",
+    "17deformed-mesh samples are not continuous physical collision simulation.",
+    "Only anatomical left arm demonstrated; opposite side uses same technique. Local mobile Edge emulation, not integrated app or physical-device check."
+  ]
+}

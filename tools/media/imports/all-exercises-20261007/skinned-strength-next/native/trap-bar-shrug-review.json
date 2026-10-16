@@ -1,0 +1,85 @@
+{
+  "id": "trap-bar-shrug",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.criticalbench.com/exercises/trap-bar-shrugs.htm",
+    "https://www.blkboxgym.com/exercise-library/trap-bar-shrug"
+  ],
+  "checks": {
+    "exercise": "Strict standing trap-bar shrug: shoulders rise together while torso, legs and straight arms retain posture.",
+    "equipment": "Rigid six-sided hex trapbar surrounding body; two internal neutral-grip handles and two plates per sleeve. Source and final full/side/back geometry inspected.",
+    "setup": "Standing within bar, planted hip-width feet; entire head, body and equipment fit frame in both themes.",
+    "hands": "Closed neutral grips around angled handles matching actual hand axis. Hand closeups0/105/210/345 inspected; grip centers remain fixed to rigid frame within1e-6.",
+    "feet": "Both feet remain fixed; skinned sole minimum tracks floor within0.0001 world unit for481 samples.",
+    "movement": "Both final encoded32frame sheets reviewed with smooth vertical elevation, top pause and controlled return. No optical-flow or doubled equipment. Decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "2bf0aa416339151a2f3914553b7b4e4c3354073ca9f18c00ea1e04c5bec1e9d3",
+  "rigSourceSha256": "31492a226e71d546c59cfed0af180219441f2129fb1d3e4c378eea822ea148e3",
+  "videoSha256": "9d89b943f9e593d5d5cfd02a43c2cada8e4f71ab3daa796a97175e874d249d21",
+  "darkVideoSha256": "1685f7aaf40377e3a9dec8d2531b6cddeabd29d57abf5dd9f8ffe4c7c058602f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-strength-next/native/trap-bar-shrug.mp4",
+      "sha256": "9d89b943f9e593d5d5cfd02a43c2cada8e4f71ab3daa796a97175e874d249d21",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88948,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-strength-next/native/trap-bar-shrug-dark.mp4",
+      "sha256": "1685f7aaf40377e3a9dec8d2531b6cddeabd29d57abf5dd9f8ffe4c7c058602f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 80520,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "shoulderElevation": 0.5499999999999998,
+    "footDrift": 0,
+    "gripCenterError": 0,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.1753,
+    "loopDrift": 0,
+    "units": "world units, body height approximately17"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:10:15.669Z",
+  "limitations": "Barefoot mannequin style; starts after pickup and demonstrates shrug phase only. No physical-device or biomechanical certification."
+}

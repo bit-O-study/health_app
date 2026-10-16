@@ -1,0 +1,15 @@
+{
+  "id": "foot-arch-doming",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "foot-arch-doming-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://myjointhealthhub.bnssg.nhs.uk/foot-ankle-pain/bunions-hallux-valgus/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:59:03.633Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "levator-scapulae-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "levator-scapulae-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://healthy.kaiserpermanente.org/health-wellness/health-encyclopedia/he.neck-spasm-exercises.zp4500"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:20:41.273Z"
+}

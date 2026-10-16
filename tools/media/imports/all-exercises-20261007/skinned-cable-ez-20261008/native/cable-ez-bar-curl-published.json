@@ -1,0 +1,18 @@
+{
+  "id": "cable-ez-bar-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7f0f782ee19b248c5a9df495557c5c3b355b789871eab3f049b629a342ad4f1e",
+  "rigSourceSha256": "44d2d105914fa148ef8325b1359cb8ef9f9c0aacc74ec5aab9130714133286f1",
+  "videoSha256": "9504cb6641b6debc76de259e513df239c8bb59a4a6553edf4d7043193f99ad90",
+  "darkVideoSha256": "da5155b8141b632931b5624a69e1fe4470b4f74e76544cbb34eea49056a834b0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74282,
+  "darkBytes": 73192,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:00:27.445Z"
+}

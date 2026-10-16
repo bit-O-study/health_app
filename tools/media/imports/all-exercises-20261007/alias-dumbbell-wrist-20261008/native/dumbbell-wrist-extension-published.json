@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-wrist-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d749af9a65e560013a14b909a3dd8269d9701a49541bdcc97652be992aa7076b",
+  "rigSourceSha256": "52f12cf378851e0611b471315291dc6c3024d7ef8dd12fa52d24fac0c7742e1b",
+  "videoSha256": "3865ec6cfc97afb00b2f2afaa2a32ccba8ab446235dd4e2f3f22adabcdee7581",
+  "darkVideoSha256": "2691921395d959b2178df49a33dc3acc6a8388209faf0c0c1b933b91d7a6d21f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78134,
+  "darkBytes": 68026,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:30:09.765Z"
+}

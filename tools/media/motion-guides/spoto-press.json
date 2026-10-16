@@ -1,0 +1,14 @@
+{
+  "id": "spoto-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "spoto-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://joshstrength.com/2024/06/spoto-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:34:25.818Z"
+}

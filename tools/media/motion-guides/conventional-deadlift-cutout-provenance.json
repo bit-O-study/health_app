@@ -1,0 +1,75 @@
+{
+  "id": "conventional-deadlift",
+  "sourceSha256": "bb13960355845256d41cd0da0c688795b78a5fd5fac020147ae51a50b065909d",
+  "model": "u2net",
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/1.png",
+      "sha256": "5fe167e86cbed21bd67eb891c6a0de68204655bae10c5d02f6451b404d3ea77e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/2.png",
+      "sha256": "2dd61d0c1ec5b2646b3efea41cba5059a3c31c3317d20ec7e92f23c46741f6e4"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/3.png",
+      "sha256": "ac1de56e75a3d539f456428fc29d277dce332fd43f910a854ef28ed6ebe2c87b"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/4.png",
+      "sha256": "ae9e33a302ab67fd6288576d5942252683d5be81bc6435e4ce394f437b303726"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/5.png",
+      "sha256": "27297bbc18b8834f5c85fd776d855a4907b2e15307e23652a0b26472ff034047"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/6.png",
+      "sha256": "e1749970630a147442342434f323b8a8801d9d1e57f36af8c58edc2a5f24da52"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/7.png",
+      "sha256": "3a56de03f2f37fd4138c5d76db6da0016213054c212dfa80dd5d77a960dd0e99"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/8.png",
+      "sha256": "bae0e3246223dfeb0dd2dd493a94a5d0c114df10768d30f62fd7940ae61fa438"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/9.png",
+      "sha256": "39823a0c26da5ca31e7284c265d012077b95c7dbe3257b0f362288bd4e85b684"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/10.png",
+      "sha256": "13d196f34728741e4cb35270496c7d6c17ac8ef164152df15390e6c2245abb98"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/11.png",
+      "sha256": "46a0764317afcba2efc21031aa6f50f920cd37d4877fd3decefc1ec4d5c7b01f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/12.png",
+      "sha256": "569980f7f0fbe9540277184f516c14439be01f31ac0904c639e4bf4f7aa506f1"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/13.png",
+      "sha256": "ae81d9a998686c6436779ffa77d5afc0a488db401f4cadd95da1d1e175984988"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/14.png",
+      "sha256": "44cc2025411f2e4e9a24a58379a220545788eeb34dca8ce35ecdb25637344e84"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/15.png",
+      "sha256": "9e701f6b23da9445eea80db8ade7147140be9137da5812ea81d6957a03b2b709"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/deadlift-cutout/local/conventional-deadlift-u2net/tools/media/motion-guides/conventional-deadlift/cut/u2net-bb1396035584/16.png",
+      "sha256": "0a479d7ef12f3ba99f07fb9873e8d93d0f600ebc8c93d5d7ecf26f94072f95ce"
+    }
+  ],
+  "renderScript": "tools/media/imports/all-exercises-20261007/deadlift-cutout/render-u2net.mjs",
+  "renderScriptSha256": "1ea771cb145d6aff46a06b30215c048d7398ca41e0cfffe333c71ce4e90280a4",
+  "source": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+  "limitations": "Small original panels and generated16pose interpolation; outlined dark edges and low resolution remain. Not physical-device or professional biomechanics certification."
+}

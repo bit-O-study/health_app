@@ -1,0 +1,11 @@
+{
+  "samples": 481,
+  "heelMinClearance": 0,
+  "heelMaxClearance": 0,
+  "toeRise": 0.8869096521647952,
+  "supportMinClearance": 0.000005808969806064823,
+  "supportMaxClearance": 0.000005808969810061626,
+  "wristDrift": 4.39625888431457e-15,
+  "loopDrift": 0,
+  "units": "world units; body height approximately 17"
+}

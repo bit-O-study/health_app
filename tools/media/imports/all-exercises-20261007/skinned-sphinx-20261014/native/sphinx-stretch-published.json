@@ -1,0 +1,18 @@
+{
+  "id": "sphinx-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "948bad9f905d85a1fde7624243e32657ad8d511973951f627fa51e3ba10159e1",
+  "rigSourceSha256": "5ff21e9b5c4dacb0660308087ce999fb29ac19f836ffce6fc0080f4474e1fe57",
+  "videoSha256": "3e69a4a1d19ceb3b7ff90509d43f62f73d5016a37c63e469a4bb9b072bd94ca8",
+  "darkVideoSha256": "68c7f265dcd24e5559e67ec106578bfdb7430972e68c80b7e32bb5aa3558816c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 52817,
+  "darkBytes": 57604,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T06:23:48.931Z"
+}

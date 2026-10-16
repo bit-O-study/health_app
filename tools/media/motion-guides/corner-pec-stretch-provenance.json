@@ -1,0 +1,127 @@
+{
+  "id": "corner-pec-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/studio.mjs",
+      "sha256": "ee931fa110ca832c271bbf2cbac00764d960ba4fc463a88c644c1307b47b8dcc"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/motion.mjs",
+      "sha256": "9e495210d2e99950c1d3f26182d6fb398f2b29b31bc436138e4ffa2a927c7a53"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/render.mjs",
+      "sha256": "98fe01a2d02396ae5e7ecad513a3c258fa9b22ef263b5246a75cb109c378e0f7"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.leedsth.nhs.uk/patients/resources/physiotherapy-exercises-for-breast-pain-with-chest-wall-musculoskeletal-symptoms/"
+  ],
+  "sourceSummary": "Leeds Teaching Hospitals NHS Corner stretch: face corner with left foot forward and right foot behind; bent elbows and one hand against each wall; move forwards to stretch chest. Source hold10seconds, clip hold3seconds is shortened demonstration.",
+  "motion": "Face visible90degree corner, both palms fixed to separate walls near chest height, fingers upwards, elbows bent. Left foot forward and right foot back, both soles grounded. Move chest and pelvis0.7world forwards then return with hands unchanged.2seconds move,3hold,2return,1rest.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 5.0292000132872715e-15,
+    "heelAnchorDrift": 5.108232534890496e-15,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.01745385947985656,
+    "chestAdvance": 0.7,
+    "handsDrift": 4.189529226675416e-15,
+    "palmWallGaps": {
+      "L": {
+        "min": 0.012272445557433898,
+        "max": 0.012272445557438338
+      },
+      "R": {
+        "min": 0.012272445557433898,
+        "max": 0.012272445557438338
+      }
+    },
+    "minElbowDegrees": 76.3610083683724,
+    "minWallSkinGap": 0.012272445557433898,
+    "minWallGarmentGap": 1.8229133638782011,
+    "minFloorClearance": -4.440892098500626e-15,
+    "maxFloorClearance": 2.6645352591003757e-15,
+    "minLegSkinGarmentSectionGap": 0.38385521347802287,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/native/corner-pec-stretch.jpg",
+    "sha256": "05c25ed8d137706c25ad14fe69cf5962947c7f2d2d08153f555dc766bfba93c0",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-corner-pec-20261012/render.mjs corner-pec-stretch"
+}

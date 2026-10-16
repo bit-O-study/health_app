@@ -1,0 +1,18 @@
+{
+  "id": "ankle-circle",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1289c7053faf5b2db99a3e2b80f4d9f3b30bd72844def029a0a950d860d43c5e",
+  "rigSourceSha256": "5869dffe3198db022229f33c6ca3ef7ef88ab2f9b64bcae588dc481211d8ce77",
+  "videoSha256": "4f817d2e76a62efbb30f467a299e5085a7a5dbf3f3ac261f05ea90ed5412b761",
+  "darkVideoSha256": "b1834fb998e0675eba3984b48342329dfbd844a686d347b7dfaa55c250f4d601",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 32018,
+  "darkBytes": 31016,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T04:15:46.722Z"
+}

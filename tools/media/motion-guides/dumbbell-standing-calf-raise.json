@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-standing-calf-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-standing-calf-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://pcoschallenge.org/pcos5k/pcos-challenge-5k-training-guide.pdf",
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/standing-dumbbell-calf-raise/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:43:50.969Z"
+}

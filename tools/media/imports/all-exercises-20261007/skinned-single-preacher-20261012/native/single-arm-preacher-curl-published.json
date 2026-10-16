@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7a3d61f90d1d1941bd9a34f148baf7383f88eb1b7431c7c3e109e15800336d45",
+  "rigSourceSha256": "fa1bf8fac383b99e241ea09664b5c66c49793e8097dc255057929977157cf648",
+  "videoSha256": "6afdbbb1580177cf222677ba3a130effa9d795f036898e6f5e557d2cf92a3ab9",
+  "darkVideoSha256": "5c2cf3a2ec40afeded13a193de48f1989bc7ea7fbd90010a6cfd865c933c1216",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 55494,
+  "darkBytes": 53668,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:15:21.761Z"
+}

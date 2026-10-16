@@ -1,0 +1,82 @@
+{
+  "id": "pronated-dumbbell-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-dumbbell-reverse-curl.html"
+  ],
+  "checks": {
+    "exercise": "Bilateral pronated curls with fixed upper arms and controlled return.",
+    "equipment": "Two rigid hex dumbbells preserved through all movement phases, both themes reviewed.",
+    "setup": "Upright stable torso, complete body and equipment visible in final full camera. Exact scene theme colors; original procedural 3D geometry preserved.",
+    "hands": "Original hand210 re-inspected: dorsal surface up, closed overhand dumbbell grips, no supination switch.",
+    "feet": "Both feet stationary on floor across final 32-frame sheets; no foot clipping or sliding.",
+    "movement": "Both final 32-frame sheets inspected. Native 192 frames at 24fps/8sec without optical flow, full decode passed. Mobile Edge both themes play, 7.5s seek and loop passed."
+  },
+  "sourceSha256": "f19d9916356a98914da5b8ebfb4f85cd16a0b716e74cbe85d450c2f23fca47c7",
+  "rigSourceSha256": "516c12edb591691f2611618e405ad6971302c83147dc234ec7532741a5c2d82b",
+  "videoSha256": "6c15046b85c15c3b4780e1d804fdb4ac55338a4acd49049855a95fb1daa39285",
+  "darkVideoSha256": "f6cc4d240c1fab5a0500a30ff9003db6e1ca29ce30455aa1e23f6c6ef2a7d54a",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/alias-pronated-dumbbell-20261008/native/pronated-dumbbell-curl.mp4",
+      "sha256": "6c15046b85c15c3b4780e1d804fdb4ac55338a4acd49049855a95fb1daa39285",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 87063,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/alias-pronated-dumbbell-20261008/native/pronated-dumbbell-curl-dark.mp4",
+      "sha256": "f6cc4d240c1fab5a0500a30ff9003db6e1ca29ce30455aa1e23f6c6ef2a7d54a",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 72211,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-08T08:26:21.693Z",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Exact alias reuse, not new animation. Original kinematic evidence retained where present; no new481sampling claimed. Fresh original/public source chain and both full decodes. Root visual review pending. Sampled original collision and barefoot mannequin limitations retained.",
+  "aliasOf": "dumbbell-reverse-curl",
+  "aliasEvidence": "Identical dumbbell equipment, targets and catalog methods. M&S Standing Dumbbell Reverse Curl explicitly specifies pronated grip.",
+  "visual": {
+    "inspected": [
+      "fresh both32frame sheets",
+      "original hand210"
+    ],
+    "result": "Same grip/equipment/action as target exact synonym; existing video bytes preserved."
+  }
+}

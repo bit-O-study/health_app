@@ -1,0 +1,97 @@
+{
+  "id": "ez-bar-cable-pushdown",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "smooth: start hold0-.4, pushdown.4-3.8, extended hold3.8-4.2, return4.2-7.6, start hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/motion.mjs",
+      "sha256": "38a538e7e3fa5e94a5c98ecdafb7f02cef9d24f6e1d8e02ca52f7383acfd9030"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/studio.mjs",
+      "sha256": "963a22190067b8ee37626f2b8ec92fa3118ec6cd1fd665da1e0bd43fa53eab61"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/render.mjs",
+      "sha256": "107539dbea9d48fba4da3490c6ab9e10798e020194b69298893fe4dd2fc9d639"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/cable.mjs",
+      "sha256": "3efef2e00012ca050dd176edb91793c9e163b58f2778fc6dadeb3295f291cf7d"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-ez-pushdown-20261014/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://sweat.com/exercises/ez-bar-tricep-pushdown",
+    "https://www.strengthlog.com/tricep-pushdown-with-bar/"
+  ],
+  "sourceSummary": "Sweat original EZ-bar tricep pushdown specifies EZ attachment on top pulley and overhand grip. Its page exposes setup only; full movement cross-checked with StrengthLog bar pushdown: elbows fixed at sides, press down then controlled return. Video starts flexed rather than the extended setup in Sweat and uses a5degree soft finish. Editorial8second cycle.",
+  "motion": "Standing bilateral EZ-bar high-pulley pushdown,25degree curved grip segments and matching partially pronated hands. Fixed upperarms15degrees forward, elbow120to5degrees, static torso and feet. Single rigid bent bar and central connector, conserved high-pulley cable length and stack rises during press.",
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 5.162537064506978e-15,
+    "pulleyRimError": 1.3322676295501878e-15,
+    "connectorRadiusError": 6.106226635438361e-16,
+    "stackRiseRange": [
+      0,
+      6.031160543738447
+    ],
+    "cableBodyMinClearance": 1.042000205898804,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.9984014443252818e-15,
+    "gripTangentAxisError": 7.696856831808123e-16,
+    "elbowBendRange": [
+      4.999999999999918,
+      119.99999999999999
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8573499859223285,
+    "barGripWidth": 3.3179444455194114,
+    "barRise": 6.100065242244293,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.7297783721361462,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.7971781610736419,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.818839456261553,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.00035011330979273225,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 0.6302453226048926,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 2.149391775674303e-13
+  }
+}

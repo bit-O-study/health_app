@@ -1,0 +1,122 @@
+{
+  "id": "shoulder-flexion-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/studio.mjs",
+      "sha256": "c9a4fdc0f734b1987f938bc3770eb2f0219479406d8665fa509f2ffc40007781"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/motion.mjs",
+      "sha256": "2a2f563580a517408aa8ae52cf5e2871df9e74de6d8df9372559b5b29df5c747"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/render.mjs",
+      "sha256": "f871d33637b7ec1a09dbfe01268799a0ced8e3bebbaaf56322d629f7c6b3aedf"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.cpft.nhs.uk/download/docm93jijm4n1210.pdf?ver=1612"
+  ],
+  "sourceSummary": "CPFT NHS Shoulder and Arm Exercises p2 Shoulder Flexion: standing or seated, arms by sides, lift one arm forward over head thumb leading, then return. Demonstrates left side at155degrees sagittal elevation; timing8seconds is illustrative, source hold/repeat fields unspecified.",
+  "motion": "Left arm forward overhead and back at155degree peak with elbows straight and thumb side leading. Right arm at side, trunk upright, feet fixed. No added equipment or hand assistance. Smooth3.4second raise/lower with0.4second pauses.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "rightWristDrift": 0,
+    "shoulderDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "startAngle": -6.19987065025135e-15,
+    "peakAngle": 154.99999999999997,
+    "maxWristStep": 0.12754439945869708,
+    "elbowLineError": 8.881784197001252e-16,
+    "phaseSeconds": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/native/shoulder-flexion-stretch.jpg",
+    "sha256": "94d6d0b58e79dc7ef35c0a77a0f3a427dbe1c47492aa88205b0a4b973847cd64",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/render.mjs shoulder-flexion-stretch"
+}

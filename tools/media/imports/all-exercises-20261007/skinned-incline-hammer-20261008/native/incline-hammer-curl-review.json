@@ -1,0 +1,112 @@
+{
+  "id": "incline-hammer-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/incline-hammer-curl.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "curl": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Simultaneous incline hammer curl on45degree bench with neutral palms-in grips, fixed upperarms and controlled lowering.",
+    "equipment": "Two dumbbells and incline bench with full backpad and supporting posts. Body, seat-side and backpad clearances checked throughout481samples.",
+    "setup": "Torso reclined45degrees with backrest at posed back plane, pelvis contacting seat, feet grounded. Side and back views inspected.",
+    "hands": "Neutral grip throughout with palms facing each other, no supination, rigid wrist sockets and wrapped fingers checked in closeup.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed, no optical-flow ghosting. Fixed bilateral elbows and conservative plate/body/bench clearance verified numerically; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "edfe5b3c2bfcff02e2fad8cbfb33ad528ce428ea9388651b328e506e81104f1b",
+  "rigSourceSha256": "9dd630613ee83f0830cdfc4bfdbf13d629540911398fe30bc47eb6bafa9ec224",
+  "videoSha256": "d3abfd816dc0a974068435bf3c607fb97247a0e1c7a8be5f842b57b598dbc440",
+  "darkVideoSha256": "2c63ce7811309dd643863fec6e568d4e789f903d84b7654a894591ff9ac9151c",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-hammer-20261008/native/incline-hammer-curl.mp4",
+      "sha256": "d3abfd816dc0a974068435bf3c607fb97247a0e1c7a8be5f842b57b598dbc440",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 82364,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-hammer-20261008/native/incline-hammer-curl-dark.mp4",
+      "sha256": "2c63ce7811309dd643863fec6e568d4e789f903d84b7654a894591ff9ac9151c",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 66240,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 0,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.6433957514029506,
+    "minEquipmentBenchClearance": 0.6342918004928242,
+    "seatContactError": 3.3096472229487972e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.06423812804075,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "minEquipmentBackPadClearance": 0.89579765751198,
+    "backContactError": 0
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T02:30:42.608Z",
+  "limitations": "Barefoot mannequin,45degree backrest variant. No physical-device or biomechanical certification."
+}

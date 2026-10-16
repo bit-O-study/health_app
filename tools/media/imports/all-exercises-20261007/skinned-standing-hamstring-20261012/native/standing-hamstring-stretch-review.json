@@ -1,0 +1,115 @@
+{
+  "id": "standing-hamstring-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/cardiac-rehabilitation-exercise-programme/"
+  ],
+  "checks": {
+    "exercise": "Exact standing-hamstring-stretch, standing front heel support and rear bent knee.",
+    "equipment": "Bodyweight, no seat or weights.",
+    "setup": "Right front knee straight and toes up, left rear knee bent and sole flat.",
+    "hands": "Both palms rest above left bent knee with relaxed fingers; actual skin and garment clearance and hand-to-hand separating plane checked at481 poses.",
+    "feet": "Right heel and left sole grounded, foot and heel anchors fixed for all481 samples.",
+    "movement": "Both final32frame sheets and full/feet/hand/side enlargements reviewed. Whole pelvis/trunk45to55degree hip hinge, fixed legs and hands. Stretch2/3/2/1, decode and Edge pass."
+  },
+  "sourceSha256": "3d858a8ec1b21ef03168af422c2d6d1319123b4befdd8d70a2d35a15f01c27db",
+  "rigSourceSha256": "7accb3079aca0e0198b7083ab3d7cb16f644c02d8e38b867b3e974b17172dfb7",
+  "videoSha256": "2981a387ad7c25493d55cbcb417c3e40179a1f01863aa04282f153e68e44bfc7",
+  "darkVideoSha256": "61a4b8a0fd5c56513e940f67e57507e04e7b5c4b32002a8b8d2fb2aca2e02270",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/native/standing-hamstring-stretch.mp4",
+      "sha256": "2981a387ad7c25493d55cbcb417c3e40179a1f01863aa04282f153e68e44bfc7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 53441,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/native/standing-hamstring-stretch-dark.mp4",
+      "sha256": "61a4b8a0fd5c56513e940f67e57507e04e7b5c4b32002a8b8d2fb2aca2e02270",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 57679,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 5.617333549722722e-15,
+    "heelAnchorDrift": 5.621720378622258e-15,
+    "loopDrift": 0,
+    "peakHipHingeDegrees": 55.00000000000003,
+    "startHipHingeDegrees": 45.00000000000001,
+    "handDrift": 5.781693597791254e-15,
+    "minHandPlaneGap": 0.40384828222797087,
+    "handSupportGaps": {
+      "L": {
+        "min": 0.01896925592363985,
+        "max": 0.01896925592364518
+      },
+      "R": {
+        "min": 0.020665690058920827,
+        "max": 0.020665690058925712
+      }
+    },
+    "minFloorClearance": -4.440892098500626e-15,
+    "maxFloorClearance": 3.552713678800501e-15,
+    "minLegSkinGarmentSectionGap": 0.06639612545452027,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T01:47:52.832Z",
+  "limitations": "One side shown starting in the prepared stance; stepping in and opposite repetition excluded.45to55degree hinge and3second hold illustrate movement, not source clinical dose. Hand support uses actual skin/garment XYprojection radius0.10world, bilateral hands use separating plane. Leg horizontal slices0.10world and36 axes are sampled evidence, not force or exhaustive triangle collision simulation. No physical-device certification."
+}

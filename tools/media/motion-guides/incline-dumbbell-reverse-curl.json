@@ -1,0 +1,14 @@
+{
+  "id": "incline-dumbbell-reverse-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "incline-dumbbell-reverse-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://workoutdigital.com/reverse-curl-incline-dumbbell"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T04:49:46.970Z"
+}

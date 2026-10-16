@@ -1,0 +1,103 @@
+{
+  "id": "standing-it-band-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.armory.nyc/runners-health-it-band"
+  ],
+  "checks": {
+    "exercise": "Exact standing-it-band-stretch, crossed legs and contralateral overhead side reach.",
+    "equipment": "Bodyweight standing, no chair or weights.",
+    "setup": "Left foot behind right and left arm overhead before cycle.",
+    "hands": "Left arm extended overhead, right arm relaxed and clear of body.",
+    "feet": "481 skin samples confirm both soles grounded with fixed foot and heel anchors. Crossed legs and garment checked with horizontal section separating axes.",
+    "movement": "Both final32frame sheets and full/feet/thigh/side/back enlargements reviewed. Right sidebend12degrees, left hip shift0.25world, stretch2/3/2/1. Decode and Edge pass."
+  },
+  "sourceSha256": "853de5f38b75a07606ba070a087e77f34414768a0f12411f8563c496942e5ecd",
+  "rigSourceSha256": "90194bb277a71cf34e9c982cda29ca6bd1935323eb82b37548d9fa1808f704dd",
+  "videoSha256": "3a4f51b760889ee14a8ce161a9d29f8caadfec719c301660338caccdec5f2218",
+  "darkVideoSha256": "126bd9d0fd7429345bf1aac8e161492c0847e5ef4dfc9b4b19843d632615436e",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-it-band-20261008/native/standing-it-band-stretch.mp4",
+      "sha256": "3a4f51b760889ee14a8ce161a9d29f8caadfec719c301660338caccdec5f2218",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 67010,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-it-band-20261008/native/standing-it-band-stretch-dark.mp4",
+      "sha256": "126bd9d0fd7429345bf1aac8e161492c0847e5ef4dfc9b4b19843d632615436e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 70055,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 6.2825773892766154e-15,
+    "heelAnchorDrift": 6.268583080834268e-15,
+    "loopDrift": 0,
+    "trunkSidebendDegrees": 12.000000000000052,
+    "hipLateralShift": 0.25,
+    "minFloorClearance": -5.329070518200751e-15,
+    "maxFloorClearance": 2.6645352591003757e-15,
+    "minLegSkinGarmentSectionGap": 0.1613033860720517,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T01:26:11.435Z",
+  "limitations": "One-sided motion demonstration starts already crossed and overhead; source uncrossing and opposite-side repetition are not in this clip.12degree ROM and3second hold are illustration, not clinical prescription. Skin/garment horizontal slices0.10world with36 separating axes are sampled clearance evidence rather than force simulation or exhaustive triangle collision proof. No physical-device certification."
+}

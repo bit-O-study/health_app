@@ -1,0 +1,18 @@
+{
+  "id": "incline-dumbbell-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9dce0ce757173fb04f41e0896995ba0aef5731707ed1555f064b9ee0dfe708b6",
+  "rigSourceSha256": "c7ce832584c16b1f444515f06e8934ed4807331a626b1c35e81b99118dda0005",
+  "videoSha256": "8e624d24971910a3f2adae156e2b34f5c6ab2acd869ebb5775e357bab051144e",
+  "darkVideoSha256": "5042992504e4c2f79598a85d52dc6bbd9da0c0757924fbccadb047864454f227",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84362,
+  "darkBytes": 67950,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:13:40.738Z"
+}

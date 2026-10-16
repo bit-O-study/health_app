@@ -1,0 +1,1168 @@
+[
+  {
+    "id": "pistol-squat",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "b1d53a9b0551a950535dc19c8ce56e7d35d09e2e3a47a6583cb1000d0f32213c",
+    "videoSha256": "242c467296c248fc22295ddf74a7d8e311afc8327dac2b2199f0b9d48634df58",
+    "darkVideoSha256": "72471deb01f0a3d87d7af3e45ace2d657b96d992b45fab8fa87c5973d1ba4b8a",
+    "darkBytes": 206594,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 176793,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T00:50:50.901Z",
+    "variant": "-refined",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Restored ground shoe from enclosed original outline only, preserving transparent surroundings. Original JPG unchanged.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false,
+    "cutCacheSha256": [
+      "c6a7c1865a0e253973f26666a8b14707f12886859656dd325fd2ef90bb1bbc6d",
+      "c71ab54e2d68d963bc40cd57d898eff0de67902073a3746e61ed7713663372fa",
+      "9d995e1970dde4b6d5fa9dc618a1638aa052c497580cd4397fde0848d971209b",
+      "2c8150de80a26a2d3bb1e9f48b1e7223ca00e2b49519b4d354b8549a8ac25cfa",
+      "0ed79fa1b1c92d608d95df8553fea6de45124a2ac9d56641a6128939f65faf00",
+      "1f57ffa1372c4cecaf3c64d5651fa50be43d7775f7a759642d175821610ae703",
+      "de2e75765a22241729a22aa2c5f18f177abcdeeb363411ccaac713c867b71bce",
+      "0cd4a61b132e2c6ae32f73c5e325b3aecaf2c56b8bad2325af7d51ab717607e1",
+      "d8b4d5ea248611e587dfd69966d92a93cc9341b0eb0ef146ed403f81af328ce9",
+      "f4df8ac736c71f848a48934eed20476b9144f3c684d817f553630933e745ed84",
+      "c683043b70ea0cbff009266c273b501eefc66948b51be8b4c57441b023608efe",
+      "28abf855f9c138cdc31e7f2de64131ae3c9fa15db9c36169388c0ad66b7fbbcf",
+      "c98b403180f8fcb4f5d4d3347fde65b54cc081d948c5ee944e88173d900b7e07",
+      "4f4b1bf85c025a95faef4a7ad108fcb8fef34beac2b1d91041591d7054f223b6",
+      "14a7f2142978964b4ffb079bd7c94c2ad5d162da0dc244c94ea3e8c0014bc43f",
+      "19e319cf33ba0f2723345609cd1f8f663dc97461f294dac26f2c9e3413309d96"
+    ]
+  },
+  {
+    "id": "cossack-squat",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+    "videoSha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+    "darkVideoSha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+    "darkBytes": 231839,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 192386,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T00:53:42.269Z",
+    "variant": "-refined",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Restored both shoes using source closed outline foreground only. Original JPG unchanged.",
+    "cutCacheSha256": [
+      "c2b8241d6b6d99c3d48dbf7d5ba29ca379b9348576df2c676cc2cdc08c828518",
+      "3badb5b17bf39b811017aa63472ef21faacd9d1d2b595374db63abf2bdf259ed",
+      "503d97f2b48c01684f28034e4139f5c0276b30a4ce39c4ae883c1fe6a6bc8f1b",
+      "96be20f238337db883cf738b958e018ade3eed180d161a9f6af5539c408abebf",
+      "db6125b118d7231614ecd69bcdb513e78253f9183f40db90a7d385dcd7e2c207",
+      "d2205cb50f2f4b522fc543bc1b71f37ed7ae5c6e6fa708c1dc59ed10c07cd03b",
+      "90ec77e4cc9e3a037bbbb0e8b3cb33739950022e64224d5952599df66b2eebb2",
+      "fa125a44eccc02d2bb2559748960971a6183471b23cf9dab41b4deaff2a6cce2",
+      "46e968d53d099b5c260569f418640613589d428d95f9e1abbd1e16bacf104b49",
+      "b8ecf820291e49fc15472d77f65a71d41aae86d6fe9c09cafd9fc7036e75006f",
+      "e69679a65f4e8972cb081da650ea0b02ea99659f264eb0ef49c058980e6efbbe",
+      "59bfdbe14d30f021db7639f343585af833501f2b80e2bdcb353eb40c68aab7dc",
+      "397563330143afbf0c358ee01b3cd160be0b937c383c5a34ff14e31f4663ff81",
+      "73c2f8f35f25d5b1eff762a0625b0fb5a11929abdc9238c821c496892ffa9564",
+      "bc5d47baf542e255161710b99f415299af3455ed4a098f07dfe8621f61172078",
+      "73941d71a493ce2dd48cccf40fac63fa63503652b1e406c0e3e71371246ddf17"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false
+  },
+  {
+    "id": "sit-up",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "5d722dc5ef25e8be5c6d7392039a11aa8f3d11559b7aa5509fbe7440a7383d45",
+    "videoSha256": "43463b326ab7ef8c7ae3f6bb26c271d3958ef0605ecd3d3e80d25389c6d9f9e2",
+    "darkVideoSha256": "7ec60c2a4ad0b82d2627890b220eb417d94a9841f0efcabf4230103322b01d56",
+    "darkBytes": 156358,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 135240,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T00:55:21.991Z",
+    "variant": "",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames",
+      "dark-poses-1-and-16"
+    ],
+    "correction": "No additional mask correction. Gray background removed including knee cavity, full subject retained. Original JPG unchanged.",
+    "cutCacheSha256": [
+      "5372b5b87c35ffeac043ca92688bbdd5ecf6dbce2ac80e311fdec3287a0d63f2",
+      "bc2272f3010f0bf65403168319b34975581c4626227f99082914f825ceea3bba",
+      "d0570d13c91d1b8659abff191cef39fb9fb9ec3ff6db44a64b67d927646d4499",
+      "a10999e51533dc553192a56adac7b96d68050770bc54fdfd1a0f8561970fe5ba",
+      "fbb10237281de24347610e8ef3ae60641ac87a7628b2b9777498a51a2629371c",
+      "938b7fc9e56119a77ef79b8add94c560ca8f6bdd3c8336ab584d14a682729b14",
+      "0e69992fb04343e43bd1819e58e7330c28fa88e59fa01c556d6c57e28830d9cc",
+      "5606ebb7e8d4727ba8996988b2d3e9b534bfe4796ebe4f9e1b6f1f427ec932f7",
+      "4d6d898b326f6562321e5eb3e6df80407ac3e86a67f2b46f4ad40ba9c0ea1fa7",
+      "ce0244e2ead0a332e0a2ce4216968c9c5cb34afb9ba50d03735f950339444c4b",
+      "93629063df50a7123ea3702d19d7ace5fbf58f98c871de34b0de7c398b199f69",
+      "9f8bf3f571b5fa235cd9e06cafa4f10ebcbd750d46395ac2e9771694b32f427e",
+      "e3b799b5c9ad1046513fba48acf4bcbf9b063a0b03408c6477922b1d2f2fa670",
+      "cf76ed5b9bbb2fb85c83c945bb9176c9cfae4c8d33f41fc5bbb13d7611b8ddb5",
+      "66a06227600ba835e105a6b54fb17f6c16730ede06345b53b1aadab996e01d04",
+      "fef57a94b9481f0365888290f940eb3a029c65c0239ce4524ffb22a2199bed2a"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false
+  },
+  {
+    "id": "inverted-row",
+    "sourceSha256": "6f2be15318064c862f12f717dda4756254869e712d5101574a57288ae7bdf628",
+    "panels": 8,
+    "sourceViewed": true,
+    "notes": "Original heel position shifts across frames and figure appears unsupported; full movement quality review needed before approval.",
+    "review": "hold-source",
+    "reason": "Heel position and torso angle shift substantially between source poses while rack fixed; feet appear floating. Need corrected source anchored heels before a cutout can be approved.",
+    "published": false,
+    "renderedThisBatch": false
+  },
+  {
+    "id": "sissy-squat",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "d5832aa12cea1fc6389de47a9ea1a7a2658b412511f3b193ed2df06f07aa71d3",
+    "videoSha256": "4256e33aaa3d7027b8be220bbe98a66c8ca8d83732e6de720a20b86893ec9a08",
+    "darkVideoSha256": "78dddbe6ae216069a51e46d0c87f7139c24d9ab44a55d7e10efbaf2e89b2d2d5",
+    "darkBytes": 207572,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 179847,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T01:03:35.868Z",
+    "variant": "-refined",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Restored dark support and shoe from source foreground closed outlines only.",
+    "cutCacheSha256": [
+      "fd33c202d7abe31e4a4027217019bb46f84cc5c7b4a87fbbce63f3c1ca85c6e9",
+      "14a72f213ec7463a05eebb21e7e3978e2b0d9d3df5cefbe20621f983e4a51668",
+      "78d2ad072346a5cdff8119bc26f808b2fa1ac63615628ef0f3999e00a1472982",
+      "8c0804301180a9b74fa049b3b1fe03ef3dd42a22bdaee98788e74c111b36351f",
+      "48a9c3e1d60f8916c041e04a518901451cea150f2459ecf8cceacc2b808ed6a6",
+      "a41198e263a34dc4c0cb4bdb2bffb6f6175fa042d0818129fd795151f71e5d33",
+      "7d33b62e630647529b192c9139575e5e49df53dd309aeda496df6217d50512f9",
+      "da2412f019ee7d7d3ec3736d97e69140550fe4de7d6754f3e2907143d0d66c5e",
+      "9b855512c00d8b243dc697fd265588315b1f72ffdd6b9e5115cddff869435513",
+      "dfb42214e09f72d6d0415c3434fcec0bee5f9b6cb28713f6e810c4caf3ca2ee1",
+      "4b3c6f05a3a5fe02dd5c37f6b97f7df8968c8296040be07233ace76e47af6152",
+      "e5c095c75bcab1651bb54d31fcd39dd3b7778be3cc335e8c6e96b7046f563d9b",
+      "507b3a1104ee801f226dfc3801971044339dab5b16a5a4722621fb5da2f83eb8",
+      "ec95192a4ca043a612ecad21ad50d96cd7ac30db89042b3ed6a62191c07efb29",
+      "388daeb72e3b4ada8eee2205d9c8eeddc74254ccd634dd7e73740aa6b5bb5945",
+      "6a7e92795c1e54ac8677f94f490780388623d43065f3101bd6505d68b8758b73"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false
+  },
+  {
+    "id": "ab-rollout",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "a3cbf26badd56a0a51130fc673cab7a545bf7d622e7e720991c83cbbbb48b077",
+    "videoSha256": "535479e3c88832e1c9c648b26f4034b18cde2b8d1503ccf65b7aff27c84e0aa0",
+    "darkVideoSha256": "2b60bb581f232e1ccc0cd519caaf814aa25da953d041d9a24b1862e8bfec374a",
+    "darkBytes": 160216,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 151273,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T01:50:52.172Z",
+    "variant": "-u2net",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Official u2net preserves white shoes and wheel across16poses without prior floor residue; both32frame themed sheets inspected.",
+    "cutCacheSha256": [
+      "8ffeb5aa2f04a92257e98dad38f1dcd0ccdb92bf813c19ff311de3df06f15761",
+      "73f817d8ea363c813e2a7a0ad71b80ae55d939e523541182310399e0ff4c4108",
+      "7b5af324aa8fc018f7d1e21a99ee5063e5eb35172666d9904b8551beecf2154b",
+      "ac4289c3690b8fae3f4d12421ee52980707d88aa3314c5a8ff9b0435f995c4bb",
+      "166485b0358623fae514e783e6b426bc011b630b1d45aa002109016d35120220",
+      "fb0d47b50335f26d477d6019e4ec2e852534e3a7d1c89b8b08b15780e3d57af9",
+      "9116e6358a6f4c3832c3e8d419a622d2b32323d584d785b35f9120df831e2d19",
+      "8eb3cc8d5f7103323470d64e074b9de873a898aed8664e4c7fb1c559049b1a05",
+      "37e0c4b16de18c173c27a2d47568133973071675ae15dd8377a05f7797e14134",
+      "54ba2a2998965b6dc20f63db08ca4b957697317cfd9676ceff926a8d44da51ad",
+      "84e417f391fbf0dffcf3859ba17c9c794672ecea1a217d77b881414d7c64dfb3",
+      "6917148436cce824a009f1c522f4cf8a4687b81e0b1fdedaad1418f4767c2f2b",
+      "2843b254387322869013baf2617a775288baf939a8ed2da1d5a37bbb7648a8f0",
+      "3177dbbc2f3b7f4ee1e6c5a8527e8cc5475e6787053e49bc5ccdadbe1791e9df",
+      "5b19e170b98cc5c10609e742c2dd2363868c483ebedb73063a3875f12294585f",
+      "8f1bee1561d6ac58da2698c9dff86c4eac44958e00aa563d9baab31eee42c478"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false
+  },
+  {
+    "id": "low-row-machine",
+    "renderVersion": 5,
+    "panels": 8,
+    "cutout": true,
+    "sourceSha256": "febe2bd2d8fe311e80c53cc9b5c3695fea6bd3ab81e31e7a176dd61210195fce",
+    "videoSha256": "e7c4baab92b427591d59b09338ec517e3f8650e5a3a1e56c8a87c3c3ee606023",
+    "darkVideoSha256": "68749cb55cf54fce040efa980139b2e4de975f121f6aaf427e573471af821c59",
+    "darkBytes": 253853,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 206125,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T02:00:09.183Z",
+    "variant": "-border",
+    "review": "hold-motion",
+    "inspected": [
+      "source-8-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Non-neural border-connected white removal plus inspected enclosed white gaps; cables machine body and shoes preserved. Boundary white decontamination applied.",
+    "cutCacheSha256": [
+      "e8ee66ee5f81e1a32a5883cb0ff3ca64d98c5092bdfc573bd8556aae8ac05aea",
+      "c4f4ecf4fc1052b5581da177201bbc2b796c54461de47aeb7a3959fd6a27f9a2",
+      "7fc3dc8b7c6170b7d4630956906bf2b3da49199a3fad1d55db51deb8d97a2dad",
+      "776acb701146b16f9b0938f56033c715fad5098b86b79095c8d080652b718da3",
+      "4c1f992b7f6358521d3ce532f49ff1cf8b4a1350abfbab86c16c941a771433d7",
+      "e6e92794953a83299452244cf38318a83b5cdfd1014f21887d48cc6fcf7a2e58",
+      "c3367288ea52e677f72c9c1302f314b9adfb2fd9b81a411a970edef0e31b489c",
+      "28e4b3817df14ba2d1eba7940f618625058d0f4478da7a345b7345801fc2292e"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false,
+    "cutoutReview": "improved",
+    "reason": "Full-size1.25s/5.25s candidate shows double forearms/torso translucent outlines at pose transitions. Existing public clip same times also shows interpolation ghosting; atlas key poses are clean. Minterpolate8pose motion needs correction. Background improvement alone is notpublicationapproval.",
+    "evidence": [
+      "transition-1.25.png",
+      "transition-5.25.png",
+      "original-transition-1.25.png",
+      "original-transition-5.25.png"
+    ]
+  },
+  {
+    "id": "machine-rear-delt-fly",
+    "renderVersion": 5,
+    "panels": 8,
+    "cutout": true,
+    "sourceSha256": "4751926b2fffd1d256d68fcffb02429087cb747870bb3324e63442b16bec0076",
+    "videoSha256": "f55e562c3164e0e6cad29a5e8d1d0d27fba9be1d607a22064c819507c770cd39",
+    "darkVideoSha256": "6e7b381dfe86d4981aac640ead32f6c98ce68317043a3d7e86128d7ad25cd265",
+    "darkBytes": 208005,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 179022,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T02:01:32.020Z",
+    "variant": "-border",
+    "review": "hold-motion",
+    "inspected": [
+      "source-8-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Background mask improves machine holes and preserves shoes; motion interpolation review pending.",
+    "cutCacheSha256": [
+      "ba0c1445a003a5a4b95ae6e3f064f2c8cc11340682505ff390a1c7338084deee",
+      "de6983e3426dda3699623e498c3ba26add89768268dae8b8df511acf9b11a799",
+      "6ada54d50a7ac5b20f026488e0e6813d7c15db02455274822a24f5f3dc776f00",
+      "e444d89f3cbf85c67eae543c414cc2b4a04a25111976f84212a525aa22e60b5c",
+      "2a4370847f60d88f4ead6f9d6810cd31b5c9234d37902d1b47b16ffbf5ba88c1",
+      "8d5f458b212d1848ce00c4dfa7ffd45e499e6b623d2a8f78c3e6892727dd9017",
+      "dca760c9a02817ace2e7ab35a6d8ddb94ab25eee754c9db92a2cd8780507ab23",
+      "f66c01d6e685b3df0339881762bcd52d62d27f1a7cfdceacec4a1b560bfa9419"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false,
+    "cutoutReview": "improved",
+    "reason": "Contact sheet firstrow3rd and finalrow1st/2nd show semi-transparent duplicate machine handles/arms during wide pose transitions. Preserve background masks but need motion interpolation correction before approval."
+  },
+  {
+    "id": "lying-triceps-extension",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "b73fee7de01788e9220aeb19e74b1f2af725909cf3bff87b2da81ec1c1c4e1bc",
+    "videoSha256": "60fc65d4d54d5cf708fe9e80d1f1017cbbfe58d34c59aa40e1a3c4eba052a8c5",
+    "darkVideoSha256": "d7a834f74ba2ad4eb6dea53aef7cce02ca256fa6ae069c377a255f2d2ee73ef3",
+    "darkBytes": 201165,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 239188,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T02:12:44.000Z",
+    "variant": "-u2net-bench",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Officialu2net clears arm interior across16poses; source blackbench restored with asset-specific luminanceROI, detached lowerfloor specks<=12px removed. Both32frame sheets and1/10/11/12/16 inspected. Existing16pose opticalflow, not3D biomechanical validation.",
+    "cutCacheSha256": [
+      "2818ee32c7c07ab8eae05dac746b9b896f7cea603a47e4e729909c97afea4881",
+      "be11430564f8a02eff632bcda7cf22175f3dfc2725e5fa09627dc454849842dc",
+      "c74a859c9ac52c6a086ce122b758091e76dfa89daa5987805a41ee03687adb7c",
+      "a4d758585ac09d753bb239da6e50eb35ec5af1f9668b32a34c28a62583ba008d",
+      "1e1bbfa47febcc7aa7c336150d66b30e077c8a20b1135532977b99e20416fd6d",
+      "891abe28c8d42775367d723a8ed3b16e43bb33f17bbb5be7e21d82588715bfc7",
+      "fb8f0611c937366490c1ed361af7ece680335ce56659eebec032e718e9be7b93",
+      "3c8b41fd603d6c4a3a1f348643ec4986810d3df749f57179ba8f33ac458e9132",
+      "22ea70e421b118137650a07dda59aa460e4e53424295c07b59dd62e6423f0c3e",
+      "8ce99524a4640ff19523c66e5422a6202a91c3f480860a7f67b6b5f1d761229f",
+      "7c3d1a5348885744ce877364b55dbf5d5d7cc82fdb2afae91569b39e07a80916",
+      "6645e9499172b46db4ce6cda6e24c9e9be27f0ebbdeff9b3cba1e81f037e9581",
+      "bdb776791327a5c2af3852ef9e282cb61b8a834f33283062943f87bdcb6e6261",
+      "3f8fa4dd3b5f2457e1710cf8c48c32e6425c9ff5ba056cd1718f43b3a5c6225f",
+      "89c172611d58c9ce96df0377d3a020ce1448d9b183d48207d999e563df5ea873",
+      "03dcd6c89c2c89fd7f365afd0b18bc3b36335eb269b2c9b65543f8368b87096e"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false,
+    "model": "u2net",
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 1004.1,
+    "minFreeGiB": 2.719,
+    "limitations": [
+      "Existing16pose optical-flow animation retained; no new3D rig or anatomical simulation.",
+      "LocalMP4 mobileEdge emulation verified; physicaldevice/appdeployment notverified."
+    ]
+  },
+  {
+    "id": "triceps-pushdown-2",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "5b20ee035168a5fb71de5a8202c1a551c0bc0f82d511ed6b9811cf5b8cdc33ac",
+    "videoSha256": "b16a741f38b37a79f697f23cd63e92414fc5d22cc043f4ba5dada6f0b259fef8",
+    "darkVideoSha256": "26ef886cf777f8b34842af7eb4e363091387912c954e76c85ac732564696f63d",
+    "darkBytes": 220612,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 227070,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T02:21:12.543Z",
+    "variant": "-u2net-cable",
+    "review": "recommended-pass",
+    "inspected": [
+      "source-16-panels",
+      "light-contact-sheet-32-frames",
+      "dark-contact-sheet-32-frames"
+    ],
+    "correction": "Official u2net plus bounded original dark-pixel restoration preserves tower and continuous cable. Inspected both 32-frame contact sheets. Existing 16-pose source motion retained; no biomechanical certification.",
+    "cutCacheSha256": [
+      "8e0e4d872cbae5b7183c95b12d7caacc25fce816c3b1bf35441cd8479cdbd776",
+      "51e1214bcff63a340ffa219e92fb4fd5ac8a065253dcf4052a3e64b9cf465a59",
+      "b8e93d9136f5a8c8f20e62ad385371e64210c5657090fd598fd67f6ede41ef1b",
+      "97a706e95ce360694003681a43239b5adfa8f9e0e23f591e44711d69101b1388",
+      "3b60a0683780e96b9f9f2d7dd859ab1553f8fa17578c340c93fb6a11049d8d2b",
+      "b50df853b8a943ffd63bc36e78bac9f74a12fea6485f244de4ddcf8c5ee6beaf",
+      "6f3e6ffcb8d24d8ccde50d07c13404b43763299daa8fd88858af9582c5efbcda",
+      "dec6d74677770316d8baaade7c46485ad134d9d4e03de1773e4a3a2019830c4d",
+      "93d1266db53834a6b038fe273f75ef93d174f7990ac18c6d6371b39649cdf57a",
+      "4a86fd80b949205a62b92964b18c2d0ceca5a959852d8bfca472fe2ad66b005e",
+      "6aa07171929dc74b46e84c733be26ccd52648325fd52747124ae1634337683ae",
+      "b405f589caa3bbc07dd33a6d186ab19933107baed61c9e33108eaec8406dae39",
+      "70b58e60e9f0292451cfbd9712595e44c8b9cb62b0b28a7a0afa3bb00b3081fc",
+      "30039d831905cdde378307147d94899609d495daaa825da09d8f7409945b782a",
+      "3fa95094e5a0eb78b6bda7d8a4238a8c86d7c625c1eca4443e6edceb7f2caa31",
+      "59ce67b520746a2efdfddf1f3501e20f3593e50132d8d5c7dc935bbe07bc3a90"
+    ],
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "scope": "Cutout visual review and local mobile Edge MP4 playback, not app/device/deployment",
+    "published": false
+  },
+  {
+    "id": "rope-triceps-pushdown",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+    "videoSha256": "8897c068ad47b1fa86ca31108f5eed9c60750d3087e146927f751dd468e9e799",
+    "darkVideoSha256": "4701d9c495b8bc617a826f336a583d66462c7a3a801ea4517c5ed400e4933976",
+    "darkBytes": 139640,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 165951,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T03:16:32.859Z",
+    "variant": "-alpha-edit",
+    "review": "recommended-pass",
+    "generator": "built-in image_gen edit",
+    "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-rope\\candidate.png",
+    "generatedSha256": "536d241223bf9d77a11bab297276147c3afef55eda31d7aa2ff2b56a9b3ab9f5",
+    "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-rope\\prompt.txt",
+    "alphaPreserved": true,
+    "inspection": {
+      "candidateSize": [
+        1254,
+        1254
+      ],
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+      "candidateSha256": "536d241223bf9d77a11bab297276147c3afef55eda31d7aa2ff2b56a9b3ab9f5",
+      "alphaZeroFraction": 0.5793066652421979,
+      "opaqueFraction": 0.2936758672089823,
+      "opaqueRgbMAE": 5.918533596067647,
+      "published": false
+    },
+    "inspected": [
+      "original16 against edited16 light/dark composite atlases",
+      "light32frame-contact-sheet",
+      "dark32frame-contact-sheet",
+      "enlarged first second eighth sixteenth composites"
+    ],
+    "assessment": "No visible pose ordering, anatomy, equipment placement, hand/rope attachment or framing change. Tower, upright, shoes, cable and rope preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+    "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE5.92/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "published": false,
+    "cutCacheSha256": [
+      "4ba2cd8462d0c7d8f1fd43604e73028be8e0938a66a70ef4d00c6bae488d48a2",
+      "34aff20a1ead5acbec1b8d35c0e296bf4742de57ffcfe35d060f397ce26a3e97",
+      "5f47a2b1618e9be48106648b231cf5e59b5e50bc0c441b9a6b68c89d22a71c78",
+      "b94212ecb3320fe20e12981ac8ad31fb04e8297ec1e3625f3d707fd86c6a94a7",
+      "a1b749994d88e8164998c993a3ae21153dbf4ded667bc35793d4bc76167a355a",
+      "fe326af098f600d2a8fefb6ba55a15b7cf5c40f4b8f9e9ed7aabef2131aacc17",
+      "bbadba219d485a26763b9cc61aa8f2342aa15c0206dab36488cbbd547b252d18",
+      "41433a8aa48618da658905e2046b3917b49ab2d3af4995816023999b7c04c2e5",
+      "ee545939dcf1ae2451bfbebe261a9aafc3595cdadac829a484253eb7996a5bbb",
+      "79f07d886a9af3f4a295834d06b29ad358eab6ef7b6d2a53bdc1135064c95716",
+      "81b5c9b59d34600343c94a5cd90481d7a584811bc34e253e888849fb8c0ae3d2",
+      "430a12971bbb974e2082616ca9d99707207da7496fe3f8de41a809e4fc1effaf",
+      "53c420f6bccc9f4bd87a1c48c06aaf3a504b004760953ce4617d193865bc168f",
+      "c47d8932e079bdf9587df7db6f1389ffb97857a2edc2e53fcec083e0ca2f41cb",
+      "c0cfa68b47fe7e180c3429d695a1b784d5345ce4c7105f55817d555cf49ef03c",
+      "5251a0cc9f1c356f3a187f69e0571c00da2e1e28fc55e6c6967b95e7cd84aa63"
+    ]
+  },
+  {
+    "id": "cable-overhead-triceps-extension",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "55573b15a985e6782d7fa823d0b559e9c67d5108722b5eb776d78059072cdc1b",
+    "videoSha256": "f2e542c03375d0eec9e6b220b6a14ea6b126f4109946128ecdbaf593aa0de9ee",
+    "darkVideoSha256": "4bac0a8ff7a224ca0632de004123d2efbddb1a955af32f23a3f62a0f2a912440",
+    "darkBytes": 183249,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 224343,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T03:25:48.127Z",
+    "variant": "-alpha-edit",
+    "review": "recommended-pass",
+    "generator": "built-in image_gen edit",
+    "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-overhead\\candidate.png",
+    "generatedSha256": "e3a1fff3f058fc02a711a853ff81eee027816d29d70237d43c94729540325104",
+    "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-overhead\\prompt.txt",
+    "alphaPreserved": true,
+    "inspection": {
+      "candidateSize": [
+        1254,
+        1254
+      ],
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "55573b15a985e6782d7fa823d0b559e9c67d5108722b5eb776d78059072cdc1b",
+      "candidateSha256": "e3a1fff3f058fc02a711a853ff81eee027816d29d70237d43c94729540325104",
+      "alphaZeroFraction": 0.5640088876679156,
+      "opaqueFraction": 0.17262399873832762,
+      "opaqueRgbMAE": 19.06712248361294,
+      "published": false
+    },
+    "inspected": [
+      "original16 against edited16 light/dark composite atlases",
+      "light32frame-contact-sheet",
+      "dark32frame-contact-sheet",
+      "enlarged first second eighth sixteenth composites"
+    ],
+    "assessment": "No visible pose ordering, anatomy, equipment placement, hand/rope attachment or framing change. Tower, upright, shoes, cable and rope preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+    "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE19.07/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "published": false,
+    "cutCacheSha256": [
+      "703c2a10c184b85db0d08801428e2828b42a8196eb961a2d373308f6729f9377",
+      "7297a53843ae9c7b492afe74a1e2704aa5f95020ed33e07d730bae5015b59be1",
+      "43e247bcb46a22a3e88b397fe3194e33da5f00a785d2d823f6a0d8c81316053e",
+      "67a863c84a1e60faeda50b8acd56efe3948fb4bed69e4d0b7424fbebae37c854",
+      "f60bb38d80d8f49bf63e5fe332af85d9ceb282b7a727cdfbfba358eebaddfaa6",
+      "127ef8f0a5bbdc329ebb634b066d0aa507dcdcdb9e957ebe44c813e698c9ebc8",
+      "c2d3c0c157e3cc0003ac7cc52044f1bba04269d26858b73ba0295d50b901ab56",
+      "f6d638ed4bcefdddd24ad38d0b232d8661750750d318218efd9af1f3c161c88e",
+      "1899d9251cee88ea647f5dec8a7aef256476293a5f45bb641672c34cdc4f634f",
+      "078c1a5646711c522134f62f1384b8089729ddc98625ce9f1c77fc9d243e9692",
+      "bf062fcaae28d85b9bfb28794e33d9d981e7354d4cf6a8f65884ffb773c11752",
+      "d9865d4968bc483b33c219536a5c206c8b4dd0dc4910b03d11cb18857aa892af",
+      "d4fdb98f4b87825954a1ada06c275bc62dc6a32024fed52a9f82acdb077509af",
+      "909ab3e283c53c58f6d4de9e0802f46b41e0bd1be1969847d246740271eceec3",
+      "98ff7292a60dcbbba1236e856d3d5e1ef740f933def0698cfc7b6525a6177338",
+      "e5fdbf79d76681a3f5ffc23f69e6e427fa53ee9add279784a4047f8d808326af"
+    ]
+  },
+  {
+    "id": "low-cable-fly",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "c5c845a665f1457986da4140a5f905de7dc4854419ec78aedd861db72cdea3a9",
+    "videoSha256": "4cf0564ed45f1ec0b2f3f70a3900659178d7d344992b80bea2490e8b2b8eef7c",
+    "darkVideoSha256": "202340599c7c5f9b4cea43b4888685638dfebb1add2549407e0aeeffc3214220",
+    "darkBytes": 204285,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 225931,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T03:35:07.425Z",
+    "variant": "-alpha-edit",
+    "review": "recommended-pass",
+    "generator": "built-in image_gen edit",
+    "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-low-cable-fly\\candidate.png",
+    "generatedSha256": "70acbc3ea171315cc39f583914507d5cd9d9a1e07c3391d7db8518de2da6e228",
+    "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-low-cable-fly\\prompt.txt",
+    "alphaPreserved": true,
+    "inspection": {
+      "candidateSize": [
+        1254,
+        1254
+      ],
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "c5c845a665f1457986da4140a5f905de7dc4854419ec78aedd861db72cdea3a9",
+      "candidateSha256": "70acbc3ea171315cc39f583914507d5cd9d9a1e07c3391d7db8518de2da6e228",
+      "alphaZeroFraction": 0.5727916281932902,
+      "opaqueFraction": 0.2550148933301791,
+      "opaqueRgbMAE": 11.462424930073274,
+      "published": false
+    },
+    "inspected": [
+      "original16 against edited16 light/dark composite atlases",
+      "light32frame-contact-sheet",
+      "dark32frame-contact-sheet",
+      "enlarged first second eighth sixteenth composites"
+    ],
+    "assessment": "No visible pose ordering, anatomy, equipment placement, hand/handle attachment or framing change. Both towers, uprights, shoes, cables and handles preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+    "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE11.46/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "published": false,
+    "cutCacheSha256": [
+      "b5c3c8eb703e3049a9f2d008052a2856d2fff16556b8234c40dbe9bc2aa31bd8",
+      "7be73f6b496cc60e70dee66b14bc7cc31e5acf0a0844d5e1806412bfd1c3af7e",
+      "9a5b160c22023456771a4785bb94221134ac5a8e130fcf3df8475f1a89e048d2",
+      "ece79082f6e33ab47473b411c5c7a15a5e500a35cc7e66cac12eccedba9e289b",
+      "cfc4fef1a1045c98438a755b574b5be61733db80ed985ce158b498461315f035",
+      "2fb8d63c3d15b93d66f34ec5f50700188d89eaa2ecb7ff73d8c3383ecae81541",
+      "c055f57b7d2961b0d943ed3ea9a1f14f2e8e4697809f7222b874694adce2ee04",
+      "1955b19c4425aca4d56b5d1162f6b1fb927cb3c4f33eea937361f4b498e2a8be",
+      "0d7996741efdc0190bde7e0d0a062b82c15eb2ed0a338f03bed6e1df3d2c2acf",
+      "68584914891cc3a6488fae368c950108e4ac9b395a170ccbf02120bb147fdb18",
+      "3c73e31b1ff20c4446aad65d37aeb09273bbd1127e7032a3afa267fc7e71a864",
+      "74b331f6413b3425169f09e4bdbe6ae27ecb3893ae98c37c565628524a100e8d",
+      "50eb4beefe137652c9b4ce2ed08c526f9cf6e0848e2c52eb25ce757c95b0f86f",
+      "0eed610f3c74d98b6980efac8d4007b8a8e398c72984d769f102ef2d9fac2c99",
+      "8d43c26a56242ee8582bd720ffbd23a634f53643947ea20f10fd335aa464db4a",
+      "a5ace6262d3ee8532a836f8a0bdbec9a7d6fcd640ecec2e04ce9c49d56b4f724"
+    ]
+  },
+  {
+    "id": "band-biceps-curl",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+    "videoSha256": "6472655529d29fb32e8997f1cdfb64dd0d6e4976b12aed647bf5eaf855271221",
+    "darkVideoSha256": "5b8c7aa1395d1fb90010060bc6656501bedb8c951e732da2444e25665dab9067",
+    "darkBytes": 118622,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 138148,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T03:49:25.967Z",
+    "variant": "-alpha-edit",
+    "review": "recommended-pass",
+    "generator": "built-in image_gen edit",
+    "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-band-biceps-curl-v2\\candidate.png",
+    "generatedSha256": "8d27da5898f1e004fac93f72610c673d512cd5e8c009c7e0a523f37a516dffbf",
+    "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-band-biceps-curl-v2\\prompt.txt",
+    "alphaPreserved": true,
+    "inspection": {
+      "candidateSize": [
+        1254,
+        1254
+      ],
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+      "candidateSha256": "8d27da5898f1e004fac93f72610c673d512cd5e8c009c7e0a523f37a516dffbf",
+      "alphaZeroFraction": 0.7525557768569604,
+      "opaqueFraction": 0.1487800442094071,
+      "opaqueRgbMAE": 9.843776046230323,
+      "published": false
+    },
+    "inspected": [
+      "original16 against edited16 light/dark composite atlases",
+      "light32frame-contact-sheet",
+      "dark32frame-contact-sheet",
+      "enlarged first second eighth sixteenth composites"
+    ],
+    "assessment": "No visible pose ordering, anatomy, equipment placement, hand/band attachment or framing change. Both handles, shoes and continuous anchored band preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+    "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE9.84/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "published": false,
+    "cutCacheSha256": [
+      "5c6341bd7b52108d138ef92ab28af400e36596431a2384ccc14eebb76d60c39d",
+      "1fcf3cec82f0ce1edda1da7873881f2514e4c74ce2570c56a0ce235c646b9015",
+      "ece831928b910331050bee5f56eb019e14cb5a26a7cde7dd28d39b5ce9f6e7c2",
+      "1ee3c06fdf675e2df2166dff99614e41785fc6015b1a899a7d184866b83a4586",
+      "e524d223b39212ff22ba40d1ba0659d90497c49d2a9fb5cf429e0f220c64649f",
+      "358d445623a63f47ee16bab0bc4613c1eecffb44abf9533f99c9410371e50283",
+      "c161f127183d2e6de69cc97ae6a7bc7f6a8821635938efd296b531ba22bdb6e3",
+      "debcf8e4612406c8815f3ee577b336df147431e8c3da4a00360e18abbffa358b",
+      "440c7b8d0c16ef6788757f9867a31b68060c189f549d8f596710e9f881d69c60",
+      "73fa3ae8b868d96f8d038cf1ceb755b6b04d56ec8d77c4d7267ddd6c503f939d",
+      "1ff00b67e3d188e658d7eb1adf8627acb952a0747f8bac656c425708e2ddf8c1",
+      "99031807eb66d7eccdd22a574cd973a044e8f94f399d07f2dd25b0128c61079d",
+      "42b63b7a7b71d4c347a90e03f0df38c06ac341992437841417b55242e932ddb1",
+      "5ff62659bfafa8a4b80ecdbe0cac5257e00f8e0fa3dfb3a2123cab51b30fb09e",
+      "c6bd7d38a541d546a09bce804bd9d61746d46eea4dd05c77de3f42dbf937632b",
+      "77186e427648b90f7ff8360519b37d7862898b51df72626f845c0eb0b22920b2"
+    ]
+  },
+  {
+    "id": "cable-rear-delt-fly-2",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "2feb3319f85c5a96deaccfa830b596de7eeeb9f22ae04c6d07f553d708846edb",
+    "videoSha256": "7552cd4fdb94225310b80886ff685c31469e85cc53464cb92b2f3a9cdb600e21",
+    "darkVideoSha256": "245b58769e5f18cc9ef228d042c1ba692036b9e777ac366afe33f6c213041e48",
+    "darkBytes": 275901,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 310707,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T03:58:37.335Z",
+    "variant": "-alpha-edit",
+    "review": "hold-motion",
+    "generator": "built-in image_gen edit",
+    "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-cable-rear-delt-fly-2\\candidate.png",
+    "generatedSha256": "723b3099b1aa7656972743a304764e23d554c539650cc6292a44da96bab1f5b5",
+    "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-cable-rear-delt-fly-2\\prompt.txt",
+    "alphaPreserved": true,
+    "inspection": {
+      "candidateSize": [
+        1254,
+        1254
+      ],
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "2feb3319f85c5a96deaccfa830b596de7eeeb9f22ae04c6d07f553d708846edb",
+      "candidateSha256": "723b3099b1aa7656972743a304764e23d554c539650cc6292a44da96bab1f5b5",
+      "alphaZeroFraction": 0.4404909075646925,
+      "opaqueFraction": 0.29545390953096823,
+      "opaqueRgbMAE": 13.437148178600074,
+      "published": false
+    },
+    "inspected": [
+      "original16 against edited16 light/dark composite atlases",
+      "light32frame-contact-sheet",
+      "dark32frame-contact-sheet",
+      "first/last source comparison, eighth dark composite, fullsize1.25s transition"
+    ],
+    "assessment": "Alpha edit preserves original cell positions, both towers, crossbar, cables, handles, shoes and16poses. Light/dark composites show clean background removal. However interpolated1.25s frame shows translucent doubled hands/forearms and cables; hold publication for motion correction.",
+    "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE13.44/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "published": false,
+    "cutCacheSha256": [
+      "23971bb385f350a0efee30d31e8c6b4ad1b6203c399acce3adc0d8901b335f45",
+      "26cdd9f82a17da8737c0e1c2428ea1c399825c6309c916a47bef74fc33c8eedc",
+      "44fcedc84c361db9c2460921e8a036ca25ffa7299af936d74f6ee054b3c1b7cb",
+      "b753a71fdf00ff10bee3648d4adf754cd3245e45ef639cf2a00c16d96b20974a",
+      "5a851e8c5fb158a77aea2e897f8266d24bbaf13040fafe7e16492a0b65f3c90d",
+      "a26fcd378d0328cccd78fbd59e27abfabc40a209a9c8e903c8b0182e6970983e",
+      "d94749765dd40cde9607b367a0d28885f119c3d830eb671ec6f330e271efd9d8",
+      "fce423d1d496b969390cc573a68679b3ceefec94cceed945a9637387a0680191",
+      "267cf6f44a4cdc2df950dbf96a7847d8daabbf712022d20fea56fe54e3be1d42",
+      "9c61a41d8db9963ca5d08ff7761e9be77ca574889fe9d4eef9e4a1175d251979",
+      "33c98a6a574c926ced34a578f02def3391c93e0886b8533b778bd0bb1689d331",
+      "5eb7ab234a03ce686ecf62b5087b76e1eb9a49d268e98e95432de3b16ccec006",
+      "1e238c698bedc573c7e3238ce782c040639e851fc98f15e7db3632897345f41d",
+      "be401ffdf3079bbed1315e03c4ca68eff57cc23f7e3f519323f949d58de20393",
+      "3e4a42db58fe4a645cf4808e2590932680c050c8eeaacaaa4396a1dc07b804e2",
+      "56413601398c96607066bfe45848f6520ef329f996c44ac0d52cd975a7482c8d"
+    ]
+  },
+  {
+    "id": "barbell-overhead-press",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+    "videoSha256": "ff52c0bdfb3286ceba6a802268a487c8767a9caeda2f3e216bd21d6b5b44a475",
+    "darkVideoSha256": "7b567f209d582adceeddfd14f8753fa052f3e074fdaba2a0db6cd3a905fb5e39",
+    "darkBytes": 105268,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 127836,
+    "decode": "passed",
+    "verifiedAt": "2026-10-07T04:02:55.102Z",
+    "variant": "-alpha-edit",
+    "review": "hold-motion",
+    "generator": "built-in image_gen edit",
+    "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-barbell-overhead-press\\candidate.png",
+    "generatedSha256": "374ca37e3ff5179f2af4f4def8445505b8132050007cdea07d36899d02feefe5",
+    "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-barbell-overhead-press\\prompt.txt",
+    "alphaPreserved": true,
+    "inspection": {
+      "candidateSize": [
+        1254,
+        1254
+      ],
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+      "candidateSha256": "374ca37e3ff5179f2af4f4def8445505b8132050007cdea07d36899d02feefe5",
+      "alphaZeroFraction": 0.8355393522228073,
+      "opaqueFraction": 0.08176323802110758,
+      "opaqueRgbMAE": 14.508384276758909,
+      "published": false
+    },
+    "inspected": [
+      "original16 against edited16 light/dark composite atlases",
+      "light32frame-contact-sheet",
+      "dark32frame-contact-sheet",
+      "first/last original comparison, eighth dark composite, fullsize1.25s/1.5s bar-face transitions and3.0s lockout"
+    ],
+    "assessment": "No visible pose ordering, anatomy, equipment placement, hand/bar attachment or framing change. Both complete arms, shoes, plates and continuous bar shaft preserved. Gray background and internal gaps removed. Fullsize1.25s and1.5s transitions reveal a translucent duplicate bar and hand outline floating above actual shaft. Hold publication for interpolation correction. Lockout3.0s has extended arms, connected hands and planted feet, matching source.",
+    "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE14.51/255. Bar boundaries slightly more pronounced than JPEG original; existing16pose interpolation preserved. No app/device/deployment verification.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    },
+    "published": false,
+    "cutCacheSha256": [
+      "845f099f462a4c9225ab9319f2153aff8ae3800666b8b7aac1d9e6902cea6ce0",
+      "688fc10b6aba410e648a7a0ac28d916102990f125bb2e1b087fd2e3f4c800204",
+      "fc13418533718d83dd5abe9a7446ea6fd9ef333f7ca9661655402ed60693961c",
+      "f34f4069f5f97d38f234c8754dfbef8d4afb492907b8a777f51a540b70aa937c",
+      "834b83a0358020c91af1987e662bcc3035de97e55218499cad693e5e8cb11c4c",
+      "d921db36ab1c791b9baf0e84449035827b4a76266b5fa7d880373d0c694d5616",
+      "8c43ae54457662bc3110a8ce171b74192a944a7d28b4d75b022ddf040d1024de",
+      "57d6d83e0742970634b192989ab5914e192d76285d43d643c7b5237ba57859ab",
+      "868ecd827d89215af1897a131287ad235351a7b9393bcce3affe53ed850f4892",
+      "fba7a5f407cc5042a347a26121fad72e39804cf95f60fefa5486526d14412209",
+      "7d76f863d1b4ad56ccd6d838485bbc98e467836d93c2294a0f6412fe224e0a68",
+      "938d4622755cd028a88ca5718edd0476f9e69bf15bd47819946714082c5c7724",
+      "e6caa08b044b35ba4c3ce1e1929fcddbf5fd181ab2bc83b1321149b98aed3e2b",
+      "323922492b5b0300d8f38d6dfe7b62adca2dcff4e3fd76235d550ce92bc8f033",
+      "3bdb2372a98926f00b6292ab99a15debe8198a8d32950aa10a7901307fa1bf2d",
+      "6cc5c5bdd8369599cb72cea234ace7c464fdae00a9a14ceb58015282cc04b5c7"
+    ]
+  }
+]

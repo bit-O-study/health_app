@@ -1,0 +1,152 @@
+{
+  "id": "smith-machine-close-grip-bench-press",
+  "benchGeometry": {
+    "backUp": [
+      0,
+      0,
+      -1
+    ],
+    "angleAboveHorizontal": 0,
+    "backPadLocalYAxisRotationDegrees": -90,
+    "sourceAngleSpecified": true,
+    "implementationChoiceDegrees": 0
+  },
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "press": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lowerToChest": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/studio.mjs",
+      "sha256": "b7006186c58006dd8abefc17d0dc45d22458d70540d96842abae9b9a75676184"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/motion.mjs",
+      "sha256": "ce8c27159de67667ebb45c394f7c30a191fbb5b8e95e347156d353003b11026d"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/render.mjs",
+      "sha256": "dca5c088417d34dff2761778354e49c73635435f5643d820b543ea0208ccf156"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-close-grip-bench-press.html"
+  ],
+  "sourceSummary": "Muscle and Strength specifies a flat bench inside the Smith machine, overhand hands 6 to 12 inches apart, tucked elbows, lowering until almost touching the chest, and controlled pressing without locking the elbows. This depicts the repetition after unracking.",
+  "motion": "Flat-bench Smith close-grip press. Closed overhand grip span3.0world units versus4.038 shoulder-joint span. Shaft approaches chest with0.035world-unit clearance. Elbows143.986degrees at bottom to8degrees at top, avoiding lockout. Bar X/Z fixed and sleeves travel along vertical rails.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.525508818537706,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.035308601222184405,
+    "minEquipmentBenchClearance": 2.422950154744854,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.04168876717943237,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.0518684742050532,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.503614791429295,
+    "minimumBackGap": 0,
+    "backContactError": 0.032205081522526324,
+    "minHeadClearance": 1.7130051959137709,
+    "minElbowFlex": 8.000000000344333,
+    "maxElbowFlex": 143.98629162619758,
+    "minimumElbowAboveShoulder": -2.0838352124652655,
+    "wristDeviationRange": [
+      6.1909728374599595,
+      25.330840492835872
+    ],
+    "bottomWristDeviation": [
+      20.228987448167278,
+      20.228987448167278
+    ],
+    "topWristDeviation": [
+      13.912196981134192,
+      13.912196981134192
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 7.549516567451064e-15,
+    "minNonChestClearance": 0.8920359408677335,
+    "startChestContact": 0.035308601222184405,
+    "endChestContact": 0.035308601222184405,
+    "minimumShaftTriangleGap": 0.03500003254158504,
+    "minimumPalmTowardFeet": 1,
+    "minimumBodyRailGap": 4.374955937015973,
+    "minimumBodyFrameGap": 2.3990186580132424,
+    "minimumEquipmentFrameGap": 0.13573908706237914,
+    "sliderRailError": 3.552713678800501e-15,
+    "minimumBarBelowRailTop": 0.7500000000000001,
+    "minimumFrameBaseGap": 0,
+    "barXZDrift": 3.552713678800501e-15,
+    "minimumHeadTriangleGap": 2.25804622224202,
+    "maximumElbowLateralDistance": 2.4048297711583024,
+    "gripSpan": 3.0000000000000004
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press.jpg",
+    "sha256": "4fbcd18c593b62107b72d35a8b664df96331fd6d5a902b6244c26ac0f4b58e51",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/render.mjs smith-machine-close-grip-bench-press"
+}

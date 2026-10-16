@@ -1,0 +1,15 @@
+{
+  "id": "behind-the-back-shrug",
+  "equipment": "barbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "behind-the-back-shrug-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/behind-the-back-barbell-shrug.html",
+    "https://www.muscleandfitness.com/exercise/workouts/back-exercises/behind-back-shrug/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T05:19:29.199Z",
+  "timing": "controlled"
+}

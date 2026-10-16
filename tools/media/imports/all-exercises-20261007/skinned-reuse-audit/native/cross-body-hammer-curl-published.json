@@ -1,0 +1,18 @@
+{
+  "id": "cross-body-hammer-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2ce2f9be45f0df137f6d324e53659896251d154778bdc0554aa995d7a71ba278",
+  "rigSourceSha256": "6380bf4102b7e3d74fc19b4d9bcb280ff5314802d57479553fc6032412d1dcf3",
+  "videoSha256": "d0c3b1a1ba0eacdc0eb16c5a82cb0d2d892242b6810c8ceb2b08a40c9e69003b",
+  "darkVideoSha256": "71f4b9185002083259a6a23994354da0a7e855ccb52bce2e062e2411f3394d42",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 71391,
+  "darkBytes": 67721,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:21:07.790Z"
+}

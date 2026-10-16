@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "checks": {
+    "exercise": "Seated leg curl machine: 16 source poses flex both knees to drive the ankle roller down and back from a straight-leg start, and the video reverses to the extended position - knee flexion only.",
+    "equipment": "Selectorised seated leg curl machine. The cutout keeps the whole unit intact in light and dark - back pad, seat, the thigh restraint pad across the legs, the ankle roller, the side frame and the weight-stack column - with no dropout across the 32 frames.",
+    "setup": "Back stays against the pad and the thigh restraint stays clamped over the legs for the whole rep; the hips never lift off the seat to help the curl, which is the usual fault here.",
+    "hands": "Both hands stay closed on the side handles beside the hips in every frame, anchoring the torso.",
+    "feet": "Both Achilles stay against the ankle roller at the same contact point through all 32 frames; the two legs stay together and level rather than one leading.",
+    "movement": "Both knees flex together at an even speed, the roller travels down and slightly back, and the legs return to full extension along the same arc. The thighs stay pinned under the restraint pad. Neither theme sheet shows duplicated legs, a smeared roller or a torn frame edge."
+  },
+  "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 빌드 락이 풀린 것을 확인한 뒤 검토했다 — 라이트만 먼저 렌더된 중간 상태에서 보면 미완성 파일을 판정하게 된다. 노출 케이블이 없는 셀렉토라이즈 머신이라 누끼로도 기구가 온전하다. 앱 화면 E2E·실기기 미실행.",
+  "id": "seated-leg-curl-2",
+  "equipmentIds": [
+    "machine"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-leg-curl"
+  ],
+  "sourceSha256": "bea603089ed9fee2ef1f10e8727483e8b9536de1bbba5f2e8d621f0bc640bf08",
+  "videoSha256": "86218055fc775fd8e0f47dafc3e3352bca31fa656ea2559933c3ba13629a1d72",
+  "darkVideoSha256": "501dff4e10254c7f0fbab1081bfa28b1eef8b5a4553cdf96104de27d4147ed15",
+  "reviewedAt": "2026-09-20T00:40:03.829Z"
+}

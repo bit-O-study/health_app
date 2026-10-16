@@ -1,0 +1,106 @@
+{
+  "id": "cable-ez-bar-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-ez-20261008/native/cable-ez-bar-curl.mp4",
+      "sha256": "9504cb6641b6debc76de259e513df239c8bb59a4a6553edf4d7043193f99ad90",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 74282,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-ez-20261008/native/cable-ez-bar-curl-dark.mp4",
+      "sha256": "da5155b8141b632931b5624a69e1fe4470b4f74e76544cbb34eea49056a834b0",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 73192,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 0,
+    "pulleyTangentError": 2.7755575615628914e-15,
+    "pulleyRimError": 7.771561172376096e-16,
+    "connectorRadiusError": 4.718447854656915e-16,
+    "stackRiseRange": [
+      0,
+      4.514314077439479
+    ],
+    "cableBodyMinClearance": 1.5000432817903502,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.3322676295501878e-15,
+    "gripTangentAxisError": 1.5062355308809324e-15,
+    "elbowBendRange": [
+      20.00000000000001,
+      108.00000000000003
+    ],
+    "barGripWidth": 4.422055554480586,
+    "barRise": 4.969821117083271,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.1414546108899732,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/standing-cable-curl/",
+    "https://www.youtube.com/watch?v=S_i3SEVgKWU"
+  ],
+  "sourceSha256": "7f0f782ee19b248c5a9df495557c5c3b355b789871eab3f049b629a342ad4f1e",
+  "rigSourceSha256": "44d2d105914fa148ef8325b1359cb8ef9f9c0aacc74ec5aab9130714133286f1",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "9504cb6641b6debc76de259e513df239c8bb59a4a6553edf4d7043193f99ad90",
+  "darkVideoSha256": "da5155b8141b632931b5624a69e1fe4470b4f74e76544cbb34eea49056a834b0",
+  "checks": {
+    "exercise": "Standing EZ attachment low-cable curl, palms forward and slightly inward25degrees. Upperarms fixed, elbow20-108degrees.",
+    "equipment": "Single continuous bent EZ handle and center ring. Low/upper pulleys with guide rods, moving selected stack and fixed lower block. No free-weight plates.",
+    "setup": "Upright fixed torso and feet, facing low pulley. Entire upstroke stack rise monotonic0-4.51431world. Station base separated from feet.",
+    "hands": "Hand210 and opposite support210 visually inspected: palms under inclined shafts, closed fingers around bar.481samples grip/tangent-axis errors below1.6e-15. Grip width4.422world constant.",
+    "feet": "Feet fixed on floor -8.175231.17phase sampled nonarm-to-bar clearance1.14145 and body-to-incoming-cable clearance1.50004world positive.",
+    "movement": "Final both-theme32frame sheets, full0/side210, hand210/support210, pulley0/stack210 inspected. Smooth phase0.4/3.8/4.2/7.6seconds.481sample analytic cable length constant, tangent/rim/ring errors below3e-15, exact stack endpoint and loop. Both full decodes and mobile Edge play/seek/loop passed."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "cableChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.0007559721371386274,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.16999999999999993,
+    "endpointStackError": 0
+  },
+  "reviewedAt": "2026-10-08T06:54:12.613Z",
+  "limitations": "Root visual review pending. Generic compact station, simplified connector/no pulley spin or force simulation. Polygonal arc length drift 0.0007559721371386274world while analytic path stays constant.17phase vertex checks do not prove exhaustive triangle/component collision. Barefoot mannequin/angular elbows. Smooth demonstration timing differs from source one-second pause/three-second lower prescription."
+}

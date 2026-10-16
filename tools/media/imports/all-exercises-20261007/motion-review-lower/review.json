@@ -1,0 +1,42 @@
+{
+  "reviewedAt": "2026-10-07T03:41:49.926Z",
+  "scope": "Current MP432-frame sheets and low-bar source atlas inspected; no new approval. File decode evidence separate.",
+  "results": [
+    {
+      "id": "low-bar-squat",
+      "status": "hold-needs-remake-or-motion-repair",
+      "reason": [
+        "Original atlas bar lies at base of neck/upper trapezius rather than clearly below upper traps as required by its low-bar prompt; specific exercise identity not established.",
+        "Hold for corrected bar placement and side view evidence, despite complete equipment and cleaner interpolation."
+      ],
+      "sourceSha256": "0e7da2b0ae4719558dacfe0abfe7f57bb78ba74a53f3b1f8a7652b54c584038b"
+    },
+    {
+      "id": "curtsy-lunge-2",
+      "status": "hold-needs-remake-or-motion-repair",
+      "reason": [
+        "First crossing step produces translucent duplicated legs in final sampled frames.",
+        "Gray side padding and studio background remain; dark file missing."
+      ],
+      "sourceSha256": "afe16ef86160f354127d7336f9c630fc890440e87f763a59c51222b0564f4557"
+    },
+    {
+      "id": "jump-squat",
+      "status": "hold-needs-remake-or-motion-repair",
+      "reason": [
+        "Jump frames crop head and include adjacent panel head fragments.",
+        "Strong full-body interpolation ghosts on jump/landing; gray padding and no dark file."
+      ],
+      "sourceSha256": "d9bc12f6fa32e9f3709c6b5e00de4ff58ab61598901cf0a78b38568c7d7bdb83"
+    },
+    {
+      "id": "hip-adduction-machine",
+      "status": "hold-needs-remake-or-motion-repair",
+      "reason": [
+        "Machine base width and rigid supports change shape between original poses; entire fixed base contracts with knees.",
+        "Sampled transitions also smear frame/foot supports. Rebuild constant machine geometry before approval."
+      ],
+      "sourceSha256": "d104f0eeda75a283aa07ea2ed2bbccce2f28abcf5737559ce5c1fa3f8528a8c8"
+    }
+  ]
+}

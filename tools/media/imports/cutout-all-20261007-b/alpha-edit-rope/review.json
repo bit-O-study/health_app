@@ -1,0 +1,90 @@
+{
+  "id": "rope-triceps-pushdown",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+  "videoSha256": "8897c068ad47b1fa86ca31108f5eed9c60750d3087e146927f751dd468e9e799",
+  "darkVideoSha256": "4701d9c495b8bc617a826f336a583d66462c7a3a801ea4517c5ed400e4933976",
+  "darkBytes": 139640,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 165951,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:16:32.859Z",
+  "variant": "-alpha-edit",
+  "review": "recommended-pass",
+  "generator": "built-in image_gen edit",
+  "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-rope\\candidate.png",
+  "generatedSha256": "536d241223bf9d77a11bab297276147c3afef55eda31d7aa2ff2b56a9b3ab9f5",
+  "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-rope\\prompt.txt",
+  "alphaPreserved": true,
+  "inspection": {
+    "candidateSize": [
+      1254,
+      1254
+    ],
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+    "candidateSha256": "536d241223bf9d77a11bab297276147c3afef55eda31d7aa2ff2b56a9b3ab9f5",
+    "alphaZeroFraction": 0.5793066652421979,
+    "opaqueFraction": 0.2936758672089823,
+    "opaqueRgbMAE": 5.918533596067647,
+    "published": false
+  },
+  "inspected": [
+    "original16 against edited16 light/dark composite atlases",
+    "light32frame-contact-sheet",
+    "dark32frame-contact-sheet",
+    "enlarged first second eighth sixteenth composites"
+  ],
+  "assessment": "No visible pose ordering, anatomy, equipment placement, hand/rope attachment or framing change. Tower, upright, shoes, cable and rope preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+  "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE5.92/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "published": false,
+  "cutCacheSha256": [
+    "4ba2cd8462d0c7d8f1fd43604e73028be8e0938a66a70ef4d00c6bae488d48a2",
+    "34aff20a1ead5acbec1b8d35c0e296bf4742de57ffcfe35d060f397ce26a3e97",
+    "5f47a2b1618e9be48106648b231cf5e59b5e50bc0c441b9a6b68c89d22a71c78",
+    "b94212ecb3320fe20e12981ac8ad31fb04e8297ec1e3625f3d707fd86c6a94a7",
+    "a1b749994d88e8164998c993a3ae21153dbf4ded667bc35793d4bc76167a355a",
+    "fe326af098f600d2a8fefb6ba55a15b7cf5c40f4b8f9e9ed7aabef2131aacc17",
+    "bbadba219d485a26763b9cc61aa8f2342aa15c0206dab36488cbbd547b252d18",
+    "41433a8aa48618da658905e2046b3917b49ab2d3af4995816023999b7c04c2e5",
+    "ee545939dcf1ae2451bfbebe261a9aafc3595cdadac829a484253eb7996a5bbb",
+    "79f07d886a9af3f4a295834d06b29ad358eab6ef7b6d2a53bdc1135064c95716",
+    "81b5c9b59d34600343c94a5cd90481d7a584811bc34e253e888849fb8c0ae3d2",
+    "430a12971bbb974e2082616ca9d99707207da7496fe3f8de41a809e4fc1effaf",
+    "53c420f6bccc9f4bd87a1c48c06aaf3a504b004760953ce4617d193865bc168f",
+    "c47d8932e079bdf9587df7db6f1389ffb97857a2edc2e53fcec083e0ca2f41cb",
+    "c0cfa68b47fe7e180c3429d695a1b784d5345ce4c7105f55817d555cf49ef03c",
+    "5251a0cc9f1c356f3a187f69e0571c00da2e1e28fc55e6c6967b95e7cd84aa63"
+  ]
+}

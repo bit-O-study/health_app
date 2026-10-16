@@ -1,0 +1,15 @@
+{
+  "id": "kettlebell-concentration-curl",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-concentration-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://criticalbody.com/kettlebell-concentration-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:53:21.269Z"
+}

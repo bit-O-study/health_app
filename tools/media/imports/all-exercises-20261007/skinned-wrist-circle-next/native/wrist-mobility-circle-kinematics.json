@@ -1,0 +1,23 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "elbowDrift": 0,
+  "wristCenterDrift": 0,
+  "loopDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "forwardWinding": 1,
+  "reverseWinding": -0.9999999999999999,
+  "maximumHandTilt": 16.69924423399364,
+  "maxDirectionStep": 0.012713461183242753,
+  "phaseSeconds": {
+    "circle": [
+      0,
+      4
+    ],
+    "oppositeCircle": [
+      4,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

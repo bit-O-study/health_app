@@ -1,0 +1,37 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "handDrift": 0,
+  "loopDrift": 0,
+  "minWaistGarmentRadialGap": 0.042014951591391014,
+  "minLegSkinGarmentSectionGap": 0.2806994623383512,
+  "minTableSDF": 0.002760086740563328,
+  "palmGapRange": [
+    0.013085754048446141,
+    0.013085754048446141
+  ],
+  "fingerGapRange": [
+    0.0027600867405634943,
+    0.015128363830487324
+  ],
+  "maxFloorError": 1.7763568394002505e-15,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "neutral-grip-incline-dumbbell-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "502598138d29c21467c271f331de49a2d86a5a2a18949709d78baf35b3dca98a",
+  "rigSourceSha256": "d8186a49d69d6382621becd7e4c22fb2864283907d8f86bad066645d1ccdabeb",
+  "videoSha256": "20bca683b040a01536c409aa18db01ec8c2dd787c5a103a078c3c38398ac4e05",
+  "darkVideoSha256": "4085d119cdc0836c9d1137681feb0185652ec4ad52e672e7340efd1d57380a40",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83075,
+  "darkBytes": 72705,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:19:52.979Z"
+}

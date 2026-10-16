@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-cable-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f5bed1810b3c83f61495da37683cae26f6f353c66d113dbc5de8df2f6ab442b3",
+  "rigSourceSha256": "bf7375af4163d74437b4b4da9e78dd813a7ef26e59a6c6b2dd734a8ce36f6321",
+  "videoSha256": "74223590a3e285ddf28138927405c75e2d06fc5f99e4158b89a5b61b25107f62",
+  "darkVideoSha256": "8c290992a58f2892d56e5940bc33d2f4d341a1a58a7eff0ab341eaf57d24412d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79199,
+  "darkBytes": 78754,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:20:54.253Z"
+}

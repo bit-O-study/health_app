@@ -1,0 +1,94 @@
+{
+  "id": "single-arm-cable-pushdown",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "smooth: start hold0-.4, pushdown.4-3.8, extended hold3.8-4.2, return4.2-7.6, start hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/motion.mjs",
+      "sha256": "b4cf95990bf5413bd15156b522bcf7c2bd3a602b1794f2b89105847187a69f0d"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/studio.mjs",
+      "sha256": "dbb725d93ea65f4da5d20b5c373fccfb98be788f7c1da017022faa2553fe5bcf"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/render.mjs",
+      "sha256": "e3ad0a12c4b1e41945a0570bb5ee04474628f0fbe37b5bc341f5ec5b63099912"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/cable.mjs",
+      "sha256": "5f5cfb230c08778eb2732400a502148c6f1963503923b2b10dc126e1ef1545fc"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-pushdown-20261014/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://criticalbody.com/one-arm-tricep-pushdown/"
+  ],
+  "sourceSummary": "CriticalBody James Jackson single-arm cable extension instructions: single handle on high pulley, pronated grip, small hip hinge, elbow pinned at side, press down then controlled chestward return. Video uses8degree fixed torso lean and5degree soft elbow finish; editorial.4second peak hold rather than source1second.",
+  "motion": "Anatomical left arm single high-cable pushdown, pronated D handle, fixed upper arm and8degree torso lean, elbow110to5degrees. Opposite arm and relaxed hand stationary. Single fixed pulley plane aligned with grip, swiveling Dhandle frame with fixed X grip axis, connector and cable length preserved.",
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.829470157119431e-15,
+    "pulleyRimError": 1.0547118733938987e-15,
+    "connectorRadiusError": 1.1102230246251565e-15,
+    "stackRiseRange": [
+      0,
+      5.915385601667285
+    ],
+    "cableBodyMinClearance": 0.45347242333970894,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 9.453208419344607e-16,
+    "elbowBendRange": [
+      4.999999999999918,
+      110.00000000000003
+    ],
+    "handleGripWidth": 1.3,
+    "barRise": 5.539662801620907,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.6776213096052345,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.2456446852325287,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.934614398332714,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0003966017336018979,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 1.0890504855920113,
+    "connectorArmLengthError": 6.661338147750939e-16,
+    "stationDrift": 0
+  }
+}

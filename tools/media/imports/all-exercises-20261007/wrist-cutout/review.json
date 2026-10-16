@@ -1,0 +1,17 @@
+{
+  "id": "reverse-wrist-curl",
+  "status": "needs-root-visual-review-bench-artifacts-remain",
+  "sourceSha256": "43007d27d2d5728a863daf2160efbffa88481b16ebe337631431a0f0a4e1ecf4",
+  "source": "https://www.strengthlog.com/dumbbell-wrist-extension/",
+  "candidate": "local/reverse-wrist-curl-u2net-bench/public/exercise-guides/ai-v3/",
+  "videoSha256": "1a9d2aac457425c209ae479eab803a27fb19a72c9a4adcd1795129f1b795037e",
+  "darkVideoSha256": "c33831726c24b6d20154a0515407b8e4983a2b6e568fda29e61d0fcc127f8945",
+  "review": {
+    "viewed": "Original 8-pose atlas, restored endpoints both themes, both 32-frame contact sheets, 2.125s light and 5.375s dark 480px intermediate frames",
+    "preserved": "Both dumbbells, shoes, bench pad and left support post/foot visible; no large duplicated arms or dumbbells seen",
+    "motion": "Overhand dumbbell wrist extension with forearms supported by thighs; some small source pose drift remains, not strict pixel-locked forearm motion",
+    "limitations": "2.125s light shows rough/slightly white-gapped bench edge from segmentation/interpolation. 5.375s dark shows gray residual patch above left bench pad. Dark compositor intentionally adds bright rim. Candidate is not an unconditional visual pass."
+  },
+  "validation": {"width":480,"height":480,"fps":24,"seconds":8,"fullDecode":"passed","mobileEdge":"both themes play, seek7.5s, loop passed; emulation not physical device"},
+  "published": false
+}

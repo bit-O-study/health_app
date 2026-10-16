@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-floor-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "44301d42b450d22f284acbd9ed1f1645ada6cd748b84db3618703aff60a45896",
+  "rigSourceSha256": "37152876e6ab4b07744a66c706fe85e237cc41a2df8116deabb5fe02b79d6dfb",
+  "videoSha256": "d58cea132dc134442a668db8bc309e53e5016c4c8a1a308cc6e627b6785941e6",
+  "darkVideoSha256": "9c49e78f31a36fd198b5c3e3b4f4e60807e82e84cd01418ce7d7c6e2f9946055",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 117312,
+  "darkBytes": 102378,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T06:00:20.108Z"
+}

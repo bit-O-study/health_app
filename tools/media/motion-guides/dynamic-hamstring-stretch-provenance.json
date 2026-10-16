@@ -1,0 +1,185 @@
+{
+  "id": "dynamic-hamstring-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "hingePeaks": [
+        2,
+        6
+      ],
+      "upright": [
+        0,
+        4,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/studio.mjs",
+      "sha256": "3557eac0fc5c0baaf6a50489ce8c547a676b86aa9cf814414e4cd122641aed3d"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/motion.mjs",
+      "sha256": "33852de135a817dbd41c9ee60baf5e6308964c1ab8ec9a69d70bb854b7e91e87"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/render.mjs",
+      "sha256": "87427fe171d2874d44028a7e9f338098237c23d689570805868bed23cf8b0bf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/source.json",
+      "sha256": "0812d367b614edbd62b6370362a298db390aa23e00d56fdc77e3437a2e4760ef"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/diagnostic.mjs",
+      "sha256": "7c20724b6decb97c9c761546f1e7220503fa5eb9ddc361f76efeb1dff05bf107"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://library.theprehabguys.com/vimeo-video/standing-hamstring-stretch-dynamic/"
+  ],
+  "sourceSummary": "[P]rehab primary exercise notes: stand shoulder-width apart with target foot slightly forward, maintain neutral foot/flat back/neutral spine, hinge at hip and reach toward toes, return slowly and repeat. Search-cached full exercise notes accessed; direct redirect500, no downloaded reference video.",
+  "motion": "RIGHT front knee straight with neutral flat foot; LEFT supporting knee gently bent. Whole pelvis/trunk hinge0to55degrees while aligned spine and fixed feet. Both arms reach down toward toes without contact. Two continuous4second cycles with hinge peaks2/6seconds, upright0/4/8seconds.",
+  "kinematics": {
+    "samples": 481,
+    "footDrift": 2.249674586481021e-14,
+    "heelDrift": 2.2444085897852742e-14,
+    "floorError": 4.440892098500626e-15,
+    "footSkinGap": {
+      "L": {
+        "min": [
+          -3.552713678800501e-15,
+          3.552713678800501e-15
+        ],
+        "heel": [
+          0.010424613952633166,
+          0.010424613952640271
+        ],
+        "tip": [
+          0.009899862364678214,
+          0.009899862364686207
+        ]
+      },
+      "R": {
+        "min": [
+          -2.6645352591003757e-15,
+          4.440892098500626e-15
+        ],
+        "heel": [
+          0.010424613952634054,
+          0.01042461395264116
+        ],
+        "tip": [
+          0.009899862364679102,
+          0.009899862364686207
+        ]
+      }
+    },
+    "workingKnee": [
+      179.99999879258172,
+      180
+    ],
+    "supportKnee": [
+      153.3853724313212,
+      153.3853724313215
+    ],
+    "hingeDegrees": [
+      0,
+      55.00000000000003
+    ],
+    "waistGap": [
+      0.08630678267317382,
+      0.09988919518726402
+    ],
+    "waistBinnedDiagnostic": [
+      -0.0007469203051650997,
+      0.038520973946810866
+    ],
+    "waistRayHits": [
+      353,
+      353
+    ],
+    "waistRayMisses": [
+      0,
+      0
+    ],
+    "legGap": [
+      0.061812153723859224,
+      0.06181215372385976
+    ],
+    "handBodyGap": {
+      "L": [
+        1.2290331386989821,
+        1.229033138698985
+      ],
+      "R": [
+        1.2290331386989821,
+        1.229033138698985
+      ]
+    },
+    "loopDrift": 0,
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "hingePeaks": [
+        2,
+        6
+      ],
+      "upright": [
+        0,
+        4,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/native/dynamic-hamstring-stretch.jpg",
+    "sha256": "8dd50f67eaecd7b916643b143a29c828969c2216fca9d06c3053a56270658d10",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/render.mjs dynamic-hamstring-stretch"
+}

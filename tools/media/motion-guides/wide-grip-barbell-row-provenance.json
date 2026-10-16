@@ -1,0 +1,131 @@
+{
+  "id": "wide-grip-barbell-row",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "pull": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/studio.mjs",
+      "sha256": "83b569c0310e0bea9afe5c3ddcacf6f55cbdddbb2490813018d81bf45f6bb770"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/motion.mjs",
+      "sha256": "1d16454ed3e0777f74c0be6f92d3138f35162334f2fbf0d534c8cf14be5f8864"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/render.mjs",
+      "sha256": "90123adad4c7d37bc92ff770a5754d81505fc3021b8322fe70094838c64a8f90"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandfitness.com/workouts/back-exercises/back-attack-barbell-row/"
+  ],
+  "sourceSummary": "David Sandler MS CSCS at Muscle and Fitness specifies wide pronated grip, shoulder-width feet, knees about15degrees, trunk about60degrees from the floor, pulling to upper abdomen and controlled return without momentum. Distinct from the separate horizontal torso/floor-reset variation.",
+  "motion": "Wide-grip barbell row with fixed6.6world-unit overhand span. Torso60degrees above floor, knees about15degrees and shoulder-width feet fixed. Bar travels from soft elbow extension to upper-abdomen contact. Hand pitch tracks forearm direction; high-waist shorts cover the flexed torso boundary and radial clearance is checked481samples.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.03350188435254,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": -8.326672684688674e-17,
+    "soleMinY": -8.117389998658691,
+    "soleMaxY": -8.117389998658691,
+    "floorY": -8.117389998658691,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0342210705308405,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+    "elbowBendMin": 7.999999999999752,
+    "elbowBendMax": 125.31789070565587,
+    "peakElbowBend": 125.31789070565587,
+    "garmentFloorGap": 5.470409171742329,
+    "minimumBodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "trunkDrift": 0,
+    "barGripError": 2.220446049250313e-15,
+    "gripSpanError": 4.440892098500626e-15,
+    "kneeHipDrift": 0,
+    "minNonAbdomenClearance": 0.5208571401943835,
+    "peakAbdomenContact": -8.326672684688674e-17,
+    "waistGarmentRadialGap": 0.013030387423744072,
+    "wristDeviationRange": [
+      2.0938538020973043,
+      34.53197136398968
+    ],
+    "torsoAngleRange": [
+      60.00000000000001,
+      60.00000000000001
+    ],
+    "footSpan": 3.9204658366334177,
+    "garmentArmWeightCount": 0,
+    "heelRegionGap": 0.010424613952636719,
+    "toeRegionGap": 0.009899851456586006,
+    "barFloorClearance": 6.149296727571382,
+    "kneeAngleRange": [
+      14.925132951086622,
+      14.925132951086622
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/native/wide-grip-barbell-row.jpg",
+    "sha256": "5988a089bfe8e9a23f34b8fe069d5f6b33464cec3f1177d4e0825fa4095587d8",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/render.mjs wide-grip-barbell-row"
+}

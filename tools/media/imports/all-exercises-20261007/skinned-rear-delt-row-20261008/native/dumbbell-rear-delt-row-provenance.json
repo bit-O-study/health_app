@@ -1,0 +1,107 @@
+{
+  "id": "dumbbell-rear-delt-row",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-rear-delt-row-20261008/studio.mjs",
+      "sha256": "c6b336684058540e4f6c47f815a13bdc3d4085cfb90111c2469a184ff76f83d9"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-rear-delt-row-20261008/motion.mjs",
+      "sha256": "360c0413ce107c8fae214645b6aa427d741207aa517280fe6f631fca7e9d69c0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-rear-delt-row-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-rear-delt-row-20261008/render.mjs",
+      "sha256": "c5ef39c96211f4158bf4ac6c8552d7627fad90f3d2eaec931033ddfb8621fa12"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.fitmetrics.ch/en/exercise/6a887801a9bd9-seated-dumbbell-rear-delt-row"
+  ],
+  "sourceSummary": "FitMetrics seated dumbbell rear delt row, also explicitly named Dumbbell Rear Delt Row: seated bench-edge hinge, grounded feet, upper arms lead out/back with elbows flared, stop around torso level, controlled return. This exact generic catalog ID depicts its seated variation.",
+  "motion": "Seated torso held65degrees forward; pronated grip with palms rearward, elbows bend from near straight to about100degrees while upper arms lead laterally and slightly back; stable trunk, hips and feet.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 3.285186897205326,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.2106384885953467,
+    "minEquipmentBenchClearance": 1.8716190860196493,
+    "seatContactError": 3.02053448919537e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.033817197943884894,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "elbowBendMin": 7.972723699998367,
+    "elbowBendMax": 100.16757725500749,
+    "peakUpperarmHeightError": 0.30589943217343674,
+    "minEquipmentFloorClearance": 0.10627978526018644
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-rear-delt-row-20261008/native/dumbbell-rear-delt-row.jpg",
+    "sha256": "628738b3558b5536305ced84307dfbd7c373da1520b49d06d72efa5efc84aba3",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-rear-delt-row-20261008/render.mjs dumbbell-rear-delt-row"
+}

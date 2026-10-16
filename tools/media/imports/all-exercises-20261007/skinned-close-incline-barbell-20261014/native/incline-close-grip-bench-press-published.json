@@ -1,0 +1,18 @@
+{
+  "id": "incline-close-grip-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "aa8a2317600513ce6796acf207221ab93e4a3413eb464bb3303393d1b493d9c1",
+  "rigSourceSha256": "485a163b930a91655a955685d91678fb22552363aaf7f1a983e5d397c5dc0e1a",
+  "videoSha256": "91a2a5742b2cb777a81c744b216a2fca8f2c358d0417ad779e0cc10b3dae9163",
+  "darkVideoSha256": "535d9c23a2a3cc0c9d07b99613b59f556724223ed6b747baad18efa0aba29616",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 118576,
+  "darkBytes": 110486,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T08:37:43.842Z"
+}

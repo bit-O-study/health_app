@@ -1,0 +1,110 @@
+{
+  "id": "seated-glute-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://health.clevelandclinic.org/piriformis-syndrome-stretches-exercises"
+  ],
+  "checks": {
+    "exercise": "Exact seated-glute-stretch, ankle over opposite knee and forward hip hinge to stretch glute/piriformis.",
+    "equipment": "Bodyweight, stable seat, no band or weights.",
+    "setup": "Stable chair, left foot flat, right ankle supported near left knee, upright back before hinge.",
+    "hands": "Chosen source permits forward lean as alternative to hand pressure. Arms relaxed without pushing knee; hands stay clear of legs and seat.",
+    "feet": "481 skinned samples check raised right ankle against left thigh skin AND garment, left sole on floor, ankle and heel anchors fixed, seat skin/cloth clearance positive.",
+    "movement": "Both final32frame encoded sheets and ankle/thigh contact, seat and side enlargements reviewed.15degree whole-pelvis hip hinge with aligned spine; relaxed crossed knee maintained. Stretch2/3/2/1 timing. Full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "6ce12c57d7b55d0d5fba33bde73ef99f5c287a6b3e9784aa06caeb95949ccd62",
+  "rigSourceSha256": "32a647669dd66704086cdc807cad39cc6b424d2a61bf73141f715dd776215f2c",
+  "videoSha256": "8b5036cd35f2bb7ffd5ea3fbf0b6091107bde126a0a6be95be9ce8023f930e28",
+  "darkVideoSha256": "f9b311ba14375c204eb45138b720481e514726350b1055adf5fcbdf5f1e33444",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-glute-20261008/native/seated-glute-stretch.mp4",
+      "sha256": "8b5036cd35f2bb7ffd5ea3fbf0b6091107bde126a0a6be95be9ce8023f930e28",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 76994,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-glute-20261008/native/seated-glute-stretch-dark.mp4",
+      "sha256": "f9b311ba14375c204eb45138b720481e514726350b1055adf5fcbdf5f1e33444",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85961,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 6.951095629092364e-15,
+    "hipCentersDrift": 4.90457592513324e-16,
+    "heelAnchorDrift": 6.420123230733026e-15,
+    "loopDrift": 0,
+    "hipHingeDegrees": 15.000000000000123,
+    "maxSpineRelativeRotation": 5.16191365590357e-8,
+    "minRightKneeDegrees": 66.10822711730759,
+    "maxRightKneeDegrees": 66.10822711730768,
+    "minFloorClearance": -3.552713678800501e-15,
+    "minCrossAnkleGap": 0.013086064919332063,
+    "maxCrossAnkleGap": 0.0130860649193425,
+    "minLeftFootGap": -3.552713678800501e-15,
+    "minSeatGap": 0.026206325023693022,
+    "maxSeatGap": 0.05693056234684235,
+    "minArmSeatGap": 2.025879122394723,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T08:41:45.630Z",
+  "limitations": "15degree hinge and3second hold demonstrate movement, not source30second dose. Source clinical treatment benefits are not claimed. Vertex XZ projection radius0.10world for crossed ankle against thigh skin/garment, not force/compression simulation. No physical-device certification."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "thoracic-rotation",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "thoracic-rotation-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.cuh.nhs.uk/patient-information/stretches-back-pain-management-programme/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:47:30.022Z"
+}

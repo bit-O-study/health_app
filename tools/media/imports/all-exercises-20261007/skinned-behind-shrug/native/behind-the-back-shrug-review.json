@@ -1,0 +1,87 @@
+{
+  "id": "behind-the-back-shrug",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/behind-the-back-barbell-shrug.html",
+    "https://www.muscleandfitness.com/exercise/workouts/back-exercises/behind-back-shrug/"
+  ],
+  "checks": {
+    "exercise": "Standing behind-the-back barbell shrug: shoulders rise together, bar stays posterior and torso/legs retain posture.",
+    "equipment": "Rigid straight barbell behind the hips with paired sleeves and plates; hand, side and rear views verify intact shaft and posterior clearance.",
+    "setup": "Upright stance with planted feet and overhand posterior bar grip; rear-oblique full camera keeps shoulders, entire bar and feet visible.",
+    "hands": "Overhand grips with fingers curled around shaft. Hand closeups0/105/210/345 inspected; shaft/grip centers and axes stay aligned within1e-6.",
+    "feet": "Both feet remain fixed; skinned sole minimum tracks floor within0.0001 world unit for481 samples.",
+    "movement": "Both final encoded32frame sheets reviewed with smooth vertical elevation, top pause and controlled return. No optical-flow or doubled equipment. Decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "3d95478d7e791f49ff669cb48a1e605ee0931cd815b356f9175a0899724b960b",
+  "rigSourceSha256": "f0ca3c6546497afe168bf973c5be0813ac98a93f5f0d52bbcb747ff894ac3bde",
+  "videoSha256": "5627aa5e5b0bd709d7de83dced7a04735674e92cacaeeb4c8a48ef1b2d551224",
+  "darkVideoSha256": "ee924ad297180b7eafaac588b0f0034a3ac5114effd1f3858a7a43152ab9798b",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-behind-shrug/native/behind-the-back-shrug.mp4",
+      "sha256": "5627aa5e5b0bd709d7de83dced7a04735674e92cacaeeb4c8a48ef1b2d551224",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78754,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-behind-shrug/native/behind-the-back-shrug-dark.mp4",
+      "sha256": "ee924ad297180b7eafaac588b0f0034a3ac5114effd1f3858a7a43152ab9798b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 68701,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "shoulderElevation": 0.5499999999999998,
+    "footDrift": 0,
+    "gripCenterError": 0,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.1753,
+    "minRearClearance": 1.320606841852817,
+    "gripAxisError": 1.2412670766236366e-16,
+    "loopDrift": 0,
+    "units": "world units, body height approximately17"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:15:28.846Z",
+  "limitations": "Barefoot mannequin style; starts after pickup and demonstrates shrug phase only. No physical-device or biomechanical certification."
+}

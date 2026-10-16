@@ -1,0 +1,128 @@
+{
+  "id": "standing-quad-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/studio.mjs",
+      "sha256": "3342a2f3b652a8a5d112434814458046626075db3abe385c3e89f386a5a2c887"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/motion.mjs",
+      "sha256": "922c5f57c20a1fd792320b9179688aee694cba835b2d9aaaa94abee97974f9cb"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/render.mjs",
+      "sha256": "4becd7c8e83dd303ffa4d4a8dfc525f5bcd5d116c52d2a4d594722cae9be603a"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/contacts-full.mjs",
+      "sha256": "f928259c78436529f517eace584fa99de15fc7b421523d7418a8b086cc2c442a"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.worcsacute.nhs.uk/leaflets/stretching-exercises-physiotherapy/"
+  ],
+  "sourceSummary": "Worcestershire Acute Hospitals NHS physiotherapy Exercise13: stand holding support, hold ankle with other hand and draw toward bottom. Optional hip-forward progression omitted. Source30second holds are not represented as clinical prescription by the3second demonstration hold.",
+  "motion": "LEFTfoot planted and LEFTpalm supports wall. RIGHTankle held behind by RIGHThand throughout. From prepared bent-leg posture gently draw heel closer over2seconds, hold3seconds, ease over2seconds, rest1second; loop8seconds. Upright trunk and close knees. Demonstration lower-leg direction155to160degrees, not prescribed clinicalROM.",
+  "kinematics": {
+    "samples": 481,
+    "contactSamples": 481,
+    "contacts": {
+      "handInsideFoot": 0,
+      "handFootRayGap": 0.007984474715594825,
+      "handTorsoGap": 0.22414799801735275,
+      "handClothGap": 0.11134936340407997,
+      "footTorsoGap": 0.25129556528555685,
+      "footClothGap": 0.14645244691739356,
+      "wallGap": 0.014115566611674346,
+      "palmWallGap": 0.014115566611674346
+    },
+    "maxHandInsideFoot": 0,
+    "supportFootDrift": 0,
+    "supportHeelDrift": 0,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.0427782091068194,
+    "minFloorClearance": -1.7763568394002505e-15,
+    "maxFloorClearance": -1.7763568394002505e-15,
+    "minLegSkinGarmentSectionGap": 0.005647443365564886,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/native/standing-quad-stretch.jpg",
+    "sha256": "b29813bb75cc1f44d46beaee45a2181d04eea93174f715cc6f91b6a149f4fb1b",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/render.mjs standing-quad-stretch"
+}

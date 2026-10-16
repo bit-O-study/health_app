@@ -1,0 +1,19 @@
+{
+  "candidateSize": [
+    1254,
+    1254
+  ],
+  "originalSize": [
+    1254,
+    1254
+  ],
+  "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+  "candidateSha256": "9fc91eb2c6fdd624acae70053d9e20bca468948ddb8a416e8fa36dafa8ddf09e",
+  "alphaZeroFraction": 0.7373298586469073,
+  "opaqueFraction": 0.15636979210386412,
+  "opaqueRgbMAE": 29.651528707491845,
+  "published": false,
+  "status": "rejected-geometry-shift",
+  "reason": "First-column figure shifted right and shape/spacing changed; replaced by v2 with explicit coordinate-preservation instruction.",
+  "fullRender": false
+}

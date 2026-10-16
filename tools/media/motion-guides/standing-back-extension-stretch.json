@@ -1,0 +1,15 @@
+{
+  "id": "standing-back-extension-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-back-extension-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.ouh.nhs.uk/media/reoho202/video-transcript.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T02:41:26.232Z"
+}

@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/';let s=fs.readFileSync(b+'motion.mjs','utf8').replaceAll('rad(22.5)','rad(22.5-20*Math.sin(Math.PI*lift))');fs.writeFileSync(b+'motion.mjs',s);

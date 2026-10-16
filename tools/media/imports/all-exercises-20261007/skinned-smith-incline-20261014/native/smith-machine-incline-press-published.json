@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-incline-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9f76bc6c8e16dfb3134ed64a3bc60111e32801b56687ac5a15f0959346fba86c",
+  "rigSourceSha256": "b72a908eb46a24fb61664be0fd38a945d5c8ffbf42e57dd90c68db73db33d34f",
+  "videoSha256": "776f750f843e6c14c7ad15ffeb9ed148ffce665c183190c2d93a434dbf0e39b7",
+  "darkVideoSha256": "3543726b2fc940bffe401611cfb3a7c04d8d9f6a86a298e73822c789cde0186b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 111111,
+  "darkBytes": 102823,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T08:53:30.852Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "standing-it-band-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "853de5f38b75a07606ba070a087e77f34414768a0f12411f8563c496942e5ecd",
+  "rigSourceSha256": "90194bb277a71cf34e9c982cda29ca6bd1935323eb82b37548d9fa1808f704dd",
+  "videoSha256": "3a4f51b760889ee14a8ce161a9d29f8caadfec719c301660338caccdec5f2218",
+  "darkVideoSha256": "126bd9d0fd7429345bf1aac8e161492c0847e5ef4dfc9b4b19843d632615436e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 67010,
+  "darkBytes": 70055,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T01:47:42.318Z"
+}

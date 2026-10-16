@@ -1,0 +1,18 @@
+{
+  "id": "finger-extension-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4780a2a67c4078f6ae8ffe747eb7976a97c3d5fffb0e0d4cc49fd22501b155f0",
+  "rigSourceSha256": "8d95897c99664507654195b78f849c3e6b213cbebff1a49664f5dbcc7577ef69",
+  "videoSha256": "b404d301083ed0cda26dc7f00588a47428fee4c3bf18681fba710931ec66d85f",
+  "darkVideoSha256": "c7eabccba2a0b7d048587421d5f0548c1f17358dbe78eefe8f5501cd3985e087",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 36508,
+  "darkBytes": 37807,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T05:40:25.951Z"
+}

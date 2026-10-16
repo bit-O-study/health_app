@@ -1,0 +1,118 @@
+{
+  "id": "kettlebell-triceps-extension",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/native/kettlebell-triceps-extension.mp4",
+      "sha256": "500e5e6dd898cfe54ac351c7d6193a1c2a6727b1521695ab42d2e2d5ff560d1f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 68324,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/native/kettlebell-triceps-extension-dark.mp4",
+      "sha256": "f06c50c4074df782d55d0670e0afcf2839721288b4dad9fe11379b0150b5bbd2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 61243,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "collisionSamples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.886579864025407e-15,
+    "gripAxisError": 1.3127536380592129e-15,
+    "elbowBendRange": [
+      9.961654318128177,
+      90
+    ],
+    "upperarmInwardInclinationDegrees": 8.626926558678639,
+    "gripWidth": 2.684667086509292,
+    "fullPhaseAngleError": 1.0835776720341528e-13,
+    "palmInwardMinimum": 0.9507020329002333,
+    "phaseAnchorError": 0,
+    "bodyHandle": 1.1049843315966883,
+    "allSkinFrame": 0.13330735522942777,
+    "skinBell": 0.07652685626683975,
+    "clothEquipment": 4.9552699537138825,
+    "handSeparationX": 2.2912144660731997,
+    "floorGap": 2.008056654290158e-8
+  },
+  "sources": [
+    "https://www.healthline.com/health/fitness/overhead-triceps-extension",
+    "https://incore-sports.com/en/competition-kettlebells-construction"
+  ],
+  "sourceSha256": "432faa9a50ebb79643e396f3c8bb9a64a920ecd302d27461a28e4f55ada24ef5",
+  "rigSourceSha256": "a3457e1764ce904b06625bdd2a983bc50bba97549acc16efe3a5e6160a340a51",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "kettlebell"
+  ],
+  "videoSha256": "500e5e6dd898cfe54ac351c7d6193a1c2a6727b1521695ab42d2e2d5ff560d1f",
+  "darkVideoSha256": "f06c50c4074df782d55d0670e0afcf2839721288b4dad9fe11379b0150b5bbd2",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Standing bilateral overhead kettlebell triceps extension, exact catalog ID with no public predecessor. Original Healthline how-to by Travis Edwards PT/MPT checked; one kettlebell, both handle sides, raised start then lower behind head and extend.",
+    "equipment": "One rigid kettlebell with continuous closed tubular handle, two gripped side horns and flattened spherical body. Final total-height/body-diameter ratio3.54/2.7=1.311 compared with Incore manufacturer280/210=1.333. Generic diagram, not an exact commercial model; handle proportions differ. Analytic sphere and tubes checked against skin and garment throughout481samples.",
+    "setup": "Standing upright, pelvis and shoulders fixed. Upperarms point up with8.63degree inward inclination and do not drift. Both feet remain on floor. No cable or bench is present.",
+    "hands": "Both palms face inward, signed anatomical palm X minimum0.9507. Each hand remains on one horn; world anchor and tangent axis errors under1e-7. Actual hand/forearm closeups inspected at both ends. All hand vertices included for non-grip frame and bell clearance; intended side-shaft finger contact excluded only.",
+    "feet": "Both feet fixed, floor gap approximately2e-8model units. Front, side and feet closeups checked for contact and no sliding.",
+    "movement": "Continuous8seconds: raised hold0-.4, lower.4-3.8, bent hold3.8-4.2, extend4.2-7.6, raised hold7.6-8. Fixed elbow positions; approximately9.96–90degree elbow flexion. Full481phase checks and seamless endpoint match. Both decoded32frame sheets and closeups reviewed, no motion interpolation."
+  },
+  "visualReview": {
+    "reviewer": "wrist worker; root final approval required",
+    "artifacts": [
+      "-contact.jpg",
+      "-contact-dark.jpg",
+      "/full-0.png",
+      "/full-210.png",
+      "/hand-0.png",
+      "/hand-210.png",
+      "/side-0.png",
+      "/side-210.png",
+      "/shoulder-0.png",
+      "/shoulder-210.png",
+      "/feet-0.png"
+    ],
+    "observations": "Continuous figure and garment, closed grips visible, bell behind head clear in side view. Initial oversized handle was rejected and geometry revised while retaining ROM and camera. Mild axillary fold remains; no jagged elbow protrusion."
+  },
+  "limitations": [
+    "Source full extension is represented with9.96degree soft finish, derived from8.63degree inward upperarm angle and5degree sagittal finish; ROM was established before collision checks and never shortened to hide contact.",
+    "Generic kettlebell body/handle proportions, no exact product, competition compliance, real weight or centimeter scale claimed. Manufacturer reference is only overall silhouette ratio; horn width and tube thickness differ.",
+    "Discrete481skin/garment vertex checks are not a continuous triangle collision proof. Intended grip contact is excluded from collision rejection; non-grip frame and full bell include hand vertices.",
+    "Mild visible axillary folds retained. Local mobile Edge emulation is not a physical phone/app test."
+  ]
+}

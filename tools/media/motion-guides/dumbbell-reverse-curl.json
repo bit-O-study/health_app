@@ -1,0 +1,13 @@
+{
+  "id": "dumbbell-reverse-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-reverse-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-dumbbell-reverse-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:30:50.684Z"
+}

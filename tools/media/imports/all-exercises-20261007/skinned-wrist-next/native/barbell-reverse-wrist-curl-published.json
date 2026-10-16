@@ -1,0 +1,18 @@
+{
+  "id": "barbell-reverse-wrist-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6d127cc7d470e89e520aea422ad9d093f8f79b26f546672dd154eda69c434bcb",
+  "rigSourceSha256": "d3a42eee9eb7e03df9a33e89dc1301cff60f1802826608274176affb4b2f7437",
+  "videoSha256": "c2b0a60a89ae6635c9fb4d74d12a83378af883516c372a79a1645142327dbe42",
+  "darkVideoSha256": "fad63c75be0f7874c3b2589897e78643fa61ea9aebc5762e0905e12b57adab37",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83737,
+  "darkBytes": 75350,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:14:41.597Z"
+}

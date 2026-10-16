@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cable-lateral-raise-2",
+    "sourceSha256": "7e5c24df26ea861e82a3f8ea49cf5107e44806f6ad917f96901928308e0e03d2",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 3.5160000000614673,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 995.6,
+    "minFreeGiB": 3.281,
+    "status": "hold-source-and-cutout",
+    "reason": "Tower top/left already clipped in original16. u2net removes supporting tower and cable, making support hand float. Gray backdrop overlaps upright highlights: dark-pixel restoration alone cannot preserve silver upright. Full render omitted.",
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ]
+  },
+  {
+    "id": "cable-front-raise",
+    "sourceSha256": "239b4583cff39116b1756f98faa02f5bff32031802df5d9fd9c0cf305ec04660",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      8
+    ],
+    "seconds": 4.780999999959022,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 996.6,
+    "minFreeGiB": 3.166,
+    "status": "hold-motion-and-style",
+    "reason": "Both32frame sheets show severe duplicate arms/bar/cable at2.5s from8-pose interpolation. Decode and Edge play/seek/loop pass but visual motion fails.",
+    "variant": "-border",
+    "method": "Original white-background connected-component mask, preserve enclosed white shoes, clear upper enclosed gaps. u2net endpoint trial lost tower/cable/shoes and was not used.",
+    "sourceLimitation": "Existing female2D illustration differs from gray3D character; no style conversion. Eight original poses retained."
+  }
+]

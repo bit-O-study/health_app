@@ -1,0 +1,90 @@
+{
+  "id": "kettlebell-triceps-extension",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "continuous: raised hold0-.4, lowering.4-3.8, bent hold3.8-4.2, extension4.2-7.6, raised hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/motion.mjs",
+      "sha256": "47eac45144371d8698e9909f50d6187cf929d9bf312ba5f170c6175fd7a6b596"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/studio.mjs",
+      "sha256": "f4396c32f365286a09094acae4b74a11a36427e3dc5f7a78a92a8826e2533dfb"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/render.mjs",
+      "sha256": "2bed8359ec7d1811a5d406f46fc84d3b33b5040a50a0ad44d2eb445f2e7848f2"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-triceps-20261014/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.healthline.com/health/fitness/overhead-triceps-extension",
+    "https://incore-sports.com/en/competition-kettlebells-construction"
+  ],
+  "equipmentGeometryReference": {
+    "url": "https://incore-sports.com/en/competition-kettlebells-construction",
+    "publishedHeightToBodyDiameter": 1.3333333333333333,
+    "renderedHeightToBodyDiameter": 1.3111111111111111,
+    "scope": "Overall silhouette only. Handle dimensions differ; no competition or product equivalence claimed."
+  },
+  "sourceSummary": "Original how-to by Travis Edwards PT/MPT, reviewed by Jake Tipane CPT: standing or sitting, hold one kettlebell overhead by both handle sides, bend elbows to lower behind head, trunk upright and stable, extend back overhead slowly. This standing variant uses both horns of one bell.",
+  "motion": "Bilateral standing overhead kettlebell triceps extension. A single rigid bell with tubular handle and two side horns; palms face inward throughout. Fixed upperarms inclined 8.63 degrees inward; full designed 90-degree flexion to approximately 10-degree soft finish, with no collision-driven ROM reduction. Raised-first continuous cycle.",
+  "limitations": [
+    "Source describes full extension; this model retains approximately10degree soft finish due to fixed inward upperarm inclination plus5degree sagittal finish.",
+    "Discrete481whole-body vertex/garment samples with analytic sphere and segment surfaces; intended finger contact with side grip tubes excluded from collision rejection. Other handle portions include all hand vertices.",
+    "Mild axillary skin folds remain visible in closeups. Procedural kettlebell represents generic geometry, no manufacturer dimensions or load claimed."
+  ],
+  "kinematics": {
+    "samples": 481,
+    "collisionSamples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.886579864025407e-15,
+    "gripAxisError": 1.3127536380592129e-15,
+    "elbowBendRange": [
+      9.961654318128177,
+      90
+    ],
+    "upperarmInwardInclinationDegrees": 8.626926558678639,
+    "gripWidth": 2.684667086509292,
+    "fullPhaseAngleError": 1.0835776720341528e-13,
+    "palmInwardMinimum": 0.9507020329002333,
+    "phaseAnchorError": 0,
+    "bodyHandle": 1.1049843315966883,
+    "allSkinFrame": 0.13330735522942777,
+    "skinBell": 0.07652685626683975,
+    "clothEquipment": 4.9552699537138825,
+    "handSeparationX": 2.2912144660731997,
+    "floorGap": 2.008056654290158e-8
+  }
+}

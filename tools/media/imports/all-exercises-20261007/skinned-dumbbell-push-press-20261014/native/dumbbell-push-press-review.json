@@ -1,0 +1,129 @@
+{
+  "id": "dumbbell-push-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/dumbbell-push-press/",
+    "https://www.crossfit.com/essentials/the-dumbbell-push-press"
+  ],
+  "phaseSeconds": {
+    "rackHold": [
+      0,
+      0.8
+    ],
+    "dip": [
+      0.8,
+      1.5
+    ],
+    "drive": [
+      1.5,
+      1.9
+    ],
+    "press": [
+      1.9,
+      2.6
+    ],
+    "overheadHold": [
+      2.6,
+      4
+    ],
+    "controlledLower": [
+      4,
+      7
+    ],
+    "rackEndHold": [
+      7,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Dumbbell push press with shallow knee/hip dip,leg drive before arm press.",
+    "equipment": "Two intact dumbbells with all non-hand body/head/floor/pair clearance checked481samples.",
+    "setup": "Standing hip-width stance,vertical torso,elbows down and dumbbells forward at shoulder/chest level.",
+    "hands": "Pronated palms-forward full grip; minimum anatomical palm forward projection checked.",
+    "feet": "Both feet planted and stationary through dip/drive; sole/heel/toe gaps measured.",
+    "movement": "Dip.8–1.5,drive1.5–1.9,press1.9–2.6,hold2.6–4,slow return4–7. No bottom dip hold. Continuous caption.",
+    "visual": "Final light/dark32-frame sheets and hand0,knee90,waist90,side90 closeups inspected. Complete equipment/body framing; planted feet and visible dip-drive-press sequence; no ghosts, detached clothing or visible knee/waist tearing. Parent independently approved both32,hand156,side90,waist90."
+  },
+  "sourceSha256": "24a812d9d9a57953cb50735b7b72bf530bbc597011e6d45953e385a6e430dd85",
+  "rigSourceSha256": "22b8625e4ff290c43e5d059706c1ba1943c01b488841ee0845cc3c36e420aa2c",
+  "videoSha256": "768f8a56fb6df31cfe0a5dfb35cb9a07f020a265790a45a0ae917ecbf0b1e08e",
+  "darkVideoSha256": "6e85f803a6bc7a62b27dc84a7128b1bdd10b098b938c7fbdc8152121899f26e6",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/native/dumbbell-push-press.mp4",
+      "sha256": "768f8a56fb6df31cfe0a5dfb35cb9a07f020a265790a45a0ae917ecbf0b1e08e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 77996,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-push-press-20261014/native/dumbbell-push-press-dark.mp4",
+      "sha256": "6e85f803a6bc7a62b27dc84a7128b1bdd10b098b938c7fbdc8152121899f26e6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 72818,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "minKneeAngle": 139.0784082461946,
+    "maxKneeAngle": 180,
+    "minElbowFlex": 2.8647637076576586,
+    "maxElbowFlex": 130.95774143327557,
+    "pelvisDrop": 0.55,
+    "footDrift": 4.48508116795402e-15,
+    "minBodyFloorGap": 8.056311173731956e-11,
+    "minClothFloorGap": 5.127029888918347,
+    "heelGap": 0.010424614033206936,
+    "toeGap": 0.009899849813360007,
+    "soleError": 8.057021716467716e-11,
+    "minEquipmentBodyClearance": 0.5296940598604002,
+    "minHeadClearance": 1.240651644089113,
+    "minDumbbellPairClearance": 1.2875246098317619,
+    "minPalmForwardDot": 0.9535826651341417,
+    "torsoQuaternionDrift": 0,
+    "gripDrift": 0,
+    "loopDrift": 0,
+    "armAngleDriftDuringDipDrive": 0,
+    "kneeAngleAtPressStart": 180,
+    "units": "Model world units/degrees; mesh vertex clearance with conservative plate cylinders."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Barefoot mannequin. M&F palms-forward variant selected; CrossFit informs dip/drive/press sequence. Source explosive drive depicted with.4second drive and.7second arm press; no physics/force simulation. Elbows finish with2.86degree soft bend rather than hard lockout. Heels/toes have native mesh curvature gaps around.01world unit while plantar minimum is grounded. No clinical/device validation.",
+  "reviewedAt": "2026-10-14T04:49:21.474Z"
+}

@@ -1,0 +1,116 @@
+{
+  "id": "incline-dumbbell-triceps-extension",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://weighttraining.guide/exercises/incline-dumbbell-triceps-extension/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "extend": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Bilateral incline dumbbell triceps extension on45degree bench with fixed upperarms and elbow extension.",
+    "equipment": "Two intact dumbbells and45degree bench. Central body, head, seat, backpad and dumbbell-pair clearance checked throughout481samples.",
+    "setup": "Back supported on45degree pad, pelvis on seat, both feet grounded. Side and back previews inspected.",
+    "hands": "Neutral palms-facing grip follows each forearm through flexion/extension with stable grip sockets and wrapped fingers.",
+    "feet": "Both feet remain fixed, sole-floor contact verified over481samples.",
+    "movement": "Final both32frame sheets and hand/side/back views reviewed; fixed elbows and continuous elbow extension/return without optical-flow ghosts. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "9dce0ce757173fb04f41e0896995ba0aef5731707ed1555f064b9ee0dfe708b6",
+  "rigSourceSha256": "c7ce832584c16b1f444515f06e8934ed4807331a626b1c35e81b99118dda0005",
+  "videoSha256": "8e624d24971910a3f2adae156e2b34f5c6ab2acd869ebb5775e357bab051144e",
+  "darkVideoSha256": "5042992504e4c2f79598a85d52dc6bbd9da0c0757924fbccadb047864454f227",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-triceps-20261008/native/incline-dumbbell-triceps-extension.mp4",
+      "sha256": "8e624d24971910a3f2adae156e2b34f5c6ab2acd869ebb5775e357bab051144e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 84362,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-triceps-20261008/native/incline-dumbbell-triceps-extension-dark.mp4",
+      "sha256": "5042992504e4c2f79598a85d52dc6bbd9da0c0757924fbccadb047864454f227",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 67950,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 0,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 2.1621413938154768,
+    "minEquipmentBenchClearance": 5.784006166498987,
+    "seatContactError": 3.3096472229487972e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05706338675587873,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "minEquipmentBackPadClearance": 0.20938418765781264,
+    "backContactError": 0,
+    "minHeadClearance": 2.1621413938154768,
+    "minDumbbellPairClearance": 2.4274139283875407,
+    "minElbowFlex": 4.9638664882066115,
+    "maxElbowFlex": 99.01870103057173
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:05:29.947Z",
+  "limitations": "Barefoot mannequin,45degree backrest variant. No physical-device or biomechanical certification."
+}

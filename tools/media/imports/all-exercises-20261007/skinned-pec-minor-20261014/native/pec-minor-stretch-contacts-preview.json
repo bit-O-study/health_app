@@ -1,0 +1,24 @@
+[
+  {
+    "frame": 0,
+    "gap": -0.3283793431122457,
+    "inside": 631,
+    "overlap": 7396,
+    "handBodyGap": 1.6616382665503144,
+    "handClothGap": 1.5538369359292508,
+    "handBodyPlaneGap": 1.410113538780559,
+    "handClothPlaneGap": 1.3694015734071092,
+    "handTargetError": 1.047382306668854e-15
+  },
+  {
+    "frame": 210,
+    "gap": -0.7602836247689186,
+    "inside": 874,
+    "overlap": 7507,
+    "handBodyGap": 2.749706295596642,
+    "handClothGap": null,
+    "handBodyPlaneGap": 2.5101135387805584,
+    "handClothPlaneGap": 2.4694015734071084,
+    "handTargetError": 1.88411095042053e-15
+  }
+]

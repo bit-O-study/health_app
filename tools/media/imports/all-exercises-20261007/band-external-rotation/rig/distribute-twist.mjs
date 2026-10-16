@@ -1,0 +1,6 @@
+import {readFileSync,writeFileSync} from 'node:fs';const d='tools/media/imports/all-exercises-20261007/band-external-rotation/rig/';let s=readFileSync(d+'exercise-motion-v1.mjs','utf8');s=s.replace("const angle=T.MathUtils.degToRad(85*lift),upperWorld", "const elbowTarget=b['lowerarm01.L'].getWorldPosition(new T.Vector3());\n  const angle=T.MathUtils.degToRad(85*lift),upperWorld");s=s.replace('setFromAxisAngle(up,angle).multiply(upperWorld)','setFromAxisAngle(up,angle*.25).multiply(upperWorld)');s=s.replace("const index=v(d['finger2-1.L'].head)",`const secondRest=v(d['lowerarm01.L'].head).sub(v(d['upperarm02.L'].head));
+  const secondDirection=elbowTarget.clone().sub(b['upperarm02.L'].getWorldPosition(new T.Vector3())).normalize();
+  const secondWorld=new T.Quaternion().setFromAxisAngle(secondDirection,-angle*.75).multiply(new T.Quaternion().setFromUnitVectors(secondRest.clone().normalize(),secondDirection));
+  b['upperarm02.L'].quaternion.copy(b['upperarm02.L'].parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(secondWorld));mesh.updateMatrixWorld(true);
+  aim('lowerarm01.L',F,initial.clone().applyAxisAngle(up,angle));
+  const index=v(d['finger2-1.L'].head)`);writeFileSync(d+'exercise-motion.mjs',s);

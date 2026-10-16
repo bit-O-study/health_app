@@ -1,0 +1,18 @@
+{
+  "id": "standing-back-extension-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f3a922c58fe21f9809561dc81402191120123ee86fa58abd1ad0790bad6d001e",
+  "rigSourceSha256": "e9583cae73986113de61ee253439d9199d9654bcc0a443058ddd28816c1991d3",
+  "videoSha256": "dce2c575bfc0cdbfb33a8655278ba9701986d76f6dd06b1e064ff62cd5d41684",
+  "darkVideoSha256": "873b3d34abe06f91500a2b1e4f4225d01e445c7059a99f3930a9e40def24687f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 39098,
+  "darkBytes": 45786,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T02:41:26.235Z"
+}

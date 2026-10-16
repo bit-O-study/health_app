@@ -1,0 +1,17 @@
+{
+  "id": "dumbbell-standing-calf-raise",
+  "status": "implemented-and-focused-checks-passed",
+  "files": ["src/features/routine/exercise-catalog-extra-methods.ts", "src/features/workout-timer/exercise-guides.ts", "tests/be/logic/dumbbell-calf-raise-methods.test.ts"],
+  "source": "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/standing-dumbbell-calf-raise/",
+  "changes": "Replace squat instructions with dumbbells-at-sides, heel elevation through forefoot, pause and controlled lowering without knee momentum. Add exact-ID calf guide and one-line summary to bypass squat fallback.",
+  "mappingDecision": "No suitable existing MotionCategory: raise is shoulder abduction, static is core hold, other calf IDs are themselves squat. Retained category map rather than substitute another inaccurate category. Existing guideFor/exerciseSummary prefer exact-ID guide and summary, now provided. No broad category redesign.",
+  "catalogSnapshot": "tools/media/ai-guides/catalog.json exact ID has equipments:[{equipment:dumbbell}] and no method field; no snapshot update necessary.",
+  "verification": {
+    "red": "New 2-test regression failed on both old squat method and generic squat setup before implementation.",
+    "green": "Vitest dumbbell-calf-raise-methods, calf-stretch-methods, exercise-methods, exercise-motion:4 files14 tests passed.",
+    "eslint": "Changed source files and new regression test passed.",
+    "typescript": "node node_modules/typescript/bin/tsc --noEmit passed.",
+    "diffCheck": "git diff --check passed (line-ending warnings only)."
+  },
+  "preserved": "Existing calf-stretch changes and all other worktree changes left intact. No docs, shared video assets, catalog snapshot, commit or push edits."
+}

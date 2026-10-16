@@ -1,0 +1,129 @@
+{
+  "id": "spoto-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "topStart": [
+        0,
+        0.4
+      ],
+      "lower": [
+        0.4,
+        3.2
+      ],
+      "hoverPause": [
+        3.2,
+        4.2
+      ],
+      "press": [
+        4.2,
+        7.6
+      ],
+      "topEnd": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-spoto-20261012/studio.mjs",
+      "sha256": "084218566323600e6e7309cdffdc62423439b80e2017d2efbf944861e397c2d5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-spoto-20261012/motion.mjs",
+      "sha256": "35a7bf82ded751afd9600c33e1df89a4c5fee201aad6645b9f23659de2e3857e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-spoto-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-spoto-20261012/render.mjs",
+      "sha256": "81eab0ede1b43311ddfa8a4670221c80a12c91df33d9dfa7dd1899c9f25668d5"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://joshstrength.com/2024/06/spoto-press/"
+  ],
+  "sourceSummary": "Josh Bryant prescribes stopping the bar one to two inches above the chest for approximately one second before pressing. Here a one-second hover is explicit; the chest never supports the bar.",
+  "motion": "Spoto press with6.2world-unit overhand grip span, top-to-hover-to-top cycle. Hover gap approximately0.34world units, scaled roughly3.4cm for a1.7m mannequin. Continuous timing reflects the internal one-second pause.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.5733568790001815,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.3402083205584121,
+    "minEquipmentBenchClearance": 2.7631981124543192,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05144715888753534,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.2888619545780857,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.8362969514911374,
+    "minimumBackGap": 0,
+    "backContactError": 0.02701622114506108,
+    "minHeadClearance": 1.8142551190100358,
+    "minElbowFlex": 3.771324700296573,
+    "maxElbowFlex": 137.27666203905437,
+    "minimumElbowAboveShoulder": -1.8892352133057218,
+    "wristDeviationRange": [
+      5.2616586755884365,
+      29.76839380702677
+    ],
+    "bottomWristDeviation": [
+      5.973608691258935,
+      5.973608691258935
+    ],
+    "topWristDeviation": [
+      11.291417128478846,
+      11.291417128478846
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 5.329070518200751e-15,
+    "minNonChestClearance": 0.421775460610773,
+    "hoverChestGap": 0.3402083205584121,
+    "hoverDrift": 0
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-spoto-20261012/native/spoto-press.jpg",
+    "sha256": "a035872a7434967d43206efc206e50d214a00e0589004430cc21b85c799f2b53",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-spoto-20261012/render.mjs spoto-press"
+}

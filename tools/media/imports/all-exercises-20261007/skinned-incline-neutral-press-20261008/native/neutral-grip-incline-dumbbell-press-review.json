@@ -1,0 +1,116 @@
+{
+  "id": "neutral-grip-incline-dumbbell-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/palms-in-incline-dumbbell-bench-press.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Bilateral neutral-grip incline dumbbell press on45degree bench, moving upperarms and extending elbows together.",
+    "equipment": "Two intact dumbbells; full481sample body/head/bench/backpad and dumbbell-pair clearance checks.",
+    "setup": "Inclined supported torso, seated pelvis and grounded feet. Back-skin contact-point gap varies by at most0.04world unit with shoulder skin deformation; no back-pad penetration.",
+    "hands": "Palms facing each other, thumbs around handles and stable hand sockets; no pronation during pressing.",
+    "feet": "Both feet fixed, sole-floor contact throughout481samples.",
+    "movement": "Final both32frame sheets and hand/side/back previews reviewed. Continuous procedural pressing with no interpolation ghosts, full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "502598138d29c21467c271f331de49a2d86a5a2a18949709d78baf35b3dca98a",
+  "rigSourceSha256": "d8186a49d69d6382621becd7e4c22fb2864283907d8f86bad066645d1ccdabeb",
+  "videoSha256": "20bca683b040a01536c409aa18db01ec8c2dd787c5a103a078c3c38398ac4e05",
+  "darkVideoSha256": "4085d119cdc0836c9d1137681feb0185652ec4ad52e672e7340efd1d57380a40",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-neutral-press-20261008/native/neutral-grip-incline-dumbbell-press.mp4",
+      "sha256": "20bca683b040a01536c409aa18db01ec8c2dd787c5a103a078c3c38398ac4e05",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 83075,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-neutral-press-20261008/native/neutral-grip-incline-dumbbell-press-dark.mp4",
+      "sha256": "4085d119cdc0836c9d1137681feb0185652ec4ad52e672e7340efd1d57380a40",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 72705,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.398411118363189,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.9405862382281198,
+    "minEquipmentBenchClearance": 5.823289826010509,
+    "seatContactError": 3.3096472229487972e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.08117059817106931,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "minEquipmentBackPadClearance": 3.126922849216049,
+    "backContactError": 0.02815682063018432,
+    "minHeadClearance": 1.745098983246045,
+    "minDumbbellPairClearance": 0.3018800258228733,
+    "minElbowFlex": 6.5347557338687094,
+    "maxElbowFlex": 122.17442842464533
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:13:24.231Z",
+  "limitations": "Barefoot mannequin,45degree backrest variant. No physical-device or biomechanical certification."
+}

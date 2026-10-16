@@ -1,0 +1,18 @@
+{
+  "id": "v-bar-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c160483eff8c48864ef7486684761c893a80fa5287ef7bf7463bcdf459b89aa1",
+  "rigSourceSha256": "4377645a24c8f128181fd11d2f5bcd7d8c0fed475757db46ecd1853ed0d6d7eb",
+  "videoSha256": "8292e728da3af48c2e1b131d672e0e9ee3d6790e6fee65d2bd34a105b6663015",
+  "darkVideoSha256": "345b56c710f1de9299edaff4a060ce559ff00cfebb371f95606a3b9766406ba2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79165,
+  "darkBytes": 75093,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:12:36.284Z"
+}

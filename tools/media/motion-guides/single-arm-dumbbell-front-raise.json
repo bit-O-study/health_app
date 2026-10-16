@@ -1,0 +1,13 @@
+{
+  "id": "single-arm-dumbbell-front-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-arm-dumbbell-front-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/workouts/shoulder-exercises/how-to-do-the-dumbbell-front-raise-muscles-worked-form-benefits/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:30:31.936Z"
+}

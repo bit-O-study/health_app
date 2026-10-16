@@ -1,0 +1,97 @@
+{
+  "id": "wrist-mobility-circle",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.wyevalley.nhs.uk/media/1425978/lymphoedema-upper-arms-exercise-final-060624.pdf",
+    "https://www.uhsussex.nhs.uk/wp-content/uploads/2025/06/2551-strengthening-and-stretching-part-1-2025.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact catalog wrist-mobility-circle: isolated wrist circumduction in both directions; not forearm pronation/supination.",
+    "equipment": "Bodyweight, empty relaxed hands and no added weights.",
+    "setup": "Standing upright, elbows bent about90degrees, upper arms beside torso and forearms horizontal in front. Camera shows both hands.",
+    "hands": "Both hands stay continuous with forearms and retain intact fingers. Enlarged hand previews checked across quarter-cycle positions.",
+    "feet": "481 actual skinned sole checks within0.001 world-unit floor tolerance; bilateral feet remain fixed.",
+    "movement": "Final both32-frame encoded sheets visually inspected by agent; wrist-only circles and smooth reversal at4sec. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "3708817759da27c84ee997ebe71271f157b5cbd9f59d2dc635ef4e2398f5ac77",
+  "rigSourceSha256": "959827a18f1c068b159607054d2ac99cf586715aaa9a465fb75243eb49c5382d",
+  "videoSha256": "4c074cd0fe8894057d0ad44e3e32b617622d9952f889eb3ca33d6758dfa46282",
+  "darkVideoSha256": "ee91d5e81b9510c46d3ba0528580bf66e7066378dbc801e38a61ac75785ad533",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-circle-next/native/wrist-mobility-circle.mp4",
+      "sha256": "4c074cd0fe8894057d0ad44e3e32b617622d9952f889eb3ca33d6758dfa46282",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 40579,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-circle-next/native/wrist-mobility-circle-dark.mp4",
+      "sha256": "ee91d5e81b9510c46d3ba0528580bf66e7066378dbc801e38a61ac75785ad533",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 41714,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "elbowDrift": 0,
+    "wristCenterDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "forwardWinding": 1,
+    "reverseWinding": -0.9999999999999999,
+    "maximumHandTilt": 16.69924423399364,
+    "maxDirectionStep": 0.012713461183242753,
+    "phaseSeconds": {
+      "circle": [
+        0,
+        4
+      ],
+      "oppositeCircle": [
+        4,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:23:37.207Z",
+  "limitations": "Standing unweighted mobility illustration with relaxed open hands. One circle each direction per8sec loop, not source repetition prescription. Stylized gray barefoot mannequin; no clinical or physical-device certification."
+}

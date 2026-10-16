@@ -1,0 +1,18 @@
+{
+  "id": "incline-hammer-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "edfe5b3c2bfcff02e2fad8cbfb33ad528ce428ea9388651b328e506e81104f1b",
+  "rigSourceSha256": "9dd630613ee83f0830cdfc4bfdbf13d629540911398fe30bc47eb6bafa9ec224",
+  "videoSha256": "d3abfd816dc0a974068435bf3c607fb97247a0e1c7a8be5f842b57b598dbc440",
+  "darkVideoSha256": "2c63ce7811309dd643863fec6e568d4e789f903d84b7654a894591ff9ac9151c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 82364,
+  "darkBytes": 66240,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T02:31:36.809Z"
+}

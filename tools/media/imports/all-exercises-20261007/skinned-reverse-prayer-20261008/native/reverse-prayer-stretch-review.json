@@ -1,0 +1,126 @@
+{
+  "id": "reverse-prayer-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.dentalcare.com/en-us/ce-courses/ce667/risk-factors-and-microbreaks",
+    "https://assets.ctfassets.net/u2qv1tdtdbbu/1VIC8VKvYnGAvNo1KU0hHB/c4f8aa144a3474ba190b2144ca154d3c/ce667.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact reverse-prayer-stretch for forearm extensors: backs of hands together in front and raising hands increases wrist flexion.",
+    "equipment": "Bodyweight, stable seat, no band or weights.",
+    "setup": "Seated upright, hand backs inward, relaxed fingers downward, palms outward.",
+    "hands": "481 actual skin samples including breath morph: bilateral hands remain separated by x0 plane without intersection, hand backs near contact throughout. Relaxed fingers do not need to touch each other. Enlarged wrist and finger surfaces reviewed.",
+    "feet": "481 skin sole and skin/garment seat clearance checks passed; feet and pelvis fixed.",
+    "movement": "Both final32frame encoded sheets and enlarged hand/front/side/back views reviewed. Hands rise abdomen to lower chest while elbow position permits wrist flexion; fixed trunk/feet. Stretch2/3/2/1 timings match. Full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "d9e2c74d7375f63c322686917565e77b41da9b87ffc15352086c8a50a73e7cd1",
+  "rigSourceSha256": "513ff167f11a585574121558b13d794017abdfd56f0f3b8c348079dde9ca3229",
+  "videoSha256": "21de0dc76e17cff9dccaa986eee05054b30eb908644fb9875e9f7febaa929437",
+  "darkVideoSha256": "12c6a0fc09f5c1e1765e1c165e051fb93fdcd26a850f6a7190c87ff863ef7474",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-prayer-20261008/native/reverse-prayer-stretch.mp4",
+      "sha256": "21de0dc76e17cff9dccaa986eee05054b30eb908644fb9875e9f7febaa929437",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 65137,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-prayer-20261008/native/reverse-prayer-stretch-dark.mp4",
+      "sha256": "12c6a0fc09f5c1e1765e1c165e051fb93fdcd26a850f6a7190c87ff863ef7474",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 65437,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "wristFlexionStart": 47.20849258600904,
+    "wristFlexionPeak": 68.12590395704123,
+    "maxWristFlexion": 68.12590395704123,
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "shoulderDrift": 0,
+    "loopDrift": 0,
+    "handRaising": 1.3000000000000007,
+    "elbowOutward": 0.5141929166692187,
+    "elbowRaising": 0.49499381158642675,
+    "handSeparationPlaneGap": 0.0009224284028652472,
+    "minHandGap": 0.0009224284028652472,
+    "maxHandGap": 0.005820780763341704,
+    "minHandBackBaseGap": 0.0009224284028652472,
+    "maxHandBackBaseGap": 0.005820780763341704,
+    "minHandBands": [
+      0.0009224284028652472,
+      0.1882144948167232,
+      0.24713609400775763,
+      0.6759737543285259
+    ],
+    "maxHandBands": [
+      0.005820780763341704,
+      0.18821449481673175,
+      0.24713609400776743,
+      0.6759737543285357
+    ],
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T08:11:30.801Z",
+  "limitations": "8second movement illustration,3second hold not source20second recommendation. Clearance uses skin separating plane and paired vertex YZ projection radius0.07world, not contact-force simulation. Curved hand backs touch near wrist; relaxed fingers remain apart. No physical-device certification."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "arm-circle",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "arm-circle-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.ohio.edu/wellworks/movement-library"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T04:57:24.889Z"
+}

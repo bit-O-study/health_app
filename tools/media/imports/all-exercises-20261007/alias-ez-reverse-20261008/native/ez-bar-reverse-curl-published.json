@@ -1,0 +1,18 @@
+{
+  "id": "ez-bar-reverse-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "be98d997a43083d4add7f896e65657ffea17436361760801faf107947a61f11b",
+  "rigSourceSha256": "ca2ab5e7bbac8de0436f2caf799a8f9c899b881401b1b8775f419ca0f82778b3",
+  "videoSha256": "77311e9983403b05fc2056c82af75912e52cf4dfb36fd8659407faeddd73294a",
+  "darkVideoSha256": "073a926b6eb0690508838e2bb85c0365df8495e1b92643ffc85bf72790a83a41",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96631,
+  "darkBytes": 84651,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:13:44.598Z"
+}

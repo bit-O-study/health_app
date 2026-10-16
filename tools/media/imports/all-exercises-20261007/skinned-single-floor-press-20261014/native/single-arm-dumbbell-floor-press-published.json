@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-dumbbell-floor-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0bd5f9f8acb414ea8dc3a9fc0387490bc2dca6d74afa08d3c6d5890ebdd51f16",
+  "rigSourceSha256": "9c3cf8c0b71617a6e9c6134ec563a585e228d8d1c12b071f99b468cbd6403331",
+  "videoSha256": "4ba60515db2d091517866375f24b10a659ad3ae1abe18258e88e68f63f1cb05e",
+  "darkVideoSha256": "07cf2daf2582681f9275d994df1d4b3dd9b6cb95f157d643e6e91b1ec44d22f6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 48540,
+  "darkBytes": 39434,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T02:05:58.332Z"
+}

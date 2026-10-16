@@ -1,0 +1,16 @@
+[
+  {
+    "frame": 0,
+    "gap": 0.01339300176677316,
+    "inside": 0,
+    "overlap": 2235,
+    "wristTargetError": 2.808666774861361e-15
+  },
+  {
+    "frame": 210,
+    "gap": 0.012677974136597214,
+    "inside": 0,
+    "overlap": 2163,
+    "wristTargetError": 1.7763568394002505e-15
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "id": "smith-machine-wide-grip-bench-press",
+  "equipment": "smith",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-wide-grip-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-wide-grip-bench-press.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T13:33:16.184Z"
+}

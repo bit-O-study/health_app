@@ -1,0 +1,117 @@
+{
+  "id": "dumbbell-z-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://setkit.app/exercises/dumbbell-z-press/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Dumbbell Z press from shoulder level to nearly straight overhead arms,controlled return.",
+    "equipment": "Two intact dumbbells,all non-hand body and dumbbell pair clearances checked481poses.",
+    "setup": "Floor-seated upright trunk with no bench or back support.Pelvic garment underside and both heels on floor;all body vertices checked against floor.",
+    "hands": "Palms-forward pronated closed grips with stable wrist sockets.",
+    "feet": "Both heels grounded,legs extended in V with soft knees,no leg drive.",
+    "movement": "Both final32frame sheets and hand/feet/side/back previews reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "f667f780153b076919efe7b556510dbbcec9c46a03d6aaf0196414b5a927b2ac",
+  "rigSourceSha256": "e95975cf054bd362a39b7d861eef68f0f269bc153eab24fd8199450c6e60f22a",
+  "videoSha256": "1c99a5a118f9c5922ea54b5b9dafd4a245e80688914c6f8244ebde4cef17bbfb",
+  "darkVideoSha256": "21945c04da641d8641ce9aaf47ade095a07b81921060efeaf4412614afaff23f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-z-press-20261012/native/dumbbell-z-press.mp4",
+      "sha256": "1c99a5a118f9c5922ea54b5b9dafd4a245e80688914c6f8244ebde4cef17bbfb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 104478,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dumbbell-z-press-20261012/native/dumbbell-z-press-dark.mp4",
+      "sha256": "21945c04da641d8641ce9aaf47ade095a07b81921060efeaf4412614afaff23f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88697,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.420753783546141,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.5296356912916547,
+    "soleMinY": -3.3659280501498534,
+    "soleMaxY": -3.3659280501498534,
+    "floorY": -3.3659280516696906,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0637034086848332,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+    "elbowBendMin": 6.415305653484451,
+    "elbowBendMax": 114.23644567170501,
+    "peakElbowBend": 6.415305653484451,
+    "pelvisFloorGap": 0,
+    "minimumBodyFloorGap": 1.519837145025349e-9,
+    "heelFloorGap": 1.519837145025349e-9,
+    "trunkDrift": 0,
+    "equipmentPairClearance": 1.5299418188833567,
+    "kneeFlexDegrees": 6.692926842537623
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:45:08.563Z",
+  "limitations": "Barefoot floor-seated mannequin.Knees are slightly unlocked at approximately6.7degrees;contact is measured at pelvic garment underside and heel skin. No physical-device or biomechanical certification."
+}

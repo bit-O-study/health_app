@@ -1,0 +1,125 @@
+{
+  "id": "bar-cable-overhead-triceps-extension",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-bar-cable-overhead-20261014/native/bar-cable-overhead-triceps-extension.mp4",
+      "sha256": "f197b9ea128a43beeb7110ad4639e12182dc25dafd04a3a1e4ed11fc56cb1efe",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88430,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-bar-cable-overhead-20261014/native/bar-cable-overhead-triceps-extension-dark.mp4",
+      "sha256": "e8d9ac1e894c15760907de99c167854a716605f835b4cd24051076bb04d0b646",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 86298,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 2.581268532253489e-15,
+    "pulleyRimError": 8.881784197001252e-16,
+    "connectorRadiusError": 8.881784197001252e-16,
+    "stackRiseRange": [
+      0,
+      4.148231222215944
+    ],
+    "cableBodyMinClearance": 0.3871853327931075,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 3.3306690738754696e-15,
+    "gripTangentAxisError": 2.3603665272841412e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      90
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8935158397010938,
+    "barGripWidth": 3.4579062996432333,
+    "barRise": 3.520299453323952,
+    "collisionSamples": 481,
+    "bodyBarMinClearance": 1.1065881334426493,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 2.2986905292062287,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 5.701768777784055,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0045976539908849645,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 7.7417601724721585,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.4477308241112041e-13,
+    "handSeparationX": 2.1319126869598346,
+    "handRingGapX": 1.0209563434799174,
+    "palmProjectionRange": [
+      -0.9507020329002341,
+      -0.950702032900233
+    ],
+    "startPalmUpMinimum": 0.9507020329002333,
+    "clothCableGap": 1.9546945475933886
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-low-pulley-overhead-tricep-extension.html"
+  ],
+  "sourceSha256": "b29ee208a1c1b20c55d2ff5979be10b3e2bffa00ab41a895a27d5401c825afce",
+  "rigSourceSha256": "e8a16a215288c846a0bfb857b6daf7fc91e027a056ab30e945d5dad8c8304b13",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T05:38:18.126Z",
+  "reviewer": "wrist agent; root final both-theme32 and hand/side/back/pulley/shoulder visual review confirmed",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "f197b9ea128a43beeb7110ad4639e12182dc25dafd04a3a1e4ed11fc56cb1efe",
+  "darkVideoSha256": "e8d9ac1e894c15760907de99c167854a716605f835b4cd24051076bb04d0b646",
+  "checks": {
+    "exercise": "Standing low-pulley straight-bar overhead triceps extension, facing away; primary Muscle & Strength protocol verified. New exact catalog ID.",
+    "equipment": "Single rigid straight bar, centered ring and taut cable connected to low pulley; both pulley tangencies and variable stack path validated at 481 samples. No bar/skin, cable/skin, cable/clothing or machine/body collision detected.",
+    "setup": "Standing fixed torso and feet, approximately shoulder-width grip (0.893516 shoulder ratio), vertical fixed upper arms, bar behind head at initial elbow bend90 degrees.",
+    "hands": "Both overhand grips follow the rigid bar. Start anatomical palm normals worldY +0.950702 verify source upward palms; grip anchor/axis error below4e-15. Hand0/210 checked. Native upperarm hinge-plane alignment removes prior elbow skin spikes without changing ROM.",
+    "feet": "Both feet remain at floor within2.01e-8 model units; 481 samples fixed body/station drift0.",
+    "movement": "Continuous90-to5-degree extension and return with fixed upperarms. 481 pose plus mesh samples; phase error below1.45e-13; loop drift0. Both480x480/24fps/8sec/192frame videos fully decoded and mobile Edge play/seek/loop passed. Root inspected both final32frame sheets and shoulder/hand/side/back/pulley closeups."
+  },
+  "limitations": [
+    "Source describes fully extended elbows; the modeled finish retains5 degrees of soft elbow flexion. Initial bend90 degrees, unchanged by elbow skin correction.",
+    "Grip is approximately shoulder width at0.893516 of shoulder joint spacing. The8-second smooth cycle is editorial demonstration timing.",
+    "Generic procedural anatomy and cable station. Mild continuous axillary skin folding remains visible in shoulder closeups; root inspected shoulder0/210 and accepted with this limitation recorded.",
+    "Collision checks sample481 full-mesh/pose states; they are not an analytic continuous-time collision proof. Intentional finger/bar grip contact is excluded from body-bar collision checks.",
+    "Playback scope is local MP4 in mobile Edge emulation, not the app on a physical phone."
+  ]
+}

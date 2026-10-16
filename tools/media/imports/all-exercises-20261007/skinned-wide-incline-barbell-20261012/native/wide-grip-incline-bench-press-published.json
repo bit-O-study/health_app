@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-incline-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1143eba11a5b11f7c16fb13f5b597f6650bce54f314e065f9b44b1620ba7ed86",
+  "rigSourceSha256": "7d0654754d202572eec12b5df40c9edec10859b86aa026440f480ae3c7782d49",
+  "videoSha256": "e02b6d132b157754da648b2eb39e50e54527c3a1b296d8db97244331553c3e7d",
+  "darkVideoSha256": "121766c11a6f3d0596322d533217c76911f0d97348f0e43f03712b1b0290626c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 111129,
+  "darkBytes": 99253,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T05:42:08.476Z"
+}

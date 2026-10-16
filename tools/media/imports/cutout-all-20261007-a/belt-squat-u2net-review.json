@@ -1,0 +1,24 @@
+{
+  "id": "belt-squat",
+  "status": "hold-platform-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "Panel 1 has transparent holes cut through the solid foot platform beside the shoe and chain attachment.",
+    "Panel 16 loses much of the center foot platform beneath both shoes, leaving disconnected floating foot support.",
+    "Person, chain, large weight plates and side posts otherwise substantially preserved, but structural load-bearing platform loss fails quality review.",
+    "Original source platform is intact. Full inference and video render not run; no repeated inference."
+  ],
+  "evidence": {
+    "id": "belt-squat",
+    "sourceSha256": "df65fb52bdb6939c01f37a8a4ad848d8ed3ce122886821a400815cfdf17071bd",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.98499999998603,
+    "published": false
+  },
+  "published": false
+}

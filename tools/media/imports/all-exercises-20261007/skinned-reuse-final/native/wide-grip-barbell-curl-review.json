@@ -1,0 +1,73 @@
+{
+  "id": "wide-grip-barbell-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/wide-grip-standing-barbell-curl.html"
+  ],
+  "checks": {
+    "exercise": "Supinated barbell curl with wider-than-shoulder grip and fixed hand spacing.",
+    "equipment": "One horizontal rigid barbell with plates, fixed hand spacing and continuous grip contacts.",
+    "setup": "Upright stable torso, complete body and equipment visible in final full camera. Exact scene theme colors; original procedural 3D geometry preserved.",
+    "hands": "Hand close-ups and final encoded sheets confirm exercise-specific grip and continuous hand-weight attachment. Grip-width and side-view checks distinguish barbell variants; full-cycle sheets checked.",
+    "feet": "Both feet stationary on floor across final 32-frame sheets; no foot clipping or sliding.",
+    "movement": "Both final 32-frame sheets inspected. Native 192 frames at 24fps/8sec without optical flow, full decode passed. Mobile Edge both themes play, 7.5s seek and loop passed."
+  },
+  "sourceSha256": "1d74762c190c9e1eff755a09b11ed9b6853e83c3f823561da4028defabc99766",
+  "rigSourceSha256": "24e7feb1bff011dcb63058facadb6c7d16e8cc2bdfdd8de86dd0d43f4ab4daa1",
+  "videoSha256": "2186bfeadc0106b9d7d8eaebd2e76ff95d4220be18145bdfe817c09f3d1a3de0",
+  "darkVideoSha256": "710653e8df2d34c448f79cea2a62f87a52e13b743e40b4faae18091a6c5badcc",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-final/native/wide-grip-barbell-curl.mp4",
+      "sha256": "2186bfeadc0106b9d7d8eaebd2e76ff95d4220be18145bdfe817c09f3d1a3de0",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 110407,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-final/native/wide-grip-barbell-curl-dark.mp4",
+      "sha256": "710653e8df2d34c448f79cea2a62f87a52e13b743e40b4faae18091a6c5badcc",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 89804,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-07T03:35:36.785Z",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "3D mannequin and bare feet style retained; dark weights have lower contrast but remain present. No app integration or physical-device certification. Full-frame final movies preserve equipment endpoints and complete body."
+}

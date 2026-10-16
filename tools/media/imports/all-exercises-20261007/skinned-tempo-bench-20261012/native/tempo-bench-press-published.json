@@ -1,0 +1,18 @@
+{
+  "id": "tempo-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9013b95da5551c8857ef4383f8fb88fa6872c5e4237bca2e7691bc7e03179f95",
+  "rigSourceSha256": "84ffa83be54b6a4dcae762eb46a6d1b60eecfd9644fbee9fc9d09a253977098f",
+  "videoSha256": "b0b1be67ef7d1648902c104537ae70939be2869664ec0a9669d68ff637799324",
+  "darkVideoSha256": "06998b2b7dbbecd68a24e56a1e424eca0ab5c996e7cb611a35a5af1b5e8699c6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 91605,
+  "darkBytes": 81129,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:39:56.186Z"
+}

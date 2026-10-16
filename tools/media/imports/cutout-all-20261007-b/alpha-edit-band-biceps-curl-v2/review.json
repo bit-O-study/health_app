@@ -1,0 +1,90 @@
+{
+  "id": "band-biceps-curl",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+  "videoSha256": "6472655529d29fb32e8997f1cdfb64dd0d6e4976b12aed647bf5eaf855271221",
+  "darkVideoSha256": "5b8c7aa1395d1fb90010060bc6656501bedb8c951e732da2444e25665dab9067",
+  "darkBytes": 118622,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 138148,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:49:25.967Z",
+  "variant": "-alpha-edit",
+  "review": "recommended-pass",
+  "generator": "built-in image_gen edit",
+  "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-band-biceps-curl-v2\\candidate.png",
+  "generatedSha256": "8d27da5898f1e004fac93f72610c673d512cd5e8c009c7e0a523f37a516dffbf",
+  "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-band-biceps-curl-v2\\prompt.txt",
+  "alphaPreserved": true,
+  "inspection": {
+    "candidateSize": [
+      1254,
+      1254
+    ],
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+    "candidateSha256": "8d27da5898f1e004fac93f72610c673d512cd5e8c009c7e0a523f37a516dffbf",
+    "alphaZeroFraction": 0.7525557768569604,
+    "opaqueFraction": 0.1487800442094071,
+    "opaqueRgbMAE": 9.843776046230323,
+    "published": false
+  },
+  "inspected": [
+    "original16 against edited16 light/dark composite atlases",
+    "light32frame-contact-sheet",
+    "dark32frame-contact-sheet",
+    "enlarged first second eighth sixteenth composites"
+  ],
+  "assessment": "No visible pose ordering, anatomy, equipment placement, hand/band attachment or framing change. Both handles, shoes and continuous anchored band preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+  "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE9.84/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "published": false,
+  "cutCacheSha256": [
+    "5c6341bd7b52108d138ef92ab28af400e36596431a2384ccc14eebb76d60c39d",
+    "1fcf3cec82f0ce1edda1da7873881f2514e4c74ce2570c56a0ce235c646b9015",
+    "ece831928b910331050bee5f56eb019e14cb5a26a7cde7dd28d39b5ce9f6e7c2",
+    "1ee3c06fdf675e2df2166dff99614e41785fc6015b1a899a7d184866b83a4586",
+    "e524d223b39212ff22ba40d1ba0659d90497c49d2a9fb5cf429e0f220c64649f",
+    "358d445623a63f47ee16bab0bc4613c1eecffb44abf9533f99c9410371e50283",
+    "c161f127183d2e6de69cc97ae6a7bc7f6a8821635938efd296b531ba22bdb6e3",
+    "debcf8e4612406c8815f3ee577b336df147431e8c3da4a00360e18abbffa358b",
+    "440c7b8d0c16ef6788757f9867a31b68060c189f549d8f596710e9f881d69c60",
+    "73fa3ae8b868d96f8d038cf1ceb755b6b04d56ec8d77c4d7267ddd6c503f939d",
+    "1ff00b67e3d188e658d7eb1adf8627acb952a0747f8bac656c425708e2ddf8c1",
+    "99031807eb66d7eccdd22a574cd973a044e8f94f399d07f2dd25b0128c61079d",
+    "42b63b7a7b71d4c347a90e03f0df38c06ac341992437841417b55242e932ddb1",
+    "5ff62659bfafa8a4b80ecdbe0cac5257e00f8e0fa3dfb3a2123cab51b30fb09e",
+    "c6bd7d38a541d546a09bce804bd9d61746d46eea4dd05c77de3f42dbf937632b",
+    "77186e427648b90f7ff8360519b37d7862898b51df72626f845c0eb0b22920b2"
+  ]
+}

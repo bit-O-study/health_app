@@ -1,0 +1,18 @@
+{
+  "id": "neck-cars",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5326db9a461a52241ca49996d994243b96e8bdfc2737eab9eace8a780b0a5526",
+  "rigSourceSha256": "e0abe3a9007aac2aee50569bafb8fb50c9a30094b8448cfc46a73dde599e9a7d",
+  "videoSha256": "00671f1c101e56d4dcd41480f97fe2c81737f71d26fd8387bb9292e3720117e6",
+  "darkVideoSha256": "d7f7af199c755a40e43c651db88f514fb2c0e89d93f313b3e6fb8017408e99df",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 50077,
+  "darkBytes": 54708,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T05:35:52.171Z"
+}

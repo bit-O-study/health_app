@@ -1,0 +1,14 @@
+{
+  "id": "larsen-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "larsen-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://stronglifts.com/stronglifts-5x5/intermediate/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:44:04.364Z"
+}

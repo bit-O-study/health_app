@@ -1,0 +1,18 @@
+{
+  "id": "incline-dumbbell-reverse-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ecba3eb9dce4eafded3c43c7ae82f29b0e6bedcee86a5f4fbd3ad65bf59441c0",
+  "rigSourceSha256": "7282974a13d5b8764470cddb0e533dc666eb5dffd815aaa103e36dde2b6520db",
+  "videoSha256": "dcada32371ddb42c65f22bcf8472fa83cc3f4a05951c50dfd6b2e23c6f6ae134",
+  "darkVideoSha256": "b156f7bd7a10169ed75ee01d4e687d3650b999f8f690a2bba8791b102f9f9e13",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 85780,
+  "darkBytes": 67201,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T04:49:46.974Z"
+}

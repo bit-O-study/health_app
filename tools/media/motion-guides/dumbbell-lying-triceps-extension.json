@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-lying-triceps-extension",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-lying-triceps-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://msu-prod.dotcms.cloud/videos/lying-dumbbell-triceps-extensions"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:17:33.616Z"
+}

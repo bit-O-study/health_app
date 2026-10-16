@@ -1,0 +1,118 @@
+{
+  "id": "high-cable-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-high-cable-20261008/native/high-cable-curl.mp4",
+      "sha256": "b9903a52c816ab2a1ac7c47b0eaea439a458072277ac68be156334293dda48bd",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78843,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-high-cable-20261008/native/high-cable-curl-dark.mp4",
+      "sha256": "dfef9d9d7e4310962bbd9924f80779543437d80e42d960d6dc794aaee38ca2d6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75286,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripAxisError": 1.0681389886409907e-15,
+    "cableLengthDrift": 3.552713678800501e-15,
+    "tangentError": 3.3306690738754696e-15,
+    "rimError": 1.7763568394002505e-15,
+    "ringError": 9.159339953157541e-16,
+    "stackRiseRange": [
+      0,
+      4.743194740544119
+    ],
+    "bodyCableClearance": 0.5839846416575906,
+    "bodyHandleClearance": 1.946095331654048,
+    "footMinY": -8.175230979919434,
+    "collisionSamples": 17
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-high-pulley-cable-curl.html"
+  ],
+  "sourceSha256": "4c22a4848fa8d9ff17f4e7edd50ed3c840bd85b0fce2710fe1ae663cb63168bc",
+  "rigSourceSha256": "e355697a64a003904bf2dcb047a8f69a45d2e1dcb29c3d4370d53755a88407bd",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "b9903a52c816ab2a1ac7c47b0eaea439a458072277ac68be156334293dda48bd",
+  "darkVideoSha256": "dfef9d9d7e4310962bbd9924f80779543437d80e42d960d6dc794aaee38ca2d6",
+  "checks": {
+    "exercise": "Standing bilateral high-pulley cable curl. Supinated handles, horizontal upperarms fixed. Forearms curl inward toward head through30-115degree elbow flexion.",
+    "equipment": "Two independent high-pulley towers with brackets, guide rods, fixed lower blocks and moving selected stacks. Each hand holds one rounded D handle connected by ring to its own upper pulley and stack.",
+    "setup": "481samples shoulders/elbows/torso/feet fixed, upperarms horizontal; pulley centers stationary.30degree start avoids initially moving handles toward high pulley and unloading stack; exact range disclosed.",
+    "hands": "Final hand210/support210 closeups inspected. Palms face upward at start and rotate inward with forearm arc. Straight D grip shaft aligned to palm width, frame swivels toward pulley; connector reach1world constant. Grip0/axis1.07e-15 errors.",
+    "feet": "Feet on floor-8.175231; two station bases remain well outside body stance.17phase full-body/incoming cable minimum.58398 and nonarm-body/handle1.94610world positive.",
+    "movement": "Final both-theme32frame sheets and hand/pulley/stack210 closeups inspected after rounded handle-corner fix.481samples independent tangent/rim/ring/stack endpoint and constant cable lengths, bilateral stack rise0-4.74319 monotonic. Full decode and mobile Edge play/seek/loop passed. Single smooth0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "dualChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.00021364050293648518,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.16999999999999993,
+    "endpointStackError": 0,
+    "connectorReachError": 9.992007221626409e-16,
+    "upperarmHorizontalError": 8.881784197001252e-16,
+    "pulleyStationDrift": 2.7478019859472624e-15,
+    "elbowBendRange": [
+      30.00000000000003,
+      115.00000000000003
+    ],
+    "initialPalmNormals": [
+      [
+        -0.7439105693979169,
+        0.6682791817332535,
+        2.0816681711721685e-16
+      ],
+      [
+        0.7439105693979169,
+        0.6682791817332535,
+        2.0816681711721685e-16
+      ]
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:36:02.993Z",
+  "limitations": "Root visual review pending. Demonstrated elbow range30-115degrees rather than full extension, to keep both stacks rising continuously. Generic two-tower machine, no load/friction/pulley-spin simulation. Cable arc polygonal approximation drift 0.00021364050293648518world while analytic lengths constant.17phase sampled vertex clearances are not exhaustive triangle/component collision proof. Barefoot/angular elbow mannequin.8second editorial timing."
+}

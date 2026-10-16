@@ -1,0 +1,18 @@
+{
+  "id": "levator-scapulae-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5c6d74d5c4a61098383fa0039a6111782e9c1a703a943de38259bd61f800730b",
+  "rigSourceSha256": "d9d3041e125bb9b475d89c6d36483191ae42e7371e4c24a5f8924a9d1bbb895f",
+  "videoSha256": "0022601c3546a2c02c070550817724e5dfcf1d2d1de501621fdbc876de43d4a4",
+  "darkVideoSha256": "d4151eb32f4036d1b386b1332eaaff682b6a9905657e4ecd01eaff6d019cfb62",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 48740,
+  "darkBytes": 53034,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:20:41.277Z"
+}

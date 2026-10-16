@@ -1,0 +1,80 @@
+{
+  "id": "overhead-triceps-stretch",
+  "review": "recommended-pass",
+  "published": false,
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.mayoclinic.org/healthy-lifestyle/adult-health/multimedia/shoulder-stretches/vid-20084699"
+  ],
+  "sourceSha256": "248e0fd30d21ec532f560f2d6d899edf0362484be8cd5dc4cdd171eda98e2501",
+  "poseSha256": "ad32a8cb825169e9d11f3ede6ec6c8cef6d9e42c3bd23c1d41ec0ca992d31a2c",
+  "videoSha256": "8253c6cc2e1d19d899689477ba9be0357aa7981efa0727c3823edb5a2d10909e",
+  "darkVideoSha256": "53242bc80c9119e3bc5681cae59563a7d58c1a28c32c2f92a468aef7ee1601fb",
+  "checks": {
+    "exercise": "Catalog overhead triceps stretch, triceps/lats, bodyweight. Source describes lifting one arm, bending it behind head and assisting at elbow. Generated example demonstrates left side.",
+    "equipment": "No equipment, towel or substitute exercise.",
+    "setup": "Upright rear three-quarter standing posture; neutral torso, head clear of arm chain, whole body within frame margins.",
+    "hands": "Two complete shoulder-elbow-wrist chains verified in enlarged upper-body composite. Left hand rests on upper back, right hand cups raised left elbow.",
+    "feet": "Both shoes intact and planted with stable separated stance; no leg merging.",
+    "movement": "Actual static stretch hold, not a motion workaround. Identical192frames per theme at24fps for8s verified. Both32frame sheets checked. Repeat on opposite side should be handled by exercise instructions; this is a one-side demonstration."
+  },
+  "inspected": [
+    "light/dark480composites",
+    "upper-body-review.jpg",
+    "light-32.jpg",
+    "dark-32.jpg"
+  ],
+  "render": [
+    {
+      "theme": "light",
+      "sha256": "8253c6cc2e1d19d899689477ba9be0357aa7981efa0727c3823edb5a2d10909e",
+      "decode": "passed",
+      "identicalFrames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8
+    },
+    {
+      "theme": "dark",
+      "sha256": "53242bc80c9119e3bc5681cae59563a7d58c1a28c32c2f92a468aef7ee1601fb",
+      "decode": "passed",
+      "identicalFrames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8
+    }
+  ],
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": [
+    "Single left-side hold; prompt requested right side but generated valid left counterpart.",
+    "8s video is looping visual demonstration, not prescribed stretch duration; source recommends15-30s.",
+    "Edge Pixel7 emulation on local MP4; no physical device or app deployment test."
+  ],
+  "alphaProcessing": "Preserved generated alpha, removed saturated fringe pixels and applied one3x3alpha erosion using existing cross-body workflow; no anatomy warp."
+}

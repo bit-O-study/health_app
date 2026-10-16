@@ -1,0 +1,18 @@
+{
+  "id": "ez-bar-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c5bd3347865a2153fc20fba9bea0e1c0525bf117f4300504da1b1a8d6f54e1ee",
+  "rigSourceSha256": "ad28e89af7b8fe663971eaa314ce395ab7be15ca892d10984f6cdee5272607e7",
+  "videoSha256": "bbe4eaa303b1ee061a7af651946dedf263d0dd2b09e5bb0dc637bfda9ef93e62",
+  "darkVideoSha256": "d027c86742b3e7d2514a782b2e543b44b3dfc93a65a6241638bbac7f390f870e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104024,
+  "darkBytes": 89268,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:19:24.513Z"
+}

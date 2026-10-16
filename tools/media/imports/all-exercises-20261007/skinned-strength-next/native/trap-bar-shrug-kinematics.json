@@ -1,0 +1,11 @@
+{
+  "samples": 481,
+  "shoulderElevation": 0.5499999999999998,
+  "footDrift": 0,
+  "gripCenterError": 0,
+  "soleMinY": -8.175230979919434,
+  "soleMaxY": -8.175230979919434,
+  "floorY": -8.1753,
+  "loopDrift": 0,
+  "units": "world units, body height approximately17"
+}

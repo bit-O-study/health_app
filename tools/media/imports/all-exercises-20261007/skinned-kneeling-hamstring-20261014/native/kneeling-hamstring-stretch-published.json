@@ -1,0 +1,18 @@
+{
+  "id": "kneeling-hamstring-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "77c05da0e4f54a89944bbe6390d184cb9fa95a823316d2b5c2c2ac6c45e51452",
+  "rigSourceSha256": "c92b31527d7b73e2b88d8c4afde050cc7f10558e297d779d7e1624a3a9f1f8f0",
+  "videoSha256": "ea63c45222062653787541906ca05f069be64c3ae41626d031261df05a3737ec",
+  "darkVideoSha256": "631646e2c40b89299287e45740c8d32700f208c234fcbbb908a6e57259e92695",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83863,
+  "darkBytes": 91455,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T12:30:20.534Z"
+}

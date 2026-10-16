@@ -1,0 +1,17 @@
+{
+  "id": "machine-rear-delt-fly",
+  "status": "hold-source-spacing",
+  "panels": 16,
+  "sourcePreserved": true,
+  "published": false,
+  "inspected": [
+    "original-eight-panel-atlas",
+    "generated-sixteen-panel-atlas",
+    "dark-source.jpg"
+  ],
+  "finding": "Generated alpha preserves subject, shoes and machine, but first closed pose to second open pose still jumps substantially. Later poses cluster near the open position. Increasing panel count did not reliably produce uniformly spaced key poses.",
+  "next": "Correct initial intermediate poses or use a physically consistent 3D shoulder/machine linkage renderer; do not publish a simple scaled 2D arm rig or frame duplication as a smooth repair.",
+  "originalSourceSha256": "4751926b2fffd1d256d68fcffb02429087cb747870bb3324e63442b16bec0076",
+  "generatedSourceSha256": "5f14217eafe7e325f8b10c9bf51f319539165ca7d750e89ed8db86af6777c439",
+  "reviewedAt": "2026-10-07T02:07:35.724Z"
+}

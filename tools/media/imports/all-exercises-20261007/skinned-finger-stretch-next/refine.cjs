@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('[0,60,80,55]','[0,55,70,40]').replace('rad(-sign*18*closed)','rad(-sign*0*closed)');fs.writeFileSync(p,s);

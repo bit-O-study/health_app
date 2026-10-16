@@ -1,0 +1,90 @@
+{
+  "id": "cable-rear-delt-fly-2",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2feb3319f85c5a96deaccfa830b596de7eeeb9f22ae04c6d07f553d708846edb",
+  "videoSha256": "7552cd4fdb94225310b80886ff685c31469e85cc53464cb92b2f3a9cdb600e21",
+  "darkVideoSha256": "245b58769e5f18cc9ef228d042c1ba692036b9e777ac366afe33f6c213041e48",
+  "darkBytes": 275901,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 310707,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:58:37.335Z",
+  "variant": "-alpha-edit",
+  "review": "hold-motion",
+  "generator": "built-in image_gen edit",
+  "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-cable-rear-delt-fly-2\\candidate.png",
+  "generatedSha256": "723b3099b1aa7656972743a304764e23d554c539650cc6292a44da96bab1f5b5",
+  "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-cable-rear-delt-fly-2\\prompt.txt",
+  "alphaPreserved": true,
+  "inspection": {
+    "candidateSize": [
+      1254,
+      1254
+    ],
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "2feb3319f85c5a96deaccfa830b596de7eeeb9f22ae04c6d07f553d708846edb",
+    "candidateSha256": "723b3099b1aa7656972743a304764e23d554c539650cc6292a44da96bab1f5b5",
+    "alphaZeroFraction": 0.4404909075646925,
+    "opaqueFraction": 0.29545390953096823,
+    "opaqueRgbMAE": 13.437148178600074,
+    "published": false
+  },
+  "inspected": [
+    "original16 against edited16 light/dark composite atlases",
+    "light32frame-contact-sheet",
+    "dark32frame-contact-sheet",
+    "first/last source comparison, eighth dark composite, fullsize1.25s transition"
+  ],
+  "assessment": "Alpha edit preserves original cell positions, both towers, crossbar, cables, handles, shoes and16poses. Light/dark composites show clean background removal. However interpolated1.25s frame shows translucent doubled hands/forearms and cables; hold publication for motion correction.",
+  "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE13.44/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "published": false,
+  "cutCacheSha256": [
+    "23971bb385f350a0efee30d31e8c6b4ad1b6203c399acce3adc0d8901b335f45",
+    "26cdd9f82a17da8737c0e1c2428ea1c399825c6309c916a47bef74fc33c8eedc",
+    "44fcedc84c361db9c2460921e8a036ca25ffa7299af936d74f6ee054b3c1b7cb",
+    "b753a71fdf00ff10bee3648d4adf754cd3245e45ef639cf2a00c16d96b20974a",
+    "5a851e8c5fb158a77aea2e897f8266d24bbaf13040fafe7e16492a0b65f3c90d",
+    "a26fcd378d0328cccd78fbd59e27abfabc40a209a9c8e903c8b0182e6970983e",
+    "d94749765dd40cde9607b367a0d28885f119c3d830eb671ec6f330e271efd9d8",
+    "fce423d1d496b969390cc573a68679b3ceefec94cceed945a9637387a0680191",
+    "267cf6f44a4cdc2df950dbf96a7847d8daabbf712022d20fea56fe54e3be1d42",
+    "9c61a41d8db9963ca5d08ff7761e9be77ca574889fe9d4eef9e4a1175d251979",
+    "33c98a6a574c926ced34a578f02def3391c93e0886b8533b778bd0bb1689d331",
+    "5eb7ab234a03ce686ecf62b5087b76e1eb9a49d268e98e95432de3b16ccec006",
+    "1e238c698bedc573c7e3238ce782c040639e851fc98f15e7db3632897345f41d",
+    "be401ffdf3079bbed1315e03c4ca68eff57cc23f7e3f519323f949d58de20393",
+    "3e4a42db58fe4a645cf4808e2590932680c050c8eeaacaaa4396a1dc07b804e2",
+    "56413601398c96607066bfe45848f6520ef329f996c44ac0d52cd975a7482c8d"
+  ]
+}

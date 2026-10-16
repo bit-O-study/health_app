@@ -1,0 +1,77 @@
+{
+  "id": "seated-leg-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/alias-seated-leg-curl-20261012/native/seated-leg-curl.mp4",
+      "sha256": "86218055fc775fd8e0f47dafc3e3352bca31fa656ea2559933c3ba13629a1d72",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 239714,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/alias-seated-leg-curl-20261012/native/seated-leg-curl-dark.mp4",
+      "sha256": "501dff4e10254c7f0fbab1081bfa28b1eef8b5a4553cdf96104de27d4147ed15",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 252678,
+      "decode": "passed"
+    }
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-leg-curl"
+  ],
+  "sourceSha256": "bea603089ed9fee2ef1f10e8727483e8b9536de1bbba5f2e8d621f0bc640bf08",
+  "rigSourceSha256": "7fea3e6ce6b140b9ede4656891a6a7c031e8400d190d28a18a91ab33e19e29b7",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "machine"
+  ],
+  "videoSha256": "86218055fc775fd8e0f47dafc3e3352bca31fa656ea2559933c3ba13629a1d72",
+  "darkVideoSha256": "501dff4e10254c7f0fbab1081bfa28b1eef8b5a4553cdf96104de27d4147ed15",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Fresh original16panel and two-theme32frame inspection: exact same seated bilateral machine knee-flexion exercise for both catalog IDs. No posture/grip/equipment variant. Source M&S seated-leg-curl independently opened and confirmed.",
+    "equipment": "Selectorised seated leg curl machine. The cutout keeps the whole unit intact in light and dark - back pad, seat, the thigh restraint pad across the legs, the ankle roller, the side frame and the weight-stack column - with no dropout across the 32 frames.",
+    "setup": "Back stays against the pad and the thigh restraint stays clamped over the legs for the whole rep; the hips never lift off the seat to help the curl, which is the usual fault here.",
+    "hands": "Both hands stay closed on the side handles beside the hips in every frame, anchoring the torso.",
+    "feet": "Both Achilles stay against the ankle roller at the same contact point through all 32 frames; the two legs stay together and level rather than one leading.",
+    "movement": "Both knees flex together at an even speed, the roller travels down and slightly back, and the legs return to full extension along the same arc. The thighs stay pinned under the restraint pad. Neither theme sheet shows duplicated legs, a smeared roller or a torn frame edge. Exact unchanged public video reuse; legacy16pose reverse cadence preserved. Minor original generated body shape/frame differences retained."
+  },
+  "limitations": [
+    "Exact reuse inherits original generated16pose cutout geometry and interpolation. No new481sample kinematics or physical collision measurements claimed.",
+    "Dark theme has modest pale edge halo; original machine frame/pads and body remain visible. Camera hides far leg/hand partially."
+  ],
+  "reviewedAt": "2026-10-12T01:27:24.794Z",
+  "reviewer": "wrist subagent, root final adoption pending"
+}

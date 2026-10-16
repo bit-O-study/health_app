@@ -1,0 +1,121 @@
+{
+  "id": "finger-extension-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/studio.mjs",
+      "sha256": "31d5fe884cd6705c55c22fd46b1be82e65ca2be6d3cf9ecdd0941153e9e60493"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/motion.mjs",
+      "sha256": "2aed79858e7816de8939e88f097e75d9be6b8b49b8b21a5ea9b1db5009928750"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/render.mjs",
+      "sha256": "2327a81dcacec209844d0b5710a858763dbabca4ca65566aff38e3ad4e92d80b"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.mpft.nhs.uk/services/musculoskeletal/supported-self-management/hand-wrist",
+    "https://us.physitrack.com/home-exercise-video/finger-extension-stretch-against-a-table"
+  ],
+  "sourceSummary": "Midlands Partnership University NHS Hand and Wrist: finger extension stretch against table, palm down, gently straighten fingers as flat as possible, hold briefly then relax. Same exact protocol text corroborated at Physitrack public exercise page. Demonstration standing at waist-height table, both hands simultaneously.",
+  "motion": "Palms down at tabletop with both feet planted. Finger PIP/DIP gently bent initially, straighten over2seconds with each finger pad near table, hold3seconds, relax over2seconds, rest1second. Palm/wrist locations remain effectively fixed; no wrist-stretch lean or opposite-hand pulling. Per-finger skin contact solve keeps pads above table.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "handDrift": 0,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.042014951591391014,
+    "minLegSkinGarmentSectionGap": 0.2806994623383512,
+    "minTableSDF": 0.002760086740563328,
+    "palmGapRange": [
+      0.013085754048446141,
+      0.013085754048446141
+    ],
+    "fingerGapRange": [
+      0.0027600867405634943,
+      0.015128363830487324
+    ],
+    "maxFloorError": 1.7763568394002505e-15,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/native/finger-extension-stretch.jpg",
+    "sha256": "4780a2a67c4078f6ae8ffe747eb7976a97c3d5fffb0e0d4cc49fd22501b155f0",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/render.mjs finger-extension-stretch"
+}

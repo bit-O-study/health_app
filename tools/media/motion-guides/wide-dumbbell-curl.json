@@ -1,0 +1,13 @@
+{
+  "id": "wide-dumbbell-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-dumbbell-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://criticalbody.com/wide-dumbbell-curls/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:31:10.075Z"
+}

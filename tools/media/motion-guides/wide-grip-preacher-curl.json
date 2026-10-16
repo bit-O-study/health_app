@@ -1,0 +1,15 @@
+{
+  "id": "wide-grip-preacher-curl",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-preacher-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://criticalbody.com/wide-grip-preacher-curls/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:42:31.527Z"
+}

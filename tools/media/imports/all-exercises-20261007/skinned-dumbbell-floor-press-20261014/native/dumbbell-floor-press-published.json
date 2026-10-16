@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-floor-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fb0f641e13a1a81ec536b10cb1b7aa180af8b09530c5c5283e92fbade36ecf56",
+  "rigSourceSha256": "937ece8547664ae14c4f2140c49c483ad47c31b99882285380f19f024471ac1b",
+  "videoSha256": "def25dc10d2827883bfd53d0b06731edbad2f8f9cd4dc820bc1d4c92f9c367c4",
+  "darkVideoSha256": "e675ce1b0a97685d3a5c6956ca361bc180b8d4ee694d9be81751bea4943bf266",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78547,
+  "darkBytes": 64859,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T01:56:53.326Z"
+}

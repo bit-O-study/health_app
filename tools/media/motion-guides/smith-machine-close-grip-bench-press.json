@@ -1,0 +1,14 @@
+{
+  "id": "smith-machine-close-grip-bench-press",
+  "equipment": "smith",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-close-grip-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-close-grip-bench-press.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T13:19:04.449Z"
+}

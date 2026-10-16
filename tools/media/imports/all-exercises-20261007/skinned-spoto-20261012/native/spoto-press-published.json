@@ -1,0 +1,18 @@
+{
+  "id": "spoto-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a035872a7434967d43206efc206e50d214a00e0589004430cc21b85c799f2b53",
+  "rigSourceSha256": "0da2e6faa9bfaf50e7360573f86cc80662bda9bf69ade9ce385b8c83625a6cf2",
+  "videoSha256": "26c8548cda742530ccafba4ac5ccefc75191b0f7cfc3306f932fa96a02c892c7",
+  "darkVideoSha256": "cc7f77736c108c719058b9b8bbf0b17a4e9d6a96a60e83b0c5d9800de4af623f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 114671,
+  "darkBytes": 100374,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:34:25.822Z"
+}

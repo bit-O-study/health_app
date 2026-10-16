@@ -1,0 +1,13 @@
+{
+  "id": "close-grip-barbell-curl",
+  "equipment": "barbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "close-grip-barbell-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/close-grip-standing-barbell-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:36:57.061Z"
+}

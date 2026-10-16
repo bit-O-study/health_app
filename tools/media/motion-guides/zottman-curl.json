@@ -1,0 +1,13 @@
+{
+  "id": "zottman-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "zottman-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/zottman-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:31:01.919Z"
+}

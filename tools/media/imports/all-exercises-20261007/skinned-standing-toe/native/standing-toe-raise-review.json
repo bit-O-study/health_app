@@ -1,0 +1,84 @@
+{
+  "id": "standing-toe-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.southwestyorkshire.nhs.uk/wp-content/uploads/2018/07/Live-well-Move-More-Wakefield-District.pdf"
+  ],
+  "checks": {
+    "exercise": "Standing toe raise targeting tibialis anterior: forefoot rises while heels stay down; not calf raise.",
+    "equipment": "No weights. Actual stable chair with backrest and four legs supports both hands.",
+    "setup": "Upright stable torso/knees and hip-width feet; back-oblique full camera preserves chair, feet and hands.",
+    "hands": "Both open palms maintain fixed contact with chair top; closeups and wrist drift verified.",
+    "feet": "Heel geometry remains exactly at floor across 481 samples; forefoot lifts smoothly. Feet and side closeups inspected.",
+    "movement": "Both final encoded 32-frame sheets reviewed. 192-frame decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "5ac02548082de072765e9fd1d5051fbe2f83a010eddb27c5072d9a03cfa6662c",
+  "rigSourceSha256": "c5fa121d7ff45708923b845ff60fb8ce9a2d401f31a7419274750cf2cbb88baf",
+  "videoSha256": "de2dc5afea4a936672293162542b63c226e22ee3c49a11ad937654be7d3fd9d2",
+  "darkVideoSha256": "1fe7afb036421fba7a906c1e72720ae639fda0fde1876542dd21e9529eb30e29",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-toe/native/standing-toe-raise.mp4",
+      "sha256": "de2dc5afea4a936672293162542b63c226e22ee3c49a11ad937654be7d3fd9d2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85093,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-toe/native/standing-toe-raise-dark.mp4",
+      "sha256": "1fe7afb036421fba7a906c1e72720ae639fda0fde1876542dd21e9529eb30e29",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 92388,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "heelMinClearance": 0,
+    "heelMaxClearance": 0,
+    "toeRise": 0.8869096521647952,
+    "supportMinClearance": 0.000005808969806064823,
+    "supportMaxClearance": 0.000005808969810061626,
+    "wristDrift": 4.39625888431457e-15,
+    "loopDrift": 0,
+    "units": "world units; body height approximately 17"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T04:06:38.107Z",
+  "limitations": "Mannequin/barefeet style. No physical-device certification. Stylized sturdy chair supports same bilateral hand/heel movement as source."
+}

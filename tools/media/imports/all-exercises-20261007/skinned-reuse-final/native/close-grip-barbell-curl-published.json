@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-barbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bca4c496f180382b40a3aed38c4259e2af8efc6d4f346f5eea741c9153ee7b92",
+  "rigSourceSha256": "a1c68fdb3b9d152a3a34baf1a816c4d34691abf100aa951ebb80551a6a10c3f2",
+  "videoSha256": "989b32d801cb8fe8010a664119762512f74f3f7dee2bb3f1d26cfec245b5ce3f",
+  "darkVideoSha256": "502de2964d11cf4db136d262f9bfc4faf2699fd8e4bbb70ab90b301497c52640",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 109476,
+  "darkBytes": 88715,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:36:57.064Z"
+}

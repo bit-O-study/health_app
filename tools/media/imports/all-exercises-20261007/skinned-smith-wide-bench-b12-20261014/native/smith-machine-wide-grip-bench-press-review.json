@@ -1,0 +1,187 @@
+{
+  "id": "smith-machine-wide-grip-bench-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "smith"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-wide-grip-bench-press.html"
+  ],
+  "phaseSeconds": {
+    "topStartHold": [
+      0,
+      0.4
+    ],
+    "lower": [
+      0.4,
+      4.8
+    ],
+    "bottomPause": [
+      4.8,
+      5.2
+    ],
+    "press": [
+      5.2,
+      7.4
+    ],
+    "topEndHold": [
+      7.4,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Smith wide-grip flat bench press; shaft stops about1inch above chest,135.389degree bottom flexion to8degree unlocked top,2:1 lowering-to-raising cadence.",
+    "equipment": "One Smith bar on two fixed vertical rails with moving sleeves,weight plates,collars and grounded frame. Body/shaft/rail/frame and sampled bar-frame clearances checked481poses.",
+    "setup": "Head/back/pelvis supported on horizontal bench and small fitted head cushion; both feet grounded.",
+    "hands": "Closed wide overhand grip7.4world units versus4.038 shoulder-joint span; fixed grip width/bar plane. Wrist deviation and palm direction measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Top-start cycle, controlled4.4second lowering,0.4second bottom pause,2.2second press. Both final32frame sheets and closeups reviewed. Decode and Edge playback/seek/loop passed."
+  },
+  "sourceSha256": "501f5c53e36c4ce8d7e49828a90c338ab5372e172a3d4a72ff3e7fe5d865dfdd",
+  "rigSourceSha256": "0a6928a1f9ac6721fab7a03cd3e3f5620dea871421eac7d8b6315e1d5678a6f8",
+  "videoSha256": "1e79bca7e7380eea184090d61c06391fa7737e440f1ed11d664064e1b5c69530",
+  "darkVideoSha256": "2c2cb1320a0b1da419971ebd341e7ccbd3450c75bff3a386543b3f6a5868a13a",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press.mp4",
+      "sha256": "1e79bca7e7380eea184090d61c06391fa7737e440f1ed11d664064e1b5c69530",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 95179,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press-dark.mp4",
+      "sha256": "2c2cb1320a0b1da419971ebd341e7ccbd3450c75bff3a386543b3f6a5868a13a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 83964,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.195905786649769,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.2552214067292212,
+    "minEquipmentBenchClearance": 2.7366389535491322,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05888767207002865,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 2.815352307184251,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.778737351923273,
+    "minimumBackGap": 0,
+    "backContactError": 0.03816772154103809,
+    "minHeadClearance": 1.3440212609028936,
+    "minElbowFlex": 8.000000000116303,
+    "maxElbowFlex": 135.38876496078342,
+    "minimumElbowAboveShoulder": -1.7623053278991865,
+    "wristDeviationRange": [
+      8.226727979198342,
+      22.278043043484512
+    ],
+    "bottomWristDeviation": [
+      22.278043043484512,
+      22.278043043484512
+    ],
+    "topWristDeviation": [
+      17.400660500987186,
+      17.400660500987186
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 6.217248937900877e-15,
+    "minNonChestClearance": 0.48664158331560337,
+    "bottomChestClearance": 0.2552214067292212,
+    "endTopChestClearance": 4.390008785666058,
+    "minimumShaftTriangleGap": 0.25400002418874956,
+    "minimumPalmTowardFeet": 1,
+    "minimumBodyRailGap": 2.918051322341148,
+    "minimumBodyFrameGap": 2.410966693897897,
+    "minimumEquipmentFrameGap": 0.13573908706237958,
+    "sliderRailError": 4.884981308350689e-15,
+    "minimumBarBelowRailTop": 0.7500000000000006,
+    "minimumFrameBaseGap": 0,
+    "barXZDrift": 4.884981308350689e-15,
+    "minimumHeadTriangleGap": 1.7603769617851475,
+    "maximumElbowLateralDistance": 3.931943878828042,
+    "gripSpan": 7.399999999999996
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T13:32:31.292Z",
+  "limitations": "Barefoot mannequin on flat bench with small fitted head cushion. Top retains8degree flexion as source prohibits lockout. About1inch chest gap uses0.254world units with an assumed1.8m height for roughly18unit model stature; no patient-specific scaling. Unrack/rerack, hooks, counterweight and loading are not depicted. Back skin can separate from pad up to0.05world unit. Vertex/shaft-triangle and sampled equipment clearances are not a continuous collision solver. No physical-device verification.",
+  "visualEvidence": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press-32.jpg",
+      "sha256": "3bb054b7acdea03589429640a08d17a52500743173f3ccd3ffb4e7ab475e4a21"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press-dark-32.jpg",
+      "sha256": "736c5b755f512c6fd652720dd4b53555edb6e9be85eba9d7b5d1ea1966838178"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/chest-300.png",
+      "sha256": "8d20112df19d1fd75c3bf10baa33fba0db83df4d15438f66e144e9fd648b1c84"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/feet-0.png",
+      "sha256": "7fc09a03cb9af65cecc47784693e178d0ae8345ebcd1799c22ffefc99f81d5ff"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/hand-0.png",
+      "sha256": "e6ca311313d22bf64c6c34d57bdb9270d8203b1da0bcc6d04dd63053768781c1"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/hand-300.png",
+      "sha256": "71eadc7f8caeea371b8d6d301395c31fef4ba80beafeaa3dbe045369e51d5614"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/side-300.png",
+      "sha256": "f4c6e5dca4d908339b1824180a0e61b79f8960e7845fc2e4294cd7a600fd60f6"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/slider-0.png",
+      "sha256": "168134cc7da3541584329ec24975d3a2ab357d8a1be99a2e737a8f9d42bedb91"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-wide-bench-b12-20261014/native/smith-machine-wide-grip-bench-press/slider-300.png",
+      "sha256": "8371878cb257dd44239235f5c736e2dd2d83861be922f02df2984f32cc759af2"
+    }
+  ],
+  "visualReview": "Both final decoded32-frame sheets inspected: wide bilateral press with fixed torso and feet, controlled lowering twice as long as press, bottom pause, no ghosts or missing equipment. Chest/hand/rail/feet closeups inspected. Chest gap and head/non-chest clearances recorded for all481samples."
+}

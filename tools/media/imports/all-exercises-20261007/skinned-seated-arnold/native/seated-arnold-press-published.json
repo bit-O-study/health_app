@@ -1,0 +1,18 @@
+{
+  "id": "seated-arnold-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "31a0132afc981a52c8a9276bb191ac392af8c5a8bb4f85e77930307b153d5e47",
+  "rigSourceSha256": "87a3548717a26d949fe4ef22be3690294a0ee73c26f14213d7d9d4bbe323225e",
+  "videoSha256": "ec07ac0b7cb28afff70ba574a44809532b1c89a9d49de6d67115091c55080b12",
+  "darkVideoSha256": "6b0cb9ce9068e95e2c1983e9e4ce0712d06503a9842b3afa5c050bc1b7b733d0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 108874,
+  "darkBytes": 93674,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:47:16.176Z"
+}

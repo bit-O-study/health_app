@@ -1,0 +1,132 @@
+{
+  "id": "levator-scapulae-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://healthy.kaiserpermanente.org/health-wellness/health-encyclopedia/he.neck-spasm-exercises.zp4500"
+  ],
+  "checks": {
+    "exercise": "Exact levator-scapulae-stretch: tilt left then turn left and look down toward same-side armpit, distinct from opposite-turn scalene stretch.",
+    "equipment": "Bodyweight, stable seat, no band or weights.",
+    "setup": "Upright seated, both arms down; shoulders stay level, feet planted.",
+    "hands": "No hand/head assistance in chosen source variation. Both arms and hands stay clear of seat, and wrists remain fixed.",
+    "feet": "481 skin sole and skin/garment seat clearance checks passed; feet and pelvis fixed.",
+    "movement": "Both final32frame encoded sheets and head/neck/side/back enlargements reviewed.481 head/torso projected skin clearance and arm/seat clearances positive. No jaw clipping visible. Stretch2/3/2/1 staged timing, decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "5c6d74d5c4a61098383fa0039a6111782e9c1a703a943de38259bd61f800730b",
+  "rigSourceSha256": "d9d3041e125bb9b475d89c6d36483191ae42e7371e4c24a5f8924a9d1bbb895f",
+  "videoSha256": "0022601c3546a2c02c070550817724e5dfcf1d2d1de501621fdbc876de43d4a4",
+  "darkVideoSha256": "d4151eb32f4036d1b386b1332eaaff682b6a9905657e4ecd01eaff6d019cfb62",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-levator-20261008/native/levator-scapulae-stretch.mp4",
+      "sha256": "0022601c3546a2c02c070550817724e5dfcf1d2d1de501621fdbc876de43d4a4",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 48740,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-levator-20261008/native/levator-scapulae-stretch-dark.mp4",
+      "sha256": "d4151eb32f4036d1b386b1332eaaff682b6a9905657e4ecd01eaff6d019cfb62",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 53034,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "shoulderDrift": 0,
+    "rightWristDrift": 0,
+    "loopDrift": 0,
+    "peakHeadEulerDegrees": [
+      21.999999999999993,
+      35,
+      -11.999999999999991
+    ],
+    "tiltStageEulerDegrees": [
+      0,
+      0,
+      -12
+    ],
+    "minHeadTorsoGap": 0.22048931189881227,
+    "minArmSeatGap": 0.7407054108791957,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "maxHeadStepDegrees": 1.2909144933600505,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "tilt": [
+        0,
+        1
+      ],
+      "turn": [
+        1,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "unturn": [
+        5,
+        6
+      ],
+      "untilt": [
+        6,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T08:15:57.297Z",
+  "limitations": "Selected12degree tilt35degree turn22degree flexion illustrate movement; source gives no numeric angle prescription.3second demo hold differs from source15-30seconds. Head/torso clearance uses skinned vertex XZ projection within0.15world, not force simulation. No physical-device certification."
+}

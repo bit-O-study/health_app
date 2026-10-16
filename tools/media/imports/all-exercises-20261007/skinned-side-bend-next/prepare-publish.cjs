@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-side-bend-next/publish-native.mjs';fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('Small shoulder circles with fixed feet and torso','Standing torso lateral bend with fixed pelvis/feet and measured hand/thigh separation').replace('hand/side/back enlarged views','hand/side/back enlarged views'));

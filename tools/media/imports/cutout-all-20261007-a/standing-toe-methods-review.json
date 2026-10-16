@@ -1,0 +1,10 @@
+{
+  "id": "standing-toe-raise",
+  "source": "https://www.southwestyorkshire.nhs.uk/wp-content/uploads/2018/07/Live-well-Move-More-Wakefield-District.pdf",
+  "sourcePage": 18,
+  "correction": "Replace shoulder-raise fallback with standing ankle dorsiflexion: both hands chair support, hip-width feet, heels grounded, controlled forefoot lift/lower, no body rocking.",
+  "coordinatedVideo": "skinned-standing-toe (motion_review agent)",
+  "validation": {"focusedFiles":7,"focusedTestsPassed":20,"targetedEslint":"passed","tscNoEmit":"passed"},
+  "catalogSnapshot": "Catalog contains equipment metadata, no method snapshot to update.",
+  "publicEdited": false
+}

@@ -1,0 +1,15 @@
+{
+  "id": "seated-thoracic-rotation",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-thoracic-rotation-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/seated-rotations/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:36:57.545Z"
+}

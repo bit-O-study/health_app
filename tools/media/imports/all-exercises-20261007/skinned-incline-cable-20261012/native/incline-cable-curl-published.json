@@ -1,0 +1,18 @@
+{
+  "id": "incline-cable-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a197d63c724150ceaf91243183528108a789926418fd2317c2d175f40cbbbb67",
+  "rigSourceSha256": "87ceb133c951c411137f35cf417de18fecc679138dab5788850bb60f33f84d23",
+  "videoSha256": "812da67da397a2418c9a2683c0a335c2dc2691b894eefce7a49e0e2ce0f23ddd",
+  "darkVideoSha256": "7d9b56ed6aeea9ca465c76c4b99d015abfccc52e9fa346f36685c65c3608c4d3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 76199,
+  "darkBytes": 70369,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T05:42:41.450Z"
+}

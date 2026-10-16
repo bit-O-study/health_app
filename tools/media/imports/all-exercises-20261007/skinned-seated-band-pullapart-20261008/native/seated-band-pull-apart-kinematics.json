@@ -1,0 +1,18 @@
+{
+  "samples": 481,
+  "elbowDrift": 3.2002870911482164,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.05240797099667634,
+  "minEquipmentBenchClearance": 5.28328153265669,
+  "seatContactError": 7.264309553889348e-8,
+  "soleMinY": -7.751374738328083,
+  "soleMaxY": -7.751374738328083,
+  "floorY": -7.751375,
+  "loopDrift": 0,
+  "maxGripStep": 0.07850201886467152,
+  "units": "world units; band centerline segment minus conservative .082 radius against posed central-body vertices; bench vertical clearance",
+  "elbowBendMin": 7.999999999999798,
+  "elbowBendMax": 8.000000000000163,
+  "peakUpperarmHeightError": 4.440892098500626e-16
+}

@@ -1,0 +1,115 @@
+{
+  "id": "cable-wrist-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-cable-20261008/native/cable-wrist-curl.mp4",
+      "sha256": "a62fba2ccfa67fcefcd926b7863e07f9392b2f50fa7cb934ab9cd49e7f721a2a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 60999,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-cable-20261008/native/cable-wrist-curl-dark.mp4",
+      "sha256": "0908647af4e2f4e962cf7782cf5e99b7d6adf8289c742197a3f58947f308fda9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 56817,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 2.9976021664879227e-15,
+    "pulleyRimError": 1.5543122344752192e-15,
+    "connectorRadiusError": 4.440892098500626e-16,
+    "stackRiseRange": [
+      0,
+      0.9387246123724413
+    ],
+    "cableBodyMinClearance": 1.2939084336782063,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 4.440892098500626e-16,
+    "gripTangentAxisError": 1.0778315928076987e-15,
+    "elbowBendRange": [
+      118.24073163106331,
+      118.24073163106331
+    ],
+    "barGripWidth": 3.6265202387245803,
+    "barRise": 1.026299883791346,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.265796475937489,
+    "footMinY": -7.751374738328083
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-cable-wrist-curl.html"
+  ],
+  "sourceSha256": "77cfaaf802d18ad113a7970b6d885b2a71d4582904aeb06fc560f594260bd8e1",
+  "rigSourceSha256": "4aadf79aebe9193c61e0717c32f4bb159a83206d6753d873a2bea6480d17296b",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "a62fba2ccfa67fcefcd926b7863e07f9392b2f50fa7cb934ab9cd49e7f721a2a",
+  "darkVideoSha256": "0908647af4e2f4e962cf7782cf5e99b7d6adf8289c742197a3f58947f308fda9",
+  "checks": {
+    "exercise": "Seated supinated straight-bar cable wrist curl. Forearms supported on thighs. Wrist angle30degree extension to25degree flexion. No elbow/upperarm curling.",
+    "equipment": "Flat bench and compact low-cable station, single5.4world straight attachment bar with central ring, continuous low/upper pulley path and moving selected stack.",
+    "setup": "481sample torso/shoulder/elbow/wrist positions fixed.556forearm-thigh proximity samples give0.01912world minimum skin gap; visual forearm support verified. Hands extend beyond knees.",
+    "hands": "Final hand0/210/support210 inspected: underhand straight-bar grips remain aligned while wrists flex.481sample grip4.44e-16 and axes1.08e-15 errors; elbow angle118.24degrees constant.",
+    "feet": "Feet remain floor-7.751375 and bench legs grounded.17phase body/bar minimum1.26580 and full-body/incoming-cable1.29391world positive. Station base separate from feet.",
+    "movement": "Final both-theme32frame sheets, side210/hand0+210/support210/pulley210 inspected.481sample ring/tangent/rim/stack endpoint checks passed. Stack upstroke0-0.938725 monotonic; cable analytic path drift3.55e-15 and exact loop. Both full decodes and mobile Edge play/seek/loop passed. Single smooth0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "cableChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.00013223429727204916,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.1699999999999997,
+    "endpointStackError": 0,
+    "wristPositionDrift": 0,
+    "wristAngleRange": [
+      -25,
+      30
+    ],
+    "support": {
+      "footMinY": -7.751374738328083,
+      "forearmThighMinSampledGap": 0.01912149822800635,
+      "sampleCount": 556
+    }
+  },
+  "reviewedAt": "2026-10-08T07:19:46.370Z",
+  "limitations": "Root visual review pending. Generic bench/station, no force/friction/pulley-spin simulation. Support gap uses skin vertices, not clothing compression simulation.17phase vertex gaps are not exhaustive triangle/all-machine-component proof. Rendered cable arc polyline drift 0.00013223429727204916world. Barefoot/angular elbow mannequin.8second demonstration differs from optional source two-count top squeeze."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "seated-side-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7b9300abc6f4d06c05b638eefe6de34e0df76eb0e4f86f6007042231e406bc7b",
+  "rigSourceSha256": "2ad27b51db85c4e9c0c19eb0580944c6db128e622ed22e575ce97ae861ba6310",
+  "videoSha256": "a56eaa234656c0f231317ef1398bb0d5e16a4aacf34a2c6a47502e96de793477",
+  "darkVideoSha256": "92dbad40c61327e33fa209687adbb1c9fbd3a799e1a103f588714abefa1e33c7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 67087,
+  "darkBytes": 73150,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T05:13:43.132Z"
+}

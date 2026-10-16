@@ -1,0 +1,87 @@
+{
+  "id": "wide-grip-cable-curl",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "smooth: lower hold0-.4, curl.4-3.8, top hold3.8-4.2, lower4.2-7.6, lower hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/motion.mjs",
+      "sha256": "97a55bf053c1603d7c79c9557fc2988ff89b98fae70d38e9ac54f9988ef528b3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/studio.mjs",
+      "sha256": "dba42860625b3c99bccd8da33b1126e82d04baa8ac8b3d8d4b07804b41a438ce"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/render.mjs",
+      "sha256": "1eb7bb2ed132e6db59ba92321f5348793c0d4cc321679bb3674a67339060f119"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/cable.mjs",
+      "sha256": "20b22a13ac0aab325bac2716cf0eeac98a5a55bc0b3a7ca28b8f3fba2c37508c"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wide-cable-20261008/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/exercises/wide-grip-cable-curl.html",
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/cable-biceps-curl/"
+  ],
+  "sourceSummary": "Muscle and Strength original Wide Grip Cable Curl specifies straight bar at low pulley and hands wider than shoulders. Its grip sentence mistakenly refers to rope/neutral grip despite straight-bar setup; Muscle and Fitness Cable Biceps Curl explicitly describes underhand bar/palms forward and fixed upperarms, supporting the supinated implementation. Editorial8second demonstration.",
+  "motion": "Standing bilateral wide supinated straight-bar low-cable curl. Mild fixed upperarm abduction allows wider-than-shoulder grips without bending wrist axes. Single rigid bar central ring links continuous pulley/stack cable. Smooth8second rep.",
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 2.6645352591003757e-15,
+    "pulleyRimError": 9.43689570931383e-16,
+    "connectorRadiusError": 4.718447854656915e-16,
+    "stackRiseRange": [
+      0,
+      4.6034215771470794
+    ],
+    "cableBodyMinClearance": 1.5745076558862,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.220446049250313e-15,
+    "gripTangentAxisError": 1.6169856191383123e-15,
+    "elbowBendRange": [
+      22.861831095572576,
+      107.63884705963683
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.364187173670149,
+    "barGripWidth": 5.2794043621034765,
+    "barRise": 5.015704258526371,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.1440159917877946,
+    "footMinY": -8.175230979919434
+  }
+}

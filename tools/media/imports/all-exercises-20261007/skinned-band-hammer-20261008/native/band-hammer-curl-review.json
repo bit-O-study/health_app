@@ -1,0 +1,106 @@
+{
+  "id": "band-hammer-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-band-hammer-20261008/native/band-hammer-curl.mp4",
+      "sha256": "30a630f1f5418d7aeb201010a651a22c70ad36389631faa2b1381b7490754f95",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 121597,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-band-hammer-20261008/native/band-hammer-curl-dark.mp4",
+      "sha256": "ec0d7eeb370b5d70a7ee4feb9b9adf83eb20ec070617c179d0bdbd0802d8a575",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 112692,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "clipError": 0,
+    "anchorDrift": 0,
+    "gripLocalDrift": 2.025966904339278e-15,
+    "bandLengthRange": [
+      7.317408638510672,
+      12.896258858417603
+    ],
+    "upstrokeLengthDrop": 0,
+    "bodyBandClearance": 0.3989696988872586,
+    "collisionSamples": 17,
+    "neutralPalmXMin": 0.9507020329002331,
+    "extensionRatio": 1.7624079090712645
+  },
+  "sources": [
+    "https://storage.googleapis.com/msgsndr/XvPdGEgSd8SLZjFiaiaQ/media/678d836801b601124c15cda0.pdf"
+  ],
+  "sourceSha256": "8a94077a44518fdc6a52a22984591c1fd9207fe812abc5f02dbcb71c2f9c6a50",
+  "rigSourceSha256": "8e476517c1dba06d745547f1839470965537f6a8a2c625f4c6b0abf4925beabd",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "band"
+  ],
+  "checks": {
+    "exercise": "Standing bilateral neutral grip band hammer curl verified against Bodylastics manual pp81-82.",
+    "equipment": "Catalog band. Two elastic branches with closed generic strap handles, no dumbbells or cable stack.",
+    "setup": "Upright fixed trunk and upperarms, feet hip width; band runs under athletic shoe arches.",
+    "hands": "Both inward palms retained; modeled palm normal within18.1degrees of lateral due to anatomy. Closed fingers wrap handle segment, connected strap branch inspected in both hand closeups.",
+    "feet": "Procedural athletic shoe soles at floor -8.35; compressed band below arches intentional. Hidden foot skin within shoes prevents toe protrusion. Final feet-0 inspected.",
+    "movement": "481samples fixed elbows/feet and anchors, loop and clip zero; length grows7.3174to12.8963, ratio1.7624.17phase body-band gap minimum.39897 excluding hand/foot intentional contact. Smooth phase .4/3.8/4.2/7.6."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "30a630f1f5418d7aeb201010a651a22c70ad36389631faa2b1381b7490754f95",
+  "darkVideoSha256": "ec0d7eeb370b5d70a7ee4feb9b9adf83eb20ec070617c179d0bdbd0802d8a575",
+  "visual": {
+    "inspected": [
+      "both-theme32frame",
+      "full0/210",
+      "hand210",
+      "support210",
+      "feet0"
+    ],
+    "result": "No floating handle, band disconnection or visible body collision; final shoes contain toes."
+  },
+  "limitations": [
+    "Root visual review pending; no shared publication performed.",
+    "Generic procedural athletic shoes and strap handles, not brand replica.",
+    "Band stretch models length only, no force law or material thinning; ratio relative to displayed starting length, not unstretched manufacturer length.",
+    "Collision sampled at17poses, skin/body-band only with intentional hand/foot contact excluded; no exhaustive mesh collision proof.",
+    "Playback local mobile Edge emulation, not physical device or app."
+  ],
+  "reviewedAt": "2026-10-08T08:09:25.286Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "big-toe-extension",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "big-toe-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://myjointhealthhub.bnssg.nhs.uk/foot-ankle-pain/bunions-hallux-valgus/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:45:15.344Z"
+}

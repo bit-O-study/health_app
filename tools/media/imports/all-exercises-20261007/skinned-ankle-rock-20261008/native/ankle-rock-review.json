@@ -1,0 +1,127 @@
+{
+  "id": "ankle-rock",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.stchristophers.org.uk/wp-content/uploads/dlm_uploads/2024/07/StChris_Seated_Exercises.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact ankle-rock selected as seated heel-toe rocking; source explicitly names Ankle Rocking.",
+    "equipment": "Bodyweight, stable seat, no added weights or mobility block.",
+    "setup": "Pelvis stable seated and hands beside chair; full setup image retained.",
+    "hands": "481 actual arm-seat and skin/garment-seat clearance checks passed.",
+    "feet": "481 skinned sole checks maintain floor contact. Toe-up peak has heel contact and lifted forefoot; heel-up peak has toe contact and lifted heel. Support reference drift measured, with small rolling slip documented.",
+    "movement": "Both32frame sheets plus toe-up/heel-up enlarged feet and side views reviewed. Full8second cycle continuous caption, decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "2c54cf9c0312bb08081933326e31baf378218dbdb74e575abedd2dd0d53a18ac",
+  "rigSourceSha256": "2a0ace5ef414de5410bc9c1d32104e85202604c5d3ce5a841e6ab6f0ff21ca3c",
+  "videoSha256": "1a7db9447bcd65a3d198f8875a3b1a4a776940b57a753d87ff780c32dec61d81",
+  "darkVideoSha256": "dcffbb244c34a454a6f46770ed528d28c87a1e468eaabe50e1efe136a333a17b",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ankle-rock-20261008/native/ankle-rock.mp4",
+      "sha256": "1a7db9447bcd65a3d198f8875a3b1a4a776940b57a753d87ff780c32dec61d81",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 127145,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ankle-rock-20261008/native/ankle-rock-dark.mp4",
+      "sha256": "dcffbb244c34a454a6f46770ed528d28c87a1e468eaabe50e1efe136a333a17b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 126720,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -8.881784197001252e-15,
+    "maxGroundGap": 6.217248937900877e-15,
+    "minSeatGap": 0.014110367184025918,
+    "maxSeatGap": 0.019293399162350067,
+    "minArmSeatGap": 0.7407054108791957,
+    "toeUp": {
+      "heelGap": 4.440892098500626e-15,
+      "toeClearance": 0.4992918094024077
+    },
+    "heelUp": {
+      "toeGap": 8.881784197001252e-16,
+      "heelClearance": 0.5022306485191645
+    },
+    "heelAnchorZDriftDuringToeUp": 0.010614530345677053,
+    "toeTipZDriftDuringHeelUp": 0.10830317061165928,
+    "maxAnkleStep": 0.010602559698663657,
+    "phaseSeconds": {
+      "toeUpAndDown": [
+        0,
+        4
+      ],
+      "heelUpAndDown": [
+        4,
+        8
+      ],
+      "perHalf": {
+        "start": [
+          0,
+          0.2
+        ],
+        "rise": [
+          0.2,
+          1.9
+        ],
+        "peak": [
+          1.9,
+          2.1
+        ],
+        "lower": [
+          2.1,
+          3.8
+        ],
+        "rest": [
+          3.8,
+          4
+        ]
+      }
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:13:12.405Z",
+  "limitations": "Seated heel-toe variation; excludes knee-forward ankle mobilization.15/20degree angles and8second pacing are illustrative. Minor support-point rolling/sliding is measured in kinematics; not claimed perfectly locked. Source PDF text verified but screenshot fetch returned cache miss. Sampled skinned contact checks do not constitute full triangle collision or physical-device certification."
+}

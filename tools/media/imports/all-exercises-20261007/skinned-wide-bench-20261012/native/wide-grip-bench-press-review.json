@@ -1,0 +1,136 @@
+{
+  "id": "wide-grip-bench-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/wide-grip-barbell-bench-press/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerToChest": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Wide-grip barbell bench press, controlled chest touch and full press with soft elbows.",
+    "equipment": "One rigid straight barbell,shaft/plates/collars versus all non-hand body vertices and bench/head/back pads checked481poses.",
+    "setup": "Head/back/pelvis supported on flat bench and cushion,both feet grounded.",
+    "hands": "Closed overhand wide grips,fixed span and bar plane.Wrist deviation measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "b30d74648b57721a1aadf6a511fa304a6e79407887b5a4ceb28c6b2518041090",
+  "rigSourceSha256": "201b0232d86482bbe2fa4413f22613fd8b4db8b50e6553d651baf299521a417e",
+  "videoSha256": "f76adade09a4909c192d6fe098dcceacd513c4978bb001a6363eb9aed5980d12",
+  "darkVideoSha256": "c402c4673ce1113cc735cdc28b882eedd98c9de6ab501a0d96ceaac4d6ac4af6",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-bench-20261012/native/wide-grip-bench-press.mp4",
+      "sha256": "f76adade09a4909c192d6fe098dcceacd513c4978bb001a6363eb9aed5980d12",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 121679,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-bench-20261012/native/wide-grip-bench-press-dark.mp4",
+      "sha256": "c402c4673ce1113cc735cdc28b882eedd98c9de6ab501a0d96ceaac4d6ac4af6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 108143,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.6038943375876995,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": -8.312490637485404e-8,
+    "minEquipmentBenchClearance": 2.413198112454321,
+    "seatContactError": 7.916880484515332e-10,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.04386528199496156,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.041332864764931,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.481022421909108,
+    "minimumBackGap": 0,
+    "backContactError": 0.03105234463681672,
+    "minHeadClearance": 1.6211590324232539,
+    "minElbowFlex": 7.862177007541124,
+    "maxElbowFlex": 129.79226648150077,
+    "minimumElbowAboveShoulder": -2.1179105475926834,
+    "wristDeviationRange": [
+      9.036099757755887,
+      22.636382318560532
+    ],
+    "bottomWristDeviation": [
+      18.49765143732347,
+      18.49765143732347
+    ],
+    "topWristDeviation": [
+      16.69580814355854,
+      16.69580814355854
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 5.329070518200751e-15,
+    "minNonChestClearance": 0.22105228102191715,
+    "startChestContact": -8.312490637485404e-8,
+    "endChestContact": -8.312490637485404e-8
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:00:34.118Z",
+  "limitations": "Barefoot mannequin, flat bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification."
+}

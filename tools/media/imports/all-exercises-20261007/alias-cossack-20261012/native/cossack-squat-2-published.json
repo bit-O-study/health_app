@@ -1,0 +1,18 @@
+{
+  "id": "cossack-squat-2",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+  "rigSourceSha256": "3e2368d3643ebdeadbfdb1e258205a9999f8d52b9121f9cfa403764e22f2f191",
+  "videoSha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+  "darkVideoSha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 192386,
+  "darkBytes": 231839,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:07:49.267Z"
+}

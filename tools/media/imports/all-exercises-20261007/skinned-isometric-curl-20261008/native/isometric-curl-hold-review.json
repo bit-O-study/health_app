@@ -1,0 +1,102 @@
+{
+  "id": "isometric-curl-hold",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/native/isometric-curl-hold.mp4",
+      "sha256": "1d8e7459da3b960bb385d634abf4309b731f80057622d8e73a2cc46bc85049f9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 21865,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-isometric-curl-20261008/native/isometric-curl-hold-dark.mp4",
+      "sha256": "52ca768f3ab2d812b8f26d690962c590b4b81be6bf35f6711ed86f1d4d14aea0",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 21712,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 7.682533882252787e-16,
+    "elbowBendRange": [
+      90.00000000000001,
+      90.00000000000001
+    ],
+    "handleRadius": 0.12,
+    "dumbbellRise": 0,
+    "collisionSamples": 17,
+    "bodyDumbbellMinClearance": 2.1333115526097965,
+    "footMinY": -8.175230979919434,
+    "previewIdenticalFrames": 4
+  },
+  "sources": [
+    "https://archive.t-nation.com/training/tip-the-worlds-hardest-curl-workout/"
+  ],
+  "sourceSha256": "6f17d721b54660ef10113ef48d32c0f1f013786f0418176d8108b6320c777fcc",
+  "rigSourceSha256": "2eac90b854fe04f08c7ea322e859363afda95ceb0cdee460e5efa7dbd4e31e83",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "videoSha256": "1d8e7459da3b960bb385d634abf4309b731f80057622d8e73a2cc46bc85049f9",
+  "darkVideoSha256": "52ca768f3ab2d812b8f26d690962c590b4b81be6bf35f6711ed86f1d4d14aea0",
+  "checks": {
+    "exercise": "Standing bilateral supinated dumbbell isometric curl hold at exact90degree elbows with horizontal forearms, fixed for8seconds; no dynamic reps.",
+    "equipment": "Two separate hex dumbbells with straight metal handles, closed grips and preserved end caps. Equipment matches dumbbell catalog.",
+    "setup": "Upright fixed torso, shoulders and slightly outward upperarms; hip-width grounded stance. Both wrists and elbows remain stationary in all481samples.",
+    "hands": "Hand210 and opposite hand210 inspected. Supinated palms, curled fingers and opposed thumbs on handles. Local grip drift0 and handle-axis error7.69e-16.",
+    "feet": "Feet static at floor -8.175231 with minimum vertex -8.1752309799. Non-arm body vertices clear conservative dumbbell head/shaft cylinders by minimum2.133312model units across17samples.",
+    "movement": "Both encoded32frame sheets and side210 inspected as intentional static hold.481sample joint/equipment drift0, elbow90degrees, four previewPNG hashes identical. Both full decodes and mobile Edge play/seek/loop passed. Timing hold throughout0-8seconds. Final lossless H264 encoding verifies192identical decoded-frame hashes per theme."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "holdFrames": [
+    {
+      "theme": "light",
+      "frames": 192,
+      "uniqueDecodedHashes": 1
+    },
+    {
+      "theme": "-dark",
+      "frames": 192,
+      "uniqueDecodedHashes": 1
+    }
+  ],
+  "reviewedAt": "2026-10-08T04:51:03.955Z",
+  "limitations": "Root visual review pending. Static3D posture demonstrates position only, not actual muscle force or pressure. Barefoot mannequin, angular elbow skin and stylized fingers.17sample cylinder/body vertex check excludes arms/hands and is not exhaustive triangle/contact proof. Source8second isometric portion isolated; no drop-set/full-curl sequence. No physical-device or clinical certification."
+}

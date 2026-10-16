@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-07",
+  "id": "chest-dip",
+  "method": "built-in imagegen, background extraction and one matte repair",
+  "status": "rejected",
+  "reason": "White and colored edge specks around heads/shoulders and residual cyan/gray patches within equipment. No app asset replaced.",
+  "source": "tools/media/motion-guides/chest-dip.jpg",
+  "candidates": [
+    "chest-dip-candidate-1.png",
+    "chest-dip-candidate-2.png"
+  ],
+  "prompt": "Preserve exact 16 poses, anatomy, teal shorts, complete black dip equipment. Remove studio/floor/grid and enclosed backgrounds to transparent alpha; repair white/colored fringe without pose changes."
+}

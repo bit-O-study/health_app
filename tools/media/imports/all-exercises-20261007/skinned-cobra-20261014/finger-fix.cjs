@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/motion.mjs';let s=fs.readFileSync(p,'utf8').replace("desired=fwd.clone().addScaledVector(across,f===1?.7:0).normalize();","desired=fwd.clone().addScaledVector(across,f===1?.7:0).add(new THREE.Vector3(0,f===1?0:-Math.tan(rad([0,0,5,7,8,7][f])),0)).normalize();");fs.writeFileSync(p,s);

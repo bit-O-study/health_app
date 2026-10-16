@@ -1,0 +1,18 @@
+{
+  "id": "cable-bar-incline-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c6df2d2e2af68422a337b6ae9ea501515f572528bd5b08a12c7955937beeedf4",
+  "rigSourceSha256": "12afdd6fddf9b42786417eedd9fe6f9137a94626c4c657fa77e6403e6a5a2cf7",
+  "videoSha256": "c45d10f6cab85237d9498cef21f1e7bdeb5d5483d2d50b6703b07c88993bff0c",
+  "darkVideoSha256": "56700e6a2e75c68f49e22eea622231a21499e0f2063a97ede22c1f8dde8fb871",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 95157,
+  "darkBytes": 91673,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T05:51:41.202Z"
+}

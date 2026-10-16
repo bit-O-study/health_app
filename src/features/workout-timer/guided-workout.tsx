@@ -1731,8 +1731,8 @@ export function GuidedOverlay({
               <IntroCard steps={item.intro} onReady={() => markIntroSeen(item.exerciseId)} />
             ) : null}
             {/* 이름 줄 — 왼쪽: 종류·슈퍼세트 + 이름, 오른쪽: 메모·AI 자세 */}
-            <div className="mt-4 flex w-full items-start justify-between gap-3">
-              <div className="min-w-0">
+            <div className="mt-4 flex w-full min-w-0 flex-col gap-3">
+              <div className="min-w-0 w-full">
                 <div className="flex flex-wrap items-center gap-1.5">
                   <KindBadge kind={item.kind} />
                   {/* 슈퍼세트 표시 — 지금 묶음의 몇 번째인지. 이게 없으면 "왜 휴식이 안 오지" 가 된다. */}
@@ -1748,7 +1748,7 @@ export function GuidedOverlay({
                   ) : null}
                 </div>
                 {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
-                <h2 className="mt-1.5 truncate text-xl font-semibold tracking-tight text-zinc-50">
+                <h2 className="mt-1.5 break-words text-xl font-semibold tracking-tight text-zinc-50">
                   {item.name}
                 </h2>
                 {/* 지금 몇 세트째 — 운동 중 가장 자주 보는 값이라 이름 바로 아래 크게(20px).
@@ -1759,7 +1759,7 @@ export function GuidedOverlay({
                   </p>
                 ) : null}
               </div>
-              <div className="flex shrink-0 items-center gap-1.5 pt-0.5">
+              <div className="flex w-full flex-wrap items-center gap-1.5 pt-0.5 [&>button]:shrink-0">
                 <button
                   type="button"
                   onClick={() => setMemoOpen(true)}

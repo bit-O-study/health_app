@@ -14,6 +14,15 @@
 ## 1순위: 앱 안정성
 
 ### UI.1 [진행중] 앱 전체 화면 재설계 (2026-09-18)
+- [진행중] 2026-10-16 운동모드·워밍업 모바일 배치 수정
+  - [완료] 스쿼트·고블릿 스쿼트·푸시업의 제목 압축/카메라 버튼 화면 이탈 및 워밍업 삭제 버튼 아래줄 밀림 재현
+  - [완료] 제목과 보조 버튼을 별도 줄로 배치하고 버튼 줄바꿈·긴 제목 개행 적용. 워밍업/마무리 편집 행 삭제 버튼 오른쪽 위 44px 터치 영역 고정
+  - [완료] 오늘 운동의 빈 워밍업/마무리 추가 링크를 /plan/today?section=warmup|cooldown 전용 화면으로 연결. 선택 종류만 표시하고 dailyDate로 오늘 데이터에만 저장
+  - [완료] 2026-10-16 실제 컴포넌트 SSR+Tailwind+Edge 모바일 폭 320/360/390/430px: 전체 1,355종 ×4 및 컨디셔닝 고정 ON/OFF 8건, 총5,428건 배치 검사 통과. tools/testing/verify-workout-mobile.cjs, test-results/workout-mobile/results.json. 영상 재생·모든 기구 변형·실기기 전체 검증을 뜻하지 않음
+  - [완료] localhost:3128 mobile-edge workout-mobile-layout.spec.ts 1개 통과(최종22.6초): 오늘 워밍업 추가2→삭제1→저장/재조회→삭제·저장, 영구 본운동/워밍업 불변, 스쿼트/고블릿4개 화면 폭. 빈 오늘 섹션 진입 때 영구 워밍업을 자동으로 채우지 않도록 보완 후 재통과. 테스트 계정 정리 완료. 최초 콜드 컴파일 중 링크 전환 타임아웃 후 재실행 통과
+  - [완료] guided-workout-layout/workout-condition 단위20개 통과, 대상 ESLint 오류0/기존경고11, tsc --noEmit --incremental false 통과. 손상된 .next/dev 생성 타입은 재생성한 라우트 타입으로 복구. next build --webpack 통과
+  - [대기] Android 실기기 확인 — 현재 adb devices 연결 기기 없음
+  - 2026-10-16 사용자 명시 푸시 요청으로 위 대상 검증 범위에서 이번 수정만 커밋·푸시. 전체 게이트·Android 실기기·운영 배포는 미완료. 기존 미커밋 인바디/로드맵 변경 보존
 - [진행중] 2026-09-27 GitHub CI 식단 ref 린트 오류 수정
   - [완료] Actions 36326835392 로그에서 diet-board react-hooks/refs 1건이 최종 판정 실패 원인임을 확인
   - [완료] logsRef 갱신을 useLayoutEffect로 옮겨 커밋된 최신 식단을 유지하고 렌더 중 ref 변경 제거

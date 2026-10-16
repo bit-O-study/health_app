@@ -249,9 +249,9 @@ export function ConditioningEditor({
             return (
               <div
                 key={idx}
-                className="app-field flex flex-wrap items-center gap-1.5 rounded-md border p-2"
+                className="app-field relative flex flex-wrap items-center gap-1.5 rounded-md border p-2 pr-14"
               >
-                <div className="basis-full sm:basis-auto sm:flex-1">
+                <div className="min-w-0 basis-full sm:basis-auto sm:flex-1">
                   <ExerciseSearchSelect
                     ariaLabel="항목"
                     options={options}
@@ -292,7 +292,7 @@ export function ConditioningEditor({
                   type="button"
                   aria-label="삭제"
                   onClick={() => update(rows.filter((_, i) => i !== idx))}
-                  className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
+                  className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>

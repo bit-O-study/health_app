@@ -2703,7 +2703,21 @@ function ItemVisual({
     if (item.method.length > 0) return tutorial(item.method);
     return bare;
   }
-  // 워밍업·마무리: 실사 시연 2프레임 자동 교차재생. 없으면 방법 문구 튜토리얼.
+  // 런닝은 검수된 연속 동작 영상으로, 나머지는 실사 시연을 유지한다.
+  if (item.itemId === "running") {
+    return (
+      <VideoWithCaption
+        media={{
+          url: "/exercise-guides/ai-v3/running.mp4?v=20261016",
+          darkUrl: "/exercise-guides/ai-v3/running-dark.mp4?v=20261016",
+          kind: "video",
+        }}
+        steps={hideCaption ? [] : item.method}
+        overlay={overlay}
+      />
+    );
+  }
+  // 나머지 워밍업·마무리: 실사 시연 2프레임, 없으면 방법 문구 튜토리얼.
   const condFrames = conditioningPhotoFrames(item.itemId);
   if (condFrames) return <PhotoWithCaption frames={condFrames} steps={item.method} overlay={overlay} />;
   if (item.method.length > 0) return tutorial(item.method);

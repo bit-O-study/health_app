@@ -616,3 +616,12 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 - 2026-10-07 배치 종료: standing-cable-curl 원본기구복원은 성공했지만 2.5초 손/바 이중잔상(root 확대검토 확인)으로 hold-motion. cable-rope-hammer-curl-2는 원본타워상단 잘림+분할기구소실로 보류. B/curl-batch-review.json. 신규 앱 반영 없음, 양테마87/기존누끼24/동작41/구형7/신규1192 유지. 리뷰 SHA 게이트4개 추가통과, 합계24개. 모든 후보 처리 프로세스 종료, 기존 개발서버 유지. 다음은 아직 시도하지 않은 케이블 운동(low-cable-fly, wide-grip-lat-pulldown 등)의 원본검토와 신규 운동 제작; 이미 기록한 소스/동작 보류는 단순 동일 재시도 대신 원본 재제작 필요. 전체 목표 active, 미완료.
 
 - 후속 진행: barbell-overhead-press alpha-edit도 바/팔 보존은 성공했지만 1.25·1.5초 보간 잔상으로 hold-motion. 별도 보간 설정 비교 중이며 기존파일은 유지. standing-toe-raise는 발뒤꿈치481샘플 접지 통과 후 손가락·의자 접촉 수정 중으로 아직 승인하지 않음. wrist-cutout은 original bench 픽셀 복원 후 검토 진행.
+
+
+## 2026-10-16 런닝 누끼 영상
+
+- [완료] 런닝 8초/480×480/30fps: 실제 알파 WebM 816,782바이트와 라이트·다크 MP4 제작. 제작 입력/해시/출처/검수는 `tools/media/imports/running-20261016/`.
+- [완료] 정면·측면 16프레임 검토, 481관절 표본/루프 오차0/팔꿈치90.41도, 알파240프레임 가장자리 잘림0, 전체 디코드 및 Edge 3파일 재생·3초 탐색·반복 통과. 최초 탐색 실패는 검증 서버의 Range 미지원으로 확인 후 206응답 추가하여 재검증.
+- [완료] 워밍업·마무리 `running`에 양테마 MP4 연결. 호환용 MP4는 투명 채널이 없고 WebM만 실제 알파. 기구 없는 몸동작 시범이므로 `treadmill-running` 카탈로그 완료 수에는 포함하지 않음.
+- [완료] 관련 단위20개 및 전체 TypeScript 통과, 변경 TSX ESLint 오류0/기존 미사용 disable 경고9. 런닝만 별도 커밋·푸시 요청. 다음 작업은 사용자 요청대로 신규 3종 묶음.
+- [대기] 운영 배포 및 실기기 확인.

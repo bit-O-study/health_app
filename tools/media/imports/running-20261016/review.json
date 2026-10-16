@@ -1,0 +1,14 @@
+{
+  "status": "passed-isolated-candidate",
+  "exercise": "running",
+  "checks": {
+    "exercise": "Running conditioning: alternating recovery and stance with opposite arm swing. No equipment-specific catalog entry marked complete.",
+    "equipment": "No equipment, mat, floor or background appears; treadmill operation is not demonstrated.",
+    "setup": "Full body remains in frame; upright torso with slight forward lean. Front-oblique and side contact sheets inspected.",
+    "hands": "Hands stay beside torso; open fingers reduced to a loose curl. Elbow angle measured near 90.41 degrees throughout 481 samples.",
+    "feet": "Alternating ankle trajectories and knee recovery inspected in both views; bare feet visible. Not a shoe or individualized foot-strike demonstration.",
+    "movement": "8-second, 30-fps loop; 12 strides, same start/end joint pose. Three encodings fully decoded and passed browser play/seek/loop. All 240 alpha frames have clear borders."
+  },
+  "verification": "native/verification.json",
+  "limits": ["Procedural character rather than recorded human motion", "No physical-phone verification", "Not deployed to production"]
+}

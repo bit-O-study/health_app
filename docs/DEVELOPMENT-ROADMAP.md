@@ -2162,3 +2162,11 @@
 - 영상1.2 진행중: 2026-10-07 싱글 카프: single-leg-calf-raise 신규 연속3D 양테마480/24/8초를 로컬 앱에 반영(skinned-single-calf). 같은쪽 덤벨, 반대손 고정지지, 반대무릎 굽힘, 작업발 발판지지 구현. 양테마32frame 및 support/feet/side 확대 root 검토,481샘플 접촉/발판관통/자유발높이/loop 검증, 전체decode/Edge 재생·탐색·반복 및 source-chain SHA 검증. 앱 method/guide/summary를 영상과 같은 발판 버전으로 정정. 미디어+회귀5파일20개 및 리뷰게이트4개 통과, agent 인접18tests/대상lint/전체tsc 통과. 등록171/렌더170/검토131, 양테마111/동작39/누끼20/신규1174/구형7. 다음 standing-toe-raise 신규3D와 reverse-wrist-curl 기구보존 누끼 병렬 진행. overhead-cutout u2net은 바/팔소실 보류; cable-rear-delt-fly-2 alpha는 기구보존됐으나 전환 잔상으로 미반영, barbell-overhead-press alpha-edit 진행. 실기기/배포/커밋/푸시 없음. 전체1351종 목표 진행 중.
 
 - 영상1.2 진행중: 후속 진행: barbell-overhead-press alpha-edit도 바/팔 보존은 성공했지만 1.25·1.5초 보간 잔상으로 hold-motion. 별도 보간 설정 비교 중이며 기존파일은 유지. standing-toe-raise는 발뒤꿈치481샘플 접지 통과 후 손가락·의자 접촉 수정 중으로 아직 승인하지 않음. wrist-cutout은 original bench 픽셀 복원 후 검토 진행.
+
+
+## 2026-10-16 런닝 누끼 영상
+
+- [완료] 런닝 누끼 영상: 알파 WebM + 양테마 MP4, 8초/480×480/30fps. `tools/media/imports/running-20261016/`에 원본 입력·검수·SHA 기록.
+- [완료] 정면/측면16프레임 시각검토, 481표본 loop0, 알파240프레임 가장자리잘림0, 3파일 전체decode/Edge play·seek·loop 통과. 워밍업/마무리 running에 연결. 트레드밀 기구 시범과 구분하여 카탈로그 완료수 미증가.
+- [완료] 관련 단위20개·전체tsc 통과, 변경 TSX ESLint 오류0/기존경고9. 런닝만 커밋·푸시 대상.
+- [대기] 운영 배포 및 실기기 확인.

@@ -31,7 +31,7 @@ export const dynamic = "force-dynamic";
 export default async function TodayConditioningPage({
   searchParams,
 }: {
-  searchParams: Promise<{ focus?: string; direct?: string; add?: string }>;
+  searchParams: Promise<{ focus?: string; direct?: string; add?: string; section?: string }>;
 }) {
   const [user, profile, routine, gym] = await Promise.all([
     getCurrentUser(),
@@ -45,7 +45,8 @@ export default async function TodayConditioningPage({
     await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
-  const { focus: focusParam, direct: directParam, add: addParam } = await searchParams;
+  const { focus: focusParam, direct: directParam, add: addParam, section } = await searchParams;
+  const conditioningOnly = section === "warmup" || section === "cooldown" ? section : null;
   // 직접 담기(direct) — 부위 제한 없이 전체 운동에서 담는다. 부위 자동배정은 저장 시
   // 운동별 focusForExercise 로 이뤄진다(빈 본운동/워밍업/마무리 섹션에서 추가).
   const direct = directParam === "1";
@@ -163,6 +164,27 @@ export default async function TodayConditioningPage({
   const daily = await getDailyConditioning(todayYmd);
   const warmupInitial = daily.warmup;
   const cooldownInitial = daily.cooldown;
+
+  if (conditioningOnly) {
+    const label = conditioningOnly === "warmup" ? "워밍업" : "마무리 운동";
+    // 오늘 빈 섹션에서 들어오는 동선이므로 영구 루틴을 자동으로 다시 채우지 않는다.
+    const initial = daily[conditioningOnly];
+    return (
+      <div className="app-page">
+        <PageHeader title={`오늘 ${label} 추가하기`} back="오늘 운동" backHref="/routine" />
+        <main className="app-container space-y-4">
+          <p className="px-1 text-sm text-zinc-500 dark:text-zinc-400">{dateLabel} · 오늘만 반영, 내일은 원래 루틴</p>
+          <ConditioningEditor
+            kind={conditioningOnly}
+            initial={initial}
+            dailyDate={todayYmd}
+            recommendFocuses={validFocuses}
+            lockWeightReps={profile.lockWeightReps}
+          />
+        </main>
+      </div>
+    );
+  }
 
   // 공통 머리글(2026-09-16 8단계) — 긴 설명 두 문단은 "날짜 · 부위 · 오늘만" 한 줄로 줄였다.
   // 오늘만 변경이 루틴에 영향이 없다는 안내(원칙 #2)는 실수를 막는 말이라 짧게 남긴다.

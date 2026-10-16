@@ -738,7 +738,6 @@ export async function TodayExercises({
           focus={primaryTone}
           dateYmd={todayYmd}
           lockWeightReps={lockWeightReps}
-          registerHref={registerHref}
         />
 
         {/* 본운동 */}
@@ -794,7 +793,6 @@ export async function TodayExercises({
           focus={primaryTone}
           dateYmd={todayYmd}
           lockWeightReps={lockWeightReps}
-          registerHref={registerHref}
         />
         </section>
       </TodayOrderScope>
@@ -868,7 +866,6 @@ function ConditioningSection({
   focus,
   dateYmd,
   lockWeightReps,
-  registerHref = "/plan",
 }: {
   kind: "warmup" | "cooldown";
   rowsCount: number;
@@ -879,7 +876,6 @@ function ConditioningSection({
   focus: string;
   dateYmd: string;
   lockWeightReps: boolean;
-  registerHref?: string;
 }) {
   const isWarm = kind === "warmup";
   const label = isWarm ? "워밍업" : "마무리 운동";
@@ -900,8 +896,8 @@ function ConditioningSection({
       {rowsCount === 0 ? (
         <p className="app-card flex items-center justify-between px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">
           비어 있어요
-          <Link href={registerHref} className="font-semibold text-brand">
-            운동 등록하기
+          <Link href={`/plan/today?section=${kind}`} className="font-semibold text-brand">
+            {label} 추가하기
           </Link>
         </p>
       ) : (

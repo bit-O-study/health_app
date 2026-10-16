@@ -1,0 +1,18 @@
+{
+  "id": "upper-trap-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bd5189addcb9ea1cfcb883062c4c49d56a62d9ed5926438e163b5de9f05edba6",
+  "rigSourceSha256": "3df39a93c5ffc956382ea240e09f1c2f612667fb6ea3f66d42f441bfc2a326a1",
+  "videoSha256": "b7f2b2020dab0b9351ecf09364960288b825fb144268b95eefd511846392f33d",
+  "darkVideoSha256": "f573f42d10987a793fecf6131923c223cd1314cff46724b2c06434c9286712e0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 26028,
+  "darkBytes": 28035,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T01:55:20.707Z"
+}

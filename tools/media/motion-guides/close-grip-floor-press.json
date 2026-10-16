@@ -1,0 +1,15 @@
+{
+  "id": "close-grip-floor-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "close-grip-floor-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.crunch.com/thehub/best-tricep-exercises/",
+    "https://kysero.io/exercise-library/barbell-close-grip-floor-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T06:00:20.106Z"
+}

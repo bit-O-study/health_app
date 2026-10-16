@@ -1,0 +1,24 @@
+{
+  "id": "straight-arm-pulldown-2",
+  "status": "hold-major-equipment-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "Whole machine tower and long suspension cable removed in both endpoints; upper pulley remains floating by itself.",
+    "Body and handle remain, but original complete load-bearing apparatus is absent."
+  ],
+  "restorationAssessment": "Damage is entire-machine segmentation failure, not precise thin-cable or small black ROI restoration; no blind full-image dark-pixel restoration attempted.",
+  "evidence": {
+    "id": "straight-arm-pulldown-2",
+    "sourceSha256": "230669eaaea0d1ce2339c9e9e13d70ffcc068361c2755a4f8c9dcea4f3237921",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.60999999998603,
+    "published": false
+  },
+  "validation": "First/last light composites inspected against original. Full inference/render,32-frame/full-decode/Edge omitted because endpoint quality failed.",
+  "published": false
+}

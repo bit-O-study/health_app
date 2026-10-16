@@ -1,0 +1,14 @@
+{
+  "id": "seated-arnold-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-arnold-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.youtube.com/watch?v=p6X2KwlLHO4"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:47:16.170Z"
+}

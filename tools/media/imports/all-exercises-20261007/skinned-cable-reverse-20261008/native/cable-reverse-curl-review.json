@@ -1,0 +1,106 @@
+{
+  "id": "cable-reverse-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-reverse-20261008/native/cable-reverse-curl.mp4",
+      "sha256": "a87b5cdc6b50fee7a39ecfb48c7209a4f5a63b55ca19a5f3b58235b8b08aee7e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 69442,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-reverse-20261008/native/cable-reverse-curl-dark.mp4",
+      "sha256": "e1262646dac3a7ca582f66771a65ef566d310b696ca026c78e537554032cc274",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 67247,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 0,
+    "pulleyTangentError": 2.609024107869118e-15,
+    "pulleyRimError": 8.326672684688674e-16,
+    "connectorRadiusError": 5.273559366969494e-16,
+    "stackRiseRange": [
+      0,
+      4.246528073628809
+    ],
+    "cableBodyMinClearance": 1.0944300014817718,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.1102230246251565e-15,
+    "gripTangentAxisError": 1.041481514324134e-15,
+    "elbowBendRange": [
+      20.00000000000001,
+      108.00000000000003
+    ],
+    "barGripWidth": 3.457906299643233,
+    "barRise": 4.834299652350627,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.7507817687744536,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.bodytrainer.tv/en/exercise/cable_curl_reverse",
+    "https://www.muscleandfitness.com/exercise/workouts/reverse-cable-curl/"
+  ],
+  "sourceSha256": "7ffb7033b829c8b0b34330ceeb64a8cf8c1717ab55ba0f3db29af00e1b76b0b8",
+  "rigSourceSha256": "3ed9acbee38f3b021193e1bf49d03937122574df4f34513b356db3780ebb6e08",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "a87b5cdc6b50fee7a39ecfb48c7209a4f5a63b55ca19a5f3b58235b8b08aee7e",
+  "darkVideoSha256": "e1262646dac3a7ca582f66771a65ef566d310b696ca026c78e537554032cc274",
+  "checks": {
+    "exercise": "Standing reverse low-cable curl with shoulder-width overhand straight bar; fixed upperarms and wrists, elbow20-108degrees. Faces low pulley, returns with elbows slightly bent.",
+    "equipment": "Generic low-pulley station with frame/feet/guide rods, lower and upper wheels, fixed base stack and moving selected stack. Single straight attachment bar with central ring; no floating free-weight plates.",
+    "setup": "Upright grounded stance, fixed shoulders/elbows/feet. Station spacing and start angle corrected so stack rises monotonically throughout curl; no initial stack lowering.",
+    "hands": "Hand210 and opposite-hand210 inspected: pronated closed grips, opposing thumbs.481sample grip and handle-axis errors about1e-15, constant shared bar width.",
+    "feet": "Feet remain on floor -8.175231.17phase body/shaft gap0.750782 and full-body/incoming-cable gap1.09443model units. Machine base grounded and separate from feet.",
+    "movement": "Final both-theme32frame sheets plus pulley0/210 and stack210 inspected. Cable stays on lower rim tangent, wraps lower/upper rims and terminates at moving stack.481samples analytical length drift0, tangent2.61e-15, rim8.33e-16, central-ring radius error5.28e-16. Upstroke stack rise0-4.24653, exact loop. Both full decodes and mobile Edge play/seek/loop passed; smooth0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "cableChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.00085298545094048,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.16999999999999993,
+    "endpointStackError": 0
+  },
+  "reviewedAt": "2026-10-08T06:46:41.150Z",
+  "limitations": "Root visual review pending. Generic compact station, not manufacturer-certified mechanics. Cable wraps rendered as polygonal segments: total polyline length varies0.000853model units while analytic circular-arc length is constant. Static connector ring is simplified; no pulley spin/friction or force simulation. Barefoot mannequin/angular elbow skin.17phase vertex clearance is not exhaustive triangle or machine-component collision proof. No physical-device/clinical certification."
+}

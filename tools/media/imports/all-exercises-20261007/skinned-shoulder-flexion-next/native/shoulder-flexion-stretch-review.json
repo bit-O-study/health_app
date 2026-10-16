@@ -1,0 +1,108 @@
+{
+  "id": "shoulder-flexion-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.cpft.nhs.uk/download/docm93jijm4n1210.pdf?ver=1612"
+  ],
+  "checks": {
+    "exercise": "Exact shoulder-flexion-stretch; standing active unilateral forward overhead arm raise, left side demonstration.",
+    "equipment": "Empty hands, bodyweight only.",
+    "setup": "Upright trunk with right arm resting at side and feet fixed.",
+    "hands": "Thumb side leads forward elevation; relaxed fingers, no wrist bending. Shoulder, side and hand enlarged views inspected.",
+    "feet": "481 skinned sole checks within0.001world floor tolerance and fixed feet.",
+    "movement": "Both final32frame encoded sheets reviewed. Smooth155degree shoulder flexion and return; no ghosting, no torso lean. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "94d6d0b58e79dc7ef35c0a77a0f3a427dbe1c47492aa88205b0a4b973847cd64",
+  "rigSourceSha256": "b96c67f2b229bbc47f051763b75aa00e19d7998e072c0390fce1d7e4fcd15df6",
+  "videoSha256": "63b6dc30f85f6f0acb19e6bc9f2b129f9bccec376a31b96931eb4001751984f9",
+  "darkVideoSha256": "7f9dcff343dcd4de26d08235a1c1b1ee4c7491f16960a44a941c232df3a5c7a8",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/native/shoulder-flexion-stretch.mp4",
+      "sha256": "63b6dc30f85f6f0acb19e6bc9f2b129f9bccec376a31b96931eb4001751984f9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 52035,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-shoulder-flexion-next/native/shoulder-flexion-stretch-dark.mp4",
+      "sha256": "7f9dcff343dcd4de26d08235a1c1b1ee4c7491f16960a44a941c232df3a5c7a8",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 55061,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "rightWristDrift": 0,
+    "shoulderDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "startAngle": -6.19987065025135e-15,
+    "peakAngle": 154.99999999999997,
+    "maxWristStep": 0.12754439945869708,
+    "elbowLineError": 8.881784197001252e-16,
+    "phaseSeconds": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:37:25.014Z",
+  "limitations": "Single left side demonstration; opposite side may be repeated. Active shoulder mobility version, no passive assistance. Illustrative155degree range and8second timing, no clinical prescription or physical-device certification."
+}

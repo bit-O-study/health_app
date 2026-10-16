@@ -1,0 +1,13 @@
+{
+  "samples": 481,
+  "plantedFootDrift": 0,
+  "activeAnkleDrift": 0,
+  "toeHorizontalRange": 0.9033334654352647,
+  "toeVerticalRange": 0.9040461631242831,
+  "activeToeMinGroundClearance": 0.25652335638054247,
+  "supportClearance": 0.0000026663988967889907,
+  "supportWristDrift": 0,
+  "loopDrift": 0,
+  "reverseMatch": 7.444291678311382e-15,
+  "units": "model world units, body height approximately 17"
+}

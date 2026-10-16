@@ -1,0 +1,18 @@
+{
+  "id": "dynamic-hamstring-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8dd50f67eaecd7b916643b143a29c828969c2216fca9d06c3053a56270658d10",
+  "rigSourceSha256": "4b343bbfb23b8c2c91e4133e3f8ed92ccac20d61fa0c10787047351891ae9a66",
+  "videoSha256": "9abdb5ecad467005cad096803121f37f014e52fefce385d4a97206b6b2c030df",
+  "darkVideoSha256": "bd0039aa75b62d66bf812f20779dc60dfede2bd277b43b5e470581f31219b1fb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 148682,
+  "darkBytes": 162437,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T04:25:11.671Z"
+}

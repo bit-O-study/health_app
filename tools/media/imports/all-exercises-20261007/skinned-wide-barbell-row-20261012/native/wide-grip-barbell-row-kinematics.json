@@ -1,0 +1,43 @@
+{
+  "samples": 481,
+  "elbowDrift": 4.03350188435254,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": -8.326672684688674e-17,
+  "soleMinY": -8.117389998658691,
+  "soleMaxY": -8.117389998658691,
+  "floorY": -8.117389998658691,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.0342210705308405,
+  "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+  "elbowBendMin": 7.999999999999752,
+  "elbowBendMax": 125.31789070565587,
+  "peakElbowBend": 125.31789070565587,
+  "garmentFloorGap": 5.470409171742329,
+  "minimumBodyFloorGap": 0,
+  "heelFloorGap": 0,
+  "trunkDrift": 0,
+  "barGripError": 2.220446049250313e-15,
+  "gripSpanError": 4.440892098500626e-15,
+  "kneeHipDrift": 0,
+  "minNonAbdomenClearance": 0.5208571401943835,
+  "peakAbdomenContact": -8.326672684688674e-17,
+  "waistGarmentRadialGap": 0.013030387423744072,
+  "wristDeviationRange": [
+    2.0938538020973043,
+    34.53197136398968
+  ],
+  "torsoAngleRange": [
+    60.00000000000001,
+    60.00000000000001
+  ],
+  "footSpan": 3.9204658366334177,
+  "garmentArmWeightCount": 0,
+  "heelRegionGap": 0.010424613952636719,
+  "toeRegionGap": 0.009899851456586006,
+  "barFloorClearance": 6.149296727571382,
+  "kneeAngleRange": [
+    14.925132951086622,
+    14.925132951086622
+  ]
+}

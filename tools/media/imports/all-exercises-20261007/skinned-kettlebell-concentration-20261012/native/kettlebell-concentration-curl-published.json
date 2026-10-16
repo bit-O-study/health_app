@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-concentration-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e4b947478e498fc2d3b8dafd004ad0b304fbe98a6e53b97209764d9ccd8a9f65",
+  "rigSourceSha256": "94fc6e9e11f5aedf9f2d6a4c47ab33fafd4bda416a846454a7a26435eb4b1e6c",
+  "videoSha256": "d882244a3a4d6203a88b3f3f7cc3c00ae337cf008f4b6eda87e4cf5675781181",
+  "darkVideoSha256": "68491d1c4599b0d8dec27c5ca59a7fbed2bdb74c9370661af5dac71d0d6d65c5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 52709,
+  "darkBytes": 46474,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:53:21.274Z"
+}

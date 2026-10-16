@@ -1,0 +1,88 @@
+{
+  "id": "single-leg-calf-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/single-leg-standing-dumbbell-calf-raise/"
+  ],
+  "checks": {
+    "exercise": "Single-leg dumbbell calf raise; working left ankle, bent free leg crossed behind and right hand light support.",
+    "equipment": "One left dumbbell, actual stable step and right-hand support stand.",
+    "setup": "Upright trunk, stable knees; both feet and full body visible. Step and floor at separate heights; heels clear step edge.",
+    "hands": "Left neutral dumbbell grip fixed; right open palm fixed on support pad, checked in closeup.",
+    "feet": "Forefoot geometry constrained to step top across 481 samples; toe bone adjustment <0.08 and skin drift <0.1 while heels rise >1.2. Foot closeup and side previews show plantarflexion, no whole-body sliding.",
+    "movement": "Both encoded 32-frame sheets reviewed; native 192-frame decode and mobile Edge play/seek/loop passed."
+  },
+  "sourceSha256": "54226a871f158f88492257310486a5951fbba9b0cd8d2bbf3db361bdd8354861",
+  "rigSourceSha256": "5768e29817df4731208ae3028f34173906eb04907d66d3d0e395be3ad50b0138",
+  "videoSha256": "30c37e801d34203a8b5ba7dbf2162ce485678292585170a4f8e5f6340d6970be",
+  "darkVideoSha256": "e87f9e6134daeee1decdaabed26d55ee97e9a250504d78172f3ecb347c0cc818",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-calf/native/single-leg-calf-raise.mp4",
+      "sha256": "30c37e801d34203a8b5ba7dbf2162ce485678292585170a4f8e5f6340d6970be",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 114406,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-calf/native/single-leg-calf-raise-dark.mp4",
+      "sha256": "e87f9e6134daeee1decdaabed26d55ee97e9a250504d78172f3ecb347c0cc818",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 113640,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "sampleCount": 481,
+    "pivotMaxDrift": 0.07314590115306618,
+    "soleToeMaxDrift": 0.06292553521176447,
+    "heelRise": 1.2275035152301594,
+    "loopPivotDrift": 0,
+    "units": "model world units; body height approximately 17",
+    "stepMinClearance": -5.908677991328659e-10,
+    "heelMaxZ": 0.45901242253627567,
+    "heelStartBelowStep": 0.3606214109490278,
+    "supportMinClearance": 0.0000026663988919040094,
+    "supportMaxClearance": 0.0000026663988985653475,
+    "supportWristDrift": 2.6645352591003757e-15,
+    "freeFootMinHeight": 1.9260681550735406
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T03:54:58.376Z",
+  "limitations": "Mannequin/barefeet style. Real app/device not tested. Minor toe skin drift recorded in kinematics; bone pivot receives small skin-weight contact correction. Left side demonstration; other side should be mirrored for training. Catalog instructions corrected to matching step variant; 18 adjacent tests, targeted ESLint and TypeScript pass."
+}

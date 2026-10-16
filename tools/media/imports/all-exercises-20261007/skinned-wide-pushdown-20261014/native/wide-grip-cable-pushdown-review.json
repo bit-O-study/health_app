@@ -1,0 +1,122 @@
+{
+  "id": "wide-grip-cable-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-pushdown-20261014/native/wide-grip-cable-pushdown.mp4",
+      "sha256": "2fb6cb1b8e4c99dda6a7d2a46aecf168e22c8de491c9eeb1bd2cc7b584d03a95",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 82799,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-pushdown-20261014/native/wide-grip-cable-pushdown-dark.mp4",
+      "sha256": "04de212fb00df4388fdd1ac91608ebf9f551a772fac2d5b52096fa307c6b46a2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 81518,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.9404924595819466e-15,
+    "pulleyRimError": 1.3322676295501878e-15,
+    "connectorRadiusError": 7.216449660063518e-16,
+    "stackRiseRange": [
+      0,
+      6.190231065380715
+    ],
+    "cableBodyMinClearance": 1.6448704640538743,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.3322676295501878e-15,
+    "gripTangentAxisError": 9.321907481344796e-16,
+    "elbowBendRange": [
+      4.963846760173941,
+      118.5809555379869
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.2139399113583462,
+    "barGripWidth": 4.6979474569568,
+    "barRise": 6.029819530947689,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 1.102568175175275,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.5106035393210083,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.659768934619285,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0003886917986690719,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 1.0817970241447972,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 2.1938006966593093e-13,
+    "handSeparationX": 3.371953844273406,
+    "handRingGapX": 1.640976922136703,
+    "palmProjectionRange": [
+      -0.9507020329002341,
+      -0.950702032900233
+    ]
+  },
+  "sources": [
+    "https://criticalbody.com/wide-grip-tricep-pushdown/"
+  ],
+  "sourceSha256": "7a67b9ce9d4bc153d2efa3428055bc692c19961e87ca82c2f3d8ae627a9ddae9",
+  "rigSourceSha256": "9da1448109d49a6185894ad3514cbdfd683481a633c20163534a186ff6e03388",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T04:18:46.602Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "2fb6cb1b8e4c99dda6a7d2a46aecf168e22c8de491c9eeb1bd2cc7b584d03a95",
+  "darkVideoSha256": "04de212fb00df4388fdd1ac91608ebf9f551a772fac2d5b52096fa307c6b46a2",
+  "checks": {
+    "exercise": "Exact wide-grip-cable-pushdown catalog cable variation, previously absent spec. Original CriticalBody wide-grip straight-bar protocol; both final32frame sheets visually inspected. Grip width1.21394shoulder widths differs from close0.663 and standard0.894.",
+    "equipment": "Single long straight bar, overhand grip, central ring and fixed high pulley. Pulley closeup inspected; conserved cable total length and monotonic stack movement. Length drift3.55e-15, full481samples.",
+    "setup": "Fixed8degree torso lean; upperarms and forearms share6.89degree lateral components for approximate wrist/elbow alignment. Bar-body1.10257, cloth1.08180, cable-body1.64487, machine-body0.51060model units.17deformedmesh phases checked including forearms.",
+    "hands": "Final hand0/210 inspected; overhand palm projection -0.95070 throughout, grip anchors1.33e-15error and axes9.32e-16error. Hands separated3.372 and ring clearance1.641model units.",
+    "feet": "Final feet0, side210 and both32frame sheets inspected. Stable stance and sole-floor gap2.01e-8model units.",
+    "movement": "Elbow118.581 to4.964degrees, fixed upperarms and torso. Smooth pushdown.4-3.8seconds, peak3.8-4.2, controlled return4.2-7.6. Fullphase angle error2.19e-13, fixed/loop/station drift0. Both480square24fps8second192frameMP4 decode and local Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Original source requests complete elbow lockout; generic demonstration uses4.96degree soft finish without hyperextension. Source return describes forearm/biceps contact; model reaches118.58degrees with anatomical contact not forced.",
+    "Source does not prescribe a numeric grip width;1.214shoulder widths chosen to implement a visibly wide grip while retaining near wrist/elbow alignment. No triceps-head specialization claim adopted.",
+    "Generic procedural model has mild angular elbow skin deformation in the flexed closeup; continuous skin remains intact. Model-space clearances are not physical measurements.",
+    "Timing is one editorial8second smooth repetition with0.4second peak hold; local mobile-size Edge verifies MP4 rather than a physical-device app."
+  ]
+}

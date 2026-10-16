@@ -1,0 +1,162 @@
+{
+  "id": "wrist-flexor-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/golfers-elbow-stretch/"
+  ],
+  "checks": {
+    "exercise": "Exact wrist flexor stretch assisted with opposite hand; palm-up straight elbow wrist extension.",
+    "equipment": "Bodyweight only; no table or weights.",
+    "setup": "Standing, left arm straight forward and slightly inward below shoulder height, opposite hand supports wrist/palm.",
+    "hands": "481 sampled opposing-hand ray checks: positive near-contact gap, zero sampled penetration; assisting wrist target reached throughout.",
+    "feet": "Both actual soles fixed and floor-aligned for481 poses.",
+    "movement": "Final both32frame sheets and hand/side/waist/feet enlargements reviewed.2/3/2/1stretch timing. Decode/Edge pass."
+  },
+  "sourceSha256": "abfe47bc1faecc8ece32dd88f7c02a328bd23389b173e2ba5617342c5b629403",
+  "rigSourceSha256": "420f9f37cb05e08bde174a66d05f980d3e3645829c6dbccee3f4680ac628898f",
+  "videoSha256": "f930d98f27bc85d515ce24c4ba07e1ebfff954d3f2dea1b5628f146b89260b0e",
+  "darkVideoSha256": "7370c45caaa54c96ea9637fdaa88fdaa6a5915729ce92e24e4761be99064d729",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-flexor-20261012/native/wrist-flexor-stretch.mp4",
+      "sha256": "f930d98f27bc85d515ce24c4ba07e1ebfff954d3f2dea1b5628f146b89260b0e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 52022,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-flexor-20261012/native/wrist-flexor-stretch-dark.mp4",
+      "sha256": "7370c45caaa54c96ea9637fdaa88fdaa6a5915729ce92e24e4761be99064d729",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 55678,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "contactSamples": 481,
+    "feetDrift": 0,
+    "leftWristDrift": 0,
+    "loopDrift": 0,
+    "minLeftElbowAngle": 180,
+    "minWaistGarmentRadialGap": 0.042014951591391014,
+    "minLegSkinGarmentSectionGap": 0.2806994623383512,
+    "maxFloorError": 1.7763568394002505e-15,
+    "handGapRange": [
+      0.019096179109268085,
+      0.01909617932439378
+    ],
+    "maxHandInsideCount": 0,
+    "maxAssistingWristTargetError": 2.8435583831733384e-15,
+    "anatomy": {
+      "chosen": {
+        "triangle": 78510,
+        "ids": [
+          10508,
+          33711,
+          49949
+        ],
+        "restNormal": [
+          -0.6561406572466191,
+          -0.7338327840908202,
+          0.17597977980862045
+        ],
+        "restCentroid": [
+          5.080746354166666,
+          2.185871875,
+          2.5236052083333336
+        ]
+      },
+      "restFingerFlexionTowardSelectedSurface": [
+        0.2923624941643756,
+        0.20159710658539418,
+        0.20314066439384432,
+        0.157613147463346
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "actualPalmTriangleNormal": [
+            -0.12395637889637383,
+            0.6228034365687247,
+            0.7724964048648286
+          ],
+          "palmUpComponent": 0.6228034365687247,
+          "actualWristAngleDegrees": 9.959788813722069,
+          "handDisplacementTowardNeutralPalm": -0.1726612613116325,
+          "extensionDirection": true
+        },
+        {
+          "frame": 210,
+          "actualPalmTriangleNormal": [
+            -0.12395635336782433,
+            0.18723787986465507,
+            0.9744623126645483
+          ],
+          "palmUpComponent": 0.18723787986465507,
+          "actualWristAngleDegrees": 33.002022707529015,
+          "handDisplacementTowardNeutralPalm": -0.5338060549045718,
+          "extensionDirection": true
+        }
+      ],
+      "identification": "Palm side independently corroborated by all four original relaxed finger chains curling toward selected surface; selected actual outward mesh triangle lies over metacarpal palm center. Opposite-side photographs retained for anatomical visual review."
+    },
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T00:14:15.127Z",
+  "limitations": "One-side demonstration; repeat opposite side.3-second hold is illustrative, not clinical prescription. Finite mesh gap and no force simulation.481 sampled ray/skin checks are not exhaustive triangle collision; no physical-device certification."
+}

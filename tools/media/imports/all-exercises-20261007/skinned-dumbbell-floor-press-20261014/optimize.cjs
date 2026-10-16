@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-dumbbell-floor-press-20261014';let s=fs.readFileSync(b+'/studio.mjs','utf8').replace('window.inspectPose=frame=>','const bodyCandidateSet=new Set(bodyCandidates);\nwindow.inspectPose=frame=>').replace('bodyCandidates.includes(i)','bodyCandidateSet.has(i)');fs.writeFileSync(b+'/studio.mjs',s);

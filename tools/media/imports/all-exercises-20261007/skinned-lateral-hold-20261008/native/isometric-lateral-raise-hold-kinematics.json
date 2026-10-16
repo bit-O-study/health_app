@@ -1,0 +1,14 @@
+{
+  "samples": 481,
+  "maxJointDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 5.4437918626124455,
+  "floorY": -8.175230979919434,
+  "soleContactError": 0,
+  "maxDumbbellDrift": 0,
+  "upperarmHeightError": 0.001560175617228765,
+  "elbowAngles": [
+    7.9696103943213075,
+    7.9696103943213075
+  ]
+}

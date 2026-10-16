@@ -1,0 +1,97 @@
+{
+  "id": "single-arm-cable-overhead-extension",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "continuous: raised hold0-.4, lowering.4-3.8, bent hold3.8-4.2, extension4.2-7.6, raised hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/motion.mjs",
+      "sha256": "74713bb98aa63cc5fe4ac2e20fce1a1c8c6faac60721f83db3d1b8f1b4169af6"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/studio.mjs",
+      "sha256": "1b2246a3f67ff8efb8a88d6a253a4e901ef41f875b912a2d069813bcc6824769"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/render.mjs",
+      "sha256": "4843b8731f2d9de05b09119d646b4602c35c0c238cc2a9967b0de00e483da0d2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/cable.mjs",
+      "sha256": "bf75d1f6ac80e4c663ca22c6ee59d3319756be7775ebc670ef151deacdd00de0"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/node/4123"
+  ],
+  "sourceSummary": "Muscle and Strength One-Arm Cable Overhead Tricep Extension specifies low pulley single grip handle, left arm raised, body facing away, raised-position palm facing forward. Fixed body and upperarm, elbow-only lowering behind then extension without locking. Raised start and no-lockout soft finish follow the source.",
+  "motion": "Unilateral left overhead D-handle extension. Fixed vertical upperarm and resting opposite arm; corrected native elbow hinge plane;90to5degree elbow bend. D-frame stays behind the palm with handle grip centered in hand; low pulley and moving stack conserve cable length.",
+  "kinematics": {
+    "cableLengthDrift": 1.4210854715202004e-14,
+    "pulleyTangentError": 2.609024107869118e-15,
+    "pulleyRimError": 8.881784197001252e-16,
+    "connectorRadiusError": 9.159339953157541e-16,
+    "stackRiseRange": [
+      0,
+      4.85771764593348
+    ],
+    "cableBodyMinClearance": 0.7806588122275212,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 2.3603665272841412e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      90
+    ],
+    "shoulderWidth": 3.87,
+    "barRise": 3.520299453323952,
+    "collisionSamples": 481,
+    "bodyBarMinClearance": 1.1065881334426493,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 2.2986905292062287,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 4.9922823540665195,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.004615278684390489,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 6.777704631075852,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.4477308241112041e-13,
+    "topPalmForward": 0.9741118312317043,
+    "clothCableGap": 2.3648002559518164,
+    "frameBodyClearance": 0.08650428249272751
+  }
+}

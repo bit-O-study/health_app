@@ -1,0 +1,116 @@
+{
+  "id": "lat-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://library.theprehabguys.com/vimeo-video/shoulder-flexion-stretch-wall-support/"
+  ],
+  "checks": {
+    "exercise": "Exact lat-stretch, supported wall shoulder-flexion form with source lats tag.",
+    "equipment": "Bodyweight with visible wall for passive support.",
+    "setup": "Both palms shoulder-width on wall near initial shoulder height, feet planted.",
+    "hands": "Palms face wall, fingers point up with preserved anatomical finger roll. Both wrists fixed and palm skin gap checked for481 poses.",
+    "feet": "Both sole and heel anchors fixed; legs and garment have positive separation throughout481 poses.",
+    "movement": "Both final32frame sheets and palm/wrist/head-arm/back/side enlargements reviewed.45degree hip hinge with straight elbows, passive supported shoulder elevation, stretch2/3/2/1. Decode and Edge pass."
+  },
+  "sourceSha256": "ddd6d5d905e6aedce9300e5635d052136d8f50d8b928310fc237abd871d632af",
+  "rigSourceSha256": "2f5c28382de128f004e8b627cb2ff82d1ede9921dc44c513329ea5f49ba40f89",
+  "videoSha256": "d07ef6259323b954731f509955fee0666a1478dbf034394047461b420867b403",
+  "darkVideoSha256": "4e2c1e3eba290ec44192687f7da9cf1d80c19964220d4d58980d44c44e269da2",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-lat-stretch-20261012/native/lat-stretch.mp4",
+      "sha256": "d07ef6259323b954731f509955fee0666a1478dbf034394047461b420867b403",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 72424,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-lat-stretch-20261012/native/lat-stretch-dark.mp4",
+      "sha256": "4e2c1e3eba290ec44192687f7da9cf1d80c19964220d4d58980d44c44e269da2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79695,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 5.324731943421296e-15,
+    "heelAnchorDrift": 5.899414787844033e-15,
+    "loopDrift": 0,
+    "hipHingeDegrees": 45.00000000000001,
+    "handsDrift": 8.200633644425975e-15,
+    "palmWallGaps": {
+      "L": {
+        "min": 0.009507279786769018,
+        "max": 0.009507279786782341
+      },
+      "R": {
+        "min": 0.009507279786769018,
+        "max": 0.009507279786782341
+      }
+    },
+    "minElbowDegrees": 179.99999852122065,
+    "minWallSkinGap": 0.009507279786769018,
+    "minWallGarmentGap": 3.9436481965465937,
+    "minFloorClearance": -5.329070518200751e-15,
+    "maxFloorClearance": 4.440892098500626e-15,
+    "minLegSkinGarmentSectionGap": 0.5156882132572461,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:41:55.976Z",
+  "limitations": "45degree hinge and3second hold illustrate movement, not clinical ROM or dose prescription. Passive loading is conveyed by pose; forces are not simulated. All skinned vertices checked against wall plane, palms sampled within0.9world of wrist in bind pose. Leg section separation is sampled evidence. No physical-device certification."
+}

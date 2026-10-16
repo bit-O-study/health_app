@@ -1,0 +1,15 @@
+{
+  "id": "close-grip-ez-bar-curl",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "close-grip-ez-bar-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/close-grip-ez-bar-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:35:18.744Z"
+}

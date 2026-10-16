@@ -1,0 +1,131 @@
+{
+  "id": "finger-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "open": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "close": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/studio.mjs",
+      "sha256": "0c79ea20ca03276f5e713cb6d92cc2bd4ae83b8881f0c72f422933a9b7636432"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/motion.mjs",
+      "sha256": "22021cd76021c8bb5026f3af06da44ecb1cf2ab3a472535b582620101a9cea63"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/render.mjs",
+      "sha256": "431f7141229c3def7ba3129277f694c3f7fce41041c7bacdb4eca8e381f49bde"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.wyevalley.nhs.uk/media/1425978/lymphoedema-upper-arms-exercise-final-060624.pdf"
+  ],
+  "sourceSummary": "Wye Valley NHS PDF p2 allows standing/seated gentle rhythmical exercise; p6 Exercise11: make a fist, then slowly open, straighten and spread fingers. This generic finger-stretch catalog demonstration uses a relaxed partially closed hand, opens/extends all fingers, then closes gently. No passive pull or clinical prescription.",
+  "motion": "Stationary horizontal forearms and wrists; fingers2?5 unfold from MCP/PIP/DIP55/70/40degrees to neutral full extension. Thumb opposition releases toward natural relaxed spread. Both hands together; smooth3.4second opening and closing with0.4second end pauses. No wrist circumduction or forearm pronation.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "elbowDrift": 0,
+    "wristCenterDrift": 0,
+    "handDirectionDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "closedFingerAngles": [
+      55,
+      70,
+      39.999999999999986
+    ],
+    "openFingerAngles": [
+      0,
+      0,
+      0
+    ],
+    "middleTipMotion": 1.3128154218107588,
+    "maxTipStep": 0.015652518809285924,
+    "phaseSeconds": {
+      "neutral": [
+        0,
+        0.4
+      ],
+      "open": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "close": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/native/finger-stretch.jpg",
+    "sha256": "d3a0681103eeb81e6250501e2cf2ca19a066794ef7426ed1e11dff79d0952e45",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-finger-stretch-next/render.mjs finger-stretch"
+}

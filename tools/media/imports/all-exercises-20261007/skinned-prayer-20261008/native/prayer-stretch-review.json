@@ -1,0 +1,125 @@
+{
+  "id": "prayer-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://ruh.nhs.uk/patients/patient_information/HTH024_Wrist_Exercises.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact prayer-stretch: wrist extension with palms together and hands lowering.",
+    "equipment": "Bodyweight, stable seat, no band or weights.",
+    "setup": "Seated upright, palms inward, fingers upward, elbows bent outward.",
+    "hands": "481 actual skinned hand surfaces including breath morph checked with paired YZ neighborhoods. No interpenetration, palm heel near contact throughout, finger bands positive. Thumb and finger setup visually verified.",
+    "feet": "481 skin sole and skin/garment seat clearance checks passed; feet and pelvis fixed.",
+    "movement": "Both final32frame encoded sheets and enlarged hand/front/side/back views reviewed. Hands lower while elbows move outward/up; fixed trunk/feet. Stretch2/3/2/1 timings match. Full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "96e24e0c46e3319af321e4968f1cb97deadcc98db6c8f87140fd8a425857a8bf",
+  "rigSourceSha256": "56c581388a6c3e196b2790d6ea7682a51da212112867368a1b8efb32ac0d4c89",
+  "videoSha256": "13e2125350c101e4a3641edae75497e1d9f6a867544b54a4b4675f8bf0301560",
+  "darkVideoSha256": "24759bb321b85b687487aa60d6a59f5e551cfb6b541ddc20e42042fc6debc6f1",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-prayer-20261008/native/prayer-stretch.mp4",
+      "sha256": "13e2125350c101e4a3641edae75497e1d9f6a867544b54a4b4675f8bf0301560",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 64004,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-prayer-20261008/native/prayer-stretch-dark.mp4",
+      "sha256": "24759bb321b85b687487aa60d6a59f5e551cfb6b541ddc20e42042fc6debc6f1",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 63531,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "wristExtensionStart": 48.258523680049244,
+    "wristExtensionPeak": 83.82710595919606,
+    "maxWristExtension": 83.82710595919606,
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "shoulderDrift": 0,
+    "loopDrift": 0,
+    "handLowering": 1.2999999999999998,
+    "elbowOutward": 0.6465737550262332,
+    "elbowRaising": 0.16492929904802034,
+    "handSeparationPlaneGap": 0.00122615657223714,
+    "minHandGap": 0.00122615657223714,
+    "maxHandGap": 0.0012261565722457221,
+    "minPalmBaseGap": 0.00122615657223714,
+    "maxPalmBaseGap": 0.0012261565722457221,
+    "minHandBands": [
+      0.00122615657223714,
+      0.052151472899476345,
+      0.008403444058639652,
+      0.012798337593865516
+    ],
+    "maxHandBands": [
+      0.0012261565722457221,
+      0.052151472899484644,
+      0.008403444058651592,
+      0.012798337593876094
+    ],
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:42:53.231Z",
+  "limitations": "8second movement illustration,3second hold not the clinical duration in source. Hand clearance is paired skinned vertex projection with0.07world YZ radius, not full triangle/contact-force simulation. Curved palms touch at heel regions; not every point on the palm is coincident. No physical-device certification."
+}

@@ -1,0 +1,448 @@
+{
+  "id": "quadruped-hip-extension",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "smooth"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/motion.mjs",
+      "sha256": "86b157cb62db31be15dd95bd83ae34c3b070cb3a9fbdf951f3c5945ea3aa2e1a"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/studio.mjs",
+      "sha256": "3cd0442cfc7c8e4d276087c13c808ea8b46a0a2e1b7ef90755efb8a187b0e92e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/source.json",
+      "sha256": "c05ff8b39c8b0c9b2aa50d24d797fd2820b619fcbeeaa6a2e256376cf071f479"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/source.pdf",
+      "sha256": "1c75a9487bd70d49357b6e6fada4bfabb6f0ba4f0d94f96891e4ef2cca47b25e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/source-figure3.jpg",
+      "sha256": "41f6afd452ecfa807018693702a31163c8535e99ab59e96d1a3462777d929b08"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/support-anatomy.mjs",
+      "sha256": "d46b7e903e8743fea7c99a47a2988c8ed363ac6b32383786d5f7017292483f73"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/native/quadruped-hip-extension-support-anatomy.json",
+      "sha256": "0d4089abdb8b90fa1759baed741fe37fb3e78c3f2a27dd820265c1c6e5243491"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/leg-separation.mjs",
+      "sha256": "9363fbfd20cd606ef742de0d6a9728e21a9968bda79a3f24d708118f15e7c312"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/native/quadruped-hip-extension-leg-separation.json",
+      "sha256": "741f9a7dca15a71ddbbc541ccb2731421fedef4030a3788f953d9841648a7154"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/render.mjs",
+      "sha256": "e9398bc3322984e66886646e4dfc332d581e964681557c35239809488978faa0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/finalize.cjs",
+      "sha256": "75b6bcfb011ffa859c5f215fb90e767c8eeddd4e5e8965025fdfbcd03d8b6c52"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/publish-native.mjs",
+      "sha256": "51a55497ece9a0510b726f94acf267349fea4421974b5ba87be44dd0eb7ad5ec"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/sheets.cjs",
+      "sha256": "5e5d763c86e826483cbd1ba52de6dc734dc1db8386ea3951dd6aa9a7f4ef37be"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/verify-playback.mjs",
+      "sha256": "9107eaa0aaa5f76c0fc0b5be79c13bda943552862963bc08d6017e7971c904ae"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://pureformphysio.ca/wp-content/uploads/2015/05/Prevention_of_Running_Injuries-version-2.0.pdf"
+  ],
+  "sourceSummary": "On hands and knees, maintain spinal alignment while slowly straightening one leg behind, then return. Alternate legs.",
+  "sourceImage": "Page5 Figure3 image XObject63 extracted directly from source PDF JPEG and inspected; shows both hands, support knee, lifted support foot and rear leg extension.",
+  "motion": "Both hands and LEFT knee fixed on mat, support foot lifted as source figure. RIGHT leg straightens backward from bent-knee quadruped to horizontal thigh/shin, then returns. Neutral spine and pelvis remain fixed; no opposite arm lift. Soft elbow finish, palm down and fingers forward.",
+  "garment": "Connected gusset surface/weights/normal smoothing reused from reviewed half kneeling model and independently checked through this motion.",
+  "kinematics": {
+    "skinLegSeparatingGap": [
+      0.3394628914467662,
+      0.3554120028253943
+    ],
+    "samples": 481,
+    "skinFloor": [
+      0.0157451230327581,
+      0.016494473454692127
+    ],
+    "clothFloor": [
+      0.5348581270138064,
+      0.5700577204451269
+    ],
+    "knees": {
+      "L": [
+        0.019999998127056884,
+        0.019999998127056884
+      ],
+      "R": [
+        0.0157451230327581,
+        4.062216372633706
+      ]
+    },
+    "initialKnees": {
+      "L": 0.019999998127056884,
+      "R": 0.019999998127056884
+    },
+    "handContacts": {
+      "L": {
+        "heel": [
+          0.02564594612472071,
+          0.02564594612472071
+        ],
+        "palm": [
+          0.04806824971133583,
+          0.04806824971133583
+        ],
+        "tips": [
+          [
+            0.06544019588890304,
+            0.06544019588890304
+          ],
+          [
+            0.027774148750475014,
+            0.027774148750475014
+          ],
+          [
+            0.017212427108311168,
+            0.017212427108311168
+          ],
+          [
+            0.016494473454692127,
+            0.016494473454692127
+          ],
+          [
+            0.03650266815854408,
+            0.03650266815854408
+          ]
+        ]
+      },
+      "R": {
+        "heel": [
+          0.02564594612472071,
+          0.02564594612472071
+        ],
+        "palm": [
+          0.04806824971133583,
+          0.04806824971133583
+        ],
+        "tips": [
+          [
+            0.06544019588890304,
+            0.06544019588890304
+          ],
+          [
+            0.027774148750475014,
+            0.027774148750475014
+          ],
+          [
+            0.017212427108311168,
+            0.017212427108311168
+          ],
+          [
+            0.016494473454692127,
+            0.016494473454692127
+          ],
+          [
+            0.03650266815854408,
+            0.03650266815854408
+          ]
+        ]
+      }
+    },
+    "palmNormal": {
+      "L": [
+        -0.014813369487634703,
+        -0.980636230868324,
+        0.19527710258192052
+      ],
+      "R": [
+        0.01481336948763462,
+        -0.9806362308683241,
+        0.19527710258192063
+      ]
+    },
+    "gussetGap": [
+      0.0727398927579237,
+      0.07322248553505073
+    ],
+    "gussetHits": [
+      368,
+      485
+    ],
+    "gussetMisses": [
+      175,
+      292
+    ],
+    "waistGap": [
+      0.08281087227465278,
+      0.08587567166917442
+    ],
+    "waistSamples": {
+      "hits": 353,
+      "misses": 0
+    },
+    "armBodyClothGap": [
+      0.45992947494514524,
+      0.45992947494514524
+    ],
+    "handSeparation": [
+      2.0600123477837404,
+      2.0600123477837404
+    ],
+    "legGap": [
+      0,
+      2.9198311131112984
+    ],
+    "kneeAngle": {
+      "L": [
+        75.96375653207352,
+        75.96375653207352
+      ],
+      "R": [
+        75.96375653207352,
+        180
+      ]
+    },
+    "armElbow": [
+      172.5523586143719,
+      172.5523586143719
+    ],
+    "wristBend": [
+      83.20677081981371,
+      83.20677081981371
+    ],
+    "supportedDrift": 0,
+    "loop": 0,
+    "phase": {
+      "timing": "smooth",
+      "start": [
+        0,
+        0.4
+      ],
+      "extend": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "return": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "Model body about17units tall; .02units about2mm at1.7m scale"
+  },
+  "supportAnatomy": [
+    {
+      "frame": 0,
+      "heel": {
+        "L": {
+          "gap": 0.02564594612472071,
+          "vertex": 50284,
+          "world": [
+            1.6710919602328775,
+            -7.72572905387528,
+            5.291208586990198
+          ],
+          "rest": [
+            4.745175,
+            2.39175,
+            2.454475
+          ],
+          "dominant": "finger1-1.L"
+        },
+        "R": {
+          "gap": 0.02564594612472071,
+          "vertex": 43666,
+          "world": [
+            -1.6710919602328778,
+            -7.72572905387528,
+            5.291208586990198
+          ],
+          "rest": [
+            -4.745175,
+            2.39175,
+            2.454475
+          ],
+          "dominant": "finger1-1.R"
+        }
+      },
+      "knee": {
+        "L": {
+          "gap": 0.019999998127056884,
+          "vertex": 35808,
+          "world": [
+            1.0745483163108211,
+            -7.7313750018729435,
+            -0.16406037650051672
+          ],
+          "rest": [
+            1.5131375,
+            -3.5168875,
+            0.70605
+          ]
+        },
+        "R": {
+          "gap": 0.019999998127056884,
+          "vertex": 22471,
+          "world": [
+            -1.0745483163108216,
+            -7.7313750018729435,
+            -0.16406037650051672
+          ],
+          "rest": [
+            -1.5131375,
+            -3.5168875,
+            0.70605
+          ]
+        }
+      },
+      "palmNormal": {
+        "L": [
+          -0.014813369487634703,
+          -0.980636230868324,
+          0.19527710258192052
+        ],
+        "R": [
+          0.01481336948763462,
+          -0.9806362308683241,
+          0.19527710258192063
+        ]
+      }
+    },
+    {
+      "frame": 240,
+      "heel": {
+        "L": {
+          "gap": 0.02564594612472071,
+          "vertex": 50284,
+          "world": [
+            1.6710919602328775,
+            -7.72572905387528,
+            5.291208586990198
+          ],
+          "rest": [
+            4.745175,
+            2.39175,
+            2.454475
+          ],
+          "dominant": "finger1-1.L"
+        },
+        "R": {
+          "gap": 0.02564594612472071,
+          "vertex": 43666,
+          "world": [
+            -1.6710919602328778,
+            -7.72572905387528,
+            5.291208586990198
+          ],
+          "rest": [
+            -4.745175,
+            2.39175,
+            2.454475
+          ],
+          "dominant": "finger1-1.R"
+        }
+      },
+      "knee": {
+        "L": {
+          "gap": 0.019999998127056884,
+          "vertex": 35808,
+          "world": [
+            1.0745483163108211,
+            -7.7313750018729435,
+            -0.16406037650051672
+          ],
+          "rest": [
+            1.5131375,
+            -3.5168875,
+            0.70605
+          ]
+        },
+        "R": {
+          "gap": 4.062216372633706,
+          "vertex": 22382,
+          "world": [
+            -1.0520765098152762,
+            -3.689158627366294,
+            -4.00493856822885
+          ],
+          "rest": [
+            -1.3823,
+            -2.7529125,
+            0.89178125
+          ]
+        }
+      },
+      "palmNormal": {
+        "L": [
+          -0.014813369487634703,
+          -0.980636230868324,
+          0.19527710258192052
+        ],
+        "R": [
+          0.01481336948763462,
+          -0.9806362308683241,
+          0.19527710258192063
+        ]
+      }
+    }
+  ],
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/native/quadruped-hip-extension.jpg",
+    "sha256": "56aab0cde68eba96f2b0b4ed93825d87d8b95ac0bb9f66bee93a1aab96d14132",
+    "panels": 16
+  },
+  "limitations": "Only RIGHT leg cycle demonstrated; source alternates legs and suggests3sets12to15 repetitions. Timing and exact angles are illustrative. Palm heel and fingertips support a curved hand; not entire palm surface contact. Elbows retain about7.45degrees bend. Gusset Z-ray solid intervals sampled at cloth vertices; missing body footprint rays are recorded separately. Leg section metric includes joined garment centre and can be zero; independent481skin-only bilateral separating plane verifies legs remain apart. Waist rays and36direction height-section arm/body/cloth separating checks supplement final closeups, not exhaustive continuous triangle/cloth simulation. No physical device verification."
+}

@@ -1,0 +1,114 @@
+{
+  "id": "triceps-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-triceps-pushdown-20261012/native/triceps-pushdown.mp4",
+      "sha256": "6570793b3581e5d63ff22bfbb3cf084683169c8289fcf8614e4a324ff9ea174e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79004,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-triceps-pushdown-20261012/native/triceps-pushdown-dark.mp4",
+      "sha256": "225ab5ba5fbae43df8bbd4f7b686b18b8b381f067eda411dffd8d43126693af7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 76484,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.718447854656915e-15,
+    "pulleyRimError": 1.609823385706477e-15,
+    "connectorRadiusError": 6.38378239159465e-16,
+    "stackRiseRange": [
+      0,
+      6.097021300190213
+    ],
+    "cableBodyMinClearance": 1.057916971578334,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.3322676295501878e-15,
+    "gripTangentAxisError": 9.074842391027969e-16,
+    "elbowBendRange": [
+      4.999999999999918,
+      119.99999999999999
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8935158397010938,
+    "barGripWidth": 3.4579062996432333,
+    "barRise": 6.061047202222547,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.5562568853602332,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 0.8192326431329222,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 6.752978699809787,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.00035037209470090147,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 0.4567294542262216
+  },
+  "sources": [
+    "https://www.strengthlog.com/tricep-pushdown-with-bar/"
+  ],
+  "sourceSha256": "2b06a6275f29dc15239a9218b95be7924c01e61c5cdc21a53a5389aad1593247",
+  "rigSourceSha256": "2161db07bfdebc04456fc309237b4e97e0afe21a524b302205d519f676609dee",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T00:06:46.892Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "6570793b3581e5d63ff22bfbb3cf084683169c8289fcf8614e4a324ff9ea174e",
+  "darkVideoSha256": "225ab5ba5fbae43df8bbd4f7b686b18b8b381f067eda411dffd8d43126693af7",
+  "checks": {
+    "exercise": "Exact BASE triceps-pushdown cable variant; newly modeled high-pulley overhand bar pushdown, not reuse of existing triceps-pushdown-2.",
+    "equipment": "Single fixed high pulley and one straight bar with central ring; moving stack rises during pushdown, cable length conserved. Entire machine shifted forward .8unit after initial preview to ensure .81923 conservative body-machine gap.",
+    "setup": "Standing facing machine, body and upper arms fixed. Both-theme32-frame sheets and side210/pulley105 closeups visually inspected.",
+    "hands": "Pronated overhand grip, hands at89.35% shoulder width; both fixed sockets on a single rigid straight bar. Final hand0/hand210 inspected. Grip drift1.33e-15 and axis error9.07e-16.",
+    "feet": "Static planted feet, floor clearance2.01e-8; final feet0 closeup inspected.",
+    "movement": "Elbow120to5degrees, no hyperextension. Start hold0-.4, press down.4-3.8, extended hold3.8-4.2, controlled return4.2-7.6, hold7.6-8. 481 joint/cable samples and17 deformed-mesh body/cloth/equipment clearance samples pass; full decode and Edge play/seek/loop both themes pass."
+  },
+  "limitations": [
+    "Generic procedural machine and simplified hands/skin; minor elbow skin angularity.",
+    "Elbows remain5degrees flexed rather than forcibly locked. Hands slightly inside shoulder width.",
+    "Body/cloth clearance tested17 deformed-mesh poses, not continuous physical collision simulation.",
+    "Local mobile Edge emulation playback; physical-device and app integration belong to root."
+  ]
+}

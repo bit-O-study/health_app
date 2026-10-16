@@ -1,0 +1,95 @@
+{
+  "id": "single-arm-machine-curl",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "smooth: lower hold0-.4, curl.4-3.8, top hold3.8-4.2, lower4.2-7.6, lower hold7.6-8",
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/motion.mjs",
+      "sha256": "897e493b93cf15993e16a2c9ae31f9c5a11b5e3c1ac92a7789b905be7c83a6b5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/studio.mjs",
+      "sha256": "21c6455f1a795df4eaba7c34a15d945587c9435cb8ffa0670a6c5d42b296c458"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/render.mjs",
+      "sha256": "1d894716abdf3ca97b82426f89e02a52e70d7f9e416cc0fdc855ddd5c798773b"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/machine.mjs",
+      "sha256": "f2f21d7d164997f08de046d007a42bc9050f538aa3eaa6e0b61327bce3b7adb9"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/dependencies/three.module.js",
+      "origin": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/dependencies/three.core.js",
+      "origin": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-single-machine-20261012/dependencies/RoomEnvironment.js",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.legendfitness.com/product/unilateral-seated-bicep-curl/",
+    "https://weighttraining.guide/exercises/machine-preacher-curl/"
+  ],
+  "sourceSummary": "Legend Fitness original LeverEDGE6007 specifies unilateral loading and movement and verifies a plate-loaded preacher machine with independent direct rigid levers and loading pegs, no cams/cables. This candidate uses a generic two-lever mechanism, not a dimensional replica. WeightTraining.guide original machine preacher tutorial specifies upperarm pad support aligned with shoulders, curl toward shoulders, stationary body, controlled return near extension. Its count-of-two squeeze is represented by editorial brief peak hold, not a literal2seconds.",
+  "motion": "Seated single-arm machine curl on an independent plate-loaded lever. Anatomical left arm curls, right hand rests on stationary unloaded lever supported by a fixed stop. Only active side carries a weight plate. Supinated handles, upperarms fixed on contoured31.5degree pad, elbows aligned to machine rotation axis in Y/Z. Each handle and plate horn remains rigidly linked to its pivot. Grounded feet and fixed torso. No cables or floating free barbell.",
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.4054300946555644e-15,
+    "elbowBendRange": [
+      12.474649649449617,
+      111.95845005536138
+    ],
+    "machineBodyClearance": 1.0862718224260495,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "machinePadClearance": 0.8570326278170682,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ],
+    "gripWidth": 4.586664357214389,
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.1851845884274905,
+    "phaseAnchorError": 0,
+    "machineHandError": 3.871479975306501e-15,
+    "pivotElbowAxisError": 0,
+    "pivotDrift": 0,
+    "platePivotRadiusDrift": 8.881784197001252e-16,
+    "plateFloorClearance": 5.972946231071155,
+    "plateRises": [
+      3.327199907344088
+    ],
+    "plateUpwardDrops": 0,
+    "inactiveWristDrift": 0,
+    "inactiveLeverRotationDrift": 0
+  }
+}

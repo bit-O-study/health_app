@@ -1,0 +1,18 @@
+{
+  "id": "cable-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3177f79ffc84e53a6e940bdc8fabd7953063ffe876d834ba2f37fd531b2c3e08",
+  "rigSourceSha256": "9bb2eb58923e82993e3ca4f9c9aa59db4b652f931569a752b202bcc18148e80e",
+  "videoSha256": "b1784da4bd55fce7ca9eaf026e8b587a14bfb78b77487cb3a536595c09979818",
+  "darkVideoSha256": "e461339094c8a800127b42f8012f9822c207b85264843d3cb862cb4697aafc7a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 89178,
+  "darkBytes": 88598,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:47:17.387Z"
+}

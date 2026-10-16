@@ -1,0 +1,18 @@
+{
+  "id": "seated-barbell-overhead-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b84290608c51e83fea8c4652bc3aecfbccf3d1a69ddecb723000ab7d48604771",
+  "rigSourceSha256": "89f40c7ea8ae5c5eb93ea2c7488c28f062755d0cae77c1144b83d0f820fea46d",
+  "videoSha256": "8c8e4b4b2fc0c81c600407a603b25a35317933397072d4abfbbcac342341f041",
+  "darkVideoSha256": "7a4efec4fdcb30072e68a4ab6476145c1a33d60a682d8f427a652b703d9658a1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 112197,
+  "darkBytes": 99476,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T01:47:32.569Z"
+}

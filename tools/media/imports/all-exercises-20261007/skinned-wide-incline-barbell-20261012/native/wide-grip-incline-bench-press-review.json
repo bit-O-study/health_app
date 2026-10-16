@@ -1,0 +1,136 @@
+{
+  "id": "wide-grip-incline-bench-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/wide-grip-incline-bench-press"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerToChest": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Wide-grip incline barbell bench press, controlled chest touch and full press with soft elbows.",
+    "equipment": "One rigid straight barbell,shaft/plates/collars versus all non-hand body vertices and bench/head/back pads checked481poses.",
+    "setup": "Head/back/pelvis supported on 45-degree incline bench and cushion,both feet grounded.",
+    "hands": "Closed overhand wide grips,fixed span and bar plane.Wrist deviation measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "1143eba11a5b11f7c16fb13f5b597f6650bce54f314e065f9b44b1620ba7ed86",
+  "rigSourceSha256": "7d0654754d202572eec12b5df40c9edec10859b86aa026440f480ae3c7782d49",
+  "videoSha256": "e02b6d132b157754da648b2eb39e50e54527c3a1b296d8db97244331553c3e7d",
+  "darkVideoSha256": "121766c11a6f3d0596322d533217c76911f0d97348f0e43f03712b1b0290626c",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-incline-barbell-20261012/native/wide-grip-incline-bench-press.mp4",
+      "sha256": "e02b6d132b157754da648b2eb39e50e54527c3a1b296d8db97244331553c3e7d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 111129,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-incline-barbell-20261012/native/wide-grip-incline-bench-press-dark.mp4",
+      "sha256": "121766c11a6f3d0596322d533217c76911f0d97348f0e43f03712b1b0290626c",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 99253,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.6038943375877075,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": -1.1187568570159012e-7,
+    "minEquipmentBenchClearance": 4.397149987692567,
+    "seatContactError": 3.526068326209497e-13,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.043865281994960426,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 6.059578348586644,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.481256111329625,
+    "minimumBackGap": 0,
+    "backContactError": 0.031052358407514635,
+    "minHeadClearance": 1.6211590188167082,
+    "minElbowFlex": 7.862177007540288,
+    "maxElbowFlex": 129.79226648150083,
+    "minimumElbowAboveShoulder": -2.2644994389422926,
+    "wristDeviationRange": [
+      9.036099757756048,
+      22.636382318560486
+    ],
+    "bottomWristDeviation": [
+      18.49765143732347,
+      18.49765143732347
+    ],
+    "topWristDeviation": [
+      16.695808143558786,
+      16.695808143558786
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 5.329070518200751e-15,
+    "minNonChestClearance": 0.22105227422095147,
+    "startChestContact": -1.1187568570159012e-7,
+    "endChestContact": -1.1187568570159012e-7
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T05:40:02.368Z",
+  "limitations": "Barefoot mannequin, 45-degree incline bench and small head cushion. Back-pad is fitted to the minimum posed back surface,allowing up to.05world-unit mesh gap as shoulder skin deforms without penetration. No physical-device or biomechanical certification."
+}

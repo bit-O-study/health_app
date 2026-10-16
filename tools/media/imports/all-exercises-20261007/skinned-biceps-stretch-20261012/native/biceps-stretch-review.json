@@ -1,0 +1,109 @@
+{
+  "id": "biceps-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://bloomsburyhealthcentre.co.uk/wp-content/uploads/2016/09/SHOM07-Stretch-of-Biceps-Pectoralis-Forearm-muscles-against-a-wall.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact biceps-stretch wall variant, palm behind body and torso turning away.",
+    "equipment": "Bodyweight and visible wall, no weights.",
+    "setup": "Side-on to left wall, left palm slightly above shoulder and behind body, fingers backward.",
+    "hands": "Hand dorsal surface and nails face viewer; palm faces wall. Finger extension preserves existing anatomical roll, thumb spread clear.481 full skin-wall and palm gap checks.",
+    "feet": "Both soles and heel anchors remain fixed, and legs/garment have positive separation for481 poses.",
+    "movement": "Both final32frame sheets and palm/wrist/shoulder/back enlargements reviewed. Torso15degree turn with left shoulder/wrist fixed and straight elbow. Stretch2/3/2/1, decode and Edge pass."
+  },
+  "sourceSha256": "5004626099c6ccf7f651ab6c4d0c280759327526c6665b3b3d4be77386b9749f",
+  "rigSourceSha256": "8d5f0d783cd741ce3c57b6e46e51e1444355b3268dd15e739cece2a9276a438c",
+  "videoSha256": "1bc4e7c6a0587d90e17ac1b3bcaf0e2d6394ee29860e0fd34883ba3e388e31e3",
+  "darkVideoSha256": "fbad7cc2de9908cccf4d2327eb25cb1786a4d4497134466fe66404225a448a40",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-biceps-stretch-20261012/native/biceps-stretch.mp4",
+      "sha256": "1bc4e7c6a0587d90e17ac1b3bcaf0e2d6394ee29860e0fd34883ba3e388e31e3",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 52395,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-biceps-stretch-20261012/native/biceps-stretch-dark.mp4",
+      "sha256": "fbad7cc2de9908cccf4d2327eb25cb1786a4d4497134466fe66404225a448a40",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 51302,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 4.809008917875068e-15,
+    "heelAnchorDrift": 4.82660302444241e-15,
+    "loopDrift": 0,
+    "torsoTurnDegrees": 15.000000000000123,
+    "leftShoulderDrift": 3.1401849173675503e-16,
+    "leftWristDrift": 3.4684476073050936e-15,
+    "minPalmWallGap": 0.0009321755740741011,
+    "maxPalmWallGap": 0.0009321755740803184,
+    "minElbowDegrees": 179.99999852122065,
+    "minWallSkinGap": 0.0009321755740741011,
+    "minWallGarmentGap": 4.599897482317175,
+    "minFloorClearance": -4.440892098500626e-15,
+    "maxFloorClearance": 2.6645352591003757e-15,
+    "minLegSkinGarmentSectionGap": 0.5441422119584602,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:28:11.683Z",
+  "limitations": "One side shown from prepared wall stance. Approximate starting distance adjusted to model arm length; no clinical dose/ROM prescription. Source20second hold differs from3second demonstration. Wall contact checked with all skinned vertices; palm region within0.9world of rest wrist. Leg section separation is sampled evidence, not force simulation. No physical-device certification."
+}

@@ -1,0 +1,108 @@
+{
+  "id": "ankle-mobility-drill",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.opalreturntowork.nhs.uk/exercises/knee-to-wall-stretch/"
+  ],
+  "checks": {
+    "exercise": "Exact ankle-mobility-drill, knee-to-wall ankle dorsiflexion variant; distinct from heel/toe rocking.",
+    "equipment": "Bodyweight with visible wall as spatial target.",
+    "setup": "Standing lunge, left front foot near wall, right behind, feet forward.",
+    "hands": "Arms relaxed; source explicitly makes wall hand support optional.",
+    "feet": "481 actual skin samples verify both soles grounded with foot and heel anchors fixed. Front tibia advances over foot; skin and garment stay outside wall.",
+    "movement": "Both final32frame sheets and full/feet/side enlargements reviewed. Front knee approaches wall without heel lift, holds and returns with stretch2/3/2/1 timing. Decode and Edge pass."
+  },
+  "sourceSha256": "7532c265e8b22d31c880a05a481fe92c480da488e994f7e2d43b8b2994cde574",
+  "rigSourceSha256": "04c911bcd9b61f20144b42b3c706716646af7b70d6760d89dc95db7fea5eeccc",
+  "videoSha256": "7b3598f598c59cc3e7740599c7c9f779ef27a40e2c6e593cbdfe1257bbdc854f",
+  "darkVideoSha256": "1e0d7b39b7d39713deb37b6431a2d2cd041787866a8449308df965e3c20561eb",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ankle-mobility-20261012/native/ankle-mobility-drill.mp4",
+      "sha256": "7b3598f598c59cc3e7740599c7c9f779ef27a40e2c6e593cbdfe1257bbdc854f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 68921,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-ankle-mobility-20261012/native/ankle-mobility-drill-dark.mp4",
+      "sha256": "1e0d7b39b7d39713deb37b6431a2d2cd041787866a8449308df965e3c20561eb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 77867,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 4.905125646631375e-15,
+    "heelAnchorDrift": 4.9947698773431485e-15,
+    "loopDrift": 0,
+    "frontShinInclinationDegrees": {
+      "0": 11.011291776701464,
+      "210": 35.22037250525392
+    },
+    "frontKneeForwardTravel": 1.6865750265698258,
+    "minWallSkinGap": 0.055965283091786056,
+    "minWallGarmentGap": 0.07588784080461242,
+    "minFloorClearance": -3.552713678800501e-15,
+    "maxFloorClearance": 2.6645352591003757e-15,
+    "minLegSkinGarmentSectionGap": 0.32105327952347584,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:08:40.651Z",
+  "limitations": "One side shown from prepared staggered stance. Source20-30second hold is not reproduced by3second illustrative hold. No clinical treatment or measured human ROM claim. Entire skin and garment maximumZ tested against wall plane, foot vertices checked against floor. Leg horizontal slice separation is sampled evidence rather than exhaustive collision or force simulation. No physical-device certification."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "standing-toe-raise",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-toe-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.southwestyorkshire.nhs.uk/wp-content/uploads/2018/07/Live-well-Move-More-Wakefield-District.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T04:08:22.996Z"
+}

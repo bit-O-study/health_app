@@ -1,0 +1,115 @@
+{
+  "id": "dumbbell-seesaw-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/how-to-do-the-seesaw-dumbbell-press/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "leftPressRightLower": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "leftLowerRightPress": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Standing simultaneous opposite-phase dumbbell seesaw press.",
+    "equipment": "Two intact dumbbells. Body and conservative dumbbell-pair bounding-sphere clearance checked throughout481samples.",
+    "setup": "Upright stationary standing torso, no leg drive or lateral leaning.",
+    "hands": "Both closed grips with palms facing forward, thumb around each handle, grip sockets fixed.",
+    "feet": "Both feet fixed with soles meeting ground throughout481samples.",
+    "movement": "Both final32frame sheets and hand/side/back previews reviewed. Left and right move simultaneously in opposite directions; continuous procedural motion, full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "541450f9d295189aef737a5530afa42c10df24da5e62a64290585f3510325219",
+  "rigSourceSha256": "2e4ed5e92e1c4ee5fafa5b662ccb51d97ef99f8e20af88c71e2b80bf843d3c84",
+  "videoSha256": "7a1dd8cdfbeb4287d997178a25ea967fe1fbba924b89a7dda7bd6aee898d1ba9",
+  "darkVideoSha256": "48c44d2df00b9e79e5981726dbbe585e94da613cb140ff070cafa5a87045f86e",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/native/dumbbell-seesaw-press.mp4",
+      "sha256": "7a1dd8cdfbeb4287d997178a25ea967fe1fbba924b89a7dda7bd6aee898d1ba9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 94318,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seesaw-press-20261008/native/dumbbell-seesaw-press-dark.mp4",
+      "sha256": "48c44d2df00b9e79e5981726dbbe585e94da613cb140ff070cafa5a87045f86e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 82604,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.285942049628969,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.8983961550729613,
+    "minDumbbellPairClearance": 4.413614898287199,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.059648742258344406,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices; dumbbell-pair bounding spheres radius1.35",
+    "elbowBendMin": 17.503601299274607,
+    "elbowBendMax": 114.23644567170501,
+    "peakElbowBend": 17.503601299274607,
+    "maxSameDirectionProduct": 0,
+    "leftRise": 3.8401789328673246,
+    "rightDrop": 3.8401789328673246
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:00:24.294Z",
+  "limitations": "Barefoot standing mannequin; loop starts with one arm already overhead, initial setup omitted. No physical-device or biomechanical certification."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "standing-quad-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b29813bb75cc1f44d46beaee45a2181d04eea93174f715cc6f91b6a149f4fb1b",
+  "rigSourceSha256": "1df318697adcc6c5ad0abf7da08e7ba818373f7115773bf1990d482d231ba68d",
+  "videoSha256": "a343e7e7db93915e2b1aee5042af743c423e7361b16928d1fa02a01262c0ce2a",
+  "darkVideoSha256": "280dc2a41e44a8375903f1f40f81e0de849c139fee634a1600ef88f03180c4c1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 33173,
+  "darkBytes": 34376,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:45:29.201Z"
+}

@@ -1,0 +1,120 @@
+{
+  "id": "cable-preacher-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-preacher-20261012/native/cable-preacher-curl.mp4",
+      "sha256": "b1784da4bd55fce7ca9eaf026e8b587a14bfb78b77487cb3a536595c09979818",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 89178,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-preacher-20261012/native/cable-preacher-curl-dark.mp4",
+      "sha256": "e461339094c8a800127b42f8012f9822c207b85264843d3cb862cb4697aafc7a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88598,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.4054300946555644e-15,
+    "elbowBendRange": [
+      12.474649649449617,
+      111.95845005536138
+    ],
+    "bodyBarClearance": 1.064747000885263,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "equipmentPad": 3.2991863236867807,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ],
+    "barGripError": 1.7763568394002505e-15,
+    "gripWidth": 4.586664357214389,
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.1851845884274905,
+    "phaseAnchorError": 0,
+    "cableLengthDrift": 0,
+    "pulleyTangentError": 2.9976021664879227e-15,
+    "pulleyRimError": 8.326672684688674e-16,
+    "connectorRadiusError": 6.938893903907228e-16,
+    "stackRiseRange": [
+      0,
+      5.5802046831766425
+    ],
+    "cableBodyClearance": 1.6293010685188538,
+    "cablePadClearance": 2.946718715326338,
+    "bodyMachineClearance": 2.62944252627378,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 4.269795316823357,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.003810947971963685
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/preacher-cable-curl.html"
+  ],
+  "sourceSha256": "3177f79ffc84e53a6e940bdc8fabd7953063ffe876d834ba2f37fd531b2c3e08",
+  "rigSourceSha256": "ec2d09b0e3a06191b20d88608cf8013a1380d4a40eef09dcbd5410279e50d4c4",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "b1784da4bd55fce7ca9eaf026e8b587a14bfb78b77487cb3a536595c09979818",
+  "darkVideoSha256": "e461339094c8a800127b42f8012f9822c207b85264843d3cb862cb4697aafc7a",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Seated bilateral straight-bar cable preacher curl. Muscle and Strength original specifies low pulley, straight bar, shoulder-width underhand grip, upperarms fixed on pads and slightly bent starting elbows. Exact catalog cable equipment.",
+    "equipment": "One short rigid straight attachment bar with central ring; visible lower and upper pulleys, continuous cable and moving selected stack. Final light/dark32-frame sheets, pulley210 and stack210 inspected. Cable analytical length drift zero; tangent/rim errors below 3e-15. Stack rises0 to5.580205, no upward-phase drops, base gap0.17 and upper gap4.269795.",
+    "setup": "Upperarms fixed on contoured31.5-degree preacher pad. Chest notch clears torso. Final support210 and side210 inspected. Body-pad clearance0.063702; arm-pad gap0.000248 to0.028603 rig units. Machine conservative bound clear2.629443.",
+    "hands": "Final hand210 inspected: palms up, straight wrists, single shaft width5.6 with grip width4.586664. Shoulder width3.87, grip ratio1.185185. Across481samples bar-hand anchor1.78e-15 and shaft-axis error1.41e-15.",
+    "feet": "Final feet0 inspected: both soles grounded within2.62e-7 rig units. Legs, feet and seated torso remain fixed.",
+    "movement": "Elbow12.475 to111.958 degrees, fixed joints/loop/phase error0 across481samples. Single smooth0.4/3.8/4.2/7.6. Seventeen geometry samples: bar-body1.064747, bar-pad3.299186, cable-body1.629301 and cable-pad2.946719. Both themes decode and mobile Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Generic contoured U-shaped pad and cable station; not commercial equipment replicas. Pad slope31.5degrees versus upperarms about45degrees, skinned arm gap0.000248 to0.028603 rig units.",
+    "Barefoot mannequin with simplified fingers/elbow skin; no muscle deformation or foam compression simulation.",
+    "Seventeen sampled deformed body meshes and sampled cable-to-pad segments establish positive gaps; not a continuous physical collision solver.",
+    "Cable rendering uses short cylinders approximating pulley arcs; maximum polyline versus analytical length difference0.003811 rig units.",
+    "Bottom elbows remain slightly bent12.47degrees as source instructs. Eight-second cycle and .4second peak hold are editorial timing."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T02:44:35.956Z"
+}

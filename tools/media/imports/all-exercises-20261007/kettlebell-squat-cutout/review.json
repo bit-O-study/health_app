@@ -1,0 +1,49 @@
+{
+  "id": "kettlebell-front-squat",
+  "renderVersion": 5,
+  "panels": 8,
+  "cutout": true,
+  "sourceSha256": "977d35238b770f5542df662ea3d4c186cc6aba3cefa8816bb71673d6a4dd7772",
+  "videoSha256": "cf1be54295310554b3bbc1a1018b7c9bb43f692ace9eaa8c3af332146dcc833e",
+  "darkVideoSha256": "52ab7460fae98d09ab5fd9500923952b9d6e3db09c9efe57d2882669701828d1",
+  "darkBytes": 129663,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 135799,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T04:11:34.503Z",
+  "status": "hold-motion",
+  "published": false,
+  "reviewedAt": "2026-10-07T04:12:49.967Z",
+  "checks": {
+    "source": "Original8pose single kettlebell shoulder rack, squat descent and planted shoes; compared with original Muscle and Strength URL.",
+    "cutout": "Person, kettlebell and shoes retained in both endpoint themes.",
+    "motion": "Final both32frame sheets show doubled head at0.5sec and shoe/limb ghosting at1.75sec and returning transitions; failed motion gate.",
+    "playback": {
+      "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+      "results": [
+        {
+          "theme": "light",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        },
+        {
+          "theme": "dark",
+          "width": 480,
+          "height": 480,
+          "duration": 8,
+          "play": true,
+          "seek": true,
+          "loop": true
+        }
+      ]
+    }
+  },
+  "nextAction": "Recreate denser anatomically correct source poses or native continuous rig; do not adopt this interpolation."
+}

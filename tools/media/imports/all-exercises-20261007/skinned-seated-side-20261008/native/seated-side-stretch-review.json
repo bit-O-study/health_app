@@ -1,0 +1,104 @@
+{
+  "id": "seated-side-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/simple-exercises-encourage-weight-loss/"
+  ],
+  "checks": {
+    "exercise": "Exact seated-side-stretch: seated left side bend with right arm overhead.",
+    "equipment": "Bodyweight, stable four-leg seat; no weights.",
+    "setup": "Feet apart and planted, pelvis stationary; one overhead arm and other beside seat.",
+    "hands": "Both32 sheets and final hand/back/side/seat views reviewed. Lower arm clears seat edge; raised hand stays above head.",
+    "feet": "481 actual skin sole checks, feet and pelvis fixed. Skin and garment seat clearance checked at all481 poses.",
+    "movement": "12degree left side bend,2second move,3second hold,2second return,1second rest. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "7b9300abc6f4d06c05b638eefe6de34e0df76eb0e4f86f6007042231e406bc7b",
+  "rigSourceSha256": "2ad27b51db85c4e9c0c19eb0580944c6db128e622ed22e575ce97ae861ba6310",
+  "videoSha256": "a56eaa234656c0f231317ef1398bb0d5e16a4aacf34a2c6a47502e96de793477",
+  "darkVideoSha256": "92dbad40c61327e33fa209687adbb1c9fbd3a799e1a103f588714abefa1e33c7",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-side-20261008/native/seated-side-stretch.mp4",
+      "sha256": "a56eaa234656c0f231317ef1398bb0d5e16a4aacf34a2c6a47502e96de793477",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 67087,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-side-20261008/native/seated-side-stretch-dark.mp4",
+      "sha256": "92dbad40c61327e33fa209687adbb1c9fbd3a799e1a103f588714abefa1e33c7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 73150,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "loopDrift": 0,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.009567663847472652,
+    "minArmSeatGap": 0.7407054108791957,
+    "peakSideBend": 12.000000000000005,
+    "maxWristStep": 0.028312890045260407,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T05:12:59.749Z",
+  "limitations": "Single leftward demonstration; repeat opposite side separately. Source counts10 during hold whereas animation uses3second hold for an8second illustrative loop.12degrees is illustration range, not clinical prescription. Seat check evaluates skinned vertices inside seat footprint and arm vertices crossing seat height, supported by enlarged visual inspection. No physical-device certification."
+}

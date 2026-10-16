@@ -1,0 +1,16 @@
+{
+  "id": "v-bar-pushdown",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "v-bar-pushdown-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://sweat.com/exercises/v-bar-tricep-pushdown",
+    "https://www.youtube.com/watch?v=HIKzvHkibWc"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T00:12:36.280Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "scalene-neck-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "scalene-neck-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.uhd.nhs.uk/uploads/about/docs/our_publications/patient_information_leaflets/Childrens_therapy/Childrens_physiotherapy/Neck_ROM_exercises_done_2019.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:40:01.216Z"
+}

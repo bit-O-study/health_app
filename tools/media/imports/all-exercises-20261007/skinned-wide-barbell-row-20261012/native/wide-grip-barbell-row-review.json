@@ -1,0 +1,138 @@
+{
+  "id": "wide-grip-barbell-row",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/workouts/back-exercises/back-attack-barbell-row/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "pull": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Wide-grip barbell row to upper abdomen with controlled return and fixed torso.",
+    "equipment": "One rigid barbell;shaft,plates and collars checked against all non-hand body vertices481poses.",
+    "setup": "Unsupported trunk held60degrees above floor; both feet grounded,15degree knees and hips fixed.",
+    "hands": "Overhand closed grip on fixed shaft,grip span and socket error checked481poses.",
+    "feet": "Standing feet fixed with full-body floor and heel contact checks481poses.",
+    "movement": "Both final32frame sheets and hand/feet/side/waist views reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "5988a089bfe8e9a23f34b8fe069d5f6b33464cec3f1177d4e0825fa4095587d8",
+  "rigSourceSha256": "721ca378272847d195116a8285352614391505a517a0cb7da897782a3c6ad1cd",
+  "videoSha256": "54c5931e8634d3a7f9b70de0389af7cc26a4ef18241bc0f16b16f2b140f5e7c9",
+  "darkVideoSha256": "e93673c63f7adefa626872555d6a308c485dbb93c80b3a07c06799363afcc6c2",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/native/wide-grip-barbell-row.mp4",
+      "sha256": "54c5931e8634d3a7f9b70de0389af7cc26a4ef18241bc0f16b16f2b140f5e7c9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 104652,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-barbell-row-20261012/native/wide-grip-barbell-row-dark.mp4",
+      "sha256": "e93673c63f7adefa626872555d6a308c485dbb93c80b3a07c06799363afcc6c2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85920,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.03350188435254,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": -8.326672684688674e-17,
+    "soleMinY": -8.117389998658691,
+    "soleMaxY": -8.117389998658691,
+    "floorY": -8.117389998658691,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.0342210705308405,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+    "elbowBendMin": 7.999999999999752,
+    "elbowBendMax": 125.31789070565587,
+    "peakElbowBend": 125.31789070565587,
+    "garmentFloorGap": 5.470409171742329,
+    "minimumBodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "trunkDrift": 0,
+    "barGripError": 2.220446049250313e-15,
+    "gripSpanError": 4.440892098500626e-15,
+    "kneeHipDrift": 0,
+    "minNonAbdomenClearance": 0.5208571401943835,
+    "peakAbdomenContact": -8.326672684688674e-17,
+    "waistGarmentRadialGap": 0.013030387423744072,
+    "wristDeviationRange": [
+      2.0938538020973043,
+      34.53197136398968
+    ],
+    "torsoAngleRange": [
+      60.00000000000001,
+      60.00000000000001
+    ],
+    "footSpan": 3.9204658366334177,
+    "garmentArmWeightCount": 0,
+    "heelRegionGap": 0.010424613952636719,
+    "toeRegionGap": 0.009899851456586006,
+    "barFloorClearance": 6.149296727571382,
+    "kneeAngleRange": [
+      14.925132951086622,
+      14.925132951086622
+    ]
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T00:06:15.324Z",
+  "limitations": "Barefoot mannequin. Free repetition only; rack setup and lift-off are outside the clip. No physical-device or biomechanical certification."
+}

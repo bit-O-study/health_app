@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-07T01:53:16.365Z",
+  "scope": "Current published local MP4 files; mobile Edge loopback emulation, not production/physical device. Read-only source assets; alias recommendation only.",
+  "checks": "Full decode,32 frames per theme,fullsize peak poses,source JPG and hammer rig inspection; actual browserplay,seek7.5s,loop.",
+  "results": [
+    {
+      "sourceId": "hammer-curl-2",
+      "targetId": "hammer-curl",
+      "equipment": "dumbbell",
+      "decision": "recommended-for-exact-alias",
+      "identity": "Bilateral standing dumbbell curl with neutral hammer grip; upper arms remain near torso and elbow flexion raises dumbbells. Same equipment and base target cues.",
+      "visualEvidence": [
+        "hammer-curl-2-sheet.jpg",
+        "hammer-curl-2-dark-sheet.jpg",
+        "hammer-curl-2-4s.jpg",
+        "hammer-curl-2-dark-4s.jpg"
+      ],
+      "rigInspected": "tools/media/motion-guides/hammer-curl-2-rig.png",
+      "limitations": "Existing 2D fixed-arm rig has visibly round elbow joints and dark dumbbells have low dark-theme contrast. No vanishing equipment or large interpolated ghosting seen in32 sampled frames. Not a clinical/biomechanical certification.",
+      "files": [
+        {
+          "id": "hammer-curl-2",
+          "theme": "light",
+          "source": "public/exercise-guides/ai-v3/hammer-curl-2.mp4",
+          "sha256": "94faffcb102295b587f4a4a534a5e7bc365cad91daa2e1fffe29d83007db48f5",
+          "fullDecode": true,
+          "contactFrames": 32,
+          "proof": "hammer-curl-2-sheet.jpg"
+        },
+        {
+          "id": "hammer-curl-2",
+          "theme": "dark",
+          "source": "public/exercise-guides/ai-v3/hammer-curl-2-dark.mp4",
+          "sha256": "1a2dd4ecd473b8939020efadbc191c274a1b0d19abb84fc51ec73e9a5a47ecdc",
+          "fullDecode": true,
+          "contactFrames": 32,
+          "proof": "hammer-curl-2-dark-sheet.jpg"
+        }
+      ],
+      "browser": {
+        "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+        "results": [
+          {
+            "theme": "light",
+            "width": 720,
+            "height": 720,
+            "duration": 8,
+            "play": true,
+            "seek": true,
+            "loop": true
+          },
+          {
+            "theme": "dark",
+            "width": 720,
+            "height": 720,
+            "duration": 8,
+            "play": true,
+            "seek": true,
+            "loop": true
+          }
+        ]
+      },
+      "publishedOrMapped": false,
+      "sourceFilesUnchanged": true
+    },
+    {
+      "sourceId": "ez-bar-curl-2",
+      "targetId": "ez-bar-curl",
+      "equipment": "barbell",
+      "decision": "recommended-for-exact-alias",
+      "identity": "Standing curved EZ-bar curl with underhand/semi-supinated grip, both elbows flexing while torso remains upright. Same EZ-bar equipment and target cues.",
+      "visualEvidence": [
+        "ez-bar-curl-2-sheet.jpg",
+        "ez-bar-curl-2-dark-sheet.jpg",
+        "ez-bar-curl-2-4s.jpg",
+        "ez-bar-curl-2-dark-4s.jpg"
+      ],
+      "rigInspected": null,
+      "limitations": "Source uses16-pose sprite interpolation, not separate rig; mild source frame position variation and intentionally added dark rim persist. No disappearing bar/plates or major ghosting seen in32 sampled frames. Alias does not certify clinical technique.",
+      "files": [
+        {
+          "id": "ez-bar-curl-2",
+          "theme": "light",
+          "source": "public/exercise-guides/ai-v3/ez-bar-curl-2.mp4",
+          "sha256": "858d520557bf0a16b7f7f8302abd168fb8ead8bc04ac931299465f05299cf4e9",
+          "fullDecode": true,
+          "contactFrames": 32,
+          "proof": "ez-bar-curl-2-sheet.jpg"
+        },
+        {
+          "id": "ez-bar-curl-2",
+          "theme": "dark",
+          "source": "public/exercise-guides/ai-v3/ez-bar-curl-2-dark.mp4",
+          "sha256": "5e5c896a6fb054daded72ef78efbdcb65604a186d128a4d4ee5e80b4469e8999",
+          "fullDecode": true,
+          "contactFrames": 32,
+          "proof": "ez-bar-curl-2-dark-sheet.jpg"
+        }
+      ],
+      "browser": {
+        "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+        "results": [
+          {
+            "theme": "light",
+            "width": 480,
+            "height": 480,
+            "duration": 8,
+            "play": true,
+            "seek": true,
+            "loop": true
+          },
+          {
+            "theme": "dark",
+            "width": 480,
+            "height": 480,
+            "duration": 8,
+            "play": true,
+            "seek": true,
+            "loop": true
+          }
+        ]
+      },
+      "publishedOrMapped": false,
+      "sourceFilesUnchanged": true
+    }
+  ]
+}

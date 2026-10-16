@@ -1,0 +1,16 @@
+{
+  "id": "step-calf-raise",
+  "status": "implemented-and-focused-checks-passed",
+  "source": "https://healthsciences.unimelb.edu.au/departments/physiotherapy/chesm/video-library/exercise/knee-oa/calf-strengthening",
+  "sourceSection": "Exercise C3: Calf raises over edge of step",
+  "files": ["src/features/routine/exercise-catalog-extra-methods.ts", "src/features/workout-timer/exercise-guides.ts", "tests/be/logic/step-calf-raise-methods.test.ts"],
+  "changes": "Replace squat text with stable step edge forefoot support, supported balance, heel elevation, pause and controlled lowering below step. Exact-ID guide and summary avoid squat category fallback. No global mapping change.",
+  "verification": {
+    "red": "New2tests failed against original squat methods/guide before correction.",
+    "green": "step-calf-raise-methods, dumbbell-calf-raise-methods, calf-stretch-methods, exercise-methods, exercise-motion:5files16tests passed.",
+    "eslint": "Changed source and new test passed.",
+    "typescript": "Full tsc --noEmit passed.",
+    "diffCheck": "Passed; CRLF conversion warnings only."
+  },
+  "preserved": "Existing dumbbell-calf and calf-stretch corrections. No docs/public/global category changes."
+}

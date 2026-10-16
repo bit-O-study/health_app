@@ -1,0 +1,1 @@
+import {readFileSync,writeFileSync} from 'node:fs';const a='tools/media/imports/cutout-all-20261007-a/';for(const f of ['u2net-endpoints.mjs','render-u2net.mjs','verify-u2net-playback.mjs'])writeFileSync(a+f,readFileSync(a+f,'utf8').replace("'wide-grip-lat-pulldown']","'wide-grip-lat-pulldown','straight-arm-pulldown-2','cable-rear-delt-fly-2','face-pull-2']"));

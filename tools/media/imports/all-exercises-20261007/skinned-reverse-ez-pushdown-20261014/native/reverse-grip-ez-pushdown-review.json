@@ -1,0 +1,126 @@
+{
+  "id": "reverse-grip-ez-pushdown",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-ez-pushdown-20261014/native/reverse-grip-ez-pushdown.mp4",
+      "sha256": "2386e83fd9b9f251a1436fb106a5dd401226ac5e18237d5236b412b3b32e1cf0",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78299,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-ez-pushdown-20261014/native/reverse-grip-ez-pushdown-dark.mp4",
+      "sha256": "4499328e6c9c5a6745528948fcc07fa29fc95e836ff1ffc256c54ccb7ff0a7a9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75058,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 3.552713678800501e-15,
+    "pulleyTangentError": 4.718447854656915e-15,
+    "pulleyRimError": 1.2212453270876722e-15,
+    "connectorRadiusError": 5.828670879282072e-16,
+    "stackRiseRange": [
+      0,
+      5.0252244942581505
+    ],
+    "cableBodyMinClearance": 1.3621707708907174,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.220446049250313e-15,
+    "gripTangentAxisError": 1.887379141862766e-15,
+    "elbowBendRange": [
+      4.9999999999998455,
+      90.00000000000004
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.1426500140776708,
+    "barGripWidth": 4.422055554480586,
+    "barRise": 4.532391138238669,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.971420331386598,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 1.0683759116932183,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 7.824775505741849,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.00035011238198379147,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 0.8715935145793028,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.7053025658242404e-13,
+    "palmSupinationProjectionRange": [
+      0.8616286555690547,
+      0.8616286555690557
+    ],
+    "referenceOverhandProjectionRange": [
+      -0.8616286555690555,
+      -0.8616286555690545
+    ],
+    "referenceOverhandPoseSha256": "efa64e7fd5c7339b5aa7ad7e6d8cb6235272a2fb82e56bb11d0d910b756d6649"
+  },
+  "sources": [
+    "https://steelsupplements.com/blogs/steel-blog/how-to-do-reverse-grip-tricep-pushdown-form-benefits",
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/reverse-grip-triceps-pressdown/"
+  ],
+  "sourceSha256": "6ab3a9293f3ec02b39cdf5ac4c4c5a52c7dc33775e6c7e74564c8ce9661f1b60",
+  "rigSourceSha256": "84adf673e5dbadb63d8e84c87050d1d39d49aafa264ad03372b648d567130f9c",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T02:02:34.011Z",
+  "reviewer": "wrist isolated visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "2386e83fd9b9f251a1436fb106a5dd401226ac5e18237d5236b412b3b32e1cf0",
+  "darkVideoSha256": "4499328e6c9c5a6745528948fcc07fa29fc95e836ff1ffc256c54ccb7ff0a7a9",
+  "checks": {
+    "exercise": "Exact reverse-grip-ez-pushdown catalog cable exercise. New underhand motion on25degree EZ shafts, not alias or edit of published overhand candidate.",
+    "equipment": "Rigid curved EZ bar and central ring connected to fixed HIGH pulley and stack.481samples cable drift3.55e-15, station0, stack0to5.025 strictly nondecreasing during press.",
+    "setup": "Standing with body and upperarms fixed15degrees forward. Both32theme sheets plus side/hand/feet/pulley views inspected.",
+    "hands": "Anatomical palms face upward at bent start;25degree partially supinated grip maintains shaft contact. Full481palm projection against forearm-up direction+.86162865557 versus original overhand-.86162865557 with reference pose SHA recorded. Hand0/210 show palm underside grip and dorsal fingernails distinction. Grip2.22e-15/shaft1.89e-15, width114.27% shoulder width.",
+    "feet": "Feet/root fixed, sole gap2.01e-8; grounded foot view inspected.",
+    "movement": "Elbow90to5degrees, no upperarm movement. Smooth push.4-3.8/return4.2-7.6 with.4second holds.481fullphase angle error1.71e-13 and loop0.17mesh clearances include forearms, hand contact excluded: bar.9714/cloth.8716/cable1.3622/machine1.0684. Both complete decode and mobile Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Steel original source explicitly allows EZ and underhand grip; M&F corroborating movement uses straight bar. Do not adopt promotional triceps-head isolation claims.",
+    "Generic25degree cambered attachment and simplified hand/elbow skin,5degree soft finish.",
+    "17deformed-mesh samples, not continuous physical simulation.",
+    "Local mobile Edge emulation only; no integrated app or physical device claim."
+  ]
+}

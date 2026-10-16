@@ -1,0 +1,14 @@
+{
+  "id": "seated-dumbbell-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-dumbbell-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-dumbbell-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:06:49.696Z"
+}

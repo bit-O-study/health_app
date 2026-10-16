@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-standing-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4aeb6d568d4704be27c3fb7c48570a32aec29d31274aa8facbe0e94697db0225",
+  "rigSourceSha256": "ae863127eb24360ba540d8f826d8bfe466193673050103983801f5d4bf707472",
+  "videoSha256": "5fa59b87168e6ee4f4b24406aed8eb3b7564742dfab78fc49c0a8211b9f330ed",
+  "darkVideoSha256": "2aba81363605763cc4f0526e476bdd69ff8f55ec29f5231e39594c6b80243534",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 133725,
+  "darkBytes": 122519,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:43:50.975Z"
+}

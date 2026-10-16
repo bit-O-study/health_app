@@ -1,0 +1,3369 @@
+[
+  {
+    "frame": 0,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 1,
+    "gap": 0.010689754043941235,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 2.175583928816829e-15
+  },
+  {
+    "frame": 2,
+    "gap": 0.010689527222028872,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 3,
+    "gap": 0.010688921514114824,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 4,
+    "gap": 0.010687761701476006,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 5,
+    "gap": 0.01068588218686184,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 6,
+    "gap": 0.010683126915052021,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.538370149106851e-15
+  },
+  {
+    "frame": 7,
+    "gap": 0.010679349307657127,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 8,
+    "gap": 0.010674412207992923,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 9,
+    "gap": 0.01066818783244905,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 10,
+    "gap": 0.010660557724910369,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 11,
+    "gap": 0.01065141271139236,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.6011864169946884e-15
+  },
+  {
+    "frame": 12,
+    "gap": 0.010640652852162091,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 13,
+    "gap": 0.010628187389142063,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 14,
+    "gap": 0.010613934686488413,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 15,
+    "gap": 0.010597822162668358,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 16,
+    "gap": 0.010579786212474573,
+    "inside": 0,
+    "overlap": 2442,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 17,
+    "gap": 0.01055977211773751,
+    "inside": 0,
+    "overlap": 2442,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 18,
+    "gap": 0.01053773394565205,
+    "inside": 0,
+    "overlap": 2442,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 19,
+    "gap": 0.010513634433810815,
+    "inside": 0,
+    "overlap": 2444,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 20,
+    "gap": 0.0104874448612442,
+    "inside": 0,
+    "overlap": 2446,
+    "wristTargetError": 2.8435583831733384e-15
+  },
+  {
+    "frame": 21,
+    "gap": 0.010459144904913842,
+    "inside": 0,
+    "overlap": 2447,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 22,
+    "gap": 0.01042872248121629,
+    "inside": 0,
+    "overlap": 2448,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 23,
+    "gap": 0.010396173572218892,
+    "inside": 0,
+    "overlap": 2448,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 24,
+    "gap": 0.010361502036478676,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 25,
+    "gap": 0.010324719404352756,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 26,
+    "gap": 0.01028584465791571,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 27,
+    "gap": 0.010244903995542565,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 2.3914935841127266e-15
+  },
+  {
+    "frame": 28,
+    "gap": 0.010201930581546392,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 29,
+    "gap": 0.010156964281083702,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 30,
+    "gap": 0.010110051380902263,
+    "inside": 0,
+    "overlap": 2451,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 31,
+    "gap": 0.010061244296346139,
+    "inside": 0,
+    "overlap": 2452,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 32,
+    "gap": 0.010010601265370234,
+    "inside": 0,
+    "overlap": 2452,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 33,
+    "gap": 0.009958186030167404,
+    "inside": 0,
+    "overlap": 2453,
+    "wristTargetError": 2.5510982866352577e-15
+  },
+  {
+    "frame": 34,
+    "gap": 0.009904067507322978,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 35,
+    "gap": 0.009848319447306686,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 2.6645352591003757e-15
+  },
+  {
+    "frame": 36,
+    "gap": 0.009791020084363389,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 37,
+    "gap": 0.009732251777786693,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 38,
+    "gap": 0.009672100645820692,
+    "inside": 0,
+    "overlap": 2456,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 39,
+    "gap": 0.009610656193315137,
+    "inside": 0,
+    "overlap": 2458,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 40,
+    "gap": 0.009548010934500084,
+    "inside": 0,
+    "overlap": 2458,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 41,
+    "gap": 0.009484260012209589,
+    "inside": 0,
+    "overlap": 2459,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 42,
+    "gap": 0.009372244971555865,
+    "inside": 0,
+    "overlap": 2459,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 43,
+    "gap": 0.009239194115189697,
+    "inside": 0,
+    "overlap": 2460,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 44,
+    "gap": 0.009104109849674025,
+    "inside": 0,
+    "overlap": 2461,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 45,
+    "gap": 0.0089671752935514,
+    "inside": 0,
+    "overlap": 2463,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 46,
+    "gap": 0.008828576409352529,
+    "inside": 0,
+    "overlap": 2463,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 47,
+    "gap": 0.008688501418223638,
+    "inside": 0,
+    "overlap": 2463,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 48,
+    "gap": 0.008547140220645844,
+    "inside": 0,
+    "overlap": 2464,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 49,
+    "gap": 0.008404683824966952,
+    "inside": 0,
+    "overlap": 2467,
+    "wristTargetError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 50,
+    "gap": 0.008261323785452745,
+    "inside": 0,
+    "overlap": 2469,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 51,
+    "gap": 0.008117251651493795,
+    "inside": 0,
+    "overlap": 2469,
+    "wristTargetError": 2.808666774861361e-15
+  },
+  {
+    "frame": 52,
+    "gap": 0.00797265842970507,
+    "inside": 0,
+    "overlap": 2469,
+    "wristTargetError": 2.175583928816829e-15
+  },
+  {
+    "frame": 53,
+    "gap": 0.007827734060399827,
+    "inside": 0,
+    "overlap": 2470,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 54,
+    "gap": 0.007682666910225677,
+    "inside": 0,
+    "overlap": 2470,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 55,
+    "gap": 0.007537643282208961,
+    "inside": 0,
+    "overlap": 2472,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 56,
+    "gap": 0.007392846944918929,
+    "inside": 0,
+    "overlap": 2472,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 57,
+    "gap": 0.007248458681918812,
+    "inside": 0,
+    "overlap": 2473,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 58,
+    "gap": 0.007108101703985348,
+    "inside": 0,
+    "overlap": 2473,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 59,
+    "gap": 0.006976460878664881,
+    "inside": 0,
+    "overlap": 2474,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 60,
+    "gap": 0.0068465125599095344,
+    "inside": 0,
+    "overlap": 2474,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 61,
+    "gap": 0.0067184040211980545,
+    "inside": 0,
+    "overlap": 2475,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 62,
+    "gap": 0.0065922741273825025,
+    "inside": 0,
+    "overlap": 2476,
+    "wristTargetError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 63,
+    "gap": 0.006468253126628909,
+    "inside": 0,
+    "overlap": 2476,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 64,
+    "gap": 0.006346462490361304,
+    "inside": 0,
+    "overlap": 2479,
+    "wristTargetError": 1.9860273225978185e-15
+  },
+  {
+    "frame": 65,
+    "gap": 0.006227014800609609,
+    "inside": 0,
+    "overlap": 2480,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 66,
+    "gap": 0.006110013683741755,
+    "inside": 0,
+    "overlap": 2480,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 67,
+    "gap": 0.005995553789360564,
+    "inside": 0,
+    "overlap": 2481,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 68,
+    "gap": 0.005883720812867921,
+    "inside": 0,
+    "overlap": 2484,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 69,
+    "gap": 0.0057745915598781394,
+    "inside": 0,
+    "overlap": 2485,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 70,
+    "gap": 0.005668234050504317,
+    "inside": 0,
+    "overlap": 2487,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 71,
+    "gap": 0.005564707661234181,
+    "inside": 0,
+    "overlap": 2490,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 72,
+    "gap": 0.005464063301987565,
+    "inside": 0,
+    "overlap": 2492,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 73,
+    "gap": 0.005366343625728298,
+    "inside": 0,
+    "overlap": 2492,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 74,
+    "gap": 0.005271583267847824,
+    "inside": 0,
+    "overlap": 2494,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 75,
+    "gap": 0.0051798091123957946,
+    "inside": 0,
+    "overlap": 2495,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 76,
+    "gap": 0.00509104058216181,
+    "inside": 0,
+    "overlap": 2496,
+    "wristTargetError": 2.220446049250313e-15
+  },
+  {
+    "frame": 77,
+    "gap": 0.005005289949475689,
+    "inside": 0,
+    "overlap": 2497,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 78,
+    "gap": 0.004922562664495089,
+    "inside": 0,
+    "overlap": 2497,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 79,
+    "gap": 0.004842857697829217,
+    "inside": 0,
+    "overlap": 2498,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 80,
+    "gap": 0.004766167894129758,
+    "inside": 0,
+    "overlap": 2499,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 81,
+    "gap": 0.004692480333449822,
+    "inside": 0,
+    "overlap": 2500,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 82,
+    "gap": 0.0046217766970215735,
+    "inside": 0,
+    "overlap": 2500,
+    "wristTargetError": 1.538370149106851e-15
+  },
+  {
+    "frame": 83,
+    "gap": 0.004554033634251553,
+    "inside": 0,
+    "overlap": 2501,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 84,
+    "gap": 0.004489223127690067,
+    "inside": 0,
+    "overlap": 2502,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 85,
+    "gap": 0.0044273128528447,
+    "inside": 0,
+    "overlap": 2503,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 86,
+    "gap": 0.00436826652969291,
+    "inside": 0,
+    "overlap": 2504,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 87,
+    "gap": 0.004302617741194226,
+    "inside": 0,
+    "overlap": 2504,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 88,
+    "gap": 0.004209992209393221,
+    "inside": 0,
+    "overlap": 2504,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 89,
+    "gap": 0.004121497859581602,
+    "inside": 0,
+    "overlap": 2505,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 90,
+    "gap": 0.004037126380506351,
+    "inside": 0,
+    "overlap": 2507,
+    "wristTargetError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 91,
+    "gap": 0.0039568627518073995,
+    "inside": 0,
+    "overlap": 2510,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 92,
+    "gap": 0.003880685328548239,
+    "inside": 0,
+    "overlap": 2510,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 93,
+    "gap": 0.0038085659073310296,
+    "inside": 0,
+    "overlap": 2511,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 94,
+    "gap": 0.0037404697714489288,
+    "inside": 0,
+    "overlap": 2512,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 95,
+    "gap": 0.003676355712622481,
+    "inside": 0,
+    "overlap": 2512,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 96,
+    "gap": 0.0036161760271475885,
+    "inside": 0,
+    "overlap": 2513,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 97,
+    "gap": 0.003559876484352742,
+    "inside": 0,
+    "overlap": 2514,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 98,
+    "gap": 0.0035073962656371194,
+    "inside": 0,
+    "overlap": 2515,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 99,
+    "gap": 0.0034586678723842468,
+    "inside": 0,
+    "overlap": 2515,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 100,
+    "gap": 0.0034136170016196843,
+    "inside": 0,
+    "overlap": 2516,
+    "wristTargetError": 2.8435583831733384e-15
+  },
+  {
+    "frame": 101,
+    "gap": 0.0033741500633688304,
+    "inside": 0,
+    "overlap": 2517,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 102,
+    "gap": 0.0033402728312470487,
+    "inside": 0,
+    "overlap": 2517,
+    "wristTargetError": 1.6011864169946884e-15
+  },
+  {
+    "frame": 103,
+    "gap": 0.0033094490307039592,
+    "inside": 0,
+    "overlap": 2518,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 104,
+    "gap": 0.0032815843389473187,
+    "inside": 0,
+    "overlap": 2518,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 105,
+    "gap": 0.0032565776063346874,
+    "inside": 0,
+    "overlap": 2519,
+    "wristTargetError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 106,
+    "gap": 0.003234320556599002,
+    "inside": 0,
+    "overlap": 2519,
+    "wristTargetError": 1.538370149106851e-15
+  },
+  {
+    "frame": 107,
+    "gap": 0.003214697456885851,
+    "inside": 0,
+    "overlap": 2519,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 108,
+    "gap": 0.003197584759332628,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 109,
+    "gap": 0.0031828507164393116,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 110,
+    "gap": 0.0031703549729851233,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 111,
+    "gap": 0.0031599481377551086,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 112,
+    "gap": 0.003151471338924239,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 113,
+    "gap": 0.0031447557675159388,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 114,
+    "gap": 0.0031396222139434826,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 115,
+    "gap": 0.0031358806032599773,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 116,
+    "gap": 0.0031333295354851742,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 117,
+    "gap": 0.003131755837895156,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 118,
+    "gap": 0.0031309341370855392,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 119,
+    "gap": 0.003130626459146413,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 120,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 121,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 122,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 123,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 124,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 125,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 126,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 127,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 128,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 129,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 130,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 131,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 132,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 133,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 134,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 135,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 136,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 137,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 138,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 139,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 140,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 141,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 142,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 143,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 144,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 145,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 146,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 147,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 148,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 149,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 150,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 151,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 152,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 153,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 154,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 155,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 156,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 157,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 158,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 159,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 160,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 161,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 162,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 163,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 164,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 165,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 166,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 167,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 168,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 169,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 170,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 171,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 172,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 173,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 174,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 175,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 176,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 177,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 178,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 179,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 180,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 181,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 182,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 183,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 184,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 185,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 186,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 187,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 188,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 189,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 190,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 191,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 192,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 193,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 194,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 195,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 196,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 197,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 198,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 199,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 200,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 201,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 202,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 203,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 204,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 205,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 206,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 207,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 208,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 209,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 210,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 211,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 212,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 213,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 214,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 215,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 216,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 217,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 218,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 219,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 220,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 221,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 222,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 223,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 224,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 225,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 226,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 227,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 228,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 229,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 230,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 231,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 232,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 233,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 234,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 235,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 236,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 237,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 238,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 239,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 240,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 241,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 242,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 243,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 244,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 245,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 246,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 247,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 248,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 249,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 250,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 251,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 252,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 253,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 254,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 255,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 256,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 257,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 258,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 259,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 260,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 261,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 262,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 263,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 264,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 265,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 266,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 267,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 268,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 269,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 270,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 271,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 272,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 273,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 274,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 275,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 276,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 277,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 278,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 279,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 280,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 281,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 282,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 283,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 284,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 285,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 286,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 287,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 288,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 289,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 290,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 291,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 292,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 293,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 294,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 295,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 296,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 297,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 298,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 299,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 300,
+    "gap": 0.0031305818672819896,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 301,
+    "gap": 0.003130626459148189,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 302,
+    "gap": 0.0031309341370855392,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 303,
+    "gap": 0.003131755837896044,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 304,
+    "gap": 0.0031333295354851742,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 305,
+    "gap": 0.003135880603259089,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 306,
+    "gap": 0.0031396222139417063,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 307,
+    "gap": 0.0031447557675159388,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 308,
+    "gap": 0.003151471338924239,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 309,
+    "gap": 0.0031599481377551086,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 310,
+    "gap": 0.003170354972984235,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 311,
+    "gap": 0.0031828507164384234,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 312,
+    "gap": 0.003197584759332628,
+    "inside": 0,
+    "overlap": 2520,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 313,
+    "gap": 0.0032146974568840747,
+    "inside": 0,
+    "overlap": 2519,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 314,
+    "gap": 0.0032343205565981137,
+    "inside": 0,
+    "overlap": 2519,
+    "wristTargetError": 1.538370149106851e-15
+  },
+  {
+    "frame": 315,
+    "gap": 0.0032565776063346874,
+    "inside": 0,
+    "overlap": 2519,
+    "wristTargetError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 316,
+    "gap": 0.0032815843389499832,
+    "inside": 0,
+    "overlap": 2518,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 317,
+    "gap": 0.0033094490307004065,
+    "inside": 0,
+    "overlap": 2518,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 318,
+    "gap": 0.0033402728312470487,
+    "inside": 0,
+    "overlap": 2517,
+    "wristTargetError": 1.6011864169946884e-15
+  },
+  {
+    "frame": 319,
+    "gap": 0.003374150063367942,
+    "inside": 0,
+    "overlap": 2517,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 320,
+    "gap": 0.0034136170016214606,
+    "inside": 0,
+    "overlap": 2516,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 321,
+    "gap": 0.0034586678723842468,
+    "inside": 0,
+    "overlap": 2515,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 322,
+    "gap": 0.003507396265636231,
+    "inside": 0,
+    "overlap": 2515,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 323,
+    "gap": 0.003559876484352742,
+    "inside": 0,
+    "overlap": 2514,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 324,
+    "gap": 0.0036161760271475885,
+    "inside": 0,
+    "overlap": 2513,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 325,
+    "gap": 0.0036763557126242574,
+    "inside": 0,
+    "overlap": 2512,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 326,
+    "gap": 0.0037404697714489288,
+    "inside": 0,
+    "overlap": 2512,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 327,
+    "gap": 0.0038085659073310296,
+    "inside": 0,
+    "overlap": 2511,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 328,
+    "gap": 0.003880685328548239,
+    "inside": 0,
+    "overlap": 2510,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 329,
+    "gap": 0.0039568627518073995,
+    "inside": 0,
+    "overlap": 2510,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 330,
+    "gap": 0.004037126380506351,
+    "inside": 0,
+    "overlap": 2507,
+    "wristTargetError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 331,
+    "gap": 0.004121497859581602,
+    "inside": 0,
+    "overlap": 2505,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 332,
+    "gap": 0.004209992209391444,
+    "inside": 0,
+    "overlap": 2504,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 333,
+    "gap": 0.004302617741194226,
+    "inside": 0,
+    "overlap": 2504,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 334,
+    "gap": 0.00436826652969291,
+    "inside": 0,
+    "overlap": 2504,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 335,
+    "gap": 0.0044273128528447,
+    "inside": 0,
+    "overlap": 2503,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 336,
+    "gap": 0.004489223127690067,
+    "inside": 0,
+    "overlap": 2502,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 337,
+    "gap": 0.004554033634249777,
+    "inside": 0,
+    "overlap": 2501,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 338,
+    "gap": 0.00462177669702335,
+    "inside": 0,
+    "overlap": 2500,
+    "wristTargetError": 1.538370149106851e-15
+  },
+  {
+    "frame": 339,
+    "gap": 0.004692480333449822,
+    "inside": 0,
+    "overlap": 2500,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 340,
+    "gap": 0.004766167894129758,
+    "inside": 0,
+    "overlap": 2499,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 341,
+    "gap": 0.004842857697829217,
+    "inside": 0,
+    "overlap": 2498,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 342,
+    "gap": 0.004922562664495089,
+    "inside": 0,
+    "overlap": 2497,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 343,
+    "gap": 0.005005289949475689,
+    "inside": 0,
+    "overlap": 2497,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 344,
+    "gap": 0.005091040582163586,
+    "inside": 0,
+    "overlap": 2496,
+    "wristTargetError": 2.220446049250313e-15
+  },
+  {
+    "frame": 345,
+    "gap": 0.0051798091123957946,
+    "inside": 0,
+    "overlap": 2495,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 346,
+    "gap": 0.005271583267848712,
+    "inside": 0,
+    "overlap": 2494,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 347,
+    "gap": 0.00536634362572741,
+    "inside": 0,
+    "overlap": 2492,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 348,
+    "gap": 0.005464063301987565,
+    "inside": 0,
+    "overlap": 2492,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 349,
+    "gap": 0.005564707661233292,
+    "inside": 0,
+    "overlap": 2490,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 350,
+    "gap": 0.005668234050504317,
+    "inside": 0,
+    "overlap": 2487,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 351,
+    "gap": 0.0057745915598781394,
+    "inside": 0,
+    "overlap": 2485,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 352,
+    "gap": 0.005883720812868809,
+    "inside": 0,
+    "overlap": 2484,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 353,
+    "gap": 0.005995553789361452,
+    "inside": 0,
+    "overlap": 2481,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 354,
+    "gap": 0.0061100136837435315,
+    "inside": 0,
+    "overlap": 2480,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 355,
+    "gap": 0.006227014800609609,
+    "inside": 0,
+    "overlap": 2480,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 356,
+    "gap": 0.006346462490360416,
+    "inside": 0,
+    "overlap": 2479,
+    "wristTargetError": 1.9860273225978185e-15
+  },
+  {
+    "frame": 357,
+    "gap": 0.006468253126628909,
+    "inside": 0,
+    "overlap": 2476,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 358,
+    "gap": 0.0065922741273825025,
+    "inside": 0,
+    "overlap": 2476,
+    "wristTargetError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 359,
+    "gap": 0.0067184040211980545,
+    "inside": 0,
+    "overlap": 2475,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 360,
+    "gap": 0.0068465125599095344,
+    "inside": 0,
+    "overlap": 2474,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 361,
+    "gap": 0.006976460878664881,
+    "inside": 0,
+    "overlap": 2474,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 362,
+    "gap": 0.007108101703985348,
+    "inside": 0,
+    "overlap": 2473,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 363,
+    "gap": 0.007248458681917924,
+    "inside": 0,
+    "overlap": 2473,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 364,
+    "gap": 0.007392846944918929,
+    "inside": 0,
+    "overlap": 2472,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 365,
+    "gap": 0.007537643282208961,
+    "inside": 0,
+    "overlap": 2472,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 366,
+    "gap": 0.007682666910225677,
+    "inside": 0,
+    "overlap": 2470,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 367,
+    "gap": 0.007827734060399827,
+    "inside": 0,
+    "overlap": 2470,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 368,
+    "gap": 0.007972658429703294,
+    "inside": 0,
+    "overlap": 2469,
+    "wristTargetError": 2.175583928816829e-15
+  },
+  {
+    "frame": 369,
+    "gap": 0.008117251651497348,
+    "inside": 0,
+    "overlap": 2469,
+    "wristTargetError": 2.808666774861361e-15
+  },
+  {
+    "frame": 370,
+    "gap": 0.008261323785450969,
+    "inside": 0,
+    "overlap": 2469,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 371,
+    "gap": 0.008404683824966952,
+    "inside": 0,
+    "overlap": 2467,
+    "wristTargetError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 372,
+    "gap": 0.008547140220644955,
+    "inside": 0,
+    "overlap": 2464,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 373,
+    "gap": 0.008688501418223638,
+    "inside": 0,
+    "overlap": 2463,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 374,
+    "gap": 0.008828576409352529,
+    "inside": 0,
+    "overlap": 2463,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 375,
+    "gap": 0.0089671752935514,
+    "inside": 0,
+    "overlap": 2463,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 376,
+    "gap": 0.009104109849674025,
+    "inside": 0,
+    "overlap": 2461,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 377,
+    "gap": 0.009239194115189697,
+    "inside": 0,
+    "overlap": 2460,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 378,
+    "gap": 0.009372244971555865,
+    "inside": 0,
+    "overlap": 2459,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 379,
+    "gap": 0.0094842600122087,
+    "inside": 0,
+    "overlap": 2459,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 380,
+    "gap": 0.009548010934500972,
+    "inside": 0,
+    "overlap": 2458,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 381,
+    "gap": 0.009610656193315137,
+    "inside": 0,
+    "overlap": 2458,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 382,
+    "gap": 0.00967210064582158,
+    "inside": 0,
+    "overlap": 2456,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 383,
+    "gap": 0.00973225177778847,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 384,
+    "gap": 0.009791020084363389,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 385,
+    "gap": 0.009848319447307574,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 2.6645352591003757e-15
+  },
+  {
+    "frame": 386,
+    "gap": 0.009904067507322978,
+    "inside": 0,
+    "overlap": 2454,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 387,
+    "gap": 0.00995818603016918,
+    "inside": 0,
+    "overlap": 2453,
+    "wristTargetError": 2.5510982866352577e-15
+  },
+  {
+    "frame": 388,
+    "gap": 0.010010601265369345,
+    "inside": 0,
+    "overlap": 2452,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 389,
+    "gap": 0.010061244296346139,
+    "inside": 0,
+    "overlap": 2452,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 390,
+    "gap": 0.010110051380902263,
+    "inside": 0,
+    "overlap": 2451,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 391,
+    "gap": 0.010156964281083702,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 392,
+    "gap": 0.010201930581546392,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 393,
+    "gap": 0.010244903995542565,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 2.3914935841127266e-15
+  },
+  {
+    "frame": 394,
+    "gap": 0.010285844657914822,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 395,
+    "gap": 0.010324719404352756,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 396,
+    "gap": 0.010361502036478676,
+    "inside": 0,
+    "overlap": 2450,
+    "wristTargetError": 4.440892098500626e-16
+  },
+  {
+    "frame": 397,
+    "gap": 0.010396173572217116,
+    "inside": 0,
+    "overlap": 2448,
+    "wristTargetError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 398,
+    "gap": 0.010428722481217179,
+    "inside": 0,
+    "overlap": 2448,
+    "wristTargetError": 2.175583928816829e-15
+  },
+  {
+    "frame": 399,
+    "gap": 0.010459144904913842,
+    "inside": 0,
+    "overlap": 2447,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 400,
+    "gap": 0.0104874448612442,
+    "inside": 0,
+    "overlap": 2446,
+    "wristTargetError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 401,
+    "gap": 0.010513634433810815,
+    "inside": 0,
+    "overlap": 2444,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 402,
+    "gap": 0.010537733945652938,
+    "inside": 0,
+    "overlap": 2442,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 403,
+    "gap": 0.01055977211773751,
+    "inside": 0,
+    "overlap": 2442,
+    "wristTargetError": 1.831026719408895e-15
+  },
+  {
+    "frame": 404,
+    "gap": 0.010579786212473685,
+    "inside": 0,
+    "overlap": 2442,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 405,
+    "gap": 0.010597822162668358,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 406,
+    "gap": 0.01061393468649019,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 407,
+    "gap": 0.010628187389142063,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 408,
+    "gap": 0.01064065285216298,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 409,
+    "gap": 0.01065141271139236,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.6011864169946884e-15
+  },
+  {
+    "frame": 410,
+    "gap": 0.010660557724910369,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 411,
+    "gap": 0.01066818783244905,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 412,
+    "gap": 0.010674412207992923,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 413,
+    "gap": 0.010679349307656238,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 0
+  },
+  {
+    "frame": 414,
+    "gap": 0.010683126915054686,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 1.538370149106851e-15
+  },
+  {
+    "frame": 415,
+    "gap": 0.01068588218686184,
+    "inside": 0,
+    "overlap": 2441,
+    "wristTargetError": 8.881784197001252e-16
+  },
+  {
+    "frame": 416,
+    "gap": 0.010687761701476006,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 417,
+    "gap": 0.010688921514115712,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 418,
+    "gap": 0.010689527222027984,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 419,
+    "gap": 0.010689754043939459,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 2.175583928816829e-15
+  },
+  {
+    "frame": 420,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 421,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 422,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 423,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 424,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 425,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 426,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 427,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 428,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 429,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 430,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 431,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 432,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 433,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 434,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 435,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 436,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 437,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 438,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 439,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 440,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 441,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 442,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 443,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 444,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 445,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 446,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 447,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 448,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 449,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 450,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 451,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 452,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 453,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 454,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 455,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 456,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 457,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 458,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 459,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 460,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 461,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 462,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 463,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 464,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 465,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 466,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 467,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 468,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 469,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 470,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 471,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 472,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 473,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 474,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 475,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 476,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 477,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 478,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 479,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  },
+  {
+    "frame": 480,
+    "gap": 0.010689786918239186,
+    "inside": 0,
+    "overlap": 2440,
+    "wristTargetError": 9.930136612989092e-16
+  }
+]

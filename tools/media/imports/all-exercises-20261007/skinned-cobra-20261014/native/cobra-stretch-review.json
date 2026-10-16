@@ -1,0 +1,248 @@
+{
+  "id": "cobra-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://digitalcommons.imsa.edu/yoga_crit_inst/34/"
+  ],
+  "checks": {
+    "exercise": "Low cobra stretch: prone fixed-palm supported backbend, elbows remain bent and tucked.",
+    "equipment": "Bodyweight on flat mat.",
+    "setup": "Parallel legs, toes rearward; hips remain low and fixed, shoulders lift gently.",
+    "hands": "Both palms down/fingers forward and fixed. Actual proximal-palm and all5distal-finger clearances, distal upperarm/forearm-body separation checked481samples.",
+    "feet": "Lower body fixed; actual dorsal foot and toe surfaces remain near mat without penetration. Toes point behind.",
+    "movement": "Final both32frame sheets plus hand/feet/hip/waist side enlargements reviewed.481samples, full decode, Edge play/seek/loop passed."
+  },
+  "sourceSha256": "4823be24a5aeed27ad3dc6fd9d17b10fea9c5a99f4916942665a36643b18cd99",
+  "rigSourceSha256": "bb15dfe39de3efafcb6c81b5d1bb448775f686bf8b71013c1f530984d1820cb5",
+  "videoSha256": "aa86c2abacab40ea3621ad05f7ce3f0ea4debbc3dde406150f33733c9b0ebb39",
+  "darkVideoSha256": "def6c27dab6006ad5890eba9f50c864b58e99c9b7aff03ca73201f2fe7172711",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/native/cobra-stretch.mp4",
+      "sha256": "aa86c2abacab40ea3621ad05f7ce3f0ea4debbc3dde406150f33733c9b0ebb39",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 48059,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/native/cobra-stretch-dark.mp4",
+      "sha256": "def6c27dab6006ad5890eba9f50c864b58e99c9b7aff03ca73201f2fe7172711",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 54312,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "allSkinFloor": [
+      0.014373860309884634,
+      0.014373860309884634
+    ],
+    "clothFloor": [
+      0.011176329870299817,
+      0.011176329870299817
+    ],
+    "pelvisClothFloor": [
+      0.06523373750612649,
+      0.06523373750612649
+    ],
+    "support": {
+      "L": {
+        "hand": [
+          0.022671885356992938,
+          0.022671885356999155
+        ],
+        "forearm": [
+          0.1502418595911763,
+          0.1612605084273051
+        ],
+        "toes": [
+          0.014373860309884634,
+          0.014373860309884634
+        ]
+      },
+      "R": {
+        "hand": [
+          0.022671885356992938,
+          0.022671885356999155
+        ],
+        "forearm": [
+          0.1502418595911763,
+          0.1612605084273051
+        ],
+        "toes": [
+          0.014373860309884634,
+          0.014373860309884634
+        ]
+      }
+    },
+    "forearmBodyGap": [
+      0.20076999624976732,
+      0.3629702994728019
+    ],
+    "handSeparation": [
+      3.261010089158626,
+      3.2610100891586353
+    ],
+    "palmNormalY": [
+      -0.97024916887283,
+      -0.970249168872815
+    ],
+    "waistExactGap": [
+      0.09853797134267217,
+      0.09981741813401213
+    ],
+    "waistHits": [
+      353,
+      353
+    ],
+    "waistMisses": [
+      0,
+      0
+    ],
+    "lowerBodyDrift": 0,
+    "loopDrift": 0,
+    "elbowShoulderForward": [
+      -2.35170973247282,
+      -1.5421631080320761
+    ],
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "spineExtensionDegrees": [
+      10,
+      55
+    ],
+    "elbowInternalAngle": [
+      35.24455609917265,
+      85.98025642094476
+    ],
+    "wristBend": [
+      27.785951013716353,
+      39.89493083431467
+    ],
+    "handDrift": 2.9790409838967277e-15,
+    "footDorsumGap": {
+      "L": [
+        0.014995361176865174,
+        0.014995361176865174
+      ],
+      "R": [
+        0.014995361176865174,
+        0.014995361176865174
+      ]
+    },
+    "handContacts": {
+      "L": {
+        "palm": [
+          0.05133604523265767,
+          0.05133604523266211
+        ],
+        "tips": [
+          [
+            0.03673488835056826,
+            0.03673488835057537
+          ],
+          [
+            0.04057201016638068,
+            0.04057201016638512
+          ],
+          [
+            0.028344723059671395,
+            0.028344723059677612
+          ],
+          [
+            0.03019321281538012,
+            0.03019321281538545
+          ],
+          [
+            0.05373479604140741,
+            0.053734796041412736
+          ]
+        ]
+      },
+      "R": {
+        "palm": [
+          0.05133604523265767,
+          0.05133604523266211
+        ],
+        "tips": [
+          [
+            0.03673488835056826,
+            0.03673488835057537
+          ],
+          [
+            0.04057201016638068,
+            0.04057201016638512
+          ],
+          [
+            0.028344723059671395,
+            0.028344723059677612
+          ],
+          [
+            0.03019321281538012,
+            0.03019321281538545
+          ],
+          [
+            0.05373479604140741,
+            0.053734796041412736
+          ]
+        ]
+      }
+    },
+    "units": "World units, body approximately17 high."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T08:36:52.121Z",
+  "limitations": "Low-cobra demonstration with elbows bent; not high cobra or full arm extension.8second timing including3second hold and10-55degree rig articulation are not source prescriptions. Hips stay low/fixed; curved front-hip garment clearance.06523worldunits, closest garment.01118. Both dorsal foot.014995 and toes.014374world clearance, approximately1.5mm at1.7m body. Palm is curved; proximal thumb/palm region and distal fingers approach mat, not every hand vertex touches. Per-finger exact sampled gaps retained in handContacts. Waist353 radial rays per pose and height-bin36-direction separating planes are sampled geometry, not exhaustive triangle collision or force simulation. No physical-device certification."
+}

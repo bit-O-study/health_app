@@ -1,0 +1,18 @@
+{
+  "id": "cable-rope-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6d7bea6eb432a2859cad60820789c43397b1b9514a64ec3542e80d1a07f5ba9a",
+  "rigSourceSha256": "2a4ce193274d8671a1602be76e6a51bec33a89fe42eea21ae7af93e86a7ba87b",
+  "videoSha256": "4c0e095b142b8664fb9bc84f455176cb24ba3c4d6f5723281a4d412318bf6794",
+  "darkVideoSha256": "7a0a254e3f5f03c5bc32514f6432d8e4b51a42e2626414d292633f9f3c228e38",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78824,
+  "darkBytes": 80012,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:15:13.121Z"
+}

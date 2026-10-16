@@ -1,0 +1,228 @@
+{
+  "id": "wall-slide",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "start": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/studio.mjs",
+      "sha256": "d48547fc4e76105dbba6594723b73584b5b8823a27fdaa4f13c87efcf6b86f5f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/motion.mjs",
+      "sha256": "644f57fb223c4a8b152766f81a16111761d9de0503f68ebc77c0f7b5faa1239f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/render.mjs",
+      "sha256": "1ba62f0ce56930f898ed206bcd0c307c141a7dfb07c9544e0ab49fd6c2f80ed8"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/source.json",
+      "sha256": "eb784ca8482ca42eb781c93d596f053fb49169e0923eb8ce211c1535eadc25e5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/diagnostic.mjs",
+      "sha256": "c8edfb0ade3accfdfc9ba2dd19d8085b057579f79215704f534fdc6e3e7eed7b"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/diagnostic2.mjs",
+      "sha256": "6afd8c1ddf4208f67edf8eed5489ceed55c7efac2d1aa53214d50ca52645765a"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.ouh.nhs.uk/media/kyypbheo/81702shoulder.pdf"
+  ],
+  "sourceSummary": "Oxford University Hospitals Anterior Shoulder Stabilisation PDF page33: face wall, little-finger edges touch wall with thumbs pointing backwards; slide hands up comfortably in smooth motion. Optional paper towel and assisted elbow are not used. Movement illustration only; postoperative timing/clinical prescription are not imported.",
+  "motion": "Standing both feet stationary, little-finger skin edges slide up the wall then return once in8seconds. Wrists rise6.3 to10.6 worldY. Palms face inward and thumbs backward. Smooth timing start0-.4,raise.4-3.8,peak3.8-4.2,lower4.2-7.6,rest7.6-8.",
+  "kinematics": {
+    "samples": 481,
+    "handDrift": 4.3,
+    "footDrift": 0,
+    "heelDrift": 0,
+    "floorError": 1.7763568394002505e-15,
+    "footSkinGap": {
+      "L": {
+        "min": [
+          -1.7763568394002505e-15,
+          -1.7763568394002505e-15
+        ],
+        "heel": [
+          0.010424613952634942,
+          0.010424613952634942
+        ],
+        "tip": [
+          0.009899862364680878,
+          0.009899862364680878
+        ]
+      },
+      "R": {
+        "min": [
+          -1.7763568394002505e-15,
+          -1.7763568394002505e-15
+        ],
+        "heel": [
+          0.010424613952634942,
+          0.010424613952634942
+        ],
+        "tip": [
+          0.009899862364680878,
+          0.009899862364680878
+        ]
+      }
+    },
+    "rearKnee": [
+      180,
+      180
+    ],
+    "frontKnee": [
+      180,
+      180
+    ],
+    "handWallGap": {
+      "L": [
+        0.01999999999999602,
+        0.02000000000000357
+      ],
+      "R": [
+        0.01999999999999602,
+        0.02000000000000357
+      ]
+    },
+    "wallGap": [
+      0.01999999999999602,
+      0.02000000000000357
+    ],
+    "waistGap": [
+      0.042014951591391014,
+      0.04219081362839727
+    ],
+    "legGap": [
+      0.2806994623383512,
+      0.2806994623383512
+    ],
+    "handBodyGap": [
+      -0.37837256140818454,
+      -0.3783725614081761
+    ],
+    "IKError": 5.420799638382024e-15,
+    "loopDrift": 0,
+    "littleFingerGap": {
+      "L": [
+        0.01999999999999602,
+        0.02000000000000357
+      ],
+      "R": [
+        0.01999999999999602,
+        0.02000000000000357
+      ]
+    },
+    "palmNormalLeftX": [
+      -0.9693676460407025,
+      -0.9693676037010481
+    ],
+    "thumbBackwardZ": {
+      "L": [
+        -0.57346234436333,
+        -0.5734623443633275
+      ],
+      "R": [
+        -0.57346234436333,
+        -0.5734623443633275
+      ]
+    },
+    "handHeightBodyGap": [
+      0.7718076173514494,
+      999
+    ],
+    "wristHeight": [
+      6.3,
+      10.6
+    ],
+    "bodyDrift": 0,
+    "phaseSeconds": {
+      "start": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peak": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "rest": [
+        7.6,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/native/wall-slide.jpg",
+    "sha256": "33f40ad03791f989793032c0d1c91692bd6ef76e70f613204b0148e03f8ac4c6",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-wall-slide-20261014/render.mjs wall-slide"
+}

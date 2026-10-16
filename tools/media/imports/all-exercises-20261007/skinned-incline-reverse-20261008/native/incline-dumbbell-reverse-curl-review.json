@@ -1,0 +1,112 @@
+{
+  "id": "incline-dumbbell-reverse-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://workoutdigital.com/reverse-curl-incline-dumbbell"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "curl": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Bilateral incline reverse curl with fixed pronated grip, upperarms still and slow controlled return.",
+    "equipment": "Two dumbbells and incline bench with full backpad and supporting posts. Body, seat-side and backpad clearances checked throughout481samples.",
+    "setup": "Torso reclined45degrees with backrest at posed back plane, pelvis contacting seat, feet grounded. Side and back views inspected.",
+    "hands": "Fixed pronation on both hands, palms backward at bottom and down at peak; hands never switch to hammer or supinated grip. Fullsize closeups reviewed.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed, no optical-flow ghosting. Fixed bilateral elbows and conservative plate/body/bench clearance verified numerically; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "ecba3eb9dce4eafded3c43c7ae82f29b0e6bedcee86a5f4fbd3ad65bf59441c0",
+  "rigSourceSha256": "7282974a13d5b8764470cddb0e533dc666eb5dffd815aaa103e36dde2b6520db",
+  "videoSha256": "dcada32371ddb42c65f22bcf8472fa83cc3f4a05951c50dfd6b2e23c6f6ae134",
+  "darkVideoSha256": "b156f7bd7a10169ed75ee01d4e687d3650b999f8f690a2bba8791b102f9f9e13",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-reverse-20261008/native/incline-dumbbell-reverse-curl.mp4",
+      "sha256": "dcada32371ddb42c65f22bcf8472fa83cc3f4a05951c50dfd6b2e23c6f6ae134",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85780,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-reverse-20261008/native/incline-dumbbell-reverse-curl-dark.mp4",
+      "sha256": "b156f7bd7a10169ed75ee01d4e687d3650b999f8f690a2bba8791b102f9f9e13",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 67201,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 0,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.22748158994542153,
+    "minEquipmentBenchClearance": 0.15483021644580763,
+    "seatContactError": 3.3096472229487972e-9,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.06357823979933218,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "minEquipmentBackPadClearance": 0.7212414850105938,
+    "backContactError": 0
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T04:47:54.867Z",
+  "limitations": "Barefoot mannequin,45degree backrest variant. No physical-device or biomechanical certification."
+}

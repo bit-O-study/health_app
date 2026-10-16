@@ -1,0 +1,18 @@
+{
+  "id": "big-toe-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4d0d4c416da0680d853783104c4ff27b658ddaefb8eda23cf9669be54a6bbd34",
+  "rigSourceSha256": "38a684a2926a146b8fbb98b93a2f73e27563f689f0d584f188e5e3fd6ceaf52f",
+  "videoSha256": "1cf48f13280a74089ab5465adde9e7f3bb8d7ae437489c37199cf6c2b03ca8ba",
+  "darkVideoSha256": "6f809d6a5df684ab0852d6fffbc918c55e2c9c3836adc80b776fa92e885b719a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 27548,
+  "darkBytes": 26040,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:45:15.348Z"
+}

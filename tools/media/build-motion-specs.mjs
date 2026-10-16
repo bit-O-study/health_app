@@ -22,7 +22,7 @@ for (const id of manifest) {
   const spec = JSON.parse(readFileSync(specPath, "utf8"));
   const panels = spec.panels ?? 8;
   if (panels !== 8 && panels !== 16) throw new Error(`패널 수 이상: ${id} ${panels}`);
-  out[id] = { panels, cycle: spec.cycle === "full" ? "full" : "reverse", ...(["smooth", "hold"].includes(spec.timing) ? { timing: spec.timing } : {}) };
+  out[id] = { panels, cycle: spec.cycle === "full" ? "full" : "reverse", ...(["smooth", "hold", "continuous", "stretch", "controlled", "alternating"].includes(spec.timing) ? { timing: spec.timing } : {}) };
   if (spec.renderer) revisions[id] = spec.renderer;
 }
 writeFileSync("src/features/workout-timer/motion-specs.json", JSON.stringify(out, null, 0) + "\n");

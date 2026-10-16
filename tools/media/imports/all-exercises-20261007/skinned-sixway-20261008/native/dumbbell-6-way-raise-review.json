@@ -1,0 +1,233 @@
+{
+  "id": "dumbbell-6-way-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-6-ways"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "lateralRaise": [
+      0.4,
+      1.5
+    ],
+    "frontSweep": [
+      1.5,
+      2.6
+    ],
+    "overheadRaise": [
+      2.6,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "frontReturn": [
+      4.2,
+      5.4
+    ],
+    "lateralReturn": [
+      5.4,
+      6.5
+    ],
+    "lower": [
+      6.5,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Standing dumbbell6-way raise with lateral/front/overhead sequence and reverse return.",
+    "equipment": "Two intact dumbbells; central-body and conservative dumbbell-pair clearance across481samples.",
+    "setup": "Fixed upright torso and grounded feet; no bench or leg drive.",
+    "hands": "Closed grips move from neutral at sides to palms down in lateral/front phases and forward near overhead. Elbows remain slightly bent.",
+    "feet": "Both feet fixed; sole-ground contact throughout481samples.",
+    "movement": "Both final32frame sheets plus each stage front/hand/side/back images reviewed. Six ordered segments with continuous transitions, full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "6c7e8e7ba87385d893efd533ca74b91c69838c1c6ce241d81f7d4706e28019c2",
+  "rigSourceSha256": "d0fb2b54e0687c684aa0333043d39848a12ee195ff1791cad0bec7dd615e4432",
+  "videoSha256": "d602bf0650f122d2049ce063971b64df21e3205565ca3bc9f9c93f94ef158621",
+  "darkVideoSha256": "24f8d8e704d4941fc7849294dc59890292a35d36368eb861086217a335f6a917",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-sixway-20261008/native/dumbbell-6-way-raise.mp4",
+      "sha256": "d602bf0650f122d2049ce063971b64df21e3205565ca3bc9f9c93f94ef158621",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 133411,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-sixway-20261008/native/dumbbell-6-way-raise-dark.mp4",
+      "sha256": "24f8d8e704d4941fc7849294dc59890292a35d36368eb861086217a335f6a917",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 116683,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 5.492658733560696,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.1865518675498163,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.24065957823464862,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices",
+    "elbowBendMin": 7.973764672645308,
+    "elbowBendMax": 8.000000000000163,
+    "minDumbbellPairClearance": 0.7972018648300674,
+    "phaseWristPositions": [
+      {
+        "frame": 0,
+        "left": [
+          3.3660574233625513,
+          0.8677569962220089,
+          0.214175
+        ],
+        "right": [
+          -3.3660574233625513,
+          0.8677569962220089,
+          0.214175
+        ]
+      },
+      {
+        "frame": 90,
+        "left": [
+          7.140659901944291,
+          6.408736285455841,
+          0.21417499999999967
+        ],
+        "right": [
+          -7.140659901944291,
+          6.408736285455841,
+          0.21417499999999967
+        ]
+      },
+      {
+        "frame": 156,
+        "left": [
+          1.7928517479167985,
+          6.408444462837115,
+          5.351366657748451
+        ],
+        "right": [
+          -1.7928517479167985,
+          6.408444462837115,
+          5.351366657748451
+        ]
+      },
+      {
+        "frame": 240,
+        "left": [
+          2.2281828305520794,
+          11.429183102120753,
+          0.36479278030006745
+        ],
+        "right": [
+          -2.2281828305520794,
+          11.429183102120753,
+          0.36479278030006745
+        ]
+      },
+      {
+        "frame": 324,
+        "left": [
+          1.7928517479167962,
+          6.4084444628371156,
+          5.351366657748452
+        ],
+        "right": [
+          -1.7928517479167962,
+          6.4084444628371156,
+          5.351366657748452
+        ]
+      },
+      {
+        "frame": 390,
+        "left": [
+          7.140659901944291,
+          6.408736285455842,
+          0.21417500000000067
+        ],
+        "right": [
+          -7.140659901944291,
+          6.408736285455842,
+          0.21417500000000067
+        ]
+      },
+      {
+        "frame": 456,
+        "left": [
+          3.3660574233625535,
+          0.8677569962220093,
+          0.21417499999999967
+        ],
+        "right": [
+          -3.3660574233625535,
+          0.8677569962220093,
+          0.21417499999999967
+        ]
+      },
+      {
+        "frame": 480,
+        "left": [
+          3.3660574233625513,
+          0.8677569962220089,
+          0.214175
+        ],
+        "right": [
+          -3.3660574233625513,
+          0.8677569962220089,
+          0.214175
+        ]
+      }
+    ]
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:21:59.112Z",
+  "limitations": "Barefoot standing mannequin;8second six-stage demonstration. No physical-device or biomechanical certification."
+}

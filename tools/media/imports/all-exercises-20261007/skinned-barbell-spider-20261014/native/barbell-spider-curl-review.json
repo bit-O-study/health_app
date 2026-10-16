@@ -1,0 +1,130 @@
+{
+  "id": "barbell-spider-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-spider-20261014/native/barbell-spider-curl.mp4",
+      "sha256": "f6c5092a3682d251f8667fcb5d2dfd2f6a530473245a81308730915fcfff426a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 100965,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-spider-20261014/native/barbell-spider-curl-dark.mp4",
+      "sha256": "8a1c29070cce8b61f1355d10e12c72e048f4644e7d883d6845b433271b970822",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88465,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "collisionSamples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.3322676295501878e-15,
+    "gripAxisError": 1.5161761050816639e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      120.00000000000001
+    ],
+    "gripWidth": 4.282093700356766,
+    "barLength": 11,
+    "plateDiameter": 1.9,
+    "padDimensions": [
+      2.9,
+      7.5,
+      0.35
+    ],
+    "fullPhaseAngleError": 1.5898393712632242e-13,
+    "supinationMinimum": 0.9507020329002329,
+    "phaseAnchorError": 0,
+    "benchAngleError": 7.105427357601002e-15,
+    "upperarmHorizontalError": 2.220446049250313e-16,
+    "bodyBar": 0.9034562396467097,
+    "skinPad": 0.0120000000000004,
+    "clothPad": 0.2715704426939723,
+    "bodyFrame": 0.5500328140589176,
+    "clothEquipment": 0.8202183628799389,
+    "plateBody": 1.535956343479919,
+    "chestPad": 0.0120000000000004,
+    "barPad": 2.0396476881969243,
+    "plateFloor": 4.200376460670189,
+    "barFrame": 0.8350556489329816,
+    "plateFrame": 4.144866849615792,
+    "handSeparationX": 3.224781390573435,
+    "floorGap": 0
+  },
+  "sources": [
+    "https://breakingmuscle.com/spider-curl/"
+  ],
+  "sourceSha256": "e7cdd00a88d497264d96a6ea851abaaa318e055fc9d4c8eebe59e957f1c7d317",
+  "rigSourceSha256": "bfc61b70ece00d00f2e52c684fd5665a743915c348aa19be175bfb5eeed28e23",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "f6c5092a3682d251f8667fcb5d2dfd2f6a530473245a81308730915fcfff426a",
+  "darkVideoSha256": "8a1c29070cce8b61f1355d10e12c72e048f4644e7d883d6845b433271b970822",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Exact barbell-spider-curl, catalog barbell; existing spider-curl is dumbbell and was not copied as an alias. Original CSCS Breaking Muscle guide checked for approximately45degree bench, chest down, supinated barbell and fixed vertical upperarms.",
+    "equipment": "Single rigid straight barbell with two sleeves and two round plates. Pad2.9x7.5x.35 and metal support frame. Initial front support crossed starting bar; support moved underneath pad center, without changing bar path/ROM/camera. All481bar-frame, plates-frame, body-frame and body/garment-pad checks passed.",
+    "setup": "Prone chest supported at45degrees from horizontal, anatomical body pose agrees with pad orientation. Head/neck project beyond top edge. Chest-pad clearance.012; abdomen naturally has a gap. Cosmetic breath morph disabled so displayed and inspected support geometry agree.",
+    "hands": "Both hands supinated and fixed on shaft, anatomical forward/up palm projection minimum.9507 over481frames. Grip anchor and axis errors<1e-7; closed fingers and thumb visibly wrap bar in start/top closeups. Bar remains rigid. Plates and non-grip equipment include hand vertices in clearance checks.",
+    "feet": "Feet planted behind inclined bench and widened for stability, minimum floor gap0. Feet, pelvis and torso drift0. Foot/bench hardware views inspected; no sliding or intersection.",
+    "movement": "Smooth8seconds: lower hold0-.4, curl.4-3.8, top hold3.8-4.2, lower4.2-7.6, hold7.6-8. Elbow5–120degrees; upperarms world-vertical with fixed elbows. Both32decoded sheets inspected for continuous movement and loop. Both full decodes and mobile Edge play/seek/loop passed."
+  },
+  "visualReview": {
+    "reviewer": "wrist worker; root final visual approval required",
+    "artifacts": [
+      "-contact.jpg",
+      "-contact-dark.jpg",
+      "/full-0.png",
+      "/full-210.png",
+      "/hand-0.png",
+      "/hand-210.png",
+      "/support-210.png",
+      "/side-210.png",
+      "/feet-0.png"
+    ],
+    "observations": "Chest rests at upper pad while neck/head remain free. Both grips, plates and frame readable; corrected front support clears bar. No elbow jagged spike seen in support/hand closeups. No ROM or camera adjustment used for clearance."
+  },
+  "limitations": [
+    "5degree soft finish instead of source fully hanging straight arms;120degree top chosen for model.",
+    "Generic fixed inclined support diagram at45degrees, not an exact adjustable bench manufacturer mechanism. Chest support is local to curved chest rather than entire abdomen flush. Bar length/plates represent a compact training bar, no weight or real-world dimension asserted.",
+    "Discrete481skin/garment vertices and analytic boxes/cylinders with sampled bar/frame segments; not exhaustive continuous triangle collision. Intended hand-shaft grip contact excluded, equipment frame/plates included.",
+    "Local mobile Edge emulation is not physical phone/app verification."
+  ]
+}

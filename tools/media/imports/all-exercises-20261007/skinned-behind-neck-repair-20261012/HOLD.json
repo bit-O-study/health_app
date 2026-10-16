@@ -1,0 +1,16 @@
+{
+  "id": "behind-the-neck-press",
+  "status": "hold-rig-deformation",
+  "approved": false,
+  "reasons": [
+    "First full candidate had98.95degree wrist deviation and is preserved in rejected-wrist.",
+    "Wrist-aware pitch and optimal elbow plane reduced key-pose wrist deviation to30.16degrees, but natural elbow-plane skin correction produces visible shoulder cap discontinuities at the trap-contact start.",
+    "Current preview is not approved; publisher not executed and shared targets untouched."
+  ],
+  "evidence": [
+    "native/behind-the-neck-press/shoulder-0.png",
+    "native/behind-the-neck-press/hand-0.png",
+    "native/behind-the-neck-press-key-poses.json"
+  ],
+  "next": "Requires shoulder skinning/twist-distribution repair before full481samples rerender."
+}

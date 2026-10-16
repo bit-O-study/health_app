@@ -1,0 +1,18 @@
+{
+  "id": "seated-bent-over-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d314c43cd8b7a8fcd538feee60132394b63776c256773c3d1daf384a7b6cb866",
+  "rigSourceSha256": "fa50150336250275ec44e3a15feb97e67b88acd9362ea2cfc75b7d723304fe2b",
+  "videoSha256": "59fe0498c21d29ff397a23a3f4e9041fa80556889c92dd5ee631dfb39b315654",
+  "darkVideoSha256": "f1685f0c2a1a6fea35085417bbb0fd3e8b8b659a8fabc8274d1ef6f109be4ec7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 105638,
+  "darkBytes": 88386,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T02:20:37.135Z"
+}

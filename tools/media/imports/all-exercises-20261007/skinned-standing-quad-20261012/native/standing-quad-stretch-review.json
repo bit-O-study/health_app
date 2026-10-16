@@ -1,0 +1,114 @@
+{
+  "id": "standing-quad-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.worcsacute.nhs.uk/leaflets/stretching-exercises-physiotherapy/"
+  ],
+  "checks": {
+    "exercise": "Exact standing quadriceps stretch; not active standing leg curl.",
+    "equipment": "Bodyweight with fixed wall support.",
+    "setup": "Upright, LEFTfoot planted, LEFTpalm at wall, RIGHTankle already held behind.",
+    "hands": "481 actual skin triangle cross-section tests: no grip-hand vertices inside foot; near-contact ray gap tracked; hand stays behind torso and shorts.",
+    "feet": "Support sole and heel fixed; raised foot clears torso/shorts; both legs have positive sampled separation.",
+    "movement": "Final both32frame sheets and grip/side/waist/feet enlargements visually reviewed;2/3/2/1stretch timing. Decode/Edge pass."
+  },
+  "sourceSha256": "b29813bb75cc1f44d46beaee45a2181d04eea93174f715cc6f91b6a149f4fb1b",
+  "rigSourceSha256": "1df318697adcc6c5ad0abf7da08e7ba818373f7115773bf1990d482d231ba68d",
+  "videoSha256": "a343e7e7db93915e2b1aee5042af743c423e7361b16928d1fa02a01262c0ce2a",
+  "darkVideoSha256": "280dc2a41e44a8375903f1f40f81e0de849c139fee634a1600ef88f03180c4c1",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/native/standing-quad-stretch.mp4",
+      "sha256": "a343e7e7db93915e2b1aee5042af743c423e7361b16928d1fa02a01262c0ce2a",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 33173,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012/native/standing-quad-stretch-dark.mp4",
+      "sha256": "280dc2a41e44a8375903f1f40f81e0de849c139fee634a1600ef88f03180c4c1",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 34376,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "contactSamples": 481,
+    "contacts": {
+      "handInsideFoot": 0,
+      "handFootRayGap": 0.007984474715594825,
+      "handTorsoGap": 0.22414799801735275,
+      "handClothGap": 0.11134936340407997,
+      "footTorsoGap": 0.25129556528555685,
+      "footClothGap": 0.14645244691739356,
+      "wallGap": 0.014115566611674346,
+      "palmWallGap": 0.014115566611674346
+    },
+    "maxHandInsideFoot": 0,
+    "supportFootDrift": 0,
+    "supportHeelDrift": 0,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.0427782091068194,
+    "minFloorClearance": -1.7763568394002505e-15,
+    "maxFloorClearance": -1.7763568394002505e-15,
+    "minLegSkinGarmentSectionGap": 0.005647443365564886,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:44:24.105Z",
+  "limitations": "Clip starts with ankle already held and shows gentle additional pull then ease, not the initial balance/grasp transition. One side only; opposite side repeated outside this clip.3second hold illustrates motion, not source30second prescription. Ray cross-section and section/vertex checks are sampled geometric evidence, not exhaustive surface collision or contact-force simulation. No physical-device certification."
+}

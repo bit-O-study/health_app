@@ -1,0 +1,90 @@
+{
+  "id": "cable-overhead-triceps-extension",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "55573b15a985e6782d7fa823d0b559e9c67d5108722b5eb776d78059072cdc1b",
+  "videoSha256": "f2e542c03375d0eec9e6b220b6a14ea6b126f4109946128ecdbaf593aa0de9ee",
+  "darkVideoSha256": "4bac0a8ff7a224ca0632de004123d2efbddb1a955af32f23a3f62a0f2a912440",
+  "darkBytes": 183249,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 224343,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:25:48.127Z",
+  "variant": "-alpha-edit",
+  "review": "recommended-pass",
+  "generator": "built-in image_gen edit",
+  "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-overhead\\candidate.png",
+  "generatedSha256": "e3a1fff3f058fc02a711a853ff81eee027816d29d70237d43c94729540325104",
+  "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-overhead\\prompt.txt",
+  "alphaPreserved": true,
+  "inspection": {
+    "candidateSize": [
+      1254,
+      1254
+    ],
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "55573b15a985e6782d7fa823d0b559e9c67d5108722b5eb776d78059072cdc1b",
+    "candidateSha256": "e3a1fff3f058fc02a711a853ff81eee027816d29d70237d43c94729540325104",
+    "alphaZeroFraction": 0.5640088876679156,
+    "opaqueFraction": 0.17262399873832762,
+    "opaqueRgbMAE": 19.06712248361294,
+    "published": false
+  },
+  "inspected": [
+    "original16 against edited16 light/dark composite atlases",
+    "light32frame-contact-sheet",
+    "dark32frame-contact-sheet",
+    "enlarged first second eighth sixteenth composites"
+  ],
+  "assessment": "No visible pose ordering, anatomy, equipment placement, hand/rope attachment or framing change. Tower, upright, shoes, cable and rope preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+  "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE19.07/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "published": false,
+  "cutCacheSha256": [
+    "703c2a10c184b85db0d08801428e2828b42a8196eb961a2d373308f6729f9377",
+    "7297a53843ae9c7b492afe74a1e2704aa5f95020ed33e07d730bae5015b59be1",
+    "43e247bcb46a22a3e88b397fe3194e33da5f00a785d2d823f6a0d8c81316053e",
+    "67a863c84a1e60faeda50b8acd56efe3948fb4bed69e4d0b7424fbebae37c854",
+    "f60bb38d80d8f49bf63e5fe332af85d9ceb282b7a727cdfbfba358eebaddfaa6",
+    "127ef8f0a5bbdc329ebb634b066d0aa507dcdcdb9e957ebe44c813e698c9ebc8",
+    "c2d3c0c157e3cc0003ac7cc52044f1bba04269d26858b73ba0295d50b901ab56",
+    "f6d638ed4bcefdddd24ad38d0b232d8661750750d318218efd9af1f3c161c88e",
+    "1899d9251cee88ea647f5dec8a7aef256476293a5f45bb641672c34cdc4f634f",
+    "078c1a5646711c522134f62f1384b8089729ddc98625ce9f1c77fc9d243e9692",
+    "bf062fcaae28d85b9bfb28794e33d9d981e7354d4cf6a8f65884ffb773c11752",
+    "d9865d4968bc483b33c219536a5c206c8b4dd0dc4910b03d11cb18857aa892af",
+    "d4fdb98f4b87825954a1ada06c275bc62dc6a32024fed52a9f82acdb077509af",
+    "909ab3e283c53c58f6d4de9e0802f46b41e0bd1be1969847d246740271eceec3",
+    "98ff7292a60dcbbba1236e856d3d5e1ef740f933def0698cfc7b6525a6177338",
+    "e5fdbf79d76681a3f5ffc23f69e6e427fa53ee9add279784a4047f8d808326af"
+  ]
+}

@@ -1,0 +1,17 @@
+﻿import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {REVIEW_CHECKS} from '../../../guide-review.mjs';
+const b='tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014',id='smith-machine-close-grip-bench-press',p=b+'/native/'+id;
+const sha=f=>createHash('sha256').update(readFileSync(f)).digest('hex'),read=f=>JSON.parse(readFileSync(f,'utf8'));
+const review=read(p+'-review.json'),provenance=read(p+'-provenance.json');
+if(!REVIEW_CHECKS.every(k=>typeof review.checks[k]==='string'&&review.checks[k].trim()))throw Error('Missing review field');
+for(const input of [...provenance.inputs,...provenance.dependencies])if(sha(input.path)!==input.sha256)throw Error('Input SHA mismatch');
+for(const theme of review.themes)if(sha(theme.file)!==theme.sha256)throw Error('Video SHA mismatch');
+const finite=x=>typeof x==='number'?Number.isFinite(x):Array.isArray(x)?x.every(finite):x&&typeof x==='object'?Object.values(x).every(finite):true;
+if(!finite(review.kinematics))throw Error('Nonfinite metric');
+const files=[p+'-32.jpg',p+'-dark-32.jpg',...['chest-0','feet-0','hand-0','hand-105','side-0','slider-0','slider-240'].map(f=>p+'/'+f+'.png')];
+review.visualEvidence=files.map(path=>({path,sha256:sha(path)}));review.visualReview='Both decoded32-frame sheets inspected: fixed torso and feet, continuous bilateral narrow press, elbows beside torso, no ghosts or missing equipment. Chest/hand/rail/feet closeups inspected. Closest body vertex is in chest classification, with non-chest gap0.892 and head triangle gap2.258.';review.reviewedAt=new Date().toISOString();
+const pub=readFileSync(b+'/publish-native.mjs','utf8');if((pub.match(/timing:/g)||[]).length!==1||!pub.includes("timing:'smooth'")||pub.indexOf('REVIEW_CHECKS.every')>pub.indexOf('copyFileSync(`${base}'))throw Error('Publisher prewrite/timing guard');
+writeFileSync(p+'-review.json',JSON.stringify(review,null,2));
+const h='tools/media/imports/all-exercises-20261007/skinned-seated-smith-press-20261014',held=read(h+'/HOLD.json');held.evidence=held.evidence.map(path=>({path:h+'/'+path,sha256:sha(h+'/'+path)}));held.guards=['finalize.cjs','publish-native.mjs'].map(f=>{if(!readFileSync(h+'/'+f,'utf8').startsWith("throw new Error('HOLD:"))throw Error('Held guard missing');return{path:h+'/'+f,sha256:sha(h+'/'+f)};});held.completedAt=new Date().toISOString();writeFileSync(h+'/held-review.json',JSON.stringify(held,null,2));
+console.log(JSON.stringify({id,status:review.status,reviewFields:REVIEW_CHECKS,evidence:files.length,videoSHA:review.videoSha256,darkSHA:review.darkVideoSha256,held:held.status}));

@@ -1,0 +1,118 @@
+{
+  "id": "single-arm-cable-overhead-extension",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/native/single-arm-cable-overhead-extension.mp4",
+      "sha256": "c8ab595c8246dcb58491711a81cc1a010208b1a01aae5f8f1c03a0aa8f959151",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 63507,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-single-cable-overhead-20261014/native/single-arm-cable-overhead-extension-dark.mp4",
+      "sha256": "2ea9c395bd46001c7f8a7c4b1347374ac743f2abb69113005cc52d7597bdd5e5",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 60586,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 1.4210854715202004e-14,
+    "pulleyTangentError": 2.609024107869118e-15,
+    "pulleyRimError": 8.881784197001252e-16,
+    "connectorRadiusError": 9.159339953157541e-16,
+    "stackRiseRange": [
+      0,
+      4.85771764593348
+    ],
+    "cableBodyMinClearance": 0.7806588122275212,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 0,
+    "gripTangentAxisError": 2.3603665272841412e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      90
+    ],
+    "shoulderWidth": 3.87,
+    "barRise": 3.520299453323952,
+    "collisionSamples": 481,
+    "bodyBarMinClearance": 1.1065881334426493,
+    "footMinY": -8.175230979919434,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 2.2986905292062287,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 4.9922823540665195,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.004615278684390489,
+    "floorGap": 2.008056654290158e-8,
+    "clothBarMinClearance": 6.777704631075852,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.4477308241112041e-13,
+    "topPalmForward": 0.9741118312317043,
+    "clothCableGap": 2.3648002559518164,
+    "frameBodyClearance": 0.08650428249272751
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/node/4123"
+  ],
+  "sourceSha256": "0eb2c52c8c1982e4ead78145c0ae45eb79db2dfd29d3ca25f359c64afc0566da",
+  "rigSourceSha256": "8bd34c1e46d1e4821f76128d471aefd46f106fd9111105e9582c88435f8a1f83",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T05:58:41.468Z",
+  "reviewer": "wrist agent; root inspected corrected hand0/210, final sheet adoption pending",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "c8ab595c8246dcb58491711a81cc1a010208b1a01aae5f8f1c03a0aa8f959151",
+  "darkVideoSha256": "2ea9c395bd46001c7f8a7c4b1347374ac743f2abb69113005cc52d7597bdd5e5",
+  "checks": {
+    "exercise": "Exact new single-arm-cable-overhead-extension cable ID. Original Muscle & Strength node4123 verified: left arm overhead with low-pulley single grip handle, facing away, raised palm facing forward; lower behind and extend without locking.",
+    "equipment": "Rigid D-handle grip centered in left hand. Handle outer frame stays behind palm; all481 frames tested for complete skin including hand against every frame segment (minimum+.0865043). Intentional grip shaft contact excluded only from shaft-body test. Cable connects ring and low pulley; length and tangent constraints validated.",
+    "setup": "Upright fixed torso, left upperarm vertical and elbow fixed, opposite arm resting unchanged at side. Two feet remain grounded; no camera change used to hide geometry.",
+    "hands": "Left palm normal worldZ+.974112 at raised start; grip axis/anchor error less than3e-15. Corrected hand0/210 root visual review passed. Frame orientation correction preserved full90-to5degree elbow ROM; prior collision diagnostic recorded.",
+    "feet": "Floor gap2.01e-8 model units; both feet fixed across481 samples. Feet0 and side0 inspected.",
+    "movement": "Raised start, lowering first. Single continuous timing key: hold0-.4/lower.4-3.8/hold3.8-4.2/extend4.2-7.6/hold7.6-8. Phase error below1.45e-13; fixed/loop drift0; cable stack moves consistently. Both-theme32frame sheets and hand/side/shoulder closeups inspected. Both videos480x480/24fps/8sec/192frame full decode and local mobile Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Only left arm demonstrated; source instructs repeating with right arm. Opposite arm is held at side, a neutral placement not prescribed in text.",
+    "Source specifies avoiding elbow lockout. Model uses5-degree soft finish and90-degree bottom bend; source gives no numeric ROM.",
+    "Generic procedural anatomy retains mild continuous axillary skin fold; shoulder closeups preserve visibility. D-handle is a rigid schematic frame with hand-maintained orientation, not a full force/torque simulation.",
+    "481-sample skin vertex and equipment segment tests are discrete geometry checks, not continuous-time analytic mesh collision proof.",
+    "Playback is local mobile Edge emulation, not app or physical device;8-second pace is editorial timing."
+  ]
+}

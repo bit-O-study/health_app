@@ -1,0 +1,52 @@
+[
+  {
+    "frame": 0,
+    "handInsideFoot": 0,
+    "footInsideHand": 0,
+    "handFootGap": 0.01514376029630704,
+    "handBodyGap": 0.5951544483993496,
+    "footBodyGap": 0.575726796274922,
+    "handClothGap": 0.48477402209164744,
+    "footClothGap": 0.4662425885192558
+  },
+  {
+    "frame": 120,
+    "handInsideFoot": 0,
+    "footInsideHand": 0,
+    "handFootGap": 0.007984443847869227,
+    "handBodyGap": 0.21235009935097615,
+    "footBodyGap": 0.20867845202201174,
+    "handClothGap": 0.098029218207631,
+    "footClothGap": 0.10087623819205405
+  },
+  {
+    "frame": 240,
+    "handInsideFoot": 0,
+    "footInsideHand": 0,
+    "handFootGap": 0.007984443847869227,
+    "handBodyGap": 0.21235009935097615,
+    "footBodyGap": 0.20867845202201174,
+    "handClothGap": 0.098029218207631,
+    "footClothGap": 0.10087623819205405
+  },
+  {
+    "frame": 360,
+    "handInsideFoot": 0,
+    "footInsideHand": 0,
+    "handFootGap": 0.011896538627865327,
+    "handBodyGap": 0.4032845072164619,
+    "footBodyGap": 0.392322485821345,
+    "handClothGap": 0.2897346144529571,
+    "footClothGap": 0.2825735707633159
+  },
+  {
+    "frame": 480,
+    "handInsideFoot": 0,
+    "footInsideHand": 0,
+    "handFootGap": 0.01514376029630704,
+    "handBodyGap": 0.5951544483993496,
+    "footBodyGap": 0.575726796274922,
+    "handClothGap": 0.48477402209164744,
+    "footClothGap": 0.4662425885192558
+  }
+]

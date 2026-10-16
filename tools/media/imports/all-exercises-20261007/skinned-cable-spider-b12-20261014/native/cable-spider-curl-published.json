@@ -1,0 +1,18 @@
+{
+  "id": "cable-spider-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0da423e802607e56b220be732b4b338734b0a84cc1c40459ecd72df42fca5bf9",
+  "rigSourceSha256": "f26cb9f3762e4d0d5d955f6fb29007d4254915f61342b94935d6700efccbd32f",
+  "videoSha256": "6424fe5a4f045c6c62dad8f73dabe0f170ca8a27e61c3f4af99fd1c716217893",
+  "darkVideoSha256": "12a9a441e4d431884fa1f5f91025249b64743edf4c71c4888a3304872e44d2fb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78520,
+  "darkBytes": 77091,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T13:37:15.061Z"
+}

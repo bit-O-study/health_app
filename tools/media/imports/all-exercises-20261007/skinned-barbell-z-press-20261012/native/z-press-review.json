@@ -1,0 +1,118 @@
+{
+  "id": "z-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://musclewiki.com/exercise/barbell-z-press"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Barbell Z press from upper chest to overhead,controlled return.",
+    "equipment": "One rigid barbell;shaft,plates and collars checked against all non-hand body vertices481poses.",
+    "setup": "Floor-seated upright trunk without back support.Pelvic garment underside and heels supported;all body/garment floor checks.",
+    "hands": "Overhand closed grip on fixed shaft,grip span and socket error checked481poses.",
+    "feet": "Extended V legs with slightly unlocked knees;heels fixed on floor.",
+    "movement": "Both final32frame sheets and hand/feet/side/back views reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "e67ef6496247aa0a406114e34b869fde5526db96070c9b12ad0d4f8cd2e7531c",
+  "rigSourceSha256": "35598dad6d61f0e876dc3bda510b3331bba4a3e444174773b125d56a6f991393",
+  "videoSha256": "acb908d883080d6d97ec0d3f38e4abf665756547e95c75b0480d06aba18e1ec7",
+  "darkVideoSha256": "f483f1d5c0549d2e99caf613a5263c2939e6c7c9d0bcb6925039141343c44a25",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-z-press-20261012/native/z-press.mp4",
+      "sha256": "acb908d883080d6d97ec0d3f38e4abf665756547e95c75b0480d06aba18e1ec7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 118736,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-barbell-z-press-20261012/native/z-press-dark.mp4",
+      "sha256": "f483f1d5c0549d2e99caf613a5263c2939e6c7c9d0bcb6925039141343c44a25",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 105816,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 5.322338765917037,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.27079560966595645,
+    "soleMinY": -3.3659280501498534,
+    "soleMaxY": -3.3659280501498534,
+    "floorY": -3.3659280516696906,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.060058176599898226,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+    "elbowBendMin": 7.197998134166166,
+    "elbowBendMax": 123.28185881879043,
+    "peakElbowBend": 7.197998134166166,
+    "pelvisFloorGap": 0,
+    "minimumBodyFloorGap": 1.519837145025349e-9,
+    "heelFloorGap": 1.519837145025349e-9,
+    "trunkDrift": 0,
+    "barGripError": 3.552713678800501e-15,
+    "gripSpanError": 7.105427357601002e-15,
+    "kneeFlexDegrees": 6.692926842537623
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T02:48:37.705Z",
+  "limitations": "Barefoot floor-seated mannequin.Knees are slightly unlocked at approximately6.7degrees;contact is measured at pelvic garment underside and heel skin. No physical-device or biomechanical certification."
+}

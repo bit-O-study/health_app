@@ -1,0 +1,53 @@
+{
+  "samples": 481,
+  "elbowDrift": 4.525508818537706,
+  "footDrift": 0,
+  "gripSocketDrift": 0,
+  "minEquipmentBodyClearance": 0.035308601222184405,
+  "minEquipmentBenchClearance": 2.422950154744854,
+  "seatContactError": 0,
+  "soleMinY": -7.751374738328083,
+  "soleMaxY": -7.751374738328083,
+  "floorY": -7.751375,
+  "loopDrift": 0,
+  "maxDumbbellStep": 0.04168876717943237,
+  "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+  "minEquipmentHeadPadClearance": 3.0518684742050532,
+  "headSupportError": 0,
+  "minEquipmentBackPadClearance": 2.503614791429295,
+  "minimumBackGap": 0,
+  "backContactError": 0.032205081522526324,
+  "minHeadClearance": 1.7130051959137709,
+  "minElbowFlex": 8.000000000344333,
+  "maxElbowFlex": 143.98629162619758,
+  "minimumElbowAboveShoulder": -2.0838352124652655,
+  "wristDeviationRange": [
+    6.1909728374599595,
+    25.330840492835872
+  ],
+  "bottomWristDeviation": [
+    20.228987448167278,
+    20.228987448167278
+  ],
+  "topWristDeviation": [
+    13.912196981134192,
+    13.912196981134192
+  ],
+  "barGripPlaneError": 0,
+  "gripSpanChange": 7.549516567451064e-15,
+  "minNonChestClearance": 0.8920359408677335,
+  "startChestContact": 0.035308601222184405,
+  "endChestContact": 0.035308601222184405,
+  "minimumShaftTriangleGap": 0.03500003254158504,
+  "minimumPalmTowardFeet": 1,
+  "minimumBodyRailGap": 4.374955937015973,
+  "minimumBodyFrameGap": 2.3990186580132424,
+  "minimumEquipmentFrameGap": 0.13573908706237914,
+  "sliderRailError": 3.552713678800501e-15,
+  "minimumBarBelowRailTop": 0.7500000000000001,
+  "minimumFrameBaseGap": 0,
+  "barXZDrift": 3.552713678800501e-15,
+  "minimumHeadTriangleGap": 2.25804622224202,
+  "maximumElbowLateralDistance": 2.4048297711583024,
+  "gripSpan": 3.0000000000000004
+}

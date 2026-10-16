@@ -1,0 +1,32 @@
+{
+  "id": "standing-forward-fold",
+  "status": "held",
+  "reason": "Deep flexion reveals pointed crotch fold from body-derived garment; posed-normal offset improves clearance but does not produce acceptable loose-garment shape.",
+  "source": "https://wellbeingcollege.combined.nhs.uk/resources/self-help/movement-for-wellness-simple-exercises/",
+  "evidence": [
+    "native/standing-forward-fold/seat-210.png",
+    "native/standing-forward-fold/back-210.png",
+    "native/standing-forward-fold/side-210.png"
+  ],
+  "changesTried": [
+    "Distribute70degree pelvis and50degree spine flexion rather than110degree pelvis-only hinge.",
+    "Reduce center crotch garment offset.",
+    "Compute garment offsets after deformation along posed smooth normals."
+  ],
+  "next": "Replace body-derived crotch garment topology with a correctly modeled loose garment; repeat full contact/decode/playback checks before publication.",
+  "inputs": [
+    {
+      "file": "studio.mjs",
+      "sha256": "a2d4e1615dd9c32f83d515af65e441d1334ebc73df70e2cdb4a4c2d16c27cea6"
+    },
+    {
+      "file": "motion.mjs",
+      "sha256": "48457eca1014b0d74af928a4e9d0ab3ba1bdd5727a20f10b60030a6b64dd2cec"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "reviewedAt": "2026-10-12T02:17:48.615Z"
+}

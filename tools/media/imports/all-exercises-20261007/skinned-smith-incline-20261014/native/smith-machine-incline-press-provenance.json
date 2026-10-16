@@ -1,0 +1,153 @@
+{
+  "id": "smith-machine-incline-press",
+  "benchGeometry": {
+    "backUp": [
+      0,
+      0.5,
+      -0.8660254037844386
+    ],
+    "angleAboveHorizontal": 30.000000000000004,
+    "backPadLocalYAxisRotationDegrees": -60,
+    "sourceAngleSpecified": true,
+    "sourceAngleRangeDegrees": [
+      30,
+      45
+    ],
+    "implementationChoiceDegrees": 30
+  },
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "press": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lowerToUpperChest": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/studio.mjs",
+      "sha256": "e13a73a7b14fc5431e961c3e2c8dd0527b89cd366ecd70e0965cb091a1453777"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/motion.mjs",
+      "sha256": "4b68dd5d2764320b8440fde268a8969d036c931fce62e57bc04e8c73d26a4d66"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/render.mjs",
+      "sha256": "5061d47cb1da467db9bb1cdd43060767d71275a5a8194d7e2b4c33f9f9e08a0a"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandfitness.com/exercise/workouts/smith-machine-incline-press/"
+  ],
+  "sourceSummary": "Muscle and Fitness specifies a30 to45degree incline bench centered in a Smith machine, shoulder-width overhand grip, lowering the bar to the upper chest and pressing straight up. This selects30degrees and depicts the repetition after unracking. The modeled vertical rails enforce a fixed horizontal bar position.",
+  "motion": "Smith machine incline press with30degree backrest and closed overhand4.9world-unit grip versus4.038 shoulder-joint span. Shaft meets the upper-chest surface within.001world-unit numerical tolerance; elbow flexion151.817degrees at bottom to8degrees at top. Bar X/Z fixed; sliding sleeves follow vertical rails. Palm pitch adapts continuously to keep wrists aligned without changing the bar path or ROM.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 5.003098392826748,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.004614303264074152,
+    "minEquipmentBenchClearance": 4.183578001266644,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.047842155948302434,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 2.7414124495462895,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.540162570847421,
+    "minimumBackGap": 0,
+    "backContactError": 0.042007158294775415,
+    "minHeadClearance": 1.3171175232563868,
+    "minElbowFlex": 8.00000000036056,
+    "maxElbowFlex": 151.81730328601017,
+    "minimumElbowAboveShoulder": -2.5241339056559076,
+    "wristDeviationRange": [
+      0.21571665979692337,
+      25.977451116943858
+    ],
+    "bottomWristDeviation": [
+      5.914121543849775,
+      5.914121543849775
+    ],
+    "topWristDeviation": [
+      13.026950805378657,
+      13.026950805378657
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 9.769962616701378e-15,
+    "minNonChestClearance": 0.444943188418932,
+    "startChestContact": 0.004614303264074152,
+    "endChestContact": 0.004614303264074152,
+    "minimumShaftTriangleGap": 0.00100000329559434,
+    "minimumPalmTowardFeet": 0.8870108331782217,
+    "minimumBodyRailGap": 3.7868374217987393,
+    "minimumBodyFrameGap": 2.3944387020571716,
+    "minimumEquipmentFrameGap": 0.13573908706237736,
+    "sliderRailError": 3.552713678800501e-15,
+    "minimumBarBelowRailTop": 0.7499999999999997,
+    "minimumFrameBaseGap": 0,
+    "barXZDrift": 3.552713678800501e-15
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press.jpg",
+    "sha256": "9f76bc6c8e16dfb3134ed64a3bc60111e32801b56687ac5a15f0959346fba86c",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/render.mjs smith-machine-incline-press"
+}

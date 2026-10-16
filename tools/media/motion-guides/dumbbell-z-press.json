@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-z-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-z-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://setkit.app/exercises/dumbbell-z-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:47:26.533Z"
+}

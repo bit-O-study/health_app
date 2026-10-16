@@ -1,0 +1,122 @@
+{
+  "id": "wrist-rotation",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-third/native/wrist-rotation.mp4",
+      "sha256": "5ea894e3d69a1f40a1669ff31ccad1c271fd63037436643a3c7f150cab68cc98",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 118562,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-third/native/wrist-rotation-dark.mp4",
+      "sha256": "cab36f40f6f97fe449eb41772f4a3ec29b23a0cd2209759456b63cb2eeae8825",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 100850,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 1.1957467920563633e-15,
+    "loopDrift": 2.220446049250313e-16,
+    "gripRadiusVariation": 8.881784197001252e-16,
+    "palmYFrames": [
+      {
+        "frame": 0,
+        "normalY": [
+          0.05710067197151829,
+          0.05710067197151829
+        ]
+      },
+      {
+        "frame": 120,
+        "normalY": [
+          0.9461741604360286,
+          0.9461741604360286
+        ]
+      },
+      {
+        "frame": 240,
+        "normalY": [
+          0.057100671971518045,
+          0.057100671971518045
+        ]
+      },
+      {
+        "frame": 360,
+        "normalY": [
+          -0.9263433051732062,
+          -0.9263433051732062
+        ]
+      },
+      {
+        "frame": 480,
+        "normalY": [
+          0.05710067197151795,
+          0.05710067197151795
+        ]
+      }
+    ],
+    "supportSamples": 17,
+    "supportGapRange": [
+      0.0001952125178839026,
+      0.017568377215621656
+    ],
+    "footMinY": -7.751374738328083
+  },
+  "sources": [
+    "https://orthoinfo.aaos.org/globalassets/pdfs/2024-therapeutic-exercise-program-for-lateral-and-medial-epicondylitis.pdf"
+  ],
+  "sourceSha256": "c0b2d042c8e9890bd0cff3cd58d26615eb50b21ce5bfb6cbafef67f47c53cde2",
+  "rigSourceSha256": "fe9881dcec17582edf240fb8b4cf3ff00961f8786e6f105190bed384bfba28e7",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "videoSha256": "5ea894e3d69a1f40a1669ff31ccad1c271fd63037436643a3c7f150cab68cc98",
+  "darkVideoSha256": "cab36f40f6f97fe449eb41772f4a3ec29b23a0cd2209759456b63cb2eeae8825",
+  "checks": {
+    "exercise": "Dumbbell forearm pronation/supination, neutral wrist. Neutral-up-neutral-down-neutral sequence; not flexion/extension or elbow curl.",
+    "equipment": "Two rigid small hex dumbbells remain intact and visible with closed grips. Bench and full body preserved on both themes.",
+    "setup": "Stable seated forward lean with forearms supported on thighs. AAOS reference uses supported forearm on table; bilateral thigh support is an explicit setup adaptation.",
+    "hands": "Hand-0/120/360 closeups show neutral/palm-up/palm-down positions, fixed closed grips and smooth axial forearm rotation. No wrist curling or finger release.",
+    "feet": "Both feet remain fixed at measured floor level, stable hips and thighs. Seventeen support samples show positive gap0.000195..0.01757 model units.",
+    "movement": "Both final encoded32frame sheets and side120 inspected without ghosts or discontinuity.481samples verify body/wrist-anchor stability and rigid grip radius; all decodes and mobile Edge play/seek/loop passed."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:26:42.895Z",
+  "limitations": "Isolated review; root visual approval pending. Barefoot mannequin, angular elbow skin and bilateral thigh-support adaptation.17-phase sampled thigh clearance is not complete triangle collision proof. AAOS source is movement reference only, not rehabilitation prescription; no clinical or physical-device verification."
+}

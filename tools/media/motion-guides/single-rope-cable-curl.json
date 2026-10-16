@@ -1,0 +1,15 @@
+{
+  "id": "single-rope-cable-curl",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-rope-cable-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/897/Single-Arm-Rope-Cable-Curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:27:04.945Z"
+}

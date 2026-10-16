@@ -1,0 +1,17 @@
+{
+  "id": "band-external-rotation",
+  "status": "hold-source-motion-invalid-after-targeted-edit",
+  "sourceOnly": true,
+  "tool": "built-in imagegen",
+  "generationCount": 2,
+  "findings": [
+    "Initial and edited images use arm on image LEFT despite explicit image-RIGHT working-arm constraint.",
+    "Forearm moves across torso and progressively lengthens sideways instead of shoulder external rotation around fixed side elbow.",
+    "Late edited poses have malformed long forearm/hand and right edge crowding.",
+    "First-row poses nearly repeat; no evenly distributed16phase motion."
+  ],
+  "sourceSha256": "d68e84c8b49fa1246d6fe1be80f66782cfb330c60668b12793dc642a6ccfb1fc",
+  "correctedSha256": "7b19aa59f947bd989355a93652a28304c84c8b6eb3d9d04fe7c295c1efe659b3",
+  "validation": "Original plus alpha-composited sheets inspected; render/decode/Edge not attempted because source anatomy/motion failed.",
+  "published": false
+}

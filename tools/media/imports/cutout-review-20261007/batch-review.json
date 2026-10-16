@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-07",
+  "parallel": [
+    "drag-curl",
+    "sumo-squat"
+  ],
+  "candidates": 4,
+  "videoFiles": 8,
+  "accepted": [
+    "drag-curl-refined"
+  ],
+  "rejected": [
+    {
+      "id": "drag-curl",
+      "reason": "White background remained between legs before refinement"
+    },
+    {
+      "id": "sumo-squat",
+      "reason": "Original already contains colored fringe artifacts; source remake required"
+    },
+    {
+      "id": "chest-dip",
+      "reason": "Gray background remains enclosed by dip bars"
+    }
+  ],
+  "appReplacements": 1,
+  "productionDeployed": false
+}

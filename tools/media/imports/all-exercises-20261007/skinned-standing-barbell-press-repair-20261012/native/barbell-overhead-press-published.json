@@ -1,0 +1,18 @@
+{
+  "id": "barbell-overhead-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1c8cdd19fd4549c70e9fb1ccbbe67eac2c5e9175f6ec12f8d6a2f8c9bdd6d856",
+  "rigSourceSha256": "03ed36a7b0fcf84c8f1eb045d09ba9d97d0d7bbc3a6fdf71fb1aaa20ccc16265",
+  "videoSha256": "2dc10ff78f896f2d8700ca5f83fc34557a6ecea29b70128ff69eb7defd715a0b",
+  "darkVideoSha256": "98e6464ed2b33236562fcb4bfe2e666d03977fa79be6a3b65e8985896e846ece",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103299,
+  "darkBytes": 93804,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T05:00:31.391Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-overhead-dumbbell-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1b68fd00585798b0731e07089fde27ce2c63cb87fdc89db663fc3af74483c0d2",
+  "rigSourceSha256": "6bca5d6d404382ae2d5fc9c21aa77f0f27862c6b489c140571d0ed61d27ecee4",
+  "videoSha256": "b07e66696ac12ac861113a11537a4dd43365f1a94f849587e80d223c52c8bc8f",
+  "darkVideoSha256": "eabc138a2ed423d9ec5edbdcf03b9523d22d4018cceb54678ca15ee9dc065e3a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 49413,
+  "darkBytes": 45193,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T06:05:47.012Z"
+}

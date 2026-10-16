@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-wide-grip-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "501f5c53e36c4ce8d7e49828a90c338ab5372e172a3d4a72ff3e7fe5d865dfdd",
+  "rigSourceSha256": "0a6928a1f9ac6721fab7a03cd3e3f5620dea871421eac7d8b6315e1d5678a6f8",
+  "videoSha256": "1e79bca7e7380eea184090d61c06391fa7737e440f1ed11d664064e1b5c69530",
+  "darkVideoSha256": "2c2cb1320a0b1da419971ebd341e7ccbd3450c75bff3a386543b3f6a5868a13a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 95179,
+  "darkBytes": 83964,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T13:33:16.187Z"
+}

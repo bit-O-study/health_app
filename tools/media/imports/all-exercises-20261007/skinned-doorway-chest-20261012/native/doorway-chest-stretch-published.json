@@ -1,0 +1,18 @@
+{
+  "id": "doorway-chest-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8f6ec828e65318fa1578dafded7e96f02c7669d3abcdb30ee0590c7a43aeeb49",
+  "rigSourceSha256": "79bb081a7088a65716f22646e02d4e091911a3a00a9a3ff44281e6401dcaaf73",
+  "videoSha256": "8cbc5e8c05351917e2efe30fce6f374540d53ea7acbfa39758d3c3b570a9f238",
+  "darkVideoSha256": "dc9e70410026dce57dc1e44fdfebd039ba9bab96a6b92ef3e7101e771e9c9b8c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 54130,
+  "darkBytes": 56189,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:34:32.774Z"
+}

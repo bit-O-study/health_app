@@ -1,0 +1,125 @@
+{
+  "id": "standing-hamstring-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/studio.mjs",
+      "sha256": "2cd67c805cb1344012b5a2b8af03dfa8e4458703d7680befa75dfdce6b476959"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/motion.mjs",
+      "sha256": "75ecfa713d919b568005ac9d0614082b87effbd14fc4ad947d4c025def945cd3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/render.mjs",
+      "sha256": "f41400a173686402e79fec0d6a4e5e6a643982c38f25c29bfe2e66bd6f7453b1"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.southtees.nhs.uk/resources/cardiac-rehabilitation-exercise-programme/"
+  ],
+  "sourceSummary": "South Tees NHS hamstring stretch standing option: bend both knees, slide one foot forward until front leg straight while back knee bent, hands on bent knee for support. Lift front toes to rest on heel if needed. This uses heel-supported option and depicts already-set stance. Source warmup8-10/cooldown15second hold differs from3second demo.",
+  "motion": "Standing RIGHT leg straight forward with heel grounded and toes up; LEFT leg bent with foot flat. Both palms supported just above left knee, fingers drape across kneecap region, thumbs adducted to keep hands separated. Whole pelvis and trunk hinge45to55degrees around fixed hip centers with aligned spine.2seconds lean,3hold,2return,1rest.",
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 5.617333549722722e-15,
+    "heelAnchorDrift": 5.621720378622258e-15,
+    "loopDrift": 0,
+    "peakHipHingeDegrees": 55.00000000000003,
+    "startHipHingeDegrees": 45.00000000000001,
+    "handDrift": 5.781693597791254e-15,
+    "minHandPlaneGap": 0.40384828222797087,
+    "handSupportGaps": {
+      "L": {
+        "min": 0.01896925592363985,
+        "max": 0.01896925592364518
+      },
+      "R": {
+        "min": 0.020665690058920827,
+        "max": 0.020665690058925712
+      }
+    },
+    "minFloorClearance": -4.440892098500626e-15,
+    "maxFloorClearance": 3.552713678800501e-15,
+    "minLegSkinGarmentSectionGap": 0.06639612545452027,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/native/standing-hamstring-stretch.jpg",
+    "sha256": "3d858a8ec1b21ef03168af422c2d6d1319123b4befdd8d70a2d35a15f01c27db",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-standing-hamstring-20261012/render.mjs standing-hamstring-stretch"
+}

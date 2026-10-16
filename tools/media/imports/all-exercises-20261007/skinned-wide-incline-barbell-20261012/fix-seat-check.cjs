@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),p=__dirname+'/studio.mjs';let s=fs.readFileSync(p,'utf8');s=s.split('\n').map(l=>l.includes('for(const x of [-1.75,1.75])')?l.replace('-3.70674193','-3.71896130331').replace('sdf(backNormal.clone().multiplyScalar(y).addScaledVector(backUp,z).setX(x).applyMatrix4(inv))','sdf(new THREE.Vector3(x,y,z).applyMatrix4(inv))'):l).join('\n');fs.writeFileSync(p,s);

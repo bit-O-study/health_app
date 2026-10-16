@@ -1,0 +1,110 @@
+{
+  "id": "seated-band-pull-apart",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "light": "#fafafa",
+    "dark": "#09090b",
+    "phase": "renderSkinned(outputFrame*2.5)",
+    "phaseSeconds": {
+      "startHold": [
+        0,
+        0.4
+      ],
+      "raise": [
+        0.4,
+        3.8
+      ],
+      "peakHold": [
+        3.8,
+        4.2
+      ],
+      "lower": [
+        4.2,
+        7.6
+      ],
+      "endHold": [
+        7.6,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-band-pullapart-20261008/studio.mjs",
+      "sha256": "5de0c4a3f15b4ec0a9190b943be9d7ce33704e4c1ab64a2b39fa539d47feb947"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-band-pullapart-20261008/motion.mjs",
+      "sha256": "3c4032b20190d510d037b1336e3f8646695eee9a9d634210fcb67e37d33cd653"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-band-pullapart-20261008/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-seated-band-pullapart-20261008/render.mjs",
+      "sha256": "23ef0e3e1fc2757bfaa3aad4dcc7361e772b404e5c6976aafab1467d66192ff8"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://your-pt.com/exercises/band-pull-apart/",
+    "https://www.eatthis.com/chair-exercises-shoulder-mobility-after-55/"
+  ],
+  "sourceSummary": "Your PT describes shoulder-height palms-down band pull-aparts with nearly straight arms and explicitly lists seated variation. Eat This trainer-written seated instructions specify sitting upright, shoulder-width start, pulling hands out to sides and controlled return.",
+  "motion": "Seated horizontal band pull-apart with fixed8degree elbow bend and palms down. Hands begin near shoulder width and separate laterally, stopping with band just in front of chest. Continuous flat elastic strip joins both palm sockets.",
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 3.2002870911482164,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.05240797099667634,
+    "minEquipmentBenchClearance": 5.28328153265669,
+    "seatContactError": 7.264309553889348e-8,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxGripStep": 0.07850201886467152,
+    "units": "world units; band centerline segment minus conservative .082 radius against posed central-body vertices; bench vertical clearance",
+    "elbowBendMin": 7.999999999999798,
+    "elbowBendMax": 8.000000000000163,
+    "peakUpperarmHeightError": 4.440892098500626e-16,
+    "bandStartLength": 3.703262665949872,
+    "bandPeakLength": 16.108721284602012,
+    "bandLengthRatio": 4.349872730529145
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-seated-band-pullapart-20261008/native/seated-band-pull-apart.jpg",
+    "sha256": "fe024353e28974fc5acbb46721b6df281105817e950c7dfa9dc2041a45246778",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-seated-band-pullapart-20261008/render.mjs seated-band-pull-apart"
+}

@@ -1,0 +1,1 @@
+const fs=require('fs'),p=__dirname+'/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('dx=-.5-','dx=-.25-').replace('dz=-1.4-','dz=-2.3-').replace("side==='L'?-.5:.5","side==='L'?-.25:.25").replace("side==='L'?-1.4:.7","side==='L'?-2.3:1.3");fs.writeFileSync(p,s);

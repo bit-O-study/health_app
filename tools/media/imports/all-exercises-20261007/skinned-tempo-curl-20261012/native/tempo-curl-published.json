@@ -1,0 +1,18 @@
+{
+  "id": "tempo-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "714161ecf844ff744dbaeb0d3e218ed4d120f351dfd8a9dc7bb81a8a1bbe7348",
+  "rigSourceSha256": "466bbbc490da3500bd52435e0374b60c621f3e3d1c1c56e8a696e3fddc2d5e70",
+  "videoSha256": "ecbb9ce3986ebede5ecbfb59ff84f7923f26adba3c12fba4499ee09fbf26c824",
+  "darkVideoSha256": "3ab9a54a8d7e7386ccd9ec4029571a7eac145fe47c484d9e6558da75c37ffb84",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 114484,
+  "darkBytes": 98933,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:54:21.534Z"
+}

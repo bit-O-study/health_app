@@ -1,0 +1,18 @@
+{
+  "id": "cable-lying-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cd05dc63e38c5efb4a4f1e1990d8e7ec3b01044d2211be0768e34b03a6867981",
+  "rigSourceSha256": "c54097562f90267e8daa9d3b2c2f30ea8858116cb1f985c81e74dfe1f60686ef",
+  "videoSha256": "cdc355f528e7fb274db89d71717088ccb62225c5c1bda0d2cdaa67ee8519d9fd",
+  "darkVideoSha256": "32db296a5c72fd71440b71c27ee12a9519048b7835d8063a41047a1b4c7621ee",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 82787,
+  "darkBytes": 78643,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T06:40:48.432Z"
+}

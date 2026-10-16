@@ -1,0 +1,18 @@
+{
+  "id": "wrist-extensor-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1136eba89d571a3cad8ae47cfdbcb9d8f8a4e499d09acc667653569df4693447",
+  "rigSourceSha256": "0d1f63e35c6c9ca24fb5641dff1c4b6cff0ced2ecdbcca2f6c6c46ea9de7c791",
+  "videoSha256": "d5582f662f9671d9a7014ef9ac3623b35f9c20626aad8db50d01416a3cf81374",
+  "darkVideoSha256": "c3c94f565ee608ab3ea5e2d167243a992d9906a88e6d3d38cb5c9b808c6debe2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 49027,
+  "darkBytes": 51133,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:21:42.407Z"
+}

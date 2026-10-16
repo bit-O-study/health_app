@@ -1,0 +1,18 @@
+{
+  "id": "seated-overhead-barbell-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d4696489898c65bcdc7a04d45968e81e742c7c20fd1a78682560d13afcd5a8d0",
+  "rigSourceSha256": "c4d1020f7133f1d414b07c1724d852b046e8140317148fa457d4974324709040",
+  "videoSha256": "ace24d76cf385b23a75ee7dbbfe60ef5496e4616c43846b9d70b95617f5c92b2",
+  "darkVideoSha256": "412f472e539edd538de6c92c927dd16a401ff3b3dbf4efd0fc1acf23cf548efd",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96853,
+  "darkBytes": 78522,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T01:54:52.965Z"
+}

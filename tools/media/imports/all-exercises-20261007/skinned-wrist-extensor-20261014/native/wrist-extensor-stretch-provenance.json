@@ -1,0 +1,196 @@
+{
+  "id": "wrist-extensor-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none",
+    "light": "#fafafa",
+    "dark": "#09090b"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/studio.mjs",
+      "sha256": "21906ff1bacf6440120e1e1e1ba7ac43a70602bdeb2404a5170ee25a15fa1de6"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/motion.mjs",
+      "sha256": "16c17441bfa3a7d9bcb6e6215a8271866508171c46f39600f1550431d287167f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/render.mjs",
+      "sha256": "66c9a35aa5d681dbcdd9abc850ee0e10cdd7bc6f8b37ececa0b4fca72abe72b5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/source.json",
+      "sha256": "d4c38c63ef71e0aecd780a6cd18de9a7be49c573109c1c0c1e2db241fa7a92b9"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/anatomy.mjs",
+      "sha256": "26f3a9bcdc92c0646373a8c2fe13c90ee28aa30791ddc2eaeff5acd1dec2c1f8"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/anatomy-snippet.js",
+      "sha256": "134b47b25664b67c84cbd54db6b56d7c0a7486f04cb04370f672bbb52ec31bd9"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/contacts-full.mjs",
+      "sha256": "b6bb16ed87ea72bb9c03e1caf82d4cdec38b848de81c4d4c035e77431b9b488c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/native/wrist-extensor-stretch-contacts-full.json",
+      "sha256": "1729469ed9dbd040c37d1e61db7b665ced59df183fc085002caf8d5d342d762f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/native/wrist-extensor-stretch-anatomy.json",
+      "sha256": "979228056756534ce6b2976a8cf89b41d127952d119e6716793744a83ae7fbd5"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "sourceUrls": [
+    "https://leedscommunityhealthcare.nhs.uk/our-services-a-z/musculoskeletal-msk/elbow-problems/new-undiagnosed-elbow-problems/"
+  ],
+  "sourceSummary": "Leeds Community Healthcare NHS: straight arm with palm down; opposite hand gently bends wrist downward. Source hold15 to30seconds and2 to3repetitions; demonstration is abbreviated.",
+  "motion": "Standing left straight arm forward and slightly across body, left palm down, right hand supports dorsal wrist/hand. Wrist flexes down with fingers relaxed straight; move2,hold3,return2,rest1 seconds. Actual angle9.96 to33.00degrees; actual deformed palm skin normal and original relaxed-finger curl verify flexion. Feet and working wrist remain fixed.",
+  "kinematics": {
+    "samples": 481,
+    "contactSamples": 481,
+    "feetDrift": 0,
+    "leftWristDrift": 0,
+    "loopDrift": 0,
+    "minLeftElbowAngle": 180,
+    "minWaistGarmentRadialGap": 0.042014951591391014,
+    "minLegSkinGarmentSectionGap": 0.2806994623383512,
+    "maxFloorError": 1.7763568394002505e-15,
+    "handGapRange": [
+      0.0031305818672819896,
+      0.010689786918239186
+    ],
+    "maxHandInsideCount": 0,
+    "maxAssistingWristTargetError": 2.8435583831733384e-15,
+    "anatomy": {
+      "chosen": {
+        "triangle": 78510,
+        "ids": [
+          10508,
+          33711,
+          49949
+        ],
+        "restNormal": [
+          -0.6561406572466191,
+          -0.7338327840908202,
+          0.17597977980862045
+        ],
+        "restCentroid": [
+          5.080746354166666,
+          2.185871875,
+          2.5236052083333336
+        ]
+      },
+      "restFingerFlexionTowardSelectedSurface": [
+        0.2923624941643756,
+        0.20159710658539418,
+        0.20314066439384432,
+        0.157613147463346
+      ],
+      "frames": [
+        {
+          "frame": 0,
+          "actualPalmTriangleNormal": [
+            -0.1466455456492751,
+            -0.8754346717355886,
+            -0.46055316681619807
+          ],
+          "palmUpComponent": -0.8754346717355886,
+          "actualWristAngleDegrees": 9.959788813722069,
+          "handDisplacementTowardNeutralPalm": 0.1726612613116325,
+          "flexionDirection": true
+        },
+        {
+          "frame": 210,
+          "actualPalmTriangleNormal": [
+            -0.1466455262408794,
+            -0.5567463128625929,
+            -0.8176360025998387
+          ],
+          "palmUpComponent": -0.5567463128625929,
+          "actualWristAngleDegrees": 33.002022707529015,
+          "handDisplacementTowardNeutralPalm": 0.5338060549045718,
+          "flexionDirection": true
+        }
+      ],
+      "identification": "Palm side independently corroborated by all four original relaxed finger chains curling toward selected surface; selected actual outward mesh triangle lies over metacarpal palm center. Opposite-side photographs retained for anatomical visual review."
+    },
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/native/wrist-extensor-stretch.jpg",
+    "sha256": "1136eba89d571a3cad8ae47cfdbcb9d8f8a4e499d09acc667653569df4693447",
+    "panels": 16
+  },
+  "reproduction": "Set FFMPEG_PATH then node tools/media/imports/all-exercises-20261007/skinned-wrist-extensor-20261014/render.mjs wrist-extensor-stretch"
+}

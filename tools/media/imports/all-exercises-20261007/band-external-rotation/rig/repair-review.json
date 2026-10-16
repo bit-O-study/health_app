@@ -1,0 +1,64 @@
+{
+  "id": "band-external-rotation",
+  "status": "hold-residual-upperarm-elbow-skin-fold",
+  "attempts": [
+    {
+      "name": "v1",
+      "evidence": "preview-v1/",
+      "module": "exercise-motion-v1.mjs",
+      "result": "Original full upperarm axial twist produced severe pinch."
+    },
+    {
+      "name": "v2",
+      "module": "exercise-motion-v2.mjs",
+      "result": "Distribute axial rotation 25percent proximal plus75percent distal, recompute distal direction to fixed elbow target. Shoulder silhouette improves but elbow inner fold remains."
+    },
+    {
+      "name": "v3",
+      "module": "studio.mjs",
+      "result": "Dual quaternion skinning added to body shader to preserve volume. Rounded forearm improves but large upperarm-to-elbow concavity still apparent at end range, and close-up thumb remains coarse."
+    }
+  ],
+  "checks": "checks.json",
+  "visualEvidence": [
+    "preview/full-82.png",
+    "preview/front-82.png",
+    "preview/hand-82.png",
+    "preview/dark-82.png"
+  ],
+  "decision": "Do not encode or publish. Kinematic constraints passing do not establish visual anatomical quality. Requires further rig corrective deformation/skin weighting expertise.",
+  "validation": {
+    "preview": "Both backgrounds plus full/front/side/hand start-mid-end",
+    "fullDecode": "not applicable; no MP4 produced",
+    "EdgePlayback": "not applicable; no MP4 produced",
+    "renderer": "Edge WebGL preview completed and browser closed"
+  },
+  "files": [
+    {
+      "file": "exercise-motion.mjs",
+      "sha256": "7b0af2b5e12d2f761f6e00bdf90a0fc80b6c7f659753a27d35760abf8c364682"
+    },
+    {
+      "file": "studio.mjs",
+      "sha256": "8000e0ac823ed6ce612671824699df8d1d7b8b026dc12f0dfd1926d011a8344e"
+    },
+    {
+      "file": "checks.json",
+      "sha256": "7f8ee75e4d36b45a8691c2f708d40c018cdd182d4656a0e222cac7afef7d99bd"
+    },
+    {
+      "file": "preview/full-82.png",
+      "sha256": "897eda86bc4968b0f3cb74172b4fcd2f644e0fb4865bbde01b841de600f6e34a"
+    },
+    {
+      "file": "preview/hand-82.png",
+      "sha256": "e8a841bb2d66c9489c9122eafe2412593fe9447805ba3b6cc8a090fcbb466e0e"
+    },
+    {
+      "file": "preview/dark-82.png",
+      "sha256": "648bbee41c0800e89229eae090f430aed3103fb233cba4d131c25911da2176f3"
+    }
+  ],
+  "published": false,
+  "sharedEdits": false
+}

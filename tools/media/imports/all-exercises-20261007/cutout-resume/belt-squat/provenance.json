@@ -1,0 +1,24 @@
+{
+  "id": "belt-squat",
+  "sourceSha256": "df65fb52bdb6939c01f37a8a4ad848d8ed3ce122886821a400815cfdf17071bd",
+  "method": "u2net with original dark equipment RGB/alpha restoration in bounded ROI y25%-97%,x10%-89%, maxRGB170 opaque ramp to190 transparent. v1 bottom-only ROI missed upright in poses6/7; v2 includes full upright.",
+  "cutHashes": [
+    "a027d7b1016206b29fb86a724e070938d9fcbd32ceb8636e46fe7b2abe301488",
+    "1c831381194e1169bdd087ee565a326b70f9ace0dc2df7d8b87256bbe87e9c92",
+    "2d3e345462c83278952d122068ebc5638827ae8df69a604328c40d3d748e075a",
+    "89a5ad89f2d676e2047f609640e27b94c6ed0ce757b96d6f0a32383cbc78ccd1",
+    "9d8235500484cbcd2e0fcfea3d1054e7e8cb9b6ea11d772e76e157ec30d594d9",
+    "1105a9be93cdeb461227271a7223e59cfbc99221db548778d9ede9d21ce408a2",
+    "4c3efdecce88d387adaa61dbb355f8db198af14e334dd2577ae184cfed2cce2b",
+    "ab59e91bfa5b6b930ca6c4b7783c49f202002e377e41ac1de6728a7c4d6ad859",
+    "de2b08e63f8670ef9d9e9241fd16583b2208a8c78fb94be69e06c52ff880b496",
+    "933f4ff0f83e7ed9d633e36ec369adbcbe5d4169dd60ffebd2d2130f46bd95a3",
+    "ab1563c6a0e3731ded0453624ae3e73862a08ab0555458730cca829e393f88e7",
+    "3d7d6790dde3cc2dafee61a5901e9b11fd1207869c65236e0bf20f73f5108176",
+    "4d58cb0f10ce2c8ccfb8ced469f52500228802311778aac51eac19e8a3a28989",
+    "6a0a017257dda909cae17074743d56e7b759d68c5dbd1db0f16e3a08a54d788f",
+    "f019feed237e91764b3daca59828e64a4bb3d06de69a1d5041987ee352e5b72c",
+    "91baf08f79d1d807f71522f2dcad42d260a22c93ed86c5ab8270e4e80aea6b23"
+  ],
+  "published": false
+}

@@ -1,0 +1,14 @@
+{
+  "id": "seated-bent-over-lateral-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-bent-over-lateral-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-reverse-fly.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T02:20:37.131Z"
+}

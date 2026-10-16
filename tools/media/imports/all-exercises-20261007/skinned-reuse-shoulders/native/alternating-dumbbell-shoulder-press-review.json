@@ -1,0 +1,73 @@
+{
+  "id": "alternating-dumbbell-shoulder-press",
+  "status": "passed-isolated-candidate",
+  "sourceSha256": "878a302a39001dbcf9abce24b67a2d9360be0dca397530e92a55d694ffcdd4ba",
+  "rigSourceSha256": "70e534485be9be869f9b2fc04008926e3f1e928d8322dd1a12a8a2592465a395",
+  "themes": [
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-shoulders/native/alternating-dumbbell-shoulder-press.mp4",
+      "suffix": "",
+      "sha256": "783637e84f7f9668bc28eb120e15a53cceefd2cb18cb13550741870476f361f6",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 63109,
+      "decode": "passed"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-shoulders/native/alternating-dumbbell-shoulder-press-dark.mp4",
+      "suffix": "-dark",
+      "sha256": "6b56b9efd88f8953e392a9f009cd7115f27c8ab6de3cecd5d9ac21fbed94bd8f",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "frames": 192,
+      "seconds": 8,
+      "bytes": 56980,
+      "decode": "passed"
+    }
+  ],
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/alternate-standing-dumbbell-press.html"
+  ],
+  "checks": {
+    "exercise": "alternating-dumbbell-shoulder-press; One press at a time; opposite arm remains at shoulder-height start.",
+    "equipment": "Correct number of dumbbells retained through both final 32-frame sheets.",
+    "setup": "Standing upright; stationary trunk visible in full and side views.",
+    "hands": "Root inspected hand-105 and side-210: handle stays with grip; palms-forward press or pronated raise.",
+    "feet": "Both feet remain planted and fully inside final frame.",
+    "movement": "One press at a time; opposite arm remains at shoulder-height start. Root inspected final light and dark 32-frame sheets; no optical-flow ghost limbs."
+  },
+  "videoSha256": "783637e84f7f9668bc28eb120e15a53cceefd2cb18cb13550741870476f361f6",
+  "darkVideoSha256": "6b56b9efd88f8953e392a9f009cd7115f27c8ab6de3cecd5d9ac21fbed94bd8f",
+  "reviewedAt": "2026-10-07T03:30:21.021Z",
+  "limitations": "Stylized barefoot mannequin; simplified fingers and dark dumbbells have lower contrast. Local browser verification only, not physical-device or biomechanical certification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  }
+}

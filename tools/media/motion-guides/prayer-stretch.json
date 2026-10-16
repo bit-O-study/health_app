@@ -1,0 +1,15 @@
+{
+  "id": "prayer-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "prayer-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://ruh.nhs.uk/patients/patient_information/HTH024_Wrist_Exercises.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:44:38.005Z"
+}

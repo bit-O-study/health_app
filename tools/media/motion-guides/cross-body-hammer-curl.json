@@ -1,0 +1,13 @@
+{
+  "id": "cross-body-hammer-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cross-body-hammer-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/hammer-curl-across-the-body.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:21:07.786Z"
+}

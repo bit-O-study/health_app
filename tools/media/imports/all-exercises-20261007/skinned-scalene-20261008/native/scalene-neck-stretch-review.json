@@ -1,0 +1,132 @@
+{
+  "id": "scalene-neck-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.uhd.nhs.uk/uploads/about/docs/our_publications/patient_information_leaflets/Childrens_therapy/Childrens_physiotherapy/Neck_ROM_exercises_done_2019.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact scalene-neck-stretch, source-defined right tilt followed by left rotation, distinct from single-axis neck motion.",
+    "equipment": "Bodyweight, stable seat, no band or weights.",
+    "setup": "Upright seated, right hand on left shoulder and left arm down; shoulders stay fixed.",
+    "hands": "481 right-hand/left-shoulder skin proximity checks passed after removing finger penetration. Right wrist remains fixed; no force on head.",
+    "feet": "481 skin sole and skin/garment seat clearance checks passed; feet and pelvis fixed.",
+    "movement": "Both32frame final encoded sheets, hand/neck/side/back enlarged views reviewed; no head/shoulder clipping or jaw tearing visible. Actual staged2/3/2/1 motion matches stretch timing. Full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "b5e6669c67eae307803fa309fdd6509330385af46adbd64ddc6665c33cca6f04",
+  "rigSourceSha256": "3a7dcadae890ebd644bfd3c4156c3714de4b7e19088b1d7f8b9e6f945ecbb823",
+  "videoSha256": "5da8fb988266eb62ee943f1405c8776cb9093794d3ef986cb4b5fc6747ffd62c",
+  "darkVideoSha256": "37bafe8b86f804dbce8b836b034ebcc23d0b23e674444abcae10bb0e4db9c406",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-scalene-20261008/native/scalene-neck-stretch.mp4",
+      "sha256": "5da8fb988266eb62ee943f1405c8776cb9093794d3ef986cb4b5fc6747ffd62c",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 44283,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-scalene-20261008/native/scalene-neck-stretch-dark.mp4",
+      "sha256": "37bafe8b86f804dbce8b836b034ebcc23d0b23e674444abcae10bb0e4db9c406",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 47502,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "shoulderDrift": 0,
+    "rightWristDrift": 0,
+    "loopDrift": 0,
+    "peakHeadEulerDegrees": [
+      4.1802913746038283e-16,
+      18.000000000000007,
+      12.000000000000007
+    ],
+    "tiltStageEulerDegrees": [
+      0,
+      0,
+      12
+    ],
+    "minHandShoulderGap": 0.04757550242916109,
+    "maxHandShoulderGap": 0.05284700920182872,
+    "minFloorClearance": 2.616719170234205e-7,
+    "minSeatGap": 0.008499927356904635,
+    "maxSeatGap": 0.008499927356904635,
+    "maxHeadStepDegrees": 0.562083472220633,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "tilt": [
+        0,
+        1
+      ],
+      "turn": [
+        1,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "unturn": [
+        5,
+        6
+      ],
+      "untilt": [
+        6,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T07:27:43.060Z",
+  "limitations": "Primary exact source is paediatric physiotherapy, not an adult-specific recommendation. Adult PT Prehab describes anchored shoulder/opposite tilt with optional small rotation but different hand placement; that variation was not combined here.12/18degree range and3second hold are illustrative. Hand clearance uses skinned vertex XY projection radius0.12world, not full triangle contact/force simulation. No physical-device certification."
+}

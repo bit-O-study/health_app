@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-dumbbell-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2c389bb7c9230e40f0483ab8598228294ec23663d70889f8be21c4499ca960a5",
+  "rigSourceSha256": "88025ede8955f2431116a4ada4bb7c05d88f9aa23848efc7733396fc186179b2",
+  "videoSha256": "45731a34f6bef26182c4d30ea4ad6daf68bc93d1fab55df72ed2cf34194cbbe3",
+  "darkVideoSha256": "14721f74586d176e0209903768907b3afeee4bf1bd49b77208ecc25468dac134",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 53053,
+  "darkBytes": 46301,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:41:24.853Z"
+}

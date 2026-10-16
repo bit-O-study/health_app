@@ -1,0 +1,15 @@
+{
+  "id": "dumbbell-preacher-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-preacher-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.criticalbench.com/exercises/dumbbell-two-arm-preacher-curls.htm"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T01:44:25.326Z"
+}

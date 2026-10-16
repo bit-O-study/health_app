@@ -1,0 +1,15 @@
+{
+  "id": "dynamic-hamstring-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dynamic-hamstring-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://library.theprehabguys.com/vimeo-video/standing-hamstring-stretch-dynamic/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T04:25:11.667Z"
+}

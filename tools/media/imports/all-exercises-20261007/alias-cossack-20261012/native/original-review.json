@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "checks": {
+    "exercise": "고정된 와이드 스탠스에서 한쪽으로 깊게 이동하는 코사크 스쿼트가 명확함",
+    "equipment": "맨몸 동작이며 불필요한 기구가 등장하지 않음",
+    "setup": "정면 전신 구도에서 양팔을 앞으로 들고 넓은 발 간격을 유지함",
+    "hands": "양손과 양팔이 전 구간 동일한 앞으로 뻗은 자세로 유지됨",
+    "feet": "굽히는 쪽 발은 지면에 고정되고 반대쪽 다리는 곧게 펴지며 발끝이 위로 회전함",
+    "movement": "중앙 선 자세에서 한쪽 골반으로 점진 하강한 뒤 같은 순서로 복귀하며 프레임 연결이 연속적임"
+  },
+  "note": "2026-10-07 source-outline restoration of white shoes after u2netp cutout. Both 32-frame theme sheets and mobile Edge play/seek/loop checked. Evidence: tools/media/imports/cutout-all-20261007-b/batch-review.json. Original source retained; previous videos backed up. Physical device/deployment unverified.",
+  "id": "cossack-squat",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.strengthlog.com/cossack-squat/",
+    "https://fitwell.recreation.ucla.edu/file/a6080b05-ec33-4e68-81eb-df30a07d82df"
+  ],
+  "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+  "videoSha256": "ff6c36722d57346c45976358f5b4b65cfcb9958f824e1e955666ff2fb2a7c02b",
+  "darkVideoSha256": "dfe8bf7880836016e9da2e955e0d68e76705889e30281f7012489a2da37391a6",
+  "reviewedAt": "2026-10-07T00:55:25.667Z"
+}

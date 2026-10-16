@@ -1,0 +1,18 @@
+{
+  "id": "dynamic-calf-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d6fe58879e4ad6fa4da81c370b8ca7d5f9730f400a41ad9579b7a3d79222b513",
+  "rigSourceSha256": "0d3ec97106fa0fc607c4aebd06d69457bb2eb83747ce1958ae561eb3289e6b84",
+  "videoSha256": "46d8be76522692fcf6ba089bc5ed7f1d1721fb9d559a841e8f98a3ffe4ce56ac",
+  "darkVideoSha256": "9725895b02be62375cc014076a8efbc4c85df10c79c466b7f7aa09e065a3bcc4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 102927,
+  "darkBytes": 101764,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T02:21:19.434Z"
+}

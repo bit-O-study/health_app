@@ -1,0 +1,14 @@
+{
+  "id": "wide-grip-barbell-row",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-barbell-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/workouts/back-exercises/back-attack-barbell-row/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T00:06:58.544Z"
+}

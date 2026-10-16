@@ -1,0 +1,267 @@
+{
+  "id": "cobra-stretch",
+  "renderer": "skinned-pilot-v1",
+  "sourceUrls": [
+    "https://digitalcommons.imsa.edu/yoga_crit_inst/34/"
+  ],
+  "sourceSummary": "Prone; fingers forward, upper arms close to sides. Lift chest forward/up, hips remain on floor, tops of feet flat. Elbows point towards body. Slowly lower abdomen/chest to exit.",
+  "motion": "Low cobra: fixed palms and forward fingers, hips stay low; chest lifts forward/up as spine extends10 to55degrees. Elbows remain bent and point backward alongside body; measured elbow internal angle35.24 to85.98degrees, not straight-arm cobra.2seconds rise/3hold/2return/1rest.",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "phase": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "interpolation": "none"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/studio.mjs",
+      "sha256": "f038862acde392e5a1c19ff8ac713e2b8c74c3cda37ef41b696f56caab8ab38a"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/motion.mjs",
+      "sha256": "2f566edef6a8d9642e23dbd63f2b386d42cd0c20671a35b59805c6f9519c29bc"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/render.mjs",
+      "sha256": "d802ae407837e2261857360c6308f2242a07d307f562d4a335b64b4cb5f6e7fe"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/source.json",
+      "sha256": "651261f40d8d95736d8c142564733124f613c0e6c34e84848e78831419a4ff2f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/exact-waist.cjs",
+      "sha256": "5da685c410fac3ee3a08ee89da73a7b8e6e9bbab5bea800f8eecdbad7f6cf605"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/diagnostic.mjs",
+      "sha256": "f1c1a423ce77588b0d5af7dbf32c4f82c8ff5004e22b146ee123da73e6ade687"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2",
+      "origin": "node_modules/three/build/three.module.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3",
+      "origin": "node_modules/three/build/three.core.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4",
+      "origin": "node_modules/three/examples/jsm/environments/RoomEnvironment.js"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/dependencies/package.json",
+      "sha256": "8308e43d6d6dd4c636c2dfe2e724da07dcd9fe4349bba6afb56f2c5ba6625391",
+      "origin": "node_modules/three/package.json"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "allSkinFloor": [
+      0.014373860309884634,
+      0.014373860309884634
+    ],
+    "clothFloor": [
+      0.011176329870299817,
+      0.011176329870299817
+    ],
+    "pelvisClothFloor": [
+      0.06523373750612649,
+      0.06523373750612649
+    ],
+    "support": {
+      "L": {
+        "hand": [
+          0.022671885356992938,
+          0.022671885356999155
+        ],
+        "forearm": [
+          0.1502418595911763,
+          0.1612605084273051
+        ],
+        "toes": [
+          0.014373860309884634,
+          0.014373860309884634
+        ]
+      },
+      "R": {
+        "hand": [
+          0.022671885356992938,
+          0.022671885356999155
+        ],
+        "forearm": [
+          0.1502418595911763,
+          0.1612605084273051
+        ],
+        "toes": [
+          0.014373860309884634,
+          0.014373860309884634
+        ]
+      }
+    },
+    "forearmBodyGap": [
+      0.20076999624976732,
+      0.3629702994728019
+    ],
+    "handSeparation": [
+      3.261010089158626,
+      3.2610100891586353
+    ],
+    "palmNormalY": [
+      -0.97024916887283,
+      -0.970249168872815
+    ],
+    "waistExactGap": [
+      0.09853797134267217,
+      0.09981741813401213
+    ],
+    "waistHits": [
+      353,
+      353
+    ],
+    "waistMisses": [
+      0,
+      0
+    ],
+    "lowerBodyDrift": 0,
+    "loopDrift": 0,
+    "elbowShoulderForward": [
+      -2.35170973247282,
+      -1.5421631080320761
+    ],
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "spineExtensionDegrees": [
+      10,
+      55
+    ],
+    "elbowInternalAngle": [
+      35.24455609917265,
+      85.98025642094476
+    ],
+    "wristBend": [
+      27.785951013716353,
+      39.89493083431467
+    ],
+    "handDrift": 2.9790409838967277e-15,
+    "footDorsumGap": {
+      "L": [
+        0.014995361176865174,
+        0.014995361176865174
+      ],
+      "R": [
+        0.014995361176865174,
+        0.014995361176865174
+      ]
+    },
+    "handContacts": {
+      "L": {
+        "palm": [
+          0.05133604523265767,
+          0.05133604523266211
+        ],
+        "tips": [
+          [
+            0.03673488835056826,
+            0.03673488835057537
+          ],
+          [
+            0.04057201016638068,
+            0.04057201016638512
+          ],
+          [
+            0.028344723059671395,
+            0.028344723059677612
+          ],
+          [
+            0.03019321281538012,
+            0.03019321281538545
+          ],
+          [
+            0.05373479604140741,
+            0.053734796041412736
+          ]
+        ]
+      },
+      "R": {
+        "palm": [
+          0.05133604523265767,
+          0.05133604523266211
+        ],
+        "tips": [
+          [
+            0.03673488835056826,
+            0.03673488835057537
+          ],
+          [
+            0.04057201016638068,
+            0.04057201016638512
+          ],
+          [
+            0.028344723059671395,
+            0.028344723059677612
+          ],
+          [
+            0.03019321281538012,
+            0.03019321281538545
+          ],
+          [
+            0.05373479604140741,
+            0.053734796041412736
+          ]
+        ]
+      }
+    },
+    "units": "World units, body approximately17 high."
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/native/cobra-stretch.jpg",
+    "sha256": "4823be24a5aeed27ad3dc6fd9d17b10fea9c5a99f4916942665a36643b18cd99",
+    "panels": 16
+  }
+}

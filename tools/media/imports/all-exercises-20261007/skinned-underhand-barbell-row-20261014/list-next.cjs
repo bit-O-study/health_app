@@ -1,0 +1,1 @@
+﻿const fs=require('fs'),s=fs.readFileSync('src/features/routine/exercise-catalog-extra.ts','utf8'),ids=[...s.matchAll(/"id": "([^"]+)"/g)].map(x=>x[1]);console.log(ids.filter(x=>/dumbbell|seated|barbell/.test(x)&&!fs.existsSync('tools/media/motion-guides/'+x+'.json')).join('\n'));

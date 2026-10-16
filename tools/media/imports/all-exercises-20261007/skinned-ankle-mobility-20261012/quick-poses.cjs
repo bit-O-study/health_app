@@ -1,0 +1,1 @@
+const fs=require('fs'),p=__dirname+'/quick.mjs';let s=fs.readFileSync(p,'utf8').replace('Array.from({length:1},(_,frame)=>({frame,joints:window.inspectPose(0)}))','[0,210,480].map(frame=>({frame,joints:window.inspectPose(frame)}))');fs.writeFileSync(p,s);

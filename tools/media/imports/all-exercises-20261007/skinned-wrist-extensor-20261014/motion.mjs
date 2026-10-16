@@ -1,0 +1,19 @@
+﻿import * as THREE from './three.module.js';
+export const exercises=['wrist-extensor-stretch'];
+const v=a=>new THREE.Vector3().fromArray(a),q=()=>new THREE.Quaternion(),rad=THREE.MathUtils.degToRad,smooth=t=>t*t*t*(t*(t*6-15)+10);
+function basis(forward,across){const x=forward.clone().normalize(),y=across.clone().addScaledVector(x,-across.dot(x)).normalize();return new THREE.Matrix4().makeBasis(x,y,new THREE.Vector3().crossVectors(x,y));}
+export function applyMotion(id,lift,{byName,dataByName,mesh},frame){
+const sec=(((frame%480)+480)%480)/60,amount=sec<2?smooth(sec/2):sec<5?1:sec<7?1-smooth((sec-5)/2):0;
+const aim=(name,rest,target)=>{mesh.updateMatrixWorld(true);byName[name].quaternion.copy(byName[name].parent.getWorldQuaternion(q()).invert().multiply(q().setFromUnitVectors(rest.clone().normalize(),target.clone().normalize())));};
+const rest=(a,b,side)=>v(dataByName[b+'.'+side].head).sub(v(dataByName[a+'.'+side].head));
+const ik=(a,b,c,target,pole)=>{mesh.updateMatrixWorld(true);const start=byName[a].getWorldPosition(new THREE.Vector3()),upper=v(dataByName[b].head).sub(v(dataByName[a].head)),lower=v(dataByName[c].head).sub(v(dataByName[b].head)),axis=target.clone().sub(start),d=axis.length(),u=upper.length(),l=lower.length();axis.normalize();const along=(u*u-l*l+d*d)/(2*d),out=pole.clone().addScaledVector(axis,-pole.dot(axis)).normalize(),joint=start.clone().addScaledVector(axis,along).addScaledVector(out,Math.sqrt(Math.max(0,u*u-along*along)));aim(a,upper,joint.clone().sub(start));aim(b,lower,target.clone().sub(joint));};
+for(const side of ['L','R']){aim('upperleg01.'+side,rest('upperleg01','lowerleg01',side),new THREE.Vector3(0,-1,0));aim('lowerleg01.'+side,rest('lowerleg01','foot',side),new THREE.Vector3(0,-1,0));}
+mesh.updateMatrixWorld(true);const initial=byName['foot.L'].getWorldPosition(new THREE.Vector3());byName.root.position.y+=-7.033869020080567-initial.y;byName.root.position.z+=.18915-initial.z;for(const side of ['L','R']){mesh.updateMatrixWorld(true);byName['foot.'+side].quaternion.copy(byName['foot.'+side].parent.getWorldQuaternion(q()).invert());}
+const arm=new THREE.Vector3(-.75,-.5,1).normalize();aim('upperarm01.L',rest('upperarm01','lowerarm01','L'),arm);aim('lowerarm01.L',rest('lowerarm01','wrist','L'),arm);
+const bend=rad(12+28*amount),forward=arm.clone().applyAxisAngle(new THREE.Vector3(1,0,0),bend).normalize(),wide=new THREE.Vector3(1,0,0),normal=new THREE.Vector3().crossVectors(forward,wide).normalize();
+function hand(side,fwd,across){const index=v(dataByName['finger2-1.'+side].head),little=v(dataByName['finger5-1.'+side].head),palm=index.clone().add(little).multiplyScalar(.5).sub(v(dataByName['wrist.'+side].head)),world=q().setFromRotationMatrix(basis(fwd,across).multiply(basis(palm,index.clone().sub(little)).invert()));mesh.updateMatrixWorld(true);byName['wrist.'+side].quaternion.copy(byName['wrist.'+side].parent.getWorldQuaternion(q()).invert().multiply(world));for(let f=1;f<=5;f++)for(let j=1;j<=3;j++){const n='finger'+f+'-'+j+'.'+side;mesh.updateMatrixWorld(true);const current=byName[n].getWorldQuaternion(q()),old=v(dataByName[n].tail).sub(v(dataByName[n].head)).normalize().applyQuaternion(current),desired=fwd.clone().addScaledVector(across,f===1?.65:0).addScaledVector(normal,side==='R'&&f>1?-[0,0,.12,.25][j]:0).normalize();byName[n].quaternion.copy(byName[n].parent.getWorldQuaternion(q()).invert().multiply(q().setFromUnitVectors(old,desired).multiply(current)));}}
+hand('L',forward,wide.clone().negate());mesh.updateMatrixWorld(true);const target=byName['wrist.L'].getWorldPosition(new THREE.Vector3()).addScaledVector(wide,-.95).addScaledVector(normal,.41).addScaledVector(forward,.42);ik('upperarm01.R','lowerarm01.R','wrist.R',target,new THREE.Vector3(-1,-1,0));hand('R',wide,forward.clone().negate());mesh.updateMatrixWorld(true);window.wristTargetError=byName['wrist.R'].getWorldPosition(new THREE.Vector3()).distanceTo(target);
+}
+
+
+

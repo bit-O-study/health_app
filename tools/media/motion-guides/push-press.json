@@ -1,0 +1,15 @@
+{
+  "id": "push-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "push-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.crossfit.com/essentials/the-push-press",
+    "https://www.muscleandstrength.com/exercises/push-press"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T05:47:09.898Z"
+}

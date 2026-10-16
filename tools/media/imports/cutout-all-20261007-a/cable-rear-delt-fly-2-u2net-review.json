@@ -1,0 +1,24 @@
+{
+  "id": "cable-rear-delt-fly-2",
+  "status": "hold-major-equipment-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "Both towers, top crossbar and long cable segments disappear.",
+    "At last pose disconnected pulleys remain beside hands, giving a false handheld-weight appearance."
+  ],
+  "restorationAssessment": "Damage is entire-machine segmentation failure, not precise thin-cable or small black ROI restoration; no blind full-image dark-pixel restoration attempted.",
+  "evidence": {
+    "id": "cable-rear-delt-fly-2",
+    "sourceSha256": "2feb3319f85c5a96deaccfa830b596de7eeeb9f22ae04c6d07f553d708846edb",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.405999999959022,
+    "published": false
+  },
+  "validation": "First/last light composites inspected against original. Full inference/render,32-frame/full-decode/Edge omitted because endpoint quality failed.",
+  "published": false
+}

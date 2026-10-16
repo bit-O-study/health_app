@@ -1,0 +1,14 @@
+{
+  "id": "smith-machine-incline-press",
+  "equipment": "smith",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-incline-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/smith-machine-incline-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T08:53:30.845Z"
+}

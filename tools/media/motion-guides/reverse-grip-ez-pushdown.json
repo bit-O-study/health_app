@@ -1,0 +1,16 @@
+{
+  "id": "reverse-grip-ez-pushdown",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-grip-ez-pushdown-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://steelsupplements.com/blogs/steel-blog/how-to-do-reverse-grip-tricep-pushdown-form-benefits",
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/reverse-grip-triceps-pressdown/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T02:05:33.416Z"
+}

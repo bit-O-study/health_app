@@ -1,0 +1,105 @@
+{
+  "id": "dumbbell-wrist-extension",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.strengthlog.com/dumbbell-wrist-extension/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/29/wrist-curl-extension/"
+  ],
+  "checks": {
+    "exercise": "Pronated dumbbell wrist extension: hands lower and rise with fixed forearms supported on thighs.",
+    "equipment": "Two rigid hex dumbbells with visible metallic handles remain in hands; complete stable seat/bench remains visible.",
+    "setup": "Seated, forward lean fixed, forearms along thighs, wrists beyond knees. Final full and side previews reviewed.",
+    "hands": "Original hand210 re-inspected: dorsal surface up, dumbbells retained, forearms resting along thighs, wrist-only arc.",
+    "feet": "Both bare feet remain fixed at floor; actual strongly foot-weighted skin min measured against floor to 0.000000262 model units.",
+    "movement": "Both encoded 32-frame contact sheets reviewed. No optical-flow ghosting, bench discontinuity or grip inversion. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "d749af9a65e560013a14b909a3dd8269d9701a49541bdcc97652be992aa7076b",
+  "rigSourceSha256": "52f12cf378851e0611b471315291dc6c3024d7ef8dd12fa52d24fac0c7742e1b",
+  "videoSha256": "3865ec6cfc97afb00b2f2afaa2a32ccba8ab446235dd4e2f3f22adabcdee7581",
+  "darkVideoSha256": "2691921395d959b2178df49a33dc3acc6a8388209faf0c0c1b933b91d7a6d21f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/alias-dumbbell-wrist-20261008/native/dumbbell-wrist-extension.mp4",
+      "sha256": "3865ec6cfc97afb00b2f2afaa2a32ccba8ab446235dd4e2f3f22adabcdee7581",
+      "bytes": 78134,
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/alias-dumbbell-wrist-20261008/native/dumbbell-wrist-extension-dark.mp4",
+      "sha256": "2691921395d959b2178df49a33dc3acc6a8388209faf0c0c1b933b91d7a6d21f",
+      "bytes": 68026,
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedJointMaxDisplacement": {
+      "root": 0,
+      "upperarm01.L": 0,
+      "lowerarm01.L": 0,
+      "wrist.L": 0,
+      "upperarm01.R": 0,
+      "lowerarm01.R": 0,
+      "wrist.R": 0,
+      "foot.L": 0,
+      "foot.R": 0
+    },
+    "loopDrift": 0,
+    "dumbbellVerticalTravel": [
+      1.0268804093326014,
+      1.0268804093326014
+    ],
+    "footMinY": -7.751374738328083,
+    "forearmThighMinSampledGap": 0.00010400899976548139,
+    "sampleCount": 556
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T08:26:27.296Z",
+  "limitations": "Exact alias reuse, not new animation. Original kinematic evidence retained where present; no new481sampling claimed. Fresh original/public source chain and both full decodes. Root visual review pending. Sampled original collision and barefoot mannequin limitations retained.",
+  "aliasOf": "reverse-wrist-curl",
+  "aliasEvidence": "Identical dumbbell equipment and wrist extensor target. Existing reverse-wrist-curl primary source is itself named Dumbbell Wrist Extension; same seated-thigh-supported palms-down wrist-only action. Target generic elbow-extension methods are erroneous and must be corrected by root.",
+  "visual": {
+    "inspected": [
+      "fresh both32frame sheets",
+      "original hand210"
+    ],
+    "result": "Same grip/equipment/action as target exact synonym; existing video bytes preserved."
+  }
+}

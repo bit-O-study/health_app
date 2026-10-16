@@ -1,0 +1,73 @@
+{
+  "id": "cross-body-hammer-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/hammer-curl-across-the-body.html"
+  ],
+  "checks": {
+    "exercise": "Cross-body hammer curl: alternating neutral-grip curls across front of torso; both complete cycles visible.",
+    "equipment": "Two solid hex dumbbells remain attached to hands in both themes; no weight disappearance or optical-flow ghosting.",
+    "setup": "Upright stable torso and complete head/body in frame; original 3D geometry preserved. Scene background changed to app light/dark exact colors.",
+    "hands": "Neutral grip maintained; close-up hand and side source poses inspected. Cross-body peak weight remains in front of torso.",
+    "feet": "Both feet visibly planted and stationary throughout final 32-frame sheets; no clipping.",
+    "movement": "Native 192 frames at 24 fps for 8 seconds, sampled continuously from same procedural motion; both-theme 32-frame visual review and full decode pass. Mobile Edge play, seek to 7.5s and loop pass."
+  },
+  "sourceSha256": "2ce2f9be45f0df137f6d324e53659896251d154778bdc0554aa995d7a71ba278",
+  "rigSourceSha256": "6380bf4102b7e3d74fc19b4d9bcb280ff5314802d57479553fc6032412d1dcf3",
+  "videoSha256": "d0c3b1a1ba0eacdc0eb16c5a82cb0d2d892242b6810c8ceb2b08a40c9e69003b",
+  "darkVideoSha256": "71f4b9185002083259a6a23994354da0a7e855ccb52bce2e062e2411f3394d42",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/native/cross-body-hammer-curl.mp4",
+      "sha256": "d0c3b1a1ba0eacdc0eb16c5a82cb0d2d892242b6810c8ceb2b08a40c9e69003b",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 71391,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-audit/native/cross-body-hammer-curl-dark.mp4",
+      "sha256": "71f4b9185002083259a6a23994354da0a7e855ccb52bce2e062e2411f3394d42",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 67721,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-07T03:19:31.182Z",
+  "limitations": "Mannequin animation, not biomechanical certification. Small dark weights have lower contrast but remain discernible; bare feet are original modeled style. App integration/physical device not performed.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  }
+}

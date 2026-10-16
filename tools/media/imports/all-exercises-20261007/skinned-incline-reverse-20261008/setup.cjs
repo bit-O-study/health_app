@@ -1,0 +1,1 @@
+const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-incline-reverse-20261008';let s=fs.readFileSync(b+'/motion.mjs','utf8').replace('const desiredAcross=new THREE.Vector3(0,0,1).applyAxisAngle(xAxis,-rad(angle));','const desiredAcross=new THREE.Vector3(-sign,0,0);');fs.writeFileSync(b+'/motion.mjs',s);

@@ -1,0 +1,119 @@
+{
+  "id": "machine-preacher-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/alias-machine-preacher-replace-20261012/native/machine-preacher-curl.mp4",
+      "sha256": "107816e742a850e698dead2b3cb138b70013599a2a614c04ad416af4928686a3",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 115307,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/alias-machine-preacher-replace-20261012/native/machine-preacher-curl-dark.mp4",
+      "sha256": "dabf977d82fb5ac51ec81017220593c0ca54cfb6ba530b7da7a18c93c9469107",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 100255,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.4054300946555644e-15,
+    "elbowBendRange": [
+      12.474649649449617,
+      111.95845005536138
+    ],
+    "machineBodyClearance": 1.0862718224260495,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "machinePadClearance": 0.8570326278170682,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ],
+    "socketSymmetryError": 1.7763568394002505e-15,
+    "gripWidth": 4.586664357214389,
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.1851845884274905,
+    "phaseAnchorError": 0,
+    "machineHandError": 3.871479975306501e-15,
+    "pivotElbowAxisError": 0,
+    "pivotDrift": 0,
+    "platePivotRadiusDrift": 8.881784197001252e-16,
+    "plateFloorClearance": 5.972946231071155,
+    "plateRises": [
+      3.327199907344088,
+      3.327199907344088
+    ],
+    "plateUpwardDrops": 0
+  },
+  "sources": [
+    "https://www.legendfitness.com/product/unilateral-seated-bicep-curl/",
+    "https://weighttraining.guide/exercises/machine-preacher-curl/"
+  ],
+  "sourceSha256": "9c0cce4db942d70d46e6372bdccb9440bebdb6fc9f0dad340eb4b753aa33b248",
+  "rigSourceSha256": "94c8ef58bd822c8723829b6168dab2a44ca33389ec9b33f512d532d4bf6a3f1b",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "machine"
+  ],
+  "videoSha256": "107816e742a850e698dead2b3cb138b70013599a2a614c04ad416af4928686a3",
+  "darkVideoSha256": "dabf977d82fb5ac51ec81017220593c0ca54cfb6ba530b7da7a18c93c9469107",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Replacement of held generic machine-preacher-curl with exact approved plate-loaded-preacher-curl video bytes. Original16panel JPG directly inspected: seated bilateral supinated machine curl, upperarms on sloping pad, elbow flexion toward shoulders and near-extension return. Generic machine catalog permits plate-loaded mechanism. Old/new machine models are not claimed identical.",
+    "equipment": "New continuous3D independent plate-loaded levers eliminate original interpolated hand/lever melting noted in pending review. Both destination32frame sheets directly inspected; exact origin video SHA equality plus fresh decode checked. Original spec/JPG/both public videos and prior review/verification will be exclusively backed up before replacement.",
+    "setup": "Fixed upperarms on contoured31.5degree pad; fixed torso, seat and legs. Side210 and support210 inspected. Pivot-elbow Y/Z axis error0, pivot drift0. Body-pad minimum0.063702; arm-pad gap0.000248 to0.028603.",
+    "hands": "Supinated separate transverse handles about shoulder width. Hand210 enlarged view inspected.481samples hand-to-lever error3.87e-15, handleaxis1.41e-15; grip width4.5867 versus shoulder3.87. No wrist rotation or detached handles.",
+    "feet": "Feet0 inspected: soles grounded within2.62e-7 rig units. Side frame floor rails remain outside feet; mannequin seated and stationary.",
+    "movement": "Elbow12.47 to111.96degrees.481samples preserve plate-pivot radii within8.88e-16 and fixed pivots exactly. Plates rise3.3272 with no upward-phase drops; minimum plate-floor5.97295.17mesh samples machine-body1.086272 and moving-machine-pad0.857033. Loop and actual smooth0.4/3.8/4.2/7.6 phase error0. Full decode and mobile Edge play/seek/loop both pass. Same underlying481pose and17mesh evidence reused with exact video bytes; destination-named videos freshly tested in Edge. No new independent render or pose measurement claimed."
+  },
+  "limitations": [
+    "This is a generic machine exercise replacement; original machine frame/stack appearance differs from new plate-loaded independent lever design. Same exercise protocol, not same brand or model.",
+    "Generic independent rigid levers reflect plate-loaded machine principles; no dimensional reproduction of Legend6007 or any branded product. Each side moves simultaneously in this demonstration.",
+    "Contoured U-shaped preacher pad has31.5degree slope with about45degree upperarms; pad notch avoids chest penetration. Skin-to-pad gap changes0.000248 to0.028603 with skinning.",
+    "Source tutorial says hold for a count of two; this video uses editorial0.4second squeeze within8second cycle rather than literal two-second pause.",
+    "Barefoot generic mannequin and simplified finger/elbow skin, no foam compression or muscle deformation.",
+    "Seventeen sampled deformed meshes versus lever capsules and plate cylinders; intentional hand/arm contact excluded from body clearance. Moving equipment pad clearance sampled at mesh vertices, not continuous collision simulation."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T04:01:16.523Z",
+  "reusedFrom": "plate-loaded-preacher-curl",
+  "visualEvidenceFolder": "tools/media/imports/all-exercises-20261007/skinned-plate-preacher-20261012/native/plate-loaded-preacher-curl/"
+}

@@ -1,0 +1,115 @@
+{
+  "id": "cable-bar-incline-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-bar-incline-cable-20261012/native/cable-bar-incline-curl.mp4",
+      "sha256": "c45d10f6cab85237d9498cef21f1e7bdeb5d5483d2d50b6703b07c88993bff0c",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 95157,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-bar-incline-cable-20261012/native/cable-bar-incline-curl-dark.mp4",
+      "sha256": "56700e6a2e75c68f49e22eea622231a21499e0f2063a97ede22c1f8dde8fb871",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 91673,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "benchInclineDegrees": 30,
+    "elbowBendRange": [
+      20.049112520806627,
+      144.974449223945
+    ],
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "barGripError": 2.6645352591003757e-15,
+    "axisError": 1.577923392343183e-15,
+    "floorGap": 2.616719170234205e-7,
+    "backContactError": 0,
+    "clothSeatGap": 0.0032005636105023605,
+    "collisionSamples": 17,
+    "bodyBar": 0.5224711039727472,
+    "bodyCable": 0.32096672549516947,
+    "bodyMachine": 2.62944252627378,
+    "backPadBody": -2.7755575615628914e-16,
+    "benchBar": 2.5596480836958335,
+    "benchCable": 1.129677177084269,
+    "phaseAnchorError": 0,
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 3.0531133177191805e-15,
+    "pulleyRimError": 9.992007221626409e-16,
+    "connectorRadiusError": 8.881784197001252e-16,
+    "stackRiseRange": [
+      0,
+      6.46464595231881
+    ],
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 3.38535404768119,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.003127387487403155
+  },
+  "sources": [
+    "https://criticalbody.com/incline-cable-curl/"
+  ],
+  "sourceSha256": "c6df2d2e2af68422a337b6ae9ea501515f572528bd5b08a12c7955937beeedf4",
+  "rigSourceSha256": "12afdd6fddf9b42786417eedd9fe6f9137a94626c4c657fa77e6403e6a5a2cf7",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-12T05:51:11.580Z",
+  "reviewer": "wrist isolated candidate visual inspection",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "c45d10f6cab85237d9498cef21f1e7bdeb5d5483d2d50b6703b07c88993bff0c",
+  "darkVideoSha256": "56700e6a2e75c68f49e22eea622231a21499e0f2063a97ede22c1f8dde8fb871",
+  "checks": {
+    "exercise": "Exact catalog cable-bar-incline-curl: separate seated 30 degree single-column straight-bar variant in CriticalBody incline-cable-curl source.",
+    "equipment": "Single fixed front low pulley, straight bar underhand, central connector and conserved cable/stack routing; no dumbbells or rear dual handles.",
+    "setup": "Back supported by 30 degree pad; pelvis seated, feet grounded; both 32-frame theme sheets and support/side/feet closeups inspected.",
+    "hands": "Both supinated grips remain on one rigid horizontal bar, axis error 1.58e-15 and grip error 2.67e-15; hand210 closeup inspected.",
+    "feet": "Both feet fixed, sole floor clearance 2.62e-7; feet0 closeup inspected.",
+    "movement": "Fixed upper arms; bar curls toward chin, elbow bend20.05-144.97 degrees. Smooth holds0-.4/3.8-4.2/7.6-8, concentric.4-3.8 and eccentric4.2-7.6. 481 joint/cable samples,17 deformed-mesh clearance samples, both full decodes and Edge play/seek/loop pass."
+  },
+  "limitations": [
+    "Generic procedural equipment, not a branded replica.",
+    "Minor angular elbow skin and simplified fingers; no tissue/foam compression simulation.",
+    "Bottom elbow bend20 degrees avoids locked extension. Mesh clearance sampled17 poses, not continuous physical collision proof.",
+    "Browser playback checked in local mobile Edge emulation, not physical device."
+  ]
+}

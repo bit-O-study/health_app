@@ -1,0 +1,18 @@
+{
+  "id": "backward-arm-circle",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cae6fc7834dc186672a5b898c3f0239025327bea3aae5d37769a02edab400727",
+  "rigSourceSha256": "6c1e9a66fab26e124ef90696d92575bce56ef880f1de6e0e695ecad818df6224",
+  "videoSha256": "c69939b5a624bbf7350daafeb75a5fb7c57a4e2966c583b380b82e83ed68d421",
+  "darkVideoSha256": "d79f2abc78e8d3ff1b6786175029c91463ae45c0f12c538e7e8335d5ef401d65",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 71101,
+  "darkBytes": 72748,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T04:57:29.040Z"
+}

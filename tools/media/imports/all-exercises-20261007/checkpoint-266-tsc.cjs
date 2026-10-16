@@ -1,0 +1,1 @@
+﻿const fs=require('fs');for(const p of ['docs/EXERCISE-VIDEO-RESUME.md','docs/DEVELOPMENT-ROADMAP.md']){let s=fs.readFileSync(p,'utf8');s=s.replace('출처메타154종·ESLint 통과.','출처메타154종·ESLint·전체tsc27006 exit0·diffcheck 통과.').replace('출처154종·ESLint 통과.','출처154종·ESLint·전체tsc27006 exit0·diffcheck 통과.');fs.writeFileSync(p,s);}

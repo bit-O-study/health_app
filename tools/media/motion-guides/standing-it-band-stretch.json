@@ -1,0 +1,15 @@
+{
+  "id": "standing-it-band-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-it-band-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.armory.nyc/runners-health-it-band"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T01:47:42.313Z"
+}

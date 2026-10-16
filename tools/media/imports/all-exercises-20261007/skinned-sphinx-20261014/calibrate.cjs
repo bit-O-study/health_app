@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-sphinx-20261014/motion.mjs';let s=fs.readFileSync(p,'utf8').replace('if(pos.getY(i)>1.3)continue;','if(pos.getY(i)>1.3||Math.abs(pos.getX(i))>2.8)continue;');fs.writeFileSync(p,s);

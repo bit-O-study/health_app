@@ -1,0 +1,29 @@
+{
+  "samples": 481,
+  "feetDrift": 3.978256139440565e-15,
+  "heelAnchorDrift": 3.950766354714047e-15,
+  "loopDrift": 0,
+  "pelvisRange": {
+    "x": [
+      -0.55,
+      0.55
+    ],
+    "z": [
+      -0.9649000000000001,
+      -0.06490000000000001
+    ]
+  },
+  "ellipseError": 4.440892098500626e-16,
+  "minWaistGarmentRadialGap": 0.03726048303652152,
+  "minHandBodyPlaneGap": 0.2349625247045588,
+  "minFloorClearance": -3.552713678800501e-15,
+  "maxFloorClearance": 3.552713678800501e-15,
+  "minLegSkinGarmentSectionGap": 0.2821630027299603,
+  "phaseSeconds": {
+    "continuous": [
+      0,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

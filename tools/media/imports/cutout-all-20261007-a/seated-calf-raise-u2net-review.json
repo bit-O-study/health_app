@@ -1,0 +1,23 @@
+{
+  "id": "seated-calf-raise",
+  "status": "hold-equipment-loss",
+  "model": "u2net",
+  "sourceReviewed": true,
+  "findings": [
+    "Panel 1 loses most of the horizontal lever between knee pad and weight plate, leaving plate floating.",
+    "Panel 8 loses rear machine legs/base and disconnects diagonal support; load pivot also detached.",
+    "Large holes in base frame and partial limb mask damage. Full inference/render would not fix this and was not run."
+  ],
+  "evidence": {
+    "id": "seated-calf-raise",
+    "sourceSha256": "ef304ade05065553710f585a8525cbf96b35fe66300ae73931b4d831124c53db",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      8
+    ],
+    "seconds": 3.0619999999180436,
+    "published": false
+  },
+  "published": false
+}

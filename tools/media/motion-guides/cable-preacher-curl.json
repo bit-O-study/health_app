@@ -1,0 +1,15 @@
+{
+  "id": "cable-preacher-curl",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-preacher-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/preacher-cable-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:47:17.384Z"
+}

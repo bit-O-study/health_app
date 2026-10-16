@@ -1,0 +1,15 @@
+{
+  "id": "standing-side-bend-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-side-bend-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nhs.uk/live-well/exercise/flexibility-exercises/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:06:22.568Z"
+}

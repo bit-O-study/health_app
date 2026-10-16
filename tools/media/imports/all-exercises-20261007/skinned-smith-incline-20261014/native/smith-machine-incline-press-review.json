@@ -1,0 +1,210 @@
+{
+  "id": "smith-machine-incline-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "smith"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/smith-machine-incline-press/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerToUpperChest": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Smith machine incline press,30degree bench,upper-chest touch and vertical press;151.817degree bottom elbow flexion to8degree soft finish.",
+    "equipment": "One Smith bar on two fixed vertical rails with moving sleeves,weight plates,collars and grounded frame. Body/shaft/rail/frame and sampled bar-frame clearances checked481poses.",
+    "setup": "Head/back/pelvis supported on 30-degree incline bench and cushion,both feet grounded.",
+    "hands": "Closed overhand shoulder-width grips,fixed span and bar plane.Wrist deviation and palm-toward-feet direction measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "9f76bc6c8e16dfb3134ed64a3bc60111e32801b56687ac5a15f0959346fba86c",
+  "rigSourceSha256": "b72a908eb46a24fb61664be0fd38a945d5c8ffbf42e57dd90c68db73db33d34f",
+  "videoSha256": "776f750f843e6c14c7ad15ffeb9ed148ffce665c183190c2d93a434dbf0e39b7",
+  "darkVideoSha256": "3543726b2fc940bffe401611cfb3a7c04d8d9f6a86a298e73822c789cde0186b",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press.mp4",
+      "sha256": "776f750f843e6c14c7ad15ffeb9ed148ffce665c183190c2d93a434dbf0e39b7",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 111111,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press-dark.mp4",
+      "sha256": "3543726b2fc940bffe401611cfb3a7c04d8d9f6a86a298e73822c789cde0186b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 102823,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 5.003098392826748,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.004614303264074152,
+    "minEquipmentBenchClearance": 4.183578001266644,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.047842155948302434,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 2.7414124495462895,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.540162570847421,
+    "minimumBackGap": 0,
+    "backContactError": 0.042007158294775415,
+    "minHeadClearance": 1.3171175232563868,
+    "minElbowFlex": 8.00000000036056,
+    "maxElbowFlex": 151.81730328601017,
+    "minimumElbowAboveShoulder": -2.5241339056559076,
+    "wristDeviationRange": [
+      0.21571665979692337,
+      25.977451116943858
+    ],
+    "bottomWristDeviation": [
+      5.914121543849775,
+      5.914121543849775
+    ],
+    "topWristDeviation": [
+      13.026950805378657,
+      13.026950805378657
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 9.769962616701378e-15,
+    "minNonChestClearance": 0.444943188418932,
+    "startChestContact": 0.004614303264074152,
+    "endChestContact": 0.004614303264074152,
+    "minimumShaftTriangleGap": 0.00100000329559434,
+    "minimumPalmTowardFeet": 0.8870108331782217,
+    "minimumBodyRailGap": 3.7868374217987393,
+    "minimumBodyFrameGap": 2.3944387020571716,
+    "minimumEquipmentFrameGap": 0.13573908706237736,
+    "sliderRailError": 3.552713678800501e-15,
+    "minimumBarBelowRailTop": 0.7499999999999997,
+    "minimumFrameBaseGap": 0,
+    "barXZDrift": 3.552713678800501e-15
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T08:50:34.167Z",
+  "limitations": "Barefoot mannequin,30degree bench with fitted small head cushion. Top retains8degree elbow flexion rather than exact skeletal lockout. Grip4.9world-units approximates external shoulder width; shoulder-joint span is4.038. Unrack/rerack,hook rotation,counterweight and loading are not depicted. Back pad fits the minimum posed surface,allowing up to.05world-unit skin gap. No physical-device verification. Shaft triangle check covers triangles fully within shaft span; plates/collars use conservative cylinder-vertex distances. Frame/bench-to-bar checks sample fixed faces at <=.25world-unit spacing. Rail-sleeve and shaft-sleeve overlap is intentional mechanical connection. Local emulated Edge playback verified; no physical-device or real loading validation.",
+  "visualReview": {
+    "status": "passed",
+    "evidence": [
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press-32.jpg",
+        "sha256": "87a291cb6821c2e35f9a325d8aa75138e41eef6e0cacb5f0f49a4e7988f0518a"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press-dark-32.jpg",
+        "sha256": "46f765f72e4ed24fe8ffe3a7518f78ce6b9c55bc8b1bc00b6d17b40ecffd9c69"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/hand-0.png",
+        "sha256": "6e3d044b84ae41f17dfe22ea7e6943b941677acb289abfc146747b0d4da2d692"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/hand-105.png",
+        "sha256": "d0280379cd311b1dcd95ba6f576262c414231554fdb583ee1f4e7dded371ba7a"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/hand-210.png",
+        "sha256": "91c93f1d127260bef4a79cba135c60e58f699a1563d4dd77039bf801dc8677a1"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/side-0.png",
+        "sha256": "a2ff57662d3b801693e0e9fda87c05ab6d7ee3a81dbf7fc7d39e98bf29c7c41b"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/side-210.png",
+        "sha256": "5b089a8de56f6bb9c27d463766e827f09fc50377abfed481fc85240157375b06"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/chest-0.png",
+        "sha256": "1c016a33a9d81aaa786776ab9461266022d2e56ceac470881d4d99cf22074111"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/feet-0.png",
+        "sha256": "7fc09a03cb9af65cecc47784693e178d0ae8345ebcd1799c22ffefc99f81d5ff"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/slider-0.png",
+        "sha256": "28b3d7a389a8d8febded4a8d3d1149879e887611bc6e8d94f6e96927dada4122"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/native/smith-machine-incline-press/slider-240.png",
+        "sha256": "9e344d9ec042cc89b40dd405b33bba8bac92c50cf2cdd1fceecc339a113a06dd"
+      }
+    ],
+    "observations": "Both32-frame sheets show the entire fixed frame and vertical pressing with constant grip and single body silhouettes. Rail/sleeve closeups at lower and upper endpoint show the sleeve surrounding each guide rail and connected to the bar with plate/collar clearance. Chest/hand/feet/side views inspected: upper-chest contact,thumb-wrapped overhand grip and stable bench/foot support. No frame cropping,ghosts or equipment loss observed."
+  },
+  "wristCorrection": {
+    "prior41SampleMaxDegrees": 50.06444416872575,
+    "final481MaxDegrees": 25.977451116943858,
+    "change": "Palm pitch follows22.5-20sin(pi*lift)degrees while the exact bar path,grip width and start/end positions remain fixed.",
+    "priorFiles": [
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/rejected-fixed-wrist/motion.mjs",
+        "sha256": "cc389d058308a2a638fec2358efd784d5d591ba5f82c274640cd0b5bc310ed3a"
+      },
+      {
+        "file": "tools/media/imports/all-exercises-20261007/skinned-smith-incline-20261014/rejected-fixed-wrist/wrist-correction-41.json",
+        "sha256": "699ca2761fa391d62e811484f4f6b05030a15bfa08c78d1a2e6d0141a966ee0b"
+      }
+    ]
+  }
+}

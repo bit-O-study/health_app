@@ -1,0 +1,91 @@
+{
+  "id": "close-grip-ez-bar-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-ez-curl-20261008/native/close-grip-ez-bar-curl.mp4",
+      "sha256": "d0b8d13f070a0f5fa3e6f3ebe906542d29bf8a3721f15ac73ceb28f7344b0d3e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 92049,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-close-ez-curl-20261008/native/close-grip-ez-bar-curl-dark.mp4",
+      "sha256": "3984238777ff44de67a15e5796ac8e0b1bc338c964e915f1bc4e01ae7374fc77",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78364,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "shoulderWidth": 3.87,
+    "gripToShoulderRatio": 0.4333399556719716,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.887379141862766e-15,
+    "gripTangentAxisError": 1.7565135271065668e-15,
+    "elbowBendRange": [
+      31.767816795679312,
+      105.70982996950254
+    ],
+    "barGripWidth": 1.67702562845053,
+    "barRise": 4.605972078958411,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.17988312500809084,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/close-grip-ez-bar-curl.html"
+  ],
+  "sourceSha256": "0dddc11f6a000532f6a2b5c2a2f6a4d0a1ee45f12b73a4644c273ba405be5019",
+  "rigSourceSha256": "73759d2052533e5dca2222b858f1c6395ffab209c35b3ee01add7b71189a4bf1",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "d0b8d13f070a0f5fa3e6f3ebe906542d29bf8a3721f15ac73ceb28f7344b0d3e",
+  "darkVideoSha256": "3984238777ff44de67a15e5796ac8e0b1bc338c964e915f1bc4e01ae7374fc77",
+  "checks": {
+    "exercise": "Standing close underhand EZ-bar curl, hands on inner inclined sections with converging forearms and fixed upperarms, controlled curl and return.",
+    "equipment": "One rigid EZ-bar with symmetric25degree inner bends and end plates/collars. Grip width1.677model units versus shoulder3.87 (43.33percent), materially narrower than standard grip.",
+    "setup": "Grounded upright stance and fixed torso/shoulders/upperarms; elbow bend31.77-105.71degrees. Lower posture is deliberately not locked straight because narrow grip and front clearance restrict reach.",
+    "hands": "Hand210 and opposite-hand210 inspected: underhand fingers wrap inner slopes with opposing thumbs, no change in grip width.481sample anchor1.89e-15 and tangent-axis1.76e-15 errors.",
+    "feet": "Static feet at floor -8.175231 with minvertex -8.1752309799.17phase non-arm body vertex to bar-shaft clearance minimum0.179883model units.",
+    "movement": "Both encoded32frame sheets and side0 inspected; narrower grip and returning path remain consistent without ghosts or bar deformation. Fixed joint drift0, exact loop0, both full decodes and mobile Edge play/seek/loop pass. Smooth phase0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T06:31:40.141Z",
+  "limitations": "Root review pending. Barefoot mannequin and mildly angular elbow skin/stylized fingers. Model grip width is not calibrated to source6-8inch range; normalized43percent shoulder width represents narrow grip. Bottom elbow31.77degrees preserves narrow reach and thigh clearance, not locked extension.17phase non-arm vertex-to-shaft check does not certify all triangle/hand/plate intersections. No physical-device or clinical certification."
+}

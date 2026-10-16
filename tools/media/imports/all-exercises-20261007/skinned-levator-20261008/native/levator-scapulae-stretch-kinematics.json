@@ -1,0 +1,59 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "shoulderDrift": 0,
+  "rightWristDrift": 0,
+  "loopDrift": 0,
+  "peakHeadEulerDegrees": [
+    21.999999999999993,
+    35,
+    -11.999999999999991
+  ],
+  "tiltStageEulerDegrees": [
+    0,
+    0,
+    -12
+  ],
+  "minHeadTorsoGap": 0.22048931189881227,
+  "minArmSeatGap": 0.7407054108791957,
+  "minFloorClearance": 2.616719170234205e-7,
+  "minSeatGap": 0.008499927356904635,
+  "maxSeatGap": 0.008499927356904635,
+  "maxHeadStepDegrees": 1.2909144933600505,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "tilt": [
+      0,
+      1
+    ],
+    "turn": [
+      1,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "unturn": [
+      5,
+      6
+    ],
+    "untilt": [
+      6,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall"
+}

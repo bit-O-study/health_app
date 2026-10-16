@@ -1,0 +1,18 @@
+{
+  "id": "reverse-prayer-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d9e2c74d7375f63c322686917565e77b41da9b87ffc15352086c8a50a73e7cd1",
+  "rigSourceSha256": "513ff167f11a585574121558b13d794017abdfd56f0f3b8c348079dde9ca3229",
+  "videoSha256": "21de0dc76e17cff9dccaa986eee05054b30eb908644fb9875e9f7febaa929437",
+  "darkVideoSha256": "12c6a0fc09f5c1e1765e1c165e051fb93fdcd26a850f6a7190c87ff863ef7474",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65137,
+  "darkBytes": 65437,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:12:03.898Z"
+}

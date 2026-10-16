@@ -1,0 +1,113 @@
+{
+  "id": "cable-drag-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-drag-cable-20261008/native/cable-drag-curl.mp4",
+      "sha256": "c8c283f922662b4b708c90f689c5348c3534a8e3a6f041fcac6dcb833476bec0",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 75231,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-drag-cable-20261008/native/cable-drag-curl-dark.mp4",
+      "sha256": "56d69577381d25b24a42a5714a81dc73fac61790aa2d0fb8916be512c964563b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 74732,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 0,
+    "pulleyTangentError": 2.609024107869118e-15,
+    "pulleyRimError": 9.43689570931383e-16,
+    "connectorRadiusError": 2.498001805406602e-16,
+    "stackRiseRange": [
+      0,
+      2.893266343713565
+    ],
+    "cableBodyMinClearance": 0.6696308306811184,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.7763568394002505e-15,
+    "gripTangentAxisError": 1.897961898453677e-15,
+    "elbowBendRange": [
+      17.32972235884895,
+      116.04942231509023
+    ],
+    "barGripWidth": 4.282093700356766,
+    "barRise": 3.1000000000000005,
+    "collisionSamples": 17,
+    "bodyBarMinClearance": 0.5110776050802197,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/cable-drag-curl.html",
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/drag-curl/"
+  ],
+  "sourceSha256": "761abb7739debf513e32a128843f6013d82a2c932276608104669d30fe1fda50",
+  "rigSourceSha256": "a6fe72d6b7e128ef399af4f04802182357917f85197ba548d11c6dcb78631fc9",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "c8c283f922662b4b708c90f689c5348c3534a8e3a6f041fcac6dcb833476bec0",
+  "darkVideoSha256": "56d69577381d25b24a42a5714a81dc73fac61790aa2d0fb8916be512c964563b",
+  "checks": {
+    "exercise": "Standing supinated cable drag curl. Straight near-body vertical bar path y-.1 to3.0 at z2.0; elbows travel posterior2.00571world. Top at upper abdomen, no forward elbow swing.",
+    "equipment": "Single5.8world straight bar and center ring. Continuous cable tangent/wrap through lower and upper pulleys to moving selected stack; fixed lower block/guide rods.",
+    "setup": "Planar inverse kinematics includes actual hand offset.481samples shoulders/torso/feet fixed; upperarm extends rearward as elbows flex17.3297-116.0494degrees. No body lean.",
+    "hands": "Final hand210/support210 enlarged views inspected: fingers wrap underhand straight shaft; wrist follows forearm with no added wrist curl.481sample grip1.78e-15/axis1.90e-15 errors.",
+    "feet": "Feet fixed floor -8.175231.17phase body/bar minimum clearance0.51108 and incoming cable/body0.66963world. Bar remains close without body penetration.",
+    "movement": "Final both-theme32frame/full210/side210 and hand/support210 inspected.481sample vertical-line/rear-elbow/ring/pulley/stack checks. Stack rises0-2.89327 monotonically; analytic cable-length drift0, exact loop. Full decode and mobile Edge play/seek/loop passed. Single smooth0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "dragChecks": {
+    "samples": 481,
+    "renderedPolylineLengthDrift": 0.00029153439566442785,
+    "upstrokeWorstStackDrop": 0,
+    "stackFixedBlockGapMinimum": 0.16999999999999993,
+    "endpointStackError": 0,
+    "barVerticalLineError": 2.6645352591003757e-15,
+    "barYRange": [
+      -0.09999999999999987,
+      3.000000000000001
+    ],
+    "elbowPosteriorTravel": 2.0057140577437114,
+    "upperarmExtensionTopDegrees": 45.207244905319406
+  },
+  "reviewedAt": "2026-10-08T07:26:16.419Z",
+  "limitations": "Root visual review pending. Angular elbow skin more visible at rearward elbow position. Generic station and geometric IK, no contact/force/friction simulation.17phase vertex clearance is not exhaustive triangle/all-machine-component proof. Cable polyline arc drift 0.00029153439566442785world; analytical path constant. Barefoot mannequin. Editorial8second timing and model-space proximity, no calibrated inch guarantee."
+}

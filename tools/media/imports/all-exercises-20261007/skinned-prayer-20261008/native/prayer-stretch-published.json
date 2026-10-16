@@ -1,0 +1,18 @@
+{
+  "id": "prayer-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "96e24e0c46e3319af321e4968f1cb97deadcc98db6c8f87140fd8a425857a8bf",
+  "rigSourceSha256": "56c581388a6c3e196b2790d6ea7682a51da212112867368a1b8efb32ac0d4c89",
+  "videoSha256": "13e2125350c101e4a3641edae75497e1d9f6a867544b54a4b4675f8bf0301560",
+  "darkVideoSha256": "24759bb321b85b687487aa60d6a59f5e551cfb6b541ddc20e42042fc6debc6f1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 64004,
+  "darkBytes": 63531,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:44:38.009Z"
+}

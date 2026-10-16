@@ -1,0 +1,73 @@
+{
+  "id": "alternating-dumbbell-front-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/alternate-standing-dumbbell-front-raise.html"
+  ],
+  "checks": {
+    "exercise": "Alternating front raises with pronated grip; raised wrist below shoulder, opposite arm lowered.",
+    "equipment": "Two rigid hex dumbbells preserved through all phases.",
+    "setup": "Upright stable torso, complete body and equipment visible in final full camera. Exact scene theme colors; original procedural 3D geometry preserved.",
+    "hands": "Hand close-ups and final encoded sheets confirm exercise-specific grip and continuous hand-weight attachment. Grip-width and side-view checks distinguish barbell variants; full-cycle sheets checked.",
+    "feet": "Both feet stationary on floor across final 32-frame sheets; no foot clipping or sliding.",
+    "movement": "Both final 32-frame sheets inspected. Native 192 frames at 24fps/8sec without optical flow, full decode passed. Mobile Edge both themes play, 7.5s seek and loop passed."
+  },
+  "sourceSha256": "88dafba76ea52dcace636954862fe95c7db7801dff088ff0b9a95e0c82187bad",
+  "rigSourceSha256": "32e0e9ff276267a1865405a1342923af654ece15cc54a7e7e4f1f03e5abe4b7a",
+  "videoSha256": "241b787bb1dc39d55ebc281202ae6e943cf98c636aaaaaeaa1d2f0db88e8613f",
+  "darkVideoSha256": "e83022ba028fca24f521eb00e66b5887f8f240cc7c84fa56a98fe55e27761cd5",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-final/native/alternating-dumbbell-front-raise.mp4",
+      "sha256": "241b787bb1dc39d55ebc281202ae6e943cf98c636aaaaaeaa1d2f0db88e8613f",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 77912,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-final/native/alternating-dumbbell-front-raise-dark.mp4",
+      "sha256": "e83022ba028fca24f521eb00e66b5887f8f240cc7c84fa56a98fe55e27761cd5",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 72148,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-07T03:35:33.586Z",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "3D mannequin and bare feet style retained; dark weights have lower contrast but remain present. No app integration or physical-device certification. Full-frame final movies preserve equipment endpoints and complete body."
+}

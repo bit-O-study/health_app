@@ -1,0 +1,110 @@
+{
+  "id": "foot-arch-doming",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://myjointhealthhub.bnssg.nhs.uk/foot-ankle-pain/bunions-hallux-valgus/"
+  ],
+  "checks": {
+    "exercise": "Exact foot-arch-doming, seated short-foot arch contraction and relaxation without toe scrunching.",
+    "equipment": "Bodyweight, stable seat, empty hands, no band or ball.",
+    "setup": "Wide seated setup reviewed; feet and pelvis fixed, hands beside seat.",
+    "hands": "No assistance;481 skin/cloth-seat and arm-seat clearance checks passed.",
+    "feet": "481 actual blendshape-plus-skin samples: arch rises and foot shortens; heel position unchanged and ball height within0.001world. Toe bone rotations unchanged, no dynamic curling, floor clearance positive.",
+    "movement": "Both32frame encoded sheets and medial-arch rest/peak enlargements reviewed.2/3/2/1 timing, full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "9c8426104545f103a6ab2d32c10f17edf6f8f78afeba2d144b27e76904f29fb4",
+  "rigSourceSha256": "997f05f4cecaf462eb8e032fa3c0dd1d131d7ff11bbdd00cf12bad5b1e0724af",
+  "videoSha256": "0ed07f182ed57fbca0a0f6fb10126c72423971c8070b8d62a0e5dec6640a89c9",
+  "darkVideoSha256": "b2d36b53b93ca793ea92c9d9fb4da9a0b5df5c4cf14fe084e85b4c7803348147",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-foot-doming-20261008/native/foot-arch-doming.mp4",
+      "sha256": "0ed07f182ed57fbca0a0f6fb10126c72423971c8070b8d62a0e5dec6640a89c9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 38636,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-foot-doming-20261008/native/foot-arch-doming-dark.mp4",
+      "sha256": "b2d36b53b93ca793ea92c9d9fb4da9a0b5df5c4cf14fe084e85b4c7803348147",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 41270,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "pelvisDrift": 0,
+    "toeBoneDrift": 0,
+    "archRise": 0.11673688888549805,
+    "footShortening": 0.059999942779541016,
+    "heelBackDrift": 0,
+    "heelHeightDrift": 0,
+    "ballHeightDrift": 0.00009192876967389907,
+    "loopSurfaceDrift": 0,
+    "minFloorClearance": 0.002118810319169384,
+    "heelFloorGap": 0.010424875624553742,
+    "ballFloorGap": 0.002210739088843283,
+    "minSeatGap": 0.008499927356904635,
+    "minArmSeatGap": 0.7407054108791957,
+    "maxArchStep": 0.002079481698107344,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T06:54:21.780Z",
+  "limitations": "Custom procedural surface blendshape illustrates short-foot arch contraction rather than a physiological muscle simulation. Amplitudes are illustrative. Source5second hold differs from3second demonstration hold. Static6degree lesser-toe resting alignment is unchanged through cycle; no dynamic toe curling. Contact checks use actual morphed and skinned vertex samples, not full triangle collision simulation. No physical-device certification."
+}

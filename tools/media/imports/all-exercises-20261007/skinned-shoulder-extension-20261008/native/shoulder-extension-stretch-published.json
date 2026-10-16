@@ -1,0 +1,18 @@
+{
+  "id": "shoulder-extension-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9e60b4c7b94968f5755e745222fd4c95cc1aead0f1117283a2b882072714eb2d",
+  "rigSourceSha256": "3109f6bb16f789dfc8b32e70b6c766c8f48b95188cba826a110fa21c397d1b53",
+  "videoSha256": "fa075f1afebdf42e8c760acbab6d33a284a6da8c2cd5c7879f38e5072c7e6ab8",
+  "darkVideoSha256": "72bbc3e0c96c45e21cc4f333d99c5072b7b39c270c5de07083e2ab3909a24f18",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 37231,
+  "darkBytes": 38697,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T02:22:12.800Z"
+}

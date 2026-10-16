@@ -1,0 +1,187 @@
+{
+  "id": "smith-machine-close-grip-bench-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "smith"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-close-grip-bench-press.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lowerToChest": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Smith close-grip flat bench press; shaft approaches chest without contact;143.986degree bottom elbow flexion to8degree unlocked top.",
+    "equipment": "One Smith bar on two fixed vertical rails with moving sleeves,weight plates,collars and grounded frame. Body/shaft/rail/frame and sampled bar-frame clearances checked481poses.",
+    "setup": "Head/back/pelvis supported on horizontal bench and small fitted head cushion; both feet grounded.",
+    "hands": "Closed narrow overhand grip3.0world units, approximately30cm at a1.8m mannequin height; fixed span and bar plane. Wrist deviation and palms toward feet measured throughout.",
+    "feet": "Fixed feet with sole-floor contact481poses.",
+    "movement": "Both final32frame sheets and hand/side/back closeups reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "4fbcd18c593b62107b72d35a8b664df96331fd6d5a902b6244c26ac0f4b58e51",
+  "rigSourceSha256": "1b6f930936048584a854544945aa01fa44df4dcddcc12872ee3c1f0e0fd74d49",
+  "videoSha256": "9d34c56ab08611a055b5d75e426ff72d0c1465195ab22114965a288e9c36f381",
+  "darkVideoSha256": "985b76f287307aa5de8b14d847bda82657b7fee2ca373adc4ff6abd0c45d05bd",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press.mp4",
+      "sha256": "9d34c56ab08611a055b5d75e426ff72d0c1465195ab22114965a288e9c36f381",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 99823,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press-dark.mp4",
+      "sha256": "985b76f287307aa5de8b14d847bda82657b7fee2ca373adc4ff6abd0c45d05bd",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 91795,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.525508818537706,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.035308601222184405,
+    "minEquipmentBenchClearance": 2.422950154744854,
+    "seatContactError": 0,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.04168876717943237,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices and sampled bench side surfaces",
+    "minEquipmentHeadPadClearance": 3.0518684742050532,
+    "headSupportError": 0,
+    "minEquipmentBackPadClearance": 2.503614791429295,
+    "minimumBackGap": 0,
+    "backContactError": 0.032205081522526324,
+    "minHeadClearance": 1.7130051959137709,
+    "minElbowFlex": 8.000000000344333,
+    "maxElbowFlex": 143.98629162619758,
+    "minimumElbowAboveShoulder": -2.0838352124652655,
+    "wristDeviationRange": [
+      6.1909728374599595,
+      25.330840492835872
+    ],
+    "bottomWristDeviation": [
+      20.228987448167278,
+      20.228987448167278
+    ],
+    "topWristDeviation": [
+      13.912196981134192,
+      13.912196981134192
+    ],
+    "barGripPlaneError": 0,
+    "gripSpanChange": 7.549516567451064e-15,
+    "minNonChestClearance": 0.8920359408677335,
+    "startChestContact": 0.035308601222184405,
+    "endChestContact": 0.035308601222184405,
+    "minimumShaftTriangleGap": 0.03500003254158504,
+    "minimumPalmTowardFeet": 1,
+    "minimumBodyRailGap": 4.374955937015973,
+    "minimumBodyFrameGap": 2.3990186580132424,
+    "minimumEquipmentFrameGap": 0.13573908706237914,
+    "sliderRailError": 3.552713678800501e-15,
+    "minimumBarBelowRailTop": 0.7500000000000001,
+    "minimumFrameBaseGap": 0,
+    "barXZDrift": 3.552713678800501e-15,
+    "minimumHeadTriangleGap": 2.25804622224202,
+    "maximumElbowLateralDistance": 2.4048297711583024,
+    "gripSpan": 3.0000000000000004
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T13:18:38.459Z",
+  "limitations": "Barefoot mannequin, flat bench with fitted small head cushion. Top retains8degree elbow flexion as source prohibits lockout. Grip3.0world units is approximately30cm at a1.8m mannequin height. Unrack/rerack, hook rotation, counterweight and loading are not depicted. Back pad fits the minimum posed surface, allowing up to0.05world-unit skin gap. Equipment versus body vertices and shaft triangles plus sampled bench/frame surfaces are checked; this is not a continuous collision solver. No physical-device verification.",
+  "visualEvidence": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press-32.jpg",
+      "sha256": "318e89d75ef144c72db9efde3343f8bd158421a1a44e23577638ca7547ba0fc9"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press-dark-32.jpg",
+      "sha256": "be7fdd1a8b6ecb8329c87407b1340ebf0a9e5ef4932165990b01bb3d5cb75763"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/chest-0.png",
+      "sha256": "6b7561241a7c11b36ea975c67619b33423ef1439d93f16a0058b42b3baaea60c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/feet-0.png",
+      "sha256": "7fc09a03cb9af65cecc47784693e178d0ae8345ebcd1799c22ffefc99f81d5ff"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/hand-0.png",
+      "sha256": "f523594081ba3337edd147b745e1eada2353f5431b4130159d93475635748e80"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/hand-105.png",
+      "sha256": "2dd74a70a08af7beaf44554f465eba3a7bbea25b89d6020a1b3fbbab81c5e895"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/side-0.png",
+      "sha256": "d6d9f804152fa3ccce12e851e03b0f5065d045a8ba049f76a23895d10abe4e71"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/slider-0.png",
+      "sha256": "775ca3f83a5fd84c23f57db85c5d3929c1e97356b2b581eacbd40662f64b8699"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-smith-close-bench-20261014/native/smith-machine-close-grip-bench-press/slider-240.png",
+      "sha256": "9e344d9ec042cc89b40dd405b33bba8bac92c50cf2cdd1fceecc339a113a06dd"
+    }
+  ],
+  "visualReview": "Both decoded32-frame sheets inspected: fixed torso and feet, continuous bilateral narrow press, elbows beside torso, no ghosts or missing equipment. Chest/hand/rail/feet closeups inspected. Closest body vertex is in chest classification, with non-chest gap0.892 and head triangle gap2.258."
+}

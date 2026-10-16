@@ -1,0 +1,16 @@
+{
+  "id": "plate-loaded-preacher-curl",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "plate-loaded-preacher-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.legendfitness.com/product/unilateral-seated-bicep-curl/",
+    "https://weighttraining.guide/exercises/machine-preacher-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T03:49:17.844Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-biceps-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f6b1e4b1bfd91c097db0a9221e10149040d73633894ec27f0688f88d0cd49455",
+  "rigSourceSha256": "19a3c480eaca1c1b3ba922f18508b21fafed3df483dffba26d138fc7363fca1e",
+  "videoSha256": "cd571785e3cc0610c8e6adca0bc5a81a905baf1ff9d3b4174f9fa6eb9bf39e89",
+  "darkVideoSha256": "b0f2c191808074c705270a9d44b868cd15995eeac1897431a6415434413e189e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 86831,
+  "darkBytes": 79560,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:20:48.219Z"
+}

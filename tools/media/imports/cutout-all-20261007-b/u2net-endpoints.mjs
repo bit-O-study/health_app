@@ -1,0 +1,4 @@
+import {freemem} from 'node:os';import {execFileSync} from 'node:child_process';import {resolve} from 'node:path';
+if(freemem()<3*1024**3)throw Error('u2net requires at least3GiB free before inference');
+const id=process.argv[2];if(!['ab-rollout','chest-dip','lying-triceps-extension','triceps-pushdown-2','rope-triceps-pushdown','cable-overhead-triceps-extension','cable-rope-hammer-curl-2','standing-cable-curl','cable-lateral-raise-2','cable-front-raise','cable-upright-row','cable-glute-kickback','lat-pulldown'].includes(id))throw Error('Unknown id');
+execFileSync('C:/git/Bit-O/video-tools/python312/python.exe',['tools/media/imports/cutout-all-20261007-b/u2net-endpoints.py',id,...(process.argv[3]==='full'?['full']:[])],{stdio:'inherit',timeout:90000,env:{...process.env,MOTION_CUTOUT_MODEL:'u2net',U2NET_HOME:resolve('tools/media/imports/cutout-models'),OMP_NUM_THREADS:'2',PYTHONIOENCODING:'utf-8'}});

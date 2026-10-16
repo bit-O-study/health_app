@@ -1,0 +1,104 @@
+{
+  "id": "high-lunge-stretch",
+  "status": "held-visual-skin-deformation",
+  "createdAt": "2026-10-14T04:49:57.658Z",
+  "source": {
+    "id": "high-lunge-stretch",
+    "sources": [
+      "https://hw.qld.gov.au/physical-activity/hip-lunge/",
+      "https://yoga.dasa.ncsu.edu/asana/standing-poses/"
+    ],
+    "primary": "Queensland Health and Wellbeing Hip lunge",
+    "protocol": "Stand one foot forward and one back. Lift rear heel, bend front knee over ankle. Raise arms overhead with relaxed shoulders, chest lifted and hips forward. Hold20–30seconds then return/switch.",
+    "secondary": "NC State teaching professor yoga textbook names High Lunge; parallel train-track legs, front knee over ankle, overhead arms allowed.",
+    "access": "Primary full numbered instructions search-cached; direct fetch timed out. NC State search-cached full High Lunge notes.",
+    "variant": "LEFT forward sole flat, RIGHT rear ball/toes support with heel raised. Prepared split stance, gentle settling and overhead arm raise, hold, return.",
+    "timing": "stretch2/3/2/1",
+    "limitation": "Source20–30second hold versus3second demonstration; stance entry and other side not shown."
+  },
+  "reason": "Prominent spherical posterior hip and waistband mismatch remain visible in rear peak enlargement. A teal skin-only diagnostic confirms the large bulge is present in deformed skin, not merely garment offset.",
+  "attempts": [
+    {
+      "name": "neutral pelvis initial",
+      "result": "Large posterior bulge seen by parent and worker; initial481+twoMP4 rendered but not approved."
+    },
+    {
+      "name": "25degree anterior pelvis plus distributed lumbar counterrotation",
+      "result": "Preserved global rear leg55–60degrees/front knee117.58–100.45/arm165 and foot contacts; insufficient visual improvement."
+    },
+    {
+      "name": "posterior hip weight transfer",
+      "result": "Examined56rest posterior hip vertices in sampled region: pelvis.R22.96,upperleg01.R16.37,spine05 8.92,spine04 7.76 aggregate weights. Candidate-local smooth spine→pelvis and pelvis→upperleg redistribution did not sufficiently improve bulge. Source human.json preserved."
+    }
+  ],
+  "diagnosis": "Underlying skin deformation visibly implicated; exact root cause of hip/bone topology requires further rig work. Numeric positive waistband gap alone is not visual approval.",
+  "notCompleted": [
+    "No final481verification after experimental pelvis/weight edits",
+    "No final both32frame visual approval",
+    "No final decode/Edge/SHA approved chain"
+  ],
+  "artifactWarning": "Existing native MP4 files belong to earlier rejected neutral-pelvis version and do not match current experimental input hashes. Never publish them. Current poses.json is3sample preview, not481final evidence.",
+  "files": [
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/studio.mjs",
+      "sha256": "b6affaf1e5b5f46884bd81c258406a705ec98920d143fa14c88de995c7a09f79"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/motion.mjs",
+      "sha256": "0b3e3b6ee9a5cfaa86f374d09af7645559f7484fbd1cd348bc4447e956d24b50"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/source.json",
+      "sha256": "b993942b435943593627e9543759156963219c7a33e14609902470d1f7d47098"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/inspect-glute.cjs",
+      "sha256": "1cbf755c6935f1c6409adfe449116d2c8190f2cabf1210812b807e62dcfd6625"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/hip-weight.cjs",
+      "sha256": "0bac8c52cc89cd7ce841e6660f03e655a109734b2759c540595bbc84897e841a"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/pelvis.cjs",
+      "sha256": "cb936491b41a102afac9e05876a07edb33f37a08a88489ca934a636d043dd202"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/diagnose-skin.mjs",
+      "sha256": "2b9647b585c7b60729c57475cf7a744f572b77a686886d7e806008bc5ade107c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/neutral-pelvis-preview/motion.mjs",
+      "sha256": "462c0c8b9d77d0069ab6599dc8012eab973c4790083b3d8350169acc92f5c7ae"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/neutral-pelvis-preview/studio-before-weight.mjs",
+      "sha256": "caf06ad0dbe18a30491178785f96fd9230dd3d9a4fcc63004ce36e07d835adf3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/native/high-lunge-stretch/full-120.png",
+      "sha256": "bb8ed3c3b689a085cfc8507ce7ba65dedf48824ee35e0c0427c854da08b3d7a7"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/native/high-lunge-stretch/side-120.png",
+      "sha256": "9a6de30ce902abb1affc13edaa75c7a2a80169494b08a7041e87affde4e3b651"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/native/high-lunge-stretch/shoulder-120.png",
+      "sha256": "679943137a1ba03b161b1015cf561f2ec4e5aa8466b0f68f503194da6ba23c5c"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/native/high-lunge-stretch/skin-shoulder-120.png",
+      "sha256": "e41b7ba24a157e2b24ef7774e933dea433af5e3aa867afdec1f9e4a4f7d28088"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-high-lunge-20261014/native/high-lunge-stretch/hand-120.png",
+      "sha256": "04d7d6ee50733fe2fcad3fd6f0e9ff572250bab71aa16abd9d6afb346fd11fbb"
+    }
+  ],
+  "next": "Repair hip skinning/bone axes or topology at required full lunge ROM, then regenerate complete481 and both-theme validation. Keep candidate pending; do not hide defect with reducedROM."
+}

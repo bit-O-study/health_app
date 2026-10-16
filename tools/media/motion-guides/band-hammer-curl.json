@@ -1,0 +1,15 @@
+{
+  "id": "band-hammer-curl",
+  "equipment": "band",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "band-hammer-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://storage.googleapis.com/msgsndr/XvPdGEgSd8SLZjFiaiaQ/media/678d836801b601124c15cda0.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:11:37.647Z"
+}

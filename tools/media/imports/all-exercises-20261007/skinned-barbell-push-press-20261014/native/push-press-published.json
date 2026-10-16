@@ -1,0 +1,18 @@
+{
+  "id": "push-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "77ff4c2197a753423bcfef205703330d62a08fdd8981c4e5177c653c59663bcc",
+  "rigSourceSha256": "749ff0be7e15c682e76751a6ddd83655169015384aa45f082ce9d2cd6e6b725a",
+  "videoSha256": "976fc1ea96e2c942e6205ba8ecf62178dd8881a6b1480906a3bbe75442261521",
+  "darkVideoSha256": "d0e7dfdd01bec6c1bdbd9845207aa10cc1e03db6aa38982edc4cada4a5554ee0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99917,
+  "darkBytes": 91043,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T05:47:09.900Z"
+}

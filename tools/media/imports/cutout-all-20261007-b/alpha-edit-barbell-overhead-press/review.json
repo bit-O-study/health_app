@@ -1,0 +1,90 @@
+{
+  "id": "barbell-overhead-press",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+  "videoSha256": "ff52c0bdfb3286ceba6a802268a487c8767a9caeda2f3e216bd21d6b5b44a475",
+  "darkVideoSha256": "7b567f209d582adceeddfd14f8753fa052f3e074fdaba2a0db6cd3a905fb5e39",
+  "darkBytes": 105268,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 127836,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T04:02:55.102Z",
+  "variant": "-alpha-edit",
+  "review": "hold-motion",
+  "generator": "built-in image_gen edit",
+  "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-barbell-overhead-press\\candidate.png",
+  "generatedSha256": "374ca37e3ff5179f2af4f4def8445505b8132050007cdea07d36899d02feefe5",
+  "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-barbell-overhead-press\\prompt.txt",
+  "alphaPreserved": true,
+  "inspection": {
+    "candidateSize": [
+      1254,
+      1254
+    ],
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+    "candidateSha256": "374ca37e3ff5179f2af4f4def8445505b8132050007cdea07d36899d02feefe5",
+    "alphaZeroFraction": 0.8355393522228073,
+    "opaqueFraction": 0.08176323802110758,
+    "opaqueRgbMAE": 14.508384276758909,
+    "published": false
+  },
+  "inspected": [
+    "original16 against edited16 light/dark composite atlases",
+    "light32frame-contact-sheet",
+    "dark32frame-contact-sheet",
+    "first/last original comparison, eighth dark composite, fullsize1.25s/1.5s bar-face transitions and3.0s lockout"
+  ],
+  "assessment": "No visible pose ordering, anatomy, equipment placement, hand/bar attachment or framing change. Both complete arms, shoes, plates and continuous bar shaft preserved. Gray background and internal gaps removed. Fullsize1.25s and1.5s transitions reveal a translucent duplicate bar and hand outline floating above actual shaft. Hold publication for interpolation correction. Lockout3.0s has extended arms, connected hands and planted feet, matching source.",
+  "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE14.51/255. Bar boundaries slightly more pronounced than JPEG original; existing16pose interpolation preserved. No app/device/deployment verification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "published": false,
+  "cutCacheSha256": [
+    "845f099f462a4c9225ab9319f2153aff8ae3800666b8b7aac1d9e6902cea6ce0",
+    "688fc10b6aba410e648a7a0ac28d916102990f125bb2e1b087fd2e3f4c800204",
+    "fc13418533718d83dd5abe9a7446ea6fd9ef333f7ca9661655402ed60693961c",
+    "f34f4069f5f97d38f234c8754dfbef8d4afb492907b8a777f51a540b70aa937c",
+    "834b83a0358020c91af1987e662bcc3035de97e55218499cad693e5e8cb11c4c",
+    "d921db36ab1c791b9baf0e84449035827b4a76266b5fa7d880373d0c694d5616",
+    "8c43ae54457662bc3110a8ce171b74192a944a7d28b4d75b022ddf040d1024de",
+    "57d6d83e0742970634b192989ab5914e192d76285d43d643c7b5237ba57859ab",
+    "868ecd827d89215af1897a131287ad235351a7b9393bcce3affe53ed850f4892",
+    "fba7a5f407cc5042a347a26121fad72e39804cf95f60fefa5486526d14412209",
+    "7d76f863d1b4ad56ccd6d838485bbc98e467836d93c2294a0f6412fe224e0a68",
+    "938d4622755cd028a88ca5718edd0476f9e69bf15bd47819946714082c5c7724",
+    "e6caa08b044b35ba4c3ce1e1929fcddbf5fd181ab2bc83b1321149b98aed3e2b",
+    "323922492b5b0300d8f38d6dfe7b62adca2dcff4e3fd76235d550ce92bc8f033",
+    "3bdb2372a98926f00b6292ab99a15debe8198a8d32950aa10a7901307fa1bf2d",
+    "6cc5c5bdd8369599cb72cea234ace7c464fdae00a9a14ceb58015282cc04b5c7"
+  ]
+}

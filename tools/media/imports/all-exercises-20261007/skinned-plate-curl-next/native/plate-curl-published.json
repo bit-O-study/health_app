@@ -1,0 +1,18 @@
+{
+  "id": "plate-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3b0f8bf1589b0e7639914755c14bfc260e0f1b7c14b3923212cb261dc7888805",
+  "rigSourceSha256": "ca7bf06c2748b2d662fe9fc9685c83d693280ff5bfe3259cb8b656d2da9e5a92",
+  "videoSha256": "747bc70efc2fd5d11b786966b0695582ba0d6ac3e1d6ed7b7f88d7f4f5065eab",
+  "darkVideoSha256": "407c0dd6b86cdfb96493f6ac9847ee183f7baf263e313ef61bd6045b924b405d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78919,
+  "darkBytes": 69543,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T08:28:30.726Z"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "single-arm-dumbbell-lateral-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-arm-dumbbell-lateral-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/one-arm-dumbbell-lateral-raise.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:30:37.036Z"
+}

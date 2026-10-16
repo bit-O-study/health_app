@@ -1,0 +1,119 @@
+{
+  "id": "seated-single-arm-dumbbell-shoulder-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/seated-single-arm-dumbbell-shoulder-press",
+    "https://www.bodytrainer.tv/en/exercise/dumbbell_shoulder_press_seated_one_arm"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Left-arm seated shoulder press from shoulder height overhead and controlled return.",
+    "equipment": "One intact dumbbell; seat, backrest and right-hand bench support. Body, bench and support clearance checked over481samples.",
+    "setup": "Torso upright against vertical backrest, seat and both feet supported. Right palm stable on side support.",
+    "hands": "Left closed pronated grip with palm facing forward throughout. Empty right palm faces down on bench side support, fingers forward.",
+    "feet": "Both feet remain fixed with soles meeting floor.",
+    "movement": "Final both32frame sheets and active-hand/free-hand/side/back previews reviewed.481sample ROM/contact/clearance, full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "b91879f8f3892a5e8bf4d964dd6d44e884c7ca8013621d58501b3c1a103b5d44",
+  "rigSourceSha256": "15b6d9cb104bfd76e4c3168c5e81d4565a509c34cdae5a59c00f7b470c2f6ac4",
+  "videoSha256": "89a63343cdbc75c6c96a528a93e851ea873fd1415ceba7113001a6668472a62d",
+  "darkVideoSha256": "297a4dcd148f0adc9e50aea230ca852549a5ae27cccd392ddf541b9e7287a95e",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/native/seated-single-arm-dumbbell-shoulder-press.mp4",
+      "sha256": "89a63343cdbc75c6c96a528a93e851ea873fd1415ceba7113001a6668472a62d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 55066,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-single-press-20261008/native/seated-single-arm-dumbbell-shoulder-press-dark.mp4",
+      "sha256": "297a4dcd148f0adc9e50aea230ca852549a5ae27cccd392ddf541b9e7287a95e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 48870,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.285942049628969,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.8983961550729624,
+    "minEquipmentBenchClearance": 8.024087359039115,
+    "seatContactError": 7.264309553889348e-8,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05964874225834519,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "elbowBendMin": 17.50360129927465,
+    "elbowBendMax": 114.23644567170501,
+    "peakElbowBend": 17.50360129927465,
+    "inactiveWristDrift": 0,
+    "backContactError": 0.0001794541975400632,
+    "handSupportError": 0,
+    "handPadMinXZMargin": 0.1787678455913868,
+    "minEquipmentSupportClearance": 2.9563451168121744
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T06:54:21.314Z",
+  "limitations": "Barefoot mannequin on bench with vertical back pad and one side hand support; left-arm demonstration only. No physical-device or biomechanical certification."
+}

@@ -1,0 +1,1 @@
+const fs=require('fs');let p=__dirname+'/motion.mjs',s=fs.readFileSync(p,'utf8').replace("side==='L'?.55:.46","side==='L'?.62:.563");fs.writeFileSync(p,s);p=__dirname+'/studio.mjs';s=fs.readFileSync(p,'utf8').replace('target.set(0,.5,1);camera.position.set(22,4,28);camera.zoom=.95;','target.set(0,-1.2,1);camera.position.set(22,4,28);camera.zoom=1.25;');fs.writeFileSync(p,s);

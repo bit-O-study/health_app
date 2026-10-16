@@ -1,0 +1,18 @@
+{
+  "id": "alternating-dumbbell-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9674abeda46392da69221084bb5a583a46e86f90542550b9ce5f169259619733",
+  "rigSourceSha256": "04c24834bb9bee095ce330492913123e20dd8c0154ae11c88fcbd77fb75aabdd",
+  "videoSha256": "eaa72036e900705ec51fb78c3c7430002f8219fe9ad127ec6138e4d2200383b4",
+  "darkVideoSha256": "0bdaeffe0f669a7329b9788f3000aafef1a81e7f463749e5736184f73b41d929",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65945,
+  "darkBytes": 56960,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:30:44.803Z"
+}

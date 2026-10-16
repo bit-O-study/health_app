@@ -1,0 +1,15 @@
+{
+  "id": "standing-quad-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-quad-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.worcsacute.nhs.uk/leaflets/stretching-exercises-physiotherapy/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:45:29.194Z"
+}

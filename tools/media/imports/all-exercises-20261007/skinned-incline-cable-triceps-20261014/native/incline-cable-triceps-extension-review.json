@@ -1,0 +1,140 @@
+{
+  "id": "incline-cable-triceps-extension",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/native/incline-cable-triceps-extension.mp4",
+      "sha256": "3048d01f2c8a34c7f544af95339426f8a993c0875d843fd96bfea9b9a64714f4",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 81856,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-incline-cable-triceps-20261014/native/incline-cable-triceps-extension-dark.mp4",
+      "sha256": "9906d18db87712e211dc57b97e534cbddb12816c97a51db33f5ff963b1b447f9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 74980,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "cableLengthDrift": 7.105427357601002e-15,
+    "pulleyTangentError": 2.3314683517128287e-15,
+    "pulleyRimError": 1.7208456881689926e-15,
+    "connectorRadiusError": 1.6375789613221059e-15,
+    "stackRiseRange": [
+      0,
+      5.19088095779205
+    ],
+    "cableBodyMinClearance": 1.032290464394665,
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.4424906541753444e-15,
+    "gripTangentAxisError": 1.1389935954777104e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      95
+    ],
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 0.8935158397010937,
+    "barGripWidth": 3.457906299643233,
+    "barRise": 3.8459623323360574,
+    "collisionSamples": 481,
+    "bodyBarMinClearance": 0.847749552099904,
+    "footMinY": -7.751374738328083,
+    "phaseAnchorError": 0,
+    "bodyMachineClearance": 12.408858149200377,
+    "stackBaseGap": 0.1699999999999997,
+    "stackUpperGap": 4.6591190422079505,
+    "stackUpwardDrops": 0,
+    "polylineLengthApproximationError": 0.0029415843587798918,
+    "floorGap": 2.616719170234205e-7,
+    "clothBarMinClearance": 8.762359387397753,
+    "stationDrift": 0,
+    "fullPhaseAngleError": 1.412203687323199e-13,
+    "handSeparationX": 2.1319126869598346,
+    "handRingGapX": 1.0209563434799174,
+    "palmProjectionRange": [
+      -0.9507020329002343,
+      -0.950702032900233
+    ],
+    "bentPalmUpMinimum": 0.9741118312317043,
+    "clothCableGap": 8.93198388941093,
+    "benchInclineError": 3.552713678800501e-15,
+    "skinBench": -2.7755575615628914e-16,
+    "clothBench": 0.000981193610502168,
+    "barBench": 1.1795671337547393,
+    "cableBench": 0.34805916383667346
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/node/4110"
+  ],
+  "sourceSha256": "0b1f8146dc3634cd8e2980a6edb1513b015ef4c3793bba5afd21558d57d6bf39",
+  "rigSourceSha256": "e5b78b6e76281ce81430addcda86ee71534a8867945be27f3610425b7873fed6",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "reviewedAt": "2026-10-14T08:35:20.504Z",
+  "reviewer": "wrist agent; root preview inspected, final adoption pending",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "3048d01f2c8a34c7f544af95339426f8a993c0875d843fd96bfea9b9a64714f4",
+  "darkVideoSha256": "9906d18db87712e211dc57b97e534cbddb12816c97a51db33f5ff963b1b447f9",
+  "benchAngleProof": {
+    "upWorld": [
+      0,
+      0.5,
+      -0.8660254037844386
+    ],
+    "horizontalAngleDegrees": 30.000000000000004,
+    "method": "Back-pad local long axis Y is rotated X=-60degrees, producing world(0,.5,-sqrt(3)/2). Angle from horizontal=atan2(up.y,hypot(up.x,up.z))=30degrees. All481 geometry states repeat this measurement.",
+    "maximumErrorDegrees": 3.552713678800501e-15
+  },
+  "checks": {
+    "exercise": "New exact incline-cable-triceps-extension cable ID. Muscle & Strength node4110 original verified:30degree incline bench facing away from low pulley, straight bar approximately shoulder-width overhand, supported back, raised start then lowering behind head and extension.",
+    "equipment": "One rigid straight bar with center ring and head-side low pulley. Tangent/rim/connector and total cable length constraints verified in481 samples. Station moved farther behind bench to resolve cable/back-pad overlap without changing ROM. Stack rises monotonically during extension; final cableBench+.348059, bodyCable+1.03229.",
+    "setup": "Back pad is30degrees from horizontal, numerically demonstrated by axis(0,.5,-sqrt(3)/2) and481 angle error3.55e-15. Back remains supported; complete skin-to-bench minimum numerical0 and clothBench+.0009812. Seat lowered.003 model units to remove prior.00202 cloth overlap. Root inspected initial full/side previews; final support0 retains back contact visibility.",
+    "hands": "Approximately shoulder-width overhand grip ratio.893516; grip anchor error below2.45e-15 and axis error below1.14e-15. Hand separation+2.13191; center ring gap+1.02096. Hand0/210 inspected. Native elbow hinge-plane alignment retained, no ROM shortening.",
+    "feet": "Both feet stay grounded at floor gap2.62e-7 model units; fixed-joint drift0 throughout481 samples. Full theme sheets retain feet and complete cable station.",
+    "movement": "Raised start, elbows bend from5to95degrees as forearms lower to5degrees below horizontal, then extend back. Fixed upperarms; single continuous timing raised hold0-.4/lower.4-3.8/bent hold3.8-4.2/extend4.2-7.6/raised hold7.6-8. Phase error1.42e-13, loop drift0. Both final32frame sheets and hand/support/side closeups inspected; both480x480/24fps/8sec/192frame videos fully decoded and mobile Edge play/seek/loop passed."
+  },
+  "limitations": [
+    "Model retains5degrees elbow flexion at raised position; source describes raising straight above head without prescribing a numeric elbow angle. Bottom forearm angle is5degrees below horizontal, implementing its slightly-past-horizontal cue.",
+    "Grip width is approximately shoulder width at.893516 shoulder joint spacing. The8-second cycle is editorial timing.",
+    "Generic procedural anatomy retains mild continuous shoulder/axillary folds. Standard schematic incline bench and cable machine; perspective views may make the30degree incline appear steeper.",
+    "481 skin-vertex and equipment-distance samples are discrete tests, not analytic continuous mesh collision proof. Intentional bar grip contact is excluded; hand/center-ring separation is explicitly checked.",
+    "Playback scope is local mobile Edge emulation, not app or physical device."
+  ]
+}

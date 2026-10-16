@@ -1,0 +1,121 @@
+{
+  "id": "dumbbell-floor-fly",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://training.fit/exercise/dumbbell-floor-flys/"
+  ],
+  "phaseSeconds": {
+    "bottomHold": [
+      0,
+      0.4
+    ],
+    "closeArc": [
+      0.4,
+      3.8
+    ],
+    "topHold": [
+      3.8,
+      4.2
+    ],
+    "openArc": [
+      4.2,
+      7.6
+    ],
+    "bottomEndHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Bilateral neutral-grip floor fly with constant30degree elbow bend and shoulder arc.",
+    "equipment": "Two dumbbells; no bench. All non-hand body vertices and dumbbell-pair/floor clearances sampled481times.",
+    "setup": "Bent knees,head and pelvis on floor; back near floor without penetration.",
+    "hands": "Neutral palms-inward grip; fixed elbow bend,hand orientation follows each forearm through the fly arc.",
+    "feet": "Stationary feet,heel/toe and sole floor gaps checked.",
+    "movement": "Smooth .4/3.8/4.2/7.6 timing; bottom rest preserved across looping boundary. Final both32frame sheets and hand0/side0/back210 closeups reviewed. Elbow bend29.999999999999915to30.000000000000057degrees throughout481samples; motion is a fixed-bend shoulder fly, not a press."
+  },
+  "sourceSha256": "8cbd6a29036ceb1654bee80ca114bf9024c54d842fba93d866ca522bf2720fd2",
+  "rigSourceSha256": "435b0e6dfc999198cba6a415e5b45540fdf46564c14ad9d5343e5c685cc741e1",
+  "videoSha256": "3f3d830b8c23814c0a4f7be9b1969844994e3e0bbc3a6d4c7bfd5b415a1cbe5b",
+  "darkVideoSha256": "773ef6ff7651b79735f83144397abba1da09b1fefb57def0cb7eeb5f80b87bfb",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-floor-fly-20261014/native/dumbbell-floor-fly.mp4",
+      "sha256": "3f3d830b8c23814c0a4f7be9b1969844994e3e0bbc3a6d4c7bfd5b415a1cbe5b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 109279,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-floor-fly-20261014/native/dumbbell-floor-fly-dark.mp4",
+      "sha256": "773ef6ff7651b79735f83144397abba1da09b1fefb57def0cb7eeb5f80b87bfb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 88724,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "floorY": -2.966217236366944,
+    "minBodyFloorGap": -9.651834886881261e-12,
+    "minClothFloorGap": 0,
+    "minEquipmentBodyClearance": 0.5479594879152635,
+    "minHeadClearance": 4.896583332757275,
+    "minDumbbellPairClearance": 0.7275050103031115,
+    "minEquipmentFloorGap": 0.37162243713458576,
+    "maxBackGap": 0.02898115532057588,
+    "maxHeadGap": 3.135269821541442e-13,
+    "maxFootGap": 6.039613253960852e-14,
+    "heelGap": 0.010424613952576323,
+    "toeGap": 0.00990000497343635,
+    "bottomUpperArmGap": 9.651834886881261e-12,
+    "minElbowFlex": 29.999999999999915,
+    "maxElbowFlex": 30.000000000000057,
+    "bottomForearmOffset": 2.5784538146094187,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "loopDrift": 0,
+    "minPalmInwardDot": 0.18874335226993483,
+    "bottomUpperArmAbductionDegrees": 86.55490557698192,
+    "bottomWristSpan": 13.996728900497649,
+    "units": "Model world units; conservative dumbbell plate cylinders; posed mesh vertex checks."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "Barefoot mannequin. Training.fit specifies fixed elbow bend10to30degrees and posterior upper arm/elbow floor stop. Implementation uses constant30degrees and stops at upper-arm skin contact; dumbbells remain off the floor. Back surface moves within .05world-unit floor gap without penetration. No device or clinical validation.",
+  "reviewedAt": "2026-10-14T04:20:29.883Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "finger-extension-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "finger-extension-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.mpft.nhs.uk/services/musculoskeletal/supported-self-management/hand-wrist",
+    "https://us.physitrack.com/home-exercise-video/finger-extension-stretch-against-a-table"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T05:40:25.947Z"
+}

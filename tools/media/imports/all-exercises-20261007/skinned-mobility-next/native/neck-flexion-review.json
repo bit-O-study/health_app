@@ -1,0 +1,106 @@
+{
+  "id": "neck-flexion",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.sfh-tr.nhs.uk/services/msk-together-partnership/self-care/neck-pain/"
+  ],
+  "checks": {
+    "exercise": "Exact catalog neck-flexion: chin moves toward chest, no trunk flexion.",
+    "equipment": "Bodyweight, no external load or hand pulling. Standing active mobility demonstration.",
+    "setup": "Upright stable torso and stationary shoulders. Camera preserves whole body and emphasizes oblique sagittal neck flexion.",
+    "hands": "Both hands relaxed alongside thighs with continuous geometry, no hand force applied to head.",
+    "feet": "481 actual skinned sole checks within0.001 world-unit floor tolerance; bilateral feet remain fixed.",
+    "movement": "Final both32-frame sheets and enlarged neck/side previews visually inspected by agent. Chin/neck continuous, no clipping or optical flow ghosts. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "10dfd7bca62cd4eefe430caff8f8e1c8b4decc7c24881ee1c82fde4093dd1ce5",
+  "rigSourceSha256": "200da24238956b25620f78e1238d018a91dc02673033fe542cdde86827b1d7ae",
+  "videoSha256": "58a3842602a313633957d3d0628e161828d99e9c13594735c2993d84d7eb744f",
+  "darkVideoSha256": "851b5fbc5ded9faee92685317e1ba0902a67504579c7b155d2034fe0f92a5cdb",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-mobility-next/native/neck-flexion.mp4",
+      "sha256": "58a3842602a313633957d3d0628e161828d99e9c13594735c2993d84d7eb744f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 25275,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-mobility-next/native/neck-flexion-dark.mp4",
+      "sha256": "851b5fbc5ded9faee92685317e1ba0902a67504579c7b155d2034fe0f92a5cdb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 27496,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "shoulderDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "loopDrift": 0,
+    "headAngleDegrees": 31.999999999999986,
+    "neckMinEdgeStretch": 0.32114089957205993,
+    "neckMaxEdgeStretch": 3.6297438648305533,
+    "neckFinite": true,
+    "neckVertices": 15680,
+    "neckEdges": 88946,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "neutral": [
+        7,
+        8
+      ]
+    },
+    "side": "forward",
+    "units": "world units, body approximately 17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:09:32.176Z",
+  "limitations": "Standing active unweighted mobility variant, stylized gray barefoot mannequin. No physical-device or clinical certification. Lateral clip demonstrates one side; repeat the other separately."
+}

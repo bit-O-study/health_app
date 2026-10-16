@@ -1,0 +1,18 @@
+{
+  "id": "incline-cable-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0b1f8146dc3634cd8e2980a6edb1513b015ef4c3793bba5afd21558d57d6bf39",
+  "rigSourceSha256": "e5b78b6e76281ce81430addcda86ee71534a8867945be27f3610425b7873fed6",
+  "videoSha256": "3048d01f2c8a34c7f544af95339426f8a993c0875d843fd96bfea9b9a64714f4",
+  "darkVideoSha256": "9906d18db87712e211dc57b97e534cbddb12816c97a51db33f5ff963b1b447f9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81856,
+  "darkBytes": 74980,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T08:36:11.931Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "fat-grip-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "fat-grip-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://fatgripz.com/pages/quick-start-guide",
+    "https://fatgripz.com/pages/getting-started-with-fat-gripz"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T02:21:36.523Z"
+}

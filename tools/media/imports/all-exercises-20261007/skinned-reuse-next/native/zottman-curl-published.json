@@ -1,0 +1,18 @@
+{
+  "id": "zottman-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d4cbb761b1796642cfc1c0b91a1c4804811b2b15670e4df235e83aa355b28b0e",
+  "rigSourceSha256": "ec648899ce0b28171234d811b5b9da891e96878565fd9cb404b61ebe65181aeb",
+  "videoSha256": "57db7807811d8c05f1501c90a6573ff4f8a3eaf93966df0cf06bd9a574d0f600",
+  "darkVideoSha256": "b636db48c6712107d568e2c4449c834f7aba3a973e173ac92ddf0bc539c99e0f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103736,
+  "darkBytes": 85738,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:31:01.925Z"
+}

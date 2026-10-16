@@ -1,0 +1,103 @@
+{
+  "id": "reverse-preacher-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-preacher-20261012/native/reverse-preacher-curl.mp4",
+      "sha256": "221b6055ebd252077a70966d642eb89849c981bab16e95f74c6a87670a676305",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 99572,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reverse-preacher-20261012/native/reverse-preacher-curl-dark.mp4",
+      "sha256": "f704b1b8223f7b516f40a8b23759a1c9e442a30afe4480185fc6274bc33008fd",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 85832,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.2440567926383356e-15,
+    "elbowBendRange": [
+      12.474649649449558,
+      111.95845005536135
+    ],
+    "bodyBarClearance": 0.6499343330233464,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "equipmentPad": 3.2109529021806806,
+    "armPadGapRange": [
+      0.00024812105801103046,
+      0.028603358072223417
+    ],
+    "barGripError": 1.5543122344752192e-15,
+    "gripWidth": 3.7624769565008527,
+    "phaseAnchorError": 0
+  },
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/reverse-preacher-curl.html"
+  ],
+  "sourceSha256": "42e719d2936daadcd0d0a1f44fd45f7ce9f47bf6fd0aef117aeb6a2db32c38fd",
+  "rigSourceSha256": "97d1f7ba7f799a2ec9387d9892656145f16d65124f4ac2c7ee9aca499dc4c1ba",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "221b6055ebd252077a70966d642eb89849c981bab16e95f74c6a87670a676305",
+  "darkVideoSha256": "f704b1b8223f7b516f40a8b23759a1c9e442a30afe4480185fc6274bc33008fd",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Seated bilateral straight-bar reverse preacher curl with fully pronated overhand grip, upperarms supported and fixed. M&S Reverse Grip Preacher Curl original independently checked. Different grip and equipment shape from underhand EZ preacher; new video.",
+    "equipment": "One rigid straight barbell with two plates and collars. Both-theme32frame sheets and hand0/210 enlarged views directly inspected. No separate visible dumbbells; hidden socket helper groups only.",
+    "setup": "Upperarms45degrees forward/down, resting on31.5degree contoured pad; torso inside chest notch without penetration. Support0/210 and side210 visually inspected.17samples bodyPad minimum0.06370169, armPad gap0.000248?0.028603.",
+    "hands": "Both palms down, hands on transverse shaft width3.762477rig units around shoulder width3.87. Across481samples shaft/wrist axis error1.244e-15 and hand/bar anchor error1.55e-15. Elbows fixed, no grip reversal.",
+    "feet": "Both feet grounded with sole floor gap2.62e-7; feet and legs fixed. Feet0 closeup inspected; body rests on seat.",
+    "movement": "Elbow12.47?111.96degrees; fixedjoint/gripsocket/loop/phaseanchor error0. Actual smooth .4/3.8/4.2/7.6.17pose bar-body0.649934/bar-pad3.210953/body-pad0.063702. Final support210/side210/feet0 directly inspected; decode and mobile Edge playseekloop both pass."
+  },
+  "limitations": [
+    "Generic contoured U-shaped preacher pad is not a model-specific equipment replica. Central notch avoids torso penetration; pad slope31.5degrees vs upperarm45degrees, arm surface changes with skinning and maximum gap0.028603rig units.",
+    "Barefoot generic mannequin and simplified fingers/skin at elbows; no muscles deformation or foam compression simulation.",
+    "Collision checks use17sample poses and deformed mesh vertices versus bar segment capsules/plate cylinders and pad solids; not a physical simulation.",
+    "Generic straight barbell and U-shaped chest-clearance preacher pad, no brand-specific equipment replica.",
+    "Elbow remains slightly bent12.47degrees at bottom rather than hard lock; eight-second timing and .4second peak squeeze editorial."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T02:20:49.187Z"
+}

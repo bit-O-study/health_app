@@ -1,0 +1,16 @@
+{
+  "id": "cable-ez-bar-curl",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-ez-bar-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/standing-cable-curl/",
+    "https://www.youtube.com/watch?v=S_i3SEVgKWU"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T07:00:27.441Z"
+}

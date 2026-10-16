@@ -1,0 +1,113 @@
+{
+  "id": "seated-dumbbell-shoulder-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/seated-overhead-dumbbell-press/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Seated bilateral dumbbell shoulder press from shoulder level to overhead with controlled return and no trunk drive.",
+    "equipment": "Two intact dumbbells, stable flat bench with four legs. Conservative plate clearance from thigh/body and bench checked throughout481samples.",
+    "setup": "Upright seated torso, thighs forward, lower legs vertical and feet supported. Garment-seat contact and floor contact checked with side preview and geometry.",
+    "hands": "Palms-forward pronated grip throughout. Closed fingers wrap handles, dumbbells rigidly attached to wrist grip sockets. Hand views inspected.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final both32frame sheets and fullsize views inspected, continuous native3D without ghosting. Elbow ROM, body/bench clearance, foot and seat contact checked over481samples. Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "be1c2b1eaf54a88c1f8b82e7c4cc2e6fda5ec01bee1eecad4ccc0b48b9327153",
+  "rigSourceSha256": "2f8625ee9cc7225b686ca15742eb5f0f85260ec31cb9d7c9a6035400299821ff",
+  "videoSha256": "82f5abc6950c906315d65c9825abf5f94418b3e18a0e7dce69c5a04713245187",
+  "darkVideoSha256": "78814ec81d37f2a6d19a7231e92d5b255df75e2edffee52ae8e4366db982aa51",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-press/native/seated-dumbbell-shoulder-press.mp4",
+      "sha256": "82f5abc6950c906315d65c9825abf5f94418b3e18a0e7dce69c5a04713245187",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 94958,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-press/native/seated-dumbbell-shoulder-press-dark.mp4",
+      "sha256": "78814ec81d37f2a6d19a7231e92d5b255df75e2edffee52ae8e4366db982aa51",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 82484,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 4.285942049628969,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.8983961550729624,
+    "minEquipmentBenchClearance": 8.024087359039115,
+    "seatContactError": 7.264309553889348e-8,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.05964874225834519,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "elbowBendMin": 17.50360129927465,
+    "elbowBendMax": 114.23644567170501,
+    "peakElbowBend": 17.50360129927465
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:37:07.451Z",
+  "limitations": "Barefoot mannequin on a flat bench. No physical-device or biomechanical certification."
+}

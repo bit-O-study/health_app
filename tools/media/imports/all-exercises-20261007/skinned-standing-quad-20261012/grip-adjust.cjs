@@ -1,0 +1,1 @@
+const fs=require('fs'),b='tools/media/imports/all-exercises-20261007/skinned-standing-quad-20261012';let s=fs.readFileSync(b+'/motion.mjs','utf8').replace('145+5*amount','155+5*amount').replace('addScaledVector(N,.65).addScaledVector(F,-1.64)','addScaledVector(N,.95).addScaledVector(F,-1.9)').replace('[0,10,45,80]','[0,0,15,35]');fs.writeFileSync(b+'/motion.mjs',s);

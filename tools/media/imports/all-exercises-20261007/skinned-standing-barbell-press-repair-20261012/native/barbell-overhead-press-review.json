@@ -1,0 +1,118 @@
+{
+  "id": "barbell-overhead-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/military-press.html"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "press": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Standing strict barbell overhead press with controlled return and no leg drive.",
+    "equipment": "One rigid barbell;shaft,plates and collars checked against all non-hand body vertices481poses.",
+    "setup": "Upright unsupported trunk; both feet grounded, knees and hips remain fixed throughout.",
+    "hands": "Overhand closed grip on fixed shaft,grip span and socket error checked481poses.",
+    "feet": "Standing feet fixed with full-body floor and heel contact checks481poses.",
+    "movement": "Both final32frame sheets and hand/feet/side/back views reviewed.Full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "1c8cdd19fd4549c70e9fb1ccbbe67eac2c5e9175f6ec12f8d6a2f8c9bdd6d856",
+  "rigSourceSha256": "03ed36a7b0fcf84c8f1eb045d09ba9d97d0d7bbc3a6fdf71fb1aaa20ccc16265",
+  "videoSha256": "2dc10ff78f896f2d8700ca5f83fc34557a6ecea29b70128ff69eb7defd715a0b",
+  "darkVideoSha256": "98e6464ed2b33236562fcb4bfe2e666d03977fa79be6a3b65e8985896e846ece",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-barbell-press-repair-20261012/native/barbell-overhead-press.mp4",
+      "sha256": "2dc10ff78f896f2d8700ca5f83fc34557a6ecea29b70128ff69eb7defd715a0b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 103299,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-standing-barbell-press-repair-20261012/native/barbell-overhead-press-dark.mp4",
+      "sha256": "98e6464ed2b33236562fcb4bfe2e666d03977fa79be6a3b65e8985896e846ece",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 93804,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 5.322338765917041,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 0.27079560966595734,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.175230979919434,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.060058176599898726,
+    "units": "world units; conservative plate-cylinder versus all posed non-hand body vertices;all body and garment vertices versus floor",
+    "elbowBendMin": 7.197998134165354,
+    "elbowBendMax": 123.28185881879043,
+    "peakElbowBend": 7.197998134165354,
+    "garmentFloorGap": 5.525230805575845,
+    "minimumBodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "trunkDrift": 0,
+    "barGripError": 3.552713678800501e-15,
+    "gripSpanError": 7.105427357601002e-15,
+    "kneeHipDrift": 0
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:58:14.650Z",
+  "limitations": "Barefoot mannequin. Free repetition only; rack setup and lift-off are outside the clip. No physical-device or biomechanical certification."
+}

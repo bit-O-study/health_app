@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bc0c4bd00c638ebc91ea4aa92602705c326a5353a18a18550835fc8bf7670773",
+  "rigSourceSha256": "65af2ffe2481824642be442dd0b4635692d40b9d6093f357632a8cc040041ae0",
+  "videoSha256": "20ff37ce5ed5d7ab4c5407c7b5e217f3b8234b9edf6dd1fd24432a56a8bdd894",
+  "darkVideoSha256": "fe270bb53a41ebfde70383fca29c06d911ac88a3489f50fbcea229bd1324fc5b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 98592,
+  "darkBytes": 86534,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:42:31.530Z"
+}

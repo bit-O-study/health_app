@@ -1,0 +1,18 @@
+{
+  "id": "cable-wrist-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "77cfaaf802d18ad113a7970b6d885b2a71d4582904aeb06fc560f594260bd8e1",
+  "rigSourceSha256": "4aadf79aebe9193c61e0717c32f4bb159a83206d6753d873a2bea6480d17296b",
+  "videoSha256": "a62fba2ccfa67fcefcd926b7863e07f9392b2f50fa7cb934ab9cd49e7f721a2a",
+  "darkVideoSha256": "0908647af4e2f4e962cf7782cf5e99b7d6adf8289c742197a3f58947f308fda9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 60999,
+  "darkBytes": 56817,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:24:06.588Z"
+}

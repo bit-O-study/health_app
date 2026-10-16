@@ -1,0 +1,111 @@
+{
+  "id": "finger-extension-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.mpft.nhs.uk/services/musculoskeletal/supported-self-management/hand-wrist",
+    "https://us.physitrack.com/home-exercise-video/finger-extension-stretch-against-a-table"
+  ],
+  "checks": {
+    "exercise": "Exact finger extension stretch against table, not fist-opening drill or wrist flexor stretch.",
+    "equipment": "Bodyweight and flat stable table, no bands or weights.",
+    "setup": "Standing at table with both palms down; both feet planted.",
+    "hands": "481 actual hand/palm/all finger skin gaps nonnegative and near tabletop, no opposing-hand pressure.",
+    "feet": "Both actual soles fixed and floor-aligned for481 poses.",
+    "movement": "Final both32frame sheets and hand/side/waist/feet enlargements reviewed.2/3/2/1stretch timing. Decode/Edge pass."
+  },
+  "sourceSha256": "4780a2a67c4078f6ae8ffe747eb7976a97c3d5fffb0e0d4cc49fd22501b155f0",
+  "rigSourceSha256": "8d95897c99664507654195b78f849c3e6b213cbebff1a49664f5dbcc7577ef69",
+  "videoSha256": "b404d301083ed0cda26dc7f00588a47428fee4c3bf18681fba710931ec66d85f",
+  "darkVideoSha256": "c7eabccba2a0b7d048587421d5f0548c1f17358dbe78eefe8f5501cd3985e087",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/native/finger-extension-stretch.mp4",
+      "sha256": "b404d301083ed0cda26dc7f00588a47428fee4c3bf18681fba710931ec66d85f",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 36508,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-finger-extension-20261012/native/finger-extension-stretch-dark.mp4",
+      "sha256": "c7eabccba2a0b7d048587421d5f0548c1f17358dbe78eefe8f5501cd3985e087",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 37807,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 0,
+    "handDrift": 0,
+    "loopDrift": 0,
+    "minWaistGarmentRadialGap": 0.042014951591391014,
+    "minLegSkinGarmentSectionGap": 0.2806994623383512,
+    "minTableSDF": 0.002760086740563328,
+    "palmGapRange": [
+      0.013085754048446141,
+      0.013085754048446141
+    ],
+    "fingerGapRange": [
+      0.0027600867405634943,
+      0.015128363830487324
+    ],
+    "maxFloorError": 1.7763568394002505e-15,
+    "phaseSeconds": {
+      "move": [
+        0,
+        2
+      ],
+      "hold": [
+        2,
+        5
+      ],
+      "return": [
+        5,
+        7
+      ],
+      "rest": [
+        7,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T05:12:48.269Z",
+  "limitations": "Standing and bilateral demonstration of source hand-on-table protocol; Physitrack version lists chair.3second illustrative hold, not clinical prescription. Small palm/finger skin gaps reflect finite smooth mesh and no force simulation.481 sampled skin checks are not exhaustive surface collision. No physical-device certification."
+}

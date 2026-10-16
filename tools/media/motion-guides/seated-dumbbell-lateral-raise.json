@@ -1,0 +1,14 @@
+{
+  "id": "seated-dumbbell-lateral-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-dumbbell-lateral-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/seated-lateral-raise/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T08:26:40.536Z"
+}

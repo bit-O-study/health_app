@@ -1,0 +1,13 @@
+{
+  "id": "lying-quad-stretch",
+  "status": "held-geometry",
+  "reason": "Working knee floats 1.055 model units; lowering knee produces foot/glute and garment collision. No ROM reduction or camera concealment accepted.",
+  "headFloorGap": 0.0337283,
+  "kneeFloorGap": 1.054993,
+  "hashes": {
+    "motion.mjs": "efa88768fc9b7097ecf5e89abc269959a5cd8554c113b8a40bd3d9deb3fdfa89",
+    "studio.mjs": "b9c7c9f89170467d09627cbb59d382732ad39469921be5f45d333880c4df3f37",
+    "native/lying-quad-stretch-contacts-preview.json": "5ad3d9773f6e2349e984c0167dd5889e1f25b6ab8aaab27826fb37fe97b055c9",
+    "native/lying-quad-stretch-poses.json": "a1c33d05f1ea847f68075c79b1312db224d71029ea317e4885beb2e7b18138b6"
+  }
+}

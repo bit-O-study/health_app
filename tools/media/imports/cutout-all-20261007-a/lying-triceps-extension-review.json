@@ -1,0 +1,22 @@
+{
+  "id": "lying-triceps-extension",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b73fee7de01788e9220aeb19e74b1f2af725909cf3bff87b2da81ec1c1c4e1bc",
+  "videoSha256": "6b53db5a32d118753e1d2fd9048e97b7f9dcd9af9879776491df62a5d937428f",
+  "darkVideoSha256": "7db73ab1dd6ef7a08c5bc1490e0abd85bc4affbff5632c69ba13c7dfddcfbac2",
+  "darkBytes": 203461,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 247551,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T00:54:54.383Z",
+  "date": "2026-10-07T01:02:24.907Z",
+  "status": "hold",
+  "published": false,
+  "notes": "Initial cutout loses whole bench in final poses; enclosed studio gray remains between arms. Refined variant improves bench but still needs arm edge correction.",
+  "scope": "Original source and light/dark rendered JPG contact sheets. Not production or physical device."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-ez-bar-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0dddc11f6a000532f6a2b5c2a2f6a4d0a1ee45f12b73a4644c273ba405be5019",
+  "rigSourceSha256": "73759d2052533e5dca2222b858f1c6395ffab209c35b3ee01add7b71189a4bf1",
+  "videoSha256": "d0b8d13f070a0f5fa3e6f3ebe906542d29bf8a3721f15ac73ceb28f7344b0d3e",
+  "darkVideoSha256": "3984238777ff44de67a15e5796ac8e0b1bc338c964e915f1bc4e01ae7374fc77",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 92049,
+  "darkBytes": 78364,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:35:18.747Z"
+}

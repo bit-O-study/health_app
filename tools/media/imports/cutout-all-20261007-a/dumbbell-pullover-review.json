@@ -1,0 +1,22 @@
+{
+  "id": "dumbbell-pullover",
+  "renderVersion": 5,
+  "panels": 8,
+  "cutout": true,
+  "sourceSha256": "0f4d6e7c65630b12c9e7ca1fd404057bbbd4ef855e6fc9ad9158ea7393785c72",
+  "videoSha256": "7dd126064ee442a1d2f0b619013a6607869b1db902700edaf029ca7593bec844",
+  "darkVideoSha256": "01187c670c7f692e2acbd4bce55e42c4747254ba3c500947bd26521bbfb2ca22",
+  "darkBytes": 172204,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 150167,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T01:01:22.006Z",
+  "date": "2026-10-07T01:02:23.761Z",
+  "status": "hold",
+  "published": false,
+  "notes": "Initial cutout loses bench segments and white shoes. Original pixels restored in a separate refined candidate; do not publish this initial version.",
+  "scope": "Original source and light/dark rendered JPG contact sheets. Not production or physical device."
+}

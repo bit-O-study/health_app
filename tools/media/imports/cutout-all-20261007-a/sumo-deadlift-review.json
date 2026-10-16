@@ -1,0 +1,22 @@
+{
+  "id": "sumo-deadlift",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "446c88b56c3daef840100fe2ebb27fc9f9d3668f12ac702968929797bf739bc5",
+  "videoSha256": "bb23aefa6b350f9b8bb5aca550b5e6c9d0e445e980b35521d4fb64c85f2adb04",
+  "darkVideoSha256": "112d520a8a4e7cb7ad19c5526fe08996bcc7669814b0b9714d57ad60166aad40",
+  "darkBytes": 261774,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 237470,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T01:43:51.459Z",
+  "date": "2026-10-07T01:44:31.524Z",
+  "status": "hold",
+  "published": false,
+  "notes": "Source panel16 already clips the crown of head (source-pose crop evidence sumo-source16.jpg). First pose left shaft has missing connection near plate, and interpolation produces disappearing/ghosted plates in multiple midpoint frames. Feet mostly preserved. Both theme32-frame contact sheets inspected. Edge playback/seek/loop passed mechanically but visual gate failed. Do not publish.",
+  "scope": "Original source and light/dark rendered JPG contact sheets. Not production or physical device."
+}

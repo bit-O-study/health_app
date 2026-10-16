@@ -1,0 +1,88 @@
+{
+  "id": "neck-isometric-hold",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.eput.nhs.uk/wp-content/uploads/2025/03/a4whiplash.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact neck-isometric-hold, isometric flexion variant with one hand on forehead and no neck movement.",
+    "equipment": "Bodyweight, one empty hand provides resistance.",
+    "setup": "Standing upright, head neutral, left hand across forehead and right arm at side.",
+    "hands": "Final hand/head/side/shoulder enlarged images inspected. Anatomical palm normal faces head, contact-gap samples nonnegative and small; no head or wrist skin tearing.",
+    "feet": "481 actual skinned sole checks within0.001world floor tolerance and fixed feet.",
+    "movement": "Intentional static isometric position, source full-frame PNGs identical at0/105/210/345. Both final32frame encoded sheets reviewed. Full decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "7fe2ea83793824da671a5127ac3d75b11112b5ef00d92e6c6b6da07d69a5bc84",
+  "rigSourceSha256": "d20075c074146317e7b3c302846820689784e05d3705f663fe8e331b31786b99",
+  "videoSha256": "e442e8b53c76738aac674fefe95aa6c360dbdcd0d262a7854cf9fc80e11165d6",
+  "darkVideoSha256": "0d6f111e8532f2ead08708894c1e7db24862957c26c58378e434949bea142300",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-neck-isometric-20261008/native/neck-isometric-hold.mp4",
+      "sha256": "e442e8b53c76738aac674fefe95aa6c360dbdcd0d262a7854cf9fc80e11165d6",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 16432,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-neck-isometric-20261008/native/neck-isometric-hold-dark.mp4",
+      "sha256": "0d6f111e8532f2ead08708894c1e7db24862957c26c58378e434949bea142300",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 15472,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "allJointDrift": 0,
+    "minFloorClearance": -0.0002309799194328832,
+    "handHeadMinGap": 0.03232910321852045,
+    "palmNormalError": 5.141458177689483e-16,
+    "headHandSamples": 4434,
+    "phaseSeconds": {
+      "hold": [
+        0,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall; hand versus head skin projected XY neighbor radius.15, not exact triangle collision"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-08T04:15:58.606Z",
+  "limitations": "Static isometric posture only; animation cannot show or measure applied pressure.8second loop is illustrative, not a prescribed duration. Head-contact sampling approximates geometry, not exact triangle collision. Stylized barefoot model, no clinical or physical-device certification."
+}

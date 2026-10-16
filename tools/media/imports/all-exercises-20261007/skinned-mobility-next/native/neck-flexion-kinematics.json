@@ -1,0 +1,33 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "shoulderDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "loopDrift": 0,
+  "headAngleDegrees": 31.999999999999986,
+  "neckMinEdgeStretch": 0.32114089957205993,
+  "neckMaxEdgeStretch": 3.6297438648305533,
+  "neckFinite": true,
+  "neckVertices": 15680,
+  "neckEdges": 88946,
+  "phaseSeconds": {
+    "move": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "neutral": [
+      7,
+      8
+    ]
+  },
+  "side": "forward",
+  "units": "world units, body approximately 17 tall"
+}

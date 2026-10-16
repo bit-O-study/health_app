@@ -1,0 +1,15 @@
+{
+  "id": "band-lateral-raise",
+  "prompt": "Exercise animation source atlas: bilateral standing RESISTANCE BAND LATERAL RAISE. Exactly SIXTEEN equal square panels arranged 4 columns by 4 rows, ordered left-to-right then top-to-bottom. A consistent realistic educational 3D adult woman in teal fitted short-sleeve shirt, charcoal leggings, dark shoes, full body facing front, head to shoes fully inside each cell with 12% margin. Fixed camera, consistent proportions, identical head torso pelvis and feet position in ALL sixteen frames. Feet hip width planted on the middle of ONE RED resistance band, one end securely gripped in each closed hand. The band's two long red segments always visibly connect the outside of each corresponding shoe to that same side hand, taut diagonal lines without break or branch. Arms start beside thighs and gradually raise out sideways through sixteen progressive stages of ONE ASCENT ONLY. Frames1-4 arm angles from vertical down: 0,6,12,18 degrees; frames5-8:24,30,36,42; frames9-12:48,54,60,66; frames13-16:72,78,84,90 degrees. Final frame hands at shoulder height, never higher. Elbows softly bent at constant small angle, wrists neutral, shoulders down, no shrug, trunk upright with no lean. DO NOT reset at each row, do NOT repeat beginning pose after panel1, do NOT lower arms. This ascending sequence will be reversed in software for the descent. True transparent background and transparent gaps between arms and torso/legs; no ground plane, no cast shadows, no grid lines, no text, no frame numbers, no symbols. Preserve thin red resistance band opaque and completely connected in every panel. All 16 cells share exact framing with zero clipping and zero object/camera motion other than arms and stretched band.",
+  "equipment": "band",
+  "sources": [
+    "https://www.acefitness.org/getfit/rubrbndwkout.pdf"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "rigSource": "band-lateral-raise-rig.png",
+  "renderer": "generated-alpha-atlas-v1",
+  "timing": "raise-lower",
+  "cutout": true,
+  "registeredAt": "2026-10-07T01:51:49.796Z"
+}

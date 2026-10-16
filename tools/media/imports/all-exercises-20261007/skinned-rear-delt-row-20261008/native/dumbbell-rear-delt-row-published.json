@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-rear-delt-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "628738b3558b5536305ced84307dfbd7c373da1520b49d06d72efa5efc84aba3",
+  "rigSourceSha256": "69a83694eebaf5dfe01a7cdfabd0a02e44991742e035637ebd287afa64ff1081",
+  "videoSha256": "be8d7ff2fb923f1784fb92a84d50a52b1d752b8074ab99671419d5279233a31c",
+  "darkVideoSha256": "82e19ffd7c85401bb1af82a69f91bbc707ca4bbc5812df132b73b5f224fd15eb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99933,
+  "darkBytes": 83691,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:39:50.246Z"
+}

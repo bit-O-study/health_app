@@ -1,0 +1,18 @@
+{
+  "id": "jm-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7208889c1ed4c438578bc5212cc328b6fd3c41fa179aecb9e200b17356aaa26c",
+  "rigSourceSha256": "39f4bbf6e8ad9b8063b801457aaa0deb9355b5b185fd9013c3aee4c7ba17f048",
+  "videoSha256": "61e30078023db7b6c7e13960eb4bad3a539832f72b7f1b200c4d0888334b77d6",
+  "darkVideoSha256": "63767c29a65b78bedec4f1ff95caa9f626d5b2e0d5d6f48f2ee2ce2d4631843f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 120549,
+  "darkBytes": 102108,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T03:59:09.121Z"
+}

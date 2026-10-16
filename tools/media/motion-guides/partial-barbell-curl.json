@@ -1,0 +1,16 @@
+{
+  "id": "partial-barbell-curl",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "partial-barbell-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/videos/how-to-perform-bicep-curl-21s",
+    "https://www.muscleandfitness.com/flexonline/training/partial-growth/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T04:14:28.399Z"
+}

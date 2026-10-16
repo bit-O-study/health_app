@@ -1,0 +1,24 @@
+[
+  {
+    "frame": 0,
+    "handInsideFoot": 0,
+    "handFootRayGap": 0.01514374413167463,
+    "handTorsoGap": 0.6097679151124115,
+    "handClothGap": 0.49713384935032956,
+    "footTorsoGap": 0.6156802506968654,
+    "footClothGap": 0.5056242549106841,
+    "wallGap": 0.014115566611674346,
+    "palmWallGap": 0.014115566611674346
+  },
+  {
+    "frame": 210,
+    "handInsideFoot": 0,
+    "handFootRayGap": 0.007984474715594825,
+    "handTorsoGap": 0.22415651377676804,
+    "handClothGap": 0.11134936340407997,
+    "footTorsoGap": 0.2513326039150108,
+    "footClothGap": 0.14645244691739356,
+    "wallGap": 0.014115566611674346,
+    "palmWallGap": 0.014115566611674346
+  }
+]

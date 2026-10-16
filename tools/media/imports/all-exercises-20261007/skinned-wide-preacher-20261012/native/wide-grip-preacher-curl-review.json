@@ -1,0 +1,104 @@
+{
+  "id": "wide-grip-preacher-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-preacher-20261012/native/wide-grip-preacher-curl.mp4",
+      "sha256": "20ff37ce5ed5d7ab4c5407c7b5e217f3b8234b9edf6dd1fd24432a56a8bdd894",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 98592,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wide-preacher-20261012/native/wide-grip-preacher-curl-dark.mp4",
+      "sha256": "fe270bb53a41ebfde70383fca29c06d911ac88a3489f50fbcea229bd1324fc5b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 86534,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "axisError": 1.7944789959805767e-15,
+    "elbowBendRange": [
+      15.013971480909085,
+      111.70955939544135
+    ],
+    "bodyBarClearance": 1.0665808136870503,
+    "floorGap": 2.616719170234205e-7,
+    "collisionSamples": 17,
+    "bodyPad": 0.06370169051858787,
+    "equipmentPad": 3.225578261840938,
+    "armPadGapRange": [
+      0.006635460050735953,
+      0.03302988220928965
+    ],
+    "barGripError": 1.3322676295501878e-15,
+    "gripWidth": 5.085523826579521,
+    "shoulderWidth": 3.87,
+    "gripShoulderRatio": 1.3140888440773955,
+    "phaseAnchorError": 0
+  },
+  "sources": [
+    "https://criticalbody.com/wide-grip-preacher-curls/"
+  ],
+  "sourceSha256": "bc0c4bd00c638ebc91ea4aa92602705c326a5353a18a18550835fc8bf7670773",
+  "rigSourceSha256": "65af2ffe2481824642be442dd0b4635692d40b9d6093f357632a8cc040041ae0",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "barbell"
+  ],
+  "videoSha256": "20ff37ce5ed5d7ab4c5407c7b5e217f3b8234b9edf6dd1fd24432a56a8bdd894",
+  "darkVideoSha256": "fe270bb53a41ebfde70383fca29c06d911ac88a3489f50fbcea229bd1324fc5b",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Seated bilateral wide-grip supinated straight-bar preacher curl. CriticalBody original instructions allow straight or EZ bar and a grip a few inches outside shoulders. New movement geometry, not alias footage.",
+    "equipment": "Single rigid straight barbell, two plates and collars. Both-theme 32-frame sheets directly inspected, no independent bar halves.",
+    "setup": "Upperarms mildly abducted and fixed forward/down on generic contoured 31.5-degree preacher pad. Final support210 and side210 inspected: chest notch clears torso; body-pad minimum 0.063702, arm-pad surface gap 0.006635 to 0.033030 rig units.",
+    "hands": "Palms up on transverse shaft. Final hand210 and prior hand0 inspected. Grip width 5.085524 against shoulder width 3.87, ratio 1.314089. Across 481 samples bar-hand anchor error 1.33e-15, axis error 1.79e-15.",
+    "feet": "Feet0 closeup inspected, both soles at floor within 2.62e-7 rig units. Feet, legs and seated torso remain fixed.",
+    "movement": "Elbow range 15.014 to 111.710 degrees. Across 481 samples fixed-joint, loop and phase errors zero. Actual single smooth timing 0.4/3.8/4.2/7.6. Seventeen mesh samples: bar-body clearance 1.066581, bar-pad 3.225578. Full decode and mobile Edge play/seek/loop passed for both themes."
+  },
+  "limitations": [
+    "Generic contoured U-shaped pad is not a commercial equipment replica. Central notch prevents torso penetration; pad slope 31.5 degrees and upperarms about 45 degrees; skinned arm surface gap ranges 0.006635 to 0.033030 rig units.",
+    "Barefoot mannequin with simplified fingers and elbow skin; no foam compression or muscle deformation simulation.",
+    "Collision checks use 17 sampled deformed meshes against pad solids and bar capsules/plate cylinders, not continuous physical simulation.",
+    "Bottom elbow remains about 15 degrees bent rather than hard lock. Eight-second cycle and brief peak hold are editorial timing choices."
+  ],
+  "reviewer": "wrist subagent; root final adoption pending",
+  "reviewedAt": "2026-10-12T02:40:18.882Z"
+}

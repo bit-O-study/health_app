@@ -1,0 +1,14 @@
+{
+  "id": "alternating-incline-dumbbell-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "alternating",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "alternating-incline-dumbbell-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/alternate-incline-dumbbell-curl.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T06:33:29.266Z"
+}

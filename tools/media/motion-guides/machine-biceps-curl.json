@@ -1,0 +1,17 @@
+{
+  "id": "machine-biceps-curl",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "machine-biceps-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.lifefitness.com/en-us/catalog/strength-training/plate-loaded/life-fitness-biceps-curl",
+    "https://www.legendfitness.com/product/unilateral-seated-bicep-curl/",
+    "https://weighttraining.guide/exercises/machine-preacher-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T04:35:03.187Z"
+}

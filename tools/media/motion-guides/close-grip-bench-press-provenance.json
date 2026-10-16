@@ -1,0 +1,122 @@
+{
+  "id": "close-grip-bench-press",
+  "aliasOf": "close-grip-bench-press-2",
+  "reuseKind": "Exact catalog synonym; original MP4 bytes unchanged; legacy sixteen-pose cutout interpolation, not new continuous3D render",
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/exercises/close-grip-bench-press.html"
+  ],
+  "inputs": [],
+  "dependencies": [],
+  "originFiles": [
+    {
+      "path": "tools/media/motion-guides/close-grip-bench-press-2.json",
+      "sha256": "66b00b2ac47c873b25bfbe9341f603ab2e0e2ee64e04c2bea4c749f854627d9c"
+    },
+    {
+      "path": "tools/media/motion-guides/close-grip-bench-press-2.jpg",
+      "sha256": "f085497c43b058691c13772cc6b04eb02af0ff27c2b661f05ffcf4c4c73f7b5c"
+    },
+    {
+      "path": "public/exercise-guides/ai-v3/close-grip-bench-press-2.mp4",
+      "sha256": "dcae10adffb2bb527a0b99787238d8482d03cbd2580d2a5a870e3489daf603bd"
+    },
+    {
+      "path": "public/exercise-guides/ai-v3/close-grip-bench-press-2-dark.mp4",
+      "sha256": "6b3107711eaabb1a00db9f22e7f4f110a3bc1e93b6bc5159282a60d7c207a3cc"
+    }
+  ],
+  "aliasEvidence": "Both catalog entries identify flat close-grip barbell bench press. Original and video show shoulder-width overhand grip, elbows tucked, lower sternum press to elbow extension, head/back/hips supported and shoes planted. M&S original explicitly shoulder-width. Root notified target wording narrower-than-shoulder should clarify comfortable shoulder-width close grip. No bench angle, equipment or grip-direction variant.",
+  "timingAudit": {
+    "timing": "legacy16-reverse",
+    "order": [
+      0,
+      0,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      15,
+      15,
+      15,
+      14,
+      13,
+      12,
+      11,
+      10,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sourceFrameRate": 5,
+    "seconds": 8,
+    "specTimingKey": "omitted to preserve original legacy16 behavior"
+  },
+  "originalReview": {
+    "status": "passed",
+    "checks": {
+      "exercise": "Close-grip barbell bench press remains distinct from a skull-crusher.",
+      "equipment": "Straight barbell with small plates and complete flat bench survives cutout.",
+      "setup": "Head, back and hips remain supported and approximately stationary.",
+      "hands": "Narrow approximately shoulder-width grip stays attached to bar, with elbows close to trunk.",
+      "feet": "Both shoes remain planted on the floor beside the bench.",
+      "movement": "Bar rises from lower chest above torso and returns; no conspicuous duplicated arms or disconnected plates in either 32-frame sheet."
+    },
+    "note": "Fresh v5 light and dark 32-frame visual inspection after cutout. Body, equipment and contacts remain intact; mild interpolation softness remains. Physical mobile playback pending.",
+    "id": "close-grip-bench-press-2",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/close-grip-bench-press.html"
+    ],
+    "sourceSha256": "f085497c43b058691c13772cc6b04eb02af0ff27c2b661f05ffcf4c4c73f7b5c",
+    "videoSha256": "dcae10adffb2bb527a0b99787238d8482d03cbd2580d2a5a870e3489daf603bd",
+    "darkVideoSha256": "6b3107711eaabb1a00db9f22e7f4f110a3bc1e93b6bc5159282a60d7c207a3cc",
+    "reviewedAt": "2026-09-15T14:09:52.853Z"
+  },
+  "originalVerification": {
+    "id": "close-grip-bench-press-2",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "f085497c43b058691c13772cc6b04eb02af0ff27c2b661f05ffcf4c4c73f7b5c",
+    "videoSha256": "dcae10adffb2bb527a0b99787238d8482d03cbd2580d2a5a870e3489daf603bd",
+    "darkVideoSha256": "6b3107711eaabb1a00db9f22e7f4f110a3bc1e93b6bc5159282a60d7c207a3cc",
+    "darkBytes": 239811,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 241445,
+    "decode": "passed",
+    "verifiedAt": "2026-09-15T12:51:46.748Z"
+  },
+  "limitations": [
+    "Exact legacy16pose cutout interpolation reuse; no new continuous3D or481sample kinematics claimed.",
+    "Original mild body/bench shape changes and interpolation softness retained. Camera overlap limits far-hand detail.",
+    "Original cycle begins at lower chest and presses up before returning; preserves legacy16 reverse timing."
+  ]
+}

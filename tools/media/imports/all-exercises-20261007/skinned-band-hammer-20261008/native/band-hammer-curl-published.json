@@ -1,0 +1,18 @@
+{
+  "id": "band-hammer-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8a94077a44518fdc6a52a22984591c1fd9207fe812abc5f02dbcb71c2f9c6a50",
+  "rigSourceSha256": "8e476517c1dba06d745547f1839470965537f6a8a2c625f4c6b0abf4925beabd",
+  "videoSha256": "30a630f1f5418d7aeb201010a651a22c70ad36389631faa2b1381b7490754f95",
+  "darkVideoSha256": "ec0d7eeb370b5d70a7ee4feb9b9adf83eb20ec070617c179d0bdbd0802d8a575",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121597,
+  "darkBytes": 112692,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:11:37.651Z"
+}

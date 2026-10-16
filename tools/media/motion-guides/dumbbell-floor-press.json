@@ -1,0 +1,14 @@
+{
+  "id": "dumbbell-floor-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-floor-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/dumbbell-floor-press/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T01:56:53.323Z"
+}

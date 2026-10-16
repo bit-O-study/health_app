@@ -1,0 +1,16 @@
+{
+  "id": "box-squat",
+  "status": "pending-source-repair",
+  "date": "2026-10-07",
+  "method": "built-in imagegen new exercise source",
+  "source": "https://macrosinc.net/exercises/legs/barbell-box-squat/",
+  "review": "16 stages preserve box/barbell and visible descent, but generated image has colored fringes around box and legs despite requesting plain white. Requires matte repair and fixed box/foot alignment review before rendering or registration.",
+  "duplicateCheck": "No box-squat video found in current or sibling health_app guide directories; distinct from smith and single-leg variants. Legacy D drive unavailable.",
+  "matteRepair": {
+    "file": "source-matte-candidate.png",
+    "method": "Asset-specific yellow/red/cyan/pure-blue fringe alpha removal and 1px minimum-filter erosion",
+    "thresholds": "yellow R>185 G>160 B<100; red R>185 G<100 B<100; cyan R<100 G>170 B>180; blue R<85 G<100 B>185; then alpha MinFilter(3)",
+    "verification": "Visible yellow pixels 6899 -> 0; dark JPG composite inspected, alpha0 RGB must not be mistaken for visible pixels."
+  },
+  "remaining": "White floor strip under box and changing foot/box placement require correction before video registration; no app publication."
+}

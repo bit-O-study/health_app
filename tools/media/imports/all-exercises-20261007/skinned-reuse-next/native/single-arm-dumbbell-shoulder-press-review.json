@@ -1,0 +1,73 @@
+{
+  "id": "single-arm-dumbbell-shoulder-press",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://hortonbarbell.com/single-arm-dumbbell-shoulder-press/"
+  ],
+  "checks": {
+    "exercise": "Single loaded arm presses overhead and returns to shoulder, opposite empty arm relaxed. Forward-facing palm variation.",
+    "equipment": "One hex dumbbell attached to working hand, opposite hand empty. Both final themes reviewed.",
+    "setup": "Upright stable torso, complete body and equipment visible in final full camera. Exact scene theme colors; original procedural 3D geometry preserved.",
+    "hands": "Hand close-ups and final encoded sheets confirm exercise-specific grip and continuous hand-weight attachment. Zottman also checked hand phases 105/210/345 against roll code.",
+    "feet": "Both feet stationary on floor across final 32-frame sheets; no foot clipping or sliding.",
+    "movement": "Both final 32-frame sheets inspected. Native 192 frames at 24fps/8sec without optical flow, full decode passed. Mobile Edge both themes play, 7.5s seek and loop passed."
+  },
+  "sourceSha256": "2a82153fa2b6f4ff7bd788786befab92766990e67ce796e2c72b97dba44e757a",
+  "rigSourceSha256": "58af2a458b4e6bb9e8109778d2b97ceea51d33236e1b39fa8457b67f6b755a17",
+  "videoSha256": "aa424f2c8a14977635c975bf142745541cc09f3e544f550fe7efcc33fdde2851",
+  "darkVideoSha256": "acee056dc1a975d088942e152c5682aa6219dea30eb83dca87a612cdbe0a5a39",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-next/native/single-arm-dumbbell-shoulder-press.mp4",
+      "sha256": "aa424f2c8a14977635c975bf142745541cc09f3e544f550fe7efcc33fdde2851",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 55248,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-reuse-next/native/single-arm-dumbbell-shoulder-press-dark.mp4",
+      "sha256": "acee056dc1a975d088942e152c5682aa6219dea30eb83dca87a612cdbe0a5a39",
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "frames": 192,
+      "bytes": 49878,
+      "decode": "passed"
+    }
+  ],
+  "reviewedAt": "2026-10-07T03:27:48.444Z",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "limitations": "3D mannequin and bare feet style retained; dark weights have lower contrast but remain present. No app integration or physical-device certification. Single-arm press side diagnostic camera clips overhead weight; final full-camera movies retain it fully."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "seated-single-arm-dumbbell-shoulder-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b91879f8f3892a5e8bf4d964dd6d44e884c7ca8013621d58501b3c1a103b5d44",
+  "rigSourceSha256": "15b6d9cb104bfd76e4c3168c5e81d4565a509c34cdae5a59c00f7b470c2f6ac4",
+  "videoSha256": "89a63343cdbc75c6c96a528a93e851ea873fd1415ceba7113001a6668472a62d",
+  "darkVideoSha256": "297a4dcd148f0adc9e50aea230ca852549a5ae27cccd392ddf541b9e7287a95e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 55066,
+  "darkBytes": 48870,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:59:55.793Z"
+}

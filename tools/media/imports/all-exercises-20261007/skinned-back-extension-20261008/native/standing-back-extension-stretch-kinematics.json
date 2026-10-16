@@ -1,0 +1,32 @@
+{
+  "samples": 481,
+  "feetDrift": 0,
+  "pelvisDrift": 0,
+  "wristDrift": 5.924889052322839e-15,
+  "loopDrift": 0,
+  "minFloorClearance": -0.0002309799194328832,
+  "startAngle": 0,
+  "peakAngle": -12,
+  "handBackMinGap": 0.027051169228791583,
+  "palmNormalError": 7.784251465316585e-16,
+  "handBackMaxGap": 1.2490121224258797,
+  "phaseSeconds": {
+    "extend": [
+      0,
+      2
+    ],
+    "hold": [
+      2,
+      5
+    ],
+    "return": [
+      5,
+      7
+    ],
+    "rest": [
+      7,
+      8
+    ]
+  },
+  "units": "world units, body approximately17 tall; hand gap versus skin and shorts sampled projected XY neighbors within.2, not exact triangle collision"
+}

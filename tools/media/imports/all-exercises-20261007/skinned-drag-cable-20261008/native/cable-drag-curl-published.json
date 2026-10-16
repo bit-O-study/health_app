@@ -1,0 +1,18 @@
+{
+  "id": "cable-drag-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "761abb7739debf513e32a128843f6013d82a2c932276608104669d30fe1fda50",
+  "rigSourceSha256": "a6fe72d6b7e128ef399af4f04802182357917f85197ba548d11c6dcb78631fc9",
+  "videoSha256": "c8c283f922662b4b708c90f689c5348c3534a8e3a6f041fcac6dcb833476bec0",
+  "darkVideoSha256": "56d69577381d25b24a42a5714a81dc73fac61790aa2d0fb8916be512c964563b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 75231,
+  "darkBytes": 74732,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T07:33:34.904Z"
+}

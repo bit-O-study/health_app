@@ -1,0 +1,17 @@
+{
+  "id": "calf-stretch",
+  "prompt": "Single full-body educational fitness illustration of a correctly HELD WALL CALF STRETCH. One athletic adult woman, original character, dark ponytail, fitted teal short-sleeve shirt, charcoal leggings, black athletic shoes. Clear exact side view facing RIGHT. Both open palms flat against a visible narrow gray wall slab at shoulder height on right. Elbows softly bent. Front leg RIGHT knee gently bent above front ankle; back LEFT leg extends straight back with knee straight but not hyperextended. CRITICAL back heel and entire rear shoe sole are firmly flat on the same horizontal ground level as front shoe sole; NO raised heel, no tiptoe, no turned-out rear toes. Both feet point forward toward wall. Torso and rear thigh form a relaxed forward incline, neutral straight spine, head aligned, hips square, no back arch. Space both legs visibly separated, exactly two legs, two arms and two hands. Full person and complete standalone rectangular wall slab visible inside 12% margin on all sides of square image. Wall is a narrow cropped architectural support slab rising slightly above the hands, dark neutral gray so visible on light and dark backgrounds, with a clearly vertical contact surface; not a railing or pole. Natural clean realistic3D instructional rendering, no labels, no arrows, no grids, no text, no motion. True transparent alpha background and transparent gaps between limbs, wall and body. No floor plane or shadows, no white/colored fringe. This is a single stable static stretch-hold pose for an8second loop, not a repeated heel-raise exercise. Both soles at identical ground level with rear heel unambiguously DOWN.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.mayoclinic.org/diseases-conditions/achilles-tendon-rupture/multimedia/calf-stretch-exercise/img-20008632"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "rigSource": "wall-calf-stretch-rig.png",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold",
+  "cutout": true,
+  "registeredAt": "2026-10-07T02:26:02.898Z",
+  "aliasOf": "wall-calf-stretch",
+  "aliasReason": "Both catalog IDs describe a bodyweight wall-supported calf stretch: rear knee extended, rear heel grounded, front knee bent. Conditioning catalog calf-stretch also specifies wall support. Incorrect squat captions corrected and methodSteps regression tested before reuse."
+}

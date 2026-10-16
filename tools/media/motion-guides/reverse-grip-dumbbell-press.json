@@ -1,0 +1,14 @@
+{
+  "id": "reverse-grip-dumbbell-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-grip-dumbbell-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/reverse-dumbbell-bench-press.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:35:45.731Z"
+}

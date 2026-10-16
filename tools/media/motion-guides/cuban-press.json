@@ -1,0 +1,15 @@
+{
+  "id": "cuban-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cuban-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://macrosinc.net/exercises/shoulders/dumbbell-cuban-press/",
+    "https://musclewiki.com/exercise/dumbbell-cuban-press"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:11:30.403Z"
+}

@@ -1,0 +1,169 @@
+{
+  "id": "dynamic-hamstring-stretch",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://library.theprehabguys.com/vimeo-video/standing-hamstring-stretch-dynamic/"
+  ],
+  "checks": {
+    "exercise": "Exact dynamic hamstring hinge and reach, distinct from static hands-on-knee stretch.",
+    "equipment": "Bodyweight, no wall or weights.",
+    "setup": "RIGHT foot slightly forward, working knee straight, LEFT support knee bent, both soles grounded.",
+    "hands": "Both hand surfaces stay on separated lateral sides of torso/garment and opposite hand; bilateral separating planes checked481samples.",
+    "feet": "Both ankle and actual heel anchors fixed with actual sole ground clearance checked481samples.",
+    "movement": "Both final32frame sheets plus peak hand/feet/side/waist enlargements inspected; straight spine hip hinge0to55degrees. Continuous4second cycles, full decode and Edge play/seek/loop passed."
+  },
+  "sourceSha256": "8dd50f67eaecd7b916643b143a29c828969c2216fca9d06c3053a56270658d10",
+  "rigSourceSha256": "4b343bbfb23b8c2c91e4133e3f8ed92ccac20d61fa0c10787047351891ae9a66",
+  "videoSha256": "9abdb5ecad467005cad096803121f37f014e52fefce385d4a97206b6b2c030df",
+  "darkVideoSha256": "bd0039aa75b62d66bf812f20779dc60dfede2bd277b43b5e470581f31219b1fb",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/native/dynamic-hamstring-stretch.mp4",
+      "sha256": "9abdb5ecad467005cad096803121f37f014e52fefce385d4a97206b6b2c030df",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 148682,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-dynamic-hamstring-20261014/native/dynamic-hamstring-stretch-dark.mp4",
+      "sha256": "bd0039aa75b62d66bf812f20779dc60dfede2bd277b43b5e470581f31219b1fb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 162437,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "footDrift": 2.249674586481021e-14,
+    "heelDrift": 2.2444085897852742e-14,
+    "floorError": 4.440892098500626e-15,
+    "footSkinGap": {
+      "L": {
+        "min": [
+          -3.552713678800501e-15,
+          3.552713678800501e-15
+        ],
+        "heel": [
+          0.010424613952633166,
+          0.010424613952640271
+        ],
+        "tip": [
+          0.009899862364678214,
+          0.009899862364686207
+        ]
+      },
+      "R": {
+        "min": [
+          -2.6645352591003757e-15,
+          4.440892098500626e-15
+        ],
+        "heel": [
+          0.010424613952634054,
+          0.01042461395264116
+        ],
+        "tip": [
+          0.009899862364679102,
+          0.009899862364686207
+        ]
+      }
+    },
+    "workingKnee": [
+      179.99999879258172,
+      180
+    ],
+    "supportKnee": [
+      153.3853724313212,
+      153.3853724313215
+    ],
+    "hingeDegrees": [
+      0,
+      55.00000000000003
+    ],
+    "waistGap": [
+      0.08630678267317382,
+      0.09988919518726402
+    ],
+    "waistBinnedDiagnostic": [
+      -0.0007469203051650997,
+      0.038520973946810866
+    ],
+    "waistRayHits": [
+      353,
+      353
+    ],
+    "waistRayMisses": [
+      0,
+      0
+    ],
+    "legGap": [
+      0.061812153723859224,
+      0.06181215372385976
+    ],
+    "handBodyGap": {
+      "L": [
+        1.2290331386989821,
+        1.229033138698985
+      ],
+      "R": [
+        1.2290331386989821,
+        1.229033138698985
+      ]
+    },
+    "loopDrift": 0,
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ],
+      "period": 4,
+      "hingePeaks": [
+        2,
+        6
+      ],
+      "upright": [
+        0,
+        4,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-14T04:24:47.059Z",
+  "limitations": "One prepared stance and one side shown, not stepping in. Source does not prescribe55degree ROM or two4second cycles; these illustrate motion. Neutral foot world orientation, curved sole lowest vertices contact floor. Exact ray/skin-triangle intersections on353deduplicated waistband vertices per pose replace conservative angular-bin warning (neighbor radius is not same surface point). Sampled garment radial and leg section checks and separating planes are geometric evidence, not force or exhaustive triangle collision simulation. Source video not downloaded or visually compared. No physical-device certification."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "seated-hamstring-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-hamstring-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.southtees.nhs.uk/resources/hamstring-stretch-2/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T08:35:52.282Z"
+}

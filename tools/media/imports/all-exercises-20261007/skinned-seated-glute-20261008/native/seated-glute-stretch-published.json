@@ -1,0 +1,18 @@
+{
+  "id": "seated-glute-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6ce12c57d7b55d0d5fba33bde73ef99f5c287a6b3e9784aa06caeb95949ccd62",
+  "rigSourceSha256": "32a647669dd66704086cdc807cad39cc6b424d2a61bf73141f715dd776215f2c",
+  "videoSha256": "8b5036cd35f2bb7ffd5ea3fbf0b6091107bde126a0a6be95be9ce8023f930e28",
+  "darkVideoSha256": "f9b311ba14375c204eb45138b720481e514726350b1055adf5fcbdf5f1e33444",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 76994,
+  "darkBytes": 85961,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:44:31.948Z"
+}

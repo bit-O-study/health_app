@@ -1,0 +1,18 @@
+{
+  "id": "ankle-mobility-drill",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7532c265e8b22d31c880a05a481fe92c480da488e994f7e2d43b8b2994cde574",
+  "rigSourceSha256": "04c911bcd9b61f20144b42b3c706716646af7b70d6760d89dc95db7fea5eeccc",
+  "videoSha256": "7b3598f598c59cc3e7740599c7c9f779ef27a40e2c6e593cbdfe1257bbdc854f",
+  "darkVideoSha256": "1e0d7b39b7d39713deb37b6431a2d2cd041787866a8449308df965e3c20561eb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 68921,
+  "darkBytes": 77867,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:12:20.834Z"
+}

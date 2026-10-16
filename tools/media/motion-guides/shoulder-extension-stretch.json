@@ -1,0 +1,15 @@
+{
+  "id": "shoulder-extension-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "shoulder-extension-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.cuh.nhs.uk/patient-information/shoulder-range-of-movement-exercises-active/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T02:22:12.796Z"
+}

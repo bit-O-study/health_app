@@ -1,0 +1,18 @@
+{
+  "id": "reverse-grip-ez-pushdown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6ab3a9293f3ec02b39cdf5ac4c4c5a52c7dc33775e6c7e74564c8ce9661f1b60",
+  "rigSourceSha256": "84adf673e5dbadb63d8e84c87050d1d39d49aafa264ad03372b648d567130f9c",
+  "videoSha256": "2386e83fd9b9f251a1436fb106a5dd401226ac5e18237d5236b412b3b32e1cf0",
+  "darkVideoSha256": "4499328e6c9c5a6745528948fcc07fa29fc95e836ff1ffc256c54ccb7ff0a7a9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78299,
+  "darkBytes": 75058,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T02:05:33.420Z"
+}

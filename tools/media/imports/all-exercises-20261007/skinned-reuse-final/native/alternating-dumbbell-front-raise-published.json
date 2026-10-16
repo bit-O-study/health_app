@@ -1,0 +1,18 @@
+{
+  "id": "alternating-dumbbell-front-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "88dafba76ea52dcace636954862fe95c7db7801dff088ff0b9a95e0c82187bad",
+  "rigSourceSha256": "32e0e9ff276267a1865405a1342923af654ece15cc54a7e7e4f1f03e5abe4b7a",
+  "videoSha256": "241b787bb1dc39d55ebc281202ae6e943cf98c636aaaaaeaa1d2f0db88e8613f",
+  "darkVideoSha256": "e83022ba028fca24f521eb00e66b5887f8f240cc7c84fa56a98fe55e27761cd5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77912,
+  "darkBytes": 72148,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:36:44.899Z"
+}

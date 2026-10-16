@@ -1,0 +1,151 @@
+{
+  "id": "cable-spider-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-spider-b12-20261014/native/cable-spider-curl.mp4",
+      "sha256": "6424fe5a4f045c6c62dad8f73dabe0f170ca8a27e61c3f4af99fd1c716217893",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78520,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-cable-spider-b12-20261014/native/cable-spider-curl-dark.mp4",
+      "sha256": "12a9a441e4d431884fa1f5f91025249b64743edf4c71c4888a3304872e44d2fb",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 77091,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "collisionSamples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.3322676295501878e-15,
+    "gripAxisError": 1.5161761050816639e-15,
+    "elbowBendRange": [
+      4.999999999999918,
+      120.00000000000001
+    ],
+    "gripWidth": 4.282093700356766,
+    "barLength": 6.4,
+    "padDimensions": [
+      2.9,
+      7.5,
+      0.35
+    ],
+    "fullPhaseAngleError": 1.5898393712632242e-13,
+    "supinationMinimum": 0.9507020329002329,
+    "phaseAnchorError": 0,
+    "benchAngleError": 7.105427357601002e-15,
+    "upperarmHorizontalError": 2.220446049250313e-16,
+    "bodyBar": 0.9034562396467097,
+    "skinPad": 0.0120000000000004,
+    "clothPad": 0.2715704426939723,
+    "bodyFrame": 0.5500328140589176,
+    "clothEquipment": 0.8202183628799389,
+    "chestPad": 0.0120000000000004,
+    "barPad": 2.0396476881969243,
+    "barFloor": 5.0303764606701895,
+    "barFrame": 0.8350556489329816,
+    "barMachine": 0.5669954503841833,
+    "benchMachine": 0.8640747615692732,
+    "cableBody": 1.1111863491879255,
+    "cableCloth": 3.8569094184891344,
+    "bodyMachine": 0.698329317295604,
+    "clothMachine": 6.901664645721613,
+    "cablePad": 1.6136155304066897,
+    "cableFrame": 0.7080278285405337,
+    "handSeparationX": 3.224781390573435,
+    "floorGap": 0,
+    "cableLengthDrift": 7.105427357601002e-15,
+    "tangentError": 2.4424906541753444e-15,
+    "rimError": 7.771561172376096e-16,
+    "connectorError": 3.3306690738754696e-16,
+    "stackRange": [
+      0,
+      6.1398649881778535
+    ],
+    "stackUpwardDrops": 0,
+    "stackBaseGap": 0.16999999999999993,
+    "stackUpperGap": 3.8601350118221465,
+    "polylineLengthError": 0.0015699261135608822,
+    "pulleyStationDrift": 0
+  },
+  "sources": [
+    "https://breakingmuscle.com/spider-curl/"
+  ],
+  "sourceSha256": "0da423e802607e56b220be732b4b338734b0a84cc1c40459ecd72df42fca5bf9",
+  "rigSourceSha256": "f26cb9f3762e4d0d5d955f6fb29007d4254915f61342b94935d6700efccbd32f",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "cable"
+  ],
+  "videoSha256": "6424fe5a4f045c6c62dad8f73dabe0f170ca8a27e61c3f4af99fd1c716217893",
+  "darkVideoSha256": "12a9a441e4d431884fa1f5f91025249b64743edf4c71c4888a3304872e44d2fb",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "Exact cable-spider-curl with catalog cable equipment, no registered predecessor. Original CSCS Breaking Muscle guide explicitly describes cable spider curl using a low station as a variation of its45degree chest-down supinated fixed-upperarm curl.60degree seated CriticalBody variant is not mixed.",
+    "equipment": "Straight cable bar with central ring, front low pulley, rear lower redirect and upper return pulley, sliding stack and twin rails. Lower extended frame is a generic low-row station. Whole routed length/tangency/rim/connector and stationary pulleys verified481samples; stack rises monotonically on curl and retains upper/lower clearance. Cable-body/garment/bench, bar-machine and bench-machine gaps positive.",
+    "setup": "Prone chest on45degree pad; head/neck beyond top edge; torso and pelvis fixed. Chest-pad gap.012. Bench includes under-pad support and stable base. Cosmetic breathing morph disabled for exact visual/measurement contact consistency.",
+    "hands": "Supinated bilateral shaft grips, anatomical palm projection minimum.9507. Fixed world anchors/axes checked481samples, closed fingers/thumb inspected at start/top. Hand separation checked; shaft intentional grips excluded only from body collision, cable and machine checks include hands.",
+    "feet": "Both feet fixed behind incline bench, sole floor gap0. Feet/base-frame closeups inspected; no foot/bench or cable-frame penetration.",
+    "movement": "Smooth8second loop: lowered hold0-.4, curl.4-3.8, top hold3.8-4.2, lower4.2-7.6, hold7.6-8. Elbows5–120degrees, upperarms fixed vertical. Full phase angle/loop checks481. Both32frame decoded sheets and hand/chest-support/side/pulley/stack/feet closeups inspected; both full decode and mobile Edge play/seek/loop passed."
+  },
+  "visualReview": {
+    "reviewer": "wrist worker; root final visual approval required",
+    "artifacts": [
+      "-contact.jpg",
+      "-contact-dark.jpg",
+      "/full-0.png",
+      "/full-210.png",
+      "/hand-0.png",
+      "/hand-210.png",
+      "/support-210.png",
+      "/side-210.png",
+      "/feet-0.png",
+      "/pulley-210.png",
+      "/stack-210.png"
+    ],
+    "observations": "Full apparatus readable, wire connects central ring to front wheel then horizontal return beneath machine, lower redirect and upper wheel into stack. No ghost free-weight plates. Stack stays inside rails. Bench support and bar path remain separated."
+  },
+  "limitations": [
+    "Five-degree soft finish and representative120degree curl top instead of an individual maximal range.",
+    "Generic fixed45degree bench and long-base low-row cable station; no commercial product dimensions/load claimed. Source does not specify pulley count or station dimensions; engineering routing is an implementation choice.",
+    "Local curved chest support rather than the whole abdomen flush; mild skin folds visible.",
+    "Discrete481skin/garment vertex checks with analytic boxes, segments and conservative pulley spheres plus sampled equipment paths; not exhaustive continuous triangle collision.",
+    "Local mobile Edge emulation is not physical phone/app verification."
+  ]
+}

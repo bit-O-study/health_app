@@ -1,0 +1,101 @@
+{
+  "id": "kettlebell-biceps-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-biceps-20261008/native/kettlebell-biceps-curl.mp4",
+      "sha256": "cd571785e3cc0610c8e6adca0bc5a81a905baf1ff9d3b4174f9fa6eb9bf39e89",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 86831,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-biceps-20261008/native/kettlebell-biceps-curl-dark.mp4",
+      "sha256": "b0f2c191808074c705270a9d44b868cd15995eeac1897431a6415434413e189e",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 79560,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 2.094764613337708e-15,
+    "gripTangentAxisError": 1.5905664321074658e-15,
+    "elbowBendRange": [
+      15.053561940918362,
+      107.63884705963683
+    ],
+    "bellRadius": 0.68,
+    "gripToBellCenter": 1.48,
+    "dumbbellRise": 5.3034682487168885,
+    "collisionSamples": 17,
+    "bodyBellMinClearance": 0.5647775320333036,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/kettlebell-biceps-curl/"
+  ],
+  "sourceSha256": "f6b1e4b1bfd91c097db0a9221e10149040d73633894ec27f0688f88d0cd49455",
+  "rigSourceSha256": "19a3c480eaca1c1b3ba922f18508b21fafed3df483dffba26d138fc7363fca1e",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "kettlebell"
+  ],
+  "checks": {
+    "exercise": "Standing bilateral supinated kettlebell biceps curl confirmed against original Muscle and Fitness source and photograph.",
+    "equipment": "Exact catalog kettlebell. Two independent closed U handles with spherical flattened-bottom bell bodies, not dumbbell substitution.",
+    "setup": "Standing stationary body, fixed upperarms, slight forward upperarm angle and small initial elbow bend prevent thigh contact.",
+    "hands": "Both supinated grips on horizontal shafts. Bell bodies remain vertically below hands while rotating freely around grip shaft; both hand/support210 closeups inspected.",
+    "feet": "Fixed grounded barefoot mannequin, floor matches foot minimum -8.175231. Original source shoes are not essential to this unsupported standing equipment setup.",
+    "movement": "Both final32frame sheets and full0/210 side210 inspected.481samples fixed joints/loop0, grip/axis below2.1e-15, bell downward alignment verified,17phase body-bell gap minimum.56478. Smooth .4/3.8/4.2/7.6 phases."
+  },
+  "hanging": {
+    "samples": 481,
+    "gravityAxisError": 1.2755491433176288e-15,
+    "bellOffsetError": 8.881784197001252e-16
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "videoSha256": "cd571785e3cc0610c8e6adca0bc5a81a905baf1ff9d3b4174f9fa6eb9bf39e89",
+  "darkVideoSha256": "b0f2c191808074c705270a9d44b868cd15995eeac1897431a6415434413e189e",
+  "limitations": [
+    "Root visual review pending, no shared publication.",
+    "Procedural angular U handles and spherical bell shape; not exact brand replica.",
+    "Gravity orientation kinematic with permitted rotation about grip, no inertia simulation.",
+    "17pose vertex-to-bell collision metric excludes hands and does not exhaustively prove handle/cloth triangle gaps.",
+    "Barefoot anatomical mannequin, minor angular elbow skin; local mobile Edge emulation only."
+  ],
+  "reviewedAt": "2026-10-08T08:17:17.421Z"
+}

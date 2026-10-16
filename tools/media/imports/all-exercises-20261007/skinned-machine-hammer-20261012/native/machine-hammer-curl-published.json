@@ -1,0 +1,18 @@
+{
+  "id": "machine-hammer-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d5c7a7e26345af6cdee85106a24007266be48da46a2524e6b45d5177876ce320",
+  "rigSourceSha256": "4d7c11001c1bbaf7f04691284a2470b3a35e021b271159e7002ae9013d9b1fbe",
+  "videoSha256": "097fce1ace0228739c92bc322cf0922eb4abe2be36bc6a3ed284ec824a077366",
+  "darkVideoSha256": "1f3655231873f51eda74b8303044d128c4423753f18381582f40a7fc63765122",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 122747,
+  "darkBytes": 109607,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T03:59:38.094Z"
+}

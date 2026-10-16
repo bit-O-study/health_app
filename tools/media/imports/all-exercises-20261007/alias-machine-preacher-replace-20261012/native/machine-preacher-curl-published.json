@@ -1,0 +1,18 @@
+{
+  "id": "machine-preacher-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9c0cce4db942d70d46e6372bdccb9440bebdb6fc9f0dad340eb4b753aa33b248",
+  "rigSourceSha256": "94c8ef58bd822c8723829b6168dab2a44ca33389ec9b33f512d532d4bf6a3f1b",
+  "videoSha256": "107816e742a850e698dead2b3cb138b70013599a2a614c04ad416af4928686a3",
+  "darkVideoSha256": "dabf977d82fb5ac51ec81017220593c0ca54cfb6ba530b7da7a18c93c9469107",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 115307,
+  "darkBytes": 100255,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:34:55.964Z"
+}

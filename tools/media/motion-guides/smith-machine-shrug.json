@@ -1,0 +1,14 @@
+{
+  "id": "smith-machine-shrug",
+  "equipment": "smith",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-shrug-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-shrug.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T05:26:47.190Z",
+  "timing": "controlled"
+}

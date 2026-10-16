@@ -1,0 +1,15 @@
+{
+  "id": "biceps-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "stretch",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "biceps-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://bloomsburyhealthcentre.co.uk/wp-content/uploads/2016/09/SHOM07-Stretch-of-Biceps-Pectoralis-Forearm-muscles-against-a-wall.pdf"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T02:30:20.690Z"
+}

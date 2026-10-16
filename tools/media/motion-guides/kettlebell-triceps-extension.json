@@ -1,0 +1,16 @@
+{
+  "id": "kettlebell-triceps-extension",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "reverse",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-triceps-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.healthline.com/health/fitness/overhead-triceps-extension",
+    "https://incore-sports.com/en/competition-kettlebells-construction"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-14T08:56:44.707Z"
+}

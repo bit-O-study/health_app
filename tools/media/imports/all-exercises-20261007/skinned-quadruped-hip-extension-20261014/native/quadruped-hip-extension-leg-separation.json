@@ -1,0 +1,1931 @@
+{
+  "samples": 481,
+  "min": 0.3394628914467662,
+  "max": 0.3554120028253943,
+  "rows": [
+    {
+      "frame": 0,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 1,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 2,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 3,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 4,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 5,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 6,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 7,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 8,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 9,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 10,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 11,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 12,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 13,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 14,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 15,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 16,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 17,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 18,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 19,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 20,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 21,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 22,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 23,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 24,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 25,
+      "skinLegSeparatingGap": 0.3394629048012494
+    },
+    {
+      "frame": 26,
+      "skinLegSeparatingGap": 0.3394629974961648
+    },
+    {
+      "frame": 27,
+      "skinLegSeparatingGap": 0.3394632467209948
+    },
+    {
+      "frame": 28,
+      "skinLegSeparatingGap": 0.3394637273441118
+    },
+    {
+      "frame": 29,
+      "skinLegSeparatingGap": 0.33946451194304617
+    },
+    {
+      "frame": 30,
+      "skinLegSeparatingGap": 0.33946567083704804
+    },
+    {
+      "frame": 31,
+      "skinLegSeparatingGap": 0.3394672721216798
+    },
+    {
+      "frame": 32,
+      "skinLegSeparatingGap": 0.33946938170517493
+    },
+    {
+      "frame": 33,
+      "skinLegSeparatingGap": 0.33947206334632574
+    },
+    {
+      "frame": 34,
+      "skinLegSeparatingGap": 0.3394753786936825
+    },
+    {
+      "frame": 35,
+      "skinLegSeparatingGap": 0.33947938732584715
+    },
+    {
+      "frame": 36,
+      "skinLegSeparatingGap": 0.33948414679268657
+    },
+    {
+      "frame": 37,
+      "skinLegSeparatingGap": 0.33948971265727845
+    },
+    {
+      "frame": 38,
+      "skinLegSeparatingGap": 0.33949613853843963
+    },
+    {
+      "frame": 39,
+      "skinLegSeparatingGap": 0.3395034761536921
+    },
+    {
+      "frame": 40,
+      "skinLegSeparatingGap": 0.33951177536253296
+    },
+    {
+      "frame": 41,
+      "skinLegSeparatingGap": 0.339521084209894
+    },
+    {
+      "frame": 42,
+      "skinLegSeparatingGap": 0.3395314489696867
+    },
+    {
+      "frame": 43,
+      "skinLegSeparatingGap": 0.33954291418833416
+    },
+    {
+      "frame": 44,
+      "skinLegSeparatingGap": 0.3395555227282162
+    },
+    {
+      "frame": 45,
+      "skinLegSeparatingGap": 0.3395693158109403
+    },
+    {
+      "frame": 46,
+      "skinLegSeparatingGap": 0.33958433306039076
+    },
+    {
+      "frame": 47,
+      "skinLegSeparatingGap": 0.3396006125454831
+    },
+    {
+      "frame": 48,
+      "skinLegSeparatingGap": 0.3396181908225869
+    },
+    {
+      "frame": 49,
+      "skinLegSeparatingGap": 0.3396371029775682
+    },
+    {
+      "frame": 50,
+      "skinLegSeparatingGap": 0.3396573826674193
+    },
+    {
+      "frame": 51,
+      "skinLegSeparatingGap": 0.3396790621614372
+    },
+    {
+      "frame": 52,
+      "skinLegSeparatingGap": 0.33970217238193456
+    },
+    {
+      "frame": 53,
+      "skinLegSeparatingGap": 0.33972674294445104
+    },
+    {
+      "frame": 54,
+      "skinLegSeparatingGap": 0.33975280219744985
+    },
+    {
+      "frame": 55,
+      "skinLegSeparatingGap": 0.3397803772614841
+    },
+    {
+      "frame": 56,
+      "skinLegSeparatingGap": 0.33980949406781324
+    },
+    {
+      "frame": 57,
+      "skinLegSeparatingGap": 0.33984017739646344
+    },
+    {
+      "frame": 58,
+      "skinLegSeparatingGap": 0.3398724509137172
+    },
+    {
+      "frame": 59,
+      "skinLegSeparatingGap": 0.3399063372090229
+    },
+    {
+      "frame": 60,
+      "skinLegSeparatingGap": 0.3399418578313134
+    },
+    {
+      "frame": 61,
+      "skinLegSeparatingGap": 0.3399790333247282
+    },
+    {
+      "frame": 62,
+      "skinLegSeparatingGap": 0.3400178832637263
+    },
+    {
+      "frame": 63,
+      "skinLegSeparatingGap": 0.34005842628757943
+    },
+    {
+      "frame": 64,
+      "skinLegSeparatingGap": 0.34010068013424244
+    },
+    {
+      "frame": 65,
+      "skinLegSeparatingGap": 0.34014466167357893
+    },
+    {
+      "frame": 66,
+      "skinLegSeparatingGap": 0.3401903869399404
+    },
+    {
+      "frame": 67,
+      "skinLegSeparatingGap": 0.34023787116407983
+    },
+    {
+      "frame": 68,
+      "skinLegSeparatingGap": 0.340287128804386
+    },
+    {
+      "frame": 69,
+      "skinLegSeparatingGap": 0.34033817357742513
+    },
+    {
+      "frame": 70,
+      "skinLegSeparatingGap": 0.3403910184877684
+    },
+    {
+      "frame": 71,
+      "skinLegSeparatingGap": 0.3404456758570896
+    },
+    {
+      "frame": 72,
+      "skinLegSeparatingGap": 0.3405021573525091
+    },
+    {
+      "frame": 73,
+      "skinLegSeparatingGap": 0.340560474014162
+    },
+    {
+      "frame": 74,
+      "skinLegSeparatingGap": 0.340620636281969
+    },
+    {
+      "frame": 75,
+      "skinLegSeparatingGap": 0.3406826540215758
+    },
+    {
+      "frame": 76,
+      "skinLegSeparatingGap": 0.3407465365494403
+    },
+    {
+      "frame": 77,
+      "skinLegSeparatingGap": 0.3408122926570316
+    },
+    {
+      "frame": 78,
+      "skinLegSeparatingGap": 0.3408799306341112
+    },
+    {
+      "frame": 79,
+      "skinLegSeparatingGap": 0.3409494582910598
+    },
+    {
+      "frame": 80,
+      "skinLegSeparatingGap": 0.34102088298021527
+    },
+    {
+      "frame": 81,
+      "skinLegSeparatingGap": 0.34109421161618136
+    },
+    {
+      "frame": 82,
+      "skinLegSeparatingGap": 0.3411694506950695
+    },
+    {
+      "frame": 83,
+      "skinLegSeparatingGap": 0.3412466063126276
+    },
+    {
+      "frame": 84,
+      "skinLegSeparatingGap": 0.34132568418121767
+    },
+    {
+      "frame": 85,
+      "skinLegSeparatingGap": 0.3414066896455913
+    },
+    {
+      "frame": 86,
+      "skinLegSeparatingGap": 0.34148962769741864
+    },
+    {
+      "frame": 87,
+      "skinLegSeparatingGap": 0.341574502988523
+    },
+    {
+      "frame": 88,
+      "skinLegSeparatingGap": 0.34166131984276704
+    },
+    {
+      "frame": 89,
+      "skinLegSeparatingGap": 0.34175008226654324
+    },
+    {
+      "frame": 90,
+      "skinLegSeparatingGap": 0.34184079395781064
+    },
+    {
+      "frame": 91,
+      "skinLegSeparatingGap": 0.3419334583136282
+    },
+    {
+      "frame": 92,
+      "skinLegSeparatingGap": 0.3420280784361263
+    },
+    {
+      "frame": 93,
+      "skinLegSeparatingGap": 0.3421246571368576
+    },
+    {
+      "frame": 94,
+      "skinLegSeparatingGap": 0.34222319693947556
+    },
+    {
+      "frame": 95,
+      "skinLegSeparatingGap": 0.34232370008067514
+    },
+    {
+      "frame": 96,
+      "skinLegSeparatingGap": 0.3424261685093385
+    },
+    {
+      "frame": 97,
+      "skinLegSeparatingGap": 0.34253060388382833
+    },
+    {
+      "frame": 98,
+      "skinLegSeparatingGap": 0.34263700756736365
+    },
+    {
+      "frame": 99,
+      "skinLegSeparatingGap": 0.34274538062141696
+    },
+    {
+      "frame": 100,
+      "skinLegSeparatingGap": 0.34285572379707696
+    },
+    {
+      "frame": 101,
+      "skinLegSeparatingGap": 0.34296803752430693
+    },
+    {
+      "frame": 102,
+      "skinLegSeparatingGap": 0.34308232189904486
+    },
+    {
+      "frame": 103,
+      "skinLegSeparatingGap": 0.3431985766680783
+    },
+    {
+      "frame": 104,
+      "skinLegSeparatingGap": 0.34331680121163777
+    },
+    {
+      "frame": 105,
+      "skinLegSeparatingGap": 0.3434369945236484
+    },
+    {
+      "frame": 106,
+      "skinLegSeparatingGap": 0.3435591551895783
+    },
+    {
+      "frame": 107,
+      "skinLegSeparatingGap": 0.3436832813618303
+    },
+    {
+      "frame": 108,
+      "skinLegSeparatingGap": 0.34380937073262063
+    },
+    {
+      "frame": 109,
+      "skinLegSeparatingGap": 0.3439374205042912
+    },
+    {
+      "frame": 110,
+      "skinLegSeparatingGap": 0.34406742735700435
+    },
+    {
+      "frame": 111,
+      "skinLegSeparatingGap": 0.34419938741377587
+    },
+    {
+      "frame": 112,
+      "skinLegSeparatingGap": 0.3443332962027975
+    },
+    {
+      "frame": 113,
+      "skinLegSeparatingGap": 0.3444691486170156
+    },
+    {
+      "frame": 114,
+      "skinLegSeparatingGap": 0.34460693887092475
+    },
+    {
+      "frame": 115,
+      "skinLegSeparatingGap": 0.34474666045455193
+    },
+    {
+      "frame": 116,
+      "skinLegSeparatingGap": 0.34488830608460286
+    },
+    {
+      "frame": 117,
+      "skinLegSeparatingGap": 0.34503186765275934
+    },
+    {
+      "frame": 118,
+      "skinLegSeparatingGap": 0.3451773361711137
+    },
+    {
+      "frame": 119,
+      "skinLegSeparatingGap": 0.3453247017147404
+    },
+    {
+      "frame": 120,
+      "skinLegSeparatingGap": 0.3454739533614186
+    },
+    {
+      "frame": 121,
+      "skinLegSeparatingGap": 0.3456250791285139
+    },
+    {
+      "frame": 122,
+      "skinLegSeparatingGap": 0.34577806590706284
+    },
+    {
+      "frame": 123,
+      "skinLegSeparatingGap": 0.3459328993930912
+    },
+    {
+      "frame": 124,
+      "skinLegSeparatingGap": 0.3460895640162309
+    },
+    {
+      "frame": 125,
+      "skinLegSeparatingGap": 0.3462480428657003
+    },
+    {
+      "frame": 126,
+      "skinLegSeparatingGap": 0.34640831761374125
+    },
+    {
+      "frame": 127,
+      "skinLegSeparatingGap": 0.3465703684366096
+    },
+    {
+      "frame": 128,
+      "skinLegSeparatingGap": 0.34673417393325207
+    },
+    {
+      "frame": 129,
+      "skinLegSeparatingGap": 0.3468997110418023
+    },
+    {
+      "frame": 130,
+      "skinLegSeparatingGap": 0.34706695495406803
+    },
+    {
+      "frame": 131,
+      "skinLegSeparatingGap": 0.34723587902819397
+    },
+    {
+      "frame": 132,
+      "skinLegSeparatingGap": 0.3474064546997107
+    },
+    {
+      "frame": 133,
+      "skinLegSeparatingGap": 0.3475786513912087
+    },
+    {
+      "frame": 134,
+      "skinLegSeparatingGap": 0.3477524364208994
+    },
+    {
+      "frame": 135,
+      "skinLegSeparatingGap": 0.3479277749103569
+    },
+    {
+      "frame": 136,
+      "skinLegSeparatingGap": 0.34810462969176337
+    },
+    {
+      "frame": 137,
+      "skinLegSeparatingGap": 0.34828296121500546
+    },
+    {
+      "frame": 138,
+      "skinLegSeparatingGap": 0.3484627274550114
+    },
+    {
+      "frame": 139,
+      "skinLegSeparatingGap": 0.34864388381974476
+    },
+    {
+      "frame": 140,
+      "skinLegSeparatingGap": 0.3488263830593025
+    },
+    {
+      "frame": 141,
+      "skinLegSeparatingGap": 0.34901017517660576
+    },
+    {
+      "frame": 142,
+      "skinLegSeparatingGap": 0.3491952073402009
+    },
+    {
+      "frame": 143,
+      "skinLegSeparatingGap": 0.3493814237997267
+    },
+    {
+      "frame": 144,
+      "skinLegSeparatingGap": 0.3495687658046359
+    },
+    {
+      "frame": 145,
+      "skinLegSeparatingGap": 0.34975717152679364
+    },
+    {
+      "frame": 146,
+      "skinLegSeparatingGap": 0.3499465759876156
+    },
+    {
+      "frame": 147,
+      "skinLegSeparatingGap": 0.3501369109904246
+    },
+    {
+      "frame": 148,
+      "skinLegSeparatingGap": 0.35032810505876205
+    },
+    {
+      "frame": 149,
+      "skinLegSeparatingGap": 0.35052008338138996
+    },
+    {
+      "frame": 150,
+      "skinLegSeparatingGap": 0.3507127677647678
+    },
+    {
+      "frame": 151,
+      "skinLegSeparatingGap": 0.3508299700300962
+    },
+    {
+      "frame": 152,
+      "skinLegSeparatingGap": 0.3509244480977182
+    },
+    {
+      "frame": 153,
+      "skinLegSeparatingGap": 0.3510195606455697
+    },
+    {
+      "frame": 154,
+      "skinLegSeparatingGap": 0.3511152600620835
+    },
+    {
+      "frame": 155,
+      "skinLegSeparatingGap": 0.35121149629136567
+    },
+    {
+      "frame": 156,
+      "skinLegSeparatingGap": 0.3513082168240042
+    },
+    {
+      "frame": 157,
+      "skinLegSeparatingGap": 0.35140536669614636
+    },
+    {
+      "frame": 158,
+      "skinLegSeparatingGap": 0.351502888497471
+    },
+    {
+      "frame": 159,
+      "skinLegSeparatingGap": 0.35160072238867035
+    },
+    {
+      "frame": 160,
+      "skinLegSeparatingGap": 0.3516988061290439
+    },
+    {
+      "frame": 161,
+      "skinLegSeparatingGap": 0.3517970751147917
+    },
+    {
+      "frame": 162,
+      "skinLegSeparatingGap": 0.35189546242856606
+    },
+    {
+      "frame": 163,
+      "skinLegSeparatingGap": 0.35199389890080746
+    },
+    {
+      "frame": 164,
+      "skinLegSeparatingGap": 0.3520923131833592
+    },
+    {
+      "frame": 165,
+      "skinLegSeparatingGap": 0.35219063183579946
+    },
+    {
+      "frame": 166,
+      "skinLegSeparatingGap": 0.35228877942488174
+    },
+    {
+      "frame": 167,
+      "skinLegSeparatingGap": 0.3523866786374125
+    },
+    {
+      "frame": 168,
+      "skinLegSeparatingGap": 0.35248425040682774
+    },
+    {
+      "frame": 169,
+      "skinLegSeparatingGap": 0.3525814140536455
+    },
+    {
+      "frame": 170,
+      "skinLegSeparatingGap": 0.35267808743990503
+    },
+    {
+      "frame": 171,
+      "skinLegSeparatingGap": 0.3527741871375918
+    },
+    {
+      "frame": 172,
+      "skinLegSeparatingGap": 0.35286962861097215
+    },
+    {
+      "frame": 173,
+      "skinLegSeparatingGap": 0.3529643264126414
+    },
+    {
+      "frame": 174,
+      "skinLegSeparatingGap": 0.35305819439299535
+    },
+    {
+      "frame": 175,
+      "skinLegSeparatingGap": 0.353151145922716
+    },
+    {
+      "frame": 176,
+      "skinLegSeparatingGap": 0.3532430941277501
+    },
+    {
+      "frame": 177,
+      "skinLegSeparatingGap": 0.35333395213614077
+    },
+    {
+      "frame": 178,
+      "skinLegSeparatingGap": 0.3534236333359621
+    },
+    {
+      "frame": 179,
+      "skinLegSeparatingGap": 0.3535120516434773
+    },
+    {
+      "frame": 180,
+      "skinLegSeparatingGap": 0.353599121780534
+    },
+    {
+      "frame": 181,
+      "skinLegSeparatingGap": 0.3536847595601029
+    },
+    {
+      "frame": 182,
+      "skinLegSeparatingGap": 0.3537688821787443
+    },
+    {
+      "frame": 183,
+      "skinLegSeparatingGap": 0.353851408514702
+    },
+    {
+      "frame": 184,
+      "skinLegSeparatingGap": 0.35393225943022266
+    },
+    {
+      "frame": 185,
+      "skinLegSeparatingGap": 0.3540113580766178
+    },
+    {
+      "frame": 186,
+      "skinLegSeparatingGap": 0.3540886302005185
+    },
+    {
+      "frame": 187,
+      "skinLegSeparatingGap": 0.3541640044497051
+    },
+    {
+      "frame": 188,
+      "skinLegSeparatingGap": 0.3542374126768584
+    },
+    {
+      "frame": 189,
+      "skinLegSeparatingGap": 0.35430879023954126
+    },
+    {
+      "frame": 190,
+      "skinLegSeparatingGap": 0.35437807629471396
+    },
+    {
+      "frame": 191,
+      "skinLegSeparatingGap": 0.35444521408607643
+    },
+    {
+      "frame": 192,
+      "skinLegSeparatingGap": 0.35451015122257146
+    },
+    {
+      "frame": 193,
+      "skinLegSeparatingGap": 0.3545728399463963
+    },
+    {
+      "frame": 194,
+      "skinLegSeparatingGap": 0.3546332373889539
+    },
+    {
+      "frame": 195,
+      "skinLegSeparatingGap": 0.35469130581322694
+    },
+    {
+      "frame": 196,
+      "skinLegSeparatingGap": 0.35474701284116894
+    },
+    {
+      "frame": 197,
+      "skinLegSeparatingGap": 0.3548003316648025
+    },
+    {
+      "frame": 198,
+      "skinLegSeparatingGap": 0.35485124123985506
+    },
+    {
+      "frame": 199,
+      "skinLegSeparatingGap": 0.35489972646089074
+    },
+    {
+      "frame": 200,
+      "skinLegSeparatingGap": 0.35494577831706514
+    },
+    {
+      "frame": 201,
+      "skinLegSeparatingGap": 0.35498939402779095
+    },
+    {
+      "frame": 202,
+      "skinLegSeparatingGap": 0.3550305771577814
+    },
+    {
+      "frame": 203,
+      "skinLegSeparatingGap": 0.3550693377111328
+    },
+    {
+      "frame": 204,
+      "skinLegSeparatingGap": 0.35510569220429333
+    },
+    {
+      "frame": 205,
+      "skinLegSeparatingGap": 0.35513966371797173
+    },
+    {
+      "frame": 206,
+      "skinLegSeparatingGap": 0.3551712819282402
+    },
+    {
+      "frame": 207,
+      "skinLegSeparatingGap": 0.3552005831172879
+    },
+    {
+      "frame": 208,
+      "skinLegSeparatingGap": 0.35522761016448
+    },
+    {
+      "frame": 209,
+      "skinLegSeparatingGap": 0.35525241251858364
+    },
+    {
+      "frame": 210,
+      "skinLegSeparatingGap": 0.35527504615220573
+    },
+    {
+      "frame": 211,
+      "skinLegSeparatingGap": 0.35529557349968083
+    },
+    {
+      "frame": 212,
+      "skinLegSeparatingGap": 0.3553140633798176
+    },
+    {
+      "frame": 213,
+      "skinLegSeparatingGap": 0.35533059090508456
+    },
+    {
+      "frame": 214,
+      "skinLegSeparatingGap": 0.35534523737897594
+    },
+    {
+      "frame": 215,
+      "skinLegSeparatingGap": 0.35535809018343373
+    },
+    {
+      "frame": 216,
+      "skinLegSeparatingGap": 0.3553692426583436
+    },
+    {
+      "frame": 217,
+      "skinLegSeparatingGap": 0.35537879397524347
+    },
+    {
+      "frame": 218,
+      "skinLegSeparatingGap": 0.35538684900748996
+    },
+    {
+      "frame": 219,
+      "skinLegSeparatingGap": 0.35539351819922593
+    },
+    {
+      "frame": 220,
+      "skinLegSeparatingGap": 0.3553989174355866
+    },
+    {
+      "frame": 221,
+      "skinLegSeparatingGap": 0.35540316791665116
+    },
+    {
+      "frame": 222,
+      "skinLegSeparatingGap": 0.35540639603772944
+    },
+    {
+      "frame": 223,
+      "skinLegSeparatingGap": 0.3554087332786211
+    },
+    {
+      "frame": 224,
+      "skinLegSeparatingGap": 0.35541031610457396
+    },
+    {
+      "frame": 225,
+      "skinLegSeparatingGap": 0.35541128588169746
+    },
+    {
+      "frame": 226,
+      "skinLegSeparatingGap": 0.355411788809673
+    },
+    {
+      "frame": 227,
+      "skinLegSeparatingGap": 0.3554119758746632
+    },
+    {
+      "frame": 228,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 229,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 230,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 231,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 232,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 233,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 234,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 235,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 236,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 237,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 238,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 239,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 240,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 241,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 242,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 243,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 244,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 245,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 246,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 247,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 248,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 249,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 250,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 251,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 252,
+      "skinLegSeparatingGap": 0.3554120028253943
+    },
+    {
+      "frame": 253,
+      "skinLegSeparatingGap": 0.35541197587466333
+    },
+    {
+      "frame": 254,
+      "skinLegSeparatingGap": 0.355411788809673
+    },
+    {
+      "frame": 255,
+      "skinLegSeparatingGap": 0.35541128588169757
+    },
+    {
+      "frame": 256,
+      "skinLegSeparatingGap": 0.35541031610457396
+    },
+    {
+      "frame": 257,
+      "skinLegSeparatingGap": 0.3554087332786213
+    },
+    {
+      "frame": 258,
+      "skinLegSeparatingGap": 0.3554063960377294
+    },
+    {
+      "frame": 259,
+      "skinLegSeparatingGap": 0.3554031679166515
+    },
+    {
+      "frame": 260,
+      "skinLegSeparatingGap": 0.35539891743558655
+    },
+    {
+      "frame": 261,
+      "skinLegSeparatingGap": 0.35539351819922593
+    },
+    {
+      "frame": 262,
+      "skinLegSeparatingGap": 0.35538684900748996
+    },
+    {
+      "frame": 263,
+      "skinLegSeparatingGap": 0.35537879397524375
+    },
+    {
+      "frame": 264,
+      "skinLegSeparatingGap": 0.3553692426583436
+    },
+    {
+      "frame": 265,
+      "skinLegSeparatingGap": 0.3553580901834337
+    },
+    {
+      "frame": 266,
+      "skinLegSeparatingGap": 0.3553452373789759
+    },
+    {
+      "frame": 267,
+      "skinLegSeparatingGap": 0.35533059090508456
+    },
+    {
+      "frame": 268,
+      "skinLegSeparatingGap": 0.3553140633798177
+    },
+    {
+      "frame": 269,
+      "skinLegSeparatingGap": 0.35529557349968083
+    },
+    {
+      "frame": 270,
+      "skinLegSeparatingGap": 0.35527504615220573
+    },
+    {
+      "frame": 271,
+      "skinLegSeparatingGap": 0.3552524125185835
+    },
+    {
+      "frame": 272,
+      "skinLegSeparatingGap": 0.3552276101644801
+    },
+    {
+      "frame": 273,
+      "skinLegSeparatingGap": 0.355200583117288
+    },
+    {
+      "frame": 274,
+      "skinLegSeparatingGap": 0.35517128192824027
+    },
+    {
+      "frame": 275,
+      "skinLegSeparatingGap": 0.35513966371797173
+    },
+    {
+      "frame": 276,
+      "skinLegSeparatingGap": 0.35510569220429333
+    },
+    {
+      "frame": 277,
+      "skinLegSeparatingGap": 0.3550693377111328
+    },
+    {
+      "frame": 278,
+      "skinLegSeparatingGap": 0.3550305771577815
+    },
+    {
+      "frame": 279,
+      "skinLegSeparatingGap": 0.35498939402779095
+    },
+    {
+      "frame": 280,
+      "skinLegSeparatingGap": 0.35494577831706514
+    },
+    {
+      "frame": 281,
+      "skinLegSeparatingGap": 0.35489972646089074
+    },
+    {
+      "frame": 282,
+      "skinLegSeparatingGap": 0.35485124123985506
+    },
+    {
+      "frame": 283,
+      "skinLegSeparatingGap": 0.3548003316648026
+    },
+    {
+      "frame": 284,
+      "skinLegSeparatingGap": 0.35474701284116894
+    },
+    {
+      "frame": 285,
+      "skinLegSeparatingGap": 0.35469130581322694
+    },
+    {
+      "frame": 286,
+      "skinLegSeparatingGap": 0.35463323738895364
+    },
+    {
+      "frame": 287,
+      "skinLegSeparatingGap": 0.3545728399463963
+    },
+    {
+      "frame": 288,
+      "skinLegSeparatingGap": 0.3545101512225714
+    },
+    {
+      "frame": 289,
+      "skinLegSeparatingGap": 0.3544452140860763
+    },
+    {
+      "frame": 290,
+      "skinLegSeparatingGap": 0.35437807629471374
+    },
+    {
+      "frame": 291,
+      "skinLegSeparatingGap": 0.35430879023954115
+    },
+    {
+      "frame": 292,
+      "skinLegSeparatingGap": 0.35423741267685827
+    },
+    {
+      "frame": 293,
+      "skinLegSeparatingGap": 0.3541640044497051
+    },
+    {
+      "frame": 294,
+      "skinLegSeparatingGap": 0.3540886302005184
+    },
+    {
+      "frame": 295,
+      "skinLegSeparatingGap": 0.3540113580766179
+    },
+    {
+      "frame": 296,
+      "skinLegSeparatingGap": 0.35393225943022266
+    },
+    {
+      "frame": 297,
+      "skinLegSeparatingGap": 0.353851408514702
+    },
+    {
+      "frame": 298,
+      "skinLegSeparatingGap": 0.35376888217874425
+    },
+    {
+      "frame": 299,
+      "skinLegSeparatingGap": 0.3536847595601028
+    },
+    {
+      "frame": 300,
+      "skinLegSeparatingGap": 0.353599121780534
+    },
+    {
+      "frame": 301,
+      "skinLegSeparatingGap": 0.35351205164347715
+    },
+    {
+      "frame": 302,
+      "skinLegSeparatingGap": 0.3534236333359626
+    },
+    {
+      "frame": 303,
+      "skinLegSeparatingGap": 0.35333395213614077
+    },
+    {
+      "frame": 304,
+      "skinLegSeparatingGap": 0.3532430941277501
+    },
+    {
+      "frame": 305,
+      "skinLegSeparatingGap": 0.353151145922716
+    },
+    {
+      "frame": 306,
+      "skinLegSeparatingGap": 0.35305819439299535
+    },
+    {
+      "frame": 307,
+      "skinLegSeparatingGap": 0.3529643264126413
+    },
+    {
+      "frame": 308,
+      "skinLegSeparatingGap": 0.35286962861097215
+    },
+    {
+      "frame": 309,
+      "skinLegSeparatingGap": 0.3527741871375918
+    },
+    {
+      "frame": 310,
+      "skinLegSeparatingGap": 0.35267808743990503
+    },
+    {
+      "frame": 311,
+      "skinLegSeparatingGap": 0.3525814140536455
+    },
+    {
+      "frame": 312,
+      "skinLegSeparatingGap": 0.35248425040682774
+    },
+    {
+      "frame": 313,
+      "skinLegSeparatingGap": 0.35238667863741246
+    },
+    {
+      "frame": 314,
+      "skinLegSeparatingGap": 0.35228877942488174
+    },
+    {
+      "frame": 315,
+      "skinLegSeparatingGap": 0.3521906318357994
+    },
+    {
+      "frame": 316,
+      "skinLegSeparatingGap": 0.3520923131833592
+    },
+    {
+      "frame": 317,
+      "skinLegSeparatingGap": 0.35199389890080746
+    },
+    {
+      "frame": 318,
+      "skinLegSeparatingGap": 0.3518954624285659
+    },
+    {
+      "frame": 319,
+      "skinLegSeparatingGap": 0.3517970751147917
+    },
+    {
+      "frame": 320,
+      "skinLegSeparatingGap": 0.35169880612904386
+    },
+    {
+      "frame": 321,
+      "skinLegSeparatingGap": 0.35160072238867035
+    },
+    {
+      "frame": 322,
+      "skinLegSeparatingGap": 0.351502888497471
+    },
+    {
+      "frame": 323,
+      "skinLegSeparatingGap": 0.3514053666961464
+    },
+    {
+      "frame": 324,
+      "skinLegSeparatingGap": 0.35130821682400426
+    },
+    {
+      "frame": 325,
+      "skinLegSeparatingGap": 0.35121149629136567
+    },
+    {
+      "frame": 326,
+      "skinLegSeparatingGap": 0.3511152600620835
+    },
+    {
+      "frame": 327,
+      "skinLegSeparatingGap": 0.3510195606455696
+    },
+    {
+      "frame": 328,
+      "skinLegSeparatingGap": 0.35092444809771817
+    },
+    {
+      "frame": 329,
+      "skinLegSeparatingGap": 0.3508299700300962
+    },
+    {
+      "frame": 330,
+      "skinLegSeparatingGap": 0.3507127677647679
+    },
+    {
+      "frame": 331,
+      "skinLegSeparatingGap": 0.35052008338138996
+    },
+    {
+      "frame": 332,
+      "skinLegSeparatingGap": 0.3503281050587621
+    },
+    {
+      "frame": 333,
+      "skinLegSeparatingGap": 0.3501369109904246
+    },
+    {
+      "frame": 334,
+      "skinLegSeparatingGap": 0.3499465759876155
+    },
+    {
+      "frame": 335,
+      "skinLegSeparatingGap": 0.34975717152679375
+    },
+    {
+      "frame": 336,
+      "skinLegSeparatingGap": 0.3495687658046359
+    },
+    {
+      "frame": 337,
+      "skinLegSeparatingGap": 0.3493814237997267
+    },
+    {
+      "frame": 338,
+      "skinLegSeparatingGap": 0.3491952073402009
+    },
+    {
+      "frame": 339,
+      "skinLegSeparatingGap": 0.34901017517660576
+    },
+    {
+      "frame": 340,
+      "skinLegSeparatingGap": 0.34882638305930236
+    },
+    {
+      "frame": 341,
+      "skinLegSeparatingGap": 0.34864388381974476
+    },
+    {
+      "frame": 342,
+      "skinLegSeparatingGap": 0.3484627274550114
+    },
+    {
+      "frame": 343,
+      "skinLegSeparatingGap": 0.34828296121500524
+    },
+    {
+      "frame": 344,
+      "skinLegSeparatingGap": 0.34810462969176315
+    },
+    {
+      "frame": 345,
+      "skinLegSeparatingGap": 0.3479277749103569
+    },
+    {
+      "frame": 346,
+      "skinLegSeparatingGap": 0.34775243642089937
+    },
+    {
+      "frame": 347,
+      "skinLegSeparatingGap": 0.3475786513912087
+    },
+    {
+      "frame": 348,
+      "skinLegSeparatingGap": 0.3474064546997107
+    },
+    {
+      "frame": 349,
+      "skinLegSeparatingGap": 0.34723587902819397
+    },
+    {
+      "frame": 350,
+      "skinLegSeparatingGap": 0.347066954954068
+    },
+    {
+      "frame": 351,
+      "skinLegSeparatingGap": 0.3468997110418023
+    },
+    {
+      "frame": 352,
+      "skinLegSeparatingGap": 0.34673417393325207
+    },
+    {
+      "frame": 353,
+      "skinLegSeparatingGap": 0.3465703684366095
+    },
+    {
+      "frame": 354,
+      "skinLegSeparatingGap": 0.3464083176137412
+    },
+    {
+      "frame": 355,
+      "skinLegSeparatingGap": 0.3462480428657003
+    },
+    {
+      "frame": 356,
+      "skinLegSeparatingGap": 0.3460895640162309
+    },
+    {
+      "frame": 357,
+      "skinLegSeparatingGap": 0.3459328993930912
+    },
+    {
+      "frame": 358,
+      "skinLegSeparatingGap": 0.34577806590706295
+    },
+    {
+      "frame": 359,
+      "skinLegSeparatingGap": 0.3456250791285138
+    },
+    {
+      "frame": 360,
+      "skinLegSeparatingGap": 0.3454739533614186
+    },
+    {
+      "frame": 361,
+      "skinLegSeparatingGap": 0.3453247017147404
+    },
+    {
+      "frame": 362,
+      "skinLegSeparatingGap": 0.3451773361711137
+    },
+    {
+      "frame": 363,
+      "skinLegSeparatingGap": 0.34503186765275934
+    },
+    {
+      "frame": 364,
+      "skinLegSeparatingGap": 0.3448883060846031
+    },
+    {
+      "frame": 365,
+      "skinLegSeparatingGap": 0.3447466604545519
+    },
+    {
+      "frame": 366,
+      "skinLegSeparatingGap": 0.34460693887092486
+    },
+    {
+      "frame": 367,
+      "skinLegSeparatingGap": 0.3444691486170157
+    },
+    {
+      "frame": 368,
+      "skinLegSeparatingGap": 0.3443332962027975
+    },
+    {
+      "frame": 369,
+      "skinLegSeparatingGap": 0.34419938741377604
+    },
+    {
+      "frame": 370,
+      "skinLegSeparatingGap": 0.34406742735700435
+    },
+    {
+      "frame": 371,
+      "skinLegSeparatingGap": 0.34393742050429127
+    },
+    {
+      "frame": 372,
+      "skinLegSeparatingGap": 0.3438093707326206
+    },
+    {
+      "frame": 373,
+      "skinLegSeparatingGap": 0.3436832813618303
+    },
+    {
+      "frame": 374,
+      "skinLegSeparatingGap": 0.3435591551895783
+    },
+    {
+      "frame": 375,
+      "skinLegSeparatingGap": 0.34343699452364834
+    },
+    {
+      "frame": 376,
+      "skinLegSeparatingGap": 0.3433168012116379
+    },
+    {
+      "frame": 377,
+      "skinLegSeparatingGap": 0.34319857666807807
+    },
+    {
+      "frame": 378,
+      "skinLegSeparatingGap": 0.3430823218990448
+    },
+    {
+      "frame": 379,
+      "skinLegSeparatingGap": 0.34296803752430705
+    },
+    {
+      "frame": 380,
+      "skinLegSeparatingGap": 0.34285572379707696
+    },
+    {
+      "frame": 381,
+      "skinLegSeparatingGap": 0.34274538062141696
+    },
+    {
+      "frame": 382,
+      "skinLegSeparatingGap": 0.34263700756736365
+    },
+    {
+      "frame": 383,
+      "skinLegSeparatingGap": 0.3425306038838284
+    },
+    {
+      "frame": 384,
+      "skinLegSeparatingGap": 0.3424261685093385
+    },
+    {
+      "frame": 385,
+      "skinLegSeparatingGap": 0.34232370008067514
+    },
+    {
+      "frame": 386,
+      "skinLegSeparatingGap": 0.34222319693947556
+    },
+    {
+      "frame": 387,
+      "skinLegSeparatingGap": 0.3421246571368576
+    },
+    {
+      "frame": 388,
+      "skinLegSeparatingGap": 0.3420280784361263
+    },
+    {
+      "frame": 389,
+      "skinLegSeparatingGap": 0.3419334583136282
+    },
+    {
+      "frame": 390,
+      "skinLegSeparatingGap": 0.34184079395781064
+    },
+    {
+      "frame": 391,
+      "skinLegSeparatingGap": 0.34175008226654324
+    },
+    {
+      "frame": 392,
+      "skinLegSeparatingGap": 0.34166131984276693
+    },
+    {
+      "frame": 393,
+      "skinLegSeparatingGap": 0.341574502988523
+    },
+    {
+      "frame": 394,
+      "skinLegSeparatingGap": 0.3414896276974184
+    },
+    {
+      "frame": 395,
+      "skinLegSeparatingGap": 0.3414066896455913
+    },
+    {
+      "frame": 396,
+      "skinLegSeparatingGap": 0.34132568418121767
+    },
+    {
+      "frame": 397,
+      "skinLegSeparatingGap": 0.3412466063126275
+    },
+    {
+      "frame": 398,
+      "skinLegSeparatingGap": 0.34116945069506943
+    },
+    {
+      "frame": 399,
+      "skinLegSeparatingGap": 0.3410942116161814
+    },
+    {
+      "frame": 400,
+      "skinLegSeparatingGap": 0.34102088298021527
+    },
+    {
+      "frame": 401,
+      "skinLegSeparatingGap": 0.3409494582910598
+    },
+    {
+      "frame": 402,
+      "skinLegSeparatingGap": 0.34087993063411126
+    },
+    {
+      "frame": 403,
+      "skinLegSeparatingGap": 0.3408122926570315
+    },
+    {
+      "frame": 404,
+      "skinLegSeparatingGap": 0.3407465365494403
+    },
+    {
+      "frame": 405,
+      "skinLegSeparatingGap": 0.3406826540215758
+    },
+    {
+      "frame": 406,
+      "skinLegSeparatingGap": 0.3406206362819691
+    },
+    {
+      "frame": 407,
+      "skinLegSeparatingGap": 0.3405604740141619
+    },
+    {
+      "frame": 408,
+      "skinLegSeparatingGap": 0.3405021573525091
+    },
+    {
+      "frame": 409,
+      "skinLegSeparatingGap": 0.3404456758570896
+    },
+    {
+      "frame": 410,
+      "skinLegSeparatingGap": 0.3403910184877684
+    },
+    {
+      "frame": 411,
+      "skinLegSeparatingGap": 0.34033817357742513
+    },
+    {
+      "frame": 412,
+      "skinLegSeparatingGap": 0.34028712880438605
+    },
+    {
+      "frame": 413,
+      "skinLegSeparatingGap": 0.3402378711640799
+    },
+    {
+      "frame": 414,
+      "skinLegSeparatingGap": 0.3401903869399404
+    },
+    {
+      "frame": 415,
+      "skinLegSeparatingGap": 0.34014466167357893
+    },
+    {
+      "frame": 416,
+      "skinLegSeparatingGap": 0.34010068013424244
+    },
+    {
+      "frame": 417,
+      "skinLegSeparatingGap": 0.3400584262875793
+    },
+    {
+      "frame": 418,
+      "skinLegSeparatingGap": 0.3400178832637262
+    },
+    {
+      "frame": 419,
+      "skinLegSeparatingGap": 0.3399790333247282
+    },
+    {
+      "frame": 420,
+      "skinLegSeparatingGap": 0.3399418578313135
+    },
+    {
+      "frame": 421,
+      "skinLegSeparatingGap": 0.3399063372090229
+    },
+    {
+      "frame": 422,
+      "skinLegSeparatingGap": 0.3398724509137172
+    },
+    {
+      "frame": 423,
+      "skinLegSeparatingGap": 0.3398401773964633
+    },
+    {
+      "frame": 424,
+      "skinLegSeparatingGap": 0.33980949406781313
+    },
+    {
+      "frame": 425,
+      "skinLegSeparatingGap": 0.3397803772614841
+    },
+    {
+      "frame": 426,
+      "skinLegSeparatingGap": 0.3397528021974499
+    },
+    {
+      "frame": 427,
+      "skinLegSeparatingGap": 0.33972674294445104
+    },
+    {
+      "frame": 428,
+      "skinLegSeparatingGap": 0.33970217238193434
+    },
+    {
+      "frame": 429,
+      "skinLegSeparatingGap": 0.3396790621614372
+    },
+    {
+      "frame": 430,
+      "skinLegSeparatingGap": 0.3396573826674193
+    },
+    {
+      "frame": 431,
+      "skinLegSeparatingGap": 0.3396371029775682
+    },
+    {
+      "frame": 432,
+      "skinLegSeparatingGap": 0.3396181908225869
+    },
+    {
+      "frame": 433,
+      "skinLegSeparatingGap": 0.339600612545483
+    },
+    {
+      "frame": 434,
+      "skinLegSeparatingGap": 0.33958433306039076
+    },
+    {
+      "frame": 435,
+      "skinLegSeparatingGap": 0.3395693158109403
+    },
+    {
+      "frame": 436,
+      "skinLegSeparatingGap": 0.3395555227282161
+    },
+    {
+      "frame": 437,
+      "skinLegSeparatingGap": 0.33954291418833416
+    },
+    {
+      "frame": 438,
+      "skinLegSeparatingGap": 0.33953144896968684
+    },
+    {
+      "frame": 439,
+      "skinLegSeparatingGap": 0.339521084209894
+    },
+    {
+      "frame": 440,
+      "skinLegSeparatingGap": 0.33951177536253296
+    },
+    {
+      "frame": 441,
+      "skinLegSeparatingGap": 0.33950347615369203
+    },
+    {
+      "frame": 442,
+      "skinLegSeparatingGap": 0.3394961385384395
+    },
+    {
+      "frame": 443,
+      "skinLegSeparatingGap": 0.33948971265727823
+    },
+    {
+      "frame": 444,
+      "skinLegSeparatingGap": 0.33948414679268657
+    },
+    {
+      "frame": 445,
+      "skinLegSeparatingGap": 0.33947938732584737
+    },
+    {
+      "frame": 446,
+      "skinLegSeparatingGap": 0.3394753786936824
+    },
+    {
+      "frame": 447,
+      "skinLegSeparatingGap": 0.33947206334632574
+    },
+    {
+      "frame": 448,
+      "skinLegSeparatingGap": 0.3394693817051749
+    },
+    {
+      "frame": 449,
+      "skinLegSeparatingGap": 0.3394672721216798
+    },
+    {
+      "frame": 450,
+      "skinLegSeparatingGap": 0.33946567083704804
+    },
+    {
+      "frame": 451,
+      "skinLegSeparatingGap": 0.33946451194304605
+    },
+    {
+      "frame": 452,
+      "skinLegSeparatingGap": 0.3394637273441119
+    },
+    {
+      "frame": 453,
+      "skinLegSeparatingGap": 0.3394632467209948
+    },
+    {
+      "frame": 454,
+      "skinLegSeparatingGap": 0.3394629974961648
+    },
+    {
+      "frame": 455,
+      "skinLegSeparatingGap": 0.3394629048012495
+    },
+    {
+      "frame": 456,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 457,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 458,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 459,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 460,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 461,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 462,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 463,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 464,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 465,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 466,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 467,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 468,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 469,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 470,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 471,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 472,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 473,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 474,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 475,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 476,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 477,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 478,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 479,
+      "skinLegSeparatingGap": 0.3394628914467662
+    },
+    {
+      "frame": 480,
+      "skinLegSeparatingGap": 0.3394628914467662
+    }
+  ]
+}

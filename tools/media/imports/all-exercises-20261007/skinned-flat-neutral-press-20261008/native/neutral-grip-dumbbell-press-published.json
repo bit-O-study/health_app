@@ -1,0 +1,18 @@
+{
+  "id": "neutral-grip-dumbbell-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "42b073ab971afcda9cf8547eadefb1334ddebf5b00c05e2c232a0b123eaed025",
+  "rigSourceSha256": "a176c8e54ce314ce5edaef559a6e825a12000a82ae472880e881504843436050",
+  "videoSha256": "d7f83cc7a933800a0c968fada40b79dba9d701320cf5128108950ffaf6517551",
+  "darkVideoSha256": "df4db0643a98e1b4b9be2b2f1927fbc44ab4b704a2ccd8189dce3a8c9fcbdf9d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84676,
+  "darkBytes": 73561,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T08:26:58.400Z"
+}

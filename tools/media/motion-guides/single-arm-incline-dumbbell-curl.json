@@ -1,0 +1,15 @@
+{
+  "id": "single-arm-incline-dumbbell-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-arm-incline-dumbbell-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/incline-dumbbell-curl.html",
+    "https://gymkee.com/exercises/biceps/one-arm-incline-dumbbell-curl/"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-08T04:14:58.763Z"
+}

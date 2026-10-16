@@ -1,0 +1,18 @@
+{
+  "id": "step-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ce05573910e8479f207559f82faaffb31c0dd6becea954bcb12150f1e71ca031",
+  "rigSourceSha256": "53b250d81b9136c65dd161b9f222c6e716da033ac4781c92f67e066bdfc96649",
+  "videoSha256": "caf8f757f110abeef42ab7ec489cc6d587eec8043fc1e3408e69e77e5d16db04",
+  "darkVideoSha256": "f772ea8d67bd44345e591b1c9685422605d292c791bf07ca3c63d079cb67fe22",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121610,
+  "darkBytes": 125962,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:48:55.416Z"
+}

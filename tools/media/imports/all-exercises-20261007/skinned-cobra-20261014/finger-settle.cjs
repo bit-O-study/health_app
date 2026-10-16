@@ -1,0 +1,1 @@
+const fs=require('fs'),p='tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/motion.mjs';let s=fs.readFileSync(p,'utf8').replace("f===1?0:-Math.tan(rad([0,0,5,7,8,7][f]))","-Math.tan(rad([0,12,15,18,20,20][f]))");fs.writeFileSync(p,s);

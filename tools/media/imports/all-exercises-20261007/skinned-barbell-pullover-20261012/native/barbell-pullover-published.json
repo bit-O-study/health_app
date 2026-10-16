@@ -1,0 +1,18 @@
+{
+  "id": "barbell-pullover",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "570b09863793f2049a9ab6ac9beccb99f4efc82b138496ce63ec82a60505b9ac",
+  "rigSourceSha256": "4dec9fdb5970d58e1855368f0b78d2b5a5cfbb7dc7bd17a97c1d7320420d8158",
+  "videoSha256": "0da1c4e378414579446e4dea903b29b7db004af41037a93d7830c8f8854e31b1",
+  "darkVideoSha256": "3fe2ec6643b97ae9df465f347a4030a9239bcf6b5831b2d509357625b05521c6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 118142,
+  "darkBytes": 100388,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:25:07.670Z"
+}

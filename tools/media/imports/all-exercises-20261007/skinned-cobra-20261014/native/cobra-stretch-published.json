@@ -1,0 +1,18 @@
+{
+  "id": "cobra-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4823be24a5aeed27ad3dc6fd9d17b10fea9c5a99f4916942665a36643b18cd99",
+  "rigSourceSha256": "bb15dfe39de3efafcb6c81b5d1bb448775f686bf8b71013c1f530984d1820cb5",
+  "videoSha256": "aa86c2abacab40ea3621ad05f7ce3f0ea4debbc3dde406150f33733c9b0ebb39",
+  "darkVideoSha256": "def6c27dab6006ad5890eba9f50c864b58e99c9b7aff03ca73201f2fe7172711",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 48059,
+  "darkBytes": 54312,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T08:37:32.926Z"
+}

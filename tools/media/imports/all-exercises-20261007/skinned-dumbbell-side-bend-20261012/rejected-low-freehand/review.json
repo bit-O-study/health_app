@@ -1,0 +1,8 @@
+{
+  "status": "rejected",
+  "reason": "Independent minimal upperarm/forearm aiming produced jagged elbow skin with the raised free hand. Final motion aligns humeral bend plane and preserves upperarm orientation while solving forearm rotation; free wrist also moved higher.",
+  "preserved": [
+    "motion.mjs",
+    "freehand-210.png"
+  ]
+}

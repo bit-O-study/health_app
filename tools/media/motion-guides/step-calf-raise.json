@@ -1,0 +1,13 @@
+{
+  "id": "step-calf-raise",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "step-calf-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/bodyweight-standing-calf-raise.html"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-07T03:48:55.410Z"
+}

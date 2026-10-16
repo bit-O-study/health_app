@@ -1,0 +1,113 @@
+{
+  "id": "seated-dumbbell-lateral-raise",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/seated-lateral-raise/"
+  ],
+  "phaseSeconds": {
+    "startHold": [
+      0,
+      0.4
+    ],
+    "raise": [
+      0.4,
+      3.8
+    ],
+    "peakHold": [
+      3.8,
+      4.2
+    ],
+    "lower": [
+      4.2,
+      7.6
+    ],
+    "endHold": [
+      7.6,
+      8
+    ]
+  },
+  "checks": {
+    "exercise": "Seated bilateral dumbbell lateral raise to shoulder level, controlled return, fixed slight elbow bend and no trunk drive.",
+    "equipment": "Two intact dumbbells, stable flat bench with four legs. Conservative plate clearance from thigh/body and bench checked throughout481samples.",
+    "setup": "Upright seated torso, thighs forward, lower legs vertical and feet supported. Garment-seat contact and floor contact checked with side preview and geometry.",
+    "hands": "Neutral palms-in start, palms down at peak by arm abduction; closed grips remain attached to rigid dumbbell sockets. Fullsize hand views inspected.",
+    "feet": "Both feet remain fixed; skinned sole stays within0.0001 world unit of ground over481 samples.",
+    "movement": "Final light/dark32frame sheets reviewed without optical-flow ghosting. Constant elbow angle, shoulder-level peak, bench/body clearance and foot contact checked throughout481samples; decode and Edge play/seek/loop pass."
+  },
+  "sourceSha256": "c7b89cd2f1f6104131539ad0b4f5660e15442a3fbf9d708c1a30df5528aeae4c",
+  "rigSourceSha256": "6ad75892b2e4ff22c7769f9503131032423e647185cd023521035d4cc044fde6",
+  "videoSha256": "5a9f2aef2e0165dc5a6441314b8c9b0d7cdc33c782578095de017a5dd009f769",
+  "darkVideoSha256": "856a1343b0e756b298c30fc782199251926ed30d69deda66a1704d1567c4c74b",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-lateral/native/seated-dumbbell-lateral-raise.mp4",
+      "sha256": "5a9f2aef2e0165dc5a6441314b8c9b0d7cdc33c782578095de017a5dd009f769",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 103855,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-seated-lateral/native/seated-dumbbell-lateral-raise-dark.mp4",
+      "sha256": "856a1343b0e756b298c30fc782199251926ed30d69deda66a1704d1567c4c74b",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 87454,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "elbowDrift": 3.544136790399836,
+    "footDrift": 0,
+    "gripSocketDrift": 0,
+    "minEquipmentBodyClearance": 1.2133195333980127,
+    "minEquipmentBenchClearance": 0.6660962066211479,
+    "seatContactError": 7.264309553889348e-8,
+    "soleMinY": -7.751374738328083,
+    "soleMaxY": -7.751374738328083,
+    "floorY": -7.751375,
+    "loopDrift": 0,
+    "maxDumbbellStep": 0.08138513678805821,
+    "units": "world units; conservative plate-cylinder versus posed central body vertices and sampled bench side surfaces",
+    "elbowBendMin": 7.969610394321215,
+    "elbowBendMax": 7.9696103943215375,
+    "peakUpperarmHeightError": 0.001560175617228321
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:24:56.100Z",
+  "limitations": "Barefoot mannequin on a flat bench. No physical-device or biomechanical certification."
+}

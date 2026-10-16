@@ -1,0 +1,8 @@
+{
+  "sampleCount": 481,
+  "pivotMaxDrift": 9.155133597044475e-16,
+  "soleToeMaxDrift": 0.025823767459910947,
+  "heelRise": 0.8765146868274414,
+  "loopPivotDrift": 0,
+  "units": "model world units; body height approximately 17"
+}

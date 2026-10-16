@@ -1,0 +1,100 @@
+{
+  "id": "kettlebell-concentration-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-concentration-20261012/native/kettlebell-concentration-curl.mp4",
+      "sha256": "d882244a3a4d6203a88b3f3f7cc3c00ae337cf008f4b6eda87e4cf5675781181",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 52709,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-kettlebell-concentration-20261012/native/kettlebell-concentration-curl-dark.mp4",
+      "sha256": "68491d1c4599b0d8dec27c5ca59a7fbed2bdb74c9370661af5dac71d0d6d65c5",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 46474,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripSocketDrift": 0,
+    "handleAxisError": 3.631740441047728e-15,
+    "gravityError": 1.5353625799562712e-15,
+    "elbowBendRange": [
+      19.732261520544654,
+      120.84581731469088
+    ],
+    "floorGap": -4.7102017486366776e-7,
+    "bellFloorGap": 0.15820402725006577,
+    "bodyBellClearance": 0.015821968840643352,
+    "collisionSamples": 17,
+    "armThighSignedRange": [
+      0.00869348357320764,
+      0.04142337455458906
+    ],
+    "phaseAnchorError": 0,
+    "bellBenchGap": 4.280473524783603
+  },
+  "sources": [
+    "https://criticalbody.com/kettlebell-concentration-curl/"
+  ],
+  "sourceSha256": "e4b947478e498fc2d3b8dafd004ad0b304fbe98a6e53b97209764d9ccd8a9f65",
+  "rigSourceSha256": "94fc6e9e11f5aedf9f2d6a4c47ab33fafd4bda416a846454a7a26435eb4b1e6c",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "kettlebell"
+  ],
+  "videoSha256": "d882244a3a4d6203a88b3f3f7cc3c00ae337cf008f4b6eda87e4cf5675781181",
+  "darkVideoSha256": "68491d1c4599b0d8dec27c5ca59a7fbed2bdb74c9370661af5dac71d0d6d65c5",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "checks": {
+    "exercise": "CriticalBody original seated kettlebell concentration curl: underhand grip, active upperarm inside thigh, opposite hand supporting other thigh. Exact catalog kettlebell. Anatomical left arm works; right arm remains fixed.",
+    "equipment": "One compact round kettlebell with rigid open handle, opposite hand empty. Both final32-frame sheets and hand0/support210 inspected. Bell rotates around transverse handle to remain below grip under gravity, rather than rolling into forearm.",
+    "setup": "Flat bench, spread knees,55degree forward torso lean, working upperarm supported at inner knee and other palm resting on thigh. Support210 and side210 inspected.17deformed-mesh active arm/thigh signed gaps0.008693 to0.041423 positive.",
+    "hands": "Left supinated fingers wrap transverse handle. Right fingers relaxed over right thigh.481samples handlocal attachment drift0, handleaxis error3.63e-15, bellgravity error1.54e-15. Fixed right wrist/elbow/upperarm drift0.",
+    "feet": "Feet0 inspected; both soles maintain seated support within4.71e-7 rig units. Bell bottom stays0.158204 above floor; sampled bell/body minimum0.015822 near foot. No visible bell-foot overlap.",
+    "movement": "One left curl with smooth0.4/3.8/4.2/7.6 phase.481samples elbow19.73 to120.85degrees, fixed/loop/phase errors0.17deformed-mesh body-bell positive0.015822; bell-bench conservative sphere-box clearance4.280474. Both480/24/8 MP4s decode and mobile Edge play/seek/loop pass."
+  },
+  "limitations": [
+    "Generic compact kettlebell with procedural shape, not a commercial dimensional replica. Bell spherical bound and skin meshes sampled17times; no continuous collision or full physics simulation.",
+    "Source describes full extension; this demonstration uses approximately20degree minimum flexion for floor clearance and avoids hard locking. One left-arm repetition; switch sides between sets.",
+    "Barefoot mannequin with simplified elbow/finger skin and skin-to-thigh near-contact gaps, no soft-tissue compression. Right palm/thigh placement reviewed visually."
+  ],
+  "reviewer": "wrist subagent; root adoption pending",
+  "reviewedAt": "2026-10-12T04:52:36.396Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-shrug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9446c0a54c16f996537b1b9410f61d0a77d12754d4d3460a85da084de1ab5696",
+  "rigSourceSha256": "38b1dfb59727a19baec3d0d926ac6353a16713dda058dd6616ae361949e1ff57",
+  "videoSha256": "8e74aace53771d3a7ffdde11d29fd833b6ade608e4f6b73300fdcb7a7b8e0583",
+  "darkVideoSha256": "083a4bec43cf5e8792217408f6e4465e9d4b6c9c66f8aa808357fc32a45b2fc9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 72735,
+  "darkBytes": 67771,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T05:26:47.194Z"
+}

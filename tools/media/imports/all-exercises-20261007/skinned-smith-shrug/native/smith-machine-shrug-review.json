@@ -1,0 +1,87 @@
+{
+  "id": "smith-machine-shrug",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "smith"
+  ],
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-shrug.html"
+  ],
+  "checks": {
+    "exercise": "Standing Smith machine shrug: shoulders elevate symmetrically without elbow pull, body swing or shoulder rolling.",
+    "equipment": "Smith machine with fixed frame, twin vertical guide rods, independent sliding collars, safety stops and external plate sleeves. The bar stays aligned to the guide rails throughout.",
+    "setup": "Upright stance with bar in front of thighs, shoulder-width overhand grip; front-oblique camera preserves entire apparatus, shoulders and feet.",
+    "hands": "Overhand grips with fingers curled around shaft. Hand closeups0/105/210/345 inspected; shaft/grip centers and axes stay aligned within1e-6.",
+    "feet": "Both feet remain fixed; skinned sole minimum tracks floor within0.0001 world unit for481 samples.",
+    "movement": "Both final encoded32frame sheets reviewed with smooth vertical elevation, top pause and controlled return. No optical-flow or doubled equipment. Decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "9446c0a54c16f996537b1b9410f61d0a77d12754d4d3460a85da084de1ab5696",
+  "rigSourceSha256": "38b1dfb59727a19baec3d0d926ac6353a16713dda058dd6616ae361949e1ff57",
+  "videoSha256": "8e74aace53771d3a7ffdde11d29fd833b6ade608e4f6b73300fdcb7a7b8e0583",
+  "darkVideoSha256": "083a4bec43cf5e8792217408f6e4465e9d4b6c9c66f8aa808357fc32a45b2fc9",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-shrug/native/smith-machine-shrug.mp4",
+      "sha256": "8e74aace53771d3a7ffdde11d29fd833b6ade608e4f6b73300fdcb7a7b8e0583",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 72735,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-smith-shrug/native/smith-machine-shrug-dark.mp4",
+      "sha256": "083a4bec43cf5e8792217408f6e4465e9d4b6c9c66f8aa808357fc32a45b2fc9",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 67771,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "shoulderElevation": 0.5499999999999998,
+    "footDrift": 0,
+    "gripCenterError": 0,
+    "soleMinY": -8.175230979919434,
+    "soleMaxY": -8.175230979919434,
+    "floorY": -8.1753,
+    "minFrontClearance": 0.45294946572539097,
+    "railError": 0,
+    "gripAxisError": 2.9893669801409088e-16,
+    "loopDrift": 0,
+    "units": "world units, body height approximately17"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T05:21:18.548Z",
+  "limitations": "Barefoot mannequin style; generic vertical Smith machine, starts after unhooking and demonstrates shrug phase only. No physical-device or biomechanical certification."
+}

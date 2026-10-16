@@ -1,0 +1,21 @@
+{
+  "filter": "scale=in_range=full:out_range=tv,format=yuv420p,tpad=stop_mode=clone:stop_duration=1,minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bilat:mb_size=8:search_param=32:vsbmc=1:scd=none",
+  "records": [
+    {
+      "theme": "light",
+      "sha256": "b9fb9b7a86fc23cb12a2dd37b88d01341a9770764bfac09e65a5d05ca9e6685c",
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "sha256": "b538d94e6f2094cc13d2728891cf05887fd8a3ff378917cbd116f3aba7e63fcc",
+      "decode": "passed"
+    }
+  ],
+  "published": false,
+  "review": "rejected-motion-regression",
+  "comparison": "Baseline already uses scd=none, so scene-change fallback blending is excluded. Alternative aobmc/bilat/mb_size8/vsbmc1 slightly reduces duplicate shaft at1.25s but severely erases the face at1.5s and fragments plates/hands on returning phase. Both32-frame sheets and1.25/1.5s fullsize inspected. Same40sourceframes,5fps input,24fps output,8s duration; no slowed/still workaround.",
+  "likelyCause": "MCI motion estimation and occlusion correspondence around thin bar and face crossing; cannot establish a unique underlying cause from this one controlled configuration trial.",
+  "playback": "Skipped for rejected visual regression; full decode passed both themes.",
+  "nextAction": "Keep original renderer unchanged. Requires better temporal source or separately tracked bar/body rather than accepting degraded interpolation."
+}

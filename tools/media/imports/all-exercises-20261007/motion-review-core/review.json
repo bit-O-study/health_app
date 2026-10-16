@@ -1,0 +1,37 @@
+{
+  "reviewedAt": "2026-10-07T03:34:39.080Z",
+  "scope": "Original atlases plus32 sampled frames of current local videos. Full decode passed but visual quality failed; no publication.",
+  "results": [
+    {
+      "id": "dead-bug",
+      "status": "hold-motion-and-background",
+      "reason": [
+        "Interpolated arm and leg are translucent/doubled in sampled transition frames.",
+        "Source view does not conclusively establish contralateral arm-leg pairing; verify anatomy before regeneration.",
+        "Gray background retained; no dark movie."
+      ],
+      "sourceSha256": "041b0f74ffb15698a2c1cce0b1122874e1e7aa2721d52790b350ad3f4ae123fb",
+      "nextAction": "Regenerate denser anatomically verified poses or continuous rig motion, remove background preserving mat/body, verify both themes before adoption."
+    },
+    {
+      "id": "bird-dog",
+      "status": "hold-motion-and-background",
+      "reason": [
+        "Extending arm visibly disappears during first transition in sampled movie.",
+        "Gray studio background and atlas seams retained; no dark movie."
+      ],
+      "sourceSha256": "1244efabe20844a3ffedce96cac7abef6c303916857f783851297be819b3dad9",
+      "nextAction": "Regenerate denser anatomically verified poses or continuous rig motion, remove background preserving mat/body, verify both themes before adoption."
+    },
+    {
+      "id": "reverse-crunch",
+      "status": "hold-motion-and-background",
+      "reason": [
+        "Feet show duplicate translucent outlines during pelvis curl transition.",
+        "Large gray side padding and white panel background retained; no dark movie."
+      ],
+      "sourceSha256": "d8629de21b8e3a60900a7db2e07e025da641b02af4cc45999265c6637a9e0238",
+      "nextAction": "Regenerate denser anatomically verified poses or continuous rig motion, remove background preserving mat/body, verify both themes before adoption."
+    }
+  ]
+}

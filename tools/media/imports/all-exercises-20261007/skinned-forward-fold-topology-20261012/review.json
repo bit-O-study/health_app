@@ -1,0 +1,22 @@
+{
+  "id": "standing-forward-fold",
+  "status": "held",
+  "published": false,
+  "approach": "Independent implicit pelvis plus two thigh volumes meshed by marching tetrahedra, nearest-four-body-vertex skin weights. Original motion and ROM unchanged.",
+  "triangles": 20718,
+  "visualReview": [
+    "native/standing-forward-fold/full-0.png",
+    "native/standing-forward-fold/full-210.png",
+    "native/standing-forward-fold/back-210.png",
+    "native/standing-forward-fold/seat-210.png"
+  ],
+  "failure": "Two visible posterior hip skin patches penetrate new garment at peak flexion; crotch topology improved but remaining folds are visibly faceted. Not acceptable for publication.",
+  "notRun": [
+    "final 481 collision acceptance",
+    "final both-theme videos",
+    "decode",
+    "Edge playback"
+  ],
+  "originalPreserved": "../skinned-forward-fold-20261012",
+  "nextRepair": "Needs pose-aware garment deformation with posterior hip volume preservation and smooth shared-vertex topology; cannot be approved by reducing motion or hiding skin."
+}

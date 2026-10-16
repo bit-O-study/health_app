@@ -1,0 +1,14 @@
+{
+  "id": "wide-grip-incline-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "timing": "smooth",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-incline-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/wide-grip-incline-bench-press"
+  ],
+  "sourceKind": "Diagnostic contact sheet; procedural model and motion inputs tracked by provenance",
+  "registeredAt": "2026-10-12T05:42:08.472Z"
+}

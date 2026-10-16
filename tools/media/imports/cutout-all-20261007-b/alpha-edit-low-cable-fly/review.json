@@ -1,0 +1,90 @@
+{
+  "id": "low-cable-fly",
+  "renderVersion": 5,
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c5c845a665f1457986da4140a5f905de7dc4854419ec78aedd861db72cdea3a9",
+  "videoSha256": "4cf0564ed45f1ec0b2f3f70a3900659178d7d344992b80bea2490e8b2b8eef7c",
+  "darkVideoSha256": "202340599c7c5f9b4cea43b4888685638dfebb1add2549407e0aeeffc3214220",
+  "darkBytes": 204285,
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "fps": 24,
+  "bytes": 225931,
+  "decode": "passed",
+  "verifiedAt": "2026-10-07T03:35:07.425Z",
+  "variant": "-alpha-edit",
+  "review": "recommended-pass",
+  "generator": "built-in image_gen edit",
+  "generatedSource": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-low-cable-fly\\candidate.png",
+  "generatedSha256": "70acbc3ea171315cc39f583914507d5cd9d9a1e07c3391d7db8518de2da6e228",
+  "promptFile": "C:\\git\\Bit-O\\health-video-smooth\\tools\\media\\imports\\cutout-all-20261007-b\\alpha-edit-low-cable-fly\\prompt.txt",
+  "alphaPreserved": true,
+  "inspection": {
+    "candidateSize": [
+      1254,
+      1254
+    ],
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "c5c845a665f1457986da4140a5f905de7dc4854419ec78aedd861db72cdea3a9",
+    "candidateSha256": "70acbc3ea171315cc39f583914507d5cd9d9a1e07c3391d7db8518de2da6e228",
+    "alphaZeroFraction": 0.5727916281932902,
+    "opaqueFraction": 0.2550148933301791,
+    "opaqueRgbMAE": 11.462424930073274,
+    "published": false
+  },
+  "inspected": [
+    "original16 against edited16 light/dark composite atlases",
+    "light32frame-contact-sheet",
+    "dark32frame-contact-sheet",
+    "enlarged first second eighth sixteenth composites"
+  ],
+  "assessment": "No visible pose ordering, anatomy, equipment placement, hand/handle attachment or framing change. Both towers, uprights, shoes, cables and handles preserved. Gray background and internal gaps removed. No severe doubled limbs observed in32-frame transition checks.",
+  "limitation": "Visual fidelity verified, not bit-identical foreground RGB: opaque RGB MAE11.46/255. Existing16pose interpolation preserved. No app/device/deployment verification.",
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "published": false,
+  "cutCacheSha256": [
+    "b5c3c8eb703e3049a9f2d008052a2856d2fff16556b8234c40dbe9bc2aa31bd8",
+    "7be73f6b496cc60e70dee66b14bc7cc31e5acf0a0844d5e1806412bfd1c3af7e",
+    "9a5b160c22023456771a4785bb94221134ac5a8e130fcf3df8475f1a89e048d2",
+    "ece79082f6e33ab47473b411c5c7a15a5e500a35cc7e66cac12eccedba9e289b",
+    "cfc4fef1a1045c98438a755b574b5be61733db80ed985ce158b498461315f035",
+    "2fb8d63c3d15b93d66f34ec5f50700188d89eaa2ecb7ff73d8c3383ecae81541",
+    "c055f57b7d2961b0d943ed3ea9a1f14f2e8e4697809f7222b874694adce2ee04",
+    "1955b19c4425aca4d56b5d1162f6b1fb927cb3c4f33eea937361f4b498e2a8be",
+    "0d7996741efdc0190bde7e0d0a062b82c15eb2ed0a338f03bed6e1df3d2c2acf",
+    "68584914891cc3a6488fae368c950108e4ac9b395a170ccbf02120bb147fdb18",
+    "3c73e31b1ff20c4446aad65d37aeb09273bbd1127e7032a3afa267fc7e71a864",
+    "74b331f6413b3425169f09e4bdbe6ae27ecb3893ae98c37c565628524a100e8d",
+    "50eb4beefe137652c9b4ce2ed08c526f9cf6e0848e2c52eb25ce757c95b0f86f",
+    "0eed610f3c74d98b6980efac8d4007b8a8e398c72984d769f102ef2d9fac2c99",
+    "8d43c26a56242ee8582bd720ffbd23a634f53643947ea20f10fd335aa464db4a",
+    "a5ace6262d3ee8532a836f8a0bdbec9a7d6fcd640ecec2e04ce9c49d56b4f724"
+  ]
+}

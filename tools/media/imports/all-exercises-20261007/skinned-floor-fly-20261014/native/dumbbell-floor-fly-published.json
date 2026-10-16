@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-floor-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8cbd6a29036ceb1654bee80ca114bf9024c54d842fba93d866ca522bf2720fd2",
+  "rigSourceSha256": "435b0e6dfc999198cba6a415e5b45540fdf46564c14ad9d5343e5c685cc741e1",
+  "videoSha256": "3f3d830b8c23814c0a4f7be9b1969844994e3e0bbc3a6d4c7bfd5b415a1cbe5b",
+  "darkVideoSha256": "773ef6ff7651b79735f83144397abba1da09b1fefb57def0cb7eeb5f80b87bfb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 109279,
+  "darkBytes": 88724,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T04:20:49.944Z"
+}

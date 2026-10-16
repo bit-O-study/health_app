@@ -1,0 +1,91 @@
+{
+  "id": "plate-curl",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-plate-curl-next/native/plate-curl.mp4",
+      "sha256": "747bc70efc2fd5d11b786966b0695582ba0d6ac3e1d6ed7b7f88d7f4f5065eab",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 78919,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-plate-curl-next/native/plate-curl-dark.mp4",
+      "sha256": "407c0dd6b86cdfb96493f6ac9847ee183f7baf263e313ef61bd6045b924b405d",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 69543,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedDrift": 0,
+    "loopDrift": 0,
+    "gripAnchorError": 1.1102230246251565e-15,
+    "gripTangentAxisError": 1.2010702213420535e-15,
+    "elbowBendRange": [
+      0,
+      90.00000000000001
+    ],
+    "plateRadius": 1.843731532656692,
+    "plateRise": 5.053019673329017,
+    "collisionSamples": 17,
+    "bodyPlateMinClearance": 0.7742984909735268,
+    "bodyVerticesInsidePlateSlab": 0,
+    "footMinY": -8.175230979919434
+  },
+  "sources": [
+    "https://www.origym.ie/blog/hammer-curls/",
+    "https://musclewiki.com/exercises/biceps/plate"
+  ],
+  "sourceSha256": "3b0f8bf1589b0e7639914755c14bfc260e0f1b7c14b3923212cb261dc7888805",
+  "rigSourceSha256": "ca7bf06c2748b2d662fe9fc9685c83d693280ff5bfe3259cb8b656d2da9e5a92",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "plate"
+  ],
+  "videoSha256": "747bc70efc2fd5d11b786966b0695582ba0d6ac3e1d6ed7b7f88d7f4f5065eab",
+  "darkVideoSha256": "407c0dd6b86cdfb96493f6ac9847ee183f7baf263e313ef61bd6045b924b405d",
+  "checks": {
+    "exercise": "Standing plate curl: one plate rises from below hips toward chest via elbow flexion, fixed upper arms; not a front raise.",
+    "equipment": "Single rigid plate with visible thickness, central hole and two auxiliary slots. Both hands hold its outer side rims, not the slots. No independent left/right equipment.",
+    "setup": "Upright fixed torso and hip-width grounded stance, upper arms slightly forward but fixed. Whole figure and plate stay in frame.",
+    "hands": "Both outer rim grips are symmetric; hand0/210 and opposite-hand support210 inspected. Closed fingers wrap the rim with opposing thumbs.481samples preserve grip anchors and plate tangent axes.",
+    "feet": "Static feet at measured floor level, no foot translation or heel rise. Body/plate volume check across17phases found0 body vertices inside slab and min0.7743model-unit clearance.",
+    "movement": "Both encoded32frame sheets inspected; no optical-flow ghosts, plate deformation or torso/thigh contact. Both full decodes and mobile Edge play/seek/loop pass. Exact smooth timing0.4/3.8/4.2/7.6seconds."
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T08:26:14.880Z",
+  "limitations": "Agent isolated visual review; root approval pending. Barefoot mannequin and mildly angular elbow skin. Body-plate collision metric is sampled skinned vertices (excludes arms/hands and does not certify all triangle intersections). Grip slots are auxiliary, hands use outer rim. No device/clinical certification."
+}

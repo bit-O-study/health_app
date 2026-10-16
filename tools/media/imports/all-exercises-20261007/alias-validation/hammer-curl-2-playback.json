@@ -1,0 +1,23 @@
+{
+  "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+  "results": [
+    {
+      "theme": "light",
+      "width": 720,
+      "height": 720,
+      "duration": 8,
+      "play": true,
+      "seek": true,
+      "loop": true
+    },
+    {
+      "theme": "dark",
+      "width": 720,
+      "height": 720,
+      "duration": 8,
+      "play": true,
+      "seek": true,
+      "loop": true
+    }
+  ]
+}

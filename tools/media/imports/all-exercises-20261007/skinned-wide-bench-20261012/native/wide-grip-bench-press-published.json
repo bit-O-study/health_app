@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b30d74648b57721a1aadf6a511fa304a6e79407887b5a4ceb28c6b2518041090",
+  "rigSourceSha256": "201b0232d86482bbe2fa4413f22613fd8b4db8b50e6553d651baf299521a417e",
+  "videoSha256": "f76adade09a4909c192d6fe098dcceacd513c4978bb001a6363eb9aed5980d12",
+  "darkVideoSha256": "c402c4673ce1113cc735cdc28b882eedd98c9de6ab501a0d96ceaac4d6ac4af6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121679,
+  "darkBytes": 108143,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T04:34:07.463Z"
+}

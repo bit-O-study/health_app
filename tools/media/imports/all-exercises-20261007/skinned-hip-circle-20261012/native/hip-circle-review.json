@@ -1,0 +1,102 @@
+{
+  "id": "hip-circle",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "bodyweight"
+  ],
+  "sources": [
+    "https://www.leicspart.nhs.uk/wp-content/uploads/2022/07/133-Falls-service-balance-exercises-5-Rutland-A5.pdf"
+  ],
+  "checks": {
+    "exercise": "Exact hip-circle, standing two-foot pelvis circle; not single-leg hip-CAR.",
+    "equipment": "Bodyweight, unsupported variant shown in source figure.",
+    "setup": "Feet hip-width, knees soft, arms relaxed beside body.",
+    "hands": "Hands relaxed with positive sampled separating-plane distance from body and garment throughout481 poses.",
+    "feet": "Both soles and heel anchors remain fixed, and legs/garment have positive separation for481 poses.",
+    "movement": "Final both32frame sheets and waist/side/feet enlargements reviewed. Pelvis completes continuous8second ellipse while both feet fixed. Decode and Edge pass."
+  },
+  "sourceSha256": "e47897c829fa6daced37a0787fb9be0acfc7fb423ed2b8c399ac336cb47a041c",
+  "rigSourceSha256": "2a17dcde0d8e3e5da1b4564b3197da99c93b90e60ce55419097f6c75b30cd890",
+  "videoSha256": "9543d78541dd9260a3a79248ebfad0950a11ff0e47e0c5f803b342d0c3711e59",
+  "darkVideoSha256": "244cdbc1a6a89702603f0322813265fae3c280698854715522a149b776326eb2",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-hip-circle-20261012/native/hip-circle.mp4",
+      "sha256": "9543d78541dd9260a3a79248ebfad0950a11ff0e47e0c5f803b342d0c3711e59",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 139122,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-hip-circle-20261012/native/hip-circle-dark.mp4",
+      "sha256": "244cdbc1a6a89702603f0322813265fae3c280698854715522a149b776326eb2",
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "bytes": 146608,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "feetDrift": 3.978256139440565e-15,
+    "heelAnchorDrift": 3.950766354714047e-15,
+    "loopDrift": 0,
+    "pelvisRange": {
+      "x": [
+        -0.55,
+        0.55
+      ],
+      "z": [
+        -0.9649000000000001,
+        -0.06490000000000001
+      ]
+    },
+    "ellipseError": 4.440892098500626e-16,
+    "minWaistGarmentRadialGap": 0.03726048303652152,
+    "minHandBodyPlaneGap": 0.2349625247045588,
+    "minFloorClearance": -3.552713678800501e-15,
+    "maxFloorClearance": 3.552713678800501e-15,
+    "minLegSkinGarmentSectionGap": 0.2821630027299603,
+    "phaseSeconds": {
+      "continuous": [
+        0,
+        8
+      ]
+    },
+    "units": "world units, body approximately17 tall"
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-12T04:12:13.615Z",
+  "limitations": "Small ellipse and8second circuit illustrate movement, not clinical ROM or prescription. Source recommends opposite direction too; clip shows one direction. Load transfer described by source is conveyed kinematically, not simulated forces. Waist/leg/hand skin checks are sampled evidence, not exhaustive triangle collision. No physical-device certification."
+}

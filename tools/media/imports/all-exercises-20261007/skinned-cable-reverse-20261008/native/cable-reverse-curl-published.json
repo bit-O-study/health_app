@@ -1,0 +1,18 @@
+{
+  "id": "cable-reverse-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7ffb7033b829c8b0b34330ceeb64a8cf8c1717ab55ba0f3db29af00e1b76b0b8",
+  "rigSourceSha256": "3ed9acbee38f3b021193e1bf49d03937122574df4f34513b356db3780ebb6e08",
+  "videoSha256": "a87b5cdc6b50fee7a39ecfb48c7209a4f5a63b55ca19a5f3b58235b8b08aee7e",
+  "darkVideoSha256": "e1262646dac3a7ca582f66771a65ef566d310b696ca026c78e537554032cc274",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 69442,
+  "darkBytes": 67247,
+  "decode": "passed",
+  "verifiedAt": "2026-10-08T06:47:52.078Z"
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "id": "cable-upright-row",
+    "sourceSha256": "18936563922b546be3b60f5390b44ecdc869dac5960c85a37c5d5fd42623dba3",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.719000000040978,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 980.0,
+    "minFreeGiB": 3.382,
+    "status": "hold-source-and-cutout",
+    "reason": "Low pulley/cable disappear in both endpoints. Left pulley mount is already clipped by original panel edge.",
+    "restorationAssessment": "Dark source-pixel restoration could recover much of wire/pulley, but cannot recover the missing source mount beyond panel boundary; no completed candidate.",
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ],
+    "fullRender": false
+  },
+  {
+    "id": "cable-glute-kickback",
+    "sourceSha256": "1bfd6ee727c36a7d6a24d87da3a3d142008cf90d41492854dcba2d6114c68964",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.437000000034459,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 922.1,
+    "minFreeGiB": 3.412,
+    "status": "hold-source-and-cutout",
+    "reason": "Tower, hand support and ankle cable disappear; original tower top/left edge clipped.",
+    "restorationAssessment": "Bright upright overlaps gray backdrop luminance; rectangle restoration would copy backdrop. Requires exact per-panel machine outlines and complete source framing.",
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ],
+    "fullRender": false
+  },
+  {
+    "id": "lat-pulldown",
+    "sourceSha256": "8537cda285ee22159faa290a561132c72903c4f8935ab5192f99b13205f85a3a",
+    "model": "u2net",
+    "panelsProcessed": [
+      1,
+      16
+    ],
+    "seconds": 2.984000000054948,
+    "published": false,
+    "modelMd5": "60024c5c889badc19c04ad937298a77b",
+    "peakRssMiB": 921.1,
+    "minFreeGiB": 3.179,
+    "status": "hold-cutout",
+    "reason": "Tower and most connecting structure disappear. First endpoint also loses left hand/bar contact and leaves floating pulley fragments.",
+    "restorationAssessment": "Dark equipment-only restoration cannot recover missing light-gray hand. Combined detailed hand mask and machine/background-gap masks required; dark threshold alone insufficient.",
+    "inspected": [
+      "original16",
+      "endpoint1-light",
+      "endpoint16-dark"
+    ],
+    "fullRender": false
+  }
+]

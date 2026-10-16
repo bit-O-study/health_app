@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-dumbbell-lying-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1ab2f1f0ab4b2a727989e63b19ea08c53f690a0418b371ebd8832eebdde0e5ee",
+  "rigSourceSha256": "e433f794182a71bab41a542b21df1cbb8407a266660df8f6c2c5fb4a861eb29b",
+  "videoSha256": "1fe7fad761057ffd0285c457eb8620f5cef6a4c705ce8e41f7e96c5fb286b04d",
+  "darkVideoSha256": "d97b499ec555f9729a823be77bd4643c8e19598cef9762cb0ee71809d3f1a395",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 56555,
+  "darkBytes": 45956,
+  "decode": "passed",
+  "verifiedAt": "2026-10-12T02:12:09.084Z"
+}

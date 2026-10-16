@@ -1,0 +1,96 @@
+{
+  "id": "reverse-wrist-curl",
+  "status": "passed-isolated-candidate",
+  "equipmentIds": [
+    "dumbbell"
+  ],
+  "sources": [
+    "https://www.strengthlog.com/dumbbell-wrist-extension/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/29/wrist-curl-extension/"
+  ],
+  "checks": {
+    "exercise": "Pronated dumbbell wrist extension: hands lower and rise with fixed forearms supported on thighs.",
+    "equipment": "Two rigid hex dumbbells with visible metallic handles remain in hands; complete stable seat/bench remains visible.",
+    "setup": "Seated, forward lean fixed, forearms along thighs, wrists beyond knees. Final full and side previews reviewed.",
+    "hands": "Dorsal hand surfaces face upward, closed fingers below handles and thumbs oppose. hand-0 and hand-210 closeups reviewed. Wrist arc 55 degrees.",
+    "feet": "Both bare feet remain fixed at floor; actual strongly foot-weighted skin min measured against floor to 0.000000262 model units.",
+    "movement": "Both encoded 32-frame contact sheets reviewed. No optical-flow ghosting, bench discontinuity or grip inversion. Full decode and mobile Edge play/seek/loop pass."
+  },
+  "sourceSha256": "d749af9a65e560013a14b909a3dd8269d9701a49541bdcc97652be992aa7076b",
+  "rigSourceSha256": "ef49946ba91426768fc5a927d8459413e23f05d5c7b3c5ecb00733a5b1fced78",
+  "videoSha256": "3865ec6cfc97afb00b2f2afaa2a32ccba8ab446235dd4e2f3f22adabcdee7581",
+  "darkVideoSha256": "2691921395d959b2178df49a33dc3acc6a8388209faf0c0c1b933b91d7a6d21f",
+  "themes": [
+    {
+      "suffix": "",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/native/reverse-wrist-curl.mp4",
+      "sha256": "3865ec6cfc97afb00b2f2afaa2a32ccba8ab446235dd4e2f3f22adabcdee7581",
+      "bytes": 78134,
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "decode": "passed"
+    },
+    {
+      "suffix": "-dark",
+      "file": "tools/media/imports/all-exercises-20261007/skinned-wrist-resume/native/reverse-wrist-curl-dark.mp4",
+      "sha256": "2691921395d959b2178df49a33dc3acc6a8388209faf0c0c1b933b91d7a6d21f",
+      "bytes": 68026,
+      "frames": 192,
+      "width": 480,
+      "height": 480,
+      "fps": 24,
+      "seconds": 8,
+      "decode": "passed"
+    }
+  ],
+  "kinematics": {
+    "samples": 481,
+    "fixedJointMaxDisplacement": {
+      "root": 0,
+      "upperarm01.L": 0,
+      "lowerarm01.L": 0,
+      "wrist.L": 0,
+      "upperarm01.R": 0,
+      "lowerarm01.R": 0,
+      "wrist.R": 0,
+      "foot.L": 0,
+      "foot.R": 0
+    },
+    "loopDrift": 0,
+    "dumbbellVerticalTravel": [
+      1.0268804093326014,
+      1.0268804093326014
+    ],
+    "footMinY": -7.751374738328083,
+    "forearmThighMinSampledGap": 0.00010400899976548139,
+    "sampleCount": 556
+  },
+  "playback": {
+    "scope": "Local MP4 in mobile Edge emulation, not app or physical device",
+    "results": [
+      {
+        "theme": "light",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      },
+      {
+        "theme": "dark",
+        "width": 480,
+        "height": 480,
+        "duration": 8,
+        "play": true,
+        "seek": true,
+        "loop": true
+      }
+    ]
+  },
+  "reviewedAt": "2026-10-07T04:55:27.149Z",
+  "limitations": "Agent isolated visual review only; root approval required. Stylized bare-foot mannequin and angular elbow skin. Thigh gap uses sampled neighboring skin vertices, not exhaustive triangle collision proof. No physical-device or clinical certification."
+}

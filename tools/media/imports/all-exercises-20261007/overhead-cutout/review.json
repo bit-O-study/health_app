@@ -1,0 +1,19 @@
+{
+  "id": "barbell-overhead-press",
+  "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+  "model": "u2net",
+  "panelsProcessed": [
+    1,
+    16
+  ],
+  "seconds": 3.140999999945052,
+  "published": false,
+  "status": "hold-equipment-and-arm-loss",
+  "reviewedAt": "2026-10-07T03:54:17.865Z",
+  "reason": [
+    "First pose: bar shaft missing between hand and right plate; left elbow/arm patch also removed.",
+    "Finalpose: center shaft and sections beside both hands removed; weight plates float.",
+    "Both light and dark endpoint composites inspected. No full video rendered."
+  ],
+  "nextAction": "Preserve full original apparatus/person using alpha edit or rebuild continuous3D; do not approve this u2net mask."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "wrist-flexor-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "abfe47bc1faecc8ece32dd88f7c02a328bd23389b173e2ba5617342c5b629403",
+  "rigSourceSha256": "420f9f37cb05e08bde174a66d05f980d3e3645829c6dbccee3f4680ac628898f",
+  "videoSha256": "f930d98f27bc85d515ce24c4ba07e1ebfff954d3f2dea1b5628f146b89260b0e",
+  "darkVideoSha256": "7370c45caaa54c96ea9637fdaa88fdaa6a5915729ce92e24e4761be99064d729",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 52022,
+  "darkBytes": 55678,
+  "decode": "passed",
+  "verifiedAt": "2026-10-14T00:14:38.844Z"
+}

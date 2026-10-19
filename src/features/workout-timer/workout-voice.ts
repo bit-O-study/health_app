@@ -70,7 +70,7 @@ function cueSpeech(cue: string): string {
 
 /** "3세트, 12회 120킬로" — 몇 세트·몇 회·무게를 먼저. */
 function setTarget(o: { setNo: number; totalSets?: number; reps?: number | null; timed?: boolean; weightKg?: number | null }): string {
-  const last = o.totalSets && o.totalSets > 1 && o.setNo >= o.totalSets ? "마지막 " : "";
+  const last = o.totalSets && o.totalSets > 1 && o.setNo === o.totalSets ? "마지막 " : "";
   const head = `${last}${o.setNo}세트`;
   if (!o.reps) return head;
   const reps = o.timed ? `${o.reps}초` : `${o.reps}회`;

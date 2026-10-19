@@ -7873,5 +7873,365 @@
     "rigSourceSha256": "4c652989b2ff82a3fdca98f51862aebb886937a518556c47c1df60ec150c5601",
     "darkVideoSha256": "fe4623ad9a8e0424789bc41a3f8f5c2f723ee2e0ef93b00bc864a7626161c19e",
     "reviewedAt": "2026-10-14T13:42:45.063Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating high knee drive, distinct from running recovery or butt kicks; thigh reaches horizontal.",
+      "equipment": "Bodyweight only; no floor, mat or equipment rendered.",
+      "setup": "Upright trunk; front-oblique/side frames and final light/dark 32-frame sheets inspected.",
+      "hands": "Arms oppose raised knee, elbows near 90.41 degrees, hands beside torso.",
+      "feet": "Raised ankle remains under knee with forward foot orientation; alternating stance visible. No claim of force-plate-accurate contact.",
+      "movement": "481 samples: hip 0–90 and knee flexion 0–90 degrees, loop error 0. Whole-frame alpha and play/seek/loop passed for all three formats."
+    },
+    "note": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "high-knees",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.ucalgary.ca/shred-injuries/all-sports/physical-education/high-knees"
+    ],
+    "sourceSha256": "6d7fdd9e9664f2f4352134493dbc0c2a56aa54056bb17c0c65fa0bc4dad1a3cb",
+    "videoSha256": "43f6fe98bb906a8a76e197d209109c17790e94d4f48e9f18c6c2cb237c3230c3",
+    "rigSourceSha256": "158232493d947048ef0e9b147bffc27d935af27abd674d48a7f06d11e32d6926",
+    "darkVideoSha256": "9efbeef818780b4e6f884ae49eb40390039a573c9818d729a1bb7dbacc1c988a",
+    "reviewedAt": "2026-10-16T03:17:29.571Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating heels toward buttocks with vertical thighs; not high-knee drive.",
+      "equipment": "Bodyweight only; barefoot illustration without scenery.",
+      "setup": "Upright trunk and downward thighs; inspected front/side and both final 32-frame theme sheets.",
+      "hands": "Alternating shoulder swing with relaxed curled fingers; elbow angle near 90.41 degrees.",
+      "feet": "Ankle orientation follows shin to preserve bent ankle rather than pointed foot; heels approach without requiring buttock contact.",
+      "movement": "481 samples: thigh angle 0 degrees, knee flexion 0–135 degrees, loop error 0. Slow illustrative alternating version; alpha/decode/Edge play/seek/loop passed."
+    },
+    "note": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "butt-kicks",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.calgary.ca/content/dam/www/programs-services/parks-recreation/programs-lessons-and-day-camps/physical-literacy/physical-literacy-movement-preparation-guide-older-adult.pdf"
+    ],
+    "sourceSha256": "671e54637e31d5438259273e3d3d5cda7b1ffc0ac81ee2de55ef25bc9162eb57",
+    "videoSha256": "a323d99e167037248b2b99ed7895c444ac10ba4da1c4ad30b4a3e0ba785da8ff",
+    "rigSourceSha256": "57ba504bd843f8c957821afea85776f7796f58b653a234a5f9cc2cc49a9ed576",
+    "darkVideoSha256": "6c2920a2893a16646f63c6af3d8412de2de200081a014c048cebe0ba3b5017e3",
+    "reviewedAt": "2026-10-16T03:17:39.188Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Simultaneous outward feet and overhead arms, then inward feet and lowered arms.",
+      "equipment": "Bodyweight only with clear space around hands and feet.",
+      "setup": "Upright torso; camera widened after initial hand-edge clipping. Corrected final light/dark 32-frame sheets inspected.",
+      "hands": "Both wrists rise above model head; elbows remain slightly bent. Hands remain within all frame borders.",
+      "feet": "Bilateral stance span 2.3–7.1 model units with knees flexed 30–45 degrees; forward toes visible in front and side.",
+      "movement": "481 joint samples with loop error 0, all 192 alpha frame borders clear, full decode and three-format browser play/seek/loop passed."
+    },
+    "note": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "jumping-jack",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/jumping-jacks"
+    ],
+    "sourceSha256": "234b2981f8e7bb8c9f5d5ed442b331671792d03bec3f3ba76906327291c05aeb",
+    "videoSha256": "bd5704703bd16b8a88462408d636ad5f6b2124b1a69915d42fd7470b1be5f795",
+    "rigSourceSha256": "7c8c326a63ab832b9942df5ab44fe90b7cc1070e9b9936d1d3f47b67072b6100",
+    "darkVideoSha256": "cb784c1b4a5002226fd119c1b3b6cc86d024dffa432cc537c5fe547b52655260",
+    "reviewedAt": "2026-10-16T03:17:47.957Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating lateral step and return with both arms overhead, no jump. Distinct from bilateral jumping jack.",
+      "equipment": "Bodyweight only; true transparent WebM with theme MP4 copies, no floor or scenery.",
+      "setup": "Full-body front-oblique and side sheets inspected; reduced initial excessive step distance to reachable anatomy.",
+      "hands": "Both wrists rise above head; elbows softly extended and hands remain in frame.",
+      "feet": "One ankle fixed throughout each side's step, measured drift below 1e-6 model units. Moving foot lifts between center and outward placement.",
+      "movement": "Final light/dark 32-frame sheets inspected. 481 poses, seamless endpoint, alpha frame-border and browser play/seek/loop checks passed."
+    },
+    "note": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "step-jack",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/cardio/jumping-jack/step-jacks/"
+    ],
+    "sourceSha256": "94b20194ccf8263f1c0e6b0b506dfcefc77f4d6e34c8b35ddb905f8b1b9d2859",
+    "videoSha256": "2be99ba9a81d5ce108faa7a86e529836744cf5417035f91f25c531d94f0754e2",
+    "rigSourceSha256": "dc57f030740e1b5d2229d01ceee0a8c3ffcdf13c72fdc146b68b0c4e3e08eeb3",
+    "darkVideoSha256": "47dbc191c1f9366889c1ca2adb50f12a9233330b379bf15ed60e258f8fc71ccb",
+    "reviewedAt": "2026-10-16T03:41:00.656Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Outward jump, wide squat, rise and inward jump. Hands stay in front; deliberately not the alternate floor-touch variation.",
+      "equipment": "Bodyweight, no added load or equipment.",
+      "setup": "Upright torso and forward chest; front/side and final light/dark 32-frame sheets inspected.",
+      "hands": "Hands forward at chest level with bent elbows; no required floor contact.",
+      "feet": "Ankles fixed during planted wide-squat phase, drift below 1e-6. Travel occurs during hop phases; knee flexion reaches about97 degrees.",
+      "movement": "481 pose samples and separate flight/landing phases. All three files decode and browser play/seek/loop passed; no frame clipping."
+    },
+    "note": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "squat-jack",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/cardio/jumping-jack/squat-jacks/"
+    ],
+    "sourceSha256": "16d6f28ddf4bbc4284368a920b2189cf1f1692192140d5cb9c3aac9beb42cba6",
+    "videoSha256": "5c0ebf0d1d66a898d3234ecec57dbc979ab35041318f557e23479ab46762c78d",
+    "rigSourceSha256": "a24ac4cf160cc5f0af560d596c65bb9619aba50284abf0277809db93a62aa5e1",
+    "darkVideoSha256": "ecbbce4f87d23736cbeba696f65c28a837e0ec6cd12390bae8b2c267ec81b939",
+    "reviewedAt": "2026-10-16T03:41:06.563Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Rope-free alternating high knee drive plus vertical hop, distinguished from the previous high-knees demonstration.",
+      "equipment": "No skipping rope: explicitly documented bodyweight variation.",
+      "setup": "Upright torso, forward gaze; front/side and both final32 theme sheets inspected.",
+      "hands": "Opposite arm swings with raised knee; elbows near90 degrees.",
+      "feet": "Support ankle rises about0.95 model units in hop; raised thigh reaches horizontal with bent knee. Barefoot illustration, not force-plate contact measurement.",
+      "movement": "481 pose samples, loop endpoint error0. Alpha/decode and browser play/seek/loop passed, slow four-second teaching cycle."
+    },
+    "note": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "high-knee-skip",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/cardio/skipping/high-knee-skips/"
+    ],
+    "sourceSha256": "c47b955b15817d5f6cde9304244d3efdf2da1d2ae932e90b8cf3f69ab95413a9",
+    "videoSha256": "00fee1c190e42fb3f99e5cf3b26bc77b202bf6dd980c1a1d387f1d8b90b6668f",
+    "rigSourceSha256": "772ecc82c6b3934f19576635dbe7e465217cca80bc815fb4de51cf2725dfc8cd",
+    "darkVideoSha256": "1becf147a7ed8889b348d044ccb903731fe47386986bfb8bae026b1e554516b9",
+    "reviewedAt": "2026-10-16T03:41:13.300Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bodyweight squat: continuous descent, short bottom transition, controlled return.",
+      "equipment": "No external load. Register bodyweight only; barbell and machine variants excluded.",
+      "setup": "Final front/side and both encoded 32-frame sheets inspected. Soft standing knee bend after root-height correction.",
+      "hands": "Both arms forward, softly bent elbows; hands remain within frame.",
+      "feet": "Shoulder-width fixed ankles, slightly outward toes, no visible foot sliding in side sheet; 481-sample drift below 1e-6.",
+      "movement": "Hips travel backward/down toward parallel and return. Final light/dark sheets show clear full cycle without visible garment tearing. Not exhaustive continuous collision validation."
+    },
+    "note": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/quad-exercises/squats/bodyweight-squat/"
+    ],
+    "sourceSha256": "b54ef0a51b4555b1530de3359ff3f0497d86b658e9bbf9a127c94e4878f2f59b",
+    "videoSha256": "392c56f4325cf9f937b9d938a1e11542ec0dbc186dfe3a7d4d08044c40b66117",
+    "rigSourceSha256": "456e08007eb9acac57ec0e69f847cf1000d4cd674ded104b41eef8c37f4c44f8",
+    "darkVideoSha256": "e4fb734a559b3d001a5d55273bf988e70c57d05c045c2023825f187affd64aa7",
+    "reviewedAt": "2026-10-16T03:54:13.006Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bodyweight pulse squat; two bottom-range pulses between entry and exit.",
+      "equipment": "Bodyweight only; no weight or support omitted.",
+      "setup": "Final side sheet and both encoded 32-frame sheets inspected; stance matches ordinary squat.",
+      "hands": "Arms forward with softly bent elbows, no frame clipping.",
+      "feet": "Both ankles fixed across 481 samples; flat-foot orientation constant.",
+      "movement": "Middle four seconds stay low with two visible pulses; hip excursion .954 model units. Full rise occurs only on exit. No visible shorts openings in reviewed frames; not exhaustive collision validation."
+    },
+    "note": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "pulse-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/quad-exercises/squats/pulse-squats/"
+    ],
+    "sourceSha256": "b3d17a3987492fe46381a225f3f19aac687135a8aef5e239eb391c81d32a4950",
+    "videoSha256": "855798bc0fc2366d0ad5665a1e1708343850a8c75ab8baec64b9ad9fbd91a0c6",
+    "rigSourceSha256": "4e18567b2a3272df764ff0d3664ad3c3856b33db7ba657f42f339bd83077cb1d",
+    "darkVideoSha256": "6a1a4123b089ee93ae560a8ed5aacf053cc8a99c357b40a1fbcee338597f40da",
+    "reviewedAt": "2026-10-16T03:54:17.866Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Hip-width chair pose with overhead arms, moderate seated bend and static hold.",
+      "equipment": "Bodyweight yoga variant, no actual chair required.",
+      "setup": "Final side sheet and both encoded 32-frame sheets inspected; heels and fingertips remain in frame.",
+      "hands": "Arms lift overhead without hand-head overlap, then lower on exit.",
+      "feet": "Hip-width fixed ankles, constant foot orientation; no hopping or visible sliding.",
+      "movement": "Entry two seconds, steady hold four seconds, exit two seconds; measured joint drift zero during hold. Illustrated hold does not prescribe a training duration."
+    },
+    "note": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "chair-pose",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.learnyoga.net/poses/chair-pose/"
+    ],
+    "sourceSha256": "c5de39137a7e0906e98b2d6fb2454c93c385d6077ddee67c41bee6c218905280",
+    "videoSha256": "7f32b6c291709ae2bc1a12836974302d80cd3db5a82e52b24ffc46e404bc3b7c",
+    "rigSourceSha256": "990f52567bd93109f1dc7e7bb44acd8a82bca7421b8810db738ba5f895e4ec2e",
+    "darkVideoSha256": "ef4921947aa7f7cd68636b2025c034a60815b93257cb6d399806c7fc6399b642",
+    "reviewedAt": "2026-10-16T03:54:22.570Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Left forward lunge, returning to the same standing position; not a walking lunge.",
+      "equipment": "Bodyweight only; equipment filter excludes dumbbell variation.",
+      "setup": "Both final 32-frame theme sheets and front/side 8-frame sheets inspected; upright torso and parallel foot tracks.",
+      "hands": "Bent arms held in front for balance, hands separate from torso and entirely in frame.",
+      "feet": "Front ankle fixed during lowered stance; rear second-toe base fixed. Heel rises around toe anchor, toes counter-rotate. No visible foot sliding in reviewed stance frames.",
+      "movement": "Clear forward step, lower and return. Rear knee hovers. Shorts silhouette intact in inspected views; continuous cloth collision not certified."
+    },
+    "note": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "lunge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/bodyweight-lunge.html"
+    ],
+    "sourceSha256": "af01ad927bce686fac9f9d59d61994152da8df8dcec1d9392f6d595fff80dc0e",
+    "videoSha256": "01d460de38ac16ea0eae4f4649c887643a1e72a0b9aef998c81196af14b4c285",
+    "rigSourceSha256": "5db3933764a79c84f9a46b2c7dc3014d3cd4053c0295f3f3ab910b9dcbadadee",
+    "darkVideoSha256": "6fc8ac3c6f35aaeab0cee2caaf72991184b03f9e3a5f6145c6e78bca2ec4b853",
+    "reviewedAt": "2026-10-16T04:05:02.153Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Fixed split stance with two small lower-range pulses, then return to raised split stance.",
+      "equipment": "Bodyweight only; arms in front are a balance variation of source hands-on-hips placement.",
+      "setup": "Front/side 8-frame sheets and final light/dark 32-frame sheets inspected; feet stay apart throughout.",
+      "hands": "Both hands forward, no props or hand-body intersection visible in inspected frames.",
+      "feet": "Both support anchors remain fixed across all481 poses; rear heel stays raised.",
+      "movement": "Middle pulses have .486 model-unit hip excursion; no standing between pulses, no foot reposition. One side shown; app instructs switching sides."
+    },
+    "note": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "pulse-lunge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.masterclass.com/articles/lunge-pulses-exercise-guide"
+    ],
+    "sourceSha256": "a3fa9b066bd259c2c7b5591e3ef75e5cb92c06d77cd8674f7133edbd65bdda61",
+    "videoSha256": "34efddaf5a4d082df90a15daea2a3017f02a21dcda2ed6920f63026f0ee2000d",
+    "rigSourceSha256": "040f97264752aa9fc901726daa4126814d472e154f76e805ae7aa3b60f3c6514",
+    "darkVideoSha256": "5d9bacd0af1255c3095f4f7b878a43b4a55ec8ba9c80fd6dd12222847c913ab0",
+    "reviewedAt": "2026-10-16T04:05:07.039Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Right leg steps backward and returns while left foot remains the front support.",
+      "equipment": "Two visible hex dumbbells held beside body; dumbbell-only registration.",
+      "setup": "Front/side 8-frame sheets and final light/dark 32-frame sheets inspected, plus full-size bottom grip view.",
+      "hands": "Hands wrap the handles, arms stay beside body, no visible dropped or detached weight; dumbbells remain clear of floor.",
+      "feet": "Front foot remains fixed; moving rear foot lifts during transfer and anchors toes during the lowered stance.",
+      "movement": "Backward step distinguishes it from forward lunge. Rear knee remains above floor. No visible garment tear in reviewed frames; one side only, continuous triangle collision not certified."
+    },
+    "note": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "reverse-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-rear-lunge.html"
+    ],
+    "sourceSha256": "b37fb3dc3ace22e1148893dd1673d405b24468782e1ceda1753347dc5bf8b511",
+    "videoSha256": "f6f9b5ca5d46125b0940dffdddb4aa9bdef7dfd6f95d1d8e2b5fb3c7852fd471",
+    "rigSourceSha256": "e0a8994be442173421df2293bdf9435ce51eed823b27d52d4b4867e755f1a505",
+    "darkVideoSha256": "09686bfbd84216f0205c15adbe59733f5721b70ca1000cf2a0c50cc21ab300ea",
+    "reviewedAt": "2026-10-16T04:05:11.824Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "split-squat",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Fixed split stance through full cycle.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    },
+    "note": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "split-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-split-squat"
+    ],
+    "sourceSha256": "9e0a4ce0ada5e016be519fe30459c78e7b378e4ebe499d5b76a86732ed4e6bf7",
+    "videoSha256": "786cc76fa5fe3f32a7c48b6e3dc0d4550d65e28f83d7c7e121ccb1824c46a599",
+    "rigSourceSha256": "1ceae15cd2c1e6eabd5c2463dae145ef4556d6390cde98f48ba2cb534e7896a5",
+    "darkVideoSha256": "839fef0bf7d361ea147e9c53569dd10dd7fa784247aa11c72511ce8b91ac414b",
+    "reviewedAt": "2026-10-19T10:32:58.703Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "front-foot-elevated-split-squat",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Fixed split stance through full cycle.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    },
+    "note": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "front-foot-elevated-split-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/front-foot-elevated-dumbbell-split-squat/"
+    ],
+    "sourceSha256": "33a565f994de709b4ceccf9b87749d873ba59c5eab1786131fc7b7e289fe582e",
+    "videoSha256": "81151fe7e13216da31eb22e7dec8e7618a0800c74c7d55b489eaa0f779663597",
+    "rigSourceSha256": "d9b3290ca9223040bf5ae2ba936a59946aab7dded2e90f3342ac8bdf5dc44586",
+    "darkVideoSha256": "b8136435f3a02d40f82b75df19d2fb17e1079826470a6dfbb20e3b909e0efaed",
+    "reviewedAt": "2026-10-19T10:33:13.577Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "deficit-reverse-lunge",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Both feet start and end on platform.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    },
+    "note": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "deficit-reverse-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://fitwill.app/exercise/7326/dumbbell-reverse-lunge-from-deficit/"
+    ],
+    "sourceSha256": "b594fcb9e36d2db591d56e49f3f58146df3beaff10818886ba848db2942f3c35",
+    "videoSha256": "3e84e695375051e3ee1685743fb715419b68f751fe4c8b99cfd11e0b91e2df6a",
+    "rigSourceSha256": "a536764a1aefb81f45f349b21f643d4982d12356173be362fa3cdde1adaff006",
+    "darkVideoSha256": "599af270bcec90b9a954de2574fd10a270871516374432b0b3a185747036a80d",
+    "reviewedAt": "2026-10-19T10:33:24.145Z"
   }
 ]

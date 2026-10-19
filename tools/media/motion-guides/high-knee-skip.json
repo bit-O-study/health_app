@@ -1,0 +1,15 @@
+{
+  "id": "high-knee-skip",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "high-knee-skip-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/cardio/skipping/high-knee-skips/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:41:13.277Z"
+}

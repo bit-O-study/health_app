@@ -1,0 +1,18 @@
+{
+  "id": "high-knees",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6d7fdd9e9664f2f4352134493dbc0c2a56aa54056bb17c0c65fa0bc4dad1a3cb",
+  "rigSourceSha256": "158232493d947048ef0e9b147bffc27d935af27abd674d48a7f06d11e32d6926",
+  "videoSha256": "43f6fe98bb906a8a76e197d209109c17790e94d4f48e9f18c6c2cb237c3230c3",
+  "darkVideoSha256": "9efbeef818780b4e6f884ae49eb40390039a573c9818d729a1bb7dbacc1c988a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 211016,
+  "darkBytes": 206212,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:17:29.556Z"
+}

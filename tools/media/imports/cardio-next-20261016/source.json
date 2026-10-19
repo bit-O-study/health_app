@@ -1,0 +1,19 @@
+{
+  "step-jack": {
+    "url": "https://www.puregym.com/exercises/cardio/jumping-jack/step-jacks/",
+    "criteria": "Alternate one foot stepping laterally and returning while both arms lift overhead and lower. Supporting ankle remains fixed; no jumping."
+  },
+  "squat-jack": {
+    "url": "https://www.puregym.com/exercises/cardio/jumping-jack/squat-jacks/",
+    "criteria": "Jump feet outward, land then lower into a wide squat; rise and jump feet together. Hands held in front as described in the tips; not the alternate floor-touch variation in the numbered instructions."
+  },
+  "high-knee-skip": {
+    "url": "https://www.puregym.com/exercises/cardio/skipping/high-knee-skips/",
+    "criteria": "Rope-free variation (source permits with or without rope): alternating high knee drive with a small vertical hop and opposite arm swing. Illustrated in place at a slower teaching pace."
+  },
+  "accessed": "2026-10-16",
+  "sourceKind": "Original procedural skinned animation informed by training references; no copied reference imagery.",
+  "characterSource": "../all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+  "studioDerivedFrom": "../cardio-three-20261016/studio.mjs",
+  "limits": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification."
+}

@@ -1,0 +1,35 @@
+{
+  "high-knees": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Alternating high knee drive, distinct from running recovery or butt kicks; thigh reaches horizontal.",
+      "equipment": "Bodyweight only; no floor, mat or equipment rendered.",
+      "setup": "Upright trunk; front-oblique/side frames and final light/dark 32-frame sheets inspected.",
+      "hands": "Arms oppose raised knee, elbows near 90.41 degrees, hands beside torso.",
+      "feet": "Raised ankle remains under knee with forward foot orientation; alternating stance visible. No claim of force-plate-accurate contact.",
+      "movement": "481 samples: hip 0–90 and knee flexion 0–90 degrees, loop error 0. Whole-frame alpha and play/seek/loop passed for all three formats."
+    }
+  },
+  "butt-kicks": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Alternating heels toward buttocks with vertical thighs; not high-knee drive.",
+      "equipment": "Bodyweight only; barefoot illustration without scenery.",
+      "setup": "Upright trunk and downward thighs; inspected front/side and both final 32-frame theme sheets.",
+      "hands": "Alternating shoulder swing with relaxed curled fingers; elbow angle near 90.41 degrees.",
+      "feet": "Ankle orientation follows shin to preserve bent ankle rather than pointed foot; heels approach without requiring buttock contact.",
+      "movement": "481 samples: thigh angle 0 degrees, knee flexion 0–135 degrees, loop error 0. Slow illustrative alternating version; alpha/decode/Edge play/seek/loop passed."
+    }
+  },
+  "jumping-jack": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Simultaneous outward feet and overhead arms, then inward feet and lowered arms.",
+      "equipment": "Bodyweight only with clear space around hands and feet.",
+      "setup": "Upright torso; camera widened after initial hand-edge clipping. Corrected final light/dark 32-frame sheets inspected.",
+      "hands": "Both wrists rise above model head; elbows remain slightly bent. Hands remain within all frame borders.",
+      "feet": "Bilateral stance span 2.3–7.1 model units with knees flexed 30–45 degrees; forward toes visible in front and side.",
+      "movement": "481 joint samples with loop error 0, all 192 alpha frame borders clear, full decode and three-format browser play/seek/loop passed."
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "butt-kicks",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "butt-kicks-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.calgary.ca/content/dam/www/programs-services/parks-recreation/programs-lessons-and-day-camps/physical-literacy/physical-literacy-movement-preparation-guide-older-adult.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:17:39.142Z"
+}

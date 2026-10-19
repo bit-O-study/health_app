@@ -393,9 +393,9 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "bodyweight",
         method: [
-          "발 어깨너비, 가슴 들고 시선 정면",
-          "엉덩이 뒤로 빼며 평행까지 앉기",
-          "발뒤꿈치로 밀며 일어서기",
+          "발 어깨너비, 팔을 앞으로 뻗고 가슴 들기",
+          "엉덩이를 뒤로 보내고 무릎을 함께 굽혀 통제 가능한 깊이까지 앉기",
+          "발 전체를 바닥에 붙이고 밀며 일어서기",
         ],
       },
     ],
@@ -561,8 +561,8 @@ export const EXERCISES: Record<string, CatalogExercise> = {
         equipment: "bodyweight",
         method: [
           "상체 세우고 한 발 앞으로 디디기",
-          "양 무릎 90도까지 내리기",
-          "앞꿈치로 밀어 균형 유지하며 복귀",
+          "앞발 전체와 뒷발 앞꿈치를 지지하고 뒤 무릎을 바닥 가까이 낮추기",
+          "앞발 전체로 밀어 내디딘 발을 시작 위치로 되돌린 뒤 반대쪽 반복",
         ],
       },
     ],

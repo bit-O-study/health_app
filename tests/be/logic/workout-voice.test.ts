@@ -14,6 +14,13 @@ import { guideFor } from "@/features/workout-timer/exercise-guides";
 import { musclesForExerciseBody } from "@/features/workout-timer/muscle-body-view";
 
 describe("음성 코치 문장 — 화면 글자가 아니라 말로", () => {
+  it("늘린 세트는 이전 계획의 마지막이 아니며 총 세트를 넘어선 값도 마지막이라 하지 않는다", () => {
+    expect(speechForSetStart({ setNo: 3, totalSets: 5, cue: null })).toBe("3세트.");
+    expect(speechForSetStart({ setNo: 5, totalSets: 5, cue: null })).toBe("마지막 5세트.");
+    expect(speechForSetStart({ setNo: 6, totalSets: 5, cue: null })).toBe("6세트.");
+    const source = readFileSync("src/features/workout-timer/guided-workout.tsx", "utf8");
+    expect(source).toMatch(/speechForSetStart\(\{\s*setNo: setsDone \+ 1,\s*totalSets: effSets/);
+  });
   it("다음 세트: '3 슬래시 4'·'케이지' 로 읽히지 않게", () => {
     const t = speechForNextSet({ nextSet: 3, totalSets: 4, reps: 12, timed: false, weightKg: 120 });
     expect(t).toBe("10초 뒤 3세트, 12회 120킬로.");

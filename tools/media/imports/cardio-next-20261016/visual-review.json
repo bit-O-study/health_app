@@ -1,0 +1,35 @@
+{
+  "step-jack": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Alternating lateral step and return with both arms overhead, no jump. Distinct from bilateral jumping jack.",
+      "equipment": "Bodyweight only; true transparent WebM with theme MP4 copies, no floor or scenery.",
+      "setup": "Full-body front-oblique and side sheets inspected; reduced initial excessive step distance to reachable anatomy.",
+      "hands": "Both wrists rise above head; elbows softly extended and hands remain in frame.",
+      "feet": "One ankle fixed throughout each side's step, measured drift below 1e-6 model units. Moving foot lifts between center and outward placement.",
+      "movement": "Final light/dark 32-frame sheets inspected. 481 poses, seamless endpoint, alpha frame-border and browser play/seek/loop checks passed."
+    }
+  },
+  "squat-jack": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Outward jump, wide squat, rise and inward jump. Hands stay in front; deliberately not the alternate floor-touch variation.",
+      "equipment": "Bodyweight, no added load or equipment.",
+      "setup": "Upright torso and forward chest; front/side and final light/dark 32-frame sheets inspected.",
+      "hands": "Hands forward at chest level with bent elbows; no required floor contact.",
+      "feet": "Ankles fixed during planted wide-squat phase, drift below 1e-6. Travel occurs during hop phases; knee flexion reaches about97 degrees.",
+      "movement": "481 pose samples and separate flight/landing phases. All three files decode and browser play/seek/loop passed; no frame clipping."
+    }
+  },
+  "high-knee-skip": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Rope-free alternating high knee drive plus vertical hop, distinguished from the previous high-knees demonstration.",
+      "equipment": "No skipping rope: explicitly documented bodyweight variation.",
+      "setup": "Upright torso, forward gaze; front/side and both final32 theme sheets inspected.",
+      "hands": "Opposite arm swings with raised knee; elbows near90 degrees.",
+      "feet": "Support ankle rises about0.95 model units in hop; raised thigh reaches horizontal with bent knee. Barefoot illustration, not force-plate contact measurement.",
+      "movement": "481 pose samples, loop endpoint error0. Alpha/decode and browser play/seek/loop passed, slow four-second teaching cycle."
+    }
+  }
+}

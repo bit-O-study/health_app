@@ -1,0 +1,18 @@
+{
+  "id": "deficit-reverse-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b594fcb9e36d2db591d56e49f3f58146df3beaff10818886ba848db2942f3c35",
+  "rigSourceSha256": "a536764a1aefb81f45f349b21f643d4982d12356173be362fa3cdde1adaff006",
+  "videoSha256": "3e84e695375051e3ee1685743fb715419b68f751fe4c8b99cfd11e0b91e2df6a",
+  "darkVideoSha256": "599af270bcec90b9a954de2574fd10a270871516374432b0b3a185747036a80d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 124157,
+  "darkBytes": 120505,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T10:33:24.125Z"
+}

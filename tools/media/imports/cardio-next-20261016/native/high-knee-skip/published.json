@@ -1,0 +1,18 @@
+{
+  "id": "high-knee-skip",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c47b955b15817d5f6cde9304244d3efdf2da1d2ae932e90b8cf3f69ab95413a9",
+  "rigSourceSha256": "772ecc82c6b3934f19576635dbe7e465217cca80bc815fb4de51cf2725dfc8cd",
+  "videoSha256": "00fee1c190e42fb3f99e5cf3b26bc77b202bf6dd980c1a1d387f1d8b90b6668f",
+  "darkVideoSha256": "1becf147a7ed8889b348d044ccb903731fe47386986bfb8bae026b1e554516b9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 180076,
+  "darkBytes": 183369,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:41:13.283Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "af01ad927bce686fac9f9d59d61994152da8df8dcec1d9392f6d595fff80dc0e",
+  "rigSourceSha256": "5db3933764a79c84f9a46b2c7dc3014d3cd4053c0295f3f3ab910b9dcbadadee",
+  "videoSha256": "01d460de38ac16ea0eae4f4649c887643a1e72a0b9aef998c81196af14b4c285",
+  "darkVideoSha256": "6fc8ac3c6f35aaeab0cee2caaf72991184b03f9e3a5f6145c6e78bca2ec4b853",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 117104,
+  "darkBytes": 125915,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T04:05:02.142Z"
+}

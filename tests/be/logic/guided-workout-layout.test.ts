@@ -103,6 +103,13 @@ describe("운동모드 몰입형 2차 — 타일·휴식 카드", () => {
  * 소스 가드 — 화면은 E2E(guided-workout-rules.spec.ts)가 본다.
  */
 describe("운동모드 공통 규칙", () => {
+  it("꿀팁과 티칭은 한 줄 두 칸이며 미디어 이동 화살표는 제거한다", () => {
+    expect(src).toContain('data-testid="workout-help-actions" className="mt-4 grid w-full grid-cols-2 gap-2"');
+    expect(src).toContain("운동 꿀팁 보기");
+    expect(src).toContain("티칭 받기");
+    expect(src).not.toContain('aria-label="이전 운동"');
+    expect(src).not.toContain('aria-label="다음 운동"');
+  });
   const restSrc2 = readFileSync(resolve(SRC, "features/workout-timer/rest-timer.tsx"), "utf8");
 
   it("'중단' 문구가 없다 — 가벼운 쪽은 '일시정지', 닫기는 '운동 끝내기'", () => {

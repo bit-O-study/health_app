@@ -1,0 +1,18 @@
+{
+  "id": "pulse-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b3d17a3987492fe46381a225f3f19aac687135a8aef5e239eb391c81d32a4950",
+  "rigSourceSha256": "4e18567b2a3272df764ff0d3664ad3c3856b33db7ba657f42f339bd83077cb1d",
+  "videoSha256": "855798bc0fc2366d0ad5665a1e1708343850a8c75ab8baec64b9ad9fbd91a0c6",
+  "darkVideoSha256": "6a1a4123b089ee93ae560a8ed5aacf053cc8a99c357b40a1fbcee338597f40da",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 144968,
+  "darkBytes": 148931,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:54:17.856Z"
+}

@@ -1,0 +1,67 @@
+{
+  "sourceHashChecks": "passed",
+  "poseSamples": 481,
+  "loopPoseError": 0,
+  "elbowDegrees": [
+    90.40568374042623,
+    90.4056837404263
+  ],
+  "alpha": {
+    "transparent": 49665445,
+    "opaque": 4719183,
+    "partial": 911372,
+    "all240FrameEdgesClear": true
+  },
+  "playback": [
+    {
+      "theme": "alpha",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 0,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "30/1",
+        "nb_read_frames": "240"
+      }
+    },
+    {
+      "theme": "light",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "30/1",
+        "nb_read_frames": "240"
+      }
+    },
+    {
+      "theme": "dark",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "30/1",
+        "nb_read_frames": "240"
+      }
+    }
+  ],
+  "limits": [
+    "Procedural demonstration; not captured from a human runner.",
+    "No treadmill or floor is rendered.",
+    "Actual phone and production deployment are not verified."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "split-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9e0a4ce0ada5e016be519fe30459c78e7b378e4ebe499d5b76a86732ed4e6bf7",
+  "rigSourceSha256": "1ceae15cd2c1e6eabd5c2463dae145ef4556d6390cde98f48ba2cb534e7896a5",
+  "videoSha256": "786cc76fa5fe3f32a7c48b6e3dc0d4550d65e28f83d7c7e121ccb1824c46a599",
+  "darkVideoSha256": "839fef0bf7d361ea147e9c53569dd10dd7fa784247aa11c72511ce8b91ac414b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 87262,
+  "darkBytes": 80745,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T10:32:58.676Z"
+}

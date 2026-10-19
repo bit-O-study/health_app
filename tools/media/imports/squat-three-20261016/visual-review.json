@@ -1,0 +1,35 @@
+{
+  "squat": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Bodyweight squat: continuous descent, short bottom transition, controlled return.",
+      "equipment": "No external load. Register bodyweight only; barbell and machine variants excluded.",
+      "setup": "Final front/side and both encoded 32-frame sheets inspected. Soft standing knee bend after root-height correction.",
+      "hands": "Both arms forward, softly bent elbows; hands remain within frame.",
+      "feet": "Shoulder-width fixed ankles, slightly outward toes, no visible foot sliding in side sheet; 481-sample drift below 1e-6.",
+      "movement": "Hips travel backward/down toward parallel and return. Final light/dark sheets show clear full cycle without visible garment tearing. Not exhaustive continuous collision validation."
+    }
+  },
+  "pulse-squat": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Bodyweight pulse squat; two bottom-range pulses between entry and exit.",
+      "equipment": "Bodyweight only; no weight or support omitted.",
+      "setup": "Final side sheet and both encoded 32-frame sheets inspected; stance matches ordinary squat.",
+      "hands": "Arms forward with softly bent elbows, no frame clipping.",
+      "feet": "Both ankles fixed across 481 samples; flat-foot orientation constant.",
+      "movement": "Middle four seconds stay low with two visible pulses; hip excursion .954 model units. Full rise occurs only on exit. No visible shorts openings in reviewed frames; not exhaustive collision validation."
+    }
+  },
+  "chair-pose": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Hip-width chair pose with overhead arms, moderate seated bend and static hold.",
+      "equipment": "Bodyweight yoga variant, no actual chair required.",
+      "setup": "Final side sheet and both encoded 32-frame sheets inspected; heels and fingertips remain in frame.",
+      "hands": "Arms lift overhead without hand-head overlap, then lower on exit.",
+      "feet": "Hip-width fixed ankles, constant foot orientation; no hopping or visible sliding.",
+      "movement": "Entry two seconds, steady hold four seconds, exit two seconds; measured joint drift zero during hold. Illustrated hold does not prescribe a training duration."
+    }
+  }
+}

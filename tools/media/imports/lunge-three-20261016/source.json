@@ -1,0 +1,22 @@
+{
+  "lunge": {
+    "equipment": "bodyweight",
+    "url": "https://www.muscleandstrength.com/exercises/bodyweight-lunge.html",
+    "criteria": "Forward step, bend both knees, then push through front foot to return. Demonstrate left leg forward; repeat opposite side in training. Rear knee held just off floor rather than source floor-touch variant. Arms bent in front for balance."
+  },
+  "pulse-lunge": {
+    "equipment": "bodyweight",
+    "url": "https://www.masterclass.com/articles/lunge-pulses-exercise-guide",
+    "criteria": "Fixed split stance, back heel lifted, front whole foot planted. Lower close to right-angle knees, perform two small vertical pulses without straightening between, then rise. Arms in front for balance rather than the source hands-on-hips option."
+  },
+  "reverse-lunge": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-rear-lunge.html",
+    "criteria": "Hold one dumbbell at each side, step right leg backward, lower both knees, keep front foot planted, then return back foot to standing. Rear knee hovers rather than contacting floor. No deficit platform."
+  },
+  "accessed": "2026-10-16",
+  "sourceKind": "Original procedural skinned motion informed by exercise references; no copied imagery.",
+  "characterSource": "../all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+  "studioDerivedFrom": "../squat-three-20261016/studio.mjs",
+  "limits": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation."
+}

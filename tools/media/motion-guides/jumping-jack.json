@@ -1,0 +1,15 @@
+{
+  "id": "jumping-jack",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "jumping-jack-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/jumping-jacks"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:17:47.942Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "chair-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c5de39137a7e0906e98b2d6fb2454c93c385d6077ddee67c41bee6c218905280",
+  "rigSourceSha256": "990f52567bd93109f1dc7e7bb44acd8a82bca7421b8810db738ba5f895e4ec2e",
+  "videoSha256": "7f32b6c291709ae2bc1a12836974302d80cd3db5a82e52b24ffc46e404bc3b7c",
+  "darkVideoSha256": "ef4921947aa7f7cd68636b2025c034a60815b93257cb6d399806c7fc6399b642",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101685,
+  "darkBytes": 110040,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:54:22.560Z"
+}

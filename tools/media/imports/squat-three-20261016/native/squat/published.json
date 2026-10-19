@@ -1,0 +1,18 @@
+{
+  "id": "squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b54ef0a51b4555b1530de3359ff3f0497d86b658e9bbf9a127c94e4878f2f59b",
+  "rigSourceSha256": "456e08007eb9acac57ec0e69f847cf1000d4cd674ded104b41eef8c37f4c44f8",
+  "videoSha256": "392c56f4325cf9f937b9d938a1e11542ec0dbc186dfe3a7d4d08044c40b66117",
+  "darkVideoSha256": "e4fb734a559b3d001a5d55273bf988e70c57d05c045c2023825f187affd64aa7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 128982,
+  "darkBytes": 136932,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:54:12.995Z"
+}

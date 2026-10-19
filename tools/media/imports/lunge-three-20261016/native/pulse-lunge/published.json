@@ -1,0 +1,18 @@
+{
+  "id": "pulse-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a3fa9b066bd259c2c7b5591e3ef75e5cb92c06d77cd8674f7133edbd65bdda61",
+  "rigSourceSha256": "040f97264752aa9fc901726daa4126814d472e154f76e805ae7aa3b60f3c6514",
+  "videoSha256": "34efddaf5a4d082df90a15daea2a3017f02a21dcda2ed6920f63026f0ee2000d",
+  "darkVideoSha256": "5d9bacd0af1255c3095f4f7b878a43b4a55ec8ba9c80fd6dd12222847c913ab0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96821,
+  "darkBytes": 102905,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T04:05:07.029Z"
+}

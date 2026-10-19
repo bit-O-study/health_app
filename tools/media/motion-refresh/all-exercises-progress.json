@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-14T14:15:19.063Z",
+  "updatedAt": "2026-10-19T10:33:52.646Z",
   "scope": "Catalog IDs; equivalent equipment/movement aliases require review before new generation. Reviewed themes are not physical-device or biomechanical certification.",
   "total": 1351,
   "counts": {
-    "reviewed-both-themes": 288,
+    "reviewed-both-themes": 303,
     "needs-motion-review": 34,
     "needs-cutout-review": 19,
-    "needs-new-video": 1003,
+    "needs-new-video": 988,
     "legacy-needs-remake": 7
   },
   "entries": [
@@ -4234,12 +4234,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "b37fb3dc3ace22e1148893dd1673d405b24468782e1ceda1753347dc5bf8b511",
+      "videoSha256": "f6f9b5ca5d46125b0940dffdddb4aa9bdef7dfd6f95d1d8e2b5fb3c7852fd471",
+      "darkVideoSha256": "09686bfbd84216f0205c15adbe59733f5721b70ca1000cf2a0c50cc21ab300ea",
+      "rigSourceSha256": "e0a8994be442173421df2293bdf9435ce51eed823b27d52d4b4867e755f1a505",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "side-lunge",
@@ -4273,12 +4274,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "9e0a4ce0ada5e016be519fe30459c78e7b378e4ebe499d5b76a86732ed4e6bf7",
+      "videoSha256": "786cc76fa5fe3f32a7c48b6e3dc0d4550d65e28f83d7c7e121ccb1824c46a599",
+      "darkVideoSha256": "839fef0bf7d361ea147e9c53569dd10dd7fa784247aa11c72511ce8b91ac414b",
+      "rigSourceSha256": "1ceae15cd2c1e6eabd5c2463dae145ef4556d6390cde98f48ba2cb534e7896a5",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "landmine-squat",
@@ -6116,12 +6118,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "c5de39137a7e0906e98b2d6fb2454c93c385d6077ddee67c41bee6c218905280",
+      "videoSha256": "7f32b6c291709ae2bc1a12836974302d80cd3db5a82e52b24ffc46e404bc3b7c",
+      "darkVideoSha256": "ef4921947aa7f7cd68636b2025c034a60815b93257cb6d399806c7fc6399b642",
+      "rigSourceSha256": "990f52567bd93109f1dc7e7bb44acd8a82bca7421b8810db738ba5f895e4ec2e",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "boat-pose",
@@ -6272,12 +6275,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "6d7fdd9e9664f2f4352134493dbc0c2a56aa54056bb17c0c65fa0bc4dad1a3cb",
+      "videoSha256": "43f6fe98bb906a8a76e197d209109c17790e94d4f48e9f18c6c2cb237c3230c3",
+      "darkVideoSha256": "9efbeef818780b4e6f884ae49eb40390039a573c9818d729a1bb7dbacc1c988a",
+      "rigSourceSha256": "158232493d947048ef0e9b147bffc27d935af27abd674d48a7f06d11e32d6926",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "butt-kicks",
@@ -6285,12 +6289,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "671e54637e31d5438259273e3d3d5cda7b1ffc0ac81ee2de55ef25bc9162eb57",
+      "videoSha256": "a323d99e167037248b2b99ed7895c444ac10ba4da1c4ad30b4a3e0ba785da8ff",
+      "darkVideoSha256": "6c2920a2893a16646f63c6af3d8412de2de200081a014c048cebe0ba3b5017e3",
+      "rigSourceSha256": "57ba504bd843f8c957821afea85776f7796f58b653a234a5f9cc2cc49a9ed576",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "jumping-jack",
@@ -6298,12 +6303,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "234b2981f8e7bb8c9f5d5ed442b331671792d03bec3f3ba76906327291c05aeb",
+      "videoSha256": "bd5704703bd16b8a88462408d636ad5f6b2124b1a69915d42fd7470b1be5f795",
+      "darkVideoSha256": "cb784c1b4a5002226fd119c1b3b6cc86d024dffa432cc537c5fe547b52655260",
+      "rigSourceSha256": "7c8c326a63ab832b9942df5ab44fe90b7cc1070e9b9936d1d3f47b67072b6100",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "prowler-sprint",
@@ -6764,12 +6770,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "33a565f994de709b4ceccf9b87749d873ba59c5eab1786131fc7b7e289fe582e",
+      "videoSha256": "81151fe7e13216da31eb22e7dec8e7618a0800c74c7d55b489eaa0f779663597",
+      "darkVideoSha256": "b8136435f3a02d40f82b75df19d2fb17e1079826470a6dfbb20e3b909e0efaed",
+      "rigSourceSha256": "d9b3290ca9223040bf5ae2ba936a59946aab7dded2e90f3342ac8bdf5dc44586",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "deficit-reverse-lunge",
@@ -6777,12 +6784,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "b594fcb9e36d2db591d56e49f3f58146df3beaff10818886ba848db2942f3c35",
+      "videoSha256": "3e84e695375051e3ee1685743fb715419b68f751fe4c8b99cfd11e0b91e2df6a",
+      "darkVideoSha256": "599af270bcec90b9a954de2574fd10a270871516374432b0b3a185747036a80d",
+      "rigSourceSha256": "a536764a1aefb81f45f349b21f643d4982d12356173be362fa3cdde1adaff006",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "overhead-lunge",
@@ -12152,12 +12160,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "16d6f28ddf4bbc4284368a920b2189cf1f1692192140d5cb9c3aac9beb42cba6",
+      "videoSha256": "5c0ebf0d1d66a898d3234ecec57dbc979ab35041318f557e23479ab46762c78d",
+      "darkVideoSha256": "ecbbce4f87d23736cbeba696f65c28a837e0ec6cd12390bae8b2c267ec81b939",
+      "rigSourceSha256": "a24ac4cf160cc5f0af560d596c65bb9619aba50284abf0277809db93a62aa5e1",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "plank-jack",
@@ -12204,12 +12213,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "a3fa9b066bd259c2c7b5591e3ef75e5cb92c06d77cd8674f7133edbd65bdda61",
+      "videoSha256": "34efddaf5a4d082df90a15daea2a3017f02a21dcda2ed6920f63026f0ee2000d",
+      "darkVideoSha256": "5d9bacd0af1255c3095f4f7b878a43b4a55ec8ba9c80fd6dd12222847c913ab0",
+      "rigSourceSha256": "040f97264752aa9fc901726daa4126814d472e154f76e805ae7aa3b60f3c6514",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "pulse-squat",
@@ -12217,12 +12227,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "b3d17a3987492fe46381a225f3f19aac687135a8aef5e239eb391c81d32a4950",
+      "videoSha256": "855798bc0fc2366d0ad5665a1e1708343850a8c75ab8baec64b9ad9fbd91a0c6",
+      "darkVideoSha256": "6a1a4123b089ee93ae560a8ed5aacf053cc8a99c357b40a1fbcee338597f40da",
+      "rigSourceSha256": "4e18567b2a3272df764ff0d3664ad3c3856b33db7ba657f42f339bd83077cb1d",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "duck-walk",
@@ -12269,12 +12280,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "c47b955b15817d5f6cde9304244d3efdf2da1d2ae932e90b8cf3f69ab95413a9",
+      "videoSha256": "00fee1c190e42fb3f99e5cf3b26bc77b202bf6dd980c1a1d387f1d8b90b6668f",
+      "darkVideoSha256": "1becf147a7ed8889b348d044ccb903731fe47386986bfb8bae026b1e554516b9",
+      "rigSourceSha256": "772ecc82c6b3934f19576635dbe7e465217cca80bc815fb4de51cf2725dfc8cd",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "toe-tap",
@@ -12296,12 +12308,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "94b20194ccf8263f1c0e6b0b506dfcefc77f4d6e34c8b35ddb905f8b1b9d2859",
+      "videoSha256": "2be99ba9a81d5ce108faa7a86e529836744cf5417035f91f25c531d94f0754e2",
+      "darkVideoSha256": "47dbc191c1f9366889c1ca2adb50f12a9233330b379bf15ed60e258f8fc71ccb",
+      "rigSourceSha256": "dc57f030740e1b5d2229d01ceee0a8c3ffcdf13c72fdc146b68b0c4e3e08eeb3",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "plank-toe-tap",
@@ -16502,12 +16515,13 @@
         "machine",
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "b54ef0a51b4555b1530de3359ff3f0497d86b658e9bbf9a127c94e4878f2f59b",
+      "videoSha256": "392c56f4325cf9f937b9d938a1e11542ec0dbc186dfe3a7d4d08044c40b66117",
+      "darkVideoSha256": "e4fb734a559b3d001a5d55273bf988e70c57d05c045c2023825f187affd64aa7",
+      "rigSourceSha256": "456e08007eb9acac57ec0e69f847cf1000d4cd674ded104b41eef8c37f4c44f8",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "leg-press",
@@ -16623,12 +16637,13 @@
         "dumbbell",
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "af01ad927bce686fac9f9d59d61994152da8df8dcec1d9392f6d595fff80dc0e",
+      "videoSha256": "01d460de38ac16ea0eae4f4649c887643a1e72a0b9aef998c81196af14b4c285",
+      "darkVideoSha256": "6fc8ac3c6f35aaeab0cee2caaf72991184b03f9e3a5f6145c6e78bca2ec4b853",
+      "rigSourceSha256": "5db3933764a79c84f9a46b2c7dc3014d3cd4053c0295f3f3ab910b9dcbadadee",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "bulgarian-split-squat",

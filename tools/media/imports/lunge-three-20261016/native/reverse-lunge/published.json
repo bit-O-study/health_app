@@ -1,0 +1,18 @@
+{
+  "id": "reverse-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b37fb3dc3ace22e1148893dd1673d405b24468782e1ceda1753347dc5bf8b511",
+  "rigSourceSha256": "e0a8994be442173421df2293bdf9435ce51eed823b27d52d4b4867e755f1a505",
+  "videoSha256": "f6f9b5ca5d46125b0940dffdddb4aa9bdef7dfd6f95d1d8e2b5fb3c7852fd471",
+  "darkVideoSha256": "09686bfbd84216f0205c15adbe59733f5721b70ca1000cf2a0c50cc21ab300ea",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 122350,
+  "darkBytes": 116269,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T04:05:11.814Z"
+}

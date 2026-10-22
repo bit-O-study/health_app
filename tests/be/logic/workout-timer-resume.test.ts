@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
-  AWAY_GAP_MS,
-  COLD_RESUME_GAP_MS,
-  freezeOnColdStart,
+  elapsedMs,
+  readTimer,
   reconcileResume,
+  writeTimer,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
 import { normalizeSoundKind } from "@/features/workout-timer/rest-sound";
@@ -13,91 +13,68 @@ const base = (over: Partial<TimerState> = {}): TimerState => ({
   startedAt: 1_000,
   pausedAt: null,
   accumulated: 0,
-  forDate: "2026-06-15",
+  forDate: "2026-10-22",
   lastSeenAt: 2_000,
   ...over,
 });
 
-describe("reconcileResume — 닫아둔 동안의 시간 제외", () => {
-  it("null/정지 상태는 그대로 둔다", () => {
-    expect(reconcileResume(null, 9_999)).toBeNull();
-    const paused = base({ pausedAt: 5_000 });
-    expect(reconcileResume(paused, 9_999_999)).toBe(paused);
-  });
-
-  it("백그라운드에 20분 있다 돌아와도 시간은 그대로 흐른다(2026-10-14)", () => {
-    const s = base({ startedAt: 0, lastSeenAt: 60_000 });
-    const now = 60_000 + 20 * 60_000;
-    const r = reconcileResume(s, now)!;
-    expect(r.accumulated + (now - r.startedAt)).toBe(21 * 60_000); // 1분 + 백그라운드 20분
-  });
-
-  it("짧은 공백(임계 미만)이면 startedAt 유지, lastSeenAt 만 갱신", () => {
-    const s = base({ lastSeenAt: 2_000 });
-    const now = 2_000 + AWAY_GAP_MS - 1;
-    const r = reconcileResume(s, now)!;
-    expect(r.startedAt).toBe(s.startedAt);
-    expect(r.lastSeenAt).toBe(now);
-  });
-
-  it("며칠 닫아두면(큰 공백) 그 시간을 경과에서 제외한다", () => {
-    const s = base({ startedAt: 1_000, lastSeenAt: 2_000, accumulated: 0 });
-    const aWeek = 7 * 24 * 3600 * 1000;
-    const now = 2_000 + aWeek; // 일주일 뒤 다시 열림
-    const r = reconcileResume(s, now)!;
-    // startedAt 이 공백만큼 미뤄져, '지금' 기준 경과는 공백을 뺀 값(=lastSeenAt-startedAt).
-    expect(now - r.startedAt).toBe(s.lastSeenAt! - s.startedAt); // 1000ms 만 인정
-    // 즉 '지금' 시점 경과 = accumulated + (now - startedAt) = 1초 (일주일이 아님).
-    expect(r.accumulated + (now - r.startedAt)).toBe(1_000);
-    expect(r.lastSeenAt).toBe(now);
-  });
+afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
 
-describe("freezeOnColdStart — 팅김(강제종료) 뒤 다시 켰을 때", () => {
-  it("앱이 죽어 있던 시간은 운동시간에 안 들어가고, 정지 상태로 되살아난다", () => {
-    // 1분(60_000ms) 운동하다 앱이 내려감 → 3시간 뒤 다시 켬(타이머를 켠 채 잊은 것).
-    const s = base({ startedAt: 0, lastSeenAt: 60_000, accumulated: 0 });
-    const now = 60_000 + 3 * 3_600_000;
-    const r = freezeOnColdStart(s, now)!;
-    expect(r.pausedAt).toBe(now); // '다시 운동하기' 를 눌러야 다시 흐른다
-    // 정지 상태의 경과 = accumulated. 죽어 있던 3시간은 빠지고 1분만 인정.
-    expect(r.accumulated).toBe(60_000);
+describe("reconcileResume — 일시정지/종료 전까지 공백도 운동시간에 포함", () => {
+  it("타이머가 없으면 복원하지 않는다", () => {
+    expect(reconcileResume(null, 9_999)).toBeNull();
   });
 
-  it("정지 상태로 얼린 뒤 '다시 운동하기'로 재개하면 그 시점부터만 더해진다", () => {
-    const s = base({ startedAt: 0, lastSeenAt: 60_000, accumulated: 0 });
-    const wake = 60_000 + 3 * 3_600_000;
-    const frozen = freezeOnColdStart(s, wake)!;
-    // resume() 이 하는 일과 같은 계산: startedAt=지금, accumulated 유지
-    const resumed: TimerState = {
-      startedAt: wake,
-      pausedAt: null,
-      accumulated: frozen.accumulated,
-      forDate: frozen.forDate,
-      lastSeenAt: wake,
-    };
-    // 재개 후 30초 더 운동 → 총 90초 (죽어 있던 3시간은 제외).
-    expect(resumed.accumulated + (wake + 30_000 - resumed.startedAt)).toBe(90_000);
+  it.each([20, 30, 31, 180, 7 * 24 * 60])("%i분 백그라운드 후에도 전체 경과를 유지한다", (minutes) => {
+    vi.useFakeTimers();
+    const s = base({ accumulated: 5_000 });
+    const now = s.lastSeenAt! + minutes * 60_000;
+    vi.setSystemTime(now);
+    const restored = reconcileResume(s, now)!;
+    expect(restored.startedAt).toBe(s.startedAt);
+    expect(restored.pausedAt).toBeNull();
+    expect(restored.lastSeenAt).toBe(now);
+    expect(elapsedMs(restored)).toBe(5_000 + now - s.startedAt);
+    vi.advanceTimersByTime(10_000);
+    expect(elapsedMs(restored)).toBe(15_000 + now - s.startedAt);
   });
 
-  it("폰이 백그라운드의 앱을 내렸다가 3분 뒤 다시 켜도 멈추지 않고 그 시간까지 흐른다(2026-10-14)", () => {
-    const s = base({ startedAt: 0, lastSeenAt: 60_000 });
-    const now = 60_000 + 180_000;
-    const r = reconcileResume(freezeOnColdStart(s, now), now)!;
-    expect(r.pausedAt).toBeNull();
-    expect(r.accumulated + (now - r.startedAt)).toBe(240_000); // 1분 + 내려가 있던 3분
+  it("앱 재생성 후 저장본을 읽어도 3시간 공백을 유지한다", () => {
+    vi.useFakeTimers();
+    const data = new Map<string, string>();
+    vi.stubGlobal("window", {});
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+    });
+    const s = base({ sessionId: "session-1", baseSec: 30, accumulated: 30_000 });
+    writeTimer(s);
+    const now = 3 * 3_600_000;
+    vi.setSystemTime(now);
+    const restored = reconcileResume(readTimer(), now)!;
+    expect(restored).toEqual({ ...s, lastSeenAt: now });
+    expect(elapsedMs(restored)).toBe(30_000 + now - s.startedAt);
   });
 
-  it("새로고침·앱 내 화면 이동 수준의 짧은 공백은 그대로 진행(정지 안 함)", () => {
-    const s = base({ startedAt: 0, lastSeenAt: 60_000 });
-    const r = freezeOnColdStart(s, 60_000 + COLD_RESUME_GAP_MS - 1)!;
-    expect(r).toBe(s); // 원본 그대로 — 계속 흐른다
+  it("구버전 lastSeenAt 없는 저장본도 시간을 빼지 않는다", () => {
+    const s = base({ lastSeenAt: undefined });
+    expect(reconcileResume(s, 9_999_999)).toEqual({ ...s, lastSeenAt: 9_999_999 });
   });
 
-  it("이미 정지 중이거나 타이머가 없으면 그대로", () => {
-    expect(freezeOnColdStart(null, 9_999)).toBeNull();
-    const paused = base({ pausedAt: 5_000 });
-    expect(freezeOnColdStart(paused, 9_999_999)).toBe(paused);
+  it("명시적 일시정지는 장시간 복귀 후에도 유지하고 재개 이후만 더한다", () => {
+    vi.useFakeTimers();
+    const paused = base({ pausedAt: 5_000, accumulated: 4_000 });
+    const now = 3 * 3_600_000;
+    vi.setSystemTime(now);
+    const restored = reconcileResume(paused, now)!;
+    expect(restored).toBe(paused);
+    expect(elapsedMs(restored)).toBe(4_000);
+    const resumed = { ...restored, startedAt: now, pausedAt: null };
+    vi.advanceTimersByTime(30_000);
+    expect(elapsedMs(resumed)).toBe(34_000);
   });
 });
 

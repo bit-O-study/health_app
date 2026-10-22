@@ -228,6 +228,20 @@
 
 ### 1.1 [보류] Android 탭 이동 중 종료 및 복구 루프 해결
 
+- [진행중] 2026-10-22 Android 장시간 백그라운드 운동시간 유지 (사용자 요청)
+  - [진행중] 2026-10-22 사용자 추가 요청 운영 배포: 전체 게이트 재확인 후 이 수정만 main 커밋·푸시, Vercel 성공 및 운영 응답 확인. 이전 보고의 DB 연결/Android 실기기 미검증 범위는 유지.
+  - [완료] 배포 전 재검증: Node22 Vitest 전체 304파일 3,429개 통과·선택 검사 1개 제외(185.19초). 앱·테스트 전체 ESLint 오류 0·경고 35개, `node node_modules/typescript/bin/tsc --noEmit` 종료 코드 0. 로그 `.verify-shots/background-timer-deploy/{unit-direct.log,app-lint.json,types.log,gates.json}`.
+  - [대기] 전체 게이트 잔여: 스키마 113개는 테스트 DB 자격정보 부재로 건너뜀. 저장소 전체 ESLint는 기존 영상 제작 의존성의 복제된 three.module.js 여러 개(500KB 초과)를 검사하며 장시간 소요되어 중단, 전체 통과 아님. 앱·테스트 전체 검사로 코드 오류 0 확인. 전체 E2E·Android 실기기 미검증은 이전 보고와 같음. 사용자 배포 추가 요청에 따라 위 한계를 기록하고 이번 타이머 수정만 배포 진행.
+  - [완료] 프로덕션 빌드: Node22 `node node_modules/next/dist/bin/next build --webpack` 종료 코드 0(컴파일 8.7분·TypeScript·페이지 생성 포함). `next start --hostname 127.0.0.1 --port 3193` 실행 후 /login·/routine 모두 HTTP 200 및 HTML 응답 확인. 인증된 운동 동작/E2E 검증을 뜻하지 않음. 로그 `.verify-shots/background-timer-deploy/build.log`.
+  - [진행중] main 커밋·푸시 후 Vercel Production 배포 성공 및 운영 HTTP 응답 확인.
+  - [완료] 조사: 30분 초과 공백 차감·콜드 스타트 일시정지 및 10분 알림 무응답 자동 종료 확인
+  - [완료] 구현: 공백 차감/콜드 스타트 자동 정지 제거, 복귀 즉시 실제 시각 기준 경과 갱신, 클라이언트·서버 크론의 알림 무응답 자동 종료 제거. 명시적 일시정지/종료·운동 전체 완료 저장은 유지
+  - [완료] 2026-10-22 단위: 수정 전 장시간 복귀/저장 복원/크론 무응답 6개 실패 재현. 수정 후 Node22 `node node_modules/vitest/vitest.mjs run tests/be/logic/workout-timer-resume.test.ts tests/be/logic/cron-handler.test.ts tests/be/logic/inactivity.test.ts tests/be/logic/queue-filter.test.ts tests/be/logic/timer-delta.test.ts` 5파일 63개 통과(최종 48.93초). 20/30/31/180분·7일 공백, 저장본/구버전 복원, 명시적 정지·재개, 중복 가산 및 크론 활성 상태 유지 검증.
+  - [완료] 대상 8개 TS/TSX 파일 ESLint 오류 0개·타이머 기존 unused-disable 경고 4개, git diff --check 통과.
+  - [완료] TypeScript: 의존성 설치·생성 타입 복구 후 `node node_modules/typescript/bin/tsc --noEmit --incremental false` 최종 종료 코드 0. 첫 실행의 기존 누락 의존성 @capgo/capacitor-health는 `corepack pnpm install --frozen-lockfile`로 복원(잠금파일 변경 없음), dev 생성 타입 손상은 서버 종료·next typegen 및 손상된 dev 생성 파일 제거로 해소. 샌드박스 장시간 검사는 중단 후 권한 허용 환경에서 최종 통과.
+  - [대기] 브라우저: workout-background-time.spec.ts 추가. mobile-chromium/http://127.0.0.1:3193 실행은 첫 시도 샌드박스 Chromium 경로 오류, 설치된 브라우저/네트워크 권한 재시도는 테스트 DB 직접 주소 DNS ENOTFOUND로 화면 검사 전 실패. E2E 통과 아님. 실행 추적에서 ID·이메일을 대조한 이번 임시 계정 1개 Auth API로 삭제 완료. 개발 서버 종료. 전체 E2E·실기기는 미완료이며, 후속 프로덕션 빌드·배포 검증은 위 배포 기록 참조.
+  - [대기] Android 실기기: 화면 잠금/다른 앱 30분 이상·앱 재생성 후 누적시간 및 일시정지/종료 확인
+
 - [대기] 2026-09-26 오늘 운동 완료·휴식 취소 시 배경 동작 문구 노출 — 웹 수정·검증 완료, 실기기 대기
   - [완료] 본운동/컨디셔닝 행 전체 opacity 및 포인터 누름 즉시 reveal 렌더 경로 확인
   - [완료] 행 배경 불투명 유지(내용만 흐리게)·실제 스와이프 중에만 안내 표시

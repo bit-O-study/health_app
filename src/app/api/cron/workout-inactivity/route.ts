@@ -7,10 +7,7 @@ import {
   loadDevices,
   notifyDevices,
 } from "@/features/notifications/push-fanout";
-import {
-  INACTIVITY_LIMIT_MS,
-  NO_RESPONSE_LIMIT_MS,
-} from "@/features/workout-timer/inactivity";
+import { INACTIVITY_LIMIT_MS } from "@/features/workout-timer/inactivity";
 import { chunk, mapWithConcurrency } from "@/lib/batch";
 import { handleCron } from "@/lib/cron/handler";
 import { failureReason } from "@/lib/cron/run-log";
@@ -31,8 +28,8 @@ type StateRow = {
 
 /**
  * 무활동 감지 cron — Vercel Cron 이 10분마다 호출.
- * 활성 세션 중 30분 무활동이면 종료 확인 푸시를 보내고, 알림 후 10분 무응답이면
- * 세션을 자동 종료(비활성화)한다. (기록 시간은 마지막 활동까지 이미 저장됨.)
+ * 활성 세션 중 30분 무활동이면 종료 확인 푸시를 보낸다.
+ * 무응답으로는 세션을 종료하지 않는다.
  *
  * 판정은 메모리에서 끝내고, 푸시는 제한 동시성으로, 상태 UPDATE 는 사용자별이 아니라
  * **한 번에 묶어서** 처리한다(동시 운동자가 늘어도 실행시간이 비례하지 않게).
@@ -54,7 +51,6 @@ export async function GET(req: Request) {
 
     // 1) 판정 — DB 없이.
     const toPrompt: string[] = [];
-    const toEnd: string[] = [];
     for (const s of rows) {
       const last = new Date(s.last_activity_at).getTime();
       const promptedAt = s.prompted_at
@@ -62,8 +58,6 @@ export async function GET(req: Request) {
         : null;
       if (promptedAt === null) {
         if (now - last >= INACTIVITY_LIMIT_MS) toPrompt.push(s.user_id);
-      } else if (now - promptedAt >= NO_RESPONSE_LIMIT_MS) {
-        toEnd.push(s.user_id);
       }
     }
 
@@ -108,19 +102,13 @@ export async function GET(req: Request) {
 
     // 3) 상태 갱신 — 사용자마다 UPDATE 하지 않고 묶어서.
     //    발송 실패자도 prompted_at 을 찍는다: 안 찍으면 10분 뒤 같은 사람에게 또 시도해
-    //    (푸시가 살아난 순간) 밀린 알림이 한꺼번에 가고, 자동 종료도 계속 미뤄진다.
+    //    (푸시가 살아난 순간) 밀린 알림이 한꺼번에 간다.
     const promptedAt = new Date().toISOString();
     await Promise.all([
       ...chunk(toPrompt, IN_CHUNK).map((ids) =>
         admin
           .from("workout_active_state")
           .update({ prompted_at: promptedAt })
-          .in("user_id", ids),
-      ),
-      ...chunk(toEnd, IN_CHUNK).map((ids) =>
-        admin
-          .from("workout_active_state")
-          .update({ active: false })
           .in("user_id", ids),
       ),
     ]);
@@ -140,7 +128,7 @@ export async function GET(req: Request) {
         sent,
         failed,
         reason: firstFailure,
-        ended: toEnd.length,
+        ended: 0,
       },
     };
   });

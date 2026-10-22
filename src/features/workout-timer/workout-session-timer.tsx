@@ -18,10 +18,8 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
 import {
   clearSavedMark,
-  consumeColdStart,
   elapsedMs,
   formatElapsed,
-  freezeOnColdStart,
   readTimer,
   readFinished,
   reconcileResume,
@@ -35,10 +33,7 @@ import {
 } from "@/features/workout-timer/timer-store";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
 import { useNotificationCenter } from "@/features/notifications/notification-center";
-import {
-  NO_RESPONSE_LIMIT_MS,
-  shouldPrompt,
-} from "@/features/workout-timer/inactivity";
+import { shouldPrompt } from "@/features/workout-timer/inactivity";
 import { queueToRestInputs } from "@/features/routine/rest-remaining";
 import { restRemainingTodayAction } from "@/features/routine/rest-remaining-actions";
 import { ensurePushSubscribed } from "@/features/notifications/push-client";
@@ -202,7 +197,6 @@ export function WorkoutSessionTimer({
   const stateRef = useRef<TimerState | null>(null);
   const lastActivityRef = useRef<number>(0); // 마운트 시 effect 에서 now 로 설정
   const promptedRef = useRef(false); // 종료 알림이 떠 있는지
-  const noRespTimerRef = useRef<number | null>(null); // 10분 무응답 타이머
   const prevQueueLenRef = useRef(0);
   const hadItemsRef = useRef(false); // 한 번이라도 남은 운동이 있었는지(자동 종료 판정)
   const pendingDurationRef = useRef<{ forDate: string; deltaSec: number } | null>(null);
@@ -280,15 +274,8 @@ export function WorkoutSessionTimer({
   useEffect(() => {
     lastActivityRef.current = Date.now(); // 무활동 기준 시각 초기화
     const raw = readTimer();
-    // ⚠ 먼저 '안 보던 동안'의 시간을 제외한다(reconcile). 타이머를 켜둔 채 앱을
-    //    며칠 닫아두면 그 며칠(어제·그제·일주일)이 경과시간으로 잡히는데, 이를
-    //    빼고 나서 롤오버를 판정해야 옛 날짜 캘린더에 그 시간이 잘못 가산되지 않는다.
-    // ⚠ 앱이 '새로 켜진'(콜드 스타트) 경우 — 30분 넘게 죽어 있었으면 그 구간을 빼고
-    //    **정지 상태**로 되살린다. 그보다 짧으면 백그라운드와 같이 시간이 그대로 흐른다.
-    const restored = reconcileResume(
-      consumeColdStart() ? freezeOnColdStart(raw, Date.now()) : raw,
-      Date.now(),
-    );
+    // 화면 잠금·백그라운드·앱 재생성 여부와 무관하게 실행 중이던 시간을 유지한다.
+    const restored = reconcileResume(raw, Date.now());
     if (restored) {
       // forDate 와 오늘이 다르면: 어제까지의 (실제 운동)시간을 저장하고 타이머는 reset
       const today = seoulTodayYmd();
@@ -312,7 +299,7 @@ export function WorkoutSessionTimer({
         setState(fresh);
         return;
       }
-      // 같은 날: 보정된 상태로 복원(닫힌 시간 제외).
+      // 같은 날: 실행/일시정지 상태를 그대로 복원.
       writeTimer(restored);
     }
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -344,7 +331,7 @@ export function WorkoutSessionTimer({
           setState(fresh);
           return;
         }
-        // 하트비트 — 앱이 떠 있는 동안 매 틱 lastSeenAt 갱신(닫힌 시간 구분용).
+        // 저장된 실행 상태를 갱신한다. 공백 길이로 운동 여부를 판정하지 않는다.
         // setState 없이 localStorage 만 갱신(startedAt/accumulated 불변).
         writeTimer({ ...state, lastSeenAt: Date.now() });
       }
@@ -355,14 +342,14 @@ export function WorkoutSessionTimer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  // 3) 백그라운드에서 다시 보일 때 — 시간은 그대로 흐른다. 30분 넘게 안 봤을 때만 그 구간 제외.
+  // 3) 백그라운드 복귀 즉시 실제 시각 기준 경과를 다시 표시한다.
   useEffect(() => {
     function onVisible() {
       if (document.visibilityState !== "visible") return;
-      const cur = readTimer(); // 하트비트로 갱신된 최신 lastSeenAt 사용
+      const cur = readTimer();
       if (!cur || cur.pausedAt !== null) return;
       const rec = reconcileResume(cur, Date.now());
-      if (rec && rec.startedAt !== cur.startedAt) {
+      if (rec) {
         writeTimer(rec);
         setState(rec);
       }
@@ -443,16 +430,9 @@ export function WorkoutSessionTimer({
   function requestSave() {
     setSaveAsk(true);
   }
-  function clearNoRespTimer() {
-    if (noRespTimerRef.current !== null) {
-      window.clearTimeout(noRespTimerRef.current);
-      noRespTimerRef.current = null;
-    }
-  }
-
   /**
    * 타이머 종료 공통 — '아직 안 올린' 누적 시간을 DB 에 더하고(=기록) 타이머 reset.
-   * 종료 알림/무응답 타이머도 정리한다. 다시 운동을 시작하면 그날 누적에 이어 더해진다.
+   * 종료 알림도 정리한다. 다시 운동을 시작하면 그날 누적에 이어 더해진다.
    */
   async function endSession(): Promise<boolean> {
     const s = stateRef.current;
@@ -481,7 +461,6 @@ export function WorkoutSessionTimer({
     stateRef.current = null;
     setState(null);
     promptedRef.current = false;
-    clearNoRespTimer();
     clearPrompt();
     void endActiveSessionAction(); // 서버 활성 세션 종료(더 이상 푸시 안 함)
     // Health Connect 실패는 앱의 운동 기록 저장을 막지 않는다. 사용자가 설정에서
@@ -510,7 +489,6 @@ export function WorkoutSessionTimer({
   // '예' — 완료 외 남은 운동을 휴식(skip) 처리하고 타이머 종료(기록).
   async function endWithRest() {
     promptedRef.current = false;
-    clearNoRespTimer();
     clearPrompt();
     const inputs = queueToRestInputs(queueRef.current);
     if (inputs.planRows.length || inputs.warmup.length || inputs.cooldown.length) {
@@ -527,18 +505,17 @@ export function WorkoutSessionTimer({
   // '아니오' — 닫고 다시 30분 무활동 감지(타이머는 계속).
   function snooze() {
     promptedRef.current = false;
-    clearNoRespTimer();
     clearPrompt();
     lastActivityRef.current = Date.now();
     void snoozeActiveAction(); // 서버: 다시 30분 무활동 감지
   }
 
-  // 10분 무응답 — 휴식 처리 없이 타이머만 자동 종료(기록).
+  // 모든 운동 완료 시 타이머 종료(기록).
   async function endTimerOnly() {
     await endSession();
   }
 
-  // 종료 알림 띄우기(앱 내 벨 + 폰 로컬 알림). 10분 무응답이면 타이머만 종료.
+  // 종료 여부만 묻는다. 응답하지 않아도 운동시간은 계속 흐른다.
   function raiseEndPrompt() {
     if (promptedRef.current) return;
     promptedRef.current = true;
@@ -553,9 +530,6 @@ export function WorkoutSessionTimer({
       "운동을 종료하시겠습니까?",
       "30분 동안 완료된 운동이 없어요. 예/아니오를 눌러주세요.",
     );
-    noRespTimerRef.current = window.setTimeout(() => {
-      void handlersRef.current.endTimerOnly();
-    }, NO_RESPONSE_LIMIT_MS);
   }
 
   // 콜백(앱 내 벨/SW 알림)에서 최신 핸들러를 부르도록 ref 동기화(매 렌더).
@@ -593,7 +567,6 @@ export function WorkoutSessionTimer({
       void updateActiveActivityAction(queueToRestInputs(queue));
       if (promptedRef.current) {
         promptedRef.current = false;
-        clearNoRespTimer();
         clearPrompt();
       }
     }

@@ -2,9 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   INACTIVITY_LIMIT_MS,
-  NO_RESPONSE_LIMIT_MS,
   isInactive,
-  noResponseExpired,
   shouldPrompt,
 } from "@/features/workout-timer/inactivity";
 import { queueToRestInputs } from "@/features/routine/rest-remaining";
@@ -19,13 +17,6 @@ describe("isInactive — 30분 무활동", () => {
   it("임계 이상이면 true", () => {
     expect(isInactive(0, 30 * MIN)).toBe(true);
     expect(isInactive(0, INACTIVITY_LIMIT_MS)).toBe(true);
-  });
-});
-
-describe("noResponseExpired — 10분 무응답", () => {
-  it("10분 전이면 false, 10분이면 true", () => {
-    expect(noResponseExpired(0, 9 * MIN)).toBe(false);
-    expect(noResponseExpired(0, NO_RESPONSE_LIMIT_MS)).toBe(true);
   });
 });
 

@@ -269,6 +269,18 @@ describe("workout-inactivity — prompted_at 이 중복 알림을 막는다", ()
     expect(sendPush).not.toHaveBeenCalled();
   });
 
+  it("종료 확인에 장시간 응답하지 않아도 활성 세션은 유지한다", async () => {
+    const store = stateStore();
+    store.workout_active_state[0].prompted_at = new Date(Date.now() - 3 * 3_600_000).toISOString();
+    currentAdmin = fakeAdmin(store);
+    const result = await (await workoutInactivity(
+      new Request("https://app.test/api/cron/workout-inactivity"),
+    )).json();
+    expect(result).toMatchObject({ ok: true, prompted: 0 });
+    expect(store.workout_active_state[0].active).toBe(true);
+    expect(sendPush).not.toHaveBeenCalled();
+  });
+
   it("발송이 실패해도 prompted_at 은 찍는다(다음 실행에 밀린 알림이 몰리지 않게)", async () => {
     const store = stateStore();
     currentAdmin = fakeAdmin(store);

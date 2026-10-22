@@ -26,22 +26,9 @@ export type TimerState = {
    * 세션 자체의 길이(Health Connect 기록)에서는 뺀다. 없으면 0.
    */
   baseSec?: number;
-  /**
-   * 앱이 '실제로 떠 있던' 마지막 시각 (ms epoch). 실행 중 매 틱마다 갱신.
-   * 앱을 닫거나 백그라운드로 둔 동안은 갱신이 멈춘다. 재접속 시 이 값과 now 의
-   * 간격이 크면 그 시간만큼은 운동을 안 한 것으로 보고 경과에서 제외한다.
-   * (구버전 저장본엔 없을 수 있어 optional — 없으면 startedAt 으로 본다.)
-   */
+  /** 마지막 복원/실행 시각. 구버전 저장본과의 호환을 위해 유지한다. */
   lastSeenAt?: number;
 };
-
-/** 백그라운드/종료로 간주하는 공백 임계(ms). 이보다 길게 안 보였으면 그 구간 제외.
- * 🔴 운동 시간은 **백그라운드에서도 계속 흐른다**(2026-10-14 · "시간 잘 안 맞는데 백그라운드로
- * 시간은 계속 가게"). 폰을 잠그고 유산소를 하거나 다른 앱을 보는 동안도 운동 중이다 —
- * 예전엔 10분이 넘으면 통째로 빼서 실제 시계와 어긋났다. '30분 동안 끝낸 운동이 없으면
- * 종료를 묻는' 무활동 기준과 같은 30분까지는 그대로 인정하고, 그보다 길면(타이머를 켠 채
- * 잊고 간 것) 그 구간만 뺀다 — 캘린더 과다 가산 방지. */
-export const AWAY_GAP_MS = 30 * 60_000; // 30분
 
 export function readTimer(): TimerState | null {
   if (typeof window === "undefined") return null;
@@ -80,79 +67,13 @@ export function elapsedMs(s: TimerState | null): number {
   return s.accumulated + (Date.now() - s.startedAt);
 }
 
-/**
- * 재접속/포커스 복귀 시 '안 보던 동안'의 시간을 경과에서 제외한 새 상태를 돌려준다.
- * 실행 중이고 (now - lastSeenAt) 이 임계를 넘으면, 그 공백만큼 startedAt 을 미뤄
- * 경과시간을 lastSeenAt 시점에 '얼린' 뒤 now 부터 다시 흐르게 한다. 그래서 앱을
- * 닫아둔 9시간 같은 시간이 운동시간으로 잡히지 않는다(캘린더 과다 가산도 방지).
- * 순수 함수 — now·gap 주입으로 테스트 가능.
- */
+/** 복귀 시 실행 상태와 시작 시각을 보존한다. 공백은 명시적으로 정지하기 전까지 운동시간이다. */
 export function reconcileResume(
   s: TimerState | null,
   now: number,
-  gapMs: number = AWAY_GAP_MS,
 ): TimerState | null {
-  if (!s) return s;
-  if (s.pausedAt !== null) return s; // 정지 상태는 시간이 안 흐르니 그대로
-  const seen = s.lastSeenAt ?? s.startedAt;
-  const gap = now - seen;
-  if (gap <= gapMs) return { ...s, lastSeenAt: now };
-  // 공백만큼 startedAt 을 뒤로 밀어 그 시간을 빼고, 지금부터 다시 카운트.
-  return { ...s, startedAt: s.startedAt + gap, lastSeenAt: now };
-}
-
-/**
- * 앱이 '새로 켜졌을 때'(콜드 스타트) 인정하는 공백(ms). 이보다 길게 하트비트가
- * 끊겨 있었으면 타이머를 켠 채 잊은 것으로 보고 그 시간을 빼고 **정지**한다.
- * 🔴 예전엔 20초였다 — 폰이 백그라운드의 앱을 내리면(안드로이드가 흔히 한다) 돌아왔을 때
- * 타이머가 멈춰 있고 그 사이 시간이 빠져 "시간이 안 맞는다"가 됐다. 백그라운드 인정
- * 시간(`AWAY_GAP_MS`)과 같게 둔다 — 화면만 가렸든 앱이 내려갔든 사용자에겐 같은 일이다.
- */
-export const COLD_RESUME_GAP_MS = AWAY_GAP_MS;
-
-const DOC_SESSION_KEY = "heltch.workout.doc";
-
-/**
- * 이번 마운트가 '새 문서'(앱 새로 켜짐 = 콜드 스타트/팅김 복귀)인지 1회만 알려준다.
- * sessionStorage 는 문서 세션 단위라, 앱 내 화면 이동(같은 문서)에선 false 가 된다.
- * (앱이 죽었다 켜지면 세션이 새로 시작돼 true.)
- */
-export function consumeColdStart(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    if (sessionStorage.getItem(DOC_SESSION_KEY) === "1") return false;
-    sessionStorage.setItem(DOC_SESSION_KEY, "1");
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * 타이머를 켠 채 오래(`COLD_RESUME_GAP_MS` 초과) 앱이 죽어 있었으면 그 시간은 운동시간이 아니다.
- * 그보다 짧으면 그대로 흐른다(백그라운드에서도 시간은 간다).
- *
- * 오래 죽어 있던 콜드 스타트에서 실행 중이던 타이머를 발견하면, 경과를 **마지막으로 살아 있던 시각
- * (lastSeenAt)** 에 얼리고 '일시정지'로 되돌린다. 사용자가 '다시 운동하기'를 누르는
- * 순간부터 다시 흐르므로, 튕긴 뒤 되돌아왔을 때 죽어 있던 시간이 운동시간에
- * 얹히지 않는다. 순수 함수 — now·gap 주입으로 테스트 가능.
- */
-export function freezeOnColdStart(
-  s: TimerState | null,
-  now: number,
-  gapMs: number = COLD_RESUME_GAP_MS,
-): TimerState | null {
-  if (!s) return s;
-  if (s.pausedAt !== null) return s; // 이미 정지 — 시간이 안 흐르니 그대로
-  const seen = s.lastSeenAt ?? s.startedAt;
-  if (now - seen <= gapMs) return s; // 새로고침·탭 이동 수준의 공백은 그대로 진행
-  return {
-    ...s,
-    pausedAt: now,
-    // 마지막으로 살아 있던 시각까지만 누적으로 인정(죽어 있던 구간 제외).
-    accumulated: s.accumulated + Math.max(0, seen - s.startedAt),
-    lastSeenAt: seen,
-  };
+  if (!s || s.pausedAt !== null) return s;
+  return { ...s, lastSeenAt: now };
 }
 
 // ── 누적 저장 마크 ───────────────────────────────────────────────────────────

@@ -13,10 +13,12 @@ import { getPlanForDay } from "@/features/routine/plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { PlanEditor } from "@/features/routine/components/plan-editor";
+import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 
 export const dynamic = "force-dynamic";
 
-export default async function PlanPage() {
+export default async function PlanPage({ searchParams }: { searchParams: Promise<{ section?: string; focus?: string }> }) {
+  const query = await searchParams;
   const [user, profile, routine, gym, myGroups] = await Promise.all([
     getCurrentUser(),
     getUserProfile(),
@@ -59,6 +61,19 @@ export default async function PlanPage() {
     ),
   );
   const condByFocus = new Map(condEntries);
+
+  // 추가 버튼은 해당 부위의 영구 루틴을 편집한다. 오늘만 변경 경로와 저장 범위를 분리한다.
+  const selected = slotMeta.find((slot) => slot.focus === query.focus);
+  if (query.section === "warmup" && selected) {
+    return <div className="app-page">
+      <PageHeader branded title="루틴 워밍업 추가하기" back="운동" backHref="/routine" />
+      <main className="app-container space-y-4">
+        <p className="text-sm text-zinc-500">{selected.label} 루틴에 저장됩니다. 다음에 같은 부위를 운동할 때도 적용됩니다.</p>
+        <ConditioningEditor focus={selected.focus} kind="warmup" initial={condByFocus.get(selected.focus)!.warmup} lockWeightReps={profile.lockWeightReps} />
+        <Link href="/plan" className="text-sm font-semibold text-brand">전체 루틴 편집</Link>
+      </main>
+    </div>;
+  }
 
   const focuses = await Promise.all(
     slotMeta.map(async (s) => {

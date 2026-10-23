@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
-test("오늘 워밍업만 추가·삭제하며 루틴을 보존하고 스쿼트 버튼이 모바일 안에 남는다", async ({ page }) => {
+test("워밍업 추가는 루틴에 저장하고 스쿼트 버튼이 모바일 안에 남는다", async ({ page }) => {
   test.skip(!hasDb, "Live test DB unavailable");
   test.setTimeout(180_000);
   const email = await createOnboardedAccount(page);
@@ -15,8 +15,8 @@ test("오늘 워밍업만 추가·삭제하며 루틴을 보존하고 스쿼트 
   await page.setViewportSize({ width: 360, height: 780 });
   await page.goto('/routine');
   await page.getByRole('link', { name: '워밍업 추가하기', exact: true }).click();
-  await expect(page).toHaveURL(/\/plan\/today\?section=warmup/);
-  await expect(page.getByRole('heading', { name: '오늘 워밍업 추가하기' })).toBeVisible();
+  await expect(page).toHaveURL(/\/plan\?section=warmup&focus=lower/);
+  await expect(page.getByRole('heading', { name: '루틴 워밍업 추가하기' })).toBeVisible();
   await expect(page.locator('fieldset')).toHaveCount(1);
   const editor = page.locator('fieldset');
   await editor.getByRole('button', { name: '추가', exact: true }).click();
@@ -30,9 +30,9 @@ test("오늘 워밍업만 추가·삭제하며 루틴을 보존하고 스쿼트 
   await expect(editor.getByRole('button', { name: '삭제', exact: true })).toHaveCount(1);
   await editor.getByRole('button', { name: '저장', exact: true }).click();
   await expect(editor.getByText('저장됨', { exact: true })).toBeVisible();
-  expect(await dbQuery(`select * from public.routine_conditioning where user_id=${uid}`, [email])).toHaveLength(0);
+  expect(await dbQuery(`select * from public.routine_conditioning where user_id=${uid} and kind='warmup' and focus='lower'`, [email])).toHaveLength(1);
   expect(await dbQuery(`select * from public.routine_exercises where user_id=${uid} order by position`, [email])).toEqual(original);
-  expect(await dbQuery(`select * from public.daily_conditioning where user_id=${uid} and kind='warmup'`, [email])).toHaveLength(1);
+  expect(await dbQuery(`select * from public.daily_conditioning where user_id=${uid} and kind='warmup'`, [email])).toHaveLength(0);
   await page.reload();
   await expect(page.locator('fieldset').getByRole('button', { name: '삭제', exact: true })).toHaveCount(1);
   await page.locator('fieldset').getByRole('button', { name: '삭제', exact: true }).click();

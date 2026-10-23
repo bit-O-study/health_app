@@ -896,7 +896,7 @@ function ConditioningSection({
       {rowsCount === 0 ? (
         <p className="app-card flex items-center justify-between px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">
           비어 있어요
-          <Link href={`/plan/today?section=${kind}`} className="font-semibold text-brand">
+          <Link href={isWarm ? `/plan?section=warmup&focus=${encodeURIComponent(focus)}` : `/plan/today?section=${kind}`} className="font-semibold text-brand">
             {label} 추가하기
           </Link>
         </p>

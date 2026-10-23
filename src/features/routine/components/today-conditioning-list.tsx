@@ -216,9 +216,11 @@ export function TodayConditioningList({
             reps: item.reps,
           };
     // 연타 시 서버액션 동시 겹침 에러 방지 — 쓰기를 직렬 큐로. 행 표시는 optimistic 로 즉시.
-    enqueueWrite(() =>
-      setConditioningStatusAction(kind, rowId, itemId, target, snap),
-    );
+    enqueueWrite(async () => {
+      const saved = await setConditioningStatusAction(kind, rowId, itemId, target, snap);
+      if (saved.ok) window.dispatchEvent(new Event("workout-score-refresh"));
+      return saved;
+    });
     coalescedRefresh();
   }
 

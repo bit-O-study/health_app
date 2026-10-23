@@ -1314,6 +1314,7 @@ export function GuidedOverlay({
         else {
           failedSavesRef.current.delete(key);
           setFailures((f) => f.filter((x) => x.key !== key));
+          window.dispatchEvent(new Event("workout-score-refresh"));
         }
       })
       .catch((e: unknown) => {

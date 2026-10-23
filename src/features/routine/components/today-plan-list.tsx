@@ -286,7 +286,8 @@ export function TodayPlanList({
     // 화면(행 색·뱃지)은 위 optimistic 로 이미 즉시 반영됨. 마지막에 새로고침 한 번(합쳐짐).
     enqueueWrite(async () => {
       if (delta) await addWorkoutDurationAction(delta.forDate, delta.deltaSec);
-      await setExerciseStatusAction(id, target, snap);
+      const saved = await setExerciseStatusAction(id, target, snap);
+      if (saved.ok) window.dispatchEvent(new Event("workout-score-refresh"));
     });
     coalescedRefresh();
   }

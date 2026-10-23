@@ -166,7 +166,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tabs: [
       { href: "/groups", label: "내 그룹", icon: UsersRound, match: (p) => p === "/groups" },
             { href: "/groups/find", label: "그룹 찾기", icon: Search },
-      { href: "/groups/notifications", label: "그룹 알림", icon: Bell },
+      { href: "/groups/ranking", label: "그룹 순위", icon: ChartColumn },
       { href: "/groups/activity", label: "내 활동", icon: User },
     ],
   },

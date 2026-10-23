@@ -18,6 +18,7 @@ import { launcherFlags } from "@/features/launcher/launcher-flags.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
+import { WorkoutPoints } from "@/features/groups/components/workout-points";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
@@ -106,6 +107,7 @@ export default async function RootLayout({
               순간은 어느 화면에서든 온다. 큐가 비어 있으면 아무것도 안 그린다. */}
           {isLoggedIn ? <OfflineBanner /> : null}
           {children}
+          {isLoggedIn ? <WorkoutPoints /> : null}
           {isLoggedIn ? (
             <Suspense fallback={<BottomNav />}>
               <ConfiguredBottomNav />

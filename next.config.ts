@@ -10,9 +10,11 @@ import { legacyFitRedirects } from "./src/features/routine/fit-redirects";
  * 클라이언트가 자기 빌드를 알아야 한다. 앱(APK)은 원격 웹을 띄우므로 실제로 자주
  * 바뀌는 쪽은 이 웹 빌드다. Vercel 이 아니면 'dev'.
  */
-const BUILD_ID = (process.env.VERCEL_GIT_COMMIT_SHA ?? "").slice(0, 7) || "dev";
+const BUILD_ID = (process.env.VERCEL_GIT_COMMIT_SHA ?? process.env.GITHUB_SHA ?? "").slice(0, 7) || "dev";
 
 const nextConfig: NextConfig = {
+  // Windows 서버 자동 배포(2026-10-27)는 standalone 묶음(server.js)을 쓴다. Vercel 빌드는 그대로 둔다.
+  output: process.env.VERCEL ? undefined : "standalone",
   env: { NEXT_PUBLIC_BUILD_ID: BUILD_ID },
   // 이미지 최적화 — 별다른 raw <img> 는 없지만 next/image 사용 시 AVIF/WebP 우선
   images: {

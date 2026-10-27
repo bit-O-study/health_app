@@ -1,0 +1,7 @@
+{
+  "name": "health_app",
+  "port": 4100,
+  "app": ".",
+  "kind": "next",
+  "user": "bito_health"
+}

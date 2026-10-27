@@ -1,4 +1,4 @@
-import { adminUrl } from "./helpers/admin-console";
+import { adminUrl, openHealthMenu } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -24,7 +24,7 @@ test("관리자 네비에서 들어가지고 수집 안내가 보인다", async 
   await signUpAsAdmin(page);
 
   await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
-  await page.getByRole("link", { name: "실사용 오류" }).click();
+  await openHealthMenu(page, "운영", "앱 오류");
   await expect(page).toHaveURL(/\/admin\/health\/events$/);
   await expect(page.getByRole("heading", { name: "실사용 오류" })).toBeVisible();
   // 무엇을 수집하지 '않는지' 를 화면에 명시한다 — 관측이 사찰이 되면 안 된다.

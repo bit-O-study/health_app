@@ -1,4 +1,4 @@
-import { adminUrl } from "./helpers/admin-console";
+import { adminUrl, openHealthMenu } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -22,7 +22,7 @@ test("실행 기록이 없으면 '실행 기록 없음' 으로 보인다", async
   await signUpAsAdmin(page);
 
   await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
-  await page.getByRole("link", { name: "크론 실행" }).click();
+  await openHealthMenu(page, "운영", "크론");
   await expect(page).toHaveURL(/\/admin\/health\/crons$/);
   await expect(page.getByRole("heading", { name: "크론 실행" })).toBeVisible();
 

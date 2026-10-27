@@ -1,4 +1,4 @@
-import { adminUrl } from "./helpers/admin-console";
+import { adminUrl, openMemberPanel } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -27,7 +27,7 @@ test("검증유저 숨김 → 요금제 지급: 라이트 지급·회수, 트레
   try {
     // ── 회원정보: 검증유저는 기본으로 안 보이고, 링크를 누르면 보인다 ──
     await apage.goto(adminUrl("/admin/members"), { waitUntil: "networkidle" });
-    await expect(apage.getByRole("heading", { name: "회원정보" })).toBeVisible();
+    await expect(apage.getByRole("heading", { name: "회원", exact: true })).toBeVisible(); // BOadmin 2.0 제목
     await expect(apage.locator("li", { hasText: targetEmail })).toHaveCount(0);
     await apage.getByRole("link", { name: /검증유저 \d+명 숨김 · 보기/ }).click();
     await expect(apage.locator("li", { hasText: targetEmail })).toBeVisible();
@@ -62,9 +62,10 @@ test("검증유저 숨김 → 요금제 지급: 라이트 지급·회수, 트레
     await tpage.goto("/settings/subscription", { waitUntil: "networkidle" });
     await expect(tpage.getByText(/까지 이용하고 끝나요/).first()).toBeVisible({ timeout: 15_000 });
 
-    // 회원정보 배지
+    // 회원 상세 패널의 요금제(BOadmin 2.0: 표의 요금제 칸은 넓은 화면에서만 보인다)
     await apage.goto(adminUrl("/admin/members?verify=1"), { waitUntil: "networkidle" });
-    await expect(apage.locator("li", { hasText: targetEmail }).getByText(/라이트 지급 ~\d{4}-\d{2}-\d{2}/)).toBeVisible();
+    const panel = await openMemberPanel(apage, targetEmail);
+    await expect(panel.getByText(/라이트 \(지급\) · ~\d{4}-\d{2}-\d{2}/)).toBeVisible();
 
     // ── 회수: 지급 중인 회원 목록에서 ──
     await apage.goto(adminUrl("/admin/grants?verify=1"), { waitUntil: "networkidle" });

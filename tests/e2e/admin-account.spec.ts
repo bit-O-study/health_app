@@ -34,7 +34,7 @@ test("회원탈퇴: 설정 → 탈퇴 → 로그인화면 + withdrawn_at 기록"
   expect(rows[0].withdrawn_at).not.toBeNull();
 });
 
-test("관리자 대시보드: 사이드바 메뉴 + 4지표 차트 + 일/월/연 토글", async ({
+test("관리자 개요·헬쑤 개요: 위쪽 서비스 전환·탭 + 4지표 차트 + 일/월/연 토글", async ({
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
@@ -46,10 +46,14 @@ test("관리자 대시보드: 사이드바 메뉴 + 4지표 차트 + 일/월/연
 
   await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
 
-  // 대시보드 + 사이드바 메뉴(기존 메뉴 포함)
-  await expect(page.getByRole("heading", { name: "대시보드", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "회원정보" })).toBeVisible();
-  await expect(page.locator('a[href="/admin/health/settings"]')).toBeVisible();
+  // BOadmin 2.0: 전체 서비스 › 개요. 헬쑤 회원 그래프는 헬쑤 › 개요로 옮겨졌다.
+  await expect(page.getByRole("heading", { name: "개요", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "전체 서비스" }).click();
+  await page.getByRole("menuitem", { name: /^헬쑤/ }).click();
+  await expect(page).toHaveURL(/\/admin\/health$/);
+  const healthTabs = page.getByRole("navigation", { name: "헬쑤 메뉴" });
+  await expect(healthTabs.getByRole("link", { name: /^회원/ })).toBeVisible();
+  await expect(healthTabs.locator('a[href="/admin/health/settings"]')).toBeVisible();
 
   // 헤드라인 카드 + 4개 지표 차트 제목
   await expect(page.getByText("전체 회원수")).toBeVisible();

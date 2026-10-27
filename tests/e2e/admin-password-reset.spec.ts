@@ -1,4 +1,4 @@
-import { adminUrl } from "./helpers/admin-console";
+import { adminUrl, openMemberPanel } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -32,11 +32,12 @@ test("관리자 비밀번호 초기화 → 임시 비번 로그인 → 강제 �
   await apage.goto(adminUrl("/admin/members?verify=1"), { waitUntil: "networkidle" });
   const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
-  await row.getByRole("button", { name: "비밀번호 초기화", exact: true }).click();
+  const panel = await openMemberPanel(apage, targetEmail);
+  await panel.getByRole("button", { name: "비밀번호 초기화", exact: true }).click();
   await apage.getByRole("button", { name: "초기화", exact: true }).click();
 
   // 임시 비번이 화면에 표시됨 → 값 확보
-  const tempLoc = row.locator("code");
+  const tempLoc = panel.locator("code");
   await expect(tempLoc).toBeVisible({ timeout: 15_000 });
   const temp = ((await tempLoc.textContent()) ?? "").trim();
   expect(temp.length).toBeGreaterThanOrEqual(6);

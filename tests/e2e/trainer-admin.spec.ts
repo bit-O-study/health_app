@@ -34,6 +34,8 @@ test("관리자 이용권 승인·해지·재승인과 앱 접근 제어", async
     await page.goto("/trainer");
     await expect(page.getByRole("heading", { name: "담당 회원 · 0명", exact: true })).toBeVisible();
     await card.getByRole("button", { name: "이용권 해지", exact: true }).click();
+    // BOadmin 2.0: 해지는 확인 대화상자를 거친다.
+    await admin.getByRole("dialog").getByRole("button", { name: "해지", exact: true }).click();
     await expect(card.getByText("해지됨", { exact: true })).toBeVisible();
     await page.goto("/home");
     await expect(grid.getByRole("link", { name: "헬스 트레이너", exact: true })).toHaveCount(0);

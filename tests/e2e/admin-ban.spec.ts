@@ -1,4 +1,4 @@
-import { adminUrl } from "./helpers/admin-console";
+import { adminUrl, openMemberPanel } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -33,11 +33,13 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   await apage.screenshot({ path: "test-results/admin-members.png", fullPage: true });
   const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
-  // 정지 사유 입력 후 영구정지
-  await row.getByPlaceholder("정지 사유 (선택)").fill("E2E 영구정지 사유");
-  await row.getByRole("button", { name: "영구정지" }).click();
+  // 정지 사유 입력 후 영구정지 — BOadmin 2.0: 관리 버튼은 회원 상세 패널에 있다.
+  const panel = await openMemberPanel(apage, targetEmail);
+  await panel.getByPlaceholder("정지 사유 (선택)").fill("E2E 영구정지 사유");
+  await panel.getByRole("button", { name: "영구정지" }).click();
   await apage.getByRole("button", { name: "영구 정지" }).click(); // 확인 다이얼로그
-  await expect(row.getByRole("button", { name: "해제" })).toBeVisible({ timeout: 10_000 });
+  await expect(panel.getByRole("button", { name: "해제" })).toBeVisible({ timeout: 10_000 });
+  await expect(row.getByText("영구 차단")).toBeVisible();
 
   // 대상 회원은 이제 차단 → /suspended 로 + 사유 표시
   await tpage.goto("/", { waitUntil: "load" });
@@ -47,8 +49,8 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   await tpage.screenshot({ path: "test-results/suspended-final.png", fullPage: true });
 
   // 관리자 해제
-  await row.getByRole("button", { name: "해제" }).click();
-  await expect(row.getByText("정상", { exact: false })).toBeVisible({ timeout: 10_000 });
+  await panel.getByRole("button", { name: "해제" }).click();
+  await expect(row.getByText("이용 중", { exact: true })).toBeVisible({ timeout: 10_000 });
 
   // 대상 회원 다시 접근 가능 ("/" 는 모드선택 랜딩이라 운동 화면은 /routine 으로 직접)
   await tpage.goto("/routine", { waitUntil: "load" });
@@ -75,10 +77,12 @@ test("관리자 기간정지(7일) → 회원 차단 → DB 반영", async ({ br
   await apage.goto(adminUrl("/admin/members?verify=1"), { waitUntil: "networkidle" });
   const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
-  await row.getByPlaceholder("정지 사유 (선택)").fill("E2E 기간정지");
-  await row.getByRole("button", { name: "7일" }).click();
+  const panel = await openMemberPanel(apage, targetEmail);
+  await panel.getByPlaceholder("정지 사유 (선택)").fill("E2E 기간정지");
+  await panel.getByRole("button", { name: "7일" }).click();
   // 정지 배지 + 해제 버튼 노출
-  await expect(row.getByRole("button", { name: "해제" })).toBeVisible({ timeout: 10_000 });
+  await expect(panel.getByRole("button", { name: "해제" })).toBeVisible({ timeout: 10_000 });
+  await expect(row.getByText(/^정지 ~/)).toBeVisible();
 
   // DB 에 suspended_until 이 미래로 설정됐는지 확인
   const rows = await dbQuery<{ suspended_until: string | null; banned_at: string | null }>(

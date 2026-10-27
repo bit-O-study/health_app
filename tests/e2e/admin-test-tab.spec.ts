@@ -1,4 +1,4 @@
-import { adminUrl } from "./helpers/admin-console";
+import { adminUrl, openHealthMenu } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { createOnboardedAccount } from "./helpers/auth";
@@ -16,8 +16,8 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
 
   await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
 
-  // 사이드바에 "테스트" 탭이 있고, 클릭하면 런닝 모드 카드가 보인다.
-  await page.getByRole("link", { name: "테스트" }).click();
+  // 헬쑤 › 설정 › 테스트 세그먼트로 들어가면 런닝 모드 카드가 보인다(BOadmin 2.0).
+  await openHealthMenu(page, "설정", "테스트");
   await expect(page.getByRole("heading", { name: "테스트" })).toBeVisible();
   const card = page.getByRole("link", { name: /런닝 모드/ });
   await expect(card).toBeVisible();

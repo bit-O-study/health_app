@@ -57,8 +57,7 @@ test("정지해도 신고가 안 닫히고 댓글 삭제까지 가능", async ({
     [adminEmail.toLowerCase()],
   );
 
-  // prompt(정지 일수) / confirm(삭제) 자동 응답.
-  apage.on("dialog", (d) => d.accept(d.type() === "prompt" ? "7" : ""));
+  // BOadmin 2.0: 정지 기간·삭제 확인은 브라우저 prompt/confirm 이 아니라 앱 안 대화상자다.
 
   await apage.goto(adminUrl("/admin/reports"), { waitUntil: "networkidle" });
   const row = apage.locator("li", { hasText: reason });
@@ -66,6 +65,9 @@ test("정지해도 신고가 안 닫히고 댓글 삭제까지 가능", async ({
 
   // ① 작성자 정지 — 신고는 그대로 열려 있어야 한다.
   await row.getByRole("button", { name: "작성자 정지" }).click();
+  const suspend = apage.getByRole("dialog", { name: "작성자 정지" });
+  await suspend.getByRole("button", { name: "7일", exact: true }).click();
+  await suspend.getByRole("button", { name: "7일 정지" }).click();
   await expect(row.getByText("정지 중", { exact: false })).toBeVisible({
     timeout: 15_000,
   });
@@ -77,9 +79,10 @@ test("정지해도 신고가 안 닫히고 댓글 삭제까지 가능", async ({
   expect(suspended[0]?.suspended_until).not.toBeNull();
 
   // ② 정지 뒤에도 댓글 삭제가 가능해야 한다(이게 막혀 있던 버그).
-  const del = row.getByRole("button", { name: "댓글 삭제" });
+  const del = row.getByRole("button", { name: "삭제", exact: true });
   await expect(del).toBeEnabled();
   await del.click();
+  await apage.getByRole("dialog").getByRole("button", { name: "삭제", exact: true }).click();
   await expect(row.getByText("댓글 삭제됨")).toBeVisible({ timeout: 15_000 });
 
   const left = await dbQuery<{ id: string }>(

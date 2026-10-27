@@ -10,7 +10,8 @@ function run(command,args,cwd=app){const r=spawnSync(command,args,{cwd,env,stdio
 const pnpm=config.name==='health_app';
 if(pnpm)run('npm',['install','--global','pnpm@'+JSON.parse(fs.readFileSync(path.join(app,'package.json'),'utf8')).packageManager.split('@')[1].split('+')[0]]);
 const pm=pnpm?'pnpm':'npm';
-run(pm,pnpm?['install','--frozen-lockfile']:['ci']);
+// pnpm 기본 레이아웃(심볼릭 링크)은 standalone 복사에서 Windows EPERM — 서버 빌드만 평평한 node_modules.
+run(pm,pnpm?['install','--frozen-lockfile','--config.node-linker=hoisted']:['ci']);
 if(config.name==='ticket'){run(pm,['test']);run(pm,['run','check']);}
 else {
  run(pm,['run',config.name==='health_app'?'test:unit':'test']);

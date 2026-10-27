@@ -11,7 +11,9 @@ const pnpm=config.name==='health_app';
 if(pnpm)run('npm',['install','--global','pnpm@'+JSON.parse(fs.readFileSync(path.join(app,'package.json'),'utf8')).packageManager.split('@')[1].split('+')[0]]);
 const pm=pnpm?'pnpm':'npm';
 // pnpm 기본 레이아웃(심볼릭 링크)은 standalone 복사에서 Windows EPERM — 서버 빌드만 평평한 node_modules.
-run(pm,pnpm?['install','--frozen-lockfile','--config.node-linker=hoisted']:['ci']);
+// 플래그만 주면 이후 pnpm run 의 의존성 확인이 기본 레이아웃으로 다시 설치한다 → CI 체크아웃의 .npmrc 에 적는다.
+if(pnpm&&process.env.GITHUB_ACTIONS)fs.appendFileSync(path.join(app,'.npmrc'),'\nnode-linker=hoisted\n');
+run(pm,pnpm?['install','--frozen-lockfile']:['ci']);
 if(config.name==='ticket'){run(pm,['test']);run(pm,['run','check']);}
 else {
  run(pm,['run',config.name==='health_app'?'test:unit':'test']);

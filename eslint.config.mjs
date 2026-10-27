@@ -5,6 +5,10 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    files: ["scripts/deploy/**/*.cjs", "tools/media/**/*.cjs"],
+    rules: { "@typescript-eslint/no-require-imports": "off" },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
@@ -22,6 +26,8 @@ const eslintConfig = defineConfig([
     "**/dist/**",
     "**/build/**",
     "**/node_modules/**",
+    // 미디어 재현용 외부 라이브러리 원본은 수정 대상 앱 소스가 아니다.
+    "tools/media/**/dependencies/**",
 
     // 성능 보고서 사이트 — .gitignore 에도 있는 산출물(자체 .next/dist/out 포함).
     // 전체 문제의 대부분(에러 415 · 경고 10,871)이 여기서 나왔다.

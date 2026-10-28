@@ -1,3 +1,4 @@
+import { swipeGuided } from "./helpers/guided-navigation";
 import { expect, test } from "@playwright/test";
 
 import { createOnboardedAccount } from "./helpers/auth";
@@ -46,7 +47,7 @@ test("운동법 보고 뒤로 오면 보던 운동에서 이어본다(첫 운동
     timeout: 8000,
   });
   // 완료하지 말고 '다음 운동'으로 해머컬까지 이동
-  await page.getByRole("button", { name: "다음 운동" }).click();
+  await swipeGuided(page);
   await expect(overlay.getByRole("heading", { name: "해머컬" })).toBeVisible({
     timeout: 8000,
   });

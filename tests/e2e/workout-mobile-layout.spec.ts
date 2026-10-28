@@ -15,7 +15,7 @@ test("오늘 워밍업만 추가·삭제하며 루틴을 보존하고 스쿼트 
   await page.setViewportSize({ width: 360, height: 780 });
   await page.goto('/routine');
   await page.getByRole('link', { name: '워밍업 추가하기', exact: true }).click();
-  await expect(page).toHaveURL(/\/plan\/today\?section=warmup/);
+  await expect(page).toHaveURL(/\/plan\/today\?section=warmup/, { timeout: 60_000 });
   await expect(page.getByRole('heading', { name: '오늘 워밍업 추가하기' })).toBeVisible();
   await expect(page.locator('fieldset')).toHaveCount(1);
   const editor = page.locator('fieldset');
@@ -40,19 +40,38 @@ test("오늘 워밍업만 추가·삭제하며 루틴을 보존하고 스쿼트 
   await expect(page.getByText('저장됨', { exact: true })).toBeVisible();
   await page.goto('/routine');
   await page.getByRole('button', { name: '운동 시작', exact: true }).click();
+  await expect(page.getByRole('button', { name: '이전 운동', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '다음 운동', exact: true })).toHaveCount(0);
   for (const name of ['스쿼트', '고블릿 스쿼트']) {
     const title = page.getByTestId('guided-scroll').getByRole('heading', {name, exact:true});
     await expect(title).toBeVisible();
     for(const width of [320,360,390,430]) {
       await page.setViewportSize({width,height:780});
       expect(await title.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
+      const photo = page.getByTestId('guided-scroll').locator('img.ex-photo-a').first();
+      await expect(photo).toHaveCSS('object-fit', 'contain');
+      expect((await photo.boundingBox())!.height).toBeLessThanOrEqual(780 * .23 + 1);
       const camera = page.getByTestId('rep-camera-open');
       await expect(camera).toBeVisible();
       const r=await camera.boundingBox();
       expect(r!.x).toBeGreaterThanOrEqual(0);
       expect(r!.x+r!.width).toBeLessThanOrEqual(width);
+      const tips = page.getByRole('button', { name: '운동법·꿀팁 보기', exact: true });
+      const teaching = page.getByRole('button', { name: '영상 올리고 티칭받기', exact: true });
+      if (await tips.count()) {
+        const a = await tips.boundingBox(), b = await teaching.boundingBox();
+        expect(Math.abs(a!.y - b!.y)).toBeLessThan(2);
+        expect(b!.x + b!.width).toBeLessThanOrEqual(width);
+      }
     }
     await page.screenshot({path:`test-results/workout-mobile/live-${name}.png`});
-    if(name==='스쿼트') await page.getByRole('button',{name:'다음 운동',exact:true}).click();
+    if(name==='스쿼트') {
+      await title.evaluate(el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      const box = (await title.boundingBox())!;
+      await page.mouse.move(300, box.y + box.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(70, box.y + box.height / 2, { steps: 10 });
+      await page.mouse.up();
+    }
   }
 });

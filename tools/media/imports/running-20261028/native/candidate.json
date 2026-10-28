@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 30,
+  "frames": 240,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/running-20261028/native/running-alpha.webm",
+      "sha256": "fecfa2e72ae5dfaa3718decf49f9a8865249c3bc642ca2dbe0da634b7049f62d",
+      "bytes": 785560,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/running-20261028/native/running.mp4",
+      "sha256": "073920f90ff4cce6ea7dfcdd3ce6684e600b868fc4ff274b110600f928f75a65",
+      "bytes": 348160,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/running-20261028/native/running-dark.mp4",
+      "sha256": "92da3a52d85f58c78bba6c4707b2679bbf5a9ee1aecd651b6ebf812e3a329e47",
+      "bytes": 359865,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/running-20261028/studio.mjs",
+      "sha256": "2156196b9a5ca4dfdf994407a9737a5eff8ff7d33b03dcb09bc10e0ad413fa61"
+    },
+    {
+      "file": "tools/media/imports/running-20261028/motion.mjs",
+      "sha256": "23bb5adfefcd24f19ad12438c47a14ffd91fa6d610156a4ded7ceb5401665d4a"
+    },
+    {
+      "file": "tools/media/imports/running-20261028/render.mjs",
+      "sha256": "632bbdc4b2f2e2aee7fe13f864f5e4b50d9089d6775d23ebbb97c13f8bb52b7f"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "status": "passed-isolated-candidate",
+  "exercise": "running",
+  "checks": {
+    "exercise": "Running conditioning with alternating legs and opposite arm swing; no catalog exercise status changed.",
+    "equipment": "No treadmill, floor, or equipment; transparent cutout maintained.",
+    "setup": "Inspected final front-oblique and side 8-pose contact sheets; full body stays within frame.",
+    "hands": "Reduced rigid arm swing from 28 to 24 degrees, variable elbows 85.49?95.32 degrees, wrist aligned to forearm, fingers curled. Procedural hand detail remains stylized.",
+    "feet": "Reduced recovery ankle height from -3.3 to -4.5 and forward overshoot from 1.35 to 1.05; eased landing velocity. Both side and oblique sheets inspected.",
+    "movement": "481 pose samples, identical loop endpoints, all 240 alpha frame edges clear, 3 encodings decoded and browser play/seek/loop passed."
+  },
+  "verification": "native/verification.json",
+  "limits": [
+    "Procedural motion rather than motion capture",
+    "No physical-phone verification",
+    "Not deployed to production"
+  ]
+}

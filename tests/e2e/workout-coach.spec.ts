@@ -1,3 +1,4 @@
+import { swipeGuided } from "./helpers/guided-navigation";
 import { expect, test } from "@playwright/test";
 
 import { createOnboardedAccount } from "./helpers/auth";
@@ -127,7 +128,7 @@ test("🔴 준비 카드는 처음 하는 운동에만 — 해 본 운동은 없
   await expect(page.getByTestId("intro-card")).toHaveCount(0);
 
   // 스쿼트(처음) — 준비 카드.
-  await page.getByRole("button", { name: "다음 운동" }).click();
+  await swipeGuided(page);
   const intro = page.getByTestId("intro-card");
   await expect(intro).toBeVisible();
   await intro.getByRole("button", { name: "준비됐어요" }).click();
@@ -140,7 +141,7 @@ test("🔴 준비 카드는 처음 하는 운동에만 — 해 본 운동은 없
   // 운동모드는 보던 운동을 기억한다 — 스쿼트가 아니면 그리로 옮긴다.
   const squat = page.getByRole("heading", { name: "바벨 백 스쿼트", exact: true });
   await page.waitForTimeout(800);
-  if (!(await squat.isVisible())) await page.getByRole("button", { name: "다음 운동" }).click();
+  if (!(await squat.isVisible())) await swipeGuided(page);
   await expect(squat).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId("motion-caption")).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId("intro-card")).toHaveCount(0);
@@ -154,6 +155,7 @@ test("🔴 음성 코치(기본 꺼짐): 켜면 세트 요령, 휴식 10초 전 
     const spoken: string[] = [];
     (window as unknown as { __spoken: string[] }).__spoken = spoken;
     const fake = {
+      getVoices: () => [],
       speak: (u: { text: string }) => spoken.push(u.text),
       cancel: () => {},
     };
@@ -204,7 +206,7 @@ test("🔴 음성 코치(기본 꺼짐): 켜면 세트 요령, 휴식 10초 전 
   // 켜면 지금 세트 요령.
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  await expect.poll(async () => (await spoken()).join("|")).toContain("1세트.");
+  await expect.poll(async () => (await spoken()).join("|")).toContain("1세트, 12회 20킬로.");
 
   // 휴식 30초 → 10초 남았을 때 다음 세트.
   await page.getByRole("button", { name: "0:30" }).click();
@@ -212,11 +214,11 @@ test("🔴 음성 코치(기본 꺼짐): 켜면 세트 요령, 휴식 10초 전 
   await expect(page.getByText("휴식 중")).toBeVisible();
   await expect
     .poll(async () => (await spoken()).join("|"), { timeout: 30_000, intervals: [1000] })
-    .toContain("2세트째, 12회, 20킬로. 10초 남았어요.");
+    .toContain("10초 뒤 2세트, 12회 20킬로.");
 
   // 등 운동(바벨 로우)은 자극 부위를 뒷모습으로.
   await page.getByRole("button", { name: "휴식 끝내기" }).click();
-  await page.getByRole("button", { name: "다음 운동" }).click();
+  await swipeGuided(page);
   await expect(page.getByRole("heading", { name: "로우", exact: true, level: 2 })).toBeVisible();
   await expect(inset).toHaveAttribute("data-view", "posterior");
 

@@ -16,7 +16,10 @@ export function ExercisePhotoDemo({
   frames: framesProp,
   cycleMs = 2600,
   poseLabels = false,
+  compact = false,
 }: {
+  /** 운동모드에서는 영상과 같은 높이로 전신 사진을 담는다. */
+  compact?: boolean;
   /** "시작 자세 / 끝 자세" 표시 — 사진과 같은 애니메이션 주기라 저절로 맞는다(운동모드 한 줄 코치). */
   poseLabels?: boolean;
   exerciseId?: string;
@@ -34,10 +37,10 @@ export function ExercisePhotoDemo({
     <div className="w-full max-w-lg">
       <div
         className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800"
-        style={{ ["--ex-cycle" as string]: `${cycleMs}ms` }}
+        style={{ ["--ex-cycle" as string]: `${cycleMs}ms`, maxHeight: compact ? "min(23dvh, 12rem)" : undefined }}
       >
-        <img src={a} alt="" loading="eager" decoding="async" className="ex-photo-a absolute inset-0 h-full w-full object-cover" />
-        <img src={b} alt="" loading="eager" decoding="async" className="ex-photo-b absolute inset-0 h-full w-full object-cover" />
+        <img src={a} alt="" loading="eager" decoding="async" className={`ex-photo-a absolute inset-0 h-full w-full ${compact ? "object-contain" : "object-cover"}`} />
+        <img src={b} alt="" loading="eager" decoding="async" className={`ex-photo-b absolute inset-0 h-full w-full ${compact ? "object-contain" : "object-cover"}`} />
         <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
           실제 동작
         </span>

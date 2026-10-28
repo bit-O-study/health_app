@@ -56,6 +56,7 @@ import {
   sameGoal,
   type RunGoal,
 } from "@/features/running/run-guide";
+import { readRunContext, saveRunContext } from "@/features/running/run-context";
 import { buzz, readVoicePref, speak, writeVoicePref } from "@/features/running/voice";
 import { RunFinishSummary } from "@/features/running/components/run-finish-summary";
 
@@ -78,7 +79,10 @@ type ErrKind = "denied" | "gps-off" | "timeout" | "other" | null;
 export function OutdoorRun({
   onFinish,
   onExit,
+  initialGoal,
 }: {
+  /** 루틴의 '지난번처럼 달리기'로 열었을 때 그 루틴의 지난 목표(런닝 이어하기). 없으면 이 기기의 마지막 목표. */
+  initialGoal?: RunGoal;
   /** 종료 시 요약(마무리 운동 자동기록 등에 사용). */
   onFinish?: (summary: {
     durationMin: number;
@@ -140,7 +144,8 @@ export function OutdoorRun({
     setCheckpoint(readRunCheckpoint("outdoor"));
     try {
       setShowScene(localStorage.getItem("heltch.running.scene") === "on");
-      const saved = parseGoal(localStorage.getItem("heltch.running.goal"));
+      // 루틴에서 '지난번처럼'으로 열면 그 루틴의 지난 목표가 먼저(런닝 이어하기, 2026-10-28).
+      const saved = initialGoal ?? parseGoal(localStorage.getItem("heltch.running.goal"));
       setGoal(saved);
       goalRef.current = saved;
     } catch {
@@ -308,6 +313,9 @@ export function OutdoorRun({
   function chooseGoal(next: RunGoal) {
     setGoal(next);
     goalRef.current = next;
+    // 루틴에서 연 런닝이면 실제로 고른 목표를 맥락에 남긴다 — 다음 같은 루틴에서 이 목표로 열린다.
+    const ctx = readRunContext();
+    if (ctx) saveRunContext({ ...ctx, goal: next });
     try {
       localStorage.setItem("heltch.running.goal", JSON.stringify(next));
     } catch {

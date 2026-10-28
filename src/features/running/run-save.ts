@@ -17,12 +17,13 @@ import {
   recordRunSessionAction,
 } from "@/features/running/run-record-actions";
 import { writeRunCheckpoint } from "@/features/running/run-checkpoint";
+import { readRunContext, type RunContext } from "@/features/running/run-context";
 import { runSessionDate, type RunSessionInput } from "@/features/running/run-session";
 import type { RunRecordKind } from "@/features/running/run-guide";
 import { dequeuePending, enqueuePending, isPendingStored } from "@/lib/offline/pending-queue";
 import { pendingKey } from "@/lib/offline/pending-writes";
 
-export type FinishedRun = RunSessionInput & { clientSessionId: string };
+export type FinishedRun = RunSessionInput & { clientSessionId: string; context?: RunContext | null };
 
 /** 'saved' = 서버에 저장됨, 'queued' = 기기에 보관(연결되면 자동 저장). */
 export type RunSaveResult = "saved" | "queued";
@@ -30,7 +31,9 @@ export type RunSaveResult = "saved" | "queued";
 /** 저장 결과 + (저장됐으면) 기록 id·개인 최고 — 종료 화면의 링크와 배지(2026-09-29 3단계). */
 export type RunSaveOutcome = { state: RunSaveResult; runId?: string; records?: RunRecordKind[] };
 
-export async function saveFinishedRun(session: FinishedRun, label: string): Promise<RunSaveOutcome> {
+export async function saveFinishedRun(run: FinishedRun, label: string): Promise<RunSaveOutcome> {
+  // 루틴에서 연 런닝이면 그 맥락(일차·목표·대체)을 붙인다 — 대기 큐에도 같이 들어가 나중에 올려도 남는다.
+  const session: FinishedRun = { ...run, context: run.context ?? readRunContext() };
   const key = pendingKey({ kind: "run", clientSessionId: session.clientSessionId });
   enqueuePending({
     kind: "run",

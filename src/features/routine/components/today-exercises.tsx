@@ -53,10 +53,17 @@ import { summarizeSetDetails } from "@/features/routine/set-details";
 import { stepOverrideFor } from "@/features/routine/weight-steps";
 import { weightGridKg } from "@/features/routine/progress";
 import { prefillFromLast } from "@/features/routine/pyramid";
+import { getTodayOrder } from "@/features/routine/today-order";
+import { getFitAccess } from "@/features/routine/fit-access";
+import { applyTodayOrder, longestSamePartRun, orderLookups, suggestOrder, type OrderReason } from "@/features/routine/order-organizer";
+import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
+import { OrderOrganizer, type OrderPreview } from "@/features/routine/components/order-organizer";
 import {
   conditioningCompletionKey,
+  getRecentConditioningRecords,
   getTodayCompletedConditioning,
 } from "@/features/routine/conditioning-completions";
+import { buildCarryIndex, carryConditioning } from "@/features/routine/conditioning-carry";
 import {
   TodayPlanList,
   type TodayPlanItem,
@@ -169,6 +176,9 @@ export async function TodayExercises({
     postureEnabled,
     equipmentScan,
     gym,
+    todayOrder,
+    fitAccess,
+    recentCond,
   ] = await Promise.all([
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
@@ -188,6 +198,11 @@ export async function TodayExercises({
     isAiFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
     isAiFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
     getCurrentGym(),
+    // 운동 순서 정리(라이트, 2026-10-28) — 오늘만 정한 순서와 라이트 여부.
+    getTodayOrder(todayYmd),
+    getFitAccess(),
+    // 런닝 이어하기(2026-10-28) — 워밍업·마무리를 지난번 실제 값으로 채울 근거(180일).
+    getRecentConditioningRecords(todayYmd),
   ]);
 
   // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan
@@ -221,7 +236,8 @@ export async function TodayExercises({
   });
   // 부위 경계를 넘어 드래그하면 전역 position 으로 재정렬돼 있으므로 그 순서를 따른다.
   // (기본 상태는 그룹 순서 유지 — orderMainPlan 참고)
-  const orderedPlan = orderMainPlan(groupedPlan);
+  // 순서 정리로 '오늘만' 정한 순서가 있으면 그 순서(루틴 position 은 그대로 — 원칙 #2).
+  const orderedPlan = applyTodayOrder(orderMainPlan(groupedPlan), todayOrder);
   // A: 비고정 모드면 운동별 '마지막 실제값'(가장 최근 완료 스냅샷)으로 미리 채운다 —
   // 루틴이 다시 돌아오거나 운동모드에 다시 들어가도 지난번 무게/횟수/세트로 시작한다.
   // (고정 모드는 사용자가 등록한 값을 그대로 유지.)
@@ -406,10 +422,29 @@ export async function TodayExercises({
       });
     return [...baseRows, ...ghosts];
   }
-  const warmupRows = withCondGhosts("warmup", baseWarmupRows);
+  // 런닝 이어하기(2026-10-28) — 루틴 행(오늘만 편집이 아닌 행)은 지난번 실제 시간·속도·경사로 채운다.
+  // 고정 모드(lockWeightReps)는 근력처럼 루틴 값 그대로. 오늘만 편집한 행은 사용자가 정한 값이라 그대로.
+  // routine_conditioning 은 바꾸지 않는다(원칙 #2) — 오늘 뛴 값이 다음 번 '지난번'이 된다.
+  const carryIndex = buildCarryIndex(recentCond);
+  const carriedOn = new Map<string, string>();
+  function carryRows(kind: "warmup" | "cooldown", rows: ConditioningRow[], isDaily: boolean): ConditioningRow[] {
+    if (lockWeightReps || isDaily) return rows;
+    return rows.map((r) => {
+      const eff = effectiveValues(r);
+      const c = carryConditioning(
+        { id: r.id, kind, itemId: r.itemId, durationMin: eff.duration, speed: eff.speed, incline: eff.incline },
+        getConditioningItem(r.itemId)?.params ?? [],
+        carryIndex,
+      );
+      if (!c.carriedFrom) return r;
+      carriedOn.set(r.id, c.carriedFrom);
+      return { ...r, durationMin: c.durationMin, speed: c.speed, incline: c.incline };
+    });
+  }
+  const warmupRows = withCondGhosts("warmup", carryRows("warmup", baseWarmupRows, isDailyWarmup));
   // 런닝모드 기록은 목록에 안 뜬다(완료기록만 → 위 고스트 필터에서 제외). 루틴/오늘만 편집으로
   // 추가한 마무리 러닝은 base 행이라 그대로 보인다. (#16/17/18)
-  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
+  const cooldownRows = withCondGhosts("cooldown", carryRows("cooldown", baseCooldownRows, daily.cooldown.length > 0));
 
   const w = weightKg ?? DEFAULT_WEIGHT_KG;
 
@@ -443,6 +478,55 @@ export async function TodayExercises({
   const mainSkipSet = new Set(mainSkippedIds);
   const mainDoneSet = new Set(mainDoneIds);
 
+  // 운동 순서 정리(라이트, 2026-10-28) — 남은 운동만 다시 짠다. 끝낸·건너뛴 운동은 자리를 지킨다.
+  // 무료 회원도 계산은 한다(잠금 화면에 "연속 3 → 0" 까지 보여 준다). 계산은 카탈로그 표만 — AI 없음.
+  const lookups = orderLookups();
+  const orderSuggestion = suggestOrder(
+    activePlan.map((p) => ({
+      id: p.id,
+      exerciseId: p.exerciseId,
+      supersetGroup: (p as { supersetGroup?: number | null }).supersetGroup ?? null,
+      locked: mainDoneSet.has(p.id) || mainSkipSet.has(p.id),
+    })),
+    lookups,
+  );
+  const REASON_TEXT: Record<OrderReason, string> = { "heavy-first": "무거운 운동 먼저", spread: "부위 띄우기", "small-last": "작은 근육 끝에" };
+  const orderPreview: OrderPreview | null = orderSuggestion
+    ? {
+        ids: orderSuggestion.ids,
+        rows: orderSuggestion.ids.map((id, to) => {
+          const row = activePlan.find((p) => p.id === id)!;
+          const part = lookups.bodyPartOf(row.exerciseId);
+          const move = orderSuggestion.moves.find((m) => m.id === id);
+          return {
+            id,
+            name: getCatalogExercise(row.exerciseId)?.name ?? row.exerciseId,
+            part,
+            partLabel: BODY_PART_LABEL[part],
+            moved: move ? to - move.from : 0,
+            reason: move ? REASON_TEXT[move.reason] : null,
+          };
+        }),
+        streaksBefore: orderSuggestion.streaksBefore,
+        streaksAfter: orderSuggestion.streaksAfter,
+        costBefore: orderSuggestion.costBefore,
+        costAfter: orderSuggestion.costAfter,
+        singlePart: orderSuggestion.singlePart,
+      }
+    : null;
+  const sameRun = longestSamePartRun(
+    activePlan.filter((p) => !mainDoneSet.has(p.id) && !mainSkipSet.has(p.id)).map((p) => p.exerciseId),
+    lookups.bodyPartOf,
+  );
+  const orderWarn = sameRun && sameRun.length >= 3 ? { partLabel: BODY_PART_LABEL[sameRun.part], length: sameRun.length } : null;
+
+  // "지난번 그대로 · 10/21 · 25분 · 9.5km/h · 2%" — 이어 온 행에만.
+  function carriedLabel(rowId: string): string | null {
+    const ymd = carriedOn.get(rowId);
+    if (!ymd) return null;
+    const [, m, d] = ymd.split("-");
+    return `지난번 그대로 · ${Number(m)}/${Number(d)}`;
+  }
   // Conditioning 행 변환 (warmup/cooldown 공용 빌더) — rowId 기준
   function buildCondItems(rows: ConditioningRow[]) {
     const doneIds: string[] = [];
@@ -488,6 +572,7 @@ export async function TodayExercises({
         reps: eff.reps,
         memo: r.memo,
         completionRowId,
+        carried: carriedLabel(r.id),
       };
     });
     return { items, doneIds, skippedIds };
@@ -742,9 +827,15 @@ export async function TodayExercises({
 
         {/* 본운동 */}
         {/* 섹션 제목은 아이폰 그룹 목록처럼 작은 회색 글자 — 색 아이콘 칩은 뺐다. */}
-        <h3 className="mb-1.5 px-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">
-          본운동
-        </h3>
+        <div className="mb-1.5 flex items-center justify-between gap-2 px-1">
+          <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">본운동</h3>
+          {plan.length > 0 ? (
+            <OrderOrganizer preview={orderPreview} full={fitAccess.full} applied={todayOrder !== null} warn={null} />
+          ) : null}
+        </div>
+        {plan.length > 0 && orderWarn && orderPreview && todayOrder === null ? (
+          <OrderOrganizer preview={orderPreview} full={fitAccess.full} applied={false} warn={orderWarn} />
+        ) : null}
         {plan.length === 0 ? (
           <div className="app-card p-3 text-center">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">

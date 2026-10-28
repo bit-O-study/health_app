@@ -58,6 +58,8 @@ export type TodayConditioningItem = {
    * 완료취소 때 **바로 그 기록 1건만** 지우기 위해 서버로 넘긴다. 미완료면 null.
    */
   completionRowId?: string | null;
+  /** 런닝 이어하기(2026-10-28) — 지난번 실제 값으로 채웠으면 "지난번 그대로 · 10/21". */
+  carried?: string | null;
 };
 
 const SWIPE_THRESHOLD = 80;
@@ -591,6 +593,12 @@ export function TodayConditioningList({
                         약 {item.kcal}kcal
                       </span>
                     </p>
+                    {item.carried && !isDone && !isSkipped ? (
+                      <p className="mt-0.5 text-xs text-brand" data-testid="cond-carried">
+                        ↺ {item.carried}
+                        {lockWeightReps ? null : <span className="text-zinc-500 dark:text-zinc-400"> · {item.detail}</span>}
+                      </p>
+                    ) : null}
                     {item.memo ? (
                       <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
                         <StickyNote

@@ -64,6 +64,7 @@ import { isAiFeatureEnabled } from "@/features/coach/ai-access.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
+import { getLastRunSetting } from "@/features/running/run-context-data";
 import {
   TodayEditScope,
   TodayEditBar,
@@ -276,6 +277,18 @@ function NoRoutinePrompt() {
   );
 }
 
+/** 오늘 운동 관리 메뉴 + 이 루틴 일차의 지난번 런닝 설정(런닝 이어하기, 2026-10-28). */
+async function TodayFocusMenuWithLastRun(props: {
+  focusLabel: string;
+  badgeClass: string;
+  dotClass: string;
+  isRestToday: boolean;
+  routineDay: number;
+}) {
+  const lastRun = await getLastRunSetting(props.routineDay);
+  return <TodayFocusMenu {...props} lastRun={lastRun} />;
+}
+
 function TodayWorkout({
   userId,
   routine,
@@ -481,11 +494,12 @@ function TodayWorkout({
                 size={20}
               />
             )}
-            <TodayFocusMenu
+            <TodayFocusMenuWithLastRun
               focusLabel={focusLabel}
               badgeClass={todayStyle.badge}
               dotClass={todayStyle.dot}
               isRestToday={restedToday}
+              routineDay={offset}
             />
           </div>
         </div>

@@ -7,6 +7,7 @@ import { ChevronLeft } from "lucide-react";
 import { RunningGame } from "@/features/running/running-game";
 import { OutdoorRun } from "@/features/running/outdoor-run";
 import type { RunningMode } from "@/features/running/run-session";
+import { saveRunContext, type RunContext } from "@/features/running/run-context";
 
 /** 휴대폰(터치 + 좁은 화면 / 모바일 UA)에서만 런닝 모드를 띄운다. */
 function isMobileDevice(): boolean {
@@ -20,13 +21,21 @@ function isMobileDevice(): boolean {
 
 export function RunningMobileGate({
   initialMode = null,
+  context = null,
 }: {
   initialMode?: RunningMode | null;
+  /** 루틴에서 연 런닝이면 그 일차·목표·대체 여부(런닝 이어하기, 2026-10-28). */
+  context?: RunContext | null;
 }) {
   const router = useRouter();
   const [state, setState] = useState<"checking" | "ok" | "desktop">("checking");
   const [mode, setMode] = useState<RunningMode | null>(initialMode);
   const exitToSelect = () => setMode(null); // 시작 화면 '나가기' → 모드 선택으로
+
+  // 끝나고 저장할 때 붙이도록 이 탭에 기억한다. 루틴 밖에서 열었으면 지난 맥락을 지운다(잘못 붙지 않게).
+  useEffect(() => {
+    saveRunContext(context);
+  }, [context]);
 
   useEffect(() => {
     // SSR에서는 브라우저의 터치·화면 정보를 확인할 수 없다.
@@ -56,7 +65,7 @@ export function RunningMobileGate({
   }
 
   if (mode === "indoor") return <RunningGame onExit={exitToSelect} />;
-  if (mode === "outdoor") return <OutdoorRun onExit={exitToSelect} />;
+  if (mode === "outdoor") return <OutdoorRun onExit={exitToSelect} initialGoal={context?.goal} />;
 
   // 모드 선택 화면 — 실내(카메라) / 야외(GPS)
   return (

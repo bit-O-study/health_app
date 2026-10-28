@@ -19,6 +19,7 @@ import {
   runSessionDate,
   type RunSessionInput,
 } from "@/features/running/run-session";
+import { parseRunContext } from "@/features/running/run-context";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { personalRecords, type RunRecordKind } from "@/features/running/run-guide";
 import { toUserError } from "@/lib/user-error";
@@ -119,6 +120,8 @@ async function syncDailyRunDistance(supabase: SupabaseClient, userId: string, fo
  */
 export async function recordRunSessionAction(input: RunSessionInput & {
   clientSessionId: string;
+  /** 런닝 이어하기(2026-10-28) — 루틴에서 연 런닝이면 그 일차·목표·대체 여부(run-context.ts). */
+  context?: unknown;
 }): Promise<
   | {
       ok: true;
@@ -165,7 +168,11 @@ export async function recordRunSessionAction(input: RunSessionInput & {
   );
 
   const forDate = runSessionDate(session.startedAt) ?? seoulYmd();
-  const { data: inserted, error } = await supabase.from("run_sessions").insert({
+  const context = parseRunContext(input.context);
+  const contextColumns = context
+    ? { routine_day: context.routineDay, goal: context.goal, replaced_routine: context.replaced }
+    : {};
+  const row = {
     user_id: user.id,
     client_session_id: input.clientSessionId,
     for_date: forDate,
@@ -179,7 +186,12 @@ export async function recordRunSessionAction(input: RunSessionInput & {
     calories_kcal: caloriesKcal,
     incline: session.incline,
     route_points: session.route,
-  }).select("id").single();
+  };
+  let { data: inserted, error } = await supabase.from("run_sessions").insert({ ...row, ...contextColumns }).select("id").single();
+  // 이어하기 열이 아직 없는 DB(배포 순서가 어긋남)여도 런닝 기록 자체는 남긴다 — 맥락만 빼고 다시.
+  if (error && context && (error.code === "42703" || error.code === "PGRST204")) {
+    ({ data: inserted, error } = await supabase.from("run_sessions").insert(row).select("id").single());
+  }
   if (isDuplicateRunSessionError(error)) {
     // 이미 저장된 런닝(큐 재전송) — 기록 링크용 id 만 찾아 준다. 배지·시간은 다시 더하지 않는다.
     const { data: existing } = await supabase

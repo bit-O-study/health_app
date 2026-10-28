@@ -224,6 +224,13 @@ alter table public.user_routines
   add column if not exists today_added_date date;
 alter table public.user_routines
   add column if not exists today_added_blocks text;
+-- 운동 순서 정리(라이트, 2026-10-28)로 '오늘만' 정한 본운동 순서(행 id 배열)와 그 날짜.
+-- 날짜가 오늘이 아니면 무시 — routine_exercises.position 은 건드리지 않는다(원칙 #2).
+alter table public.user_routines
+  add column if not exists today_order_date date;
+alter table public.user_routines
+  add column if not exists today_order jsonb
+    check (today_order is null or jsonb_typeof(today_order) = 'array');
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines
@@ -1598,6 +1605,13 @@ alter table public.run_sessions
   add column if not exists average_heart_rate integer check (average_heart_rate between 30 and 240),
   add column if not exists max_heart_rate integer check (max_heart_rate between 30 and 240),
   add column if not exists heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0);
+
+-- 런닝 이어하기(2026-10-28): 어느 루틴 일차에서 뛰었나·목표·오늘 운동을 대체했나.
+-- 같은 루틴 일차가 돌아오면 런닝 모드가 지난번 설정(실내/실외·목표·대체 여부)으로 열린다.
+alter table public.run_sessions
+  add column if not exists routine_day smallint check (routine_day between 0 and 6),
+  add column if not exists goal jsonb check (goal is null or jsonb_typeof(goal) = 'object'),
+  add column if not exists replaced_routine boolean;
 
 -- 목록용 경로 점 개수(202609270001) — 목록은 route_points 전체 대신 이 열만 읽는다.
 alter table public.run_sessions add column if not exists route_point_count integer generated always as (jsonb_array_length(route_points)) stored;

@@ -11,6 +11,7 @@ import {
   isConditioningKind,
   type ConditioningKind,
 } from "@/features/routine/conditioning-catalog";
+import type { CondRecord } from "@/features/routine/conditioning-carry";
 
 function toStatus(s: string): CompletionStatus {
   return s === "skipped" ? "skipped" : "done";
@@ -80,6 +81,49 @@ export const getTodayCompletedConditioning = cache(
       });
     }
     return out;
+  },
+);
+
+/**
+ * 런닝 이어하기(2026-10-28) — 오늘 전 180일의 워밍업·마무리 **완료** 기록(최근 순).
+ * 루틴이 다시 돌아오면 이 값으로 런닝(트레드밀)의 시간·속도·경사를 채운다(conditioning-carry.ts).
+ * 실패하면 빈 목록 — 채우기만 빠지고 화면은 루틴 값 그대로.
+ */
+export const getRecentConditioningRecords = cache(
+  async function getRecentConditioningRecords(todayYmd: string): Promise<CondRecord[]> {
+    const user = await getCurrentUser();
+    if (!user) return [];
+    const supabase = await createSupabaseServerClient();
+    const from = new Date(Date.parse(`${todayYmd}T00:00:00Z`) - 180 * 86_400_000).toISOString().slice(0, 10);
+    const { data, error } = await supabase
+      .from("conditioning_completions")
+      .select("for_date, kind, item_id, source_row_id, duration_min, speed, incline")
+      .eq("user_id", user.id)
+      .eq("status", "done")
+      .gte("for_date", from)
+      .lt("for_date", todayYmd)
+      .order("for_date", { ascending: false })
+      .limit(500);
+    if (error || !data) return [];
+    return (data as {
+      for_date: string;
+      kind: string | null;
+      item_id: string | null;
+      source_row_id: string | null;
+      duration_min: number | string | null;
+      speed: number | string | null;
+      incline: number | string | null;
+    }[])
+      .filter((r) => r.item_id && isConditioningKind(r.kind ?? ""))
+      .map((r) => ({
+        forDate: r.for_date,
+        kind: r.kind as string,
+        itemId: r.item_id as string,
+        sourceRowId: r.source_row_id,
+        durationMin: numOrNull(r.duration_min),
+        speed: numOrNull(r.speed),
+        incline: numOrNull(r.incline),
+      }));
   },
 );
 

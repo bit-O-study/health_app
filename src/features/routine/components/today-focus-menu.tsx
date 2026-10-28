@@ -20,6 +20,8 @@ import {
   restartRoutineFromTodayAction,
 } from "@/features/routine/actions";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
+import { FREE_GOAL, type RunGoal } from "@/features/running/run-guide";
+import { lastRunLabel, runHref, type LastRunSetting } from "@/features/running/run-context";
 
 /**
  * 오늘 부위 배지("등 +팔")를 탭하면 열리는 액션 메뉴 —
@@ -31,11 +33,17 @@ export function TodayFocusMenu({
   badgeClass,
   dotClass,
   isRestToday = false,
+  routineDay,
+  lastRun = null,
 }: {
   focusLabel: string;
   badgeClass: string;
   dotClass: string;
   isRestToday?: boolean;
+  /** 오늘 루틴 일차(0~6) — 런닝 기록에 남겨 다음에 같은 일차가 오면 지난 설정으로 연다. */
+  routineDay?: number;
+  /** 이 루틴 일차(없으면 루틴에서 뛴 마지막)의 런닝 설정 — '지난번처럼 달리기'(런닝 이어하기, 2026-10-28). */
+  lastRun?: LastRunSetting | null;
 }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,6 +51,10 @@ export function TodayFocusMenu({
   // 런닝하기 → '오늘 런닝으로 대체할까요?' 확인.
   const [confirmRun, setConfirmRun] = useState(false);
   const [runMode, setRunMode] = useState<"indoor" | "outdoor">("indoor");
+  // 런닝 모드 시작 화면에 미리 골라 둘 목표 — 같은 모드의 지난 목표, 없으면 자유 달리기.
+  const [runGoal, setRunGoal] = useState<RunGoal>(FREE_GOAL);
+  const hrefFor = (mode: "indoor" | "outdoor", replaced: boolean) =>
+    runHref(mode, routineDay === undefined ? null : { routineDay, goal: runGoal, replaced });
   const [pending, start] = useTransition();
   // 저장이 실패하면 배지 아래에 말한다(2026-10-14) — 예전엔 실패해도 그냥 다시 읽혔다.
   const [error, setError] = useState<string | null>(null);
@@ -70,6 +82,7 @@ export function TodayFocusMenu({
   // 런닝하기 — 대체 여부를 먼저 물어본다.
   function runToday(mode: "indoor" | "outdoor") {
     setRunMode(mode);
+    setRunGoal(lastRun && lastRun.mode === mode ? lastRun.goal : FREE_GOAL);
     setMenuOpen(false);
     setConfirmRun(true);
   }
@@ -84,13 +97,26 @@ export function TodayFocusMenu({
         setError(r.error);
         return;
       }
-      router.push(`/running?mode=${runMode}`);
+      router.push(hrefFor(runMode, true));
     });
   }
 
   // 아니요 — 기존 운동은 그대로 두고 런닝 모드로(런닝은 마무리운동에 기록).
   function keepAndRun() {
-    router.push(`/running?mode=${runMode}`);
+    router.push(hrefFor(runMode, false));
+  }
+
+  // 지난번처럼 — 마무리로 뛰었으면 바로 시작. 오늘 운동을 대체(내일로 미루기)했으면 되돌리기 번거로워 한 번 묻는다.
+  function runLikeLast() {
+    if (!lastRun) return;
+    setRunMode(lastRun.mode);
+    setRunGoal(lastRun.goal);
+    setMenuOpen(false);
+    if (lastRun.replaced) {
+      setConfirmRun(true);
+      return;
+    }
+    router.push(runHref(lastRun.mode, routineDay === undefined ? null : { routineDay, goal: lastRun.goal, replaced: false }));
   }
 
   return (
@@ -199,6 +225,27 @@ export function TodayFocusMenu({
                 </span>
               </button>
 
+              {lastRun ? (
+                <button
+                  type="button"
+                  disabled={pending}
+                  onClick={runLikeLast}
+                  data-testid="run-like-last"
+                  className="flex w-full items-center gap-3 rounded-xl border border-brand bg-brand-soft px-4 py-3 text-left transition hover:bg-brand-soft disabled:opacity-50"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950">
+                    <Footprints aria-hidden="true" size={18} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                      지난번처럼 달리기
+                    </span>
+                    <span className="block text-xs text-zinc-600 dark:text-zinc-300">
+                      {lastRunLabel(lastRun)} · {lastRun.sameRoutine ? "이 루틴" : "최근"} {Number(lastRun.forDate.slice(5, 7))}/{Number(lastRun.forDate.slice(8, 10))}
+                    </span>
+                  </span>
+                </button>
+              ) : null}
               <button
                 type="button"
                 disabled={pending}
@@ -263,6 +310,11 @@ export function TodayFocusMenu({
                   {runMode === "indoor" ? "실내" : "야외"} 런닝을 시작합니다. 오늘
                   예정된 운동을 런닝으로 바꿀지 선택하세요.
                 </p>
+                {lastRun ? (
+                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                    지난번엔 {lastRun.replaced ? "'대체'" : "'그대로 두고 런닝'"}을 골랐어요.
+                  </p>
+                ) : null}
               </div>
             </div>
             <div className="mt-5 space-y-2">

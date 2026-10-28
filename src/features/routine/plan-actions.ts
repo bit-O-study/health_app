@@ -295,6 +295,14 @@ export async function reorderPlanAction(
         .eq("id", id),
     ]),
   );
+  // 손으로 끌어 순서를 정했으면 '순서 정리'로 오늘만 정한 순서(today_order)는 내려놓는다 —
+  // 남아 있으면 그 순서가 끌어 놓은 순서를 덮어 드래그가 안 먹은 것처럼 보인다(2026-10-28).
+  // 열이 아직 없는 DB 에서도 순서 저장은 끝났으니 실패는 무시한다.
+  await supabase
+    .from("user_routines")
+    .update({ today_order_date: null, today_order: null })
+    .eq("user_id", user.id)
+    .not("today_order_date", "is", null);
 
   // 클라이언트가 로컬 state 로 즉시 반영하므로 revalidatePath 생략 — 불필요한 RSC 재요청을 막아
   // 드래그 직후의 체감 지연을 없앤다.

@@ -1,0 +1,23 @@
+import { readFileSync, writeFileSync, copyFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import assert from 'node:assert/strict';
+const base='tools/media/imports/running-20261028';
+const candidate=JSON.parse(readFileSync(base+'/native/candidate.json'));
+const review=JSON.parse(readFileSync(base+'/review.json'));
+const report=JSON.parse(readFileSync(base+'/native/verification.json'));
+assert.equal(review.status,'passed-isolated-candidate');
+for(const key of ['exercise','equipment','setup','hands','feet','movement'])assert.ok(review.checks[key]?.trim());
+assert.equal(report.poseSamples,481);
+assert.ok(report.alpha.all240FrameEdgesClear);
+assert.ok(report.playback.length===3&&report.playback.every(p=>p.playing&&p.seeking&&p.loop));
+const hash=f=>createHash('sha256').update(readFileSync(f)).digest('hex');
+for(const entry of [...candidate.inputs,...candidate.outputs])assert.equal(hash(entry.file),entry.sha256);
+const targets=candidate.outputs.map(output=>({...output,target:'public/exercise-guides/ai-v3/'+output.file.split('/').at(-1)}));
+const previous=JSON.parse(readFileSync('tools/media/imports/running-20261016/published.json'));
+for(const {target,sha256} of targets)if(existsSync(target)){
+ const old=previous.outputs.find(o=>o.target===target);
+ assert.ok(hash(target)===sha256 || (old && hash(target)===old.sha256),'Refusing to replace an unreviewed asset');
+}
+for(const {file,target} of targets)copyFileSync(file,target);
+writeFileSync(base+'/published.json',JSON.stringify({scope:'running conditioning only',status:'local-published',outputs:targets},null,2)+'\n');
+console.log('Published running conditioning: alpha WebM + two theme MP4s');

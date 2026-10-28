@@ -1,0 +1,12 @@
+{
+  "exercise": "running",
+  "name": "런닝",
+  "kind": "procedural-skinned-animation",
+  "characterSource": "../all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+  "studioDerivedFrom": "../all-exercises-20261007/skinned-quadruped-hip-extension-20261014/studio.mjs",
+  "motionReference": "https://www.hprc-online.org/physical-fitness/training-performance/running-form-101",
+  "accessed": "2026-10-16",
+  "criteria": ["Slight forward lean with upright torso", "Arms swing alongside body with elbows near 90 degrees", "Short landing reach near hips", "Alternating strides at 180 steps per minute"],
+  "scope": "Isolated running-body demonstration for the running conditioning item. Does not demonstrate treadmill controls or prescribe an individual cadence.",
+  "cutout": "True alpha-channel WebM master, plus light/dark background MP4 compatibility variants. MP4 does not carry alpha."
+}

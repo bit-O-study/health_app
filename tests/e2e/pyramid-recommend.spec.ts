@@ -1,10 +1,11 @@
+import { swipeGuided } from "./helpers/guided-navigation";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 추천이 세트 방식을 골라 준다(2026-10-14) — 큰 복합 운동 · 중급 이상은 피라미드로 담긴다.
-// 지난 기록이 있으면 처방 기본 무게가 아니라 내 지난번 무게로 피라미드를 다시 만든다.
+// 같은 루틴의 지난 기록이면 처방 기본 무게가 아니라 내 지난번 무게로 피라미드를 다시 만든다.
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
 const today = `(now() at time zone 'Asia/Seoul')::date`;
@@ -54,11 +55,12 @@ test("중급 · 데드리프트는 피라미드로 담기고, 운동모드는 �
   test.setTimeout(180_000);
   const email = await signUpAndOnboard(page);
   await seedChestDay(email, "intermediate");
-  // 지난주에 100kg × 6회 × 4세트(같은 무게)로 했다.
+  // 오늘 담은 뒤와 같은 등+가슴 루틴에서 지난주 100kg × 6회 × 4세트를 했다.
   await dbQuery(
     `insert into public.exercise_completions
        (user_id, for_date, exercise_row_id, status, exercise_id, equipment, focus, sets, reps, weight_kg)
-     values (${uid}, ${today} - 7, gen_random_uuid(), 'done', 'deadlift', 'barbell', 'back', 4, 6, 100)`,
+     values (${uid}, ${today} - 7, gen_random_uuid(), 'done', 'deadlift', 'barbell', 'back', 4, 6, 100),
+            (${uid}, ${today} - 7, gen_random_uuid(), 'done', 'pec-deck', 'machine', 'chest', 3, 12, 20)`,
     [email],
   );
 
@@ -82,7 +84,7 @@ test("중급 · 데드리프트는 피라미드로 담기고, 운동모드는 �
   const mode = page.getByTestId("guided-scroll");
   const title = mode.getByRole("heading", { name: "데드리프트" });
   for (let i = 0; i < 4 && !(await title.isVisible().catch(() => false)); i++) {
-    await page.getByRole("button", { name: "다음 운동" }).click();
+    await swipeGuided(page);
     await page.waitForTimeout(600);
   }
   await expect(title).toBeVisible({ timeout: 15_000 });

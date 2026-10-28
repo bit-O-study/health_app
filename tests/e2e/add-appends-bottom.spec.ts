@@ -10,7 +10,7 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await createOnboardedAccount(page);
+  const email = await createOnboardedAccount(page, { showCheckin: true });
 
   // 커스텀: 0일차 = 가슴 + 팔, 나머지 휴식. 기준일=오늘.
   const week = [

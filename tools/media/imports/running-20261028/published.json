@@ -1,0 +1,30 @@
+{
+  "scope": "running conditioning only",
+  "status": "local-published",
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/running-20261028/native/running-alpha.webm",
+      "sha256": "fecfa2e72ae5dfaa3718decf49f9a8865249c3bc642ca2dbe0da634b7049f62d",
+      "bytes": 785560,
+      "decode": "passed",
+      "target": "public/exercise-guides/ai-v3/running-alpha.webm"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/running-20261028/native/running.mp4",
+      "sha256": "073920f90ff4cce6ea7dfcdd3ce6684e600b868fc4ff274b110600f928f75a65",
+      "bytes": 348160,
+      "decode": "passed",
+      "target": "public/exercise-guides/ai-v3/running.mp4"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/running-20261028/native/running-dark.mp4",
+      "sha256": "92da3a52d85f58c78bba6c4707b2679bbf5a9ee1aecd651b6ebf812e3a329e47",
+      "bytes": 359865,
+      "decode": "passed",
+      "target": "public/exercise-guides/ai-v3/running-dark.mp4"
+    }
+  ]
+}

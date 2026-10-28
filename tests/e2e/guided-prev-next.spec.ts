@@ -1,3 +1,4 @@
+import { swipeGuided } from "./helpers/guided-navigation";
 import { type Page, expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -32,13 +33,12 @@ async function seedTwo(email: string) {
 
 async function startGuided(page: Page, email: string) {
   await seedTwo(email);
-  await page.goto("/routine", { waitUntil: "load" });
-  await page.waitForTimeout(800);
+  await page.goto("/routine", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);
 }
 
-test("화살표로 다음/이전 이동하고, 이동만으로는 완료/스킵이 안 된다", async ({ page }) => {
+test("화살표 없이 스와이프로 다음/이전 이동하고, 이동만으로는 완료/스킵이 안 된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
   await startGuided(page, email);
@@ -51,15 +51,15 @@ test("화살표로 다음/이전 이동하고, 이동만으로는 완료/스킵�
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({
     timeout: 8000,
   });
-  await expect(prev).toBeDisabled();
+  await expect(prev).toHaveCount(0);
 
   // 다음(›) → 레그프레스. 마지막이라 '다음' 비활성.
-  await next.click();
+  await swipeGuided(page);
   await expect(overlay.getByRole("heading", { name: "레그프레스" })).toBeVisible();
-  await expect(next).toBeDisabled();
+  await expect(next).toHaveCount(0);
 
   // 이전(‹) → 다시 스쿼트.
-  await prev.click();
+  await swipeGuided(page, "previous");
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible();
 
   // 휴식 타이머도 안 뜨고, 완료/스킵 기록도 없어야 한다.
@@ -82,7 +82,7 @@ test("이동 후 완료는 올바른 운동에 기록되고 미방문 운동은 
   });
 
   // 다음 → 레그프레스, 거기서 완료. 완료는 레그프레스에만.
-  await page.getByRole("button", { name: "다음 운동" }).click();
+  await swipeGuided(page);
   await expect(overlay.getByRole("heading", { name: "레그프레스" })).toBeVisible();
   await page
     .getByRole("button", { name: "운동 완료" })
@@ -132,11 +132,8 @@ test("완료한 운동은 ‹(이전)로 되돌아가도 다시 안 보인다", 
 
   // ‹(이전)을 눌러도 방금 완료한 스쿼트로 되돌아가지 않는다(완료 운동은 운동모드에서 제외).
   // 앞에 남은 활성 운동이 없으므로 '이전' 버튼은 비활성.
-  await expect(prev).toBeDisabled();
-  await prev.click({ force: true });
+  await expect(prev).toHaveCount(0);
+  await swipeGuided(page, "previous");
   await expect(overlay.getByRole("heading", { name: "레그프레스" })).toBeVisible();
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toHaveCount(0);
 });
-
-// 참고: 좌우 드래그(스와이프) 이동도 지원하지만(터치), Playwright 마우스-드래그가
-// 합성 pointer 이벤트를 일관되게 보내지 못해 회귀 가드는 화살표(탭)로 둔다.

@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { conditionSets, WORKOUT_CONDITIONS, type WorkoutCondition } from "./condition-volume";
 import {
   Check,
-  ChevronLeft,
   ChevronRight,
   Camera,
   Gauge,
@@ -705,13 +704,10 @@ export function GuidedOverlay({
   );
 
   const item = sessionItems[index];
-  const total = sessionItems.length;
   // 상단 "n / m" 은 남은 운동 기준 — 완료한 운동은 ‹ 로도 못 가니 세지 않는다.
   const progress = activeProgress(rowIds, processed, index);
   // '마지막'은 배열 끝이 아니라 "앞에 남은 활성(미처리) 항목이 없을 때".
   const isLast = rowIds.filter((id) => !processed.has(id)).length === 1;
-  const prevIndex = adjacentActiveIndex(rowIds, processed, index, -1);
-  const nextIndex = adjacentActiveIndex(rowIds, processed, index, 1);
 
   // 현재 위치(항목 rowId)를 그날 저장 — '운동법 보기'로 나갔다 오거나 앱 리로드 후에도
   // 이 운동에서 이어보게(위 index 초기화가 복원). 정상 종료 시 clearActiveRow 로 지운다.
@@ -722,6 +718,7 @@ export function GuidedOverlay({
 
   // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
   const [setsDone, setSetsDone] = useState(0);
+  const [initializedRowId, setInitializedRowId] = useState<string | null>(null);
   const showIntro =
     item?.kind === "main" &&
     (item.intro?.length ?? 0) > 0 &&
@@ -737,31 +734,6 @@ export function GuidedOverlay({
     const flat = saved ? { w: saved.w, reps: saved.reps } : { w: it.weightKg, reps: it.reps };
     return setValueAt(i, it.setDetails, flat, saved?.bySet);
   }
-
-  // 음성 코치 — 세트를 시작할 차례가 되면(운동에 들어오거나 휴식이 끝나면) 요령 한 줄.
-  // 같은 운동·같은 세트에서는 한 번만 말한다(화면이 다시 그려져도 반복하지 않게).
-  const spokenSetRef = useRef<string | null>(null);
-  const speakRowId = item?.kind === "main" ? item.rowId : null;
-  const speakText =
-    item?.kind === "main"
-      ? speechForSetStart({
-          setNo: setsDone + 1,
-          totalSets: item.sets,
-          // 🔴 화면에 맞춘 값 — 예전엔 계획값(item)을 읽어, 45kg 로 바꿔도 "80킬로"라고 말했다.
-          reps: valueOfSet(item, setsDone).reps,
-          timed: isTimedExercise(item.exerciseId),
-          weightKg: valueOfSet(item, setsDone).w,
-          cue: cueForSet(item.cues ?? [], setsDone),
-          introFirst: showIntro ? (item.intro?.[0] ?? null) : null,
-        })
-      : null;
-  useEffect(() => {
-    if (!voiceOn || resting || !speakRowId || !speakText) return;
-    const key = `${speakRowId}:${setsDone}`;
-    if (spokenSetRef.current === key) return;
-    spokenSetRef.current = key;
-    speak(speakText);
-  }, [voiceOn, resting, speakRowId, setsDone, speakText]);
 
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
@@ -872,6 +844,7 @@ export function GuidedOverlay({
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditCondReps(init.reps);
     }
+    setInitializedRowId(it?.rowId ?? null);
   }, [index, sessionItems]);
 
   // 세트마다 값이 다른 운동(피라미드 등) — 세트가 바뀔 때마다 칸을 그 세트의 값으로 맞춘다.
@@ -1010,6 +983,31 @@ export function GuidedOverlay({
   const effReps =
     item && item.kind === "main" ? (editable ? editReps : item.reps) : 0;
   const targetHoldSec = timed ? holdSecondsFromReps(effReps) : 0;
+
+  // 음성 코치 — 세트를 시작할 차례가 되면(운동에 들어오거나 휴식이 끝나면) 요령 한 줄.
+  // 같은 운동·같은 세트에서는 한 번만 말한다(화면이 다시 그려져도 반복하지 않게).
+  const spokenSetRef = useRef<string | null>(null);
+  const speakRowId = item?.kind === "main" ? item.rowId : null;
+  const speakText =
+    item?.kind === "main"
+      ? speechForSetStart({
+          setNo: setsDone + 1,
+          totalSets: effSets,
+          // 🔴 화면에 맞춘 값 — 예전엔 계획값(item)을 읽어, 45kg 로 바꿔도 "80킬로"라고 말했다.
+          reps: valueOfSet(item, setsDone).reps,
+          timed: isTimedExercise(item.exerciseId),
+          weightKg: valueOfSet(item, setsDone).w,
+          cue: cueForSet(item.cues ?? [], setsDone),
+          introFirst: showIntro ? (item.intro?.[0] ?? null) : null,
+        })
+      : null;
+  useEffect(() => {
+    if (!voiceOn || resting || !speakRowId || !speakText || initializedRowId !== speakRowId) return;
+    const key = `${speakRowId}:${setsDone}`;
+    if (spokenSetRef.current === key) return;
+    spokenSetRef.current = key;
+    speak(speakText);
+  }, [voiceOn, resting, speakRowId, setsDone, speakText, initializedRowId]);
 
   // 다음 1~2개 운동의 시연 사진을 미리 받아둔다 → '다음 운동'으로 넘길 때
   // 빈 화면/지연 없이 즉시 표시(브라우저 캐시 워밍). 현재 항목이 바뀔 때마다.
@@ -1678,7 +1676,7 @@ export function GuidedOverlay({
             transition: dragDx ? "none" : "transform 200ms ease-out",
           }}
         >
-          {/* 운동 영상 — 폭 가득. 좌우 화살표로 운동 이동(스와이프 보조). */}
+          {/* 운동 이동은 스와이프와 하단 넘기기를 사용한다. */}
           {/* 운동 영상 — 화면 끝까지(시연 컴포넌트의 둥근 모서리·테두리는 여기서만 지운다). */}
           <div className="w-full max-w-lg sm:px-3">
           <div className="relative w-full [&_.border]:border-0 [&_.rounded-2xl]:rounded-none sm:[&_.rounded-2xl]:rounded-2xl">
@@ -1697,28 +1695,6 @@ export function GuidedOverlay({
                   />
                 ) : null}
 
-                {total > 1 ? (
-                  <>
-                    <button
-                      type="button"
-                      aria-label="이전 운동"
-                      onClick={() => goTo(-1)}
-                      disabled={prevIndex === null}
-                      className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
-                    >
-                      <ChevronLeft aria-hidden="true" size={22} />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="다음 운동"
-                      onClick={() => goTo(1)}
-                      disabled={nextIndex === null}
-                      className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
-                    >
-                      <ChevronRight aria-hidden="true" size={22} />
-                    </button>
-                  </>
-                ) : null}
                 </>
               }
             />
@@ -2013,21 +1989,22 @@ export function GuidedOverlay({
             ) : null}
 
             {/* 운동법·꿀팁(개인설정 가능) · 티칭 영상 — 조용한 보조 버튼 */}
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-4 flex w-full min-w-0 items-center justify-center gap-2">
               {showGuide && item.kind === "main" ? (
                 <button
                   type="button"
                   onClick={viewDetail}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                  aria-label="운동법·꿀팁 보기"
+                  className="inline-flex h-9 min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                 >
                   <ListChecks aria-hidden="true" size={15} />
-                  운동법·꿀팁 보기
+                  꿀팁 보기
                 </button>
               ) : showGuide && item.method.length > 0 ? (
                 <button
                   type="button"
                   onClick={() => setTipsOpen(true)}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                  className="inline-flex h-9 min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                 >
                   <ListChecks aria-hidden="true" size={15} />
                   운동법 보기
@@ -2036,10 +2013,11 @@ export function GuidedOverlay({
               <button
                 type="button"
                 onClick={() => setTeachOpen(true)}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                aria-label="영상 올리고 티칭받기"
+                className="inline-flex h-9 min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
               >
                 <Video aria-hidden="true" size={15} />
-                영상 올리고 티칭받기
+                티칭받기
               </button>
             </div>
 
@@ -2659,7 +2637,7 @@ function PhotoWithCaption({
   return (
     <div className="w-full max-w-md">
       <div className="relative">
-        <ExercisePhotoDemo frames={frames} cycleMs={PHOTO_CYCLE_MS} poseLabels />
+        <ExercisePhotoDemo frames={frames} cycleMs={PHOTO_CYCLE_MS} poseLabels compact />
         {overlay}
       </div>
       <MotionCaptionLine steps={steps} slot={slot} synced />
@@ -2708,8 +2686,8 @@ function ItemVisual({
     return (
       <VideoWithCaption
         media={{
-          url: "/exercise-guides/ai-v3/running.mp4?v=20261016",
-          darkUrl: "/exercise-guides/ai-v3/running-dark.mp4?v=20261016",
+          url: "/exercise-guides/ai-v3/running.mp4?v=20261028",
+          darkUrl: "/exercise-guides/ai-v3/running-dark.mp4?v=20261028",
           kind: "video",
         }}
         steps={hideCaption ? [] : item.method}

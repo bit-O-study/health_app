@@ -54,20 +54,20 @@ export type LastRunRow = { mode: string; goal: unknown; replaced_routine: boolea
 export type LastRunSetting = { mode: RunningMode; goal: RunGoal; replaced: boolean; forDate: string; sameRoutine: boolean };
 
 /**
- * 최근 순 기록 → ① 같은 루틴(부위 묶음이 같은 날, sameDates)에서 뛴 마지막 → ② 같은 루틴 일차 →
- * ③ 루틴에서 시작한 마지막 런닝. 루틴 밖 런닝은 쓰지 않는다.
+ * 최근 순 기록 → 🔴 같은 루틴(부위 묶음이 같은 날, sameDates)에서 뛴 마지막만. 없으면 null
+ * (2026-10-28 사용자 "무조건 같은 루틴꺼 가져와야돼") — 다른 루틴·루틴 밖 런닝은 쓰지 않는다.
  */
 export function pickLastRun(rows: LastRunRow[], routineDay: number, sameDates: ReadonlySet<string> = new Set()): LastRunSetting | null {
   const fromRoutine = rows.filter((r) => r.routine_day !== null && (r.mode === "indoor" || r.mode === "outdoor"));
-  const same = fromRoutine.find((r) => sameDates.has(r.for_date)) ?? fromRoutine.find((r) => r.routine_day === routineDay);
-  const pick = same ?? fromRoutine[0];
+  void routineDay; // 일차가 아니라 부위 묶음으로 같은 루틴을 판단한다(일차는 루틴을 다시 시작하면 바뀐다).
+  const pick = fromRoutine.find((r) => sameDates.has(r.for_date));
   if (!pick) return null;
   return {
     mode: pick.mode as RunningMode,
     goal: normalizeGoal(pick.goal),
     replaced: pick.replaced_routine === true,
     forDate: pick.for_date,
-    sameRoutine: !!same,
+    sameRoutine: true,
   };
 }
 

@@ -249,8 +249,9 @@ export async function TodayExercises({
   const activePlan = lockWeightReps
     ? orderedPlan
     : orderedPlan.map((p) => {
-        // 같은 루틴 날의 값이 먼저, 없으면 그 운동의 마지막 기록(예전 방식).
-        const last = lastSame.get(p.exerciseId) ?? lastValues.get(p.exerciseId);
+        // 🔴 무조건 같은 루틴(부위 묶음이 같은 날)의 값만(2026-10-28 사용자 "무조건 같은 루틴꺼 가져와야돼").
+        //    같은 루틴을 처음 하는 날은 다른 루틴 값을 끌어오지 않고 루틴에 정한 값으로 시작한다.
+        const last = lastSame.get(p.exerciseId);
         if (!last) return p;
         // 세트별(피라미드 등)까지 지난번 그대로 — 추천 피라미드는 내 지난번 무게로 다시 만든다(pyramid.ts).
         const grid = weightGridKg(p.exerciseId, p.equipment, stepOverrideFor(weightSteps, p.exerciseId)) ?? 1;
@@ -431,17 +432,15 @@ export async function TodayExercises({
   // 런닝 이어하기(2026-10-28) — 루틴 행(오늘만 편집이 아닌 행)은 지난번 실제 시간·속도·경사로 채운다.
   // 고정 모드(lockWeightReps)는 근력처럼 루틴 값 그대로. 오늘만 편집한 행은 사용자가 정한 값이라 그대로.
   // routine_conditioning 은 바꾸지 않는다(원칙 #2) — 오늘 뛴 값이 다음 번 '지난번'이 된다.
-  // 같은 루틴 날의 기록이 먼저(가슴+팔 날엔 지난 가슴+팔 날 뛴 값), 없으면 예전처럼 같은 행·항목의 마지막.
+  // 🔴 무조건 같은 루틴 날의 기록만(가슴+팔 날엔 지난 가슴+팔 날 뛴 값). 없으면 루틴 값 그대로.
   const carrySame = buildCarryIndex(recentCond.filter((r) => sameDates.has(r.forDate)));
-  const carryAll = buildCarryIndex(recentCond);
   function carryRows(kind: "warmup" | "cooldown", rows: ConditioningRow[], isDaily: boolean): ConditioningRow[] {
     if (lockWeightReps || isDaily) return rows;
     return rows.map((r) => {
       const eff = effectiveValues(r);
       const input = { id: r.id, kind, itemId: r.itemId, durationMin: eff.duration, speed: eff.speed, incline: eff.incline };
       const params = getConditioningItem(r.itemId)?.params ?? [];
-      const same = carryConditioning(input, params, carrySame);
-      const c = same.carriedFrom ? same : carryConditioning(input, params, carryAll);
+      const c = carryConditioning(input, params, carrySame);
       if (!c.carriedFrom) return r;
       return { ...r, durationMin: c.durationMin, speed: c.speed, incline: c.incline };
     });

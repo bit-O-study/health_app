@@ -41,10 +41,11 @@ describe("run-context (런닝 이어하기)", () => {
     expect(parseRunContext(null)).toBeNull();
   });
 
-  it("같은 루틴 일차의 마지막 설정이 우선, 없으면 루틴에서 시작한 마지막 런닝", () => {
+  it("4일 루틴이면 루틴마다 따로 — 같은 루틴 날에 뛴 것만, 다른 루틴 날 런닝은 안 쓴다", () => {
     const rows = [row({ routine_day: 5, mode: "outdoor", for_date: "2026-10-26" }), row({ routine_day: 2, for_date: "2026-10-21", replaced_routine: true })];
-    expect(pickLastRun(rows, 2)).toMatchObject({ mode: "indoor", replaced: true, sameRoutine: true, forDate: "2026-10-21" });
-    expect(pickLastRun(rows, 0)).toMatchObject({ mode: "outdoor", sameRoutine: false });
+    expect(pickLastRun(rows, 2, new Set(["2026-10-21"]))).toMatchObject({ mode: "indoor", replaced: true, forDate: "2026-10-21" });
+    expect(pickLastRun(rows, 0, new Set(["2026-10-26"]))).toMatchObject({ mode: "outdoor", forDate: "2026-10-26" });
+    expect(pickLastRun(rows, 2)).toBeNull(); // 같은 루틴 기록이 없으면 다른 루틴 걸 끌어오지 않는다
   });
 
   it("같은 루틴(부위 묶음이 같은 날)에서 뛴 설정이 일차·최근보다 먼저", () => {
@@ -53,7 +54,6 @@ describe("run-context (런닝 이어하기)", () => {
       row({ routine_day: 4, mode: "indoor", for_date: "2026-10-21", goal: { kind: "time", sec: 1800 } }), // 가슴+팔 날
     ];
     expect(pickLastRun(rows, 2, new Set(["2026-10-21"]))).toMatchObject({ mode: "indoor", goal: { kind: "time", sec: 1800 }, sameRoutine: true });
-    expect(pickLastRun(rows, 2)).toMatchObject({ mode: "outdoor" });
   });
 
   it("루틴 밖에서 뛴 기록(일차 없음)은 쓰지 않는다", () => {

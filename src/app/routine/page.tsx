@@ -284,9 +284,12 @@ async function TodayFocusMenuWithLastRun(props: {
   dotClass: string;
   isRestToday: boolean;
   routineDay: number;
+  /** 오늘 부위 묶음(예: 가슴+팔) — 같은 루틴 날 뛴 런닝 설정을 찾는다. */
+  focuses: readonly string[];
 }) {
-  const lastRun = await getLastRunSetting(props.routineDay);
-  return <TodayFocusMenu {...props} lastRun={lastRun} />;
+  const { focuses, ...menu } = props;
+  const lastRun = await getLastRunSetting(props.routineDay, [...focuses].join(","));
+  return <TodayFocusMenu {...menu} lastRun={lastRun} />;
 }
 
 function TodayWorkout({
@@ -500,6 +503,7 @@ function TodayWorkout({
               dotClass={todayStyle.dot}
               isRestToday={restedToday}
               routineDay={offset}
+              focuses={todayTones}
             />
           </div>
         </div>

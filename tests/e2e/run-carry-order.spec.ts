@@ -6,8 +6,9 @@ import { silenceDevOverlay } from "./helpers/dev-overlay";
 
 /**
  * 런닝 이어하기 · 운동 순서 정리(2026-10-28, 설계 https://claude.ai/artifact/Q6xK7mJ8RFjjPStSsDmpE3).
- * - 루틴 마무리 런닝은 같은 루틴 행의 지난번 실제 값(25분·9.5·2%)으로 이어진다(무료).
- * - 오늘 운동 관리의 '지난번처럼 달리기'가 이 루틴 일차의 지난 런닝 모드 설정으로 연다(무료).
+ * - 같은 루틴(오늘과 부위 묶음이 같은 날 — 가슴+등)이 돌아오면 그날 뛴 값(25분·9.5·2%)으로 운동모드가
+ *   채워진다. 더 최근이어도 다른 루틴(가슴만) 날 값(30분·7·0)은 쓰지 않는다. 날짜 표시는 없다(무료).
+ * - 오늘 운동 관리의 '지난번처럼 달리기'도 같은 루틴 날의 런닝 모드 설정(실내 5km)으로 연다(무료).
  * - 가슴 3개 연속 → '순서 정리'. 무료는 잠금, 라이트는 오늘만 적용(루틴 position 그대로) → 되돌리기.
  */
 const daysAgo = (today: string, n: number) => new Date(Date.parse(`${today}T00:00:00Z`) - n * 86_400_000).toISOString().slice(0, 10);
@@ -42,15 +43,25 @@ async function setup(page: Page, baseURL: string) {
   );
   await dbQuery(
     `insert into public.conditioning_completions (user_id, for_date, kind, item_id, source_row_id, status, duration_min, speed, incline)
-     values ($1, $2, 'cooldown', 'running', $3, 'done', 25, 9.5, 2)`,
-    [user_id, daysAgo(today, 7), cool.id],
+     values ($1, $2, 'cooldown', 'running', $3, 'done', 25, 9.5, 2),
+            ($1, $4, 'cooldown', 'running', $3, 'done', 30, 7, 0)`,
+    [user_id, daysAgo(today, 7), cool.id, daysAgo(today, 3)],
+  );
+  // 7일 전 = 가슴+등(오늘과 같은 루틴), 3일 전 = 가슴만(다른 루틴).
+  await dbQuery(
+    `insert into public.exercise_completions (user_id, for_date, exercise_row_id, status, exercise_id, equipment, sets, reps, weight_kg, focus) values
+       ($1, $2, gen_random_uuid(), 'done', 'bench-press', 'barbell', 4, 8, 62.5, 'chest'),
+       ($1, $2, gen_random_uuid(), 'done', 'lat-pulldown', 'machine', 4, 10, 50, 'back'),
+       ($1, $3, gen_random_uuid(), 'done', 'bench-press', 'barbell', 4, 8, 70, 'chest')`,
+    [user_id, daysAgo(today, 7), daysAgo(today, 3)],
   );
   // 일주일 전 같은 루틴 일차(0)에서 실내 5km 를 '마무리로' 뛴 런닝 모드 기록.
   const started = new Date(Date.now() - 7 * 86_400_000).toISOString();
   await dbQuery(
     `insert into public.run_sessions (user_id, client_session_id, for_date, mode, started_at, ended_at, duration_sec, distance_m, routine_day, goal, replaced_routine)
-     values ($1, gen_random_uuid(), $2, 'indoor', $3::timestamptz, $3::timestamptz + interval '31 minutes', 1860, 5000, 0, '{"kind":"distance","meters":5000}', false)`,
-    [user_id, daysAgo(today, 7), started],
+     values ($1, gen_random_uuid(), $2, 'indoor', $3::timestamptz, $3::timestamptz + interval '31 minutes', 1860, 5000, 0, '{"kind":"distance","meters":5000}', false),
+            ($1, gen_random_uuid(), $4, 'outdoor', $5::timestamptz, $5::timestamptz + interval '20 minutes', 1200, 3000, 0, '{"kind":"distance","meters":3000}', false)`,
+    [user_id, daysAgo(today, 7), started, daysAgo(today, 3), new Date(Date.now() - 3 * 86_400_000).toISOString()],
   );
   return { email, user_id, today };
 }
@@ -69,11 +80,9 @@ test("무료: 마무리 런닝이 지난번 값으로 이어지고, 지난번처
   await setup(page, baseURL!);
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  const carried = page.getByTestId("cond-carried");
-  await expect(carried).toBeVisible({ timeout: 20_000 });
-  await expect(carried).toContainText("지난번 그대로");
-  await expect(carried).toContainText("25");
-  await expect(carried).toContainText("9.5");
+  // 운동모드가 시작할 값 = 같은 루틴(가슴+등) 날 값. 더 최근 가슴만 날(30·7·0)이 아니다. 날짜 문구는 없다.
+  await expect(page.getByTestId("cond-values").first()).toHaveAttribute("data-values", "25|9.5|2", { timeout: 20_000 });
+  await expect(page.getByText(/지난번 그대로/)).toHaveCount(0);
 
   // 순서 정리: 가슴 3개 연속 안내 → 무료는 잠금 화면(결과 숫자까지만).
   await expect(page.getByTestId("order-warn")).toContainText("가슴 운동 3개가 연달아");
@@ -88,7 +97,7 @@ test("무료: 마무리 런닝이 지난번 값으로 이어지고, 지난번처
   await page.locator("[data-today-focus-badge]").click();
   const like = page.getByTestId("run-like-last");
   await expect(like).toContainText("실내 · 5km · 마무리로");
-  await expect(like).toContainText("이 루틴");
+  await expect(like).not.toContainText("/");
   await like.click();
   await expect(page).toHaveURL(/\/running\?mode=indoor&day=0&goal=d5000&replaced=0/);
 });

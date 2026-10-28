@@ -47,6 +47,15 @@ describe("run-context (런닝 이어하기)", () => {
     expect(pickLastRun(rows, 0)).toMatchObject({ mode: "outdoor", sameRoutine: false });
   });
 
+  it("같은 루틴(부위 묶음이 같은 날)에서 뛴 설정이 일차·최근보다 먼저", () => {
+    const rows = [
+      row({ routine_day: 2, mode: "outdoor", for_date: "2026-10-26" }), // 같은 일차지만 다른 루틴(가슴만)
+      row({ routine_day: 4, mode: "indoor", for_date: "2026-10-21", goal: { kind: "time", sec: 1800 } }), // 가슴+팔 날
+    ];
+    expect(pickLastRun(rows, 2, new Set(["2026-10-21"]))).toMatchObject({ mode: "indoor", goal: { kind: "time", sec: 1800 }, sameRoutine: true });
+    expect(pickLastRun(rows, 2)).toMatchObject({ mode: "outdoor" });
+  });
+
   it("루틴 밖에서 뛴 기록(일차 없음)은 쓰지 않는다", () => {
     expect(pickLastRun([row({ routine_day: null })], 2)).toBeNull();
     expect(pickLastRun([], 2)).toBeNull();

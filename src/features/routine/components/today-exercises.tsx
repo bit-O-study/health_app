@@ -64,6 +64,7 @@ import {
   getTodayCompletedConditioning,
 } from "@/features/routine/conditioning-completions";
 import { buildCarryIndex, carryConditioning } from "@/features/routine/conditioning-carry";
+import { lastValuesByExercise, sameRoutineDates } from "@/features/routine/same-routine";
 import {
   TodayPlanList,
   type TodayPlanItem,
@@ -238,13 +239,18 @@ export async function TodayExercises({
   // (기본 상태는 그룹 순서 유지 — orderMainPlan 참고)
   // 순서 정리로 '오늘만' 정한 순서가 있으면 그 순서(루틴 position 은 그대로 — 원칙 #2).
   const orderedPlan = applyTodayOrder(orderMainPlan(groupedPlan), todayOrder);
+  // 같은 루틴(오늘과 부위 묶음이 같은 날, 예: 가슴+팔)이 돌아온 지난 날짜들 — 그날 값으로 운동모드를 채운다
+  // (2026-10-28 사용자: "저번에도 가슴 팔 루틴이 있을거잖아 … 나머지 운동들도 마찬가지야").
+  const sameDates = sameRoutineDates(doneRecords, tones, todayYmd);
+  const lastSame = lastValuesByExercise(doneRecords, sameDates);
   // A: 비고정 모드면 운동별 '마지막 실제값'(가장 최근 완료 스냅샷)으로 미리 채운다 —
   // 루틴이 다시 돌아오거나 운동모드에 다시 들어가도 지난번 무게/횟수/세트로 시작한다.
   // (고정 모드는 사용자가 등록한 값을 그대로 유지.)
   const activePlan = lockWeightReps
     ? orderedPlan
     : orderedPlan.map((p) => {
-        const last = lastValues.get(p.exerciseId);
+        // 같은 루틴 날의 값이 먼저, 없으면 그 운동의 마지막 기록(예전 방식).
+        const last = lastSame.get(p.exerciseId) ?? lastValues.get(p.exerciseId);
         if (!last) return p;
         // 세트별(피라미드 등)까지 지난번 그대로 — 추천 피라미드는 내 지난번 무게로 다시 만든다(pyramid.ts).
         const grid = weightGridKg(p.exerciseId, p.equipment, stepOverrideFor(weightSteps, p.exerciseId)) ?? 1;
@@ -425,19 +431,18 @@ export async function TodayExercises({
   // 런닝 이어하기(2026-10-28) — 루틴 행(오늘만 편집이 아닌 행)은 지난번 실제 시간·속도·경사로 채운다.
   // 고정 모드(lockWeightReps)는 근력처럼 루틴 값 그대로. 오늘만 편집한 행은 사용자가 정한 값이라 그대로.
   // routine_conditioning 은 바꾸지 않는다(원칙 #2) — 오늘 뛴 값이 다음 번 '지난번'이 된다.
-  const carryIndex = buildCarryIndex(recentCond);
-  const carriedOn = new Map<string, string>();
+  // 같은 루틴 날의 기록이 먼저(가슴+팔 날엔 지난 가슴+팔 날 뛴 값), 없으면 예전처럼 같은 행·항목의 마지막.
+  const carrySame = buildCarryIndex(recentCond.filter((r) => sameDates.has(r.forDate)));
+  const carryAll = buildCarryIndex(recentCond);
   function carryRows(kind: "warmup" | "cooldown", rows: ConditioningRow[], isDaily: boolean): ConditioningRow[] {
     if (lockWeightReps || isDaily) return rows;
     return rows.map((r) => {
       const eff = effectiveValues(r);
-      const c = carryConditioning(
-        { id: r.id, kind, itemId: r.itemId, durationMin: eff.duration, speed: eff.speed, incline: eff.incline },
-        getConditioningItem(r.itemId)?.params ?? [],
-        carryIndex,
-      );
+      const input = { id: r.id, kind, itemId: r.itemId, durationMin: eff.duration, speed: eff.speed, incline: eff.incline };
+      const params = getConditioningItem(r.itemId)?.params ?? [];
+      const same = carryConditioning(input, params, carrySame);
+      const c = same.carriedFrom ? same : carryConditioning(input, params, carryAll);
       if (!c.carriedFrom) return r;
-      carriedOn.set(r.id, c.carriedFrom);
       return { ...r, durationMin: c.durationMin, speed: c.speed, incline: c.incline };
     });
   }
@@ -520,13 +525,6 @@ export async function TodayExercises({
   );
   const orderWarn = sameRun && sameRun.length >= 3 ? { partLabel: BODY_PART_LABEL[sameRun.part], length: sameRun.length } : null;
 
-  // "지난번 그대로 · 10/21 · 25분 · 9.5km/h · 2%" — 이어 온 행에만.
-  function carriedLabel(rowId: string): string | null {
-    const ymd = carriedOn.get(rowId);
-    if (!ymd) return null;
-    const [, m, d] = ymd.split("-");
-    return `지난번 그대로 · ${Number(m)}/${Number(d)}`;
-  }
   // Conditioning 행 변환 (warmup/cooldown 공용 빌더) — rowId 기준
   function buildCondItems(rows: ConditioningRow[]) {
     const doneIds: string[] = [];
@@ -572,7 +570,6 @@ export async function TodayExercises({
         reps: eff.reps,
         memo: r.memo,
         completionRowId,
-        carried: carriedLabel(r.id),
       };
     });
     return { items, doneIds, skippedIds };

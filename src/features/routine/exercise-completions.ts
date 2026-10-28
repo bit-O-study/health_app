@@ -250,7 +250,7 @@ const loadRecentDone = cache(
       .slice(0, 10);
     const { data, error } = await supabase
       .from("exercise_completions")
-      .select("exercise_id, equipment, sets, reps, weight_kg, set_details, for_date")
+      .select("exercise_id, equipment, sets, reps, weight_kg, set_details, for_date, focus")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", since)
@@ -271,6 +271,7 @@ const loadRecentDone = cache(
         weight_kg: number | string | null;
         set_details: unknown;
         for_date: string;
+        focus?: string | null;
       }[]
     ).map((r) => ({
       forDate: r.for_date,
@@ -282,6 +283,7 @@ const loadRecentDone = cache(
       reps: r.reps ?? null,
       weightKg: num(r.weight_kg ?? null),
       setDetails: parseSetDetails(r.set_details),
+      focus: r.focus ?? null,
     }));
     return { records, failed: false };
   },

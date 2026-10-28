@@ -243,7 +243,7 @@ export function TodayFocusMenu({
                       지난번처럼 달리기
                     </span>
                     <span className="block text-xs text-zinc-600 dark:text-zinc-300">
-                      {lastRunLabel(lastRun)} · {lastRun.sameRoutine ? "이 루틴" : "최근"} {Number(lastRun.forDate.slice(5, 7))}/{Number(lastRun.forDate.slice(8, 10))}
+                      {lastRunLabel(lastRun)}
                     </span>
                   </span>
                 </button>

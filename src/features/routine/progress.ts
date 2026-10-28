@@ -36,6 +36,8 @@ export type ProgressRecord = {
    * 없으면 호출자가 넘긴 기구를 쓰고, 그것도 없으면 기본 단위(2kg)로 떨어진다.
    */
   equipment?: string | null;
+  /** 그 기록의 부위(완료 스냅샷) — 같은 루틴(부위 묶음)이 돌아온 날을 찾는 데 쓴다(same-routine.ts). */
+  focus?: string | null;
 };
 
 export type Point = { date: string; value: number };

@@ -53,10 +53,13 @@ export function runHref(mode: RunningMode, ctx: RunContext | null): string {
 export type LastRunRow = { mode: string; goal: unknown; replaced_routine: boolean | null; routine_day: number | null; for_date: string };
 export type LastRunSetting = { mode: RunningMode; goal: RunGoal; replaced: boolean; forDate: string; sameRoutine: boolean };
 
-/** 최근 순 기록 → 같은 루틴 일차의 마지막 설정, 없으면 루틴에서 시작한 마지막 런닝. 루틴 밖 런닝은 쓰지 않는다. */
-export function pickLastRun(rows: LastRunRow[], routineDay: number): LastRunSetting | null {
+/**
+ * 최근 순 기록 → ① 같은 루틴(부위 묶음이 같은 날, sameDates)에서 뛴 마지막 → ② 같은 루틴 일차 →
+ * ③ 루틴에서 시작한 마지막 런닝. 루틴 밖 런닝은 쓰지 않는다.
+ */
+export function pickLastRun(rows: LastRunRow[], routineDay: number, sameDates: ReadonlySet<string> = new Set()): LastRunSetting | null {
   const fromRoutine = rows.filter((r) => r.routine_day !== null && (r.mode === "indoor" || r.mode === "outdoor"));
-  const same = fromRoutine.find((r) => r.routine_day === routineDay);
+  const same = fromRoutine.find((r) => sameDates.has(r.for_date)) ?? fromRoutine.find((r) => r.routine_day === routineDay);
   const pick = same ?? fromRoutine[0];
   if (!pick) return null;
   return {

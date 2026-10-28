@@ -24,7 +24,8 @@ test("운동 화면에서 실내·야외 런닝을 나눠 선택한 모드로 �
   await page
     .getByRole("button", { name: "아니요 — 기존 운동은 그대로 두고 런닝" })
     .click();
-  await expect(page).toHaveURL(/\/running\?mode=outdoor$/);
+  // 루틴에서 열면 일차·목표·대체 여부가 붙는다(런닝 이어하기, 2026-10-28) — 아니요 = 마무리로(replaced=0).
+  await expect(page).toHaveURL(/\/running\?mode=outdoor&day=\d&goal=free&replaced=0$/);
   await expect(page.getByRole("heading", { name: "야외 런닝 📍" })).toBeVisible();
 
   await openRunningMenu(page);
@@ -35,6 +36,6 @@ test("운동 화면에서 실내·야외 런닝을 나눠 선택한 모드로 �
   await page
     .getByRole("button", { name: "예 — 오늘 운동을 런닝으로 대체 (운동은 내일로)" })
     .click();
-  await expect(page).toHaveURL(/\/running\?mode=indoor$/);
+  await expect(page).toHaveURL(/\/running\?mode=indoor&day=\d&goal=free&replaced=1$/);
   await expect(page.getByRole("heading", { name: "실내 런닝 🏠" })).toBeVisible();
 });

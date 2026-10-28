@@ -111,11 +111,13 @@ export function TodayFocusMenu({
     if (!lastRun) return;
     setRunMode(lastRun.mode);
     setRunGoal(lastRun.goal);
-    setMenuOpen(false);
     if (lastRun.replaced) {
+      setMenuOpen(false);
       setConfirmRun(true);
       return;
     }
+    // 메뉴를 먼저 닫으면 모달의 history.back() 이 이 이동을 취소한다('운동 편집'과 같은 이유) —
+    // 닫지 않고 이동하고, 메뉴는 화면이 바뀌며 사라진다.
     router.push(runHref(lastRun.mode, routineDay === undefined ? null : { routineDay, goal: lastRun.goal, replaced: false }));
   }
 

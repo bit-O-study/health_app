@@ -8,9 +8,9 @@ name: workout-inactivity-cron
 #   - CRON_URL      : 배포 URL + 경로. 예) https://health-app-five-iota.vercel.app/api/cron/workout-inactivity
 #   - CRON_SECRET   : Vercel 환경변수 CRON_SECRET 과 동일한 값
 
+# 2026-10-31: 10분 예약은 서버 작업 BitO-Cron-workout-inactivity 가 맡는다(CRON_URL/CRON_SECRET
+# 시크릿이 없어 여기 예약은 매번 실패했다). 수동 실행 버튼만 남긴다.
 on:
-  schedule:
-    - cron: "*/10 * * * *" # 10분마다 (UTC)
   workflow_dispatch: {} # 수동 실행 버튼
 
 # 동시 실행 방지(이전 호출이 늦어져도 겹치지 않게)

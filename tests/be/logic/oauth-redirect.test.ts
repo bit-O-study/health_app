@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   destinationForUser,
   isOAuthCallbackPath,
+  publicOrigin,
   safeRedirectPath,
 } from "@/features/auth/oauth-redirect";
 
@@ -59,5 +60,28 @@ describe("destinationForUser", () => {
     expect(destinationForUser(false, "//evil.com")).toBe("/");
     expect(destinationForUser(false, "https://evil.com")).toBe("/");
     expect(destinationForUser(false, null)).toBe("/");
+  });
+});
+
+// 회귀 방지(2026-10-31): 서버(0.0.0.0:4100 으로 뜬 Next)에서 소셜 로그인 뒤
+// https://0.0.0.0:4100/login 으로 튀어 ERR_ADDRESS_INVALID — 브라우저가 쓴 주소로 돌려보낸다.
+describe("publicOrigin", () => {
+  const h = (o: Record<string, string>) => new Headers(o);
+
+  it("★ 서버 내부 주소 대신 브라우저가 접속한 도메인", () => {
+    expect(publicOrigin("https://0.0.0.0:4100/auth/callback?code=x", h({ host: "www.helthssu.co.kr", "x-forwarded-proto": "https" }))).toBe("https://www.helthssu.co.kr");
+  });
+
+  it("프록시가 넘긴 x-forwarded-host 를 먼저 쓴다", () => {
+    expect(publicOrigin("http://0.0.0.0:4100/auth/callback", h({ host: "127.0.0.1:4100", "x-forwarded-host": "www.helthssu.co.kr", "x-forwarded-proto": "https" }))).toBe("https://www.helthssu.co.kr");
+  });
+
+  it("로컬 개발은 그대로(http://localhost:3000)", () => {
+    expect(publicOrigin("http://localhost:3000/auth/callback", h({ host: "localhost:3000" }))).toBe("http://localhost:3000");
+  });
+
+  it("호스트가 없거나 이상하면 request.url 의 origin", () => {
+    expect(publicOrigin("https://health-app-five-iota.vercel.app/auth/callback", h({}))).toBe("https://health-app-five-iota.vercel.app");
+    expect(publicOrigin("https://a.example/auth/callback", h({ host: "evil.com/path" }))).toBe("https://a.example");
   });
 });

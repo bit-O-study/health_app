@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { isNativeAppFrom } from "@/lib/platform/is-native-app";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { safeRedirectPath } from "@/features/auth/oauth-redirect";
+import { publicOrigin, safeRedirectPath } from "@/features/auth/oauth-redirect";
 import { destinationAfterLogin } from "@/features/auth/actions";
 import { syncSocialProfileName } from "@/features/auth/sync-social-name";
 
@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
  */
 export async function GET(request: Request) {
   const url = new URL(request.url);
+  const origin = publicOrigin(request.url, request.headers);
   const code = url.searchParams.get("code");
   const next = safeRedirectPath(url.searchParams.get("next"));
   const oauthError =
@@ -48,7 +49,7 @@ export async function GET(request: Request) {
 
   if (oauthError) {
     return NextResponse.redirect(
-      new URL(`/login?error=${encodeURIComponent(oauthError)}`, url.origin),
+      new URL(`/login?error=${encodeURIComponent(oauthError)}`, origin),
     );
   }
 
@@ -57,7 +58,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (error) {
       return NextResponse.redirect(
-        new URL(`/login?error=${encodeURIComponent(error.message)}`, url.origin),
+        new URL(`/login?error=${encodeURIComponent(error.message)}`, origin),
       );
     }
     // 소셜 가입자는 이름이 프로필에 안 들어가 "회원"으로만 보였다 — 로그인할 때마다
@@ -66,6 +67,6 @@ export async function GET(request: Request) {
   }
 
   return NextResponse.redirect(
-    new URL(await destinationAfterLogin(next), url.origin),
+    new URL(await destinationAfterLogin(next), origin),
   );
 }

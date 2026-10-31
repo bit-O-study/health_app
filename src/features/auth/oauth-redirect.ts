@@ -22,6 +22,19 @@ export function safeRedirectPath(next: string | null | undefined): string {
   return next;
 }
 
+/**
+ * 콜백이 사용자를 돌려보낼 공개 주소(origin). 서버(Next standalone, HOSTNAME=0.0.0.0)는
+ * request.url 이 'https://0.0.0.0:4100' 처럼 내부 주소라 그대로 쓰면 로그인 뒤 ERR_ADDRESS_INVALID.
+ * 브라우저가 보낸 Host(터널·프록시면 x-forwarded-host)를 쓰고, 없으면 request.url 의 origin.
+ */
+export function publicOrigin(requestUrl: string, headers: Headers): string {
+  const url = new URL(requestUrl);
+  const host = (headers.get("x-forwarded-host") ?? headers.get("host"))?.split(",")[0].trim();
+  if (!host || !/^[a-z0-9.-]+(:d+)?$/i.test(host)) return url.origin;
+  const proto = headers.get("x-forwarded-proto")?.split(",")[0].trim() === "https" ? "https" : url.protocol.replace(":", "");
+  return `${proto}://${host}`;
+}
+
 /** 통합 관리자 콘솔(별도 앱) URL — 참고용. 관리자는 이 주소로 직접 접속해 관리한다. */
 export const ADMIN_CONSOLE_URL = "https://heltch-admin.vercel.app/admin";
 

@@ -11,16 +11,16 @@ describe('customer support boundaries',()=>{
 });
 
 it('validates public and loopback Origin against actual Host, rejecting cross-site writes',()=>{expect(isSupportOrigin('http://127.0.0.1:3000','127.0.0.1:3000')).toBe(true);expect(isSupportOrigin('https://health.example','health.example')).toBe(true);expect(isSupportOrigin('https://evil.example','health.example')).toBe(false);expect(isSupportOrigin('http://health.example','health.example')).toBe(false);expect(isSupportOrigin(null,'health.example')).toBe(false);});
-it('admin links go to the unified admin console, never an arbitrary path',()=>{expect(supportConsoleUrl()).toBe('https://heltch-admin.vercel.app/admin/health/support');expect(supportConsoleUrl('c432b98c-51b6-49eb-9172-5b55553f883c')).toBe('https://heltch-admin.vercel.app/admin/health/support/c432b98c-51b6-49eb-9172-5b55553f883c');expect(supportConsoleUrl('../../evil')).toBe('https://heltch-admin.vercel.app/admin/health/support');expect(supportConsoleUrl(null)).toBe('https://heltch-admin.vercel.app/admin/health/support');});
+it('admin links go to the unified admin console, never an arbitrary path',()=>{expect(supportConsoleUrl()).toBe('https://admin.helthssu.co.kr/admin/health/support');expect(supportConsoleUrl('c432b98c-51b6-49eb-9172-5b55553f883c')).toBe('https://admin.helthssu.co.kr/admin/health/support/c432b98c-51b6-49eb-9172-5b55553f883c');expect(supportConsoleUrl('../../evil')).toBe('https://admin.helthssu.co.kr/admin/health/support');expect(supportConsoleUrl(null)).toBe('https://admin.helthssu.co.kr/admin/health/support');});
 it('all admin pages including notification settings redirect before render',async()=>{
  const {supportConsoleRedirects}=await import('@/features/support/console-redirects');
  const rules=supportConsoleRedirects();
- for(const path of ['', '/billing','/trainers','/events','/crons','/test','/settings','/support/notifications']) expect(rules.find(r=>r.source===`/admin${path}`)?.destination).toBe(`https://heltch-admin.vercel.app/admin/health${path}`);
- expect(rules.find(r=>r.source==='/admin/support')).toEqual({source:'/admin/support',destination:'https://heltch-admin.vercel.app/admin/health/support',permanent:false});
+ for(const path of ['', '/billing','/trainers','/events','/crons','/test','/settings','/support/notifications']) expect(rules.find(r=>r.source===`/admin${path}`)?.destination).toBe(`https://admin.helthssu.co.kr/admin/health${path}`);
+ expect(rules.find(r=>r.source==='/admin/support')).toEqual({source:'/admin/support',destination:'https://admin.helthssu.co.kr/admin/health/support',permanent:false});
  const idPattern=new RegExp(`^${rules.find(r=>r.source.includes(':id'))!.source.replace('/admin/support/:id(','/admin/support/(').replace(/\)$/,')')}$`);
  expect(idPattern.test('/admin/support/c432b98c-51b6-49eb-9172-5b55553f883c')).toBe(true);
  expect(idPattern.test('/admin/support/notifications')).toBe(false);
- expect(rules.find(r=>r.source.includes(':id'))!.destination).toBe('https://heltch-admin.vercel.app/admin/health/support/:id');
+ expect(rules.find(r=>r.source.includes(':id'))!.destination).toBe('https://admin.helthssu.co.kr/admin/health/support/:id');
 });
 
 describe("옛 그룹장-트레이너 URL", () => {

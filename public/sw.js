@@ -246,9 +246,10 @@ self.addEventListener("notificationclick", (event) => {
       target = new URL(ndata.url || "/", self.location.origin);
       if (target.username || target.password) return;
       if (target.origin === self.location.origin && /^\/admin(?:\/|$)/.test(target.pathname)) {
-        target = new URL(`/admin/health${target.pathname.slice(6)}${target.search}`, "https://heltch-admin.vercel.app");
+        target = new URL(`/admin/health${target.pathname.slice(6)}${target.search}`, "https://admin.helthssu.co.kr");
       }
-      if (target.origin !== self.location.origin && target.origin !== "https://heltch-admin.vercel.app") return;
+      // 관리자 콘솔 새 주소 + 예전 주소(이미 보낸 알림이 계속 열리게, 2026-11-01)
+      if (target.origin !== self.location.origin && target.origin !== "https://admin.helthssu.co.kr" && target.origin !== "https://heltch-admin.vercel.app") return;
     } catch { return; }
     const url = target.href;
     event.waitUntil(

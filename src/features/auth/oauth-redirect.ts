@@ -36,7 +36,10 @@ export function publicOrigin(requestUrl: string, headers: Headers): string {
 }
 
 /** 통합 관리자 콘솔(별도 앱) URL — 참고용. 관리자는 이 주소로 직접 접속해 관리한다. */
-export const ADMIN_CONSOLE_URL = "https://heltch-admin.vercel.app/admin";
+export const ADMIN_CONSOLE_URL = "https://admin.helthssu.co.kr/admin";
+
+/** 예전 관리자 콘솔 주소(2026-11-01 이전). 이미 보낸 알림 링크가 계속 열리도록 허용만 한다. */
+export const LEGACY_ADMIN_CONSOLE_ORIGINS = ["https://heltch-admin.vercel.app"];
 
 /**
  * 로그인 후 이동할 목적지(순수 로직).

@@ -18,14 +18,14 @@ function worker() {
   return { click, clients, window };
 }
 it("opens console in the browser even when the health app is already open", async () => {
-  const w = worker(); const target = "https://heltch-admin.vercel.app/admin/health/support";
+  const w = worker(); const target = "https://admin.helthssu.co.kr/admin/health/support";
   await w.click(target);
   expect(w.clients.openWindow).toHaveBeenCalledWith(target);
   expect(w.window.navigate).not.toHaveBeenCalled(); expect(w.window.focus).not.toHaveBeenCalled();
 });
 it("old messages also open the console", async () => {
   const w = worker(); await w.click("/admin/support?status=new");
-  expect(w.clients.openWindow).toHaveBeenCalledWith("https://heltch-admin.vercel.app/admin/health/support?status=new");
+  expect(w.clients.openWindow).toHaveBeenCalledWith("https://admin.helthssu.co.kr/admin/health/support?status=new");
 });
 it("opens a new window if app navigation fails", async () => {
   const w = worker(); w.window.navigate.mockRejectedValue(new Error("closed"));

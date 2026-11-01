@@ -17,8 +17,8 @@ test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메�
  try{
   const other=await otherContext.newPage();await createOnboardedAccount(other);await other.goto(`/support/${ticket}`);await expect(other.getByText('운동 편집 저장 버튼을 눌렀는데 반응이 없어요.')).toHaveCount(0);
   const admin=await adminContext.newPage();const adminEmail=await createOnboardedAccount(admin);await dbQuery('insert into admins(email) values($1)',[adminEmail]);
-  // 문의 관리는 통합 관리자 콘솔(heltch-admin /admin/health/support)로 이전 — 앱의 옛 관리 경로는 콘솔로 보낸다.
-  for(const path of ['/admin/support',`/admin/support/${ticket}`]){const r=await admin.request.get(path,{maxRedirects:0});expect([307,308]).toContain(r.status());expect(r.headers().location).toBe(`https://heltch-admin.vercel.app/admin/health/support${path==='/admin/support'?'':`/${ticket}`}`);}
+  // 문의 관리는 통합 관리자 콘솔(admin.helthssu.co.kr /admin/health/support)로 이전 — 앱의 옛 관리 경로는 콘솔로 보낸다.
+  for(const path of ['/admin/support',`/admin/support/${ticket}`]){const r=await admin.request.get(path,{maxRedirects:0});expect([307,308]).toContain(r.status());expect(r.headers().location).toBe(`https://admin.helthssu.co.kr/admin/health/support${path==='/admin/support'?'':`/${ticket}`}`);}
   // 콘솔에서 하는 관리자 답변·내부 메모·해결 처리를 같은 테이블에 기록해 회원 화면을 검증한다.
   const [adminUser]=await dbQuery<{id:string}>('select id from auth.users where lower(email)=lower($1)',[adminEmail]);
   await dbQuery('insert into support_internal_notes(ticket_id,author_id,request_id,body) values($1,$2,gen_random_uuid(),$3)',[ticket,adminUser.id,'관리자 내부 검토 기록']);
@@ -27,7 +27,7 @@ test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메�
   await page.reload();await expect(page.getByLabel('문의 대화')).toContainText('오류를 확인했습니다.');await expect(page.getByText('관리자 내부 검토 기록')).toHaveCount(0);
   await page.getByLabel('추가 문의',{exact:true}).fill('다시 확인했지만 같은 오류가 있어요.');await page.getByRole('button',{name:'답변 보내기',exact:true}).click();await expect(page.getByLabel('문의 대화')).toContainText('다시 확인했지만');
   const [row]=await dbQuery<{status:string}>('select status from support_tickets where id=$1',[ticket]);expect(row.status).toBe('in_progress');
-  const moved = await admin.request.get('/admin/support/notifications', { maxRedirects: 0 }); expect(moved.status()).toBe(307); expect(moved.headers().location).toBe('https://heltch-admin.vercel.app/admin/health/support/notifications');
+  const moved = await admin.request.get('/admin/support/notifications', { maxRedirects: 0 }); expect(moved.status()).toBe(307); expect(moved.headers().location).toBe('https://admin.helthssu.co.kr/admin/health/support/notifications');
   const photo=await sharp({create:{width:80,height:80,channels:3,background:'#36a878'}}).png().toBuffer();
   await page.getByLabel('스크린샷 첨부',{exact:true}).setInputFiles({name:'support.png',mimeType:'image/png',buffer:photo});
   await page.getByRole('button',{name:'사진 첨부',exact:true}).click();

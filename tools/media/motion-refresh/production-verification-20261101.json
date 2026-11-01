@@ -1,0 +1,138 @@
+{
+  "checkedAt": "2026-11-01T13:38:13.702Z",
+  "base": "https://www.helthssu.co.kr",
+  "results": [
+    {
+      "id": "smith-machine-deadlift",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.030492,
+      "looped": true
+    },
+    {
+      "id": "smith-machine-deadlift",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.023263,
+      "looped": true
+    },
+    {
+      "id": "smith-machine-romanian-deadlift",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.006896,
+      "looped": true
+    },
+    {
+      "id": "smith-machine-romanian-deadlift",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.017351,
+      "looped": true
+    },
+    {
+      "id": "smith-machine-stiff-leg-deadlift",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.022503,
+      "looped": true
+    },
+    {
+      "id": "smith-machine-stiff-leg-deadlift",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.026485,
+      "looped": true
+    },
+    {
+      "id": "arnold-press",
+      "theme": "light",
+      "duration": 8,
+      "width": 1080,
+      "height": 1080,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.012569,
+      "looped": true
+    },
+    {
+      "id": "arnold-press",
+      "theme": "dark",
+      "duration": 8,
+      "width": 1080,
+      "height": 1080,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.012192,
+      "looped": true
+    },
+    {
+      "id": "upright-row",
+      "theme": "light",
+      "duration": 8,
+      "width": 1080,
+      "height": 1080,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.010255,
+      "looped": true
+    },
+    {
+      "id": "upright-row",
+      "theme": "dark",
+      "duration": 8,
+      "width": 1080,
+      "height": 1080,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.011151,
+      "looped": true
+    },
+    {
+      "id": "close-grip-upright-row",
+      "theme": "light",
+      "duration": 8,
+      "width": 1080,
+      "height": 1080,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.007263,
+      "looped": true
+    },
+    {
+      "id": "close-grip-upright-row",
+      "theme": "dark",
+      "duration": 8,
+      "width": 1080,
+      "height": 1080,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.016269,
+      "looped": true
+    }
+  ]
+}

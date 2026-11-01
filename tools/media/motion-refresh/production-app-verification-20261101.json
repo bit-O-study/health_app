@@ -1,0 +1,33 @@
+{
+  "videos": [
+    {
+      "id": "smith-machine-deadlift",
+      "url": "/exercise-guides/ai-v3/smith-machine-deadlift.mp4",
+      "duration": 8,
+      "error": null
+    },
+    {
+      "id": "arnold-press",
+      "url": "/exercise-guides/skinned-pilot/arnold-press.mp4",
+      "duration": 8,
+      "error": null
+    },
+    {
+      "id": "close-grip-upright-row",
+      "url": "/exercise-guides/skinned-pilot/close-grip-upright-row.mp4",
+      "duration": 8,
+      "error": null
+    }
+  ],
+  "checkedAt": "2026-11-01T13:37:16.064Z",
+  "loginPage": "https://www.helthssu.co.kr/login?redirect=%2Fhome",
+  "authResponses": [
+    {
+      "host": "api.helthssu.co.kr",
+      "status": 200
+    }
+  ],
+  "finalPath": "/exercises/close-grip-upright-row",
+  "sessionCookiePresent": true,
+  "temporaryAccount": true
+}

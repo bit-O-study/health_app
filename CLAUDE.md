@@ -97,7 +97,7 @@ pnpm test:e2e      # FE E2E (먼저 `pnpm dev` 필요)
 ## 프로젝트 메모
 
 - 패키지 매니저는 `corepack pnpm <cmd>` (pnpm이 PATH에 없음).
-- `middleware.ts`는 `src/middleware.ts`에 있어야 한다(이 프로젝트는 src 디렉터리 사용).
+- 요청 앞단(Next 16 proxy)은 `src/proxy.ts`에 있어야 한다(이 프로젝트는 src 디렉터리 사용). 예전 이름 middleware.ts 는 Edge 샌드박스라 서버의 로컬 API 경로가 안 먹는다(2026-11-01).
 - DB DDL은 수동 적용. 비밀번호는 `.env.test.local`(gitignore)에 있고, 테스트 스위트가
   pooler(`aws-1-ap-southeast-1`)로 스키마 검사·정리에 사용한다.
 - E2E는 라이브 Supabase에 `e2e_*` 임시 계정을 만들고 끝나면 자동 삭제(global-teardown).

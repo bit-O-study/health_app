@@ -2,7 +2,10 @@ import type { NextRequest } from "next/server";
 
 import { updateSession } from "@/lib/supabase/middleware";
 
-export async function middleware(request: NextRequest) {
+// Next 16: middleware → proxy. proxy 는 Node.js 런타임에서 돈다(middleware 는 Edge 샌드박스).
+// 2026-11-01: Edge 샌드박스에선 서버의 로컬 API 경로(local-api 사전 로드)가 안 먹어, 로그인 사용자 요청마다
+// 키·로그인·프로필·활동 기록 4~5번을 Cloudflare 로 돌아 나갔다(요청당 약 0.6초 지연).
+export async function proxy(request: NextRequest) {
   return updateSession(request);
 }
 

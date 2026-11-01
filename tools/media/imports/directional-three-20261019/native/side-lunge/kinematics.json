@@ -1,0 +1,9 @@
+{
+  "samples": 481,
+  "loopPoseError": 0,
+  "supportAnkleDrift": 3.665838073340989e-15,
+  "loadedAnkleDrift": 6.89411847443645e-15,
+  "lateralTravel": 6.500000000000001,
+  "trailingKnee": 171.12121160771986,
+  "loadedKnee": 88.69682171302637
+}

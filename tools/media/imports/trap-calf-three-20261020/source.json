@@ -1,0 +1,20 @@
+{
+  "accessed": "2026-10-20",
+  "sourceKind": "Original procedural skinned illustration, not copied footage.",
+  "limits": "Slow 8-second illustration. Equipment pickup and setdown are omitted. Joint sampling and visual review are not exhaustive biomechanical or skin/garment collision certification. Physical device and deployment unverified.",
+  "trap-bar-romanian-deadlift": {
+    "equipment": "barbell",
+    "url": "https://thatfitfriend.com/trap-bar-romanian-deadlift-guide/",
+    "criteria": "Stand inside trap bar, centered neutral grips; standing start, soft knees, hips back and neutral trunk. Stop before torso flexion and return. Low handles chosen."
+  },
+  "trap-bar-calf-raise": {
+    "equipment": "barbell",
+    "url": "https://app.zulta.app/en/exercises/trap-bar-calf-raise/",
+    "criteria": "Low platform with forefeet supported and heels free; stand tall holding trap bar, arms long; rise on toes, pause and lower heels. Low handles chosen; pickup omitted. Source search text retrieved."
+  },
+  "eccentric-calf-raise": {
+    "equipment": "bodyweight",
+    "url": "https://www.southtees.nhs.uk/resources/eccentric-calf-exercises/",
+    "criteria": "Stable step, heels off edge, hands holding support and straight knees. Bilateral slow lowering below step level; faster upward return is an implementation choice, no rehabilitation dose prescribed."
+  }
+}

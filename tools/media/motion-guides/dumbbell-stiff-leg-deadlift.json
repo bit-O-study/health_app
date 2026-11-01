@@ -1,0 +1,15 @@
+{
+  "id": "dumbbell-stiff-leg-deadlift",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-stiff-leg-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-stiff-leg-deadlift.html"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-19T12:34:25.869Z"
+}

@@ -1,0 +1,35 @@
+{
+  "clean-grip-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Clean-grip deadlift with leg-driven initial ascent; front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "Straight standard-diameter barbell with two plates; grip visibly narrower than the snatch variant.",
+      "setup": "Hip-width stance, bar starts at floor, hips lower than the conventional axle variant.",
+      "hands": "Both hands remain outside legs and inside plates; long arms, overhand grip, no catch.",
+      "feet": "Both feet planted throughout; 481-pose drift below 7e-15 model units.",
+      "movement": "Initial back-angle drift below 4 degrees until bar clears knees, followed by hip extension. Controlled return and matching loop. Stylized shorts flare in side view; no simulated fabric or exhaustive cloth collision claim."
+    }
+  },
+  "snatch-grip-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Wide-grip snatch deadlift; front/side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Standard bar with two plates; wider grip than clean, hands still inside collars.",
+      "setup": "Lower starting posture and grip greater than twice shoulder width; floor start.",
+      "hands": "Wide overhand grip stays connected with long arms; no overhead pull or catch.",
+      "feet": "Fixed bilateral support without sliding in sampled poses.",
+      "movement": "Leg drive precedes hip opening; initial back-angle drift below 1.3 degrees until knee clearance. Smooth return with no sampled bar penetration. Side-view shorts flare retained as stylized garment limitation."
+    }
+  },
+  "axle-bar-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Conventional floor deadlift with thick axle; front/side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Visibly thicker shaft, modeled at 1.75 times standard diameter; illustrative equipment rather than an exact product replica.",
+      "setup": "Bar starts at floor with conventional hip/knee flexion and fixed hip-width feet.",
+      "hands": "Double-overhand grip, fingers opened for the thicker shaft; both anchors remain aligned with bar.",
+      "feet": "Both feet planted; sampled drift below 7e-15 model units.",
+      "movement": "Coordinated knee and hip extension to upright, then controlled return; no shrug or back hyperextension. Stylized side-view shorts flare remains a garment limitation."
+    }
+  }
+}

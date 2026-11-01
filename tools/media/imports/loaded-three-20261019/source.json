@@ -1,0 +1,21 @@
+{
+  "dumbbell-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-squat.html",
+    "criteria": "Two dumbbells at sides, shoulder-width stance and slight toe turnout; controlled hip and knee flexion, heels remain planted, knees follow toes."
+  },
+  "1-5-rep-lunge": {
+    "equipment": "dumbbell",
+    "url": "https://www.nourishmovelove.com/splitstrong-35-unilateral-legs/",
+    "criteria": "Reverse step, full descent, partial rise, return to bottom, then stand and bring rear foot forward. Source demonstrates one dumbbell; this illustration uses two at the sides, a loading variant supported by Catalyst Athletics.",
+    "supportingUrl": "https://www.catalystathletics.com/exercise/735/Reverse-Lunge/"
+  },
+  "kettlebell-reverse-lunge": {
+    "equipment": "kettlebell",
+    "url": "https://www.catalystathletics.com/exercise/735/Reverse-Lunge/",
+    "criteria": "Reverse step with upright trunk and controlled descent. Source explicitly permits kettlebells at the sides. Two suitcase-held kettlebells; repeated same side then switch outside demonstration."
+  },
+  "accessed": "2026-10-19",
+  "sourceKind": "Procedural skinned demonstration with original geometry, not copied footage.",
+  "limits": "Eight-second illustrative cycle. No individualized load, clinical prescription or exhaustive continuous triangle collision certification. Device verification not performed."
+}

@@ -1,0 +1,31 @@
+import { readFileSync, writeFileSync, copyFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import assert from 'node:assert/strict';
+import { manageMotionGuides } from '../../manage-motion-guides.mjs';
+const base='tools/media/imports/hinge-next-20261020',root='tools/media/motion-guides',pub='public/exercise-guides/ai-v3';
+const id='single-leg-deadlift',original='barbell-single-leg-romanian-deadlift';
+const read=f=>JSON.parse(readFileSync(f)),write=(f,o)=>writeFileSync(f,JSON.stringify(o,null,2)+'\n'),sha=f=>createHash('sha256').update(readFileSync(f)).digest('hex');
+const source=read(root+'/'+original+'.json'),review=read(root+'/reviews.json').find(x=>x.id===original);
+const verified=read(root+'/verification.json').find(x=>x.id===original);
+const fresh=read(base+'/alias-verification.json');
+assert.equal(source.equipment,'barbell');assert.equal(review.status,'passed');
+assert.equal(fresh.poseSamples,481);assert.ok(fresh.alpha.all192FrameEdgesClear&&fresh.playback.every(x=>x.playing&&x.seeking&&x.loop));
+assert.ok(!existsSync(root+'/'+id+'.json')&&!existsSync(pub+'/'+id+'.mp4'),'Alias already published');
+for(const [file,expected]of [[root+'/'+original+'.jpg',verified.sourceSha256],[pub+'/'+original+'.mp4',verified.videoSha256],[pub+'/'+original+'-dark.mp4',verified.darkVideoSha256]])assert.equal(sha(file),expected);
+const provenance=read(root+'/'+original+'-provenance.json');
+for(const x of [...provenance.inputs,...provenance.dependencies])assert.equal(sha(x.path),x.sha256);
+const reason='Both catalog IDs use a barbell, single support leg, airborne rear leg and controlled neutral-spine hip hinge. Exact reuse of reviewed barbell single-leg RDL; not a newly generated motion.';
+provenance.id=id;provenance.aliasOf=original;provenance.aliasReason=reason;
+provenance.inputs.push({path:root+'/'+original+'-provenance.json',sha256:sha(root+'/'+original+'-provenance.json')});
+write(root+'/'+id+'-provenance.json',provenance);
+copyFileSync(root+'/'+original+'.jpg',root+'/'+id+'.jpg');
+for(const suffix of ['.mp4','-dark.mp4','-alpha.webm']){
+ copyFileSync(pub+'/'+original+suffix,pub+'/'+id+suffix);
+ assert.equal(sha(pub+'/'+id+suffix),sha(pub+'/'+original+suffix));
+}
+write(root+'/'+id+'.json',{...source,id,rigSource:id+'-provenance.json',aliasOf:original,aliasReason:reason,registeredAt:new Date().toISOString()});
+const entry={...verified,id,rigSourceSha256:sha(root+'/'+id+'-provenance.json'),verifiedAt:new Date().toISOString()};
+write(root+'/verification.json',[...read(root+'/verification.json'),entry]);
+const checks={exercise:'Catalog barbell single-leg hip hinge matches the source movement.',equipment:'One barbell; no bodyweight or dumbbell substitution.',setup:'Start standing on left leg with right foot airborne; swap sides after repetitions.',hands:'Double overhand grip, fixed bar held by both hands throughout.',feet:'Left support stays planted; right leg travels behind without touching down.',movement:'Re-inspected front/side and 32-frame light/dark sheets; neutral trunk hinge and controlled loop. Fresh alpha and browser verification passed.'};
+await manageMotionGuides('motion-review',id,encodeURIComponent(JSON.stringify({status:'passed',checks,note:reason+' '+provenance.limitations})));
+write(base+'/alias-review.json',{id,aliasOf:original,reason,checks,verification:fresh,outputs:['.mp4','-dark.mp4','-alpha.webm'].map(suffix=>({file:pub+'/'+id+suffix,sha256:sha(pub+'/'+id+suffix)}))});

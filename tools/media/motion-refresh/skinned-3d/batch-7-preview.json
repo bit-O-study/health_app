@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-10-31T13:41:47.880Z",
+  "finishedAt": "2026-10-31T13:42:25.222Z",
+  "concurrency": 3,
+  "results": [
+    {
+      "id": "arnold-press",
+      "pid": 40308,
+      "code": 0,
+      "elapsedMs": 27804
+    },
+    {
+      "id": "upright-row",
+      "pid": 55480,
+      "code": 0,
+      "elapsedMs": 27651
+    },
+    {
+      "id": "close-grip-upright-row",
+      "pid": 40400,
+      "code": 0,
+      "elapsedMs": 35791
+    }
+  ]
+}

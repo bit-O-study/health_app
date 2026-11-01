@@ -1,0 +1,38 @@
+{
+  "split-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19T10:32:54.921Z",
+    "checks": {
+      "exercise": "split-squat",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Fixed split stance through full cycle.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    }
+  },
+  "front-foot-elevated-split-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19T10:32:54.923Z",
+    "checks": {
+      "exercise": "front-foot-elevated-split-squat",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Fixed split stance through full cycle.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    }
+  },
+  "deficit-reverse-lunge": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19T10:32:54.923Z",
+    "checks": {
+      "exercise": "deficit-reverse-lunge",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Both feet start and end on platform.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    }
+  }
+}

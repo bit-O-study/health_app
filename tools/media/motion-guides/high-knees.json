@@ -1,0 +1,15 @@
+{
+  "id": "high-knees",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "high-knees-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.ucalgary.ca/shred-injuries/all-sports/physical-education/high-knees"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:17:29.550Z"
+}

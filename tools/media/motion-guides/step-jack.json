@@ -1,0 +1,15 @@
+{
+  "id": "step-jack",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "step-jack-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/cardio/jumping-jack/step-jacks/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:41:00.638Z"
+}

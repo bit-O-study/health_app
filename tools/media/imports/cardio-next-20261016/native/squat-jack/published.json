@@ -1,0 +1,18 @@
+{
+  "id": "squat-jack",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "16d6f28ddf4bbc4284368a920b2189cf1f1692192140d5cb9c3aac9beb42cba6",
+  "rigSourceSha256": "a24ac4cf160cc5f0af560d596c65bb9619aba50284abf0277809db93a62aa5e1",
+  "videoSha256": "5c0ebf0d1d66a898d3234ecec57dbc979ab35041318f557e23479ab46762c78d",
+  "darkVideoSha256": "ecbbce4f87d23736cbeba696f65c28a837e0ec6cd12390bae8b2c267ec81b939",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 135974,
+  "darkBytes": 144790,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:41:06.555Z"
+}

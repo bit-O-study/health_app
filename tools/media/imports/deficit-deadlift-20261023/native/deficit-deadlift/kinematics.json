@@ -1,0 +1,11 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 8.018239443638015e-15,
+  "gripAlignment": 0,
+  "bodyShaftClearance": 0.4239821538530204,
+  "solePlatformGap": 7.993605777301127e-15,
+  "platformHeight": 0.6469995548144283,
+  "plateFloorClearance": 0,
+  "barTravel": 6.268098220422676
+}

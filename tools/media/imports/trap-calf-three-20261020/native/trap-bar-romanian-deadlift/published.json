@@ -1,0 +1,18 @@
+{
+  "id": "trap-bar-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1f465e7943d90a85a125001bf9d77569c3083f76107b6dec5d52ca675a4385b7",
+  "rigSourceSha256": "164a9049b2000c94a6d7ddf7b65732ae7e09305ba5968e1fa9feb1203c600e64",
+  "videoSha256": "4d5903023275edc3de045159cd7fca798668910c5d86c322bb708b31a40f347c",
+  "darkVideoSha256": "9b6dfb021a434ca20472355beb8e2be44f25e355be6395f97985548ba97704b0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 141480,
+  "darkBytes": 129263,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T14:48:58.820Z"
+}

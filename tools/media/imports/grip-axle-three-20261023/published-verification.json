@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-23T05:22:15.850Z",
+  "report": [
+    {
+      "id": "clean-grip-deadlift",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "snatch-grip-deadlift",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "axle-bar-deadlift",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

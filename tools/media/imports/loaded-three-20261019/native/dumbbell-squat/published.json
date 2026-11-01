@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "16a00f74649f4862613524e02134df24d106a1ec4c98b3fc148f6d816c88adb5",
+  "rigSourceSha256": "672744014648aa251fcd91c5c4a3ed0f669d08dd678f9f6b8e47b0f1eb3eb013",
+  "videoSha256": "a6dc360cb607f53eaf2d136686c70e51942ae16e733436db8d37261a9944e78f",
+  "darkVideoSha256": "46aee997cc8a7f8f5198841936ab8b5641d5c877a5aded6ec685d714df0f9ed9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 114270,
+  "darkBytes": 111130,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T12:05:15.529Z"
+}

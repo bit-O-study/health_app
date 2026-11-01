@@ -1,0 +1,15 @@
+{
+  "id": "b-stance-romanian-deadlift",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "b-stance-romanian-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.onnit.com/blogs/the-edge/how-to-do-b-stance-romanian-deadlifts-rdls-like-a-pro"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-19T12:34:33.065Z"
+}

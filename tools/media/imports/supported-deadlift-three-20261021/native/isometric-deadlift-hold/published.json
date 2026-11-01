@@ -1,0 +1,18 @@
+{
+  "id": "isometric-deadlift-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9a4cbe211923fc6185ffe899f8f5e58125fc5f8357b84df6bafcd7e9e7e9cc30",
+  "rigSourceSha256": "36dc9b280d6f62367155c59469413fb6114d38204f7dec7daaf5cb9bab40984d",
+  "videoSha256": "1442049340c5b048ef7b539596a2422d8337721faa77abacf01b5cb6af52a8a8",
+  "darkVideoSha256": "bf641ab6b3b2591aab0a1d19eac773ef48e5b076021a98eae6ed6edb51ae86db",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81043,
+  "darkBytes": 65058,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T15:26:12.406Z"
+}

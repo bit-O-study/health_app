@@ -1,0 +1,16 @@
+{
+  "id": "fat-grip-deadlift",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "fat-grip-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://fatgripz.com/pages/fat-gripz-faqs",
+    "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T13:57:20.896Z"
+}

@@ -1,0 +1,17 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "elbowRange": [
+    174.99999999999974,
+    175.00000000000009
+  ],
+  "gripMisalignment": 2.886579864025407e-15,
+  "handleWidthDrift": 1.7763568394002505e-15,
+  "bodyFrameVertexClearance": 0.963238408692363,
+  "footDrift": 5.987232154250471e-15,
+  "kneeRange": [
+    155.00000000000006,
+    155.00000000000028
+  ],
+  "hipBackward": 3.3402226230214125
+}

@@ -1,0 +1,9 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 7.407775423123775e-15,
+  "travel": 7.589169859247863,
+  "dumbbellCount": 2,
+  "sampledLowerBodyEquipmentGap": 0.7924688092265781,
+  "floorGap": 5.907274669425533e-12
+}

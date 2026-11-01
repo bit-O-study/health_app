@@ -1,0 +1,17 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 9.386843756006144e-15,
+  "kneeRange": [
+    109.99999999999997,
+    175.00000000000017
+  ],
+  "gripMisalignment": 0,
+  "plateFloorClearance": [
+    0,
+    5.62109866560825
+  ],
+  "bodyShaftClearance": 0.4239821538530204,
+  "ascentSeconds": 3.2,
+  "descentSeconds": 3.2
+}

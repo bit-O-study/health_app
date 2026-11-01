@@ -1,0 +1,19 @@
+{
+  "squat": {
+    "url": "https://www.puregym.com/exercises/legs/quad-exercises/squats/bodyweight-squat/",
+    "criteria": "Bodyweight variant. Comfortable shoulder-width stance, toes slightly outward, arms forward, feet fixed, hips back and knees bending together, controlled descent near parallel and return."
+  },
+  "pulse-squat": {
+    "url": "https://www.puregym.com/exercises/legs/quad-exercises/squats/pulse-squats/",
+    "criteria": "Bodyweight variant. Lower near parallel, perform two small bottom-quarter pulses without standing between them, then rise. Feet remain flat and planted."
+  },
+  "chair-pose": {
+    "url": "https://www.learnyoga.net/poses/chair-pose/",
+    "criteria": "Hip-width variation, hips back with moderate knee bend, arms overhead, chest lifted and spine long. Enter, hold steadily, then stand and lower arms. Four-second displayed hold is illustrative, not the source breathing prescription."
+  },
+  "accessed": "2026-10-16",
+  "sourceKind": "Original procedural skinned animation informed by instructor references; no copied reference imagery.",
+  "characterSource": "../all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+  "studioDerivedFrom": "../cardio-next-20261016/studio.mjs",
+  "limits": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification."
+}

@@ -1,0 +1,161 @@
+{
+  "id": "smith-machine-romanian-deadlift",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/studio.mjs",
+      "sha256": "82bf48bc177a5f0eba1de79d6a3e6151ad788f0671ed84c53289a407cd72b916"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/motion.mjs",
+      "sha256": "cfe77760f6e79675c21ad1d4efb81dd66506e3a1a8b13a168df865ba33c5b862"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/grip.mjs",
+      "sha256": "f596256bfce3216ced0d37aaa162558b83e29ecf501e2eb7b77e1280bf4cfb36"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/render.mjs",
+      "sha256": "28a9c946603c77c47bb0529a9651615f4a453c9e3bebaf2e3717fa8c61e9f889"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/source.json",
+      "sha256": "16a1bd3313a2b59027361effcff38077ca1203d7f8b94d3bb5f72e9ea5855fa9"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/verify.mjs",
+      "sha256": "8fcee19a57168f8f776169cbc5730f61a84a282598322e8856ccec34560a3499"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/finalize.mjs",
+      "sha256": "6da65bdea66a6747f0c149100f52fec40207f73a21fca1e4a678bb0b36c42b9d"
+    },
+    {
+      "path": "tools/media/imports/smith-hinge-three-20261023/check-poses.mjs",
+      "sha256": "1d224e2c4af4850a87c0a299322a0f710d311220815d2d687c566b74656c907d"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.strengthlog.com/smith-machine-romanian-deadlift/"
+  ],
+  "sourceSummary": "Standing start, overhand grip, hip hinge and softly bent knees held constant; controlled descent along fixed rails and return to upright.",
+  "kinematics": {
+    "samples": 481,
+    "footDrift": 5.821000005975887e-15,
+    "floorGap": 2.0483654022028412,
+    "bodyClearance": 0.22286142577438323,
+    "railDrift": 2.220446049250313e-15,
+    "gripError": 2.220446049250313e-15,
+    "knees": [
+      155.00000000000006,
+      155.00000000000028
+    ],
+    "elbows": [
+      174.99999999999872,
+      175.00000000000037
+    ],
+    "barY": [
+      -3.4309433296849776,
+      0.09430185895353427
+    ]
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      174.99999999999872,
+      175.00000000000037
+    ],
+    "alpha": {
+      "transparent": 39320384,
+      "opaque": 3644586,
+      "partial": 1271830,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/smith-hinge-three-20261023/native/smith-machine-romanian-deadlift/source.jpg",
+    "sha256": "988e64f7958d830d1265df78a5518aa913bf4dc868b0be478dbdd53556020014",
+    "panels": 16
+  },
+  "limitations": "Procedural demonstration; illustrative proportions, range and eight-second timing. Vertical-rail machine variant with visible safety stops, not a product replica; unracking/reracking not shown. Stylized shorts without fabric simulation; sampled bar/body clearance is not exhaustive collision or biomechanical certification. Physical-device and production verification pending."
+}

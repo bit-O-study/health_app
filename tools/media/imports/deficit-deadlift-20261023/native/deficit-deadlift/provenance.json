@@ -1,0 +1,149 @@
+{
+  "id": "deficit-deadlift",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/studio.mjs",
+      "sha256": "d58ce54b467d08fc06a0538c1fbdaa2b0193dc4c6dfa2498f547d9dbece383c9"
+    },
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/motion.mjs",
+      "sha256": "0355d7b3d77d88878e6f2719bdbe745de815d1c1e1e47a3872a24889d15eeca8"
+    },
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/render.mjs",
+      "sha256": "e563484ee113b8a698537a73a0f4dc895a4e413ab4de58c34504dc91ed0799c0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/source.json",
+      "sha256": "a891b7173f33e15e8c7e84d9fc13041c6e57cf97d9c8e11d6fd29b5f5233a175"
+    },
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/verify.mjs",
+      "sha256": "1c851a082e25faf46aab81673f61f08fe6614d8589e9cfcff2b4ef29bf35b016"
+    },
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/finalize.mjs",
+      "sha256": "777a9b90250120405ca54a76887f4a06d68377625b4638cd63d50ce49a51d180"
+    },
+    {
+      "path": "tools/media/imports/deficit-deadlift-20261023/check-poses.mjs",
+      "sha256": "43bbc997b98fb56147a69b5c531d18b5729dc3a07ab7d09af45198a7aa26f776"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.strengthlog.com/deficit-deadlift/",
+    "https://macrosinc.net/exercises/legs/deficit-barbell-deadlift/"
+  ],
+  "sourceSummary": "Stand on a low stable platform, hold the bar outside the legs, extend knees and hips to stand, lower plates to the ground under control. Platform supports the feet, not the plates.",
+  "kinematics": {
+    "samples": 481,
+    "loopError": 0,
+    "footDrift": 8.018239443638015e-15,
+    "gripAlignment": 0,
+    "bodyShaftClearance": 0.4239821538530204,
+    "solePlatformGap": 7.993605777301127e-15,
+    "platformHeight": 0.6469995548144283,
+    "plateFloorClearance": 0,
+    "barTravel": 6.268098220422676
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      175.56274275102788,
+      175.8301535190507
+    ],
+    "alpha": {
+      "transparent": 39586468,
+      "opaque": 3799973,
+      "partial": 850359,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/deficit-deadlift-20261023/native/deficit-deadlift/source.jpg",
+    "sha256": "2519580e768764a6fee75c18b26ce8c4df13302ce55dc1c06aafe59eee640b6d",
+    "panels": 16
+  },
+  "limitations": "Procedural 3D demonstration, not captured motion. Eight-second illustrative cycle. Platform height is a model-space choice. Sampled lower-body surface distances are not full-mesh collision or biomechanical certification. Production and physical-device validation pending."
+}

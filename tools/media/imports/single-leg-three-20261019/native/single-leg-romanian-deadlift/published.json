@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "090d3a7d1d1b4e2dfa1bcc82f99c4dd9bdc8819b9a4c9f20a9f6484470e89c12",
+  "rigSourceSha256": "b9b06ac423cad90150d35562fdbd1fc64bb13ca71d32d85bed46dd26894813ca",
+  "videoSha256": "26bcea687b186fe35b8af641c2ec0424116e88899b406f034fd8ea1797b0bcb3",
+  "darkVideoSha256": "df081c3ab538d725b2952a3b372053eebff7c914a091eaa7b3a2db856c09aff2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 131129,
+  "darkBytes": 124088,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T09:17:55.443Z"
+}

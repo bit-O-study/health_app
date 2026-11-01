@@ -1,0 +1,36 @@
+{
+  "id": "arnold-press",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/arnold-press.mp4",
+      "sha256": "97709f76100148017a73ec16bd2536e40313b69ce2e7aa2cdcb5567b027025f7",
+      "bytes": 365730
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/arnold-press-dark.mp4",
+      "sha256": "86e40d88d2f523f95b1eb5b3f6c70c0d31e7199cce504716932c0c219aee4a2e",
+      "bytes": 324292
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-7.mjs",
+      "sha256": "9ab0d1edacb0598e07f88887ba8317a479eb4463d8e1b6c90063720bce3aff36"
+    },
+    {
+      "file": "exercise-motion-7.mjs",
+      "sha256": "6a9d236b9760c830b1d873f1b9bf9eb7db18f85506d6452331071dd38a780109"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

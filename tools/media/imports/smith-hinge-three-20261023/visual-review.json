@@ -1,0 +1,35 @@
+{
+  "smith-machine-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "equipment": "Vertical Smith rails, two plates, moving sliders and visible low safety stops. Illustrative machine, not a product replica; unracking/reracking omitted.",
+      "hands": "Both overhand grips stay connected at x +/-2.45, bar z=1.5; long arms around 175 degrees.",
+      "feet": "Both feet planted; Romanian stance moved back .35 model units after preliminary bar/body clearance failed.",
+      "movement": "Smooth hip hinge and controlled return, matching loop. Front/side 16 poses and final light/dark 32-frame sheets inspected. Side-view shorts flare retained as stylized skinning limitation; sampled clearance is not exhaustive collision certification.",
+      "exercise": "Low-start Smith deadlift with coordinated knee and hip extension.",
+      "setup": "Plates start at sole plane on a machine allowing low travel; knee angle increases from about 101.89 to 175 degrees."
+    }
+  },
+  "smith-machine-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "equipment": "Vertical Smith rails, two plates, moving sliders and visible low safety stops. Illustrative machine, not a product replica; unracking/reracking omitted.",
+      "hands": "Both overhand grips stay connected at x +/-2.45, bar z=1.5; long arms around 175 degrees.",
+      "feet": "Both feet planted; Romanian stance moved back .35 model units after preliminary bar/body clearance failed.",
+      "movement": "Smooth hip hinge and controlled return, matching loop. Front/side 16 poses and final light/dark 32-frame sheets inspected. Side-view shorts flare retained as stylized skinning limitation; sampled clearance is not exhaustive collision certification.",
+      "exercise": "Standing-start Smith Romanian deadlift with constant soft knee bend.",
+      "setup": "Knee angle 155 degrees throughout, hip hinge stops with plates above floor; bar returns to thigh level."
+    }
+  },
+  "smith-machine-stiff-leg-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "equipment": "Vertical Smith rails, two plates, moving sliders and visible low safety stops. Illustrative machine, not a product replica; unracking/reracking omitted.",
+      "hands": "Both overhand grips stay connected at x +/-2.45, bar z=1.5; long arms around 175 degrees.",
+      "feet": "Both feet planted; Romanian stance moved back .35 model units after preliminary bar/body clearance failed.",
+      "movement": "Smooth hip hinge and controlled return, matching loop. Front/side 16 poses and final light/dark 32-frame sheets inspected. Side-view shorts flare retained as stylized skinning limitation; sampled clearance is not exhaustive collision certification.",
+      "exercise": "Standing-start Smith stiff-leg deadlift with straighter but unlocked knees.",
+      "setup": "Knee angle 170 degrees throughout, distinct from Romanian 155; hip hinge with plates remaining above floor."
+    }
+  }
+}

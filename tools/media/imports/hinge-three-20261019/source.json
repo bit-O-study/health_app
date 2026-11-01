@@ -1,0 +1,20 @@
+{
+  "dumbbell-romanian-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/dumbbell-romanian-deadlift",
+    "criteria": "Two dumbbells, hip-width planted stance, slightly bent knees kept consistent; hips hinge backward with neutral trunk; stop at a comfortable stretch and return upright."
+  },
+  "dumbbell-stiff-leg-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-stiff-leg-deadlift.html",
+    "criteria": "Two dumbbells; nearly straight but unlocked knees remain fixed while hinging at hips. Keep back neutral, limit descent to comfortable hamstring stretch, return without leaning backward."
+  },
+  "b-stance-romanian-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://www.onnit.com/blogs/the-edge/how-to-do-b-stance-romanian-deadlifts-rdls-like-a-pro",
+    "criteria": "Two dumbbells, staggered kickstand stance, rear heel raised with toe support, primary support from front leg. Hip hinge with level pelvis and slightly bent working knee; repeat then switch sides."
+  },
+  "accessed": "2026-10-19",
+  "sourceKind": "Original procedural skinned illustration, not copied footage.",
+  "limits": "Eight-second slow illustration. No individualized load or range prescription. Joint checks and sampled visual inspection do not certify exhaustive skin/garment collisions. Physical phone and production deployment unverified."
+}

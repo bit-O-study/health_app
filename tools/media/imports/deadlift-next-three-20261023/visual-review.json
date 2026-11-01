@@ -1,0 +1,35 @@
+{
+  "dumbbell-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Two-dumbbell floor deadlift; front and side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Two dumbbells outside the legs, with no barbell or supporting rack.",
+      "setup": "Both weights start at floor level; knees and hips flex together.",
+      "hands": "Both neutral grips remain connected; fore-aft handle alignment checked in 481 poses.",
+      "feet": "Both feet remain planted through ascent and return; sampled drift below 8e-15 model units.",
+      "movement": "Controlled coordinated rise to standing and return to floor, matching start/end. Shorts flare during deep flexion in side view; cloth is a stylized skinned surface, not simulated fabric. No claim of exhaustive cloth collision testing."
+    }
+  },
+  "single-arm-dumbbell-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Single-arm mid-shin deadlift; front and side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Exactly one dumbbell at the side, opposite hand empty.",
+      "setup": "Two feet supporting the body; dumbbell descends to mid-shin without floor contact.",
+      "hands": "Loaded hand maintains neutral grip; free hand remains empty.",
+      "feet": "Both feet remain fixed throughout 481 pose samples.",
+      "movement": "Hips and knees extend together; torso has no lateral bend or twist. Side-view shorts flare is retained as a stylized garment limitation, without exhaustive cloth collision certification."
+    }
+  },
+  "partial-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "High-rack partial deadlift; front and side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Barbell with two plates and fixed rack safety pins.",
+      "setup": "Bar begins above knee level on both pins, as explicitly described in the app.",
+      "hands": "Both hands hold the bar outside the legs throughout the movement.",
+      "feet": "Both feet stay planted inside the rack; no visible sliding.",
+      "movement": "Short hip-extension range to standing and controlled return to pins. Sampled bar/body gap remains positive; camera preserves visibility of face and bar."
+    }
+  }
+}

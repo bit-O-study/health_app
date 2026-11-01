@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/loaded-three-20261019/native/dumbbell-squat/dumbbell-squat-alpha.webm",
+      "sha256": "cbb73ad40bf3a382a470600d7cbbe98946659f1498bc34a5a30f69d55f385cb5",
+      "bytes": 277087,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/loaded-three-20261019/native/dumbbell-squat/dumbbell-squat.mp4",
+      "sha256": "a6dc360cb607f53eaf2d136686c70e51942ae16e733436db8d37261a9944e78f",
+      "bytes": 114270,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/loaded-three-20261019/native/dumbbell-squat/dumbbell-squat-dark.mp4",
+      "sha256": "46aee997cc8a7f8f5198841936ab8b5641d5c877a5aded6ec685d714df0f9ed9",
+      "bytes": 111130,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/loaded-three-20261019/studio.mjs",
+      "sha256": "934916fb7975dc96339f24fbf614475e4c619a57ddb143a7d67b04b49e504e5e"
+    },
+    {
+      "file": "tools/media/imports/loaded-three-20261019/motion.mjs",
+      "sha256": "77f8fdbe24675ca5ae4f335ebd09ed90112dfd682d58b322888f868be234fe0f"
+    },
+    {
+      "file": "tools/media/imports/loaded-three-20261019/render.mjs",
+      "sha256": "d9476677c47c79b1636e1c932cfbeaeb414442d13963989aa690f1fab1e4cbe1"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

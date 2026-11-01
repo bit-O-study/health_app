@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-sumo-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0cd0cdfed1186d1101779828bd1764cbbc53c19453187ebded0453d89772eabe",
+  "rigSourceSha256": "a17dbf9783123403cde5b3d944e05af085516dab8e6f0d93c28858414fcb3a01",
+  "videoSha256": "24852b12c47297f4ef6b5fa7d5e9e7f6a4343cd4bb22793a74504386c8872573",
+  "darkVideoSha256": "e5ada5772338eb54f05c1cb397f20e463eccaef16ff97b0a96f7646636e12991",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96552,
+  "darkBytes": 92191,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T13:56:56.581Z"
+}

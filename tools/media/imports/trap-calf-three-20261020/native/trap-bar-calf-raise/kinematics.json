@@ -1,0 +1,27 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "elbowRange": [
+    174.99999999999974,
+    174.99999999999994
+  ],
+  "gripMisalignment": 1.2947314098277873e-15,
+  "handleWidthDrift": 8.881784197001252e-16,
+  "bodyFrameVertexClearance": 0.9762347572485205,
+  "supportClearanceRange": [
+    0,
+    0
+  ],
+  "heelYRange": [
+    -8.615907031685051,
+    -7.421673999061782
+  ],
+  "heelMaximumZ": 0.45901242253627567,
+  "toeHorizontalDrift": 2.220446049250313e-16,
+  "tempoSeconds": {
+    "up": 3.2,
+    "top": 0.8,
+    "down": 3.6,
+    "bottom": 0.4
+  }
+}

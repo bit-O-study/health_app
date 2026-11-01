@@ -6,6 +6,7 @@ import guideReviews from "../../../tools/media/ai-guides/reviews.json";
 import motionIds from "../../../public/exercise-guides/ai-v3/manifest.json";
 import motionDarkIds from "../../../public/exercise-guides/ai-v3/manifest-dark.json";
 import motionReviews from "../../../tools/media/motion-guides/reviews.json";
+import { SKINNED_MEDIA } from "./skinned-media";
 
 import { motionDarkUrl, motionMediaVersion } from "@/features/exercises/motion-variant";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -27,10 +28,10 @@ const reviewedEquipment = new Map((guideReviews as { id: string; equipmentIds: s
 
 const motionEquipment = new Map(motionReviews.filter((review) => review.status === "passed").map((review) => [review.id, review.equipmentIds]));
 
-const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = Object.fromEntries(
+const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = { ...SKINNED_MEDIA, ...Object.fromEntries(
   [...guideIds.map((exerciseId) => [exerciseId, { exerciseId, url: `/exercise-guides/ai-v2/${exerciseId}.mp4`, kind: "video" as const, equipmentIds: reviewedEquipment.get(exerciseId) ?? [] }]),
   ...motionIds.filter((id) => motionEquipment.has(id)).map((exerciseId) => [exerciseId, { exerciseId, url: `/exercise-guides/ai-v3/${exerciseId}.mp4${motionMediaVersion(exerciseId)}`, kind: "video" as const, equipmentIds: motionEquipment.get(exerciseId) ?? [], ...(motionDark.has(exerciseId) ? { darkUrl: motionDarkUrl(exerciseId) } : {}) }])],
-);
+)};
 
 /** Hide a demonstration when its reviewed equipment differs from the selected variant. */
 export function selectExerciseMedia(

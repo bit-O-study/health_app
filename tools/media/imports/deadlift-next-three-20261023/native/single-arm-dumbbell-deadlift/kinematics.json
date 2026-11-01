@@ -1,0 +1,10 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 6.9404480420977166e-15,
+  "travel": 4.631898124319838,
+  "dumbbellCount": 1,
+  "sampledLowerBodyEquipmentGap": 0.8986742414878427,
+  "floorGap": 2.9572717349339364,
+  "gripBelowKnee": 1.508871689074256
+}

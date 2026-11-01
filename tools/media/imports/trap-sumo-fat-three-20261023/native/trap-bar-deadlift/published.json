@@ -1,0 +1,18 @@
+{
+  "id": "trap-bar-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4d4fc76b49d9e69d32678f96c25ba7e0528042ef748e35894ab025acc2774f1a",
+  "rigSourceSha256": "4ba6d54842816d02369d22d5bfe1bd996281c489304941b7f27777fb978a8a7c",
+  "videoSha256": "4b1ecdfad08f59d6df0a082da3fac13b7405717ccff4df661000a24dda8f0eb5",
+  "darkVideoSha256": "f13a58fa6a91e417bdad1fa7428f56210dbbd6df95bf21ca098ec9f4a9948fcc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 131786,
+  "darkBytes": 116985,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T13:56:25.810Z"
+}

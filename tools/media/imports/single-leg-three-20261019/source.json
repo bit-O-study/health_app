@@ -1,0 +1,20 @@
+{
+  "accessed": "2026-10-19",
+  "sourceKind": "Original procedural skinned illustration, not copied footage.",
+  "limits": "Eight-second slow illustration. Sampled visual inspection and joint checks do not certify biomechanical accuracy or exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+  "single-leg-romanian-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/single-leg-romanian-deadlift-dumbbells/",
+    "criteria": "Two dumbbells in an overhand grip. Balance on one softly bent leg, hinge with a neutral trunk while the opposite leg travels behind; return under control."
+  },
+  "kettlebell-single-leg-deadlift": {
+    "equipment": "kettlebell",
+    "url": "https://www.muscleandstrength.com/exercises/double-kettlebell-single-leg-deadlift",
+    "criteria": "Double-kettlebell variation: one bell in each hand, one foot airborne, soft support knee and level hips. Keep the weights near the body during the hinge and return."
+  },
+  "barbell-single-leg-romanian-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.muscleandstrength.com/exercises/single-leg-barbell-romanian-deadlift",
+    "criteria": "One bar with double overhand grip; hinge on one softly bent support leg with the other heel travelling backward. Keep pelvis level and return to balance."
+  }
+}

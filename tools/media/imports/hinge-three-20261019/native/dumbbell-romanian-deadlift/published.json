@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a6e1581c8b0368d5731a4e811c7ce399db43dc02286669004e3d71e9d1dc789e",
+  "rigSourceSha256": "f696b59836f36bce959f8361b766bfb31d29416997d4da4ab9a0c84ad35c9257",
+  "videoSha256": "ee2abe4f4f8bb11fc1e1e93f594763b5e2b2b69842fd7626b323de1b9a88b2be",
+  "darkVideoSha256": "e77aebf749233f6d1c63b98718f891f2993da78b87f1a103d2792421c5ceb762",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 130065,
+  "darkBytes": 124278,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T12:34:17.787Z"
+}

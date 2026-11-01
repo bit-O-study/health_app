@@ -1,0 +1,721 @@
+{
+  "checkedAt": "2026-11-01T13:19:47.641Z",
+  "sourceInputs": 2116,
+  "sourceFailures": [],
+  "addedNativeIds": [
+    "clean-grip-deadlift",
+    "snatch-grip-deadlift",
+    "axle-bar-deadlift",
+    "trap-bar-deadlift",
+    "deficit-deadlift",
+    "block-pull",
+    "dumbbell-romanian-deadlift",
+    "single-leg-romanian-deadlift",
+    "reverse-lunge",
+    "side-lunge",
+    "split-squat",
+    "kettlebell-sumo-deadlift",
+    "dumbbell-deadlift",
+    "kettlebell-lunge",
+    "chair-pose",
+    "high-knees",
+    "butt-kicks",
+    "jumping-jack",
+    "pin-deadlift",
+    "pause-deadlift",
+    "tempo-deadlift",
+    "front-foot-elevated-split-squat",
+    "deficit-reverse-lunge",
+    "b-stance-romanian-deadlift",
+    "kettlebell-single-leg-deadlift",
+    "dumbbell-squat",
+    "dumbbell-jump-squat",
+    "dumbbell-stiff-leg-deadlift",
+    "smith-machine-deadlift",
+    "smith-machine-romanian-deadlift",
+    "smith-machine-stiff-leg-deadlift",
+    "single-leg-deadlift",
+    "kettlebell-reverse-lunge",
+    "trap-bar-romanian-deadlift",
+    "trap-bar-calf-raise",
+    "fat-grip-deadlift",
+    "squat-jack",
+    "pulse-lunge",
+    "pulse-squat",
+    "high-knee-skip",
+    "step-jack",
+    "1-5-rep-lunge",
+    "double-kettlebell-romanian-deadlift",
+    "eccentric-deadlift",
+    "partial-deadlift",
+    "isometric-deadlift-hold",
+    "eccentric-calf-raise",
+    "single-arm-dumbbell-deadlift",
+    "barbell-single-leg-romanian-deadlift",
+    "squat",
+    "lunge",
+    "stiff-leg-deadlift"
+  ],
+  "results": [
+    {
+      "file": "public/exercise-guides/ai-v3/clean-grip-deadlift.mp4",
+      "sha256": "2a63d703ca59970f420b171f479079381a05d6fd5419238b2f5664f640020bbb",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/clean-grip-deadlift-dark.mp4",
+      "sha256": "cc05dff0fa34cdb4513606e312765df81226a84f858d4a7f82b039f290abfc21",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/snatch-grip-deadlift.mp4",
+      "sha256": "93a00312234741a8d7961225877d1cac3f438c4d909611fc7ea3b3f91cc795fa",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/snatch-grip-deadlift-dark.mp4",
+      "sha256": "563e347ef528550f358342936ec7892b33ef7c2091497337726a973528be1d92",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/axle-bar-deadlift.mp4",
+      "sha256": "69c21ecb2b85cc36cf4d32199fffe9325fe6f66d5b189b8c82da68e4f3f100d2",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/axle-bar-deadlift-dark.mp4",
+      "sha256": "59fb3428c5ca962180ccabd9c3dbf2f7bd021235ee86d172ab914f4b583bd5fc",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trap-bar-deadlift.mp4",
+      "sha256": "4b1ecdfad08f59d6df0a082da3fac13b7405717ccff4df661000a24dda8f0eb5",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trap-bar-deadlift-dark.mp4",
+      "sha256": "f13a58fa6a91e417bdad1fa7428f56210dbbd6df95bf21ca098ec9f4a9948fcc",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deficit-deadlift.mp4",
+      "sha256": "3c2479c824fe51fbf6f6bab97be5273b109b299820894b3d4233d32328e3b660",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deficit-deadlift-dark.mp4",
+      "sha256": "a7e5ab91a8cf13e2f5b75c6c8f8ecdc85eb0e247fb7bef3fdc00fc58e007172f",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/block-pull.mp4",
+      "sha256": "98cdefd639ab89085af83757a25bd3c4bf6e972dcc2cd7e407353ea6d7204501",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/block-pull-dark.mp4",
+      "sha256": "99a49745c5af9701d490cd6354507c59ec3c49d1b51a80ba485624ae43f9f99d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-romanian-deadlift.mp4",
+      "sha256": "ee2abe4f4f8bb11fc1e1e93f594763b5e2b2b69842fd7626b323de1b9a88b2be",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-romanian-deadlift-dark.mp4",
+      "sha256": "e77aebf749233f6d1c63b98718f891f2993da78b87f1a103d2792421c5ceb762",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-romanian-deadlift.mp4",
+      "sha256": "26bcea687b186fe35b8af641c2ec0424116e88899b406f034fd8ea1797b0bcb3",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-romanian-deadlift-dark.mp4",
+      "sha256": "df081c3ab538d725b2952a3b372053eebff7c914a091eaa7b3a2db856c09aff2",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-lunge.mp4",
+      "sha256": "f6f9b5ca5d46125b0940dffdddb4aa9bdef7dfd6f95d1d8e2b5fb3c7852fd471",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-lunge-dark.mp4",
+      "sha256": "09686bfbd84216f0205c15adbe59733f5721b70ca1000cf2a0c50cc21ab300ea",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lunge.mp4",
+      "sha256": "8f4de8cabd4a0ac7845592f9d404fc973e52875e3514218bc626c11499efe3db",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lunge-dark.mp4",
+      "sha256": "21d7b98afa685c485a1d46c03e9402ca6867b4d86d654bb4a5e82358d90bd354",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/split-squat.mp4",
+      "sha256": "786cc76fa5fe3f32a7c48b6e3dc0d4550d65e28f83d7c7e121ccb1824c46a599",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/split-squat-dark.mp4",
+      "sha256": "839fef0bf7d361ea147e9c53569dd10dd7fa784247aa11c72511ce8b91ac414b",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-sumo-deadlift.mp4",
+      "sha256": "24852b12c47297f4ef6b5fa7d5e9e7f6a4343cd4bb22793a74504386c8872573",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-sumo-deadlift-dark.mp4",
+      "sha256": "e5ada5772338eb54f05c1cb397f20e463eccaef16ff97b0a96f7646636e12991",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-deadlift.mp4",
+      "sha256": "21ce112688d95fe2e6dedcf8ba4d8f00c80d81df58234ad337a1d0b735e48dc0",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-deadlift-dark.mp4",
+      "sha256": "9a88a67c41588830e9c8c8db6cb64362d8458ca47929b819c727f158a167fa1d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-lunge.mp4",
+      "sha256": "cb2a1348e939acb4644730c2f8ca595fa64316ece3c5a3c45b04d73169e910f6",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-lunge-dark.mp4",
+      "sha256": "c184b79309ccbd4473dcfb9a23102ddda3c97619d6003c7eb454245eb140f9af",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chair-pose.mp4",
+      "sha256": "7f32b6c291709ae2bc1a12836974302d80cd3db5a82e52b24ffc46e404bc3b7c",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chair-pose-dark.mp4",
+      "sha256": "ef4921947aa7f7cd68636b2025c034a60815b93257cb6d399806c7fc6399b642",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-knees.mp4",
+      "sha256": "43f6fe98bb906a8a76e197d209109c17790e94d4f48e9f18c6c2cb237c3230c3",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-knees-dark.mp4",
+      "sha256": "9efbeef818780b4e6f884ae49eb40390039a573c9818d729a1bb7dbacc1c988a",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butt-kicks.mp4",
+      "sha256": "a323d99e167037248b2b99ed7895c444ac10ba4da1c4ad30b4a3e0ba785da8ff",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butt-kicks-dark.mp4",
+      "sha256": "6c2920a2893a16646f63c6af3d8412de2de200081a014c048cebe0ba3b5017e3",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jumping-jack.mp4",
+      "sha256": "bd5704703bd16b8a88462408d636ad5f6b2124b1a69915d42fd7470b1be5f795",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jumping-jack-dark.mp4",
+      "sha256": "cb784c1b4a5002226fd119c1b3b6cc86d024dffa432cc537c5fe547b52655260",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pin-deadlift.mp4",
+      "sha256": "378287eed77ee277c1bcb005b4bf8240944c19bd63aadc2a3be19421753fe005",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pin-deadlift-dark.mp4",
+      "sha256": "b82d023c24b0e5955b88d3e44bad7c36ad25c7abb3a9a67854ba64050ab27a70",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-deadlift.mp4",
+      "sha256": "1b1dd962032322e58da79dcca66fb7dbf4d73f0e687de74d1513cddadd3de817",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-deadlift-dark.mp4",
+      "sha256": "03c9656e83157748712d67c117e94355152bc696f69c78dc4f6a3cf5bb157316",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-deadlift.mp4",
+      "sha256": "e55cc3f2429e2a72daa1137b0172593fc91f077df7b00b4b39ea73f4e40069d4",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-deadlift-dark.mp4",
+      "sha256": "73a81f73259b87331dda979fda5ff66959c1e4bd618eb3493aa6ea61c2f941b2",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-foot-elevated-split-squat.mp4",
+      "sha256": "81151fe7e13216da31eb22e7dec8e7618a0800c74c7d55b489eaa0f779663597",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-foot-elevated-split-squat-dark.mp4",
+      "sha256": "b8136435f3a02d40f82b75df19d2fb17e1079826470a6dfbb20e3b909e0efaed",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deficit-reverse-lunge.mp4",
+      "sha256": "3e84e695375051e3ee1685743fb715419b68f751fe4c8b99cfd11e0b91e2df6a",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deficit-reverse-lunge-dark.mp4",
+      "sha256": "599af270bcec90b9a954de2574fd10a270871516374432b0b3a185747036a80d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/b-stance-romanian-deadlift.mp4",
+      "sha256": "fbd93d7bbd1ce8bc514df7a119b3cfa418f6f548720f7aad06aaf04d60d5105c",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/b-stance-romanian-deadlift-dark.mp4",
+      "sha256": "01285f6e63b5c9ee4e2c5e36017ab9b910849d8b7e292325c0c72213c4714b57",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-single-leg-deadlift.mp4",
+      "sha256": "b53d9dec4d47c57a970c776150226244e0a5d0e44f22d9ee1467ba9ec85191ef",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-single-leg-deadlift-dark.mp4",
+      "sha256": "972c245bb681094bd1c5eb6abd56d7baa84fbb600c4ed2562d69a6f846202326",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-squat.mp4",
+      "sha256": "a6dc360cb607f53eaf2d136686c70e51942ae16e733436db8d37261a9944e78f",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-squat-dark.mp4",
+      "sha256": "46aee997cc8a7f8f5198841936ab8b5641d5c877a5aded6ec685d714df0f9ed9",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-jump-squat.mp4",
+      "sha256": "212f6f1fd09cfab15f021af2f5958d864e370231046ab0934299a9014e3405a1",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-jump-squat-dark.mp4",
+      "sha256": "133cb837acf76c62312f9fa0792c5f7a8ae9f6b6be2d77d70f9d2dea86909f3f",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-stiff-leg-deadlift.mp4",
+      "sha256": "30c42cb8861499a15a2b23db4f1c9a469a45aefd7fe8c71619c0f45b446afc80",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-stiff-leg-deadlift-dark.mp4",
+      "sha256": "005c5aa670768a2180c96562e9d8945177475bdd62c172fdfb0ab155f4037f47",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-deadlift.mp4",
+      "sha256": "7009339dbcc82dc542904329d1fa1016961d5f041b1cb867c5a488aa5fc8f72e",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-deadlift-dark.mp4",
+      "sha256": "721faa426c8f082016400f8dc0738fdc1d5c6cf564bae7fe1229f56c7f347a82",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-romanian-deadlift.mp4",
+      "sha256": "b280175b9ce940c5c73a2df3548d471383d0980280cf41d3803a74c6aa81a766",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-romanian-deadlift-dark.mp4",
+      "sha256": "7274f03fa1970632145e1a278bf48ada8ea520e5e20018170b7c56b494397698",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-stiff-leg-deadlift.mp4",
+      "sha256": "28d680bbf628c575d72db5091e070573e233438ca86391ce571ca097b3986edf",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-stiff-leg-deadlift-dark.mp4",
+      "sha256": "595d9bb5b943022daa12ff3e9d671ce45cdf614e4e2af0e5d2d9e4f94480cf21",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-deadlift.mp4",
+      "sha256": "ac6de4940fc2c63119024accead83d39f2646428b7492cb6bcfd87f813953577",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-deadlift-dark.mp4",
+      "sha256": "a02e7918b25c0fbd39efdf8d2228c99e502286280c806aac33f8e396f819e2d1",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-reverse-lunge.mp4",
+      "sha256": "4f65f469ab00ed80db7253d5116d834a68f706c062f0f13113e1f68622c49f3b",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-reverse-lunge-dark.mp4",
+      "sha256": "03930f3d412435818be900f1533a0539f08af6e727cfd75d5a73a44223d739f2",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trap-bar-romanian-deadlift.mp4",
+      "sha256": "4d5903023275edc3de045159cd7fca798668910c5d86c322bb708b31a40f347c",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trap-bar-romanian-deadlift-dark.mp4",
+      "sha256": "9b6dfb021a434ca20472355beb8e2be44f25e355be6395f97985548ba97704b0",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trap-bar-calf-raise.mp4",
+      "sha256": "9c2b2c698b7454ced35c252150f422c3df84b9ee95693fc7ecb027a61398884a",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trap-bar-calf-raise-dark.mp4",
+      "sha256": "bd2153264b8a4acf2dc7d7f18edc943121f1c568d837e7b1d76c8cc8fab4c305",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/fat-grip-deadlift.mp4",
+      "sha256": "4528632dbb190245ebfb3e861bfe7ee1c63a53667c15eafedda62a84a6cccf95",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/fat-grip-deadlift-dark.mp4",
+      "sha256": "07edf8ab5b29124a043d39f2c5fa877029479156fd0c632df1e6586171e3fa89",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squat-jack.mp4",
+      "sha256": "5c0ebf0d1d66a898d3234ecec57dbc979ab35041318f557e23479ab46762c78d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squat-jack-dark.mp4",
+      "sha256": "ecbbce4f87d23736cbeba696f65c28a837e0ec6cd12390bae8b2c267ec81b939",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pulse-lunge.mp4",
+      "sha256": "34efddaf5a4d082df90a15daea2a3017f02a21dcda2ed6920f63026f0ee2000d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pulse-lunge-dark.mp4",
+      "sha256": "5d9bacd0af1255c3095f4f7b878a43b4a55ec8ba9c80fd6dd12222847c913ab0",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pulse-squat.mp4",
+      "sha256": "855798bc0fc2366d0ad5665a1e1708343850a8c75ab8baec64b9ad9fbd91a0c6",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pulse-squat-dark.mp4",
+      "sha256": "6a1a4123b089ee93ae560a8ed5aacf053cc8a99c357b40a1fbcee338597f40da",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-knee-skip.mp4",
+      "sha256": "00fee1c190e42fb3f99e5cf3b26bc77b202bf6dd980c1a1d387f1d8b90b6668f",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-knee-skip-dark.mp4",
+      "sha256": "1becf147a7ed8889b348d044ccb903731fe47386986bfb8bae026b1e554516b9",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/step-jack.mp4",
+      "sha256": "2be99ba9a81d5ce108faa7a86e529836744cf5417035f91f25c531d94f0754e2",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/step-jack-dark.mp4",
+      "sha256": "47dbc191c1f9366889c1ca2adb50f12a9233330b379bf15ed60e258f8fc71ccb",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-lunge.mp4",
+      "sha256": "57ff824e6b13af541a526a5adce9b0773f26c6f021693ad112719c7760ce361d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-lunge-dark.mp4",
+      "sha256": "65641076d2725bc47b2e65e1556201e5b3741392299aa0a711a9c681c05b1e13",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-kettlebell-romanian-deadlift.mp4",
+      "sha256": "51aa8e9558f2ca43bcd5f3189b52616d63ee0a32c99f412a3337eddcdecb9230",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-kettlebell-romanian-deadlift-dark.mp4",
+      "sha256": "80880ef372efd110ee60443d5966ff571d9f453686da7378542e73104e257408",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-deadlift.mp4",
+      "sha256": "07aa13c2b6d83c78c96d193433ce64abfa311175c83a02f5a3c9c22556e3c43b",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-deadlift-dark.mp4",
+      "sha256": "a95d05a224f5ea35c95db01678e0e16bc0461990348d5c1a4eb7a4b383913496",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-deadlift.mp4",
+      "sha256": "19571caea7ba27214f63bc77abfbf6c7b82d6e44e4e1070ced75a2234618d092",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-deadlift-dark.mp4",
+      "sha256": "a6dbf2dfd3932d89fe2faf824923f19c09d77a0dbbb04a7da135caeaea23bc56",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-deadlift-hold.mp4",
+      "sha256": "1442049340c5b048ef7b539596a2422d8337721faa77abacf01b5cb6af52a8a8",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-deadlift-hold-dark.mp4",
+      "sha256": "bf641ab6b3b2591aab0a1d19eac773ef48e5b076021a98eae6ed6edb51ae86db",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-calf-raise.mp4",
+      "sha256": "dc1d7da3b804137412a1e91e44c4ebcbba42b86df91f507a3904622a9e2261e8",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-calf-raise-dark.mp4",
+      "sha256": "9b9450baeced22a8efb8f055e724d3ab885ab2d682b4d159e1031698c52f7f4a",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-dumbbell-deadlift.mp4",
+      "sha256": "3bd2a49776e253f82315e2bf053f5f988ed342a40af7b6a7a97b11962ab78be9",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-dumbbell-deadlift-dark.mp4",
+      "sha256": "45aca1f2cb022664ddbd4811cf00582062ad5da3e9908026c4be74842d6bd874",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-single-leg-romanian-deadlift.mp4",
+      "sha256": "ac6de4940fc2c63119024accead83d39f2646428b7492cb6bcfd87f813953577",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-single-leg-romanian-deadlift-dark.mp4",
+      "sha256": "a02e7918b25c0fbd39efdf8d2228c99e502286280c806aac33f8e396f819e2d1",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squat.mp4",
+      "sha256": "392c56f4325cf9f937b9d938a1e11542ec0dbc186dfe3a7d4d08044c40b66117",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squat-dark.mp4",
+      "sha256": "e4fb734a559b3d001a5d55273bf988e70c57d05c045c2023825f187affd64aa7",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lunge.mp4",
+      "sha256": "01d460de38ac16ea0eae4f4649c887643a1e72a0b9aef998c81196af14b4c285",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lunge-dark.mp4",
+      "sha256": "6fc8ac3c6f35aaeab0cee2caaf72991184b03f9e3a5f6145c6e78bca2ec4b853",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/stiff-leg-deadlift.mp4",
+      "sha256": "ee60bf77d5a66a4a8d376e2282d0b1955dc604fe79d4c79c80350fc7f990b7ac",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/stiff-leg-deadlift-dark.mp4",
+      "sha256": "7d102eaefd15acfe480e2b2522f06bb1e0216f878e1858c6101b4911e096f810",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/skinned-pilot/arnold-press.mp4",
+      "sha256": "97709f76100148017a73ec16bd2536e40313b69ce2e7aa2cdcb5567b027025f7",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/skinned-pilot/arnold-press-dark.mp4",
+      "sha256": "86e40d88d2f523f95b1eb5b3f6c70c0d31e7199cce504716932c0c219aee4a2e",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/skinned-pilot/upright-row.mp4",
+      "sha256": "16eb5262e9b87091fb3aa0b81a31190dcb6464569d14392e9ffa17edfb73bd46",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/skinned-pilot/upright-row-dark.mp4",
+      "sha256": "8457bf823fdffd8d473bd6daf6b880dec74fa34906967b0f39e4fd340d0c6d17",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/skinned-pilot/close-grip-upright-row.mp4",
+      "sha256": "df75b10a112947e14016727764afaa6407c2c9ef43b995cec5053473268cfd5d",
+      "decoded": true,
+      "error": ""
+    },
+    {
+      "file": "public/exercise-guides/skinned-pilot/close-grip-upright-row-dark.mp4",
+      "sha256": "c0397801ac9cd901f4165663ba652af3aff6ee75231c79105a6bf77f49d9e7f9",
+      "decoded": true,
+      "error": ""
+    }
+  ]
+}

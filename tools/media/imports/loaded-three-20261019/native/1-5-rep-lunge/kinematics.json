@@ -1,0 +1,9 @@
+{
+  "samples": 481,
+  "loopPoseError": 0,
+  "plantedFrontAnkleDrift": 6.024174891889973e-15,
+  "plantedRearContactDrift": 6.408593517931132e-15,
+  "rearKneeMinY": -6.833433733485981,
+  "partialRise": 2.0250000000000004,
+  "rearStepTravelZ": -7.206710003736568
+}

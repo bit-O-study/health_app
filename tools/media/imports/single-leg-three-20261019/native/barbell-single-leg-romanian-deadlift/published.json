@@ -1,0 +1,18 @@
+{
+  "id": "barbell-single-leg-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1753e037092e22965ec11103f829de190dccc0d70a43a142f32c10ee3fe5f833",
+  "rigSourceSha256": "2715a6243a939b541d169eb21d2c0a4c700e74835ea8fe06b22d84247f1489ce",
+  "videoSha256": "ac6de4940fc2c63119024accead83d39f2646428b7492cb6bcfd87f813953577",
+  "darkVideoSha256": "a02e7918b25c0fbd39efdf8d2228c99e502286280c806aac33f8e396f819e2d1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 150484,
+  "darkBytes": 138017,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T09:18:18.594Z"
+}

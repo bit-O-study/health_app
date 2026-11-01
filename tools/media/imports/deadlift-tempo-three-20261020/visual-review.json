@@ -1,0 +1,37 @@
+{
+  "reviewer": "Codex: side diagnostic sheets and final light/dark 32-frame sheets inspected",
+  "limits": "Local original procedural demonstrations. Sampled surface clearance is not exhaustive collision or biomechanical certification; physical device and production pending.",
+  "pause-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Floor-start barbell deadlift with a distinct ascent pause below knees.",
+      "equipment": "One rigid barbell with two equal round plates; full equipment visible in both themes.",
+      "setup": "Hip-width stance, hips above knees, both plates start at sole height.",
+      "hands": "Overhand grips outside legs aligned to shaft; elbows remain approximately 175.6 to 175.8 degrees.",
+      "feet": "Both feet remain planted; measured drift below 1.1e-14.",
+      "movement": "1.6-second pause holds bar 1.22 model units below knee with zero grip drift; resumes ascent and returns without bounce; corrected thigh clearance minimum 0.424."
+    }
+  },
+  "tempo-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Barbell deadlift with deliberately controlled ascent and descent.",
+      "equipment": "Rigid shaft and equal plates; no crop in either final theme.",
+      "setup": "Floor start at sole height with neutral torso and bent hips/knees.",
+      "hands": "Both grips stay aligned with shaft; long arms without curling.",
+      "feet": "Foot positions fixed throughout 481 samples.",
+      "movement": "3.2-second ascent and 3.2-second descent; knee angle extends from 110 to 175 degrees; smooth loop and positive sampled body/shaft clearance."
+    }
+  },
+  "eccentric-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Barbell deadlift emphasizing a slower eccentric return.",
+      "equipment": "One barbell, two plates; visible in light and dark final sheets.",
+      "setup": "Floor start with feet fixed and hands outside legs.",
+      "hands": "Overhand grips remain aligned and arms long throughout.",
+      "feet": "Both soles stay at the same level; plates return to sole height without penetration.",
+      "movement": "1.6-second rise versus 5.6-second monotonic descent; hips and knees bend together, no backward lean at top, zero loop discontinuity."
+    }
+  }
+}

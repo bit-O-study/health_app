@@ -1,0 +1,16 @@
+{
+  "id": "axle-bar-deadlift",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "axle-bar-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.roguefitness.com/the-rogue-axle",
+    "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T05:21:12.555Z"
+}

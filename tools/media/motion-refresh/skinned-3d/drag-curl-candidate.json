@@ -1,0 +1,36 @@
+{
+  "id": "drag-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/drag-curl.mp4",
+      "sha256": "275ad8232907b788e2ebe350ec514e07656cf4375b18bd7c99a222f9398de028",
+      "bytes": 444307
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/drag-curl-dark.mp4",
+      "sha256": "1dce56976791f8b66aca90eac45f2054e1c9ee29cef79c4a72130f4de6dd0254",
+      "bytes": 382032
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-8.mjs",
+      "sha256": "b31090027ea24e139732690c6f3512983c081683d0782d3ae6b8cd257c0b71cd"
+    },
+    {
+      "file": "exercise-motion-8.mjs",
+      "sha256": "6bbb216a222585c2bc148f7f436665dc43801a8ef129fbf0c3b704e2f1c9f39f"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

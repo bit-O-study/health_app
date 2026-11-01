@@ -1,0 +1,18 @@
+{
+  "id": "b-stance-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8fd4d1ffe4ddbecd6ff4a0dd528bd6764e6a6404919e43e13aa4fee610474b60",
+  "rigSourceSha256": "cc44b59e1e2c1e48789f57f4c421b21b606a71da970dd28815dbe02b413333d3",
+  "videoSha256": "fbd93d7bbd1ce8bc514df7a119b3cfa418f6f548720f7aad06aaf04d60d5105c",
+  "darkVideoSha256": "01285f6e63b5c9ee4e2c5e36017ab9b910849d8b7e292325c0c72213c4714b57",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 131276,
+  "darkBytes": 125243,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T12:34:33.070Z"
+}

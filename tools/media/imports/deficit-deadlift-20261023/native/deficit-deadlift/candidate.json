@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/deficit-deadlift-20261023/native/deficit-deadlift/deficit-deadlift-alpha.webm",
+      "sha256": "77814d6369227e9c5971e4efd022b9d13385c796b66215483d3d1f3c704cd68e",
+      "bytes": 338033,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/deficit-deadlift-20261023/native/deficit-deadlift/deficit-deadlift.mp4",
+      "sha256": "3c2479c824fe51fbf6f6bab97be5273b109b299820894b3d4233d32328e3b660",
+      "bytes": 151737,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/deficit-deadlift-20261023/native/deficit-deadlift/deficit-deadlift-dark.mp4",
+      "sha256": "a7e5ab91a8cf13e2f5b75c6c8f8ecdc85eb0e247fb7bef3fdc00fc58e007172f",
+      "bytes": 128055,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/deficit-deadlift-20261023/studio.mjs",
+      "sha256": "d58ce54b467d08fc06a0538c1fbdaa2b0193dc4c6dfa2498f547d9dbece383c9"
+    },
+    {
+      "file": "tools/media/imports/deficit-deadlift-20261023/motion.mjs",
+      "sha256": "0355d7b3d77d88878e6f2719bdbe745de815d1c1e1e47a3872a24889d15eeca8"
+    },
+    {
+      "file": "tools/media/imports/deficit-deadlift-20261023/render.mjs",
+      "sha256": "e563484ee113b8a698537a73a0f4dc895a4e413ab4de58c34504dc91ed0799c0"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

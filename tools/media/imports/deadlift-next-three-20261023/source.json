@@ -1,0 +1,18 @@
+{
+  "dumbbell-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://assets.crossfit.com/pdfs/seminars/Dumbbell_Training_Guide.pdf",
+    "criteria": "Two dumbbells outside legs in suitcase style. Knees and hips extend together. Neutral grips and fixed feet; return weights to floor."
+  },
+  "single-arm-dumbbell-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://www.rehabhero.ca/exercise/suitcase-deadlift",
+    "criteria": "One dumbbell at side, knees bend with hip hinge; hand descends to mid shin, extend hips and knees. No side bending or rotation. Free hand empty."
+  },
+  "partial-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/rack-pull/",
+    "criteria": "High rack pull variation: bar supported at knee height, extend hips to standing, return onto pins. Partial deadlift is a range category; this video depicts the high rack variant."
+  },
+  "limits": "Procedural demonstration, eight-second cycle. Sampled joints and geometry are not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending."
+}

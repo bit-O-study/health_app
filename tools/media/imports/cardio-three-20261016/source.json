@@ -1,0 +1,20 @@
+{
+  "high-knees": {
+    "url": "https://www.ucalgary.ca/shred-injuries/all-sports/physical-education/high-knees",
+    "criteria": "Upright trunk, alternating knee drive to hip height, opposing arm swing with bent elbows; toes forward, ankle under raised knee."
+  },
+  "butt-kicks": {
+    "url": "https://www.calgary.ca/content/dam/www/programs-services/parks-recreation/programs-lessons-and-day-camps/physical-literacy/physical-literacy-movement-preparation-guide-older-adult.pdf",
+    "page": 3,
+    "criteria": "Heels lift toward buttocks, thighs remain vertical, ankles flexed rather than pointed. Demonstration uses the slower alternating version allowed by this source."
+  },
+  "jumping-jack": {
+    "url": "https://www.nasm.org/resource-center/exercise-library/jumping-jacks",
+    "criteria": "Feet move outward as arms lift overhead, return inward as arms lower. Upright torso, slight knee flexion on landing."
+  },
+  "accessed": "2026-10-16",
+  "sourceKind": "Procedural skinned demonstration; references inform motion, not copied image assets.",
+  "characterSource": "../all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+  "studioDerivedFrom": "../running-20261016/studio.mjs",
+  "limits": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification."
+}

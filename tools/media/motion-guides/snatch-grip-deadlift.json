@@ -1,0 +1,15 @@
+{
+  "id": "snatch-grip-deadlift",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "snatch-grip-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/187/Snatch-Deadlift/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T05:20:52.481Z"
+}

@@ -1,0 +1,164 @@
+{
+  "verifiedAt": "2026-11-01T12:14:13.223Z",
+  "results": [
+    {
+      "id": "barbell-overhead-press",
+      "inputs": [
+        {
+          "file": "studio-batch-8.mjs",
+          "sha256": "b31090027ea24e139732690c6f3512983c081683d0782d3ae6b8cd257c0b71cd"
+        },
+        {
+          "file": "exercise-motion-8.mjs",
+          "sha256": "6bbb216a222585c2bc148f7f436665dc43801a8ef129fbf0c3b704e2f1c9f39f"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/barbell-overhead-press.mp4",
+          "sha256": "3d28da42e4b58c141dbd37b4629b354e42a24a084410b8176c00564d4b57a932",
+          "bytes": 445183,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/barbell-overhead-press-dark.mp4",
+          "sha256": "f3e84d91987f376630c7b256c7f0fb0b7708b97af6e974886336732d9974189b",
+          "bytes": 394725,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "drag-curl",
+      "inputs": [
+        {
+          "file": "studio-batch-8.mjs",
+          "sha256": "b31090027ea24e139732690c6f3512983c081683d0782d3ae6b8cd257c0b71cd"
+        },
+        {
+          "file": "exercise-motion-8.mjs",
+          "sha256": "6bbb216a222585c2bc148f7f436665dc43801a8ef129fbf0c3b704e2f1c9f39f"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/drag-curl.mp4",
+          "sha256": "275ad8232907b788e2ebe350ec514e07656cf4375b18bd7c99a222f9398de028",
+          "bytes": 444307,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/drag-curl-dark.mp4",
+          "sha256": "1dce56976791f8b66aca90eac45f2054e1c9ee29cef79c4a72130f4de6dd0254",
+          "bytes": 382032,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "behind-the-back-shrug",
+      "inputs": [
+        {
+          "file": "studio-batch-8.mjs",
+          "sha256": "b31090027ea24e139732690c6f3512983c081683d0782d3ae6b8cd257c0b71cd"
+        },
+        {
+          "file": "exercise-motion-8.mjs",
+          "sha256": "6bbb216a222585c2bc148f7f436665dc43801a8ef129fbf0c3b704e2f1c9f39f"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/behind-the-back-shrug.mp4",
+          "sha256": "1c88f092f535ad9e55266d8cb6b07ccedba46fac3c62e83c4ef382f6f94028b1",
+          "bytes": 298929,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/behind-the-back-shrug-dark.mp4",
+          "sha256": "c96b66615d0914cce50fd3c3b9718ecc78906bb43ff07eee87e5ebc0aa476189",
+          "bytes": 271969,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 6
+          }
+        }
+      ]
+    }
+  ]
+}

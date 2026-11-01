@@ -1,0 +1,15 @@
+{
+  "id": "smith-machine-deadlift",
+  "equipment": "smith",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://repfitness.com/blogs/guides/smith-machine-deadlift"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T14:30:58.238Z"
+}

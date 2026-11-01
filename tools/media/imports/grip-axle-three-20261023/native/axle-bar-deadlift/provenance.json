@@ -1,0 +1,153 @@
+{
+  "id": "axle-bar-deadlift",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/studio.mjs",
+      "sha256": "8cd4e259c99c04dfbf0b206c6c61e1054a1bfeea6ed063f2a09b87fc12d5d43b"
+    },
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/motion.mjs",
+      "sha256": "558196711e2ba789ac334337e94913db8791eb0429437ed81c1150774a36f3fe"
+    },
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/render.mjs",
+      "sha256": "126c2a4229483e1f61f2f067e22b10cd4ceb47b8a576140b530c8efeb841effd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/source.json",
+      "sha256": "4390a81fa85ac12a7631f3c1b335bbe3bb05a6795b39fcb268d387898723d5ca"
+    },
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/verify.mjs",
+      "sha256": "286b65c64de5b1fc8090514dff8a97ecd1d8358dc5b69135f89d3591b6400a00"
+    },
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/finalize.mjs",
+      "sha256": "d85be25d087ec18d083ee6dc7e01e39ff74b0c15550cb651b4aedcf8c8ade966"
+    },
+    {
+      "path": "tools/media/imports/grip-axle-three-20261023/check-poses.mjs",
+      "sha256": "58673379163b0cd042e1b91935f991fe33b4ae67fed60c04e1ce27511f270f24"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.roguefitness.com/the-rogue-axle",
+    "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+  ],
+  "sourceSummary": "Thicker cylindrical axle shaft (1.75 times modeled standard diameter, illustrative rather than product replica), double-overhand grip, conventional floor start and controlled return.",
+  "kinematics": {
+    "samples": 481,
+    "loopError": 0,
+    "footDrift": 6.881815727296096e-15,
+    "floorGap": 1.865174681370263e-14,
+    "bodyShaftClearance": 0.33398215385302044,
+    "gripAlignment": 0,
+    "gripWidth": [
+      4.830331683444291,
+      4.871854444633938
+    ],
+    "startKneeDegrees": 110.00000000000028,
+    "shaftRadius": 0.21,
+    "initialBackAngleDrift": 19.01638419907769
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      175.57382750063007,
+      175.8301535190507
+    ],
+    "alpha": {
+      "transparent": 40417941,
+      "opaque": 3026908,
+      "partial": 791951,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/grip-axle-three-20261023/native/axle-bar-deadlift/source.jpg",
+    "sha256": "70048cff1b725a824d98bb67f2089c120211c2f40d1fe1e3260e02923586bb3f",
+    "panels": 16
+  },
+  "limitations": "Procedural instructional model, not captured human biomechanics. Illustrative equipment proportions and eight-second timing. Overhand grips without detailed hook-grip instruction; no cloth simulation, exhaustive mesh collision or physical-device certification. Production deployment pending."
+}

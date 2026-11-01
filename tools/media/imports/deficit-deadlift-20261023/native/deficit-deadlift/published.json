@@ -1,0 +1,18 @@
+{
+  "id": "deficit-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2519580e768764a6fee75c18b26ce8c4df13302ce55dc1c06aafe59eee640b6d",
+  "rigSourceSha256": "1a215191767bb5f73a6575aa55758d3fd64657b4688139c048681259e41fbec6",
+  "videoSha256": "3c2479c824fe51fbf6f6bab97be5273b109b299820894b3d4233d32328e3b660",
+  "darkVideoSha256": "a7e5ab91a8cf13e2f5b75c6c8f8ecdc85eb0e247fb7bef3fdc00fc58e007172f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 151737,
+  "darkBytes": 128055,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T04:18:19.141Z"
+}

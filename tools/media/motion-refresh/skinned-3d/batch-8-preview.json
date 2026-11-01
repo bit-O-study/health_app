@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-11-01T12:00:40.597Z",
+  "finishedAt": "2026-11-01T12:01:15.102Z",
+  "concurrency": 3,
+  "results": [
+    {
+      "id": "barbell-overhead-press",
+      "pid": 13788,
+      "code": 0,
+      "elapsedMs": 25743
+    },
+    {
+      "id": "drag-curl",
+      "pid": 48184,
+      "code": 0,
+      "elapsedMs": 25921
+    },
+    {
+      "id": "behind-the-back-shrug",
+      "pid": 53196,
+      "code": 0,
+      "elapsedMs": 33340
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "reviewer": "Codex, final light/dark contact sheets and front/side pose sheets inspected",
+  "limits": "Local procedural demonstration review; physical device and production checks pending. Sampled body clearance is not exhaustive mesh collision certification.",
+  "trap-bar-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Standing-start Romanian deadlift with hip hinge and soft knees.",
+      "equipment": "Rigid hexagonal trap bar with two side handles and plates; visible in both themes.",
+      "setup": "Starts and ends standing within the frame; no floor pickup depicted.",
+      "hands": "Both side grips follow the bar; elbows remain 175 degrees and frame stays level.",
+      "feet": "Both feet remain planted through the hinge.",
+      "movement": "Hips move back and return smoothly; corrected rear frame clears sampled leg and torso vertices; loop error zero over 481 samples."
+    }
+  },
+  "trap-bar-calf-raise": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Bilateral calf raise on a step with trap bar.",
+      "equipment": "Rigid trap bar, two plates and step visible without cropping.",
+      "setup": "Forefeet on the step with heels free behind its rear edge.",
+      "hands": "Long arms hold side handles; elbows 175 degrees and grip width stable.",
+      "feet": "Forefoot support clearance zero over 481 samples; heels clear the rear edge.",
+      "movement": "Controlled rise, top pause and monotonic lowering; no upward heel rebound during descent; seamless loop."
+    }
+  },
+  "eccentric-calf-raise": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Supported bilateral calf raise emphasizing slow eccentric lowering.",
+      "equipment": "Step and stable support rail visible in light and dark renders.",
+      "setup": "Both forefeet supported, heels free, hands on rail and knees straight.",
+      "hands": "Hands remain fixed on rail within floating-point tolerance; elbows stay between 120 and 134 degrees.",
+      "feet": "Forefeet remain supported with zero clearance; heels descend below step top without entering the step.",
+      "movement": "1.6-second rise and 5.6-second controlled lowering; no descent rebound; loop error zero."
+    }
+  }
+}

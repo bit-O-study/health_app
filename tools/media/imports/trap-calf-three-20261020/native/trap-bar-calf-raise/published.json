@@ -1,0 +1,18 @@
+{
+  "id": "trap-bar-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3006389e72b523df957a5d4fd730b8de5f9424dbafe3aaab84b009b252ebcaed",
+  "rigSourceSha256": "89f82ca299fa1b0054c5392ab42d5e35b2f352b12025d8f9143f20c512b88abc",
+  "videoSha256": "9c2b2c698b7454ced35c252150f422c3df84b9ee95693fc7ecb027a61398884a",
+  "darkVideoSha256": "bd2153264b8a4acf2dc7d7f18edc943121f1c568d837e7b1d76c8cc8fab4c305",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 115345,
+  "darkBytes": 106051,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T14:49:07.220Z"
+}

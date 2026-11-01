@@ -1,0 +1,15 @@
+{
+  "id": "dumbbell-deadlift",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dumbbell-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://assets.crossfit.com/pdfs/seminars/Dumbbell_Training_Guide.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T05:02:17.631Z"
+}

@@ -1,0 +1,20 @@
+{
+  "side-lunge": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-side-lunge.html",
+    "criteria": "Two dumbbells at sides; lateral step, sit into the stepping hip while keeping the other leg extended; push back to standing. Demonstration repeats one side, then switch outside clip."
+  },
+  "kettlebell-lunge": {
+    "equipment": "kettlebell",
+    "url": "https://www.catalystathletics.com/exercise/354/Lunge/",
+    "criteria": "Two kettlebells at sides; forward step, controlled upright descent, push front foot back to starting stance. Knee approaches rather than touches floor; same-side demonstration."
+  },
+  "dumbbell-jump-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-jumping-squat.html",
+    "criteria": "Two dumbbells at sides; squat, extend into a small jump, land with knee and hip flexion, then stand. Slow illustrative playback, not a real-time exercise cadence."
+  },
+  "accessed": "2026-10-19",
+  "sourceKind": "Original procedural skinned demonstration; not copied footage.",
+  "limits": "Eight-second illustrative cycle, not individualized loading or physiological timing. Joint constraints and frame review do not certify exhaustive skin/garment collision. No actual-phone or production verification."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "14ef8c041372e41e2bb91553a02ea4453a2976974682499c23cde1b2b04a0641",
+  "rigSourceSha256": "7de448685d9b18334ed9830b60afbdddb6d83d707e7cb4e7638da01107a10a05",
+  "videoSha256": "dc1d7da3b804137412a1e91e44c4ebcbba42b86df91f507a3904622a9e2261e8",
+  "darkVideoSha256": "9b9450baeced22a8efb8f055e724d3ab885ab2d682b4d159e1031698c52f7f4a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 75726,
+  "darkBytes": 80252,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T14:49:15.617Z"
+}

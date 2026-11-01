@@ -1,0 +1,18 @@
+{
+  "id": "double-kettlebell-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d4f96f9b0bbec849dd59322f3f56f61e682935909df6fcd64e48af57c8864450",
+  "rigSourceSha256": "cad8151c7ae5c86384e0ee781c75b798ac54af0536ade50cc9493a84b90e51d1",
+  "videoSha256": "51aa8e9558f2ca43bcd5f3189b52616d63ee0a32c99f412a3337eddcdecb9230",
+  "darkVideoSha256": "80880ef372efd110ee60443d5966ff571d9f453686da7378542e73104e257408",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 124055,
+  "darkBytes": 115216,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T14:18:38.144Z"
+}

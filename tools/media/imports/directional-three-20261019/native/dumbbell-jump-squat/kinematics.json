@@ -1,0 +1,9 @@
+{
+  "samples": 481,
+  "loopPoseError": 0,
+  "groundAnkleDrift": 6.097388920386431e-15,
+  "jumpToeRise": 1.4999603364482654,
+  "symmetricRise": 0,
+  "landingKnee": 94.30540007030886,
+  "takeoffKnee": 161.90458188151615
+}

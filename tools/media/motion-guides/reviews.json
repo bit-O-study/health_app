@@ -7873,5 +7873,1263 @@
     "rigSourceSha256": "4c652989b2ff82a3fdca98f51862aebb886937a518556c47c1df60ec150c5601",
     "darkVideoSha256": "fe4623ad9a8e0424789bc41a3f8f5c2f723ee2e0ef93b00bc864a7626161c19e",
     "reviewedAt": "2026-10-14T13:42:45.063Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating high knee drive, distinct from running recovery or butt kicks; thigh reaches horizontal.",
+      "equipment": "Bodyweight only; no floor, mat or equipment rendered.",
+      "setup": "Upright trunk; front-oblique/side frames and final light/dark 32-frame sheets inspected.",
+      "hands": "Arms oppose raised knee, elbows near 90.41 degrees, hands beside torso.",
+      "feet": "Raised ankle remains under knee with forward foot orientation; alternating stance visible. No claim of force-plate-accurate contact.",
+      "movement": "481 samples: hip 0–90 and knee flexion 0–90 degrees, loop error 0. Whole-frame alpha and play/seek/loop passed for all three formats."
+    },
+    "note": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "high-knees",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.ucalgary.ca/shred-injuries/all-sports/physical-education/high-knees"
+    ],
+    "sourceSha256": "6d7fdd9e9664f2f4352134493dbc0c2a56aa54056bb17c0c65fa0bc4dad1a3cb",
+    "videoSha256": "43f6fe98bb906a8a76e197d209109c17790e94d4f48e9f18c6c2cb237c3230c3",
+    "rigSourceSha256": "158232493d947048ef0e9b147bffc27d935af27abd674d48a7f06d11e32d6926",
+    "darkVideoSha256": "9efbeef818780b4e6f884ae49eb40390039a573c9818d729a1bb7dbacc1c988a",
+    "reviewedAt": "2026-10-16T03:17:29.571Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating heels toward buttocks with vertical thighs; not high-knee drive.",
+      "equipment": "Bodyweight only; barefoot illustration without scenery.",
+      "setup": "Upright trunk and downward thighs; inspected front/side and both final 32-frame theme sheets.",
+      "hands": "Alternating shoulder swing with relaxed curled fingers; elbow angle near 90.41 degrees.",
+      "feet": "Ankle orientation follows shin to preserve bent ankle rather than pointed foot; heels approach without requiring buttock contact.",
+      "movement": "481 samples: thigh angle 0 degrees, knee flexion 0–135 degrees, loop error 0. Slow illustrative alternating version; alpha/decode/Edge play/seek/loop passed."
+    },
+    "note": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "butt-kicks",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.calgary.ca/content/dam/www/programs-services/parks-recreation/programs-lessons-and-day-camps/physical-literacy/physical-literacy-movement-preparation-guide-older-adult.pdf"
+    ],
+    "sourceSha256": "671e54637e31d5438259273e3d3d5cda7b1ffc0ac81ee2de55ef25bc9162eb57",
+    "videoSha256": "a323d99e167037248b2b99ed7895c444ac10ba4da1c4ad30b4a3e0ba785da8ff",
+    "rigSourceSha256": "57ba504bd843f8c957821afea85776f7796f58b653a234a5f9cc2cc49a9ed576",
+    "darkVideoSha256": "6c2920a2893a16646f63c6af3d8412de2de200081a014c048cebe0ba3b5017e3",
+    "reviewedAt": "2026-10-16T03:17:39.188Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Simultaneous outward feet and overhead arms, then inward feet and lowered arms.",
+      "equipment": "Bodyweight only with clear space around hands and feet.",
+      "setup": "Upright torso; camera widened after initial hand-edge clipping. Corrected final light/dark 32-frame sheets inspected.",
+      "hands": "Both wrists rise above model head; elbows remain slightly bent. Hands remain within all frame borders.",
+      "feet": "Bilateral stance span 2.3–7.1 model units with knees flexed 30–45 degrees; forward toes visible in front and side.",
+      "movement": "481 joint samples with loop error 0, all 192 alpha frame borders clear, full decode and three-format browser play/seek/loop passed."
+    },
+    "note": "Illustrative slow two-second movement cycle; not individual pace prescription or captured human biomechanics. Equipment-free and barefoot. No device verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "jumping-jack",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/jumping-jacks"
+    ],
+    "sourceSha256": "234b2981f8e7bb8c9f5d5ed442b331671792d03bec3f3ba76906327291c05aeb",
+    "videoSha256": "bd5704703bd16b8a88462408d636ad5f6b2124b1a69915d42fd7470b1be5f795",
+    "rigSourceSha256": "7c8c326a63ab832b9942df5ab44fe90b7cc1070e9b9936d1d3f47b67072b6100",
+    "darkVideoSha256": "cb784c1b4a5002226fd119c1b3b6cc86d024dffa432cc537c5fe547b52655260",
+    "reviewedAt": "2026-10-16T03:17:47.957Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating lateral step and return with both arms overhead, no jump. Distinct from bilateral jumping jack.",
+      "equipment": "Bodyweight only; true transparent WebM with theme MP4 copies, no floor or scenery.",
+      "setup": "Full-body front-oblique and side sheets inspected; reduced initial excessive step distance to reachable anatomy.",
+      "hands": "Both wrists rise above head; elbows softly extended and hands remain in frame.",
+      "feet": "One ankle fixed throughout each side's step, measured drift below 1e-6 model units. Moving foot lifts between center and outward placement.",
+      "movement": "Final light/dark 32-frame sheets inspected. 481 poses, seamless endpoint, alpha frame-border and browser play/seek/loop checks passed."
+    },
+    "note": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "step-jack",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/cardio/jumping-jack/step-jacks/"
+    ],
+    "sourceSha256": "94b20194ccf8263f1c0e6b0b506dfcefc77f4d6e34c8b35ddb905f8b1b9d2859",
+    "videoSha256": "2be99ba9a81d5ce108faa7a86e529836744cf5417035f91f25c531d94f0754e2",
+    "rigSourceSha256": "dc57f030740e1b5d2229d01ceee0a8c3ffcdf13c72fdc146b68b0c4e3e08eeb3",
+    "darkVideoSha256": "47dbc191c1f9366889c1ca2adb50f12a9233330b379bf15ed60e258f8fc71ccb",
+    "reviewedAt": "2026-10-16T03:41:00.656Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Outward jump, wide squat, rise and inward jump. Hands stay in front; deliberately not the alternate floor-touch variation.",
+      "equipment": "Bodyweight, no added load or equipment.",
+      "setup": "Upright torso and forward chest; front/side and final light/dark 32-frame sheets inspected.",
+      "hands": "Hands forward at chest level with bent elbows; no required floor contact.",
+      "feet": "Ankles fixed during planted wide-squat phase, drift below 1e-6. Travel occurs during hop phases; knee flexion reaches about97 degrees.",
+      "movement": "481 pose samples and separate flight/landing phases. All three files decode and browser play/seek/loop passed; no frame clipping."
+    },
+    "note": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "squat-jack",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/cardio/jumping-jack/squat-jacks/"
+    ],
+    "sourceSha256": "16d6f28ddf4bbc4284368a920b2189cf1f1692192140d5cb9c3aac9beb42cba6",
+    "videoSha256": "5c0ebf0d1d66a898d3234ecec57dbc979ab35041318f557e23479ab46762c78d",
+    "rigSourceSha256": "a24ac4cf160cc5f0af560d596c65bb9619aba50284abf0277809db93a62aa5e1",
+    "darkVideoSha256": "ecbbce4f87d23736cbeba696f65c28a837e0ec6cd12390bae8b2c267ec81b939",
+    "reviewedAt": "2026-10-16T03:41:06.563Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Rope-free alternating high knee drive plus vertical hop, distinguished from the previous high-knees demonstration.",
+      "equipment": "No skipping rope: explicitly documented bodyweight variation.",
+      "setup": "Upright torso, forward gaze; front/side and both final32 theme sheets inspected.",
+      "hands": "Opposite arm swings with raised knee; elbows near90 degrees.",
+      "feet": "Support ankle rises about0.95 model units in hop; raised thigh reaches horizontal with bent knee. Barefoot illustration, not force-plate contact measurement.",
+      "movement": "481 pose samples, loop endpoint error0. Alpha/decode and browser play/seek/loop passed, slow four-second teaching cycle."
+    },
+    "note": "Slow four-second cycle for demonstration, not a prescribed training cadence. Barefoot procedural character. No exhaustive cloth collision simulation or physical-phone verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "high-knee-skip",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/cardio/skipping/high-knee-skips/"
+    ],
+    "sourceSha256": "c47b955b15817d5f6cde9304244d3efdf2da1d2ae932e90b8cf3f69ab95413a9",
+    "videoSha256": "00fee1c190e42fb3f99e5cf3b26bc77b202bf6dd980c1a1d387f1d8b90b6668f",
+    "rigSourceSha256": "772ecc82c6b3934f19576635dbe7e465217cca80bc815fb4de51cf2725dfc8cd",
+    "darkVideoSha256": "1becf147a7ed8889b348d044ccb903731fe47386986bfb8bae026b1e554516b9",
+    "reviewedAt": "2026-10-16T03:41:13.300Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bodyweight squat: continuous descent, short bottom transition, controlled return.",
+      "equipment": "No external load. Register bodyweight only; barbell and machine variants excluded.",
+      "setup": "Final front/side and both encoded 32-frame sheets inspected. Soft standing knee bend after root-height correction.",
+      "hands": "Both arms forward, softly bent elbows; hands remain within frame.",
+      "feet": "Shoulder-width fixed ankles, slightly outward toes, no visible foot sliding in side sheet; 481-sample drift below 1e-6.",
+      "movement": "Hips travel backward/down toward parallel and return. Final light/dark sheets show clear full cycle without visible garment tearing. Not exhaustive continuous collision validation."
+    },
+    "note": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/quad-exercises/squats/bodyweight-squat/"
+    ],
+    "sourceSha256": "b54ef0a51b4555b1530de3359ff3f0497d86b658e9bbf9a127c94e4878f2f59b",
+    "videoSha256": "392c56f4325cf9f937b9d938a1e11542ec0dbc186dfe3a7d4d08044c40b66117",
+    "rigSourceSha256": "456e08007eb9acac57ec0e69f847cf1000d4cd674ded104b41eef8c37f4c44f8",
+    "darkVideoSha256": "e4fb734a559b3d001a5d55273bf988e70c57d05c045c2023825f187affd64aa7",
+    "reviewedAt": "2026-10-16T03:54:13.006Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bodyweight pulse squat; two bottom-range pulses between entry and exit.",
+      "equipment": "Bodyweight only; no weight or support omitted.",
+      "setup": "Final side sheet and both encoded 32-frame sheets inspected; stance matches ordinary squat.",
+      "hands": "Arms forward with softly bent elbows, no frame clipping.",
+      "feet": "Both ankles fixed across 481 samples; flat-foot orientation constant.",
+      "movement": "Middle four seconds stay low with two visible pulses; hip excursion .954 model units. Full rise occurs only on exit. No visible shorts openings in reviewed frames; not exhaustive collision validation."
+    },
+    "note": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "pulse-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/quad-exercises/squats/pulse-squats/"
+    ],
+    "sourceSha256": "b3d17a3987492fe46381a225f3f19aac687135a8aef5e239eb391c81d32a4950",
+    "videoSha256": "855798bc0fc2366d0ad5665a1e1708343850a8c75ab8baec64b9ad9fbd91a0c6",
+    "rigSourceSha256": "4e18567b2a3272df764ff0d3664ad3c3856b33db7ba657f42f339bd83077cb1d",
+    "darkVideoSha256": "6a1a4123b089ee93ae560a8ed5aacf053cc8a99c357b40a1fbcee338597f40da",
+    "reviewedAt": "2026-10-16T03:54:17.866Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Hip-width chair pose with overhead arms, moderate seated bend and static hold.",
+      "equipment": "Bodyweight yoga variant, no actual chair required.",
+      "setup": "Final side sheet and both encoded 32-frame sheets inspected; heels and fingertips remain in frame.",
+      "hands": "Arms lift overhead without hand-head overlap, then lower on exit.",
+      "feet": "Hip-width fixed ankles, constant foot orientation; no hopping or visible sliding.",
+      "movement": "Entry two seconds, steady hold four seconds, exit two seconds; measured joint drift zero during hold. Illustrated hold does not prescribe a training duration."
+    },
+    "note": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "chair-pose",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.learnyoga.net/poses/chair-pose/"
+    ],
+    "sourceSha256": "c5de39137a7e0906e98b2d6fb2454c93c385d6077ddee67c41bee6c218905280",
+    "videoSha256": "7f32b6c291709ae2bc1a12836974302d80cd3db5a82e52b24ffc46e404bc3b7c",
+    "rigSourceSha256": "990f52567bd93109f1dc7e7bb44acd8a82bca7421b8810db738ba5f895e4ec2e",
+    "darkVideoSha256": "ef4921947aa7f7cd68636b2025c034a60815b93257cb6d399806c7fc6399b642",
+    "reviewedAt": "2026-10-16T03:54:22.570Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Left forward lunge, returning to the same standing position; not a walking lunge.",
+      "equipment": "Bodyweight only; equipment filter excludes dumbbell variation.",
+      "setup": "Both final 32-frame theme sheets and front/side 8-frame sheets inspected; upright torso and parallel foot tracks.",
+      "hands": "Bent arms held in front for balance, hands separate from torso and entirely in frame.",
+      "feet": "Front ankle fixed during lowered stance; rear second-toe base fixed. Heel rises around toe anchor, toes counter-rotate. No visible foot sliding in reviewed stance frames.",
+      "movement": "Clear forward step, lower and return. Rear knee hovers. Shorts silhouette intact in inspected views; continuous cloth collision not certified."
+    },
+    "note": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "lunge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/bodyweight-lunge.html"
+    ],
+    "sourceSha256": "af01ad927bce686fac9f9d59d61994152da8df8dcec1d9392f6d595fff80dc0e",
+    "videoSha256": "01d460de38ac16ea0eae4f4649c887643a1e72a0b9aef998c81196af14b4c285",
+    "rigSourceSha256": "5db3933764a79c84f9a46b2c7dc3014d3cd4053c0295f3f3ab910b9dcbadadee",
+    "darkVideoSha256": "6fc8ac3c6f35aaeab0cee2caaf72991184b03f9e3a5f6145c6e78bca2ec4b853",
+    "reviewedAt": "2026-10-16T04:05:02.153Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Fixed split stance with two small lower-range pulses, then return to raised split stance.",
+      "equipment": "Bodyweight only; arms in front are a balance variation of source hands-on-hips placement.",
+      "setup": "Front/side 8-frame sheets and final light/dark 32-frame sheets inspected; feet stay apart throughout.",
+      "hands": "Both hands forward, no props or hand-body intersection visible in inspected frames.",
+      "feet": "Both support anchors remain fixed across all481 poses; rear heel stays raised.",
+      "movement": "Middle pulses have .486 model-unit hip excursion; no standing between pulses, no foot reposition. One side shown; app instructs switching sides."
+    },
+    "note": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "pulse-lunge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.masterclass.com/articles/lunge-pulses-exercise-guide"
+    ],
+    "sourceSha256": "a3fa9b066bd259c2c7b5591e3ef75e5cb92c06d77cd8674f7133edbd65bdda61",
+    "videoSha256": "34efddaf5a4d082df90a15daea2a3017f02a21dcda2ed6920f63026f0ee2000d",
+    "rigSourceSha256": "040f97264752aa9fc901726daa4126814d472e154f76e805ae7aa3b60f3c6514",
+    "darkVideoSha256": "5d9bacd0af1255c3095f4f7b878a43b4a55ec8ba9c80fd6dd12222847c913ab0",
+    "reviewedAt": "2026-10-16T04:05:07.039Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Right leg steps backward and returns while left foot remains the front support.",
+      "equipment": "Two visible hex dumbbells held beside body; dumbbell-only registration.",
+      "setup": "Front/side 8-frame sheets and final light/dark 32-frame sheets inspected, plus full-size bottom grip view.",
+      "hands": "Hands wrap the handles, arms stay beside body, no visible dropped or detached weight; dumbbells remain clear of floor.",
+      "feet": "Front foot remains fixed; moving rear foot lifts during transfer and anchors toes during the lowered stance.",
+      "movement": "Backward step distinguishes it from forward lunge. Rear knee remains above floor. No visible garment tear in reviewed frames; one side only, continuous triangle collision not certified."
+    },
+    "note": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "reverse-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-rear-lunge.html"
+    ],
+    "sourceSha256": "b37fb3dc3ace22e1148893dd1673d405b24468782e1ceda1753347dc5bf8b511",
+    "videoSha256": "f6f9b5ca5d46125b0940dffdddb4aa9bdef7dfd6f95d1d8e2b5fb3c7852fd471",
+    "rigSourceSha256": "e0a8994be442173421df2293bdf9435ce51eed823b27d52d4b4867e755f1a505",
+    "darkVideoSha256": "09686bfbd84216f0205c15adbe59733f5721b70ca1000cf2a0c50cc21ab300ea",
+    "reviewedAt": "2026-10-16T04:05:11.824Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "split-squat",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Fixed split stance through full cycle.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    },
+    "note": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "split-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-split-squat"
+    ],
+    "sourceSha256": "9e0a4ce0ada5e016be519fe30459c78e7b378e4ebe499d5b76a86732ed4e6bf7",
+    "videoSha256": "786cc76fa5fe3f32a7c48b6e3dc0d4550d65e28f83d7c7e121ccb1824c46a599",
+    "rigSourceSha256": "1ceae15cd2c1e6eabd5c2463dae145ef4556d6390cde98f48ba2cb534e7896a5",
+    "darkVideoSha256": "839fef0bf7d361ea147e9c53569dd10dd7fa784247aa11c72511ce8b91ac414b",
+    "reviewedAt": "2026-10-19T10:32:58.703Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "front-foot-elevated-split-squat",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Fixed split stance through full cycle.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    },
+    "note": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "front-foot-elevated-split-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/front-foot-elevated-dumbbell-split-squat/"
+    ],
+    "sourceSha256": "33a565f994de709b4ceccf9b87749d873ba59c5eab1786131fc7b7e289fe582e",
+    "videoSha256": "81151fe7e13216da31eb22e7dec8e7618a0800c74c7d55b489eaa0f779663597",
+    "rigSourceSha256": "d9b3290ca9223040bf5ae2ba936a59946aab7dded2e90f3342ac8bdf5dc44586",
+    "darkVideoSha256": "b8136435f3a02d40f82b75df19d2fb17e1079826470a6dfbb20e3b909e0efaed",
+    "reviewedAt": "2026-10-19T10:33:13.577Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "deficit-reverse-lunge",
+      "equipment": "Two neutral-grip dumbbells at sides; low platform only for elevated variants.",
+      "setup": "Both feet start and end on platform.",
+      "hands": "Both dumbbells remain held alongside hips; straight arms with soft elbows.",
+      "feet": "Front sole remains planted; rear toe contact fixed during loaded descent. Deficit foot returns onto platform.",
+      "movement": "Front/side source panels and encoded dark contact sheet inspected; controlled knee flexion, intact shorts, seamless loop. No exhaustive triangle collision certification."
+    },
+    "note": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation.",
+    "id": "deficit-reverse-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://fitwill.app/exercise/7326/dumbbell-reverse-lunge-from-deficit/"
+    ],
+    "sourceSha256": "b594fcb9e36d2db591d56e49f3f58146df3beaff10818886ba848db2942f3c35",
+    "videoSha256": "3e84e695375051e3ee1685743fb715419b68f751fe4c8b99cfd11e0b91e2df6a",
+    "rigSourceSha256": "a536764a1aefb81f45f349b21f643d4982d12356173be362fa3cdde1adaff006",
+    "darkVideoSha256": "599af270bcec90b9a954de2574fd10a270871516374432b0b3a185747036a80d",
+    "reviewedAt": "2026-10-19T10:33:24.145Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "dumbbell-squat",
+      "equipment": "Two dumbbells held at sides.",
+      "setup": "Shoulder-width planted stance.",
+      "hands": "Handles remain in both hands alongside hips in inspected front, side, light and dark sheets.",
+      "feet": "Both soles remain planted; numerical drift below 1e-6.",
+      "movement": "Controlled descent and ascent visible; no clipping at frame edges. All three encoded variants pass playback, seek and loop checks."
+    },
+    "note": "Eight-second illustrative cycle. No individualized load, clinical prescription or exhaustive continuous triangle collision certification. Device verification not performed.",
+    "id": "dumbbell-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-squat.html"
+    ],
+    "sourceSha256": "16a00f74649f4862613524e02134df24d106a1ec4c98b3fc148f6d816c88adb5",
+    "videoSha256": "a6dc360cb607f53eaf2d136686c70e51942ae16e733436db8d37261a9944e78f",
+    "rigSourceSha256": "672744014648aa251fcd91c5c4a3ed0f669d08dd678f9f6b8e47b0f1eb3eb013",
+    "darkVideoSha256": "46aee997cc8a7f8f5198841936ab8b5641d5c877a5aded6ec685d714df0f9ed9",
+    "reviewedAt": "2026-10-19T12:05:15.545Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "kettlebell-reverse-lunge",
+      "equipment": "Two suitcase-held kettlebells.",
+      "setup": "Standing start, rear step and return.",
+      "hands": "Handles remain in both hands alongside hips in inspected front, side, light and dark sheets.",
+      "feet": "Front foot planted; rear toe contact stays fixed during loaded stance, then returns.",
+      "movement": "Controlled descent and ascent visible; no clipping at frame edges. All three encoded variants pass playback, seek and loop checks."
+    },
+    "note": "Eight-second illustrative cycle. No individualized load, clinical prescription or exhaustive continuous triangle collision certification. Device verification not performed.",
+    "id": "kettlebell-reverse-lunge",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/735/Reverse-Lunge/"
+    ],
+    "sourceSha256": "e382c0ebf2cab3d5e46d6c77a92060609606ceff09b614ad391fe64fd235ee67",
+    "videoSha256": "4f65f469ab00ed80db7253d5116d834a68f706c062f0f13113e1f68622c49f3b",
+    "rigSourceSha256": "32a63d4ada1cc576fcde3feb60eddd322d078b36f0637ef97fcf92c391d6b6b9",
+    "darkVideoSha256": "03930f3d412435818be900f1533a0539f08af6e727cfd75d5a73a44223d739f2",
+    "reviewedAt": "2026-10-19T12:05:32.109Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "1-5-rep-lunge",
+      "equipment": "Two dumbbells held at sides.",
+      "setup": "Standing start, rear step and return.",
+      "hands": "Handles remain in both hands alongside hips in inspected front, side, light and dark sheets.",
+      "feet": "Front foot planted; rear toe contact stays fixed during loaded stance, then returns.",
+      "movement": "Full descent, three-quarter rise, second descent, full stand and foot return are visible."
+    },
+    "note": "Source metadata includes the supporting dumbbell loading reference; rendered assets and reviewed movement are unchanged. No physical-device or exhaustive collision certification.",
+    "id": "1-5-rep-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.nourishmovelove.com/splitstrong-35-unilateral-legs/",
+      "https://www.catalystathletics.com/exercise/735/Reverse-Lunge/"
+    ],
+    "sourceSha256": "3d4e4ee9153962073a3826381fdf982cf5dc6cac6a70db0ff07c8da40cb325fb",
+    "videoSha256": "57ff824e6b13af541a526a5adce9b0773f26c6f021693ad112719c7760ce361d",
+    "rigSourceSha256": "17d336b994e71812e20675945f25b294b391f0d5bada6dcdb644d066c29019c4",
+    "darkVideoSha256": "65641076d2725bc47b2e65e1556201e5b3741392299aa0a711a9c681c05b1e13",
+    "reviewedAt": "2026-10-19T12:09:20.254Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Lateral stepping lunge with return, demonstrated on one side.",
+      "equipment": "Two dumbbells visible, held at sides throughout.",
+      "setup": "Standing start and end. Foot steps laterally, trunk inclines slightly into the hip.",
+      "hands": "Front and side sheets and enlarged bottom frame show continuous handle grip alongside legs.",
+      "feet": "Support ankle and loaded ankle drift below 7e-15; trailing knee 171 degrees, loaded knee 89 degrees at bottom.",
+      "movement": "Front/side eight-panel sheets and both encoded 32-frame theme sheets inspected. Clear lateral travel and return, intact garment at inspected bottom frame, no edge clipping. Not exhaustive triangle collision certification."
+    },
+    "note": "Eight-second illustrative cycle, not individualized loading or physiological timing. Joint constraints and frame review do not certify exhaustive skin/garment collision. No actual-phone or production verification.",
+    "id": "side-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-side-lunge.html"
+    ],
+    "sourceSha256": "91452545efc257d3cfa0265ca0d3199a0a660d36b3d8a9d637647aaa74bdf17e",
+    "videoSha256": "8f4de8cabd4a0ac7845592f9d404fc973e52875e3514218bc626c11499efe3db",
+    "rigSourceSha256": "8ab58af17c05f71ad0b7f6132ee1ad91ecd1f501b9d7b5eceb0ae3116d8b13b7",
+    "darkVideoSha256": "21d7b98afa685c485a1d46c03e9402ca6867b4d86d654bb4a5e82358d90bd354",
+    "reviewedAt": "2026-10-19T12:24:05.119Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Squat, takeoff, brief flight, flexed landing, and recovery.",
+      "equipment": "Two side-held dumbbells remain attached to hands during flight.",
+      "setup": "Shoulder-width feet, slow illustrative cycle with visible recovery before repeating.",
+      "hands": "Front and side sheets show arms kept at sides and handles retained.",
+      "feet": "Both feet rise symmetrically; toe rise 1.5 model units. Ground ankle drift below 7e-15 outside foot roll and flight.",
+      "movement": "Both final encoded theme sheets and front/side sheets inspected. Landing knee bends from 162 to 94 degrees. No edge clipping; slow illustration does not prescribe real jump timing."
+    },
+    "note": "Eight-second illustrative cycle, not individualized loading or physiological timing. Joint constraints and frame review do not certify exhaustive skin/garment collision. No actual-phone or production verification.",
+    "id": "dumbbell-jump-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-jumping-squat.html"
+    ],
+    "sourceSha256": "9f4992e12b8cd320619a25a6c1d39933771c6dbd5c2ce7a1a403876fcc272bac",
+    "videoSha256": "212f6f1fd09cfab15f021af2f5958d864e370231046ab0934299a9014e3405a1",
+    "rigSourceSha256": "282ad2ca5b058a9436422bd922872f5ef433fc094b450381d0e4734f3892acb8",
+    "darkVideoSha256": "133cb837acf76c62312f9fa0792c5f7a8ae9f6b6be2d77d70f9d2dea86909f3f",
+    "reviewedAt": "2026-10-19T12:24:12.633Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Forward lunge returning the stepping foot to the start.",
+      "equipment": "Two suitcase-held kettlebells with visible bodies and handles.",
+      "setup": "Standing start, upright trunk, forward step then controlled descent.",
+      "hands": "Front and side sheets show consistent grips and downward hanging bells.",
+      "feet": "Forward foot travels 8.3 model units. Rear toe and loaded front ankle drift below 7e-15; rear knee remains above floor reference.",
+      "movement": "Both encoded theme sheets plus front/side sheets inspected; no cropped limbs or missing equipment. Same-side demonstration with side-switch cue in app. Not physical-device or clinical certification."
+    },
+    "note": "Eight-second illustrative cycle, not individualized loading or physiological timing. Joint constraints and frame review do not certify exhaustive skin/garment collision. No actual-phone or production verification.",
+    "id": "kettlebell-lunge",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/354/Lunge/"
+    ],
+    "sourceSha256": "fbe5fcb089bc83cdc77e67bd53c8487d6d03d50170ca0fff4a335ab245e02961",
+    "videoSha256": "cb2a1348e939acb4644730c2f8ca595fa64316ece3c5a3c45b04d73169e910f6",
+    "rigSourceSha256": "1548f3cf86cfc29f50ea055cb6bfcda963cbce221b2b2169f275b64f70cd1f4a",
+    "darkVideoSha256": "c184b79309ccbd4473dcfb9a23102ddda3c97619d6003c7eb454245eb140f9af",
+    "reviewedAt": "2026-10-19T12:24:19.966Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral dumbbell hip hinge with soft knees.",
+      "equipment": "Two dumbbells remain visible throughout the cycle.",
+      "setup": "Hip-width planted feet, neutral trunk, hips move backward.",
+      "hands": "Both handles remain held; front and side sheets show weights alongside the legs.",
+      "feet": "Both ankle drifts below 6e-15 over 481 samples; working knee remains 155 degrees.",
+      "movement": "Front/side eight-panel and final light/dark 32-frame sheets inspected. Controlled hinge and upright return, intact shorts, no frame-edge clipping. Not exhaustive collision certification."
+    },
+    "note": "Eight-second slow illustration. No individualized load or range prescription. Joint checks and sampled visual inspection do not certify exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "dumbbell-romanian-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/dumbbell-romanian-deadlift"
+    ],
+    "sourceSha256": "a6e1581c8b0368d5731a4e811c7ce399db43dc02286669004e3d71e9d1dc789e",
+    "videoSha256": "ee2abe4f4f8bb11fc1e1e93f594763b5e2b2b69842fd7626b323de1b9a88b2be",
+    "rigSourceSha256": "f696b59836f36bce959f8361b766bfb31d29416997d4da4ab9a0c84ad35c9257",
+    "darkVideoSha256": "e77aebf749233f6d1c63b98718f891f2993da78b87f1a103d2792421c5ceb762",
+    "reviewedAt": "2026-10-19T12:34:17.808Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Dumbbell hinge with nearly straight, unlocked knees.",
+      "equipment": "Two dumbbells with visible handles and plates.",
+      "setup": "Both feet planted; small knee bend preserved instead of locking.",
+      "hands": "Grips remain consistent in front and side sheets and both encoded themes.",
+      "feet": "Both ankle drifts below 8e-15; working knee remains 170 degrees.",
+      "movement": "Final light/dark 32-frame and front/side sheets inspected. Straighter legs distinguish this variant from RDL; weights remain above floor. No observed clipping in inspected frames."
+    },
+    "note": "Eight-second slow illustration. No individualized load or range prescription. Joint checks and sampled visual inspection do not certify exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "dumbbell-stiff-leg-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-stiff-leg-deadlift.html"
+    ],
+    "sourceSha256": "6790b90e16a34ff34661129736ad29752573163e090d7da2b51f8b353314ce54",
+    "videoSha256": "30c42cb8861499a15a2b23db4f1c9a469a45aefd7fe8c71619c0f45b446afc80",
+    "rigSourceSha256": "a0987868ec5cc2c563a139ebaa2cdf5b54dbd8c9d867133dd617a4550546dee9",
+    "darkVideoSha256": "005c5aa670768a2180c96562e9d8945177475bdd62c172fdfb0ab155f4037f47",
+    "reviewedAt": "2026-10-19T12:34:25.886Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Dumbbell kickstand hinge with rear toe support.",
+      "equipment": "Two dumbbells; no unsupported rear-leg flight.",
+      "setup": "Rear foot staggered with raised heel, torso facing forward.",
+      "hands": "Front/side and final light/dark sheets show both weights retained near legs.",
+      "feet": "Front ankle and rear toe drift below 1e-14; rear ankle lift .76 model units, stagger 1.69, front knee 155 degrees.",
+      "movement": "Both final theme sheets and front/side sheets inspected. Rear toe remains supported during hinge and recovery; app cues explain switching sides. No physical-device validation."
+    },
+    "note": "Eight-second slow illustration. No individualized load or range prescription. Joint checks and sampled visual inspection do not certify exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "b-stance-romanian-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.onnit.com/blogs/the-edge/how-to-do-b-stance-romanian-deadlifts-rdls-like-a-pro"
+    ],
+    "sourceSha256": "8fd4d1ffe4ddbecd6ff4a0dd528bd6764e6a6404919e43e13aa4fee610474b60",
+    "videoSha256": "fbd93d7bbd1ce8bc514df7a119b3cfa418f6f548720f7aad06aaf04d60d5105c",
+    "rigSourceSha256": "cc44b59e1e2c1e48789f57f4c421b21b606a71da970dd28815dbe02b413333d3",
+    "darkVideoSha256": "01285f6e63b5c9ee4e2c5e36017ab9b910849d8b7e292325c0c72213c4714b57",
+    "reviewedAt": "2026-10-19T12:34:33.083Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Front/side eight-pose sheets and both final 32-frame sheets inspected: single-leg hinge and controlled return visible.",
+      "equipment": "Two distinct dumbbells remain attached at the palms throughout the sampled poses.",
+      "setup": "Starts balancing on the left leg with the other foot hovering; torso remains neutral.",
+      "hands": "Both overhand grips remain aligned with the handles; slightly bent arms hang down.",
+      "feet": "Support foot stays fixed; opposite foot travels backward in the air.",
+      "movement": "Rear leg and trunk move together; no visible frame clipping in either theme; exact sampled loop checked separately. Side switch is described in the app."
+    },
+    "note": "Eight-second slow illustration. Sampled visual inspection and joint checks do not certify biomechanical accuracy or exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "single-leg-romanian-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/single-leg-romanian-deadlift-dumbbells/"
+    ],
+    "sourceSha256": "090d3a7d1d1b4e2dfa1bcc82f99c4dd9bdc8819b9a4c9f20a9f6484470e89c12",
+    "videoSha256": "26bcea687b186fe35b8af641c2ec0424116e88899b406f034fd8ea1797b0bcb3",
+    "rigSourceSha256": "b9b06ac423cad90150d35562fdbd1fc64bb13ca71d32d85bed46dd26894813ca",
+    "darkVideoSha256": "df081c3ab538d725b2952a3b372053eebff7c914a091eaa7b3a2db856c09aff2",
+    "reviewedAt": "2026-10-20T09:17:55.455Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Front/side and final light/dark contact sheets inspected: double-kettlebell single-leg hinge.",
+      "equipment": "One kettlebell in each hand; bell bodies hang below the handles and stay above the support-foot level.",
+      "setup": "The app explicitly labels this as the two-kettlebell variation.",
+      "hands": "Neutral grips stay on the handles throughout the sampled descent and return.",
+      "feet": "Left foot stays fixed while right foot stays airborne and extends backward.",
+      "movement": "Hip hinge and controlled reversal visible with level pelvis; silhouettes fit both final themes. Physical-device validation remains pending."
+    },
+    "note": "Eight-second slow illustration. Sampled visual inspection and joint checks do not certify biomechanical accuracy or exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "kettlebell-single-leg-deadlift",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/double-kettlebell-single-leg-deadlift"
+    ],
+    "sourceSha256": "6a511da9ddc59dc8343bc444229a827e06566e63f251c8cd1c7e4c28c54f9dea",
+    "videoSha256": "b53d9dec4d47c57a970c776150226244e0a5d0e44f22d9ee1467ba9ec85191ef",
+    "rigSourceSha256": "dfa77e2b68ab362eec5416c3658c7ab3507615f0e52953f0fac047602e8ec499",
+    "darkVideoSha256": "972c245bb681094bd1c5eb6abd56d7baa84fbb600c4ed2562d69a6f846202326",
+    "reviewedAt": "2026-10-20T09:18:06.261Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Front/side sheets, enlarged bottom pose and both final theme sheets inspected: single-leg barbell RDL.",
+      "equipment": "One continuous horizontal shaft with two end plates, held by both hands.",
+      "setup": "Standing top position with double overhand grip and one foot hovering; lift from floor is outside this loop.",
+      "hands": "Both palms align with the shaft. All 481 pose samples also confirm grip-axis and height/depth alignment.",
+      "feet": "Support foot remains stationary; rear foot stays airborne during hinge and return.",
+      "movement": "Bar stays close to the legs with no visible contact-sheet clipping; neutral trunk, soft support knee and controlled return."
+    },
+    "note": "Eight-second slow illustration. Sampled visual inspection and joint checks do not certify biomechanical accuracy or exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "barbell-single-leg-romanian-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/single-leg-barbell-romanian-deadlift"
+    ],
+    "sourceSha256": "1753e037092e22965ec11103f829de190dccc0d70a43a142f32c10ee3fe5f833",
+    "videoSha256": "ac6de4940fc2c63119024accead83d39f2646428b7492cb6bcfd87f813953577",
+    "rigSourceSha256": "2715a6243a939b541d169eb21d2c0a4c700e74835ea8fe06b22d84247f1489ce",
+    "darkVideoSha256": "a02e7918b25c0fbd39efdf8d2228c99e502286280c806aac33f8e396f819e2d1",
+    "reviewedAt": "2026-10-20T09:18:18.618Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral hip hinge with soft knees; two kettlebells match the exact catalog equipment.",
+      "equipment": "Two distinct bells with rigid bodies and handles retained throughout light and dark views.",
+      "setup": "Standing start, hip-width feet and straight neutral trunk, no squat-depth lowering.",
+      "hands": "Each hand remains attached to its handle; no grip switching or disappearing equipment in sampled frames.",
+      "feet": "Both feet remain planted; 481-sample ankle drift below 6e-15 model units.",
+      "movement": "Hips travel back and return; knee inner angle remains 155 degrees, full 8-second loop and all alpha edges checked. Final 32-frame sheets show continuous silhouettes."
+    },
+    "note": "Eight-second slow illustration. Sampled joints and visual frames do not certify biomechanics or exhaustive garment/skin collision. Stiff-leg uses standing start and stops above floor, as the source permits rack starts. Physical phone and deployment unverified.",
+    "id": "double-kettlebell-romanian-deadlift",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://wyron-bell.com/lexicon/double-romanian-deadlift"
+    ],
+    "sourceSha256": "d4f96f9b0bbec849dd59322f3f56f61e682935909df6fcd64e48af57c8864450",
+    "videoSha256": "51aa8e9558f2ca43bcd5f3189b52616d63ee0a32c99f412a3337eddcdecb9230",
+    "rigSourceSha256": "cad8151c7ae5c86384e0ee781c75b798ac54af0536ade50cc9493a84b90e51d1",
+    "darkVideoSha256": "80880ef372efd110ee60443d5966ff571d9f453686da7378542e73104e257408",
+    "reviewedAt": "2026-10-20T14:18:38.174Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Barbell stiff-leg standing-start variant, with a smaller fixed knee bend than the RDL.",
+      "equipment": "One straight barbell and two plates, retained across sampled frames and both themes.",
+      "setup": "Standing start and stopping above the floor are explicit in source metadata and app instructions.",
+      "hands": "Double overhand grip with both hand anchors aligned on the bar; 481-sample misalignment zero.",
+      "feet": "Both feet planted; maximum ankle drift below 8e-15 model units.",
+      "movement": "Hip hinge with 170-degree knee inner angle, neutral-looking trunk, controlled return and loop. Full/side and final light/dark sheets inspected."
+    },
+    "note": "Eight-second slow illustration. Sampled joints and visual frames do not certify biomechanics or exhaustive garment/skin collision. Stiff-leg uses standing start and stops above floor, as the source permits rack starts. Physical phone and deployment unverified.",
+    "id": "stiff-leg-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/stiff-leg-deadlift-aka-romanian-deadlift.html"
+    ],
+    "sourceSha256": "f45578cf81d6d725dfaacc305b167d1d2417f10ea817edcc95726ca20c2b33de",
+    "videoSha256": "ee60bf77d5a66a4a8d376e2282d0b1955dc604fe79d4c79c80350fc7f990b7ac",
+    "rigSourceSha256": "5ecf7b2263c923ba098d8026ac14edf9060be85a4ed899db1f907e06b4fb1fe5",
+    "darkVideoSha256": "7d102eaefd15acfe480e2b2522f06bb1e0216f878e1858c6101b4911e096f810",
+    "reviewedAt": "2026-10-20T14:18:46.028Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Catalog barbell single-leg hip hinge matches the source movement.",
+      "equipment": "One barbell; no bodyweight or dumbbell substitution.",
+      "setup": "Start standing on left leg with right foot airborne; swap sides after repetitions.",
+      "hands": "Double overhand grip, fixed bar held by both hands throughout.",
+      "feet": "Left support stays planted; right leg travels behind without touching down.",
+      "movement": "Re-inspected front/side and 32-frame light/dark sheets; neutral trunk hinge and controlled loop. Fresh alpha and browser verification passed."
+    },
+    "note": "Both catalog IDs use a barbell, single support leg, airborne rear leg and controlled neutral-spine hip hinge. Exact reuse of reviewed barbell single-leg RDL; not a newly generated motion. Eight-second slow illustration. Sampled visual inspection and joint checks do not certify biomechanical accuracy or exhaustive skin/garment collisions. Physical phone and production deployment unverified.",
+    "id": "single-leg-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/single-leg-barbell-romanian-deadlift"
+    ],
+    "sourceSha256": "1753e037092e22965ec11103f829de190dccc0d70a43a142f32c10ee3fe5f833",
+    "videoSha256": "ac6de4940fc2c63119024accead83d39f2646428b7492cb6bcfd87f813953577",
+    "rigSourceSha256": "04c770539e7257cb6ebab91e2ded5b9bdead3d6e9bcc1685852f787ffb2064c5",
+    "darkVideoSha256": "a02e7918b25c0fbd39efdf8d2228c99e502286280c806aac33f8e396f819e2d1",
+    "reviewedAt": "2026-10-20T14:19:03.854Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing-start Romanian deadlift with hip hinge and soft knees.",
+      "equipment": "Rigid hexagonal trap bar with two side handles and plates; visible in both themes.",
+      "setup": "Starts and ends standing within the frame; no floor pickup depicted.",
+      "hands": "Both side grips follow the bar; elbows remain 175 degrees and frame stays level.",
+      "feet": "Both feet remain planted through the hinge.",
+      "movement": "Hips move back and return smoothly; corrected rear frame clears sampled leg and torso vertices; loop error zero over 481 samples."
+    },
+    "note": "Slow 8-second illustration. Equipment pickup and setdown are omitted. Joint sampling and visual review are not exhaustive biomechanical or skin/garment collision certification. Physical device and deployment unverified.",
+    "id": "trap-bar-romanian-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://thatfitfriend.com/trap-bar-romanian-deadlift-guide/"
+    ],
+    "sourceSha256": "1f465e7943d90a85a125001bf9d77569c3083f76107b6dec5d52ca675a4385b7",
+    "videoSha256": "4d5903023275edc3de045159cd7fca798668910c5d86c322bb708b31a40f347c",
+    "rigSourceSha256": "164a9049b2000c94a6d7ddf7b65732ae7e09305ba5968e1fa9feb1203c600e64",
+    "darkVideoSha256": "9b6dfb021a434ca20472355beb8e2be44f25e355be6395f97985548ba97704b0",
+    "reviewedAt": "2026-10-20T14:48:58.839Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral calf raise on a step with trap bar.",
+      "equipment": "Rigid trap bar, two plates and step visible without cropping.",
+      "setup": "Forefeet on the step with heels free behind its rear edge.",
+      "hands": "Long arms hold side handles; elbows 175 degrees and grip width stable.",
+      "feet": "Forefoot support clearance zero over 481 samples; heels clear the rear edge.",
+      "movement": "Controlled rise, top pause and monotonic lowering; no upward heel rebound during descent; seamless loop."
+    },
+    "note": "Slow 8-second illustration. Equipment pickup and setdown are omitted. Joint sampling and visual review are not exhaustive biomechanical or skin/garment collision certification. Physical device and deployment unverified.",
+    "id": "trap-bar-calf-raise",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://app.zulta.app/en/exercises/trap-bar-calf-raise/"
+    ],
+    "sourceSha256": "3006389e72b523df957a5d4fd730b8de5f9424dbafe3aaab84b009b252ebcaed",
+    "videoSha256": "9c2b2c698b7454ced35c252150f422c3df84b9ee95693fc7ecb027a61398884a",
+    "rigSourceSha256": "89f82ca299fa1b0054c5392ab42d5e35b2f352b12025d8f9143f20c512b88abc",
+    "darkVideoSha256": "bd2153264b8a4acf2dc7d7f18edc943121f1c568d837e7b1d76c8cc8fab4c305",
+    "reviewedAt": "2026-10-20T14:49:07.232Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Supported bilateral calf raise emphasizing slow eccentric lowering.",
+      "equipment": "Step and stable support rail visible in light and dark renders.",
+      "setup": "Both forefeet supported, heels free, hands on rail and knees straight.",
+      "hands": "Hands remain fixed on rail within floating-point tolerance; elbows stay between 120 and 134 degrees.",
+      "feet": "Forefeet remain supported with zero clearance; heels descend below step top without entering the step.",
+      "movement": "1.6-second rise and 5.6-second controlled lowering; no descent rebound; loop error zero."
+    },
+    "note": "Slow 8-second illustration. Equipment pickup and setdown are omitted. Joint sampling and visual review are not exhaustive biomechanical or skin/garment collision certification. Physical device and deployment unverified.",
+    "id": "eccentric-calf-raise",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.southtees.nhs.uk/resources/eccentric-calf-exercises/"
+    ],
+    "sourceSha256": "14ef8c041372e41e2bb91553a02ea4453a2976974682499c23cde1b2b04a0641",
+    "videoSha256": "dc1d7da3b804137412a1e91e44c4ebcbba42b86df91f507a3904622a9e2261e8",
+    "rigSourceSha256": "7de448685d9b18334ed9830b60afbdddb6d83d707e7cb4e7638da01107a10a05",
+    "darkVideoSha256": "9b9450baeced22a8efb8f055e724d3ab885ab2d682b4d159e1031698c52f7f4a",
+    "reviewedAt": "2026-10-20T14:49:15.637Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Floor-start barbell deadlift with a distinct ascent pause below knees.",
+      "equipment": "One rigid barbell with two equal round plates; full equipment visible in both themes.",
+      "setup": "Hip-width stance, hips above knees, both plates start at sole height.",
+      "hands": "Overhand grips outside legs aligned to shaft; elbows remain approximately 175.6 to 175.8 degrees.",
+      "feet": "Both feet remain planted; measured drift below 1.1e-14.",
+      "movement": "1.6-second pause holds bar 1.22 model units below knee with zero grip drift; resumes ascent and returns without bounce; corrected thigh clearance minimum 0.424."
+    },
+    "note": "Original procedural demonstration, not recorded human motion. Tempo choices illustrate variants; no individual loading prescription. Physical phone and production unverified.",
+    "id": "pause-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+      "https://www.catalystathletics.com/exercise/324/Clean-Segment-Deadlift/"
+    ],
+    "sourceSha256": "df99bb0f7d0362e34fe10ea1941e7d40f556af9eb9bce10c27dc2ca849f20814",
+    "videoSha256": "1b1dd962032322e58da79dcca66fb7dbf4d73f0e687de74d1513cddadd3de817",
+    "rigSourceSha256": "a9f2f270a791b24b60e82527e188eba09e546d9f5bf4d4a02fcd9b0ca0cdf76a",
+    "darkVideoSha256": "03c9656e83157748712d67c117e94355152bc696f69c78dc4f6a3cf5bb157316",
+    "reviewedAt": "2026-10-20T15:05:03.741Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Barbell deadlift with deliberately controlled ascent and descent.",
+      "equipment": "Rigid shaft and equal plates; no crop in either final theme.",
+      "setup": "Floor start at sole height with neutral torso and bent hips/knees.",
+      "hands": "Both grips stay aligned with shaft; long arms without curling.",
+      "feet": "Foot positions fixed throughout 481 samples.",
+      "movement": "3.2-second ascent and 3.2-second descent; knee angle extends from 110 to 175 degrees; smooth loop and positive sampled body/shaft clearance."
+    },
+    "note": "Original procedural demonstration, not recorded human motion. Tempo choices illustrate variants; no individual loading prescription. Physical phone and production unverified.",
+    "id": "tempo-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+      "https://www.barbellmedicine.com/blog/pain-in-training-what-do/"
+    ],
+    "sourceSha256": "2bc88034088ba4da291c62b31f680372ba26b4cd3d55fd41ebb85525e57fe984",
+    "videoSha256": "e55cc3f2429e2a72daa1137b0172593fc91f077df7b00b4b39ea73f4e40069d4",
+    "rigSourceSha256": "7e62e57b8bc7f8b96aec8622d9398d88feffed7ba2986ee7cf7d2e9701f51e4a",
+    "darkVideoSha256": "73a81f73259b87331dda979fda5ff66959c1e4bd618eb3493aa6ea61c2f941b2",
+    "reviewedAt": "2026-10-20T15:05:12.270Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Barbell deadlift emphasizing a slower eccentric return.",
+      "equipment": "One barbell, two plates; visible in light and dark final sheets.",
+      "setup": "Floor start with feet fixed and hands outside legs.",
+      "hands": "Overhand grips remain aligned and arms long throughout.",
+      "feet": "Both soles stay at the same level; plates return to sole height without penetration.",
+      "movement": "1.6-second rise versus 5.6-second monotonic descent; hips and knees bend together, no backward lean at top, zero loop discontinuity."
+    },
+    "note": "Original procedural demonstration, not recorded human motion. Tempo choices illustrate variants; no individual loading prescription. Physical phone and production unverified.",
+    "id": "eccentric-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+      "https://www.barbellmedicine.com/blog/pain-in-training-what-do/"
+    ],
+    "sourceSha256": "98416918eac64c23bb8a8986731369b32e213d3994ea1bac74ac487ea322d12c",
+    "videoSha256": "07aa13c2b6d83c78c96d193433ce64abfa311175c83a02f5a3c9c22556e3c43b",
+    "rigSourceSha256": "d6355eafbc11e2f6e7b228198ff448e184d35d509e4d49af494470924b2c57ae",
+    "darkVideoSha256": "a95d05a224f5ea35c95db01678e0e16bc0461990348d5c1a4eb7a4b383913496",
+    "reviewedAt": "2026-10-20T15:05:20.362Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Block-supported deadlift from below knees to standing.",
+      "equipment": "Two equal blocks support the plate bottoms; bar and plates fully visible.",
+      "setup": "Both plates contact blocks at start and finish; no standing on blocks.",
+      "hands": "Long arms and overhand grips outside legs remain aligned to shaft.",
+      "feet": "Both feet stay fixed between blocks; measured drift below 6e-15.",
+      "movement": "Controlled lift and return; support gap starts at zero and remains nonnegative; no backward lean at top."
+    },
+    "note": "Original procedural demonstration. Blocks support plates; rack pins support shaft; isometric variation holds a raised load below the knees. Hold duration illustrative. No physical-device, production or exhaustive mesh collision certification.",
+    "id": "block-pull",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://thatfitfriend.com/block-pull-guide/",
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "sourceSha256": "296cc758e31a346eda77b4937295bdb84c171c9c22eb1d924fb5583719dd6dc2",
+    "videoSha256": "98cdefd639ab89085af83757a25bd3c4bf6e972dcc2cd7e407353ea6d7204501",
+    "rigSourceSha256": "c9a78ba045e069b72847cc5a00f7fa7f6c9986c124a39d2bd2993a3ab5d51175",
+    "darkVideoSha256": "99a49745c5af9701d490cd6354507c59ec3c49d1b51a80ba485624ae43f9f99d",
+    "reviewedAt": "2026-10-20T15:25:56.662Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Deadlift starting with shaft supported on rack pins below knees.",
+      "equipment": "Rack, equal-height safety pins and barbell visible in both themes; camera changed to reveal torso and face.",
+      "setup": "Shaft rests on pins with plates clear of floor; shaft stays between rack posts.",
+      "hands": "Both hands stay outside legs and aligned to bar; arms stay long.",
+      "feet": "Both feet planted inside rack without stepping.",
+      "movement": "Bar rises clear of pins and returns to zero support gap without penetration; sampled body/shaft clearance positive."
+    },
+    "note": "Original procedural demonstration. Blocks support plates; rack pins support shaft; isometric variation holds a raised load below the knees. Hold duration illustrative. No physical-device, production or exhaustive mesh collision certification.",
+    "id": "pin-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://thatfitfriend.com/block-pull-guide/",
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "sourceSha256": "105cc9dfc5ccf7a244b60721e5ca109d09abd69b8ff85e72ab29122c6bad01df",
+    "videoSha256": "378287eed77ee277c1bcb005b4bf8240944c19bd63aadc2a3be19421753fe005",
+    "rigSourceSha256": "19354f1ff97ee8cd346b65023c054c9dabf3d5e2ede8e9cdf055e3e185375c6a",
+    "darkVideoSha256": "b82d023c24b0e5955b88d3e44bad7c36ad25c7abb3a9a67854ba64050ab27a70",
+    "reviewedAt": "2026-10-20T15:26:04.503Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Yielding isometric hold with lifted bar below knees, followed by return to floor.",
+      "equipment": "Barbell with two plates; no pins or blocks depicted.",
+      "setup": "Plates begin at sole level; hip-width stance and neutral trunk.",
+      "hands": "Long arms and aligned overhand grips hold bar steady.",
+      "feet": "Both feet stay fixed throughout lift, hold and descent.",
+      "movement": "Four-second hold with zero bar drift, 0.783 model units below knees; returns without standing fully or bouncing."
+    },
+    "note": "Original procedural demonstration. Blocks support plates; rack pins support shaft; isometric variation holds a raised load below the knees. Hold duration illustrative. No physical-device, production or exhaustive mesh collision certification.",
+    "id": "isometric-deadlift-hold",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/185/Halting-Clean-Deadlift/",
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "sourceSha256": "9a4cbe211923fc6185ffe899f8f5e58125fc5f8357b84df6bafcd7e9e7e9cc30",
+    "videoSha256": "1442049340c5b048ef7b539596a2422d8337721faa77abacf01b5cb6af52a8a8",
+    "rigSourceSha256": "36dc9b280d6f62367155c59469413fb6114d38204f7dec7daaf5cb9bab40984d",
+    "darkVideoSha256": "bf641ab6b3b2591aab0a1d19eac773ef48e5b076021a98eae6ed6edb51ae86db",
+    "reviewedAt": "2026-10-20T15:26:12.422Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Elevated-foot deadlift with a deeper starting position and controlled return to floor.",
+      "equipment": "Barbell with two plates outside a low rectangular foot platform, visible in both themes.",
+      "setup": "Platform supports both feet; plate bottoms start level with platform base rather than platform top.",
+      "hands": "Both overhand grips remain outside legs and aligned to shaft; long arms throughout.",
+      "feet": "Foot and toe anchors remain inside the platform footprint; sampled sole-platform gap below 8e-15.",
+      "movement": "Knees and hips extend together; bar rises 6.268 model units and returns without sampled plate-floor penetration; loop poses identical."
+    },
+    "note": "Procedural 3D demonstration, not captured motion. Eight-second illustrative cycle. Platform height is a model-space choice. Sampled lower-body surface distances are not full-mesh collision or biomechanical certification. Production and physical-device validation pending.",
+    "id": "deficit-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/deficit-deadlift/",
+      "https://macrosinc.net/exercises/legs/deficit-barbell-deadlift/"
+    ],
+    "sourceSha256": "2519580e768764a6fee75c18b26ce8c4df13302ce55dc1c06aafe59eee640b6d",
+    "videoSha256": "3c2479c824fe51fbf6f6bab97be5273b109b299820894b3d4233d32328e3b660",
+    "rigSourceSha256": "1a215191767bb5f73a6575aa55758d3fd64657b4688139c048681259e41fbec6",
+    "darkVideoSha256": "a7e5ab91a8cf13e2f5b75c6c8f8ecdc85eb0e247fb7bef3fdc00fc58e007172f",
+    "reviewedAt": "2026-10-23T04:18:19.156Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Two-dumbbell floor deadlift; front and side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Two dumbbells outside the legs, with no barbell or supporting rack.",
+      "setup": "Both weights start at floor level; knees and hips flex together.",
+      "hands": "Both neutral grips remain connected; fore-aft handle alignment checked in 481 poses.",
+      "feet": "Both feet remain planted through ascent and return; sampled drift below 8e-15 model units.",
+      "movement": "Controlled coordinated rise to standing and return to floor, matching start/end. Shorts flare during deep flexion in side view; cloth is a stylized skinned surface, not simulated fabric. No claim of exhaustive cloth collision testing."
+    },
+    "note": "Procedural demonstration, eight-second cycle. Sampled joints and geometry are not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "dumbbell-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://assets.crossfit.com/pdfs/seminars/Dumbbell_Training_Guide.pdf"
+    ],
+    "sourceSha256": "fef04b27a91f11fb419ae1c5696244b6bd0c6f3f57064343e004bfe0bd57f251",
+    "videoSha256": "21ce112688d95fe2e6dedcf8ba4d8f00c80d81df58234ad337a1d0b735e48dc0",
+    "rigSourceSha256": "edbf2f87ef610ceb056166c003316a5b024d79d459273dadb0a6bef129047c3b",
+    "darkVideoSha256": "9a88a67c41588830e9c8c8db6cb64362d8458ca47929b819c727f158a167fa1d",
+    "reviewedAt": "2026-10-23T05:02:17.649Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Single-arm mid-shin deadlift; front and side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Exactly one dumbbell at the side, opposite hand empty.",
+      "setup": "Two feet supporting the body; dumbbell descends to mid-shin without floor contact.",
+      "hands": "Loaded hand maintains neutral grip; free hand remains empty.",
+      "feet": "Both feet remain fixed throughout 481 pose samples.",
+      "movement": "Hips and knees extend together; torso has no lateral bend or twist. Side-view shorts flare is retained as a stylized garment limitation, without exhaustive cloth collision certification."
+    },
+    "note": "Procedural demonstration, eight-second cycle. Sampled joints and geometry are not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "single-arm-dumbbell-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.rehabhero.ca/exercise/suitcase-deadlift"
+    ],
+    "sourceSha256": "48a26878ee458ec6a0f8f959a28c495361ba51a3e95a34bdfc8c54df3e250411",
+    "videoSha256": "3bd2a49776e253f82315e2bf053f5f988ed342a40af7b6a7a97b11962ab78be9",
+    "rigSourceSha256": "3a770fc31f7c0007ce325e667d3d320a3bcff6a0abee48125e385075f3cc6a1e",
+    "darkVideoSha256": "45aca1f2cb022664ddbd4811cf00582062ad5da3e9908026c4be74842d6bd874",
+    "reviewedAt": "2026-10-23T05:02:23.525Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "High-rack partial deadlift; front and side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Barbell with two plates and fixed rack safety pins.",
+      "setup": "Bar begins above knee level on both pins, as explicitly described in the app.",
+      "hands": "Both hands hold the bar outside the legs throughout the movement.",
+      "feet": "Both feet stay planted inside the rack; no visible sliding.",
+      "movement": "Short hip-extension range to standing and controlled return to pins. Sampled bar/body gap remains positive; camera preserves visibility of face and bar."
+    },
+    "note": "Procedural demonstration, eight-second cycle. Sampled joints and geometry are not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "partial-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/rack-pull/"
+    ],
+    "sourceSha256": "8ab39dc5834eb85985dbcdf94910b7c55f39ac2075296cf154ca4feb673cac8b",
+    "videoSha256": "19571caea7ba27214f63bc77abfbf6c7b82d6e44e4e1070ced75a2234618d092",
+    "rigSourceSha256": "5388b7b75f45e171c7a7dce15ac67fa41a579887436b10a60e3e8547249c0270",
+    "darkVideoSha256": "a6dbf2dfd3932d89fe2faf824923f19c09d77a0dbbb04a7da135caeaea23bc56",
+    "reviewedAt": "2026-10-23T05:02:31.223Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Clean-grip deadlift with leg-driven initial ascent; front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "Straight standard-diameter barbell with two plates; grip visibly narrower than the snatch variant.",
+      "setup": "Hip-width stance, bar starts at floor, hips lower than the conventional axle variant.",
+      "hands": "Both hands remain outside legs and inside plates; long arms, overhand grip, no catch.",
+      "feet": "Both feet planted throughout; 481-pose drift below 7e-15 model units.",
+      "movement": "Initial back-angle drift below 4 degrees until bar clears knees, followed by hip extension. Controlled return and matching loop. Stylized shorts flare in side view; no simulated fabric or exhaustive cloth collision claim."
+    },
+    "note": "Procedural instructional model, not captured human biomechanics. Illustrative equipment proportions and eight-second timing. Overhand grips without detailed hook-grip instruction; no cloth simulation, exhaustive mesh collision or physical-device certification. Production deployment pending.",
+    "id": "clean-grip-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/176/Clean-Deadlift/"
+    ],
+    "sourceSha256": "9ac3b77ed00cbdd5b2c7c458a65b2dcfa29e2bc777c1b630338609ea5ba47dd3",
+    "videoSha256": "2a63d703ca59970f420b171f479079381a05d6fd5419238b2f5664f640020bbb",
+    "rigSourceSha256": "ca2ec9ec369124fb5b4046337bd3a7ba8f8f771e2b580e9468faadb043ee25b0",
+    "darkVideoSha256": "cc05dff0fa34cdb4513606e312765df81226a84f858d4a7f82b039f290abfc21",
+    "reviewedAt": "2026-10-23T05:20:39.255Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Wide-grip snatch deadlift; front/side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Standard bar with two plates; wider grip than clean, hands still inside collars.",
+      "setup": "Lower starting posture and grip greater than twice shoulder width; floor start.",
+      "hands": "Wide overhand grip stays connected with long arms; no overhead pull or catch.",
+      "feet": "Fixed bilateral support without sliding in sampled poses.",
+      "movement": "Leg drive precedes hip opening; initial back-angle drift below 1.3 degrees until knee clearance. Smooth return with no sampled bar penetration. Side-view shorts flare retained as stylized garment limitation."
+    },
+    "note": "Procedural instructional model, not captured human biomechanics. Illustrative equipment proportions and eight-second timing. Overhand grips without detailed hook-grip instruction; no cloth simulation, exhaustive mesh collision or physical-device certification. Production deployment pending.",
+    "id": "snatch-grip-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/187/Snatch-Deadlift/"
+    ],
+    "sourceSha256": "a669fb8c40d8e04cac3271056a951b7d1ef64feabdcefe108c6c9c3ca87f4a5a",
+    "videoSha256": "93a00312234741a8d7961225877d1cac3f438c4d909611fc7ea3b3f91cc795fa",
+    "rigSourceSha256": "5c3460464e8fcfcf6e5dd6d49eed8214d5b75971538303952ba2426ee66e571b",
+    "darkVideoSha256": "563e347ef528550f358342936ec7892b33ef7c2091497337726a973528be1d92",
+    "reviewedAt": "2026-10-23T05:20:52.501Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Conventional floor deadlift with thick axle; front/side 16 poses and both final 32-frame sheets reviewed.",
+      "equipment": "Visibly thicker shaft, modeled at 1.75 times standard diameter; illustrative equipment rather than an exact product replica.",
+      "setup": "Bar starts at floor with conventional hip/knee flexion and fixed hip-width feet.",
+      "hands": "Double-overhand grip, fingers opened for the thicker shaft; both anchors remain aligned with bar.",
+      "feet": "Both feet planted; sampled drift below 7e-15 model units.",
+      "movement": "Coordinated knee and hip extension to upright, then controlled return; no shrug or back hyperextension. Stylized side-view shorts flare remains a garment limitation."
+    },
+    "note": "Procedural instructional model, not captured human biomechanics. Illustrative equipment proportions and eight-second timing. Overhand grips without detailed hook-grip instruction; no cloth simulation, exhaustive mesh collision or physical-device certification. Production deployment pending.",
+    "id": "axle-bar-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.roguefitness.com/the-rogue-axle",
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "sourceSha256": "70048cff1b725a824d98bb67f2089c120211c2f40d1fe1e3260e02923586bb3f",
+    "videoSha256": "69c21ecb2b85cc36cf4d32199fffe9325fe6f66d5b189b8c82da68e4f3f100d2",
+    "rigSourceSha256": "ae61d7c31113ba5ec111bc10b039f07a744e2dd94b0c4c50df176bbadbe3e547",
+    "darkVideoSha256": "59fb3428c5ca962180ccabd9c3dbf2f7bd021235ee86d172ab914f4b583bd5fc",
+    "reviewedAt": "2026-10-23T05:21:12.597Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Low-handle trap-bar deadlift. Front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "Hexagonal frame surrounds the lifter, with side handles and two outer plates.",
+      "setup": "Hip-width stance inside frame; plates start at foot sole plane.",
+      "hands": "Neutral side grips; mirrored wrist orientation corrected after preliminary elbow check failed. Both elbows remain about 175 degrees with rigid six-unit grip width.",
+      "feet": "Both feet remain planted throughout 481 sampled poses; drift below 1.4e-14 model units.",
+      "movement": "Coordinated hip and knee extension to upright and controlled floor return; matching loop. Side-view shorts flare is a stylized garment limitation, not fabric simulation. Sampled clearance does not certify exhaustive mesh collision or biomechanics."
+    },
+    "note": "Procedural demonstration with illustrative equipment proportions and eight-second timing. Stylized skinning/shorts without fabric simulation; sampled geometry is not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "trap-bar-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.sussex.ac.uk/sport/documents/trap-bar-deadlift.pdf"
+    ],
+    "sourceSha256": "4d4fc76b49d9e69d32678f96c25ba7e0528042ef748e35894ab025acc2774f1a",
+    "videoSha256": "4b1ecdfad08f59d6df0a082da3fac13b7405717ccff4df661000a24dda8f0eb5",
+    "rigSourceSha256": "4ba6d54842816d02369d22d5bfe1bd996281c489304941b7f27777fb978a8a7c",
+    "darkVideoSha256": "f13a58fa6a91e417bdad1fa7428f56210dbbd6df95bf21ca098ec9f4a9948fcc",
+    "reviewedAt": "2026-10-23T13:56:25.881Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Single-kettlebell sumo deadlift. Front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "One bell between the legs with one handle held by both hands.",
+      "setup": "Wide stance and outward toes; bell begins on floor between feet.",
+      "hands": "Close double-overhand grip with 1.3-unit separation and long arms; no bell swing.",
+      "feet": "Both feet remain planted throughout 481 sampled poses; drift below 1.4e-14 model units.",
+      "movement": "Coordinated hip and knee extension to upright and controlled floor return; matching loop. Side-view shorts flare is a stylized garment limitation, not fabric simulation. Sampled clearance does not certify exhaustive mesh collision or biomechanics."
+    },
+    "note": "Procedural demonstration with illustrative equipment proportions and eight-second timing. Stylized skinning/shorts without fabric simulation; sampled geometry is not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "kettlebell-sumo-deadlift",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/one-kettlebell-sumo-deadlift"
+    ],
+    "sourceSha256": "0cd0cdfed1186d1101779828bd1764cbbc53c19453187ebded0453d89772eabe",
+    "videoSha256": "24852b12c47297f4ef6b5fa7d5e9e7f6a4343cd4bb22793a74504386c8872573",
+    "rigSourceSha256": "a17dbf9783123403cde5b3d944e05af085516dab8e6f0d93c28858414fcb3a01",
+    "darkVideoSha256": "e5ada5772338eb54f05c1cb397f20e463eccaef16ff97b0a96f7646636e12991",
+    "reviewedAt": "2026-10-23T13:56:56.616Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Conventional deadlift with fat grip adapters. Front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "Thin standard shaft with two blue thick adapters under hands; not an all-thick axle or exact branded replica.",
+      "setup": "Hip-width stance with plates starting on floor.",
+      "hands": "Double-overhand grip on blue adapters outside legs; sleeves track hand spacing.",
+      "feet": "Both feet remain planted throughout 481 sampled poses; drift below 1.4e-14 model units.",
+      "movement": "Coordinated hip and knee extension to upright and controlled floor return; matching loop. Side-view shorts flare is a stylized garment limitation, not fabric simulation. Sampled clearance does not certify exhaustive mesh collision or biomechanics."
+    },
+    "note": "Procedural demonstration with illustrative equipment proportions and eight-second timing. Stylized skinning/shorts without fabric simulation; sampled geometry is not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "fat-grip-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://fatgripz.com/pages/fat-gripz-faqs",
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "sourceSha256": "60c5001e53e414654aed8f292ea91de464d40a7d993c00ba7fc9e7e62574abcb",
+    "videoSha256": "4528632dbb190245ebfb3e861bfe7ee1c63a53667c15eafedda62a84a6cccf95",
+    "rigSourceSha256": "c2eb473ddbdf98765192c46e47b8a7401901d32a0e5d49428e39e5ac50d3b3d2",
+    "darkVideoSha256": "07edf8ab5b29124a043d39f2c5fa877029479156fd0c632df1e6586171e3fa89",
+    "reviewedAt": "2026-10-23T13:57:20.938Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "equipment": "Vertical Smith rails, two plates, moving sliders and visible low safety stops. Illustrative machine, not a product replica; unracking/reracking omitted.",
+      "hands": "Both overhand grips stay connected at x +/-2.45, bar z=1.5; long arms around 175 degrees.",
+      "feet": "Both feet planted; Romanian stance moved back .35 model units after preliminary bar/body clearance failed.",
+      "movement": "Smooth hip hinge and controlled return, matching loop. Front/side 16 poses and final light/dark 32-frame sheets inspected. Side-view shorts flare retained as stylized skinning limitation; sampled clearance is not exhaustive collision certification.",
+      "exercise": "Low-start Smith deadlift with coordinated knee and hip extension.",
+      "setup": "Plates start at sole plane on a machine allowing low travel; knee angle increases from about 101.89 to 175 degrees."
+    },
+    "note": "Procedural demonstration; illustrative proportions, range and eight-second timing. Vertical-rail machine variant with visible safety stops, not a product replica; unracking/reracking not shown. Stylized shorts without fabric simulation; sampled bar/body clearance is not exhaustive collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "smith-machine-deadlift",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://repfitness.com/blogs/guides/smith-machine-deadlift"
+    ],
+    "sourceSha256": "29f6c7be8ffa170bf744ae08dcf057796d304a4be458a4315a961b3915cc1aab",
+    "videoSha256": "7009339dbcc82dc542904329d1fa1016961d5f041b1cb867c5a488aa5fc8f72e",
+    "rigSourceSha256": "944a3052099466d2c294e7aaef163bbb60222a989bbcf95dc41dce1419aeda43",
+    "darkVideoSha256": "721faa426c8f082016400f8dc0738fdc1d5c6cf564bae7fe1229f56c7f347a82",
+    "reviewedAt": "2026-10-23T14:30:58.273Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "equipment": "Vertical Smith rails, two plates, moving sliders and visible low safety stops. Illustrative machine, not a product replica; unracking/reracking omitted.",
+      "hands": "Both overhand grips stay connected at x +/-2.45, bar z=1.5; long arms around 175 degrees.",
+      "feet": "Both feet planted; Romanian stance moved back .35 model units after preliminary bar/body clearance failed.",
+      "movement": "Smooth hip hinge and controlled return, matching loop. Front/side 16 poses and final light/dark 32-frame sheets inspected. Side-view shorts flare retained as stylized skinning limitation; sampled clearance is not exhaustive collision certification.",
+      "exercise": "Standing-start Smith Romanian deadlift with constant soft knee bend.",
+      "setup": "Knee angle 155 degrees throughout, hip hinge stops with plates above floor; bar returns to thigh level."
+    },
+    "note": "Procedural demonstration; illustrative proportions, range and eight-second timing. Vertical-rail machine variant with visible safety stops, not a product replica; unracking/reracking not shown. Stylized shorts without fabric simulation; sampled bar/body clearance is not exhaustive collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "smith-machine-romanian-deadlift",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/smith-machine-romanian-deadlift/"
+    ],
+    "sourceSha256": "988e64f7958d830d1265df78a5518aa913bf4dc868b0be478dbdd53556020014",
+    "videoSha256": "b280175b9ce940c5c73a2df3548d471383d0980280cf41d3803a74c6aa81a766",
+    "rigSourceSha256": "7629268ffd4812303ba5f5ac5727791c9a40b4075897caebaaebbf1561b54f5b",
+    "darkVideoSha256": "7274f03fa1970632145e1a278bf48ada8ea520e5e20018170b7c56b494397698",
+    "reviewedAt": "2026-10-23T14:31:10.585Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "equipment": "Vertical Smith rails, two plates, moving sliders and visible low safety stops. Illustrative machine, not a product replica; unracking/reracking omitted.",
+      "hands": "Both overhand grips stay connected at x +/-2.45, bar z=1.5; long arms around 175 degrees.",
+      "feet": "Both feet planted; Romanian stance moved back .35 model units after preliminary bar/body clearance failed.",
+      "movement": "Smooth hip hinge and controlled return, matching loop. Front/side 16 poses and final light/dark 32-frame sheets inspected. Side-view shorts flare retained as stylized skinning limitation; sampled clearance is not exhaustive collision certification.",
+      "exercise": "Standing-start Smith stiff-leg deadlift with straighter but unlocked knees.",
+      "setup": "Knee angle 170 degrees throughout, distinct from Romanian 155; hip hinge with plates remaining above floor."
+    },
+    "note": "Procedural demonstration; illustrative proportions, range and eight-second timing. Vertical-rail machine variant with visible safety stops, not a product replica; unracking/reracking not shown. Stylized shorts without fabric simulation; sampled bar/body clearance is not exhaustive collision or biomechanical certification. Physical-device and production verification pending.",
+    "id": "smith-machine-stiff-leg-deadlift",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/smith-machine-stiff-leg-deadlift.html"
+    ],
+    "sourceSha256": "dd25956a486a9e1ff4024d3b763c622a26f99354cfd1cc862d2cc728e5531bcb",
+    "videoSha256": "28d680bbf628c575d72db5091e070573e233438ca86391ce571ca097b3986edf",
+    "rigSourceSha256": "82c9494d39e60a9fa35e338e805ec9b37f3daabe6518b2b1d6caf069bab979cf",
+    "darkVideoSha256": "595d9bb5b943022daa12ff3e9d671ce45cdf614e4e2af0e5d2d9e4f94480cf21",
+    "reviewedAt": "2026-10-23T14:31:29.102Z"
   }
 ]

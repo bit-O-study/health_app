@@ -1,0 +1,18 @@
+{
+  "id": "butt-kicks",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "671e54637e31d5438259273e3d3d5cda7b1ffc0ac81ee2de55ef25bc9162eb57",
+  "rigSourceSha256": "57ba504bd843f8c957821afea85776f7796f58b653a234a5f9cc2cc49a9ed576",
+  "videoSha256": "a323d99e167037248b2b99ed7895c444ac10ba4da1c4ad30b4a3e0ba785da8ff",
+  "darkVideoSha256": "6c2920a2893a16646f63c6af3d8412de2de200081a014c048cebe0ba3b5017e3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 194436,
+  "darkBytes": 197264,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:17:39.151Z"
+}

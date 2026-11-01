@@ -1,0 +1,176 @@
+[
+  {
+    "id": "arnold-press",
+    "inputs": [
+      {
+        "file": "studio-batch-7.mjs",
+        "sha256": "9ab0d1edacb0598e07f88887ba8317a479eb4463d8e1b6c90063720bce3aff36"
+      },
+      {
+        "file": "exercise-motion-7.mjs",
+        "sha256": "6a9d236b9760c830b1d873f1b9bf9eb7db18f85506d6452331071dd38a780109"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/arnold-press.mp4",
+        "sha256": "97709f76100148017a73ec16bd2536e40313b69ce2e7aa2cdcb5567b027025f7",
+        "bytes": 365730,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 9
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/arnold-press-dark.mp4",
+        "sha256": "86e40d88d2f523f95b1eb5b3f6c70c0d31e7199cce504716932c0c219aee4a2e",
+        "bytes": 324292,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 495,
+          "dropped": 4
+        }
+      }
+    ],
+    "reviewedAt": "2026-11-01T00:06:39.418Z",
+    "status": "reviewed-preview",
+    "equipment": "dumbbell",
+    "visualReview": "Full/hand/side key poses and both encoded contact sheets inspected. Arnold overhead framing corrected; atan2 winding discontinuity corrected; narrow-grip start height corrected before final render.",
+    "limits": "Preview only. No full-body collision proof, clinical validation, app integration or Android device review. upright-row is the dumbbell variant only."
+  },
+  {
+    "id": "upright-row",
+    "inputs": [
+      {
+        "file": "studio-batch-7.mjs",
+        "sha256": "9ab0d1edacb0598e07f88887ba8317a479eb4463d8e1b6c90063720bce3aff36"
+      },
+      {
+        "file": "exercise-motion-7.mjs",
+        "sha256": "6a9d236b9760c830b1d873f1b9bf9eb7db18f85506d6452331071dd38a780109"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/upright-row.mp4",
+        "sha256": "16eb5262e9b87091fb3aa0b81a31190dcb6464569d14392e9ffa17edfb73bd46",
+        "bytes": 424177,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 7
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/upright-row-dark.mp4",
+        "sha256": "8457bf823fdffd8d473bd6daf6b880dec74fa34906967b0f39e4fd340d0c6d17",
+        "bytes": 378562,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 495,
+          "dropped": 8
+        }
+      }
+    ],
+    "reviewedAt": "2026-11-01T00:06:39.420Z",
+    "status": "reviewed-preview",
+    "equipment": "dumbbell",
+    "visualReview": "Full/hand/side key poses and both encoded contact sheets inspected. Arnold overhead framing corrected; atan2 winding discontinuity corrected; narrow-grip start height corrected before final render.",
+    "limits": "Preview only. No full-body collision proof, clinical validation, app integration or Android device review. upright-row is the dumbbell variant only."
+  },
+  {
+    "id": "close-grip-upright-row",
+    "inputs": [
+      {
+        "file": "studio-batch-7-barbell.mjs",
+        "sha256": "26260616a35299ca813b99ef6bdaa33693c37db16e8ea89917cfb206fd52123c"
+      },
+      {
+        "file": "exercise-motion-7.mjs",
+        "sha256": "6a9d236b9760c830b1d873f1b9bf9eb7db18f85506d6452331071dd38a780109"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/close-grip-upright-row.mp4",
+        "sha256": "df75b10a112947e14016727764afaa6407c2c9ef43b995cec5053473268cfd5d",
+        "bytes": 488874,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 4
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/close-grip-upright-row-dark.mp4",
+        "sha256": "c0397801ac9cd901f4165663ba652af3aff6ee75231c79105a6bf77f49d9e7f9",
+        "bytes": 419947,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 8
+        }
+      }
+    ],
+    "reviewedAt": "2026-11-01T00:06:39.420Z",
+    "status": "reviewed-preview",
+    "equipment": "barbell",
+    "visualReview": "Full/hand/side key poses and both encoded contact sheets inspected. Arnold overhead framing corrected; atan2 winding discontinuity corrected; narrow-grip start height corrected before final render.",
+    "limits": "Preview only. No full-body collision proof, clinical validation, app integration or Android device review. upright-row is the dumbbell variant only."
+  }
+]

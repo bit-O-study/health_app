@@ -80,6 +80,7 @@ const CATEGORY_MAP: Record<string, MotionCategory> = {
   "pistol-squat": "squat",
   // 힌지
   deadlift: "hinge",
+  "block-pull": "hinge",
   "sumo-deadlift": "hinge",
   rdl: "hinge",
   "stiff-leg-deadlift": "hinge",

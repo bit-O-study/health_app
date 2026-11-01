@@ -16,6 +16,18 @@ vi.mock("../../../tools/media/motion-guides/reviews.json", () => ({
 
 import { getExerciseMedia, selectExerciseMedia } from "@/features/exercises/exercise-media";
 
+it("connects the reviewed 3D guides only to their demonstrated equipment", async () => {
+  expect(await getExerciseMedia("upright-row", "barbell")).toBeNull();
+  expect(await getExerciseMedia("upright-row", "cable")).toBeNull();
+  expect(await getExerciseMedia("close-grip-upright-row", "dumbbell")).toBeNull();
+  for (const [id, equipment] of [["arnold-press", "dumbbell"], ["upright-row", "dumbbell"], ["close-grip-upright-row", "barbell"]]) {
+    expect(await getExerciseMedia(id, equipment)).toMatchObject({
+      url: `/exercise-guides/skinned-pilot/${id}.mp4?v=20261101`,
+      darkUrl: `/exercise-guides/skinned-pilot/${id}-dark.mp4?v=20261101`,
+    });
+  }
+});
+
 describe("selected equipment and built-in demonstration", () => {
   it("keeps the barbell guide for barbell bench press", async () => {
     expect(await getExerciseMedia("bench-press", "barbell")).toMatchObject({

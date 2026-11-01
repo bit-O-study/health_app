@@ -1,0 +1,18 @@
+{
+  "id": "tempo-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2bc88034088ba4da291c62b31f680372ba26b4cd3d55fd41ebb85525e57fe984",
+  "rigSourceSha256": "7e62e57b8bc7f8b96aec8622d9398d88feffed7ba2986ee7cf7d2e9701f51e4a",
+  "videoSha256": "e55cc3f2429e2a72daa1137b0172593fc91f077df7b00b4b39ea73f4e40069d4",
+  "darkVideoSha256": "73a81f73259b87331dda979fda5ff66959c1e4bd618eb3493aa6ea61c2f941b2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 148667,
+  "darkBytes": 123412,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T15:05:12.255Z"
+}

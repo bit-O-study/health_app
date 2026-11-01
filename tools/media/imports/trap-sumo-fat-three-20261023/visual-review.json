@@ -1,0 +1,35 @@
+{
+  "trap-bar-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Low-handle trap-bar deadlift. Front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "Hexagonal frame surrounds the lifter, with side handles and two outer plates.",
+      "setup": "Hip-width stance inside frame; plates start at foot sole plane.",
+      "hands": "Neutral side grips; mirrored wrist orientation corrected after preliminary elbow check failed. Both elbows remain about 175 degrees with rigid six-unit grip width.",
+      "feet": "Both feet remain planted throughout 481 sampled poses; drift below 1.4e-14 model units.",
+      "movement": "Coordinated hip and knee extension to upright and controlled floor return; matching loop. Side-view shorts flare is a stylized garment limitation, not fabric simulation. Sampled clearance does not certify exhaustive mesh collision or biomechanics."
+    }
+  },
+  "kettlebell-sumo-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Single-kettlebell sumo deadlift. Front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "One bell between the legs with one handle held by both hands.",
+      "setup": "Wide stance and outward toes; bell begins on floor between feet.",
+      "hands": "Close double-overhand grip with 1.3-unit separation and long arms; no bell swing.",
+      "feet": "Both feet remain planted throughout 481 sampled poses; drift below 1.4e-14 model units.",
+      "movement": "Coordinated hip and knee extension to upright and controlled floor return; matching loop. Side-view shorts flare is a stylized garment limitation, not fabric simulation. Sampled clearance does not certify exhaustive mesh collision or biomechanics."
+    }
+  },
+  "fat-grip-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Conventional deadlift with fat grip adapters. Front/side 16 poses and final light/dark 32-frame sheets reviewed.",
+      "equipment": "Thin standard shaft with two blue thick adapters under hands; not an all-thick axle or exact branded replica.",
+      "setup": "Hip-width stance with plates starting on floor.",
+      "hands": "Double-overhand grip on blue adapters outside legs; sleeves track hand spacing.",
+      "feet": "Both feet remain planted throughout 481 sampled poses; drift below 1.4e-14 model units.",
+      "movement": "Coordinated hip and knee extension to upright and controlled floor return; matching loop. Side-view shorts flare is a stylized garment limitation, not fabric simulation. Sampled clearance does not certify exhaustive mesh collision or biomechanics."
+    }
+  }
+}

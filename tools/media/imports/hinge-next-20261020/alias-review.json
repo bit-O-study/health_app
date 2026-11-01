@@ -1,0 +1,94 @@
+{
+  "id": "single-leg-deadlift",
+  "aliasOf": "barbell-single-leg-romanian-deadlift",
+  "reason": "Both catalog IDs use a barbell, single support leg, airborne rear leg and controlled neutral-spine hip hinge. Exact reuse of reviewed barbell single-leg RDL; not a newly generated motion.",
+  "checks": {
+    "exercise": "Catalog barbell single-leg hip hinge matches the source movement.",
+    "equipment": "One barbell; no bodyweight or dumbbell substitution.",
+    "setup": "Start standing on left leg with right foot airborne; swap sides after repetitions.",
+    "hands": "Double overhand grip, fixed bar held by both hands throughout.",
+    "feet": "Left support stays planted; right leg travels behind without touching down.",
+    "movement": "Re-inspected front/side and 32-frame light/dark sheets; neutral trunk hinge and controlled loop. Fresh alpha and browser verification passed."
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      175.47890158054918,
+      175.4789015805494
+    ],
+    "alpha": {
+      "transparent": 41084280,
+      "opaque": 2426944,
+      "partial": 725576,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "outputs": [
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-deadlift.mp4",
+      "sha256": "ac6de4940fc2c63119024accead83d39f2646428b7492cb6bcfd87f813953577"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-deadlift-dark.mp4",
+      "sha256": "a02e7918b25c0fbd39efdf8d2228c99e502286280c806aac33f8e396f819e2d1"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-deadlift-alpha.webm",
+      "sha256": "ba8665c508f22542cba12d54bc44927605f60a35ebe243bcf8706ec101513137"
+    }
+  ]
+}

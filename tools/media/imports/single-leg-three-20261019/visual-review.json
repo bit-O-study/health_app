@@ -1,0 +1,38 @@
+{
+  "single-leg-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-20",
+    "checks": {
+      "exercise": "Front/side eight-pose sheets and both final 32-frame sheets inspected: single-leg hinge and controlled return visible.",
+      "equipment": "Two distinct dumbbells remain attached at the palms throughout the sampled poses.",
+      "setup": "Starts balancing on the left leg with the other foot hovering; torso remains neutral.",
+      "hands": "Both overhand grips remain aligned with the handles; slightly bent arms hang down.",
+      "feet": "Support foot stays fixed; opposite foot travels backward in the air.",
+      "movement": "Rear leg and trunk move together; no visible frame clipping in either theme; exact sampled loop checked separately. Side switch is described in the app."
+    }
+  },
+  "kettlebell-single-leg-deadlift": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-20",
+    "checks": {
+      "exercise": "Front/side and final light/dark contact sheets inspected: double-kettlebell single-leg hinge.",
+      "equipment": "One kettlebell in each hand; bell bodies hang below the handles and stay above the support-foot level.",
+      "setup": "The app explicitly labels this as the two-kettlebell variation.",
+      "hands": "Neutral grips stay on the handles throughout the sampled descent and return.",
+      "feet": "Left foot stays fixed while right foot stays airborne and extends backward.",
+      "movement": "Hip hinge and controlled reversal visible with level pelvis; silhouettes fit both final themes. Physical-device validation remains pending."
+    }
+  },
+  "barbell-single-leg-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-20",
+    "checks": {
+      "exercise": "Front/side sheets, enlarged bottom pose and both final theme sheets inspected: single-leg barbell RDL.",
+      "equipment": "One continuous horizontal shaft with two end plates, held by both hands.",
+      "setup": "Standing top position with double overhand grip and one foot hovering; lift from floor is outside this loop.",
+      "hands": "Both palms align with the shaft. All 481 pose samples also confirm grip-axis and height/depth alignment.",
+      "feet": "Support foot remains stationary; rear foot stays airborne during hinge and return.",
+      "movement": "Bar stays close to the legs with no visible contact-sheet clipping; neutral trunk, soft support knee and controlled return."
+    }
+  }
+}

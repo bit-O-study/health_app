@@ -1,0 +1,17 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 5.817889100577355e-15,
+  "gripAlignment": 0,
+  "bodyShaftClearance": 0.4239821538530204,
+  "plateFloorClearance": [
+    1.8880080419368372,
+    5.62109866560825
+  ],
+  "supportGapRange": [
+    0,
+    3.733090623671413
+  ],
+  "supportHeight": 4.1562052899684545,
+  "initialBarBelowKnee": 0.7834587435099789
+}

@@ -1,0 +1,18 @@
+{
+  "id": "axle-bar-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "70048cff1b725a824d98bb67f2089c120211c2f40d1fe1e3260e02923586bb3f",
+  "rigSourceSha256": "ae61d7c31113ba5ec111bc10b039f07a744e2dd94b0c4c50df176bbadbe3e547",
+  "videoSha256": "69c21ecb2b85cc36cf4d32199fffe9325fe6f66d5b189b8c82da68e4f3f100d2",
+  "darkVideoSha256": "59fb3428c5ca962180ccabd9c3dbf2f7bd021235ee86d172ab914f4b583bd5fc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 139457,
+  "darkBytes": 118067,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T05:21:12.570Z"
+}

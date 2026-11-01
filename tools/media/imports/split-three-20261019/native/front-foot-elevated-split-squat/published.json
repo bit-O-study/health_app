@@ -1,0 +1,18 @@
+{
+  "id": "front-foot-elevated-split-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "33a565f994de709b4ceccf9b87749d873ba59c5eab1786131fc7b7e289fe582e",
+  "rigSourceSha256": "d9b3290ca9223040bf5ae2ba936a59946aab7dded2e90f3342ac8bdf5dc44586",
+  "videoSha256": "81151fe7e13216da31eb22e7dec8e7618a0800c74c7d55b489eaa0f779663597",
+  "darkVideoSha256": "b8136435f3a02d40f82b75df19d2fb17e1079826470a6dfbb20e3b909e0efaed",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84293,
+  "darkBytes": 79453,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T10:33:13.560Z"
+}

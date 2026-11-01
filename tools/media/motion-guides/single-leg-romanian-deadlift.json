@@ -1,0 +1,15 @@
+{
+  "id": "single-leg-romanian-deadlift",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-leg-romanian-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/single-leg-romanian-deadlift-dumbbells/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-20T09:17:55.438Z"
+}

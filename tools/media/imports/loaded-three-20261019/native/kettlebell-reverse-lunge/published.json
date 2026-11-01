@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-reverse-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e382c0ebf2cab3d5e46d6c77a92060609606ceff09b614ad391fe64fd235ee67",
+  "rigSourceSha256": "32a63d4ada1cc576fcde3feb60eddd322d078b36f0637ef97fcf92c391d6b6b9",
+  "videoSha256": "4f65f469ab00ed80db7253d5116d834a68f706c062f0f13113e1f68622c49f3b",
+  "darkVideoSha256": "03930f3d412435818be900f1533a0539f08af6e727cfd75d5a73a44223d739f2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121374,
+  "darkBytes": 115308,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T12:05:32.095Z"
+}

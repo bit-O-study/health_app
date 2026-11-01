@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-stiff-leg-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "dd25956a486a9e1ff4024d3b763c622a26f99354cfd1cc862d2cc728e5531bcb",
+  "rigSourceSha256": "82c9494d39e60a9fa35e338e805ec9b37f3daabe6518b2b1d6caf069bab979cf",
+  "videoSha256": "28d680bbf628c575d72db5091e070573e233438ca86391ce571ca097b3986edf",
+  "darkVideoSha256": "595d9bb5b943022daa12ff3e9d671ce45cdf614e4e2af0e5d2d9e4f94480cf21",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 142906,
+  "darkBytes": 122283,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T14:31:29.084Z"
+}

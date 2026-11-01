@@ -1,0 +1,37 @@
+{
+  "reviewer": "Codex: front and side diagnostic sheets plus final light/dark 32-frame sheets inspected",
+  "limits": "Local procedural review, not physical-device or biomechanical certification. Body clearance checks sample skin vertices; not exhaustive mesh collision tests.",
+  "block-pull": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Block-supported deadlift from below knees to standing.",
+      "equipment": "Two equal blocks support the plate bottoms; bar and plates fully visible.",
+      "setup": "Both plates contact blocks at start and finish; no standing on blocks.",
+      "hands": "Long arms and overhand grips outside legs remain aligned to shaft.",
+      "feet": "Both feet stay fixed between blocks; measured drift below 6e-15.",
+      "movement": "Controlled lift and return; support gap starts at zero and remains nonnegative; no backward lean at top."
+    }
+  },
+  "pin-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Deadlift starting with shaft supported on rack pins below knees.",
+      "equipment": "Rack, equal-height safety pins and barbell visible in both themes; camera changed to reveal torso and face.",
+      "setup": "Shaft rests on pins with plates clear of floor; shaft stays between rack posts.",
+      "hands": "Both hands stay outside legs and aligned to bar; arms stay long.",
+      "feet": "Both feet planted inside rack without stepping.",
+      "movement": "Bar rises clear of pins and returns to zero support gap without penetration; sampled body/shaft clearance positive."
+    }
+  },
+  "isometric-deadlift-hold": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Yielding isometric hold with lifted bar below knees, followed by return to floor.",
+      "equipment": "Barbell with two plates; no pins or blocks depicted.",
+      "setup": "Plates begin at sole level; hip-width stance and neutral trunk.",
+      "hands": "Long arms and aligned overhand grips hold bar steady.",
+      "feet": "Both feet stay fixed throughout lift, hold and descent.",
+      "movement": "Four-second hold with zero bar drift, 0.783 model units below knees; returns without standing fully or bouncing."
+    }
+  }
+}

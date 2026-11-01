@@ -1,0 +1,15 @@
+{
+  "id": "squat-jack",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "squat-jack-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/cardio/jumping-jack/squat-jacks/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:41:06.551Z"
+}

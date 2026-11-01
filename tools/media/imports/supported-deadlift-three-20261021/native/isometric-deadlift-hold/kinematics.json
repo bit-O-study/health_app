@@ -1,0 +1,14 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 8.042845553664494e-15,
+  "gripAlignment": 0,
+  "bodyShaftClearance": 0.9630783843579546,
+  "plateFloorClearance": [
+    0,
+    1.8880080419368372
+  ],
+  "holdSeconds": 4,
+  "holdDrift": 0,
+  "holdBelowKnee": 0.7834587435099789
+}

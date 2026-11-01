@@ -1,0 +1,155 @@
+{
+  "id": "pin-deadlift",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/studio.mjs",
+      "sha256": "239e17c065831feb5b01050e5cc9b7b47c49d2d671d0c0a645457a3a48c09986"
+    },
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/motion.mjs",
+      "sha256": "ea08a388d928807bc11e7c12c317e63c5081c9ea0409fc01f72c6fffcaccc258"
+    },
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/render.mjs",
+      "sha256": "bfe1152d7b5447b1442ec2dc49f7a626fe51b3d963957f8f3beccb9e79716c19"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/source.json",
+      "sha256": "7585c67f09222294b8567ad2d9a05df2cf7495046aa1a7384742b799523d986d"
+    },
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/verify.mjs",
+      "sha256": "92bcb6eaff105025ad81579911bd84515cff39005870dabfe5697cfa35c4219f"
+    },
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/finalize.mjs",
+      "sha256": "3923077f96e1ef7dfbfb77966f2783beb86b80410e14494e79d5ae799df0dd6a"
+    },
+    {
+      "path": "tools/media/imports/supported-deadlift-three-20261021/check-poses.mjs",
+      "sha256": "0c9a71ca540dfcb4d0334485364eb1b8ae84e184fed33dd89ee8a430127de886"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://thatfitfriend.com/block-pull-guide/",
+    "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+  ],
+  "sourceSummary": "Start with shaft on equal rack pins below knee; long arms, neutral back and controlled return.",
+  "kinematics": {
+    "samples": 481,
+    "loopError": 0,
+    "footDrift": 5.817889100577355e-15,
+    "gripAlignment": 0,
+    "bodyShaftClearance": 0.4239821538530204,
+    "plateFloorClearance": [
+      1.8880080419368372,
+      5.62109866560825
+    ],
+    "supportGapRange": [
+      0,
+      3.733090623671413
+    ],
+    "supportHeight": 4.1562052899684545,
+    "initialBarBelowKnee": 0.7834587435099789
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      175.61461151951474,
+      175.8301535190507
+    ],
+    "alpha": {
+      "transparent": 37610643,
+      "opaque": 5162773,
+      "partial": 1463384,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/supported-deadlift-three-20261021/native/pin-deadlift/source.jpg",
+    "sha256": "105cc9dfc5ccf7a244b60721e5ca109d09abd69b8ff85e72ab29122c6bad01df",
+    "panels": 16
+  },
+  "limitations": "Original procedural demonstration. Blocks support plates; rack pins support shaft; isometric variation holds a raised load below the knees. Hold duration illustrative. No physical-device, production or exhaustive mesh collision certification."
+}

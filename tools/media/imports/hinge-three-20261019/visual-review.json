@@ -1,0 +1,38 @@
+{
+  "dumbbell-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19",
+    "checks": {
+      "exercise": "Bilateral dumbbell hip hinge with soft knees.",
+      "equipment": "Two dumbbells remain visible throughout the cycle.",
+      "setup": "Hip-width planted feet, neutral trunk, hips move backward.",
+      "hands": "Both handles remain held; front and side sheets show weights alongside the legs.",
+      "feet": "Both ankle drifts below 6e-15 over 481 samples; working knee remains 155 degrees.",
+      "movement": "Front/side eight-panel and final light/dark 32-frame sheets inspected. Controlled hinge and upright return, intact shorts, no frame-edge clipping. Not exhaustive collision certification."
+    }
+  },
+  "dumbbell-stiff-leg-deadlift": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19",
+    "checks": {
+      "exercise": "Dumbbell hinge with nearly straight, unlocked knees.",
+      "equipment": "Two dumbbells with visible handles and plates.",
+      "setup": "Both feet planted; small knee bend preserved instead of locking.",
+      "hands": "Grips remain consistent in front and side sheets and both encoded themes.",
+      "feet": "Both ankle drifts below 8e-15; working knee remains 170 degrees.",
+      "movement": "Final light/dark 32-frame and front/side sheets inspected. Straighter legs distinguish this variant from RDL; weights remain above floor. No observed clipping in inspected frames."
+    }
+  },
+  "b-stance-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19",
+    "checks": {
+      "exercise": "Dumbbell kickstand hinge with rear toe support.",
+      "equipment": "Two dumbbells; no unsupported rear-leg flight.",
+      "setup": "Rear foot staggered with raised heel, torso facing forward.",
+      "hands": "Front/side and final light/dark sheets show both weights retained near legs.",
+      "feet": "Front ankle and rear toe drift below 1e-14; rear ankle lift .76 model units, stagger 1.69, front knee 155 degrees.",
+      "movement": "Both final theme sheets and front/side sheets inspected. Rear toe remains supported during hinge and recovery; app cues explain switching sides. No physical-device validation."
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-romanian-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "988e64f7958d830d1265df78a5518aa913bf4dc868b0be478dbdd53556020014",
+  "rigSourceSha256": "7629268ffd4812303ba5f5ac5727791c9a40b4075897caebaaebbf1561b54f5b",
+  "videoSha256": "b280175b9ce940c5c73a2df3548d471383d0980280cf41d3803a74c6aa81a766",
+  "darkVideoSha256": "7274f03fa1970632145e1a278bf48ada8ea520e5e20018170b7c56b494397698",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 140218,
+  "darkBytes": 120970,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T14:31:10.570Z"
+}

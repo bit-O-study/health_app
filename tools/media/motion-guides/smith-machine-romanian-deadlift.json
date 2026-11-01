@@ -1,0 +1,15 @@
+{
+  "id": "smith-machine-romanian-deadlift",
+  "equipment": "smith",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-romanian-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/smith-machine-romanian-deadlift/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T14:31:10.563Z"
+}

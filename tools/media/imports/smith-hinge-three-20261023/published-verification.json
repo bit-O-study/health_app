@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-23T14:32:10.744Z",
+  "report": [
+    {
+      "id": "smith-machine-deadlift",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "smith-machine-romanian-deadlift",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "smith-machine-stiff-leg-deadlift",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "step-jack",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "94b20194ccf8263f1c0e6b0b506dfcefc77f4d6e34c8b35ddb905f8b1b9d2859",
+  "rigSourceSha256": "dc57f030740e1b5d2229d01ceee0a8c3ffcdf13c72fdc146b68b0c4e3e08eeb3",
+  "videoSha256": "2be99ba9a81d5ce108faa7a86e529836744cf5417035f91f25c531d94f0754e2",
+  "darkVideoSha256": "47dbc191c1f9366889c1ca2adb50f12a9233330b379bf15ed60e258f8fc71ccb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 204096,
+  "darkBytes": 222237,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:41:00.644Z"
+}

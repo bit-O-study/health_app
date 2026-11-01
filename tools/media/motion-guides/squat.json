@@ -1,0 +1,15 @@
+{
+  "id": "squat",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "squat-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/legs/quad-exercises/squats/bodyweight-squat/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-16T03:54:12.989Z"
+}

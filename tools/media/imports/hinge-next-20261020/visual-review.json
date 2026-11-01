@@ -1,0 +1,28 @@
+{
+  "reviewedAt": "2026-10-20",
+  "reviewer": "Codex visual inspection of full/side eight-frame sheets and final light/dark 32-frame sheets",
+  "double-kettlebell-romanian-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Bilateral hip hinge with soft knees; two kettlebells match the exact catalog equipment.",
+      "equipment": "Two distinct bells with rigid bodies and handles retained throughout light and dark views.",
+      "setup": "Standing start, hip-width feet and straight neutral trunk, no squat-depth lowering.",
+      "hands": "Each hand remains attached to its handle; no grip switching or disappearing equipment in sampled frames.",
+      "feet": "Both feet remain planted; 481-sample ankle drift below 6e-15 model units.",
+      "movement": "Hips travel back and return; knee inner angle remains 155 degrees, full 8-second loop and all alpha edges checked. Final 32-frame sheets show continuous silhouettes."
+    },
+    "limits": "Slow procedural illustration; dark bells have modest contrast. Sampled joint and image checks do not certify all skin/cloth collisions or biomechanics."
+  },
+  "stiff-leg-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Barbell stiff-leg standing-start variant, with a smaller fixed knee bend than the RDL.",
+      "equipment": "One straight barbell and two plates, retained across sampled frames and both themes.",
+      "setup": "Standing start and stopping above the floor are explicit in source metadata and app instructions.",
+      "hands": "Double overhand grip with both hand anchors aligned on the bar; 481-sample misalignment zero.",
+      "feet": "Both feet planted; maximum ankle drift below 8e-15 model units.",
+      "movement": "Hip hinge with 170-degree knee inner angle, neutral-looking trunk, controlled return and loop. Full/side and final light/dark sheets inspected."
+    },
+    "limits": "Rack setup and floor pickup are not shown. Slow procedural illustration, not a biomechanics or exhaustive collision certification."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-11-01T11:59:33.513Z",
+  "exercises": [
+    {
+      "id": "barbell-overhead-press",
+      "url": "https://www.muscleandstrength.com/exercises/military-press.html",
+      "implementation": "Standing strict press; no leg drive. Clear head on ascent, finish overhead."
+    },
+    {
+      "id": "drag-curl",
+      "url": "https://www.muscleandfitness.com/workouts/arm-exercises/best-bicep-exercises-drag-curl/",
+      "implementation": "Supinated grip; elbows move backward while bar rises close to torso."
+    },
+    {
+      "id": "behind-the-back-shrug",
+      "url": "https://www.muscleandstrength.com/exercises/behind-the-back-barbell-shrug.html",
+      "implementation": "Bar behind pelvis, straight arms, shoulder elevation without circular roll. Rear three-quarter camera."
+    }
+  ]
+}

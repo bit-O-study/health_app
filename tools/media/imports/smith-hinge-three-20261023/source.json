@@ -1,0 +1,18 @@
+{
+  "smith-machine-deadlift": {
+    "equipment": "smith",
+    "url": "https://repfitness.com/blogs/guides/smith-machine-deadlift",
+    "criteria": "Low start, fixed bar path, hip-width stance, overhand grip and coordinated hip/knee extension. Demonstration uses a vertical-rail machine permitting floor-height plates."
+  },
+  "smith-machine-romanian-deadlift": {
+    "equipment": "smith",
+    "url": "https://www.strengthlog.com/smith-machine-romanian-deadlift/",
+    "criteria": "Standing start, overhand grip, hip hinge and softly bent knees held constant; controlled descent along fixed rails and return to upright."
+  },
+  "smith-machine-stiff-leg-deadlift": {
+    "equipment": "smith",
+    "url": "https://www.muscleandstrength.com/exercises/smith-machine-stiff-leg-deadlift.html",
+    "criteria": "Standing repetition starts after setup; fixed slight knee bend, hip hinge, bar close to legs, controlled return without relaxing at bottom. Knees straighter than modeled Romanian version, not locked."
+  },
+  "limits": "Procedural demonstration; illustrative proportions, range and eight-second timing. Vertical-rail machine variant with visible safety stops, not a product replica; unracking/reracking not shown. Stylized shorts without fabric simulation; sampled bar/body clearance is not exhaustive collision or biomechanical certification. Physical-device and production verification pending."
+}

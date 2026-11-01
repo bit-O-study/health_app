@@ -1,0 +1,35 @@
+{
+  "lunge": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Left forward lunge, returning to the same standing position; not a walking lunge.",
+      "equipment": "Bodyweight only; equipment filter excludes dumbbell variation.",
+      "setup": "Both final 32-frame theme sheets and front/side 8-frame sheets inspected; upright torso and parallel foot tracks.",
+      "hands": "Bent arms held in front for balance, hands separate from torso and entirely in frame.",
+      "feet": "Front ankle fixed during lowered stance; rear second-toe base fixed. Heel rises around toe anchor, toes counter-rotate. No visible foot sliding in reviewed stance frames.",
+      "movement": "Clear forward step, lower and return. Rear knee hovers. Shorts silhouette intact in inspected views; continuous cloth collision not certified."
+    }
+  },
+  "pulse-lunge": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Fixed split stance with two small lower-range pulses, then return to raised split stance.",
+      "equipment": "Bodyweight only; arms in front are a balance variation of source hands-on-hips placement.",
+      "setup": "Front/side 8-frame sheets and final light/dark 32-frame sheets inspected; feet stay apart throughout.",
+      "hands": "Both hands forward, no props or hand-body intersection visible in inspected frames.",
+      "feet": "Both support anchors remain fixed across all481 poses; rear heel stays raised.",
+      "movement": "Middle pulses have .486 model-unit hip excursion; no standing between pulses, no foot reposition. One side shown; app instructs switching sides."
+    }
+  },
+  "reverse-lunge": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Right leg steps backward and returns while left foot remains the front support.",
+      "equipment": "Two visible hex dumbbells held beside body; dumbbell-only registration.",
+      "setup": "Front/side 8-frame sheets and final light/dark 32-frame sheets inspected, plus full-size bottom grip view.",
+      "hands": "Hands wrap the handles, arms stay beside body, no visible dropped or detached weight; dumbbells remain clear of floor.",
+      "feet": "Front foot remains fixed; moving rear foot lifts during transfer and anchors toes during the lowered stance.",
+      "movement": "Backward step distinguishes it from forward lunge. Rear knee remains above floor. No visible garment tear in reviewed frames; one side only, continuous triangle collision not certified."
+    }
+  }
+}

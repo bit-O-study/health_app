@@ -1,0 +1,18 @@
+{
+  "id": "clean-grip-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9ac3b77ed00cbdd5b2c7c458a65b2dcfa29e2bc777c1b630338609ea5ba47dd3",
+  "rigSourceSha256": "ca2ec9ec369124fb5b4046337bd3a7ba8f8f771e2b580e9468faadb043ee25b0",
+  "videoSha256": "2a63d703ca59970f420b171f479079381a05d6fd5419238b2f5664f640020bbb",
+  "darkVideoSha256": "cc05dff0fa34cdb4513606e312765df81226a84f858d4a7f82b039f290abfc21",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 137468,
+  "darkBytes": 113513,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T05:20:39.231Z"
+}

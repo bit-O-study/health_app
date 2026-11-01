@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "98416918eac64c23bb8a8986731369b32e213d3994ea1bac74ac487ea322d12c",
+  "rigSourceSha256": "d6355eafbc11e2f6e7b228198ff448e184d35d509e4d49af494470924b2c57ae",
+  "videoSha256": "07aa13c2b6d83c78c96d193433ce64abfa311175c83a02f5a3c9c22556e3c43b",
+  "darkVideoSha256": "a95d05a224f5ea35c95db01678e0e16bc0461990348d5c1a4eb7a4b383913496",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 156979,
+  "darkBytes": 130497,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T15:05:20.348Z"
+}

@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-23T05:04:07.472Z",
+  "report": [
+    {
+      "id": "dumbbell-deadlift",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "single-arm-dumbbell-deadlift",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "partial-deadlift",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

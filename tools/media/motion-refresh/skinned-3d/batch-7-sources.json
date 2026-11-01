@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-31T13:39:52.771Z",
+  "exercises": [
+    {
+      "id": "arnold-press",
+      "equipment": "dumbbell",
+      "url": "https://www.puregym.com/exercises/arms-and-shoulders/shoulder-press/arnold-press/",
+      "implementation": "Standing variant; start palms toward body, elbows forward, open and rotate into overhead press; reverse smoothly."
+    },
+    {
+      "id": "upright-row",
+      "equipment": "dumbbell",
+      "url": "https://www.muscleandstrength.com/exercises/dumbbell-upright-row.html",
+      "implementation": "Dumbbell variant ONLY; independent weights rise in front of body, elbows lead out without upper arms above parallel."
+    },
+    {
+      "id": "close-grip-upright-row",
+      "equipment": "barbell",
+      "url": "https://www.muscleandfitness.com/flexonline/training/close-grip-vs-wide-grip-upright-row/",
+      "implementation": "Fixed narrow overhand grip; elbows lead outward, controlled chest-height path, no torso swing."
+    }
+  ]
+}

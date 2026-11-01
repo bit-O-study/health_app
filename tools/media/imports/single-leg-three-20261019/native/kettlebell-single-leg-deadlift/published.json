@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-single-leg-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6a511da9ddc59dc8343bc444229a827e06566e63f251c8cd1c7e4c28c54f9dea",
+  "rigSourceSha256": "dfa77e2b68ab362eec5416c3658c7ab3507615f0e52953f0fac047602e8ec499",
+  "videoSha256": "b53d9dec4d47c57a970c776150226244e0a5d0e44f22d9ee1467ba9ec85191ef",
+  "darkVideoSha256": "972c245bb681094bd1c5eb6abd56d7baa84fbb600c4ed2562d69a6f846202326",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 134417,
+  "darkBytes": 125990,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T09:18:06.251Z"
+}

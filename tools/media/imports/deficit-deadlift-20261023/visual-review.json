@@ -1,0 +1,15 @@
+{
+  "reviewer": "Codex: front/side diagnostic sheets and final light/dark 32-frame sheets inspected",
+  "limits": "Local procedural review. Sampled surface clearances are not exhaustive mesh collision certification; physical device and production checks pending.",
+  "deficit-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Elevated-foot deadlift with a deeper starting position and controlled return to floor.",
+      "equipment": "Barbell with two plates outside a low rectangular foot platform, visible in both themes.",
+      "setup": "Platform supports both feet; plate bottoms start level with platform base rather than platform top.",
+      "hands": "Both overhand grips remain outside legs and aligned to shaft; long arms throughout.",
+      "feet": "Foot and toe anchors remain inside the platform footprint; sampled sole-platform gap below 8e-15.",
+      "movement": "Knees and hips extend together; bar rises 6.268 model units and returns without sampled plate-floor penetration; loop poses identical."
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "barbell-overhead-press",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/barbell-overhead-press.mp4",
+      "sha256": "3d28da42e4b58c141dbd37b4629b354e42a24a084410b8176c00564d4b57a932",
+      "bytes": 445183
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/barbell-overhead-press-dark.mp4",
+      "sha256": "f3e84d91987f376630c7b256c7f0fb0b7708b97af6e974886336732d9974189b",
+      "bytes": 394725
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-8.mjs",
+      "sha256": "b31090027ea24e139732690c6f3512983c081683d0782d3ae6b8cd257c0b71cd"
+    },
+    {
+      "file": "exercise-motion-8.mjs",
+      "sha256": "6bbb216a222585c2bc148f7f436665dc43801a8ef129fbf0c3b704e2f1c9f39f"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

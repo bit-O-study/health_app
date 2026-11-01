@@ -1,0 +1,38 @@
+{
+  "side-lunge": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19",
+    "checks": {
+      "exercise": "Lateral stepping lunge with return, demonstrated on one side.",
+      "equipment": "Two dumbbells visible, held at sides throughout.",
+      "setup": "Standing start and end. Foot steps laterally, trunk inclines slightly into the hip.",
+      "hands": "Front and side sheets and enlarged bottom frame show continuous handle grip alongside legs.",
+      "feet": "Support ankle and loaded ankle drift below 7e-15; trailing knee 171 degrees, loaded knee 89 degrees at bottom.",
+      "movement": "Front/side eight-panel sheets and both encoded 32-frame theme sheets inspected. Clear lateral travel and return, intact garment at inspected bottom frame, no edge clipping. Not exhaustive triangle collision certification."
+    }
+  },
+  "dumbbell-jump-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19",
+    "checks": {
+      "exercise": "Squat, takeoff, brief flight, flexed landing, and recovery.",
+      "equipment": "Two side-held dumbbells remain attached to hands during flight.",
+      "setup": "Shoulder-width feet, slow illustrative cycle with visible recovery before repeating.",
+      "hands": "Front and side sheets show arms kept at sides and handles retained.",
+      "feet": "Both feet rise symmetrically; toe rise 1.5 model units. Ground ankle drift below 7e-15 outside foot roll and flight.",
+      "movement": "Both final encoded theme sheets and front/side sheets inspected. Landing knee bends from 162 to 94 degrees. No edge clipping; slow illustration does not prescribe real jump timing."
+    }
+  },
+  "kettlebell-lunge": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19",
+    "checks": {
+      "exercise": "Forward lunge returning the stepping foot to the start.",
+      "equipment": "Two suitcase-held kettlebells with visible bodies and handles.",
+      "setup": "Standing start, upright trunk, forward step then controlled descent.",
+      "hands": "Front and side sheets show consistent grips and downward hanging bells.",
+      "feet": "Forward foot travels 8.3 model units. Rear toe and loaded front ankle drift below 7e-15; rear knee remains above floor reference.",
+      "movement": "Both encoded theme sheets plus front/side sheets inspected; no cropped limbs or missing equipment. Same-side demonstration with side-switch cue in app. Not physical-device or clinical certification."
+    }
+  }
+}

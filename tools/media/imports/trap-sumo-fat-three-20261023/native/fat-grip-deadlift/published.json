@@ -1,0 +1,18 @@
+{
+  "id": "fat-grip-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "60c5001e53e414654aed8f292ea91de464d40a7d993c00ba7fc9e7e62574abcb",
+  "rigSourceSha256": "c2eb473ddbdf98765192c46e47b8a7401901d32a0e5d49428e39e5ac50d3b3d2",
+  "videoSha256": "4528632dbb190245ebfb3e861bfe7ee1c63a53667c15eafedda62a84a6cccf95",
+  "darkVideoSha256": "07edf8ab5b29124a043d39f2c5fa877029479156fd0c632df1e6586171e3fa89",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 141309,
+  "darkBytes": 119775,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T13:57:20.909Z"
+}

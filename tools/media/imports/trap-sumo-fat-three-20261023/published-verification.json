@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-23T13:58:59.950Z",
+  "report": [
+    {
+      "id": "trap-bar-deadlift",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "kettlebell-sumo-deadlift",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "fat-grip-deadlift",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

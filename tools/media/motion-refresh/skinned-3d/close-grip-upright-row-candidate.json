@@ -1,0 +1,36 @@
+{
+  "id": "close-grip-upright-row",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/close-grip-upright-row.mp4",
+      "sha256": "df75b10a112947e14016727764afaa6407c2c9ef43b995cec5053473268cfd5d",
+      "bytes": 488874
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/close-grip-upright-row-dark.mp4",
+      "sha256": "c0397801ac9cd901f4165663ba652af3aff6ee75231c79105a6bf77f49d9e7f9",
+      "bytes": 419947
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-7-barbell.mjs",
+      "sha256": "26260616a35299ca813b99ef6bdaa33693c37db16e8ea89917cfb206fd52123c"
+    },
+    {
+      "file": "exercise-motion-7.mjs",
+      "sha256": "6a9d236b9760c830b1d873f1b9bf9eb7db18f85506d6452331071dd38a780109"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

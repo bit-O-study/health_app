@@ -1,0 +1,18 @@
+{
+  "id": "jumping-jack",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "234b2981f8e7bb8c9f5d5ed442b331671792d03bec3f3ba76906327291c05aeb",
+  "rigSourceSha256": "7c8c326a63ab832b9942df5ab44fe90b7cc1070e9b9936d1d3f47b67072b6100",
+  "videoSha256": "bd5704703bd16b8a88462408d636ad5f6b2124b1a69915d42fd7470b1be5f795",
+  "darkVideoSha256": "cb784c1b4a5002226fd119c1b3b6cc86d024dffa432cc537c5fe547b52655260",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 213397,
+  "darkBytes": 229601,
+  "decode": "passed",
+  "verifiedAt": "2026-10-16T03:17:47.946Z"
+}

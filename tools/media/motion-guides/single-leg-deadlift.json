@@ -1,0 +1,17 @@
+{
+  "id": "single-leg-deadlift",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-leg-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/single-leg-barbell-romanian-deadlift"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-20T14:19:03.834Z",
+  "aliasOf": "barbell-single-leg-romanian-deadlift",
+  "aliasReason": "Both catalog IDs use a barbell, single support leg, airborne rear leg and controlled neutral-spine hip hinge. Exact reuse of reviewed barbell single-leg RDL; not a newly generated motion."
+}

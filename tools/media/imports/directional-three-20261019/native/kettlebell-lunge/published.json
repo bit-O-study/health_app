@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fbe5fcb089bc83cdc77e67bd53c8487d6d03d50170ca0fff4a335ab245e02961",
+  "rigSourceSha256": "1548f3cf86cfc29f50ea055cb6bfcda963cbce221b2b2169f275b64f70cd1f4a",
+  "videoSha256": "cb2a1348e939acb4644730c2f8ca595fa64316ece3c5a3c45b04d73169e910f6",
+  "darkVideoSha256": "c184b79309ccbd4473dcfb9a23102ddda3c97619d6003c7eb454245eb140f9af",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 129393,
+  "darkBytes": 117238,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T12:24:19.953Z"
+}

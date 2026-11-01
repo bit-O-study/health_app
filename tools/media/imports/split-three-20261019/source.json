@@ -1,0 +1,20 @@
+{
+  "split-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-split-squat",
+    "criteria": "Fixed split stance, neutral-grip dumbbells by sides, bend both knees and rise through front foot. Rear knee hovers instead of source floor-touch variation."
+  },
+  "front-foot-elevated-split-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandfitness.com/exercise/workouts/leg-exercises/front-foot-elevated-dumbbell-split-squat/",
+    "criteria": "Front foot fully supported on low platform, rear toes on floor, dumbbells at sides. Fixed stance with controlled descent and ascent; front leg has greater flexion than level-floor version."
+  },
+  "deficit-reverse-lunge": {
+    "equipment": "dumbbell",
+    "url": "https://fitwill.app/exercise/7326/dumbbell-reverse-lunge-from-deficit/",
+    "criteria": "Begin with both feet on low platform, step right foot backward onto floor, lower with left foot planted on platform, return right foot onto platform. Dumbbells held at sides."
+  },
+  "accessed": "2026-10-19",
+  "sourceKind": "Original procedural motion; no copied imagery.",
+  "limits": "Eight-second teaching cycle, left leg forward; repeat opposite side separately. Platform height one world unit (illustrative). Rear knee hovers. Procedural character, not captured human biomechanics. No phone or production verification."
+}

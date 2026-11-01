@@ -1,0 +1,24 @@
+{
+  "limits": "Original procedural demonstration, not recorded human motion. Tempo choices illustrate variants; no individual loading prescription. Physical phone and production unverified.",
+  "pause-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "supportingUrl": "https://www.catalystathletics.com/exercise/324/Clean-Segment-Deadlift/",
+    "criteria": "Floor start, pause during ascent below knee, long arms, neutral trunk, controlled return.",
+    "timing": "1.6s initial pull, 1.6s pause, 1.6s finish, .4s top, 2.4s descent, .4s bottom"
+  },
+  "tempo-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "supportingUrl": "https://www.barbellmedicine.com/blog/pain-in-training-what-do/",
+    "criteria": "Floor start, coordinated hip and knee extension, long arms and controlled lowering; tempo is intentionally slowed.",
+    "timing": "3.2s up, .8s top, 3.2s down, .8s bottom"
+  },
+  "eccentric-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "supportingUrl": "https://www.barbellmedicine.com/blog/pain-in-training-what-do/",
+    "criteria": "Floor start, coordinated hip and knee extension, long arms and controlled lowering; tempo is intentionally slowed.",
+    "timing": "1.6s up, .4s top, 5.6s down, .4s bottom"
+  }
+}

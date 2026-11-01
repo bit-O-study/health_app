@@ -1,0 +1,160 @@
+{
+  "id": "reverse-lunge",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/lunge-three-20261016/studio.mjs",
+      "sha256": "753780fedcdb974fff789de38068a00441f0d17db3caae600431557065393c1b"
+    },
+    {
+      "path": "tools/media/imports/lunge-three-20261016/motion.mjs",
+      "sha256": "8506481826336c4afa07f08c267a640dd08f40eec1ca70747ee208bfc3e789d9"
+    },
+    {
+      "path": "tools/media/imports/lunge-three-20261016/render.mjs",
+      "sha256": "b82ab55040a21a6d5ea83f5b365f56e3e6ba2063a4872760179fdf4a6063fc9e"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/lunge-three-20261016/source.json",
+      "sha256": "bac5fa2e426c282273376d398dcb01211e7fb06a6afbbf5a983a2b734470d52f"
+    },
+    {
+      "path": "tools/media/imports/lunge-three-20261016/verify.mjs",
+      "sha256": "2cead3e60f23e1af9a7fae8012694950c541509d8ccfc16db6997c6cd7ee210f"
+    },
+    {
+      "path": "tools/media/imports/lunge-three-20261016/finalize.mjs",
+      "sha256": "6a7b2af655553f3adcc7ece5e54eacb0b1885b99dcf486f9f6a4e1fd49c9e243"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-rear-lunge.html"
+  ],
+  "sourceSummary": "Hold one dumbbell at each side, step right leg backward, lower both knees, keep front foot planted, then return back foot to standing. Rear knee hovers rather than contacting floor. No deficit platform.",
+  "kinematics": {
+    "samples": 481,
+    "hipDegrees": [
+      7.332837495950411,
+      89.23946413001875
+    ],
+    "kneeFlexionDegrees": [
+      11.154610464296411,
+      116.49300638900085
+    ],
+    "footSpan": [
+      2.5999999999999996,
+      2.600000000000001
+    ],
+    "wristY": [
+      -3.137163318625368,
+      1.0628366813746326
+    ],
+    "loopPoseError": 0,
+    "plantedFrontAnkleDrift": 4.7102773760513246e-15,
+    "plantedRearToeDrift": 6.404745667978754e-15,
+    "rearKneeMinY": -6.833433733485981,
+    "stepTravelZ": [
+      -7.206710003736568,
+      0
+    ]
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      175.50679185991143,
+      175.50679185991154
+    ],
+    "alpha": {
+      "transparent": 40827112,
+      "opaque": 2785254,
+      "partial": 624434,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/lunge-three-20261016/native/reverse-lunge/source.jpg",
+    "sha256": "b37fb3dc3ace22e1148893dd1673d405b24468782e1ceda1753347dc5bf8b511",
+    "panels": 16
+  },
+  "limitations": "Eight-second slow teaching cycle. One side shown; repeat other side separately. Barefoot procedural character, not measured human motion. Rear knee hovers above floor. No exhaustive cloth collision or phone/production validation. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation."
+}

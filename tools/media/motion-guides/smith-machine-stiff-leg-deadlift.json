@@ -1,0 +1,15 @@
+{
+  "id": "smith-machine-stiff-leg-deadlift",
+  "equipment": "smith",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-stiff-leg-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-stiff-leg-deadlift.html"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T14:31:29.077Z"
+}

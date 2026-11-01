@@ -1,0 +1,15 @@
+{
+  "id": "double-kettlebell-romanian-deadlift",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "double-kettlebell-romanian-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://wyron-bell.com/lexicon/double-romanian-deadlift"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-20T14:18:38.136Z"
+}

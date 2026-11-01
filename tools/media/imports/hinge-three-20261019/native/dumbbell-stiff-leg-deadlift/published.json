@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-stiff-leg-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6790b90e16a34ff34661129736ad29752573163e090d7da2b51f8b353314ce54",
+  "rigSourceSha256": "a0987868ec5cc2c563a139ebaa2cdf5b54dbd8c9d867133dd617a4550546dee9",
+  "videoSha256": "30c42cb8861499a15a2b23db4f1c9a469a45aefd7fe8c71619c0f45b446afc80",
+  "darkVideoSha256": "005c5aa670768a2180c96562e9d8945177475bdd62c172fdfb0ab155f4037f47",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 129712,
+  "darkBytes": 126553,
+  "decode": "passed",
+  "verifiedAt": "2026-10-19T12:34:25.875Z"
+}

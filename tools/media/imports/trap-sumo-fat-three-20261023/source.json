@@ -1,0 +1,19 @@
+{
+  "trap-bar-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.sussex.ac.uk/sport/documents/trap-bar-deadlift.pdf",
+    "criteria": "Step inside loaded hexagonal frame, hip-width feet, neutral side handles, coordinated knee/hip extension and controlled return to floor. Low-handle variant."
+  },
+  "kettlebell-sumo-deadlift": {
+    "equipment": "kettlebell",
+    "url": "https://www.muscleandstrength.com/exercises/one-kettlebell-sumo-deadlift",
+    "criteria": "Single kettlebell centered between wide feet with toes slightly out, close double-overhand grip, hips below shoulders, push through whole foot then return to floor."
+  },
+  "fat-grip-deadlift": {
+    "equipment": "barbell",
+    "url": "https://fatgripz.com/pages/fat-gripz-faqs",
+    "supportingUrl": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "criteria": "Conventional floor deadlift with thick grip adapters only under the hands; standard shaft elsewhere. Double-overhand grip; no claim of product replica."
+  },
+  "limits": "Procedural demonstration with illustrative equipment proportions and eight-second timing. Stylized skinning/shorts without fabric simulation; sampled geometry is not exhaustive mesh collision or biomechanical certification. Physical-device and production verification pending."
+}

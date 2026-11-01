@@ -1,0 +1,18 @@
+{
+  "id": "stiff-leg-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f45578cf81d6d725dfaacc305b167d1d2417f10ea817edcc95726ca20c2b33de",
+  "rigSourceSha256": "5ecf7b2263c923ba098d8026ac14edf9060be85a4ed899db1f907e06b4fb1fe5",
+  "videoSha256": "ee60bf77d5a66a4a8d376e2282d0b1955dc604fe79d4c79c80350fc7f990b7ac",
+  "darkVideoSha256": "7d102eaefd15acfe480e2b2522f06bb1e0216f878e1858c6101b4911e096f810",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 145597,
+  "darkBytes": 130475,
+  "decode": "passed",
+  "verifiedAt": "2026-10-20T14:18:46.013Z"
+}

@@ -1,0 +1,155 @@
+{
+  "id": "chair-pose",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/squat-three-20261016/studio.mjs",
+      "sha256": "89c763af7fe01666efbdf69d30c080122dea504bdbfbcd62b723fe9fa6f8f687"
+    },
+    {
+      "path": "tools/media/imports/squat-three-20261016/motion.mjs",
+      "sha256": "44903408c7c8479524e1deaa7a3969b2bea5f233b943ef1070455f01ec8ec054"
+    },
+    {
+      "path": "tools/media/imports/squat-three-20261016/render.mjs",
+      "sha256": "112700d141dc349472b1f8dae7f6d00e7ec55700c09f8befeccf0730534d6870"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/squat-three-20261016/source.json",
+      "sha256": "ef52a4d7abaa9d5f4739104c6d8630083fb34da48e4530433956ea94410d7abb"
+    },
+    {
+      "path": "tools/media/imports/squat-three-20261016/verify.mjs",
+      "sha256": "f5e6cd1e9dd31118f8239dbda0a5decf6154dc7a8e653ff24cfb474c5689becd"
+    },
+    {
+      "path": "tools/media/imports/squat-three-20261016/finalize.mjs",
+      "sha256": "1baf53827d1b8aad7a054562f35a3f7582b11c9b90c41030e303b8f620038f71"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.learnyoga.net/poses/chair-pose/"
+  ],
+  "sourceSummary": "Hip-width variation, hips back with moderate knee bend, arms overhead, chest lifted and spine long. Enter, hold steadily, then stand and lower arms. Four-second displayed hold is illustrative, not the source breathing prescription.",
+  "kinematics": {
+    "samples": 481,
+    "hipDegrees": [
+      7.425633797730316,
+      59.96778545108511
+    ],
+    "kneeFlexionDegrees": [
+      11.392298511366079,
+      88.60847660355394
+    ],
+    "footSpan": [
+      2.3999999999999986,
+      2.4000000000000017
+    ],
+    "wristY": [
+      1.1459426490050117,
+      8.05145148238115
+    ],
+    "loopPoseError": 0,
+    "ankleDrift": 6.342923343242401e-15,
+    "holdJointDrift": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      175.8469332587472,
+      175.84693325874784
+    ],
+    "alpha": {
+      "transparent": 40818325,
+      "opaque": 2710089,
+      "partial": 708386,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/squat-three-20261016/native/chair-pose/source.jpg",
+    "sha256": "c5de39137a7e0906e98b2d6fb2454c93c385d6077ddee67c41bee6c218905280",
+    "panels": 16
+  },
+  "limitations": "Eight-second instructional cycle; hold duration is illustrative. Barefoot procedural character. Only bodyweight squat is depicted, not loaded variants. No exhaustive cloth collision simulation, individual biomechanics, phone or production verification. Visual and joint checks do not constitute exhaustive continuous cloth/triangle collision simulation."
+}

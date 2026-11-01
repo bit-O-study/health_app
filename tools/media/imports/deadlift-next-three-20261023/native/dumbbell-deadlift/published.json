@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fef04b27a91f11fb419ae1c5696244b6bd0c6f3f57064343e004bfe0bd57f251",
+  "rigSourceSha256": "edbf2f87ef610ceb056166c003316a5b024d79d459273dadb0a6bef129047c3b",
+  "videoSha256": "21ce112688d95fe2e6dedcf8ba4d8f00c80d81df58234ad337a1d0b735e48dc0",
+  "darkVideoSha256": "9a88a67c41588830e9c8c8db6cb64362d8458ca47929b819c727f158a167fa1d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 120936,
+  "darkBytes": 112234,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T05:02:17.636Z"
+}

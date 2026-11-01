@@ -1,0 +1,21 @@
+{
+  "limits": "Original procedural demonstration. Blocks support plates; rack pins support shaft; isometric variation holds a raised load below the knees. Hold duration illustrative. No physical-device, production or exhaustive mesh collision certification.",
+  "block-pull": {
+    "equipment": "barbell",
+    "url": "https://thatfitfriend.com/block-pull-guide/",
+    "supportingUrl": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "criteria": "Start with plates on equal blocks below knee; extend hips and knees with long arms then return to blocks."
+  },
+  "pin-deadlift": {
+    "equipment": "barbell",
+    "url": "https://thatfitfriend.com/block-pull-guide/",
+    "supportingUrl": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "criteria": "Start with shaft on equal rack pins below knee; long arms, neutral back and controlled return."
+  },
+  "isometric-deadlift-hold": {
+    "equipment": "barbell",
+    "url": "https://www.catalystathletics.com/exercise/185/Halting-Clean-Deadlift/",
+    "supportingUrl": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "criteria": "Yielding isometric variation: lift from floor to below knee, hold body and bar for four seconds, then lower; no further extension."
+  }
+}

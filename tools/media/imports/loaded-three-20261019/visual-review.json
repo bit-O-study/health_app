@@ -1,0 +1,38 @@
+{
+  "dumbbell-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19T12:04:50.160Z",
+    "checks": {
+      "exercise": "dumbbell-squat",
+      "equipment": "Two dumbbells held at sides.",
+      "setup": "Shoulder-width planted stance.",
+      "hands": "Handles remain in both hands alongside hips in inspected front, side, light and dark sheets.",
+      "feet": "Both soles remain planted; numerical drift below 1e-6.",
+      "movement": "Controlled descent and ascent visible; no clipping at frame edges. All three encoded variants pass playback, seek and loop checks."
+    }
+  },
+  "1-5-rep-lunge": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19T12:04:50.163Z",
+    "checks": {
+      "exercise": "1-5-rep-lunge",
+      "equipment": "Two dumbbells held at sides.",
+      "setup": "Standing start, rear step and return.",
+      "hands": "Handles remain in both hands alongside hips in inspected front, side, light and dark sheets.",
+      "feet": "Front foot planted; rear toe contact stays fixed during loaded stance, then returns.",
+      "movement": "Full descent, three-quarter rise, second descent, full stand and foot return are visible."
+    }
+  },
+  "kettlebell-reverse-lunge": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-10-19T12:04:50.163Z",
+    "checks": {
+      "exercise": "kettlebell-reverse-lunge",
+      "equipment": "Two suitcase-held kettlebells.",
+      "setup": "Standing start, rear step and return.",
+      "hands": "Handles remain in both hands alongside hips in inspected front, side, light and dark sheets.",
+      "feet": "Front foot planted; rear toe contact stays fixed during loaded stance, then returns.",
+      "movement": "Controlled descent and ascent visible; no clipping at frame edges. All three encoded variants pass playback, seek and loop checks."
+    }
+  }
+}

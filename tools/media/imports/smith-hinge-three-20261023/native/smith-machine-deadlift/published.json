@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "29f6c7be8ffa170bf744ae08dcf057796d304a4be458a4315a961b3915cc1aab",
+  "rigSourceSha256": "944a3052099466d2c294e7aaef163bbb60222a989bbcf95dc41dce1419aeda43",
+  "videoSha256": "7009339dbcc82dc542904329d1fa1016961d5f041b1cb867c5a488aa5fc8f72e",
+  "darkVideoSha256": "721faa426c8f082016400f8dc0738fdc1d5c6cf564bae7fe1229f56c7f347a82",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 135890,
+  "darkBytes": 118344,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T14:30:58.250Z"
+}

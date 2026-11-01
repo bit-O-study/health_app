@@ -1,0 +1,15 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 5.575762865678248e-15,
+  "floorGap": 1.2434497875801753e-14,
+  "bodyShaftClearance": 0.5598290312942786,
+  "gripAlignment": 0,
+  "gripWidth": [
+    8.062166220872756,
+    8.174949180077892
+  ],
+  "startKneeDegrees": 78.43949400449588,
+  "shaftRadius": 0.12,
+  "initialBackAngleDrift": 1.2428094669313552
+}

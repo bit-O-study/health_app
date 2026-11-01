@@ -1,0 +1,10 @@
+{
+  "initialCandidatesPublished": false,
+  "corrections": [
+    "Initial two-dumbbell depth penetrated the floor by 0.2633 model units. Reworked coordinated knee flexion and hip position, then solved depth for actual dumbbell floor contact.",
+    "Deep flexion showed a flared pelvis-weighted garment region. Removed the artificial pelvis stabilization contribution in this isolated studio, preserving skeletal skinning.",
+    "Lower-body distance checking initially counted hand and metacarpal grip contact. It now excludes arm/hand weighted vertices and checks the remaining lower body against conservative equipment bounding boxes.",
+    "Full-cycle checking found upper-thigh/bounding-box overlap near standing. Replaced one-axis wrist correction with a complete neutral hand basis; final handle axes stay fore-aft across all poses.",
+    "Final 481-pose checks: two-dumbbell lower-body gap >=0.7924688; single-dumbbell >=0.8986742 model units. Partial bar sampled clearance >=0.4239821. Limited geometry checks, not biomechanical certification."
+  ]
+}

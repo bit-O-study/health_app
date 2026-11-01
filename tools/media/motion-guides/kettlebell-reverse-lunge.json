@@ -1,0 +1,15 @@
+{
+  "id": "kettlebell-reverse-lunge",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-reverse-lunge-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/735/Reverse-Lunge/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-19T12:05:32.090Z"
+}

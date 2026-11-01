@@ -1,0 +1,15 @@
+{
+  "samples": 481,
+  "loopPoseError": 0,
+  "frontAnkleDrift": 5.310824686389317e-15,
+  "rearContactDrift": 9.090957362871364e-15,
+  "kneeRange": [
+    155.00000000000006,
+    155.00000000000028
+  ],
+  "hipBackward": 3.3402226230214125,
+  "handDescent": 3.340526990213042,
+  "bottomHandY": -2.471554057856485,
+  "stagger": 1.694945915616738,
+  "rearHeelLift": 0.7597269089422598
+}

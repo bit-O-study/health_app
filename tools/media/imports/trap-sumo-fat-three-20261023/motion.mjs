@@ -1,0 +1,50 @@
+import * as THREE from './three.module.js';
+export const exercises=["trap-bar-deadlift","kettlebell-sumo-deadlift","fat-grip-deadlift"];
+const v=a=>new THREE.Vector3().fromArray(a),q=()=>new THREE.Quaternion(),rad=THREE.MathUtils.degToRad;
+const ease=t=>{t=THREE.MathUtils.clamp(t,0,1);return t*t*t*(t*(t*6-15)+10);};
+export function applyMotion(id,lift,{byName,dataByName,mesh,bottomKnee=110},frame){
+ const t=((frame%480)+480)%480/480,stiff=true,kick=false;
+ const depth=t<.4?1-ease(t/.4):t<.5?0:t<.9?ease((t-.5)/.4):1;
+ const wide=id==='kettlebell-sumo-deadlift',olympic=false;
+ const spread=wide?-.17:.14;
+ const posture=olympic?ease(Math.min(1,depth/.62)):depth;
+ const rest=(a,b)=>v(dataByName[b].head).sub(v(dataByName[a].head));
+ const aim=(name,dir,r)=>{mesh.updateMatrixWorld(true);byName[name].quaternion.copy(byName[name].parent.getWorldQuaternion(q()).invert().multiply(q().setFromUnitVectors(r.clone().normalize(),dir.clone().normalize())));};
+ byName.root.position.z-=(wide?2.3:3.2)*posture;
+ if(kick)byName.root.position.x+=.35;
+ byName.root.quaternion.setFromAxisAngle(new THREE.Vector3(1,0,0),rad((wide?45:60)*posture));
+ const feet={};
+ for(const side of ['L','R']){
+  const sign=side==='L'?1:-1,tilt=kick&&side==='R'?rad(35):0,rotation=q().setFromAxisAngle(new THREE.Vector3(0,1,0),wide?sign*rad(20):0);
+  const foot=new THREE.Vector3(sign*(wide?3:1.5),-7.15,kick&&side==='R'?-2:.2);
+  if(tilt){const offset=rest('foot.'+side,'toe2-1.'+side);foot.add(offset.clone().sub(offset.clone().applyQuaternion(rotation)));}
+  feet[side]={foot,rotation,tilt};
+ }
+ mesh.updateMatrixWorld(true);
+ const hip=byName['upperleg01.L'].getWorldPosition(new THREE.Vector3()),foot=feet.L.foot,u=rest('upperleg01.L','lowerleg01.L'),l=rest('lowerleg01.L','foot.L');
+ const lengthSq=u.lengthSq()+l.lengthSq()-2*u.length()*l.length()*Math.cos(rad(175-(175-bottomKnee)*depth));
+ const vertical=Math.sqrt(lengthSq-(hip.x-foot.x)**2-(hip.z-foot.z)**2);
+ if(!Number.isFinite(vertical))throw Error('Unreachable hinge');
+ byName.root.position.y+=foot.y+vertical-hip.y;
+ for(const side of ['L','R']){
+  const sign=side==='L'?1:-1,{foot,rotation,tilt}=feet[side];
+  const u=rest('upperleg01.'+side,'lowerleg01.'+side),l=rest('lowerleg01.'+side,'foot.'+side);
+  mesh.updateMatrixWorld(true);const hip=byName['upperleg01.'+side].getWorldPosition(new THREE.Vector3()),axis=foot.clone().sub(hip),d=axis.length();axis.normalize();
+  if(d>=u.length()+l.length()||d<=Math.abs(u.length()-l.length()))throw Error('Unreachable ankle '+id+' '+frame+' '+side);
+  const along=(u.lengthSq()-l.lengthSq()+d*d)/(2*d),pole=new THREE.Vector3(wide?sign*.5:0,0,1);pole.addScaledVector(axis,-pole.dot(axis)).normalize();
+  const knee=hip.clone().addScaledVector(axis,along).addScaledVector(pole,Math.sqrt(u.lengthSq()-along*along));
+  aim('upperleg01.'+side,knee.clone().sub(hip),u);aim('lowerleg01.'+side,foot.clone().sub(knee),l);
+  mesh.updateMatrixWorld(true);byName['foot.'+side].quaternion.copy(byName['foot.'+side].parent.getWorldQuaternion(q()).invert().multiply(rotation));
+  for(let n=1;n<=5;n++)byName[`toe${n}-1.${side}`].rotation.x=-tilt;
+  aim('upperarm01.'+side,new THREE.Vector3(sign*spread,-1,.12+.14*(1-depth)),rest('upperarm01.'+side,'lowerarm01.'+side));
+  aim('lowerarm01.'+side,new THREE.Vector3(sign*spread,-1,.20+.14*(1-depth)),rest('lowerarm01.'+side,'wrist.'+side));
+  const across=rest('finger5-1.'+side,'finger2-1.'+side).normalize();
+  if(true){
+   mesh.updateMatrixWorld(true);
+   const wrist=byName['wrist.'+side],world=wrist.getWorldQuaternion(q()),current=across.clone().applyQuaternion(world);
+   const correction=q().setFromUnitVectors(current,new THREE.Vector3(-sign,0,0));
+   wrist.quaternion.copy(wrist.parent.getWorldQuaternion(q()).invert().multiply(correction.multiply(world)));
+  }
+  for(let finger=2;finger<=5;finger++)for(let joint=1;joint<=3;joint++)byName[`finger${finger}-${joint}.${side}`].quaternion.setFromAxisAngle(across,rad(-sign*(id==='fat-grip-deadlift'?[0,50,65,45]:[0,65,80,50])[joint]));
+ }
+}

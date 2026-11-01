@@ -1,0 +1,18 @@
+{
+  "id": "snatch-grip-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a669fb8c40d8e04cac3271056a951b7d1ef64feabdcefe108c6c9c3ca87f4a5a",
+  "rigSourceSha256": "5c3460464e8fcfcf6e5dd6d49eed8214d5b75971538303952ba2426ee66e571b",
+  "videoSha256": "93a00312234741a8d7961225877d1cac3f438c4d909611fc7ea3b3f91cc795fa",
+  "darkVideoSha256": "563e347ef528550f358342936ec7892b33ef7c2091497337726a973528be1d92",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 139190,
+  "darkBytes": 115606,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T05:20:52.488Z"
+}

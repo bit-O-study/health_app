@@ -1,0 +1,36 @@
+{
+  "id": "behind-the-back-shrug",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/behind-the-back-shrug.mp4",
+      "sha256": "1c88f092f535ad9e55266d8cb6b07ccedba46fac3c62e83c4ef382f6f94028b1",
+      "bytes": 298929
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/behind-the-back-shrug-dark.mp4",
+      "sha256": "c96b66615d0914cce50fd3c3b9718ecc78906bb43ff07eee87e5ebc0aa476189",
+      "bytes": 271969
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-8.mjs",
+      "sha256": "b31090027ea24e139732690c6f3512983c081683d0782d3ae6b8cd257c0b71cd"
+    },
+    {
+      "file": "exercise-motion-8.mjs",
+      "sha256": "6bbb216a222585c2bc148f7f436665dc43801a8ef129fbf0c3b704e2f1c9f39f"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "clean-grip-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.catalystathletics.com/exercise/176/Clean-Deadlift/",
+    "criteria": "Clean-width overhand grip, fixed hip-width feet, long arms, coordinated leg drive with initial trunk angle retained before hip extension. No catch or explosive shrug."
+  },
+  "snatch-grip-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.catalystathletics.com/exercise/187/Snatch-Deadlift/",
+    "criteria": "Wide overhand grip and lower starting position, legs drive first while back angle is retained until passing knees, then hips extend. No catch or explosive shrug."
+  },
+  "axle-bar-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.roguefitness.com/the-rogue-axle",
+    "supportingUrl": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "criteria": "Thicker cylindrical axle shaft (1.75 times modeled standard diameter, illustrative rather than product replica), double-overhand grip, conventional floor start and controlled return."
+  },
+  "limits": "Procedural instructional model, not captured human biomechanics. Illustrative equipment proportions and eight-second timing. Overhand grips without detailed hook-grip instruction; no cloth simulation, exhaustive mesh collision or physical-device certification. Production deployment pending."
+}

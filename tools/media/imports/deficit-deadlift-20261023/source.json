@@ -1,0 +1,9 @@
+{
+  "deficit-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/deficit-deadlift/",
+    "supportingUrl": "https://macrosinc.net/exercises/legs/deficit-barbell-deadlift/",
+    "criteria": "Stand on a low stable platform, hold the bar outside the legs, extend knees and hips to stand, lower plates to the ground under control. Platform supports the feet, not the plates."
+  },
+  "limits": "Procedural 3D demonstration, not captured motion. Eight-second illustrative cycle. Platform height is a model-space choice. Sampled lower-body surface distances are not full-mesh collision or biomechanical certification. Production and physical-device validation pending."
+}

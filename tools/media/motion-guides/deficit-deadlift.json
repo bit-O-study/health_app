@@ -1,0 +1,16 @@
+{
+  "id": "deficit-deadlift",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "deficit-deadlift-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/deficit-deadlift/",
+    "https://macrosinc.net/exercises/legs/deficit-barbell-deadlift/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-23T04:18:19.135Z"
+}

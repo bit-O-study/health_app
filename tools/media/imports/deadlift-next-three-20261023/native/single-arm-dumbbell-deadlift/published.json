@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-dumbbell-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "48a26878ee458ec6a0f8f959a28c495361ba51a3e95a34bdfc8c54df3e250411",
+  "rigSourceSha256": "3a770fc31f7c0007ce325e667d3d320a3bcff6a0abee48125e385075f3cc6a1e",
+  "videoSha256": "3bd2a49776e253f82315e2bf053f5f988ed342a40af7b6a7a97b11962ab78be9",
+  "darkVideoSha256": "45aca1f2cb022664ddbd4811cf00582062ad5da3e9908026c4be74842d6bd874",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 102779,
+  "darkBytes": 102920,
+  "decode": "passed",
+  "verifiedAt": "2026-10-23T05:02:23.507Z"
+}

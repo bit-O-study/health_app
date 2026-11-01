@@ -1,0 +1,15 @@
+{
+  "id": "trap-bar-calf-raise",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "trap-bar-calf-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://app.zulta.app/en/exercises/trap-bar-calf-raise/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-10-20T14:49:07.215Z"
+}

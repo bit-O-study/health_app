@@ -1,0 +1,15 @@
+{
+  "accessed": "2026-10-20",
+  "sourceKind": "Original procedural skinned illustration; no copied footage.",
+  "limits": "Eight-second slow illustration. Sampled joints and visual frames do not certify biomechanics or exhaustive garment/skin collision. Stiff-leg uses standing start and stops above floor, as the source permits rack starts. Physical phone and deployment unverified.",
+  "double-kettlebell-romanian-deadlift": {
+    "equipment": "kettlebell",
+    "url": "https://wyron-bell.com/lexicon/double-romanian-deadlift",
+    "criteria": "Two kettlebells; soft fixed knees, neutral trunk, hips back, controlled lowering close to the legs and standing return. Source search excerpt verified; full page retrieval unavailable."
+  },
+  "stiff-leg-deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.muscleandstrength.com/exercises/stiff-leg-deadlift-aka-romanian-deadlift.html",
+    "criteria": "Hip-width stance, double overhand grip, nearly straight soft knees, neutral spine and hip hinge. Standing/rack-start variation stopping above floor; no floor reset shown."
+  }
+}

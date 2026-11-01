@@ -269,6 +269,8 @@ export default async function CalendarPage({
               <Link
                 key={date}
                 href={`/calendar/${date}`}
+                // 날짜 칸이 30개 넘게 보여 미리 불러오기를 켜 두면 열 때마다 날짜 화면 30여 개를 서버에 렌더시킨다(2026-11-01 측정: 요청 74개·13초).
+                prefetch={false}
                 aria-label={dayAriaLabel({
                   date,
                   isToday,
@@ -595,6 +597,8 @@ function WeekList({
           <li key={date}>
             <Link
               href={`/calendar/${date}`}
+              // 날짜 칸이 30개 넘게 보여 미리 불러오기를 켜 두면 열 때마다 날짜 화면 30여 개를 서버에 렌더시킨다(2026-11-01 측정: 요청 74개·13초).
+              prefetch={false}
               aria-label={dayAriaLabel({
                 date,
                 isToday,

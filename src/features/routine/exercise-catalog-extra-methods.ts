@@ -4729,9 +4729,9 @@ export const EXTRA_METHODS: Record<string, Partial<Record<EquipmentId, string[]>
   },
   "dumbbell-sumo-deadlift": {
     "dumbbell": [
-      "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-      "등 중립을 유지하며 둔근·내전근 신장까지 내린다",
-      "둔근으로 골반을 밀어 곧게 선다"
+      "발을 골반보다 넓게 벌리고 발끝을 바깥으로 돌린 뒤 양손 덤벨을 몸 앞에 둔다",
+      "손바닥이 서로 마주 보게 잡고 등을 중립으로 유지하며 무릎과 고관절을 굽힌다",
+      "발 전체로 바닥을 밀며 곧게 서고 허리를 젖히지 않은 채 통제해서 다시 내린다"
     ]
   },
   "dumbbell-hip-thrust": {

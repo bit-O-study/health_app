@@ -1,0 +1,18 @@
+{
+  "id": "dumbbell-sumo-deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b98448977f479951c47287955895ad34cd0dfd20ad95820f52d0a93bed9ebc5e",
+  "rigSourceSha256": "f020ae819e03d6f7462d74fb87cdb8fc9b96c95164a69b3323809fd326ec225e",
+  "videoSha256": "30b2804ba9c99773653eadbeb7af8ffe789dd98b58ea019ba9a86be99af6c123",
+  "darkVideoSha256": "de109efa3e9f2a6d11b45b453b07b655799b4b86b5d9fb2e489072f0d7822800",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103777,
+  "darkBytes": 100275,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T06:48:45.307Z"
+}

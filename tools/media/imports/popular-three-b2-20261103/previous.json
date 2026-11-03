@@ -1,0 +1,83 @@
+{
+  "pull-up": [
+    {
+      "file": "tools/media/motion-guides/pull-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pull-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pull-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pull-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pull-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pull-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/lat-pulldown.json",
+      "backup": "tools/media/imports/popular-three-b2-20261103/backup/lat-pulldown-0.json",
+      "sha256": "e08baa5d6015464b335cc7f4a6f675915a0c1fde64527cd185619e6dc637e14f"
+    },
+    {
+      "file": "tools/media/motion-guides/lat-pulldown.jpg",
+      "backup": "tools/media/imports/popular-three-b2-20261103/backup/lat-pulldown-1.jpg",
+      "sha256": "8537cda285ee22159faa290a561132c72903c4f8935ab5192f99b13205f85a3a"
+    },
+    {
+      "file": "tools/media/motion-guides/lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown.mp4",
+      "backup": "tools/media/imports/popular-three-b2-20261103/backup/lat-pulldown-3.mp4",
+      "sha256": "b2bad3d73d6bced6a873973ad6c9bf9dd3386dd331cd9aa979bbaf9caa9bb0ca"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "leg-press": [
+    {
+      "file": "tools/media/motion-guides/leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

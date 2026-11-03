@@ -258,6 +258,7 @@
   "standing-back-extension-stretch": "skinned-pilot-v1",
   "seated-side-stretch": "skinned-pilot-v1",
   "kneeling-hamstring-stretch": "skinned-pilot-v1",
+  "lat-pulldown": "skinned-pilot-v1",
   "hammer-curl": "fixed-arm-rig-v1",
   "triceps-pushdown": "skinned-pilot-v1",
   "squat": "skinned-pilot-v1",
@@ -267,5 +268,11 @@
   "triceps-kickback": "fixed-arm-rig-v1",
   "stiff-leg-deadlift": "skinned-pilot-v1",
   "hollow-hold": "generated-isometric-v1",
-  "standing-cable-curl": "skinned-pilot-v1"
+  "standing-cable-curl": "skinned-pilot-v1",
+  "dumbbell-sumo-deadlift": "skinned-pilot-v1",
+  "bench-press": "skinned-pilot-v1",
+  "deadlift": "skinned-pilot-v1",
+  "plank": "skinned-pilot-v1",
+  "pull-up": "skinned-pilot-v1",
+  "leg-press": "skinned-pilot-v1"
 }

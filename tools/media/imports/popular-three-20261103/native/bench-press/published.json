@@ -1,0 +1,18 @@
+{
+  "id": "bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "dc775d2ba6e4ff8d4147b753a103541a48c9e016861072265aed61bedd5c2383",
+  "rigSourceSha256": "f4bd3f12e022ca79f6a6dc7b88d85edc41137255ab14d2b8129b85ca70588f13",
+  "videoSha256": "a01eb70d532874e2faff9c030d5e7f972fabbad0affc9f3eb4e6d17b80ad94fc",
+  "darkVideoSha256": "7295425f8770fec293263c4f879a0d622e2a2c745aea34d613cc4515184889e6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 122024,
+  "darkBytes": 107276,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T07:16:35.232Z"
+}

@@ -1,0 +1,21 @@
+{
+  "bench-press": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/bench-press/",
+    "criteria": "Flat bench, closed overhand grip, feet planted, lower toward chest then press with head/back/hips supported. Normal controlled repetition; no prolonged pause."
+  },
+  "deadlift": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/deadlift/",
+    "criteria": "Conventional stance, hands outside legs, bar starts on floor, fixed feet, long arms, stand without leaning back, controlled descent."
+  },
+  "plank": {
+    "equipment": "bodyweight",
+    "url": "https://www.acefitness.org/resources/everyone/exercise-library/32/front-plank/",
+    "criteria": "Forearms and toes support a straight trunk; elbows under shoulders, palms down, knees straight, no sag or pike. Hold demonstration omits entry/exit."
+  },
+  "limits": [
+    "Procedural demonstration, not motion capture or biomechanical certification.",
+    "Simplified body and shorts meshes. Eight-second illustrative cycle; actual device/production unverified."
+  ]
+}

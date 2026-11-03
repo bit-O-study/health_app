@@ -1,0 +1,18 @@
+{
+  "id": "deadlift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "987f284a3c98e5ca24f395f42ddcb893348b0e5d08b88145133a8ed7eed40d3d",
+  "rigSourceSha256": "b64bc42e2eb63d524c971d4d45c8b922dcf11ef8f23ab08685c9f27314c7cdb8",
+  "videoSha256": "c39503bd4b4410d281e3f5f04784205163d30b552876f654d13412175ca22fd5",
+  "darkVideoSha256": "c5474acd212ab0f7204cfe939d099795761c4ced45c2153f8179248bab8d6f4b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 140277,
+  "darkBytes": 118142,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T07:16:44.423Z"
+}

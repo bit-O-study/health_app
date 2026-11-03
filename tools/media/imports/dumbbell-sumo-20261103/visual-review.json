@@ -1,0 +1,14 @@
+{
+  "dumbbell-sumo-deadlift": {
+    "status": "passed-isolated-candidate",
+    "checkedAt": "2026-11-03",
+    "checks": {
+      "exercise": "Two-dumbbell sumo hinge inspected in front/side pose sheets and 32 frames of each final MP4; distinct wide stance and front load.",
+      "equipment": "Two hex dumbbells, one per hand. Initial body overlap was corrected by setting grip Z to 2.6; final sampled lower-body AABB separation minimum 0.1344 model units.",
+      "setup": "Wide fixed stance, outward toes and neutral trunk. Bottom knee angle 90 degrees. Demonstration reverses above the floor; app wording explicitly matches this variant.",
+      "hands": "Both neutral handles aligned fore-aft, fingers wrapped, elbows held at 175 degrees. No arm curl during lifting.",
+      "feet": "Both feet remain fixed across 481 poses; drift below 7e-15 model units, toes outward. No foot sliding seen in sheets.",
+      "movement": "Controlled rise, short top hold, controlled return; first and last poses identical. Both themes decode and play, seek to 3 seconds and loop in Edge. Simplified shorts flare at deep flexion is retained as a known visual limitation, not cloth simulation. Full-mesh collision and biomechanical certification are not claimed."
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "plank",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "plank-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/32/front-plank/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-03T07:16:53.076Z"
+}

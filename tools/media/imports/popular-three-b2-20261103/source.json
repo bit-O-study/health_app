@@ -1,0 +1,6 @@
+{
+ "pull-up":{"equipment":"bodyweight","url":"https://www.strengthlog.com/pull-up/","criteria":"Pronated grip wider than shoulders, fixed bar and hands, chin above bar, controlled lowering toward straight arms without kipping."},
+ "lat-pulldown":{"equipment":"machine","url":"https://www.muscleandstrength.com/exercises/lat-pull-down.html","criteria":"Seated cable machine, overhand grip, stable trunk, pull in front toward upper chest, controlled return. Feet supported and thighs restrained."},
+ "leg-press":{"equipment":"machine","url":"https://www.muscleandstrength.com/exercises/45-degree-leg-press.html","criteria":"45-degree sled, feet planted shoulder width, hips and back supported, controlled lowering and extension without forceful knee lockout."},
+ "limits":["Procedural demonstration, not motion capture or biomechanical certification.","Simplified body, cloth, machines and cable routing; no entry/exit or safety-release operation shown. Eight-second illustrative cycle.","Actual phone and production deployment are unverified."]
+}

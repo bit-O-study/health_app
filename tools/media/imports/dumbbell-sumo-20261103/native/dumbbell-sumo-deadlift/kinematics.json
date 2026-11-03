@@ -1,0 +1,9 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 6.635382375767633e-15,
+  "minimumBodyEquipmentGap": 0.13441301349310253,
+  "minimumFloorGap": 2.304817278270061,
+  "gripTravel": 5.089470844666653,
+  "bottomKneeDegrees": 89.99999999999997
+}

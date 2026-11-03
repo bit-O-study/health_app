@@ -1478,28 +1478,6 @@
     "reviewedAt": "2026-09-18T02:35:39.067Z"
   },
   {
-    "status": "passed",
-    "checks": {
-      "exercise": "Seated lat pulldown: 16 source poses pull the wide bar from a full overhead stretch down to the upper chest, and the video reverses to the stretch for one full repetition.",
-      "equipment": "Lat pulldown station. With cutout:false the whole machine survives - weight stack and its guide rods, the top pulley, the chain/cable running unbroken from pulley to bar, the thigh pad, seat and frame. The angled lat bar is one solid piece from end to end.",
-      "setup": "Thighs stay locked under the pad and the hips stay seated in every frame; the torso holds a small fixed backward lean and never rocks to generate momentum.",
-      "hands": "Both hands keep a closed overhand grip on the bar ends at a fixed wide width - confirmed on zoomed 8fps tiles at 0.75-1.5s, where the grip, bar and chain all stay solid with no ghost duplicate.",
-      "feet": "Both shoes stay flat on the floor at the same spot through all 32 frames.",
-      "movement": "Elbows drive down and back as the shoulder blades depress and retract, the bar tracks to the upper chest, and the return retraces the same line to a full overhead stretch. No duplicated bar, no broken cable, no torso smearing."
-    },
-    "note": "2026-09-18 재렌더 직후 재검토. cutout:false 로 렌더돼 케이블과 스택이 온전하다. 확대 타일에서도 바·체인에 유령 겹침이 없다. 다크 영상은 없다(cutout:false 의 정상 동작) — 앱에서는 예전 회색 여백 박스로 보인다. 앱 화면 E2E·실기기 재생 미실행.",
-    "id": "lat-pulldown",
-    "equipmentIds": [
-      "machine"
-    ],
-    "sources": [
-      "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
-    ],
-    "sourceSha256": "8537cda285ee22159faa290a561132c72903c4f8935ab5192f99b13205f85a3a",
-    "videoSha256": "b2bad3d73d6bced6a873973ad6c9bf9dd3386dd331cd9aa979bbaf9caa9bb0ca",
-    "reviewedAt": "2026-09-18T02:50:15.051Z"
-  },
-  {
     "status": "pending",
     "note": "2026-09-18 재렌더 직후 재검토 — 공개 금지. cutout:false 덕분에 기구는 온전하다(스택·도르래·케이블·시트·허벅지 패드 모두 유지, 랫바도 끊김 없음). 동작도 맞다(오버헤드 스트레치에서 상부 가슴까지 당기고 되돌아옴, 허벅지 고정, 그립 폭 일정). 막는 것은 랫바 유령 잔상이다: 0.75-1.5s 와 6.0-6.75s 확대 8fps 타일에서 실제 바 위쪽에 반투명한 두 번째 바가 가로로 길게 겹쳐 보인다. 확대 안 한 32프레임 시트에서도 row1 col5, row4 col1-2 에 같은 흐릿한 선이 보인다. 같은 랫풀다운인 lat-pulldown 은 동일 조건에서 깨끗했으므로 렌더 설정이 아니라 이 원본의 패널 간 바 위치 변동이 원인으로 보인다. 다음: 원본에서 바 높이 진행을 고르게 다시 만들거나 16패널 재생성 대상에 포함해 처리. 재생만으로 통과 금지.",
     "id": "lat-pulldown-2",
@@ -9131,5 +9109,198 @@
     "rigSourceSha256": "82c9494d39e60a9fa35e338e805ec9b37f3daabe6518b2b1d6caf069bab979cf",
     "darkVideoSha256": "595d9bb5b943022daa12ff3e9d671ce45cdf614e4e2af0e5d2d9e4f94480cf21",
     "reviewedAt": "2026-10-23T14:31:29.102Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Two-dumbbell sumo hinge inspected in front/side pose sheets and 32 frames of each final MP4; distinct wide stance and front load.",
+      "equipment": "Two hex dumbbells, one per hand. Initial body overlap was corrected by setting grip Z to 2.6; final sampled lower-body AABB separation minimum 0.1344 model units.",
+      "setup": "Wide fixed stance, outward toes and neutral trunk. Bottom knee angle 90 degrees. Demonstration reverses above the floor; app wording explicitly matches this variant.",
+      "hands": "Both neutral handles aligned fore-aft, fingers wrapped, elbows held at 175 degrees. No arm curl during lifting.",
+      "feet": "Both feet remain fixed across 481 poses; drift below 7e-15 model units, toes outward. No foot sliding seen in sheets.",
+      "movement": "Controlled rise, short top hold, controlled return; first and last poses identical. Both themes decode and play, seek to 3 seconds and loop in Edge. Simplified shorts flare at deep flexion is retained as a known visual limitation, not cloth simulation. Full-mesh collision and biomechanical certification are not claimed."
+    },
+    "note": [
+      "Procedural illustration, not captured human motion or biomechanical certification.",
+      "Two-dumbbell variation. No claim of floor contact; use the demonstrated depth only while maintaining a neutral trunk.",
+      "Existing simplified shorts and body mesh; physical-device and production validation pending."
+    ],
+    "id": "dumbbell-sumo-deadlift",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/dumbbell-deadlift/"
+    ],
+    "sourceSha256": "b98448977f479951c47287955895ad34cd0dfd20ad95820f52d0a93bed9ebc5e",
+    "videoSha256": "30b2804ba9c99773653eadbeb7af8ffe789dd98b58ea019ba9a86be99af6c123",
+    "rigSourceSha256": "f020ae819e03d6f7462d74fb87cdb8fc9b96c95164a69b3323809fd326ec225e",
+    "darkVideoSha256": "de109efa3e9f2a6d11b45b453b07b655799b4b86b5d9fb2e489072f0d7822800",
+    "reviewedAt": "2026-11-03T06:48:45.325Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Flat barbell bench press, normal controlled lowering and pressing. Front/side and both 32-frame final-theme sheets reviewed after thumb correction.",
+      "equipment": "Straight bar, symmetric plates and flat bench with head/back support. Bar remains clear of bench and head, chest contact within floating-point tolerance.",
+      "setup": "Head, back and hips supported; feet fixed. Normal cycle with brief bottom turnaround, not a deliberate paused-bench variation. Unrack/rerack omitted.",
+      "hands": "Closed overhand grip, span 6.2 model units. Initial extended thumb corrected with thumb-joint flexion; top/bottom hand close-ups inspected before rerender. Wrist deviation maximum 30.68 degrees. Internal elbow angle 40.19 to 176.23 degrees; checked separately from long-arm deadlift and 90-degree plank.",
+      "feet": "Both feet remain fixed over 481 poses. Head support error zero; back contact variation at most 0.0292 model units.",
+      "movement": "Controlled chest approach and press, no face collision or grip detachment seen. Minimum sampled non-chest gap 0.2215 and head gap 1.6212 model units. Corrected three files decode/play/seek/loop, alpha edges clear. Simplified anatomical/bench meshes and deep elbow flexion are illustrative, not individual technique prescription or biomechanical certification."
+    },
+    "note": [
+      "Procedural demonstration, not motion capture or biomechanical certification.",
+      "Simplified body and shorts meshes. Eight-second illustrative cycle; actual device/production unverified."
+    ],
+    "id": "bench-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/bench-press/"
+    ],
+    "sourceSha256": "dc775d2ba6e4ff8d4147b753a103541a48c9e016861072265aed61bedd5c2383",
+    "videoSha256": "a01eb70d532874e2faff9c030d5e7f972fabbad0affc9f3eb4e6d17b80ad94fc",
+    "rigSourceSha256": "f4bd3f12e022ca79f6a6dc7b88d85edc41137255ab14d2b8129b85ca70588f13",
+    "darkVideoSha256": "7295425f8770fec293263c4f879a0d622e2a2c745aea34d613cc4515184889e6",
+    "reviewedAt": "2026-11-03T07:16:35.251Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Conventional barbell deadlift: floor to standing to floor, reviewed in front/side and both 32-frame final-theme sheets.",
+      "equipment": "Straight bar and two plates; no trap frame or thick-grip attachments. Sampled body/bar clearance minimum 0.424 model units.",
+      "setup": "Hip-width stance, hands outside legs, neutral trunk; plates meet foot-ground plane at the bottom to within 1.1e-14 model units.",
+      "hands": "Overhand grip, long arms with elbow angles 175.57 to 175.83 degrees; matched left/right grip height. Grip span varies 4.830 to 4.872 model units, a small procedural approximation.",
+      "feet": "Both feet fixed over 481 samples, maximum drift 9.8e-15 model units.",
+      "movement": "Controlled lift and descent with no backward lean at top; seamless loop. Both themes and transparent version decode/play/seek/loop. Simplified shorts flare in deep flexion; not full-mesh collision or biomechanical certification."
+    },
+    "note": [
+      "Procedural demonstration, not motion capture or biomechanical certification.",
+      "Simplified body and shorts meshes. Eight-second illustrative cycle; actual device/production unverified."
+    ],
+    "id": "deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/deadlift/"
+    ],
+    "sourceSha256": "987f284a3c98e5ca24f395f42ddcb893348b0e5d08b88145133a8ed7eed40d3d",
+    "videoSha256": "c39503bd4b4410d281e3f5f04784205163d30b552876f654d13412175ca22fd5",
+    "rigSourceSha256": "b64bc42e2eb63d524c971d4d45c8b922dcf11ef8f23ab08685c9f27314c7cdb8",
+    "darkVideoSha256": "c5474acd212ab0f7204cfe939d099795761c4ced45c2153f8179248bab8d6f4b",
+    "reviewedAt": "2026-11-03T07:16:44.437Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Forearm plank hold, not a push-up or moving stretch. Fixed posture reviewed from front/side and both 32-frame final-theme sheets.",
+      "equipment": "Bodyweight only. Distracting legacy contact-shadow disk removed.",
+      "setup": "Elbows directly beneath shoulders, straight knees, sagittal shoulder/hip/ankle alignment checked. Hold only; entry and exit omitted.",
+      "hands": "Palms down, open hands forward, parallel forearms. Support close-up inspected; elbow angle 90 degrees.",
+      "feet": "Both toe surfaces and both forearms within 0.020001 model units of ground. Toe close-up inspected. Skin/cloth remain above ground; curved surfaces do not have complete planar contact.",
+      "movement": "All 481 poses identical; no sag or hip pike. Eight-second hold is an illustration, not prescribed duration. Both themes and transparent version decode/play/seek/loop. Physical-device and production validation pending."
+    },
+    "note": [
+      "Procedural demonstration, not motion capture or biomechanical certification.",
+      "Simplified body and shorts meshes. Eight-second illustrative cycle; actual device/production unverified."
+    ],
+    "id": "plank",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/32/front-plank/"
+    ],
+    "sourceSha256": "93cc0ec96ffb1ccbc918a1790b5a50e752c41971a9eec7cdf6cb4e6b8e815297",
+    "videoSha256": "07f48d1449ffdd39f12f4f6114c09f406ec164229b660b36fb81ee4222caf8e9",
+    "rigSourceSha256": "d4c200cd712dabc64ee362adc4e09f3e1dbefcf8f167a0de5bfe618f7286376c",
+    "darkVideoSha256": "cc3fb14d9afafd9fa25011d3a32113c5edf85ec5560f986093b7a845572ecf70",
+    "reviewedAt": "2026-11-03T07:16:53.094Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Canonical pronated pull-up; front/side sequences and both 32-frame final sheets inspected.",
+      "equipment": "Fixed horizontal bar and two upright supports remain stationary and in frame.",
+      "setup": "Suspended body below bar, overhand hands wider than shoulders; no mounting/dismounting shown.",
+      "hands": "Both grip sockets stay on the bar; closed fingers and thumb wrap. Maximum sampled grip error below 7e-15 model units.",
+      "feet": "Feet remain suspended and translate with the trunk without a kicking cycle.",
+      "movement": "Chin clears bar at peak; elbows return to about 171 degrees. Continuous eight-second cycle, no camera or pose jump."
+    },
+    "note": [
+      "Procedural demonstration, not motion capture or biomechanical certification.",
+      "Simplified body, cloth, machines and cable routing; no entry/exit or safety-release operation shown. Eight-second illustrative cycle.",
+      "Actual phone and production deployment are unverified."
+    ],
+    "id": "pull-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/pull-up/"
+    ],
+    "sourceSha256": "92f28513978e15ca48aa52188e7508fada48d66cf7f5eff0a8ed8df098069dca",
+    "videoSha256": "fadc6c60bb211db61de52a9c9c92e868307f4dd175583df624a73316f86da200",
+    "rigSourceSha256": "69ab5887d9d6cf95ceaf1a3f0d280ba585c8dc5e65909ae4698b7174e081db24",
+    "darkVideoSha256": "34c56fc9d474275cb7b7dd88808eac3ca9d87cafa9117483c228b759ae46affb",
+    "reviewedAt": "2026-11-03T07:44:38.750Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated overhand lat pulldown; front/side sequences and both 32-frame final sheets inspected.",
+      "equipment": "Seat, thigh restraint, rear stack and overhead cable visible. Bar and stack travel opposite equal distances; cable routing is simplified.",
+      "setup": "Slight fixed torso recline, seated hips and thighs under restraint; stable camera.",
+      "hands": "Closed overhand grip follows both ends of the bar; maximum sampled socket error below 6e-15.",
+      "feet": "Both feet stay stationary on the calibrated support platform.",
+      "movement": "Bar descends in front toward upper chest, then returns overhead; elbows about 61–168 degrees. No torso swing."
+    },
+    "note": [
+      "Procedural demonstration, not motion capture or biomechanical certification.",
+      "Simplified body, cloth, machines and cable routing; no entry/exit or safety-release operation shown. Eight-second illustrative cycle.",
+      "Actual phone and production deployment are unverified."
+    ],
+    "id": "lat-pulldown",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/lat-pull-down.html"
+    ],
+    "sourceSha256": "b7747a67ff1389d6bb9618ba473f8f5e51701b9a0b0b1ca45885c1118e3d2a12",
+    "videoSha256": "8aab96c03849225f766296c1f3b7c2079c1250e7a82fe9237606cfdfa942dce8",
+    "rigSourceSha256": "c3b4f30a16db49cb8df914cf18da01f8c8227b1f1fb94ed0417dea8598eff8a3",
+    "darkVideoSha256": "316ea48d951a51bbf7f07decd1cebdb215329f5a9793250b191980c4bdf79137",
+    "reviewedAt": "2026-11-03T07:44:50.505Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral 45-degree leg press; front/side sequences and both 32-frame final sheets inspected.",
+      "equipment": "Footplate, sled sleeves, side plates, rails, seat, backrest and handles visible; rail motion remains at 45 degrees.",
+      "setup": "Reclined torso and hips fixed against the support; safety-release and entry/exit omitted.",
+      "hands": "Both hands keep a closed grip at the side handles with no drift.",
+      "feet": "Both feet remain on the plate at shoulder-width stance; plate position follows rendered soles.",
+      "movement": "Knees flex from 165 to 95 degrees and extend without locking; torso remains fixed. Full loop and both themes inspected."
+    },
+    "note": [
+      "Procedural demonstration, not motion capture or biomechanical certification.",
+      "Simplified body, cloth, machines and cable routing; no entry/exit or safety-release operation shown. Eight-second illustrative cycle.",
+      "Actual phone and production deployment are unverified."
+    ],
+    "id": "leg-press",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/45-degree-leg-press.html"
+    ],
+    "sourceSha256": "18c0d80c9ccea60f01d524b09a783b1c6b48b133adca3a78a0ed34b270e62ee8",
+    "videoSha256": "68674bb6ba981789cc8fd5fa0cd1eebd82ee435b6fc3e95d3ceafe1a5f5c3e73",
+    "rigSourceSha256": "7d59f7607ecaeec347f2264a8b9140612845f8c3ed24e33784a3485833dffd85",
+    "darkVideoSha256": "9111bbc87726d89fa0f70dc3d0282e289a5149fe872225acc4a7dfcb66437c25",
+    "reviewedAt": "2026-11-03T07:44:59.804Z"
   }
 ]

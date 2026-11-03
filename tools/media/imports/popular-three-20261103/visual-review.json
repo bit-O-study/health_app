@@ -1,0 +1,35 @@
+{
+  "bench-press": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Flat barbell bench press, normal controlled lowering and pressing. Front/side and both 32-frame final-theme sheets reviewed after thumb correction.",
+      "equipment": "Straight bar, symmetric plates and flat bench with head/back support. Bar remains clear of bench and head, chest contact within floating-point tolerance.",
+      "setup": "Head, back and hips supported; feet fixed. Normal cycle with brief bottom turnaround, not a deliberate paused-bench variation. Unrack/rerack omitted.",
+      "hands": "Closed overhand grip, span 6.2 model units. Initial extended thumb corrected with thumb-joint flexion; top/bottom hand close-ups inspected before rerender. Wrist deviation maximum 30.68 degrees. Internal elbow angle 40.19 to 176.23 degrees; checked separately from long-arm deadlift and 90-degree plank.",
+      "feet": "Both feet remain fixed over 481 poses. Head support error zero; back contact variation at most 0.0292 model units.",
+      "movement": "Controlled chest approach and press, no face collision or grip detachment seen. Minimum sampled non-chest gap 0.2215 and head gap 1.6212 model units. Corrected three files decode/play/seek/loop, alpha edges clear. Simplified anatomical/bench meshes and deep elbow flexion are illustrative, not individual technique prescription or biomechanical certification."
+    }
+  },
+  "deadlift": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Conventional barbell deadlift: floor to standing to floor, reviewed in front/side and both 32-frame final-theme sheets.",
+      "equipment": "Straight bar and two plates; no trap frame or thick-grip attachments. Sampled body/bar clearance minimum 0.424 model units.",
+      "setup": "Hip-width stance, hands outside legs, neutral trunk; plates meet foot-ground plane at the bottom to within 1.1e-14 model units.",
+      "hands": "Overhand grip, long arms with elbow angles 175.57 to 175.83 degrees; matched left/right grip height. Grip span varies 4.830 to 4.872 model units, a small procedural approximation.",
+      "feet": "Both feet fixed over 481 samples, maximum drift 9.8e-15 model units.",
+      "movement": "Controlled lift and descent with no backward lean at top; seamless loop. Both themes and transparent version decode/play/seek/loop. Simplified shorts flare in deep flexion; not full-mesh collision or biomechanical certification."
+    }
+  },
+  "plank": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Forearm plank hold, not a push-up or moving stretch. Fixed posture reviewed from front/side and both 32-frame final-theme sheets.",
+      "equipment": "Bodyweight only. Distracting legacy contact-shadow disk removed.",
+      "setup": "Elbows directly beneath shoulders, straight knees, sagittal shoulder/hip/ankle alignment checked. Hold only; entry and exit omitted.",
+      "hands": "Palms down, open hands forward, parallel forearms. Support close-up inspected; elbow angle 90 degrees.",
+      "feet": "Both toe surfaces and both forearms within 0.020001 model units of ground. Toe close-up inspected. Skin/cloth remain above ground; curved surfaces do not have complete planar contact.",
+      "movement": "All 481 poses identical; no sag or hip pike. Eight-second hold is an illustration, not prescribed duration. Both themes and transparent version decode/play/seek/loop. Physical-device and production validation pending."
+    }
+  }
+}

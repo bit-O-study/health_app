@@ -1,0 +1,18 @@
+{
+  "id": "leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "18c0d80c9ccea60f01d524b09a783b1c6b48b133adca3a78a0ed34b270e62ee8",
+  "rigSourceSha256": "7d59f7607ecaeec347f2264a8b9140612845f8c3ed24e33784a3485833dffd85",
+  "videoSha256": "68674bb6ba981789cc8fd5fa0cd1eebd82ee435b6fc3e95d3ceafe1a5f5c3e73",
+  "darkVideoSha256": "9111bbc87726d89fa0f70dc3d0282e289a5149fe872225acc4a7dfcb66437c25",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 123568,
+  "darkBytes": 101246,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T07:44:59.790Z"
+}

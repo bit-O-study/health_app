@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {checkPoses} from './check-poses.mjs';
+const read=id=>JSON.parse(readFileSync(new URL('./native/'+id+'/poses.json',import.meta.url)));
+for(const id of ['bench-press','deadlift','plank'])test(id+' validated poses',()=>assert.equal(checkPoses(id,read(id)).samples,481));
+test('reject sliding deadlift feet',()=>{const p=read('deadlift');p[120].joints['foot.L'][0]+=.1;assert.throws(()=>checkPoses('deadlift',p));});
+test('reject bench bar intersecting the face',()=>{const p=read('bench-press');p[120].joints.headClearance=-.1;assert.throws(()=>checkPoses('bench-press',p));});
+test('reject unsupported plank toes',()=>{const p=read('plank');for(const x of p)x.joints.support[2]=.5;assert.throws(()=>checkPoses('plank',p));});
+test('reject a consistently sagging plank',()=>{const p=read('plank');for(const x of p)for(const s of ['L','R'])x.joints['upperleg01.'+s][1]-=1;assert.throws(()=>checkPoses('plank',p));});

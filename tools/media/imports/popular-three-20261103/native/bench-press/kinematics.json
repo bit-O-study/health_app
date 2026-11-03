@@ -1,0 +1,10 @@
+{
+  "samples": 481,
+  "loopError": 0,
+  "footDrift": 0,
+  "minimumChestGap": -2.8727020762175925e-15,
+  "nonChestGap": 0.22151517970564716,
+  "headGap": 1.6211590769293611,
+  "backContactError": 0.029173830110784227,
+  "maximumWristDeviation": 30.675731574842235
+}

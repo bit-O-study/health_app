@@ -1,0 +1,13 @@
+{
+  "dumbbell-sumo-deadlift": {
+    "equipment": "dumbbell",
+    "url": "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/dumbbell-deadlift/",
+    "checkedAt": "2026-11-03",
+    "criteria": "Two dumbbells held in front, palms inward; wider stance, toes outward, neutral trunk, controlled hip and knee extension. Depth stops before spinal flexion. Implemented 20-degree toe turnout, fixed feet, 90-degree bottom knee angle."
+  },
+  "limits": [
+    "Procedural illustration, not captured human motion or biomechanical certification.",
+    "Two-dumbbell variation. No claim of floor contact; use the demonstrated depth only while maintaining a neutral trunk.",
+    "Existing simplified shorts and body mesh; physical-device and production validation pending."
+  ]
+}

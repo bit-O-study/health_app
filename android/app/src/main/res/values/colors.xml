@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 알림 작은 아이콘 색(헬쑤 로고 바탕 초록). src/features/notifications/notif-icon.ts 의 NOTIF_ACCENT_COLOR 와 같아야 한다. -->
+    <color name="notification_accent">#0A6B4E</color>
+</resources>

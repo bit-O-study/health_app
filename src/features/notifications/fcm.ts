@@ -2,6 +2,8 @@ import "server-only";
 
 import { createSign } from "node:crypto";
 
+import { NOTIF_ACCENT_COLOR, NOTIF_SMALL_ICON } from "./notif-icon";
+
 /**
  * 네이티브 푸시(FCM) 전송 — 안드로이드 WebView 앱은 Web Push 미지원이라 FCM 토큰으로 보낸다.
  * 무거운 SDK 없이 서비스 계정으로 JWT 서명 → OAuth 토큰 → FCM HTTP v1 REST 로 보낸다.
@@ -132,7 +134,13 @@ export async function sendFcm(
             },
             android: {
               priority: "HIGH",
-              notification: { channel_id: "default", default_sound: true },
+              // 작은 아이콘·색을 서버가 직접 지정한다 — 앱 매니페스트 기본값과 같은 값(notif-icon.ts).
+              notification: {
+                channel_id: "default",
+                default_sound: true,
+                icon: NOTIF_SMALL_ICON,
+                color: NOTIF_ACCENT_COLOR,
+              },
             },
           },
         }),

@@ -1,5 +1,7 @@
 import { Capacitor } from "@capacitor/core";
 
+import { NOTIF_ACCENT_COLOR, NOTIF_SMALL_ICON } from "./notif-icon";
+
 /**
  * 네이티브 로컬 알림 — 예약 시각에 OS 가 상태표시줄 알림을 띄운다(백그라운드·화면꺼짐에도).
  * 웹/브라우저에서는 no-op(네이티브 앱일 때만). 휴식 종료 알림 등에 사용.
@@ -42,7 +44,9 @@ export async function scheduleRestLocalNotif(
           title,
           body,
           schedule: { at: new Date(endsAt), allowWhileIdle: true },
-          smallIcon: "ic_stat_icon_config_sample",
+          // 로고 아이콘(없는 이름을 주면 시스템이 "i" 기본 아이콘으로 바꾼다) — 서버 푸시와 같은 값.
+          smallIcon: NOTIF_SMALL_ICON,
+          iconColor: NOTIF_ACCENT_COLOR,
         },
       ],
     });

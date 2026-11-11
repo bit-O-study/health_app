@@ -27,6 +27,14 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        <!-- 푸시 알림 작은 아이콘·색 — 서버가 아이콘을 지정하지 않은 알림도 헬쑤 로고로 뜨게 한다.
+             지정이 없으면 시스템이 동그라미 안의 "i" 기본 아이콘으로 바꾼다. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_helssu" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/notification_accent" />
         <!-- 분석지 글자 인식 모델(한국어) — 앱을 설치할 때 Play 서비스가 미리 받아 둔다. -->
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"

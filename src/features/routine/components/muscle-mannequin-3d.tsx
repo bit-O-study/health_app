@@ -596,6 +596,7 @@ export function MuscleMannequin3D({
     />
   );
   return (
+    <>
     <div
       className="relative h-[360px] w-full overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-b from-sky-50 to-zinc-200 dark:border-zinc-700 dark:from-zinc-800 dark:to-zinc-900 sm:h-[440px]"
       data-testid="muscle-mannequin-canvas"
@@ -645,11 +646,11 @@ export function MuscleMannequin3D({
           target={[0, 0.3, 0]}
         />
       </Canvas>
-
-      <p className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
+    </div>
+      <p className="mt-2 px-1 text-xs text-muted">
         손가락으로 돌려 앞·뒤 보기 · 핀치로 확대/축소 · 근육 탭
       </p>
-    </div>
+    </>
   );
 }
 
@@ -736,6 +737,7 @@ export function MuscleBalanceMannequin3D({
 }) {
   const sex: MannequinGender = gender === "female" ? "female" : "male";
   return (
+    <>
     <div
       className="relative h-[340px] w-full overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-b from-sky-50 to-zinc-200 dark:border-zinc-700 dark:from-zinc-800 dark:to-zinc-900 sm:h-[400px]"
       data-testid="balance-mannequin-canvas"
@@ -771,11 +773,11 @@ export function MuscleBalanceMannequin3D({
           target={[0, 0.3, 0]}
         />
       </Canvas>
-
-      <p className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
+    </div>
+      <p className="mt-2 px-1 text-xs text-muted">
         손가락으로 돌려 앞·뒤 · 핀치로 확대/축소
       </p>
-    </div>
+    </>
   );
 }
 

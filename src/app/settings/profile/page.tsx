@@ -22,9 +22,7 @@ export default async function ProfileSettingsPage() {
       <main className="app-container space-y-4">
         <section>
           <h2 className="app-section-label">추이 그래프</h2>
-          <div className="app-card p-3">
-            <BodyChart logs={logs} />
-          </div>
+          <BodyChart logs={logs} />
         </section>
 
         <section>

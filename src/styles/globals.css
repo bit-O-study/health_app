@@ -198,7 +198,7 @@ h1, h2, h3, h4, h5, h6 {
     top: env(safe-area-inset-top); /* 상태바 띠(body::before) 밑에 붙는다 — 0 이면 띠 뒤로 가려진다 */
     z-index: 20;
     border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--background) 78%, transparent);
+    background: color-mix(in srgb, var(--background) 94%, transparent);
     /* 🔴 -webkit- 을 먼저, 표준 속성을 나중에. 순서를 뒤집으면 빌드(Lightning CSS)가
        표준 `backdrop-filter` 를 지워 버려 크롬·안드로이드 WebView 에서 블러가 아예
        안 걸린다(반투명만 남아 뒤 내용이 그대로 비친다). 2026-09-25 실측. */
@@ -253,7 +253,7 @@ h1, h2, h3, h4, h5, h6 {
 
   /* 반투명 블러 막대(하단 탭·머리글). */
   .app-glass {
-    background: color-mix(in srgb, var(--background) 78%, transparent);
+    background: color-mix(in srgb, var(--background) 94%, transparent);
     /* 순서 주의 — 위 .app-header 와 같은 이유로 -webkit- 이 먼저다. */
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     backdrop-filter: blur(24px) saturate(180%);

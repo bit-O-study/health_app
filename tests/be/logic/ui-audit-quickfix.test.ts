@@ -93,3 +93,24 @@ describe("UI 검수 3단계(박스 정리) — 운동 선택·기록", () => {
     for (const href of ["/settings/progress", "/settings/score", "/settings/history"]) expect(src).toContain(`href="${href}"`);
   });
 });
+
+describe("UI 검수 4단계 — 러닝 화면 이모지", () => {
+  it("화면에 보이는 문구에는 이모지를 쓰지 않는다(주석 제외)", () => {
+    const files = [
+      "src/features/running/running-mobile-gate.tsx",
+      "src/features/running/running-game.tsx",
+      "src/features/running/zen-run.tsx",
+      "src/features/running/outdoor-run.tsx",
+      "src/features/running/components/run-leaderboard.tsx",
+      "src/features/running/components/run-finish-summary.tsx",
+    ];
+    for (const rel of files) {
+      const code = read(rel)
+        .split("\n")
+        .filter((l) => !/^\s*(\/\/|\*|\/\*|\{\/\*)/.test(l))
+        .join("\n");
+      expect(code, rel).not.toMatch(/[\u{1F300}-\u{1FAFF}]/u);
+    }
+    expect(read("src/features/running/running-mobile-gate.tsx")).toContain("<Smartphone");
+  });
+});

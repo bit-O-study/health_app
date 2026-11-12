@@ -69,7 +69,7 @@ export function QuickAddBar({
       <div className="flex items-center gap-1.5">
         <Star aria-hidden="true" size={14} className="text-brand" />
         <h2 className="text-sm font-semibold">빠른 기록</h2>
-        <span className="text-xs text-zinc-400">검색 없이 한 번에</span>
+        <span className="text-xs text-muted">검색 없이 한 번에</span>
       </div>
 
       {/* 어느 끼니에 담을지 — 시계가 고른 기본값이 이미 눌려 있다. */}
@@ -121,10 +121,10 @@ export function QuickAddBar({
                   {done ? (
                     <Check aria-hidden="true" size={13} />
                   ) : (
-                    <Plus aria-hidden="true" size={13} className="text-zinc-400" />
+                    <Plus aria-hidden="true" size={13} className="text-muted" />
                   )}
                   <span className="truncate">{f.name}</span>
-                  <span className={done ? "opacity-80" : "text-zinc-400"}>
+                  <span className={done ? "opacity-80" : "text-muted"}>
                     {Math.round(f.kcal)}
                   </span>
                 </button>
@@ -141,12 +141,12 @@ export function QuickAddBar({
           onClick={() => onCopy(meal, source.date)}
           className="app-press mt-2.5 flex w-full items-center gap-2 rounded-xl border border-dashed border-zinc-300 px-3 py-2 text-left dark:border-zinc-600"
         >
-          <Copy aria-hidden="true" size={14} className="shrink-0 text-zinc-400" />
+          <Copy aria-hidden="true" size={14} className="shrink-0 text-muted" />
           <span className="min-w-0 flex-1">
             <span className="block text-xs font-semibold text-zinc-700 dark:text-zinc-200">
               {copyMealLabel(meal, source.date, date)}
             </span>
-            <span className="block truncate text-xs text-zinc-400">
+            <span className="block truncate text-xs text-muted">
               {copyMealSummary(source.items)}
             </span>
           </span>

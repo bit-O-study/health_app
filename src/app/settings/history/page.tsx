@@ -282,14 +282,14 @@ export default async function HistoryPage({
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">횟수</p>
                 <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {weekSummary.sessions}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">회</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">회</span>
                 </p>
               </div>
               <div className="min-w-0 px-2">
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">거리</p>
                 <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {(weekSummary.distanceM / 1_000).toFixed(2)}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">km</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">km</span>
                 </p>
               </div>
               <div className="min-w-0 px-2">
@@ -313,7 +313,7 @@ export default async function HistoryPage({
           className="app-card flex min-h-12 items-center justify-between px-4 text-sm font-semibold"
         >
           런닝 기록 전체 보기
-          <span aria-hidden="true" className="text-zinc-400">›</span>
+          <span aria-hidden="true" className="text-muted">›</span>
         </Link>
       </main>
     </div>

@@ -107,7 +107,7 @@ export function TeachingComposeModal({
             type="button"
             onClick={onClose}
             aria-label="닫기"
-            className="rounded-full p-1 text-zinc-400"
+            className="rounded-full p-1 text-muted"
           >
             <X size={20} />
           </button>
@@ -133,7 +133,7 @@ export function TeachingComposeModal({
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-muted dark:border-zinc-700 dark:bg-zinc-800"
           >
             <Video size={32} />
             30초 이내 영상 찍기 / 올리기

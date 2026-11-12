@@ -84,7 +84,7 @@ export function Row({
       {value ? (
         <span className="shrink-0 text-sm tabular-nums text-zinc-500 dark:text-zinc-400">{value}</span>
       ) : null}
-      {href && chevron ? <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" /> : null}
+      {href && chevron ? <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" /> : null}
     </>
   );
   return href ? (
@@ -120,7 +120,7 @@ export function Tile({
       <span className={`block truncate text-xs font-semibold ${labelTone}`}>{label}</span>
       <span className="mt-0.5 block truncate text-xl font-bold tabular-nums leading-7 text-zinc-950 dark:text-zinc-50">
         {value}
-        {unit ? <span className="ml-0.5 text-xs font-medium text-zinc-400">{unit}</span> : null}
+        {unit ? <span className="ml-0.5 text-xs font-medium text-muted">{unit}</span> : null}
       </span>
       {sub ? <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">{sub}</span> : null}
       {children}

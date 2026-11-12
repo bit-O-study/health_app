@@ -132,7 +132,7 @@ export default async function MyPage() {
               <span className="text-sm text-zinc-600 dark:text-zinc-300">섭취 칼로리</span>
               <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                 {consumed}
-                <span className="text-xs font-medium text-zinc-400"> / {target.kcal} kcal</span>
+                <span className="text-xs font-medium text-muted"> / {target.kcal} kcal</span>
               </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
@@ -192,7 +192,7 @@ function Stat({ label, value, unit }: { label: string; value: string; unit?: str
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-100">
         {value}
-        {unit ? <span className="ml-0.5 text-xs font-medium text-zinc-400">{unit}</span> : null}
+        {unit ? <span className="ml-0.5 text-xs font-medium text-muted">{unit}</span> : null}
       </p>
     </div>
   );

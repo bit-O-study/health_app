@@ -273,7 +273,7 @@ export function AuthForm({
             </div>
             <div>
               <label className={labelCls} htmlFor="nickname">
-                닉네임 <span className="font-normal text-zinc-400">(선택)</span>
+                닉네임 <span className="font-normal text-muted">(선택)</span>
               </label>
               <input
                 id="nickname"
@@ -288,7 +288,7 @@ export function AuthForm({
             </div>
             <div>
               <label className={labelCls} htmlFor="phone">
-                전화번호 <span className="font-normal text-zinc-400">(선택)</span>
+                전화번호 <span className="font-normal text-muted">(선택)</span>
               </label>
               <input
                 id="phone"

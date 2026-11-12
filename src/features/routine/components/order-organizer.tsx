@@ -128,7 +128,7 @@ export function OrderOrganizer({
               </div>
             ) : preview && !full ? (
               <div className="space-y-3 text-center" data-testid="order-locked">
-                <Lock aria-hidden="true" size={18} className="mx-auto text-zinc-400" />
+                <Lock aria-hidden="true" size={18} className="mx-auto text-muted" />
                 <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">같은 부위가 연달아 오지 않게 정리해요</p>
                 <p className="text-sm text-zinc-600 dark:text-zinc-300">
                   지금 순서: 같은 부위 연속 {preview.streaksBefore}번 · 정리하면 {preview.streaksAfter}번
@@ -157,7 +157,7 @@ export function OrderOrganizer({
                 <ol className="space-y-1" data-testid="order-preview">
                   {preview.rows.map((r, i) => (
                     <li key={r.id} className="flex items-center gap-2 rounded-lg bg-zinc-50 px-2.5 py-2 text-sm dark:bg-white/[0.04]">
-                      <span className="w-4 text-xs tabular-nums text-zinc-400">{i + 1}</span>
+                      <span className="w-4 text-xs tabular-nums text-muted">{i + 1}</span>
                       <span aria-hidden="true" className={`h-2 w-2 shrink-0 rounded-full ${PART_DOT[r.part] ?? "bg-zinc-400"}`} />
                       <span className="min-w-0 flex-1 truncate text-zinc-900 dark:text-zinc-100">{r.name}</span>
                       <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">

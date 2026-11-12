@@ -102,7 +102,7 @@ export function WeeklyOverviewCard({
           <Link
             href="/settings/progress"
             aria-label="성장 그래프"
-            className="-mr-1 ml-auto inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+            className="-mr-1 ml-auto inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-muted transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
           >
             <ChevronRight aria-hidden="true" size={18} />
           </Link>
@@ -148,7 +148,7 @@ export function WeeklyOverviewCard({
                 {untouched.map((r) => r.label).join("·")} 0세트
               </span>
             ) : null}
-            <ChevronRight aria-hidden="true" size={16} className="ml-auto shrink-0 text-zinc-400" />
+            <ChevronRight aria-hidden="true" size={16} className="ml-auto shrink-0 text-muted" />
           </span>
 
           {/* 부위 칸 — 진하기만으로도 "빈 곳"이 보인다. */}

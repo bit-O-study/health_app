@@ -157,14 +157,14 @@ function AuthorSheet({
               </p>
             ) : null}
           </div>
-          <button type="button" aria-label="닫기" onClick={() => !pending && onClose()} className="self-start rounded-full p-1 text-zinc-400">
+          <button type="button" aria-label="닫기" onClick={() => !pending && onClose()} className="self-start rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
 
         <div className="mt-4">
           {profile === undefined ? (
-            <p className="flex justify-center py-8 text-zinc-400">
+            <p className="flex justify-center py-8 text-muted">
               <Loader2 aria-label="불러오는 중" size={20} className="animate-spin" />
             </p>
           ) : !profile || profile.posts.length === 0 ? (
@@ -192,7 +192,7 @@ function AuthorSheet({
               ))}
             </ul>
           )}
-          <p className="mt-2 text-xs text-zinc-400">내가 볼 수 있는 글만 보여요.<br />몸무게·신체 정보는 보이지 않아요.</p>
+          <p className="mt-2 text-xs text-muted">내가 볼 수 있는 글만 보여요.<br />몸무게·신체 정보는 보이지 않아요.</p>
         </div>
 
         {!isMine && blockTarget ? (

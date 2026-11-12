@@ -143,7 +143,7 @@ export function ReportButton({
                 type="button"
                 aria-label="닫기"
                 onClick={() => !pending && closeSheet()}
-                className="rounded-full p-1 text-zinc-400"
+                className="rounded-full p-1 text-muted"
               >
                 <X size={20} />
               </button>
@@ -194,7 +194,7 @@ export function ReportButton({
                     >
                       {reason}
                       {pending ? (
-                        <Loader2 size={15} className="animate-spin text-zinc-400" />
+                        <Loader2 size={15} className="animate-spin text-muted" />
                       ) : null}
                     </button>
                   ))}

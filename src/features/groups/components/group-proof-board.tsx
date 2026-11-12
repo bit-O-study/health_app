@@ -79,11 +79,11 @@ function ProofCard({ member }: { member: ProofMember }) {
 function PendingCard({ member }: { member: ProofMember }) {
   return (
     <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/50">
-      <Dumbbell size={26} className="text-zinc-400" />
+      <Dumbbell size={26} className="text-muted" />
       <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
         {member.name}
       </span>
-      <span className="text-xs text-zinc-400">아직 인증 전</span>
+      <span className="text-xs text-muted">아직 인증 전</span>
     </div>
   );
 }

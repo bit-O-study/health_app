@@ -47,7 +47,7 @@ function SettingsRow({ href, title, icon: Icon }: Row) {
         <h2 className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
           {title}
         </h2>
-        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
       </Link>
     </li>
   );

@@ -530,7 +530,7 @@ function ApplyDaySheet({
                     <ChevronRight
                       aria-hidden="true"
                       size={18}
-                      className="shrink-0 text-zinc-400"
+                      className="shrink-0 text-muted"
                     />
                   </button>
                 </li>

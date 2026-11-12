@@ -115,7 +115,7 @@ export function EquipmentScanner() {
             ) : null}
             {analysis.muscles.length > 0 ? (
               <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                <Target aria-hidden="true" size={14} className="text-zinc-400" />
+                <Target aria-hidden="true" size={14} className="text-muted" />
                 {analysis.muscles.map((m) => (
                   <span
                     key={m}

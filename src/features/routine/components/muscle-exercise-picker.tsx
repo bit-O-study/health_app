@@ -362,7 +362,7 @@ export function MuscleExercisePicker({
                   {on ? (
                     <Check size={15} />
                   ) : (
-                    <Plus size={15} className="text-zinc-400" />
+                    <Plus size={15} className="text-muted" />
                   )}
                 </button>
                 <div className="min-w-0 flex-1">

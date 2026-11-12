@@ -59,7 +59,7 @@ export function FitInsights({
               </p>
             </div>
           ))}
-          <p className="text-xs text-zinc-400">처음 한 날 무게 → 최근 4주 최고 무게</p>
+          <p className="text-xs text-muted">처음 한 날 무게 → 최근 4주 최고 무게</p>
         </div>
       ) : null}
 

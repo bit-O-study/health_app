@@ -61,7 +61,7 @@ export async function SessionReportCard() {
                     <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
                       {c.prev ? `${kgReps(c.prev)} → ` : ""}<b className="text-zinc-900 dark:text-zinc-100">{kgReps(c.now)}</b>
                     </span>
-                    <span className={`w-20 shrink-0 text-right text-xs font-semibold tabular-nums ${c.better ? "text-brand" : "text-zinc-400"}`}>
+                    <span className={`w-20 shrink-0 text-right text-xs font-semibold tabular-nums ${c.better ? "text-brand" : "text-muted"}`}>
                       {compareText(c)}
                     </span>
                   </div>

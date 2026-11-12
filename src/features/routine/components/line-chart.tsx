@@ -15,7 +15,7 @@ export function LineChart({
   if (points.length === 0) {
     return (
       <div
-        className="flex items-center justify-center rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 text-xs text-zinc-400"
+        className="flex items-center justify-center rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 text-xs text-muted"
         style={{ height }}
       >
         데이터가 아직 없어요

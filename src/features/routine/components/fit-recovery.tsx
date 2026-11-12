@@ -63,7 +63,7 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
           );
         })}
       </ul>
-      <p className="sentences text-xs leading-5 text-zinc-400">
+      <p className="sentences text-xs leading-5 text-muted">
         <span>내 기록(종목별 최대 무게·평소 하던 양)과 골격근량에 견줘, 얼마나 힘들게 했는지로 계산해요.</span>
         <span>평소의 4분의 1이 안 되면 회복이 필요 없어요.</span>
         <span>작은 근육(팔·어깨·코어)은 빨리, 하체는 오래 걸리고 덜 풀린 채 또 하면 더 길어져요.</span>

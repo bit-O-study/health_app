@@ -76,7 +76,7 @@ export function TodayAddPicker() {
       >
         <label className="relative min-w-0 flex-1">
           <span className="sr-only">더할 운동 찾기</span>
-          <Search aria-hidden="true" size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+          <Search aria-hidden="true" size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input
             type="search"
             value={query}

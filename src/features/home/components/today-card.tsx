@@ -55,7 +55,7 @@ export function TodayCard({
         <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
           {commitments.length > 0 ? `${doneCount}/${commitments.length}` : "추가"}
         </span>
-        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
       </Link>
 
       <div className="ml-[4.25rem] border-t border-[var(--line)]" />
@@ -79,7 +79,7 @@ export function TodayCard({
         <span className="shrink-0 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
           {!hasFoodLog ? "추가" : need.neededKcal === 0 ? "목표 이내" : `${need.remainingMinutes}분 더`}
         </span>
-        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
       </Link>
     </section>
   );

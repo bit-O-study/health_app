@@ -137,7 +137,7 @@ export function GymPicker({
           <Search
             aria-hidden="true"
             size={16}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
           />
           <input
             type="search"
@@ -151,7 +151,7 @@ export function GymPicker({
             <Loader2
               aria-hidden="true"
               size={16}
-              className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-zinc-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-muted"
             />
           ) : null}
         </span>
@@ -179,7 +179,7 @@ export function GymPicker({
                   <MapPin
                     aria-hidden="true"
                     size={15}
-                    className="mt-0.5 shrink-0 text-zinc-400"
+                    className="mt-0.5 shrink-0 text-muted"
                   />
                 )}
                 <span className="min-w-0 flex-1">

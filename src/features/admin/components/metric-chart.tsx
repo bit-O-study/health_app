@@ -31,7 +31,7 @@ export default function MetricChart({
         {title}
       </h2>
       {data.length === 0 ? (
-        <div className="flex h-[220px] items-center justify-center text-sm text-zinc-400">
+        <div className="flex h-[220px] items-center justify-center text-sm text-muted">
           데이터가 없습니다
         </div>
       ) : (

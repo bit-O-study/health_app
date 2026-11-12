@@ -128,9 +128,9 @@ export function WaterCard({
           수분
         </p>
         <p className="text-base font-bold tabular-nums">{formatWater(ml)}</p>
-        <p className="text-xs text-zinc-400">/ {formatWater(targetMl)}</p>
+        <p className="text-xs text-muted">/ {formatWater(targetMl)}</p>
         {last ? (
-          <p className="ml-auto text-xs text-zinc-400" data-testid="water-since">
+          <p className="ml-auto text-xs text-muted" data-testid="water-since">
             마지막 {sinceLabel(last.at)}
           </p>
         ) : null}
@@ -166,7 +166,7 @@ export function WaterCard({
             className="app-press inline-flex h-9 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
-            <span className="text-zinc-400">{cup.label}</span>
+            <span className="text-muted">{cup.label}</span>
           </button>
         ))}
         <button
@@ -234,7 +234,7 @@ export function WaterCard({
             </li>
           ))}
           {entries.length > 8 ? (
-            <li className="py-1 text-xs text-zinc-400">
+            <li className="py-1 text-xs text-muted">
               외 {entries.length - 8}건
             </li>
           ) : null}

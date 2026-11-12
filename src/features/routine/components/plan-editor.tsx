@@ -1043,7 +1043,7 @@ export function PlanEditor({
                         >
                           {name}
                           {focus.isSide ? (
-                            <span className="ml-1 text-zinc-400">보조</span>
+                            <span className="ml-1 text-muted">보조</span>
                           ) : null}
                         </button>
                       );

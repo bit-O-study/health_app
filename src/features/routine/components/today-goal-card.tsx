@@ -88,7 +88,7 @@ export function TodayGoalCard({
               {goal.remainingText} 남았어요
             </span>
           )}
-          <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
         </button>
       ) : null}
 
@@ -120,7 +120,7 @@ export function TodayGoalCard({
                     className={`shrink-0 text-xs font-bold ${
                       m.done
                         ? "text-brand"
-                        : "text-zinc-400"
+                        : "text-muted"
                     }`}
                   >
                     {m.statusText}

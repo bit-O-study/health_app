@@ -55,7 +55,7 @@ export function MemberBanControls({
       />
       <div className="flex flex-wrap items-center gap-1">
         {pending ? (
-          <Loader2 aria-hidden="true" size={13} className="animate-spin text-zinc-400" />
+          <Loader2 aria-hidden="true" size={13} className="animate-spin text-muted" />
         ) : null}
         <button
           type="button"

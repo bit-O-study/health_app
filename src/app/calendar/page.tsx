@@ -418,7 +418,7 @@ function WeightRow({
       >
         <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
         <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
-        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-muted" />
       </Link>
     );
   }
@@ -443,7 +443,7 @@ function WeightRow({
       </span>
       <span className="flex items-center gap-2">
         {d === null ? (
-          <span className="text-xs font-semibold text-zinc-400">첫 기록</span>
+          <span className="text-xs font-semibold text-muted">첫 기록</span>
         ) : (
           <span className={`flex items-center gap-0.5 text-xs font-semibold tabular-nums ${toneCls}`}>
             {down ? (
@@ -456,7 +456,7 @@ function WeightRow({
         )}
         <span className="whitespace-nowrap text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
           {delta.latestKg.toLocaleString()}
-          <span className="ml-0.5 text-xs font-medium text-zinc-400">kg</span>
+          <span className="ml-0.5 text-xs font-medium text-muted">kg</span>
         </span>
       </span>
     </div>
@@ -478,7 +478,7 @@ function SummaryStat({
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {value.toLocaleString()}
-        <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+        <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
       </p>
     </div>
   );
@@ -502,7 +502,7 @@ function BalanceStat({ balance }: { balance: CalorieBalance }) {
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {balance.loggedDays === 0 ? "—" : signedKcal(balance.netKcal)}
         {balance.loggedDays === 0 ? null : (
-          <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+          <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
         )}
       </p>
       <p className={`truncate text-xs font-semibold ${tone}`}>{directionLabel(balance)}</p>

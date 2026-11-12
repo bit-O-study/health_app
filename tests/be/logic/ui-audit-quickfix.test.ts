@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -240,5 +240,31 @@ describe("UI 검수 3단계 — 홈 알림 안내", () => {
     const src = read("src/features/notifications/components/permission-nudge.tsx");
     expect(src).toContain('className="flex items-center gap-3 border-b border-line px-1 py-2"');
     expect(src).not.toContain("app-card flex items-center gap-3 py-2 pl-3.5 pr-2");
+  });
+});
+
+describe("UI 검수 5-1 — 보조 글자색 전체 가드", () => {
+  // 항상 어두운 바탕(영상·카메라·게임형·운동 모드)은 text-muted(라이트 기준 회색)가 안 보이므로 예외.
+  const ALWAYS_DARK = /teaching-reels|guided-workout|rest-timer|running-mobile-gate|proof-member-sheet|gym-room|muscle-body-view|pet-studio|meal-scanner|try-workout-sheet|reel-single|reports-manager|workout-session-timer/;
+
+  function walk(dir: string, out: string[] = []): string[] {
+    for (const name of readdirSync(resolve(process.cwd(), dir))) {
+      const rel = `${dir}/${name}`;
+      const st = statSync(resolve(process.cwd(), rel));
+      if (st.isDirectory()) walk(rel, out);
+      else if (rel.endsWith(".tsx")) out.push(rel);
+    }
+    return out;
+  }
+
+  it("다크용 짝 없는 text-zinc-400 은 항상 어두운 화면에만 남는다", () => {
+    const offenders: string[] = [];
+    for (const rel of walk("src")) {
+      if (ALWAYS_DARK.test(rel)) continue;
+      read(rel).split("\n").forEach((l, i) => {
+        if (/(^|[ "'`])text-zinc-400/.test(l) && !/dark:text-|hover:|group-/.test(l)) offenders.push(`${rel}:${i + 1}`);
+      });
+    }
+    expect(offenders).toEqual([]);
   });
 });

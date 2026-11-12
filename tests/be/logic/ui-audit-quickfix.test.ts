@@ -322,3 +322,11 @@ describe("UI 검수 4단계 — 문구 끝 이모지", () => {
     }
   });
 });
+
+describe("UI 검수 4단계 — 휴식 알림 문구", () => {
+  it("휴식 완료 알림 제목에 이모지를 붙이지 않는다", () => {
+    const code = read("src/features/workout-timer/rest-timer.tsx").split("\n").filter((l) => !/^\s*(\/\/|\*|\/\*|\{\/\*)/.test(l)).join("\n");
+    expect(code).not.toContain("휴식 완료! 💪");
+    expect(code.match(/[\u{1F4AA}]/gu) ?? []).toEqual([]);
+  });
+});

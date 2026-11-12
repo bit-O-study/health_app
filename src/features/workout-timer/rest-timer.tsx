@@ -556,11 +556,11 @@ function scheduleRestNotification(endsAt: number) {
   postToServiceWorker({
     type: "schedule-rest",
     endsAt,
-    title: "휴식 완료! 💪",
+    title: "휴식 완료",
     body: "다음 세트를 시작하세요.",
   });
   // 네이티브 앱 — OS 로컬 알림으로도 예약(백그라운드에서도 확실히 뜨게).
-  void scheduleRestLocalNotif(endsAt, "휴식 완료! 💪", "다음 세트를 시작하세요.");
+  void scheduleRestLocalNotif(endsAt, "휴식 완료", "다음 세트를 시작하세요.");
 }
 
 /** 예약된 휴식 알림 취소(건너뛰기·완료 시). */
@@ -577,7 +577,7 @@ function notifyRestDone() {
     if (typeof document !== "undefined" && document.visibilityState === "visible") {
       return;
     }
-    const n = new Notification("휴식 완료! 💪", {
+    const n = new Notification("휴식 완료", {
       body: "다음 세트를 시작하세요.",
       tag: "rest-timer",
       icon: "/icon-192.png",

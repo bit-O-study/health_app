@@ -273,7 +273,7 @@ export function MuscleExercisePicker({
       </div>
 
       {/* 세부근육 + 운동 목록 */}
-      <section className="app-card p-3">
+      <section className="border-t border-line px-1 pt-4">
         <div className="flex flex-wrap items-center gap-2">
           <span
             aria-hidden
@@ -333,7 +333,8 @@ export function MuscleExercisePicker({
           })}
         </div>
 
-        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+        {/* 운동 목록 — 박스 대신 구분선 행. 담은 행만 옅은 면으로 표시 */}
+        <ul className="mt-3">
           {list.map((ex) => {
             const on = pickedHere.includes(ex.id);
             const exSubs = subMusclesForExerciseData(ex.id, ex.name, ex.target);
@@ -341,10 +342,8 @@ export function MuscleExercisePicker({
               <li
                 key={ex.id}
                 className={cn(
-                  "flex items-start gap-2 rounded-lg border p-3 transition",
-                  on
-                    ? "border-brand/40 bg-brand-soft"
-                    : "border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900",
+                  "flex items-start gap-2 border-t border-line py-3 transition first:border-t-0",
+                  on && "-mx-2 rounded-lg bg-brand-soft px-2",
                 )}
               >
                 <button

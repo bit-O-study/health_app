@@ -75,3 +75,21 @@ describe("UI 검수 1단계", () => {
     for (const href of ["/login", "/support"]) expect(src).toContain(`href="${href}"`);
   });
 });
+
+describe("UI 검수 3단계(박스 정리) — 운동 선택·기록", () => {
+  it("근육별 운동선택: 운동 행은 테두리 박스가 아니라 구분선 행", () => {
+    const src = read("src/features/routine/components/muscle-exercise-picker.tsx");
+    expect(src).toContain('<section className="border-t border-line px-1 pt-4">');
+    expect(src).toContain("border-t border-line py-3 transition first:border-t-0");
+    expect(src).not.toContain("rounded-lg border p-3 transition");
+    // 담기/해제 동작에 쓰는 testid 는 그대로
+    expect(src).toContain("data-testid={`pick-${ex.id}`}");
+  });
+
+  it("운동 기록: 링크 3개가 박스 타일 없이 48px 행이다", () => {
+    const src = read("src/app/routine/records/page.tsx");
+    expect(src).not.toContain("app-card");
+    expect(src).toContain("min-h-12");
+    for (const href of ["/settings/progress", "/settings/score", "/settings/history"]) expect(src).toContain(`href="${href}"`);
+  });
+});

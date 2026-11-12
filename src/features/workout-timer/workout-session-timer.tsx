@@ -709,7 +709,7 @@ export function WorkoutSessionTimer({
               aria-label="일시정지"
               title="일시정지"
               onClick={pause}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+              className="flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Pause aria-hidden="true" size={14} />
             </button>
@@ -719,7 +719,7 @@ export function WorkoutSessionTimer({
               aria-label="재개"
               title="재개"
               onClick={resume}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+              className="flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Play aria-hidden="true" size={14} />
             </button>
@@ -729,7 +729,7 @@ export function WorkoutSessionTimer({
             aria-label="정지하고 시간 저장"
             title="정지하고 시간 저장"
             onClick={requestSave}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+            className="flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
           >
             <Save aria-hidden="true" size={13} />
           </button>

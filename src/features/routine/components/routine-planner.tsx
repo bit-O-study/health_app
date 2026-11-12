@@ -221,7 +221,7 @@ export function RoutinePlanner({
                 type="button"
                 onClick={() => handleSelectSplit(item.splits)}
                 className={cn(
-                  "whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold transition",
+                  "whitespace-nowrap relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                     : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
@@ -235,7 +235,7 @@ export function RoutinePlanner({
             type="button"
             onClick={handleSelectCustom}
             className={cn(
-              "inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold transition",
+              "inline-flex items-center gap-1 whitespace-nowrap relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-sm font-semibold transition",
               isCustom
                 ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                 : "app-field border-dashed text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
@@ -286,7 +286,7 @@ export function RoutinePlanner({
                   type="button"
                   onClick={() => handleSelectVariant(item.id)}
                   className={cn(
-                    "whitespace-nowrap rounded-full border px-3 py-1.5 text-left text-sm font-semibold transition",
+                    "whitespace-nowrap relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-left text-sm font-semibold transition",
                     active
                       ? "border-brand/40 bg-brand-soft text-brand"
                       : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
@@ -612,7 +612,7 @@ function DayBlockEditor({
                 type="button"
                 aria-label={`${DAY_BLOCKS[b].label} 제거`}
                 onClick={() => onRemove(b)}
-                className="ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+                className="ml-0.5 inline-flex relative h-4 w-4 after:absolute after:-inset-3.5 after:content-[''] items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
               >
                 <X aria-hidden="true" size={11} />
               </button>

@@ -118,7 +118,7 @@ export function GymRoom({
               type="button"
               onClick={saveName}
               disabled={pending}
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-600 text-white"
+              className="inline-flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] shrink-0 items-center justify-center rounded bg-emerald-600 text-white"
             >
               <Check size={13} />
             </button>

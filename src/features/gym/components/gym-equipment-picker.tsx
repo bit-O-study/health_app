@@ -99,7 +99,7 @@ export function GymEquipmentPicker({
                     onClick={() => onToggle(it.id)}
                     aria-pressed={on}
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
+                      "inline-flex items-center gap-1 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-xs font-semibold transition",
                       on
                         ? "border-brand/40 bg-brand-soft text-brand"
                         : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400",

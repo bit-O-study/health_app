@@ -200,3 +200,30 @@ describe("UI 검수 1-6·체형 정보", () => {
     expect(src).toMatch(/<h2 className="app-section-label">추이 그래프<\/h2>\s*<BodyChart logs=\{logs\} \/>/);
   });
 });
+
+describe("UI 검수 — 작은 터치 영역 확장(2차)", () => {
+  const has = (rel: string, re: RegExp) => expect(read(rel), rel).toMatch(re);
+
+  it("근육별 운동선택: '자세히' 링크와 부위 칩이 44px 로 눌린다", () => {
+    const rel = "src/features/routine/components/muscle-exercise-picker.tsx";
+    has(rel, /relative mt-1 after:absolute after:-inset-y-3\.5 after:-inset-x-2 after:content-\[''\] inline-flex/);
+    has(rel, /relative rounded-full after:absolute after:-inset-y-1\.5/);
+  });
+
+  it("운동 등록: 드래그 핸들·슈퍼세트 토글·h-7 버튼이 44px 로 눌린다", () => {
+    has("src/features/routine/components/plan-editor.tsx", /relative h-9 w-6 after:absolute after:-inset-x-2\.5 after:-inset-y-1/);
+    has("src/features/routine/components/superset-link.tsx", /relative h-6 after:absolute after:-inset-y-2\.5/);
+    has("src/features/routine/components/conditioning-editor.tsx", /relative h-7 after:absolute after:-inset-y-2/);
+  });
+
+  it("설정: 스위치·장비 칩·루틴 칩·부위 제거 버튼이 44px 로 눌린다", () => {
+    has("src/features/profile/components/pref-toggle.tsx", /relative inline-flex h-7 after:absolute after:-inset-y-2/);
+    has("src/features/gym/components/gym-equipment-picker.tsx", /rounded-full after:absolute after:-inset-y-1\.5/);
+    has("src/features/routine/components/routine-planner.tsx", /relative h-4 w-4 after:absolute after:-inset-3\.5/);
+  });
+
+  it("이미 44px 이상인 요소와 달력 날짜 칸에는 확장 영역을 덧대지 않는다(이웃 칸과 겹침 방지)", () => {
+    expect(read("src/features/diet/components/diet-board.tsx")).not.toMatch(/min-h-11 relative rounded-full after:absolute/);
+    expect(read("src/app/calendar/page.tsx")).not.toMatch(/mx-auto mt-0\.5 flex relative h-7 w-7 after:absolute/);
+  });
+});

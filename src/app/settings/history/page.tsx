@@ -198,7 +198,7 @@ export default async function HistoryPage({
         {/* 캘린더(칼로리·식단·다짐)와 서로 오간다 — 두 달력을 합치는 대신 연결(캘린더 3단계). */}
         <Link
           href={`/calendar?m=${year}-${pad(month0 + 1)}`}
-          className="app-press inline-flex h-7 items-center rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
         >
           캘린더에서 보기 →
         </Link>

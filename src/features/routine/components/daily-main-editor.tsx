@@ -606,7 +606,7 @@ export function DailyMainEditor({
                     onPointerMove={onGripMove}
                     onPointerUp={onGripUp}
                     onPointerCancel={onGripUp}
-                    className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
+                    className="flex relative h-9 w-6 after:absolute after:-inset-x-2.5 after:-inset-y-1 after:content-[''] shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
                   >
                     <GripVertical aria-hidden="true" size={16} />
                   </button>

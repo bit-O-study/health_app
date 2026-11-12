@@ -58,7 +58,7 @@ export function RestDefaultPicker() {
               type="button"
               onClick={() => pick(s)}
               aria-pressed={active}
-              className={`h-7 rounded-full px-2.5 text-xs font-semibold tabular-nums transition ${
+              className={`relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] rounded-full px-2.5 text-xs font-semibold tabular-nums transition ${
                 active
                   ? "bg-brand text-white dark:text-zinc-950"
                   : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"

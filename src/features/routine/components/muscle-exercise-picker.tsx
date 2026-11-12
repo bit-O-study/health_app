@@ -241,7 +241,7 @@ export function MuscleExercisePicker({
                 aria-pressed={active}
                 onClick={() => selectMuscle(g.id)}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition",
+                  "inline-flex items-center gap-1.5 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-transparent text-white"
                     : "app-field text-zinc-700 hover:border-zinc-400 dark:text-zinc-200",
@@ -301,7 +301,7 @@ export function MuscleExercisePicker({
             aria-pressed={selectedSub === null}
             onClick={() => setSelectedSub(null)}
             className={cn(
-              "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
+              "relative rounded-full after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] border px-2.5 py-1 text-xs font-semibold transition",
               selectedSub === null
                 ? "border-transparent text-white"
                 : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
@@ -320,7 +320,7 @@ export function MuscleExercisePicker({
                 aria-pressed={active}
                 onClick={() => setSelectedSub(active ? null : s.id)}
                 className={cn(
-                  "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
+                  "relative rounded-full after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] border px-2.5 py-1 text-xs font-semibold transition",
                   active
                     ? "border-transparent text-white"
                     : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
@@ -397,7 +397,7 @@ export function MuscleExercisePicker({
                   </div>
                   <Link
                     href={`/exercises/${ex.id}`}
-                    className="mt-1 inline-flex items-center gap-0.5 text-xs font-semibold text-brand hover:underline"
+                    className="relative mt-1 after:absolute after:-inset-y-3.5 after:-inset-x-2 after:content-[''] inline-flex items-center gap-0.5 text-xs font-semibold text-brand hover:underline"
                   >
                     자세히 <ArrowRight size={12} />
                   </Link>
@@ -432,7 +432,7 @@ export function MuscleExercisePicker({
               type="button"
               data-testid="clear-all-picked"
               onClick={clearAll}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
+              className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
             >
               <Trash2 size={13} />
               전체 초기화
@@ -462,7 +462,7 @@ export function MuscleExercisePicker({
                     type="button"
                     onClick={() => removeMuscle(g.id)}
                     aria-label={`${g.label} 전체 비우기`}
-                    className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
+                    className="ml-auto inline-flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
                   >
                     <Trash2 size={15} />
                   </button>

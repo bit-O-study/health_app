@@ -173,7 +173,7 @@ export function CommunityBoard({
     <div
       className={
         isReels
-          ? "app-page mx-auto flex h-[calc(100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-3xl flex-col overflow-hidden"
+          ? "app-page mx-auto flex h-[calc(100dvh-var(--nav-h)-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-3xl flex-col overflow-hidden"
           : "app-page mx-auto flex min-h-[calc(100dvh-env(safe-area-inset-top))] w-full max-w-3xl flex-col"
       }
     >

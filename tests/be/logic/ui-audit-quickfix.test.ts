@@ -168,7 +168,7 @@ describe("UI 검수 1-5 — 상태바(안전영역)·스크롤바", () => {
   it("전체 높이를 쓰는 화면은 상단 안전영역을 함께 뺀다", () => {
     expect(read("src/app/login/page.tsx")).toContain("min-h-[calc(100dvh-env(safe-area-inset-top))]");
     expect(read("src/app/suspended/page.tsx")).toContain("min-h-[calc(100dvh-env(safe-area-inset-top))]");
-    expect(read("src/app/groups/[id]/page.tsx")).toContain("100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom)");
+    expect(read("src/app/groups/[id]/page.tsx")).toContain("100dvh-var(--nav-h)-env(safe-area-inset-top)-env(safe-area-inset-bottom)");
     expect(read("src/features/community/components/community-board.tsx")).not.toContain("min-h-screen");
   });
 
@@ -266,5 +266,24 @@ describe("UI 검수 5-1 — 보조 글자색 전체 가드", () => {
       });
     }
     expect(offenders).toEqual([]);
+  });
+});
+
+describe("UI 검수 1-4 — 하단 탭 높이는 변수 하나", () => {
+  it("--nav-h 를 정의하고, 높이 계산식은 3.75rem 을 직접 쓰지 않는다", () => {
+    expect(read("src/styles/globals.css")).toMatch(/--nav-h: calc\(3\.75rem \+ 1px\);/);
+    for (const rel of [
+      "src/app/groups/page.tsx",
+      "src/app/groups/[id]/page.tsx",
+      "src/features/community/components/community-board.tsx",
+      "src/features/community/components/post-detail.tsx",
+      "src/features/community/components/reel-single.tsx",
+    ]) {
+      const calcs = read(rel).split("\n").filter((l) => /calc\(/.test(l) && /3\.75rem/.test(l));
+      expect(calcs, rel).toEqual([]);
+      expect(read(rel), rel).toContain("var(--nav-h)");
+    }
+    // 하단 탭 본문 여백(JS)도 같은 변수
+    expect(read("src/components/bottom-nav.tsx")).toContain('const navPad = "calc(var(--nav-h) + env(safe-area-inset-bottom))"');
   });
 });

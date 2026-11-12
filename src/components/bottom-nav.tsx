@@ -124,7 +124,7 @@ export function BottomNav({
   useEffect(() => {
     if (hidden) return;
     const prev = document.body.style.paddingBottom;
-    const navPad = "calc(3.75rem + env(safe-area-inset-bottom))";
+    const navPad = "calc(var(--nav-h) + env(safe-area-inset-bottom))";
     document.body.style.paddingBottom = navPad;
     // .app-page 최소 높이가 이 여백을 빼야 짧은 화면이 60px 스크롤되지 않는다(globals.css 참고).
     document.body.style.setProperty("--app-nav-pad", navPad);

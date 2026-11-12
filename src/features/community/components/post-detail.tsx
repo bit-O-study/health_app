@@ -605,7 +605,7 @@ export function PostDetail({
       </div>
 
       {/* 댓글 입력 — 하단 고정탭(4rem) + 제스처바(safe-area) 위에 붙게 오프셋. */}
-      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] bg-background py-2">
+      <div className="sticky bottom-[calc(var(--nav-h)+env(safe-area-inset-bottom))] bg-background py-2">
       {replyTo ? (
         <p className="mb-1.5 flex items-center gap-2 px-1 text-xs text-zinc-500" data-testid="reply-to">
           <span className="min-w-0 flex-1 truncate">@{replyTo.name}에게 답글</span>

@@ -64,7 +64,7 @@ export default async function GroupsPage({
   return (
     // 전체화면 헬스장 — 상단~하단탭(4rem+safe) 사이에 fixed 로 고정.
     // dvh 계산/바디 패딩에 의존하지 않아 어떤 기기에서도 스크롤이 생기지 않는다.
-    <main className="fixed inset-x-0 top-0 bottom-[calc(3.75rem+env(safe-area-inset-bottom))] overflow-hidden">
+    <main className="fixed inset-x-0 top-0 bottom-[calc(var(--nav-h)+env(safe-area-inset-bottom))] overflow-hidden">
       <GroupBoard detail={detail} groups={groups} />
     </main>
   );

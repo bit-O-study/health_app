@@ -10,7 +10,7 @@ import { TeachingReels } from "./teaching-reels";
 export function ReelSingle({ post, canModerate }: { post: FeedPost; canModerate: boolean }) {
   const router = useRouter();
   return (
-    <div className="app-page mx-auto flex h-[calc(100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-3xl flex-col overflow-hidden">
+    <div className="app-page mx-auto flex h-[calc(100dvh-var(--nav-h)-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-3xl flex-col overflow-hidden">
       <PageHeader title="운동 영상" backHref="/community/teaching" back="운동 영상" />
       <div className="min-h-0 flex-1">
         <TeachingReels posts={[post]} canModerate={canModerate} onChanged={() => router.push("/community/teaching")} />

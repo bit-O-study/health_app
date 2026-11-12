@@ -351,9 +351,10 @@ export function MuscleExercisePicker({
                   type="button"
                   data-testid={`pick-${ex.id}`}
                   aria-pressed={on}
+                  aria-label={`${ex.name} ${on ? "선택 해제" : "추가"}`}
                   onClick={() => toggle(selectedMuscle, ex.id, ex.name)}
                   className={cn(
-                    "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition",
+                    "relative mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition after:absolute after:-inset-2.5 after:content-['']",
                     on
                       ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                       : "app-field text-transparent hover:border-brand/40",

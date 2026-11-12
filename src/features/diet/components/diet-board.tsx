@@ -428,7 +428,7 @@ export function DietBoard({
               // 저장 중에는 옛 버튼처럼 막는다(낙관적 상태가 화면째 날아가지 않게).
               if (pending) e.preventDefault();
             }}
-            className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
+            className={`flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
               pending ? "pointer-events-none opacity-30" : ""
             }`}
           >
@@ -450,7 +450,7 @@ export function DietBoard({
               type="button"
               aria-label="다음 날"
               disabled
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
+              className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
             >
               <ChevronRight aria-hidden="true" size={18} />
             </button>
@@ -463,7 +463,7 @@ export function DietBoard({
               onClick={(e) => {
                 if (pending) e.preventDefault();
               }}
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
+              className={`flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
                 pending ? "pointer-events-none opacity-30" : ""
               }`}
             >
@@ -957,7 +957,7 @@ function MealDetailDialog({
             <button
               type="button"
               onClick={() => setConfirmDel(false)}
-              className="h-8 rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
+              className="relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
             >
               취소
             </button>
@@ -965,7 +965,7 @@ function MealDetailDialog({
               type="button"
               aria-label="삭제 확인"
               onClick={onDeleteMeal}
-              className="h-8 rounded-md bg-red-600 px-3 text-sm font-bold text-white transition hover:bg-red-500"
+              className="relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-md bg-red-600 px-3 text-sm font-bold text-white transition hover:bg-red-500"
             >
               삭제
             </button>

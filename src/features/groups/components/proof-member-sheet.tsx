@@ -71,7 +71,7 @@ export function ProofMemberSheet({
             type="button"
             aria-label="닫기"
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <X aria-hidden="true" size={18} />
           </button>

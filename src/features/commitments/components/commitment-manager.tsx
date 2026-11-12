@@ -54,7 +54,7 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                   aria-label="다짐 삭제"
                   onClick={() => remove(c.id)}
                   disabled={pending}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                  className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>

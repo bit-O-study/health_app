@@ -46,7 +46,7 @@ export default async function TrainerPage({
         <Link
           href={`/groups/${id}/trainer/billing`}
           data-testid="billing-link"
-          className="app-press inline-flex h-8 items-center rounded-full bg-zinc-100 px-3 text-sm font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+          className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-zinc-100 px-3 text-sm font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
         >
           팀 요금제
         </Link>

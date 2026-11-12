@@ -170,7 +170,7 @@ export function TrainerBoardView({
 
                 <div className="mt-3 flex flex-wrap gap-2">
                   <Link href={`/groups/${groupId}/trainer/members/${m.userId}`}
-                    className="inline-flex h-8 items-center rounded-lg bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                    className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-lg bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
                     통계 · 운동 처방
                   </Link>
                   {/* 그룹원 상세(그날 운동·식단)는 이미 있는 화면을 그대로 쓴다.
@@ -178,21 +178,21 @@ export function TrainerBoardView({
                         (`?member=` 로 적으면 그룹 화면만 뜨고 아무 일도 안 일어난다). */}
                   <Link
                     href={`/groups/${groupId}/member/${m.userId}`}
-                    className="app-press inline-flex h-8 items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                    className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                   >
                     기록 자세히 보기
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/assign/${m.userId}`}
                     data-testid="assign-link"
-                    className="app-press inline-flex h-8 items-center rounded-full bg-brand px-3 text-xs font-semibold text-white dark:text-zinc-950"
+                    className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-brand px-3 text-xs font-semibold text-white dark:text-zinc-950"
                   >
                     루틴 배정
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/comment/${m.userId}`}
                     data-testid="comment-link"
-                    className="app-press inline-flex h-8 items-center rounded-full bg-brand-soft px-3 text-xs font-semibold text-brand"
+                    className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-brand-soft px-3 text-xs font-semibold text-brand"
                   >
                     코멘트
                   </Link>

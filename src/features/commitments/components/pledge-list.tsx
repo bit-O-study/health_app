@@ -76,7 +76,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                       <Link
                         href={`/commitments/${p.id}/edit`}
                         aria-label="다짐 편집"
-                        className="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08]"
+                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08]"
                       >
                         <Pencil aria-hidden="true" size={14} />
                       </Link>
@@ -85,7 +85,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                         aria-label="다짐 삭제"
                         onClick={() => remove(p.id)}
                         disabled={pending}
-                        className="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                       >
                         <Trash2 aria-hidden="true" size={14} />
                       </button>

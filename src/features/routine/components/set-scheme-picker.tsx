@@ -108,7 +108,7 @@ export function SetSchemePicker({
               onClick={() => apply(scheme)}
               disabled={off}
               title={SET_SCHEME_LABELS[scheme].hint}
-              className="inline-flex h-8 items-center rounded-full bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:text-brand disabled:opacity-40 dark:bg-zinc-800 dark:text-zinc-200"
+              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:text-brand disabled:opacity-40 dark:bg-zinc-800 dark:text-zinc-200"
             >
               {SET_SCHEME_LABELS[scheme].name}
             </button>

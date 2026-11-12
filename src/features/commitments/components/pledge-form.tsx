@@ -257,7 +257,7 @@ export function PledgeForm({
                       type="button"
                       aria-label="부위 빼기"
                       onClick={() => set({ strength: spec.strength!.filter((_, j) => j !== i) })}
-                      className="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:text-danger"
+                      className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:text-danger"
                     >
                       <Trash2 aria-hidden="true" size={14} />
                     </button>

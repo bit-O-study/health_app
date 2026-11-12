@@ -179,7 +179,7 @@ export default async function HistoryPage({
         <Link
           href={`/settings/history?month=${prev.year}-${pad(prev.month0 + 1)}`}
           aria-label="이전 달"
-          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <ChevronLeft aria-hidden="true" size={18} />
         </Link>
@@ -189,7 +189,7 @@ export default async function HistoryPage({
         <Link
           href={`/settings/history?month=${next.year}-${pad(next.month0 + 1)}`}
           aria-label="다음 달"
-          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <ChevronRightIcon aria-hidden="true" size={18} />
         </Link>

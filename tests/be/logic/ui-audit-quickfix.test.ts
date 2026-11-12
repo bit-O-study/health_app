@@ -48,6 +48,27 @@ describe("UI 검수 1단계", () => {
     }
   });
 
+  it("버튼·링크의 h-8 은 누르는 영역을 44px 로 늘린다(보이는 크기는 그대로)", () => {
+    // 대표 사용처 — 높이 32px 알약 버튼과 32px 정사각 아이콘 버튼
+    expect(read("src/app/plan/page.tsx")).toMatch(/relative h-8 after:absolute after:-inset-y-1\.5 after:inset-x-0/);
+    expect(read("src/app/calendar/page.tsx")).toMatch(/relative h-8 w-8 after:absolute after:-inset-1\.5/);
+    expect(read("src/features/routine/components/plan-editor.tsx")).toMatch(/inline-flex relative h-8 after:absolute|relative h-8 after:absolute/);
+  });
+
+  it("근육별 운동선택의 추가 버튼은 이름(aria-label)이 있고 44px 로 눌린다", () => {
+    const src = read("src/features/routine/components/muscle-exercise-picker.tsx");
+    expect(src).toMatch(/aria-label=\{`\$\{ex\.name\} \$\{on \? "선택 해제" : "추가"\}`\}/);
+    expect(src).toContain("after:-inset-2.5");
+  });
+
+  it("순위·경쟁 화면은 이모지 대신 아이콘을 쓴다", () => {
+    const board = read("src/features/groups/components/group-leaderboard.tsx");
+    for (const e of ["🥇", "🥈", "🥉", "👑", "✨"]) expect(board).not.toContain(e);
+    expect(board).toContain("<Crown");
+    const comp = read("src/features/groups/components/competition-board.tsx");
+    for (const e of ["🏆", "🚀", "🛡", "🌱", "🎉", "⬇"]) expect(comp).not.toContain(e);
+  });
+
   it("도움말 링크는 48px(min-h-12) 한 줄 행", () => {
     const src = read("src/app/help/page.tsx");
     expect(src).toContain("min-h-12");

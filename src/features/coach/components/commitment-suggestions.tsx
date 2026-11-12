@@ -130,7 +130,7 @@ export function CommitmentSuggestions({
                   type="button"
                   onClick={() => add(s, i)}
                   disabled={pending || done}
-                  className={`inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-3 text-xs font-bold transition disabled:opacity-60 ${
+                  className={`inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-lg px-3 text-xs font-bold transition disabled:opacity-60 ${
                     done
                       ? "bg-brand-soft text-brand"
                       : "bg-brand text-white dark:text-zinc-950 hover:bg-brand/90"

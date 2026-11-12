@@ -124,7 +124,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
           type="button"
           onClick={sync}
           disabled={pending}
-          className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-brand px-3 text-xs font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1.5 rounded-lg bg-brand px-3 text-xs font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" size={13} className="animate-spin" />
@@ -138,7 +138,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
           type="button"
           onClick={sync}
           disabled={pending}
-          className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-brand/40 bg-brand-soft px-3 text-xs font-bold text-brand transition hover:bg-brand-soft disabled:opacity-50"
+          className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1.5 rounded-lg border border-brand/40 bg-brand-soft px-3 text-xs font-bold text-brand transition hover:bg-brand-soft disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" size={13} className="animate-spin" />

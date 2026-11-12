@@ -532,7 +532,7 @@ export function DailyMainEditor({
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
             >
               <Sparkles aria-hidden="true" size={14} />
               추천으로 채우기
@@ -542,7 +542,7 @@ export function DailyMainEditor({
             type="button"
             onClick={addRow}
             disabled={addOptionsLoading}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+            className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
           >
             {addOptionsLoading ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />

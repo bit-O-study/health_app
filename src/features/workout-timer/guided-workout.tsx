@@ -481,7 +481,7 @@ function WeightAssistRow({
   const showFine = fineKg !== null && weightKg !== null;
   if (!showFine && perHandKg === null) return null;
   const chip =
-    "inline-flex h-8 items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold tabular-nums text-zinc-700 transition hover:bg-zinc-200 disabled:opacity-40 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
+    "inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold tabular-nums text-zinc-700 transition hover:bg-zinc-200 disabled:opacity-40 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
   return (
     <div
       data-testid="weight-assist"
@@ -2079,7 +2079,7 @@ export function GuidedOverlay({
                   type="button"
                   onClick={() => rest.setDefaultSec(sec)}
                   aria-pressed={active}
-                  className={`h-8 flex-1 rounded-full text-xs font-medium tabular-nums transition ${
+                  className={`relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] flex-1 rounded-full text-xs font-medium tabular-nums transition ${
                     active
                       ? "bg-white/15 text-zinc-50"
                       : "text-zinc-500 hover:text-zinc-200"

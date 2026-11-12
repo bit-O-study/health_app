@@ -167,7 +167,7 @@ export default async function CalendarPage({
       <Link
         href={isWeek ? `/calendar/week?d=${week.previous}` : `/calendar?m=${monthParam(prev)}`}
         aria-label={isWeek ? "이전 주" : "이전 달"}
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
         <ChevronLeft aria-hidden="true" size={18} />
       </Link>
@@ -177,7 +177,7 @@ export default async function CalendarPage({
       <Link
         href={isWeek ? `/calendar/week?d=${week.next}` : `/calendar?m=${monthParam(next)}`}
         aria-label={isWeek ? "다음 주" : "다음 달"}
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
         <ChevronRight aria-hidden="true" size={18} />
       </Link>

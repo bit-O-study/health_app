@@ -864,7 +864,7 @@ export function PlanEditor({
               aria-expanded={swapPickerOpen}
               disabled={pending}
               onClick={toggleArmSwapPicker}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
             >
               <ArrowLeftRight aria-hidden="true" size={14} />
               팔 루틴 교환
@@ -875,7 +875,7 @@ export function PlanEditor({
             data-testid="clear-all-exercises"
             disabled={pending}
             onClick={() => setConfirm({ kind: "clear-all" })}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-3 text-xs font-semibold text-danger transition active:opacity-70 disabled:opacity-60"
+            className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-3 text-xs font-semibold text-danger transition active:opacity-70 disabled:opacity-60"
           >
             <Trash2 aria-hidden="true" size={14} />
             전체 운동 초기화
@@ -997,7 +997,7 @@ export function PlanEditor({
                     <button
                       type="button"
                       onClick={() => recommendDay(day)}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 dark:bg-white/[0.08]"
+                      className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 dark:bg-white/[0.08]"
                     >
                       <Sparkles aria-hidden="true" size={14} />
                       추천으로 채우기
@@ -1006,7 +1006,7 @@ export function PlanEditor({
                       type="button"
                       onClick={() => requestAddRow(day)}
                       disabled={dayOptionsLoading}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+                      className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
                     >
                       {dayOptionsLoading ? (
                         <Loader2

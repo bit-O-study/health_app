@@ -10,7 +10,7 @@ export function TierCard({ member }: { member: Competitor }) {
     <p className="text-sm text-muted">{member.leagueGroupName ?? "그룹"} · 내 리그</p>
     <div className="mt-1 flex items-center justify-between gap-3"><strong className="text-xl">{member.league ? `${member.league.icon} ${member.league.name}` : "리그 참여 전"}</strong><span className="font-bold tabular-nums">{member.lifetime.total.toLocaleString()} XP</span></div>
     <p className="mt-2 text-sm">이번 주 {member.week.total}점 · 누적 XP는 강등돼도 유지됩니다.</p>
-    {member.league?.lastWeek && <p className="mt-2 rounded-xl bg-white/50 p-2 text-sm text-zinc-900">지난주 결과: {member.league.lastResult === "promotion" ? "🎉 승급했어요!" : member.league.lastResult === "demotion" ? "리그가 내려갔어요. 이번 주 다시 도전해요." : "현재 리그 잔류"}</p>}
+    {member.league?.lastWeek && <p className="mt-2 rounded-xl bg-white/50 p-2 text-sm text-zinc-900">지난주 결과: {member.league.lastResult === "promotion" ? "승급했어요!" : member.league.lastResult === "demotion" ? "리그가 내려갔어요. 이번 주 다시 도전해요." : "현재 리그 잔류"}</p>}
   </section>;
 }
 export function CompetitionBoard({ initial }: { initial: CompetitionSnapshot }) {
@@ -34,10 +34,10 @@ export function CompetitionBoard({ initial }: { initial: CompetitionSnapshot }) 
     <p data-testid="ranking-connection" className="text-xs text-muted">{connected ? "실시간 연결됨" : "실시간 연결 중"} · 연결이 지연되면 5초마다 다시 확인</p>
     {error && <p role="alert" className="rounded-xl bg-amber-100 p-3 text-sm text-amber-950">{error}</p>}
     <div role="status" aria-live="polite" aria-atomic="true">
-      {event && <div key={event.id} className="rounded-2xl bg-brand p-4 font-bold text-white motion-safe:animate-pulse dark:text-zinc-950">🏆 {event.text}</div>}
+      {event && <div key={event.id} className="rounded-2xl bg-brand p-4 font-bold text-white motion-safe:animate-pulse dark:text-zinc-950"><Trophy size={18} aria-hidden="true" className="mr-1.5 inline -mt-0.5" />{event.text}</div>}
     </div>
     {me && <TierCard member={me} />}
-    {me && snapshot && <p className="rounded-xl border border-line p-3 text-sm font-semibold">현재 {({ promotion: "🚀 승급권", demotion: "⬇ 강등권", stay: "🛡 잔류권", placement: "🌱 가입 주 보호 · 다음 주부터 정식 경쟁" })[leagueZone(me, snapshot.members, snapshot.weekFrom)]} · 주간 마감 때 확정</p>}
+    {me && snapshot && <p className="rounded-xl border border-line p-3 text-sm font-semibold">현재 {({ promotion: "승급권", demotion: "강등권", stay: "잔류권", placement: "가입 주 보호 · 다음 주부터 정식 경쟁" })[leagueZone(me, snapshot.members, snapshot.weekFrom)]} · 주간 마감 때 확정</p>}
     <ol ref={list} className="relative space-y-3" aria-label="그룹 운동 점수 순위">
       {snapshot?.members.map(m => <li key={m.userId} data-user-id={m.userId} className={`app-card overflow-hidden border p-4 transition-colors motion-reduce:transition-none ${m.isMe ? "border-brand" : "border-line"}`}>
         <div className="flex min-w-0 items-center gap-3"><span className="shrink-0 text-xl font-bold text-brand">{m.week.total ? `${m.rank}위` : "—"}</span><div className="min-w-0 flex-1"><h2 className="truncate font-bold">{m.name}{m.isMe ? " · 나" : ""}</h2><p className="text-sm text-muted">{m.league?.icon} {m.league?.name} · {({ promotion: "승급권", demotion: "강등권", stay: "잔류권", placement: "보호" })[leagueZone(m, snapshot.members, snapshot.weekFrom)]}</p></div><strong className="shrink-0 tabular-nums">{m.week.total.toLocaleString()}점</strong></div>

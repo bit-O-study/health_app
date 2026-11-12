@@ -100,7 +100,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
     <PageHeader branded title="운동 등록" back="운동" backHref="/routine">
       {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
       <Link
-        className="app-press inline-flex h-8 items-center gap-0.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
+        className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-0.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
         href="/settings/routine"
       >
         루틴 변경

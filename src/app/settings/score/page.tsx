@@ -307,7 +307,7 @@ export default async function ScorePage() {
               {balanceSource === "body" ? "체성분 기반" : "운동량 기반"}
             </span>
           </div>
-          <div className="app-card p-3">
+          <div>
             <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
               {balanceSource === "training"
                 ? `이번 주 직접 세트 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX} = ${VOLUME_LABEL.optimal}`

@@ -234,3 +234,11 @@ describe("UI 검수 3단계 — 내 운동 점수", () => {
     expect(src).not.toMatch(/<div className="app-card p-3">\s*<p className="mb-3 text-xs/);
   });
 });
+
+describe("UI 검수 3단계 — 홈 알림 안내", () => {
+  it("닫을 수 있는 알림 안내는 박스 대신 얇은 구분선 행이다(홈의 같은 무게 박스 줄이기)", () => {
+    const src = read("src/features/notifications/components/permission-nudge.tsx");
+    expect(src).toContain('className="flex items-center gap-3 border-b border-line px-1 py-2"');
+    expect(src).not.toContain("app-card flex items-center gap-3 py-2 pl-3.5 pr-2");
+  });
+});

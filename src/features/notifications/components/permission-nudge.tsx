@@ -144,7 +144,7 @@ export function PermissionNudge() {
     <div
       data-testid="permission-nudge"
       data-kind={kind}
-      className="app-card flex items-center gap-3 py-2 pl-3.5 pr-2"
+      className="flex items-center gap-3 border-b border-line px-1 py-2"
     >
       <Icon aria-hidden="true" size={16} className="shrink-0 text-brand" />
       <p className="text-safe min-w-0 flex-1 text-sm leading-5 text-zinc-700 dark:text-zinc-300">

@@ -147,3 +147,31 @@ describe("UI 검수 5-1 — 보조 글자색", () => {
     }
   });
 });
+
+describe("UI 검수 1-5 — 상태바(안전영역)·스크롤바", () => {
+  it("body 가 상태바 높이만큼 padding-top 을 가지므로 페이지 최소 높이에서 그만큼 뺀다(짧은 화면 스크롤 방지)", () => {
+    const css = read("src/styles/globals.css");
+    expect(css).toMatch(/body \{\s*padding-top: env\(safe-area-inset-top\);/);
+    expect(css).toMatch(/\.app-page \{[^}]*min-height: calc\(100dvh - env\(safe-area-inset-top\)\);/);
+    expect(css).not.toMatch(/\.app-page \{[^}]*min-height: 100dvh;/);
+  });
+
+  it("고정 헤더·배너는 상태바 띠 밑에 붙는다(top: 0 이면 띠 뒤로 가려진다)", () => {
+    const css = read("src/styles/globals.css");
+    expect(css).toMatch(/\.app-header \{[^}]*top: env\(safe-area-inset-top\);/);
+    expect(read("src/components/offline-banner.tsx")).toContain("sticky top-[env(safe-area-inset-top)]");
+  });
+
+  it("전체 높이를 쓰는 화면은 상단 안전영역을 함께 뺀다", () => {
+    expect(read("src/app/login/page.tsx")).toContain("min-h-[calc(100dvh-env(safe-area-inset-top))]");
+    expect(read("src/app/suspended/page.tsx")).toContain("min-h-[calc(100dvh-env(safe-area-inset-top))]");
+    expect(read("src/app/groups/[id]/page.tsx")).toContain("100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom)");
+    expect(read("src/features/community/components/community-board.tsx")).not.toContain("min-h-screen");
+  });
+
+  it("터치 기기에서는 스크롤바를 그리지 않는다", () => {
+    const css = read("src/styles/globals.css");
+    expect(css).toMatch(/@media \(pointer: coarse\) \{\s*html,\s*body,\s*\* \{\s*scrollbar-width: none;/);
+    expect(css).toContain("*::-webkit-scrollbar");
+  });
+});

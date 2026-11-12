@@ -100,7 +100,8 @@ h1, h2, h3, h4, h5, h6 {
 @layer components {
   /* 바탕은 단색 — 장식 그라데이션은 뺐다(2026-09-14 화면 간결화). */
   .app-page {
-    min-height: 100dvh;
+    /* body 가 상태바 높이만큼 padding-top 을 갖는다 — 그만큼 빼야 짧은 화면에 스크롤이 안 생긴다. */
+    min-height: calc(100dvh - env(safe-area-inset-top));
     background: var(--background);
     color: var(--foreground);
   }
@@ -194,7 +195,7 @@ h1, h2, h3, h4, h5, h6 {
 
   .app-header {
     position: sticky;
-    top: 0;
+    top: env(safe-area-inset-top); /* 상태바 띠(body::before) 밑에 붙는다 — 0 이면 띠 뒤로 가려진다 */
     z-index: 20;
     border-bottom: 1px solid var(--line);
     background: color-mix(in srgb, var(--background) 78%, transparent);
@@ -485,4 +486,18 @@ h1, h2 {
 }
 .app-splash-word {
   animation: heltch-word-in 0.5s ease-out 0.32s both;
+}
+
+/* 터치 기기(앱·모바일 브라우저)에서는 스크롤바를 그리지 않는다.
+   문서 스크롤바는 상태바(시간·배터리) 높이까지 길게 그려져 앱처럼 보이지 않는다(2026-11-12 검수).
+   데스크톱(마우스)에서는 그대로 둔다. */
+@media (pointer: coarse) {
+  html,
+  body,
+  * {
+    scrollbar-width: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
 }

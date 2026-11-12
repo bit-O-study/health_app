@@ -84,7 +84,7 @@ export function AssignRoutineForm({
             ))}
           </select>
         </label>
-        <ArrowRight aria-hidden="true" size={16} className="mb-3 text-zinc-400" />
+        <ArrowRight aria-hidden="true" size={16} className="mb-3 text-muted" />
         <label className="block">
           <span className="mb-1 block text-xs font-semibold text-zinc-500">
             {memberName} 님

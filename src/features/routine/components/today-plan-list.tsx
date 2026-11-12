@@ -722,7 +722,7 @@ export function TodayPlanList({
                         <StickyNote
                           aria-hidden="true"
                           size={12}
-                          className="mt-0.5 shrink-0 text-zinc-400"
+                          className="mt-0.5 shrink-0 text-muted"
                         />
                         <span className="whitespace-pre-wrap">{item.memo}</span>
                       </p>

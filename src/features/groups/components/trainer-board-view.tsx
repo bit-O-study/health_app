@@ -115,12 +115,12 @@ export function TrainerBoardView({
 
                 <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400">
                   <span className="inline-flex items-center gap-1">
-                    <Dumbbell aria-hidden="true" size={12} className="text-zinc-400" />
+                    <Dumbbell aria-hidden="true" size={12} className="text-muted" />
                     운동 {m.workoutDays}일
                     {m.targetDays > 0 ? ` / ${m.targetDays}일` : ""}
                   </span>
                   <span className="inline-flex items-center gap-1">
-                    <Utensils aria-hidden="true" size={12} className="text-zinc-400" />
+                    <Utensils aria-hidden="true" size={12} className="text-muted" />
                     식단 {m.dietDays}일
                   </span>
                   {since !== null ? (

@@ -63,7 +63,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                         <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${STATUS_TONE[st]}`} data-testid="pledge-status">
                           {STATUS_LABEL[st]}
                         </span>
-                        {p.direction === "reverse" ? <span className="text-xs text-zinc-400">목표로 만든 다짐</span> : null}
+                        {p.direction === "reverse" ? <span className="text-xs text-muted">목표로 만든 다짐</span> : null}
                       </p>
                       <p className="mt-1 text-base font-semibold leading-5">{p.title}</p>
                       <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">

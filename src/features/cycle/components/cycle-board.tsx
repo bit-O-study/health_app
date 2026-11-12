@@ -170,7 +170,7 @@ export function CycleBoard({
             <div
               key={w}
               className={`pb-1 text-center text-xs font-semibold ${
-                i === 6 ? "text-danger" : "text-zinc-400"
+                i === 6 ? "text-danger" : "text-muted"
               }`}
             >
               {w}
@@ -213,7 +213,7 @@ export function CycleBoard({
             );
           })}
         </div>
-        <div className="mt-1.5 flex flex-wrap items-center justify-center gap-3 border-t border-[var(--line)] pt-1.5 text-xs text-zinc-400">
+        <div className="mt-1.5 flex flex-wrap items-center justify-center gap-3 border-t border-[var(--line)] pt-1.5 text-xs text-muted">
           <span className="flex items-center gap-1">
             <Heart size={11} className="fill-rose-500 text-rose-500" /> 생리
           </span>
@@ -244,7 +244,7 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
     <div className="min-w-0 px-1">
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-rose-600 dark:text-rose-400">{value}</p>
-      {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
+      {sub ? <p className="truncate text-xs tabular-nums text-muted">{sub}</p> : null}
     </div>
   );
 }

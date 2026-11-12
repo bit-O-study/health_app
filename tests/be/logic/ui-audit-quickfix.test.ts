@@ -130,3 +130,20 @@ describe("UI 검수 3단계 — 루틴 설정", () => {
     expect(src).not.toContain('<section className="app-card p-4">');
   });
 });
+
+describe("UI 검수 5-1 — 보조 글자색", () => {
+  it("다크용 짝 없는 text-zinc-400 대신 두 테마를 통과하는 text-muted 를 쓴다(정리한 파일)", () => {
+    const files = [
+      "src/app/groups/[id]/member/[uid]/page.tsx",
+      "src/features/billing/components/team-admin-list.tsx",
+      "src/features/billing/components/team-plan-form.tsx",
+      "src/features/commitments/components/prediction-card.tsx",
+      "src/features/cycle/components/cycle-board.tsx",
+      "src/features/groups/components/trainer-comment-form.tsx",
+    ];
+    for (const rel of files) {
+      const lines = read(rel).split("\n").filter((l) => /(^|[ "'`])text-zinc-400/.test(l) && !/dark:text-|hover:|group-/.test(l));
+      expect(lines, rel).toEqual([]);
+    }
+  });
+});

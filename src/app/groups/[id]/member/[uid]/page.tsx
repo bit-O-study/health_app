@@ -56,11 +56,11 @@ export default async function GroupMemberPage({
             <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">오늘 섭취</p>
             <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
               {hideDiet ? (
-                <span className="text-sm font-medium text-zinc-400">비공개</span>
+                <span className="text-sm font-medium text-muted">비공개</span>
               ) : (
                 <>
                   {day.intake.toLocaleString()}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
                 </>
               )}
             </p>
@@ -69,11 +69,11 @@ export default async function GroupMemberPage({
             <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">오늘 운동 소비</p>
             <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-brand">
               {hideWorkout ? (
-                <span className="text-sm font-medium text-zinc-400">비공개</span>
+                <span className="text-sm font-medium text-muted">비공개</span>
               ) : (
                 <>
                   {day.burned.toLocaleString()}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
                 </>
               )}
             </p>
@@ -106,13 +106,13 @@ export default async function GroupMemberPage({
         {hideWorkout ? (
           <p
             data-testid="hidden-workout"
-            className="app-card flex items-center justify-center gap-1.5 p-3 text-center text-sm text-zinc-400"
+            className="app-card flex items-center justify-center gap-1.5 p-3 text-center text-sm text-muted"
           >
             <EyeOff aria-hidden="true" size={14} />
             회원이 운동 기록 제공을 꺼 뒀어요.
           </p>
         ) : day.workouts.length === 0 ? (
-          <p className="app-card p-3 text-center text-sm text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             오늘 완료한 운동이 없어요.
           </p>
         ) : (
@@ -122,7 +122,7 @@ export default async function GroupMemberPage({
                 <span className="min-w-0 flex-1 truncate text-sm text-zinc-900 dark:text-zinc-100">
                   {w.name}
                   {w.detail ? (
-                    <span className="ml-1.5 text-xs font-normal text-zinc-400">{w.detail}</span>
+                    <span className="ml-1.5 text-xs font-normal text-muted">{w.detail}</span>
                   ) : null}
                 </span>
                 <span className="shrink-0 text-sm tabular-nums text-brand">
@@ -159,13 +159,13 @@ export default async function GroupMemberPage({
         {hideDiet ? (
           <p
             data-testid="hidden-diet"
-            className="app-card flex items-center justify-center gap-1.5 p-3 text-center text-sm text-zinc-400"
+            className="app-card flex items-center justify-center gap-1.5 p-3 text-center text-sm text-muted"
           >
             <EyeOff aria-hidden="true" size={14} />
             회원이 식단 기록 제공을 꺼 뒀어요.
           </p>
         ) : day.foods.length === 0 ? (
-          <p className="app-card p-3 text-center text-sm text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             오늘 기록한 식단이 없어요.
           </p>
         ) : (

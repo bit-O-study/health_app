@@ -66,11 +66,11 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                     {p.done ? (
                       <span className="ml-1 font-semibold text-brand">달성 ✓</span>
                     ) : p.upcoming ? (
-                      <span className="ml-1 text-zinc-400">시작 전</span>
+                      <span className="ml-1 text-muted">시작 전</span>
                     ) : p.expired ? (
                       <span className="ml-1 font-semibold text-danger">기간 종료</span>
                     ) : (
-                      <span className="ml-1 text-zinc-400">D-{p.daysLeft}</span>
+                      <span className="ml-1 text-muted">D-{p.daysLeft}</span>
                     )}
                   </span>
                   <span className="font-bold tabular-nums text-zinc-900 dark:text-zinc-100">

@@ -52,7 +52,7 @@ export function MemberCheers({
                   : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
               }`}
             >
-              <span className="text-zinc-400">{c.fromName}</span>
+              <span className="text-muted">{c.fromName}</span>
               {c.message}
             </span>
           ))}

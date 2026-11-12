@@ -598,7 +598,7 @@ export function TodayConditioningList({
                         <StickyNote
                           aria-hidden="true"
                           size={12}
-                          className="mt-0.5 shrink-0 text-zinc-400"
+                          className="mt-0.5 shrink-0 text-muted"
                         />
                         <span className="whitespace-pre-wrap">{item.memo}</span>
                       </p>
@@ -718,7 +718,7 @@ function CondMemoDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-3 flex items-center gap-2">
-          <StickyNote aria-hidden="true" className="text-zinc-400" size={18} />
+          <StickyNote aria-hidden="true" className="text-muted" size={18} />
           <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
             {item.name} 메모
           </h3>

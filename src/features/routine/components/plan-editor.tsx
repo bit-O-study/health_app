@@ -988,7 +988,7 @@ export function PlanEditor({
               (f) => !optionsByKey[f.key],
             );
             return (
-              <section className="app-card p-3">
+              <section className="border-t border-line px-1 pt-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
                     본운동

@@ -114,3 +114,11 @@ describe("UI 검수 4단계 — 러닝 화면 이모지", () => {
     expect(read("src/features/running/running-mobile-gate.tsx")).toContain("<Smartphone");
   });
 });
+
+describe("UI 검수 3단계 — 운동 등록(/plan)", () => {
+  it("본운동 섹션은 바깥 카드 없이 구분선으로 묶는다(카드 3단 → 2단)", () => {
+    const src = read("src/features/routine/components/plan-editor.tsx");
+    expect(src).toContain('<section className="border-t border-line px-1 pt-4">');
+    expect(src).not.toContain('<section className="app-card p-3">');
+  });
+});

@@ -35,7 +35,7 @@ export default async function LoginPage({
   // 촘촘한 입구 화면(2026-09-16 8단계) — 로고 + 큰 제목 + 폼 한 줄기. 설명 문장은 뺐다.
   return (
     <div className="app-page">
-      <main className="app-container flex min-h-dvh max-w-sm flex-col justify-center gap-5 py-10">
+      <main className="app-container flex min-h-[calc(100dvh-env(safe-area-inset-top))] max-w-sm flex-col justify-center gap-5 py-10">
         <Link className="flex items-center self-start px-1" href="/">
           <Logo size={36} wordClassName="text-lg" />
         </Link>

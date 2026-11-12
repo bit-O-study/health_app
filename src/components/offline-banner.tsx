@@ -149,7 +149,7 @@ function Bar({
       /* 🔴 z 는 운동모드 오버레이(z-40)·마무리 화면(z-70)보다 위, 모달(z-80)보다 아래.
          오프라인이 제일 아쉬운 순간이 **운동모드 한복판**인데 그때 안 보이면 의미가 없다.
          sticky 라 일반 화면에서는 내용을 밀어내고, 고정 오버레이 위에서는 덮어 그린다. */
-      className={`sticky top-0 z-[75] flex items-center gap-2 border-b px-4 py-2 text-sm ${cls}`}
+      className={`sticky top-[env(safe-area-inset-top)] z-[75] flex items-center gap-2 border-b px-4 py-2 text-sm ${cls}`}
     >
       {children}
     </div>

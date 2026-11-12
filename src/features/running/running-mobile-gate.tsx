@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, House, MapPin, Smartphone } from "lucide-react";
 
 import { RunningGame } from "@/features/running/running-game";
 import { OutdoorRun } from "@/features/running/outdoor-run";
@@ -50,7 +50,7 @@ export function RunningMobileGate({
   if (state === "desktop") {
     return (
       <div className="flex h-[100dvh] w-full flex-col items-center justify-center gap-4 bg-zinc-950 px-6 text-center text-white">
-        <span className="text-5xl">📱</span>
+        <Smartphone size={48} aria-hidden="true" />
         <h1 className="text-2xl font-bold">런닝 모드는 휴대폰 전용입니다</h1>
         <p className="max-w-xs text-sm leading-6 text-zinc-400">
           움직임을 인식해 달리는 게임이라, 휴대폰에서
@@ -90,7 +90,7 @@ export function RunningMobileGate({
           onClick={() => setMode("indoor")}
           className="flex items-center gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-left transition active:scale-[0.98]"
         >
-          <span className="text-4xl">🏠</span>
+          <House size={36} aria-hidden="true" className="shrink-0" />
           <span className="min-w-0">
             <span className="block text-lg font-bold">실내 런닝</span>
             <span className="block text-xs text-zinc-400">
@@ -104,7 +104,7 @@ export function RunningMobileGate({
           onClick={() => setMode("outdoor")}
           className="flex items-center gap-4 rounded-2xl border border-sky-400/40 bg-sky-400/10 p-4 text-left transition active:scale-[0.98]"
         >
-          <span className="text-4xl">📍</span>
+          <MapPin size={36} aria-hidden="true" className="shrink-0" />
           <span className="min-w-0">
             <span className="block text-lg font-bold">야외 런닝</span>
             <span className="block text-xs text-zinc-400">

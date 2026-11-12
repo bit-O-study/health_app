@@ -115,7 +115,7 @@ export function CycleBoard({
             aria-label="이전 달"
             onClick={() => goMonth(-1)}
             disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+            className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
           >
             <ChevronLeft aria-hidden="true" size={18} />
           </button>
@@ -127,7 +127,7 @@ export function CycleBoard({
             aria-label="다음 달"
             onClick={() => goMonth(1)}
             disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+            className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
           >
             <ChevronRight aria-hidden="true" size={18} />
           </button>
@@ -170,7 +170,7 @@ export function CycleBoard({
             <div
               key={w}
               className={`pb-1 text-center text-xs font-semibold ${
-                i === 6 ? "text-danger" : "text-zinc-400"
+                i === 6 ? "text-danger" : "text-muted"
               }`}
             >
               {w}
@@ -213,7 +213,7 @@ export function CycleBoard({
             );
           })}
         </div>
-        <div className="mt-1.5 flex flex-wrap items-center justify-center gap-3 border-t border-[var(--line)] pt-1.5 text-xs text-zinc-400">
+        <div className="mt-1.5 flex flex-wrap items-center justify-center gap-3 border-t border-[var(--line)] pt-1.5 text-xs text-muted">
           <span className="flex items-center gap-1">
             <Heart size={11} className="fill-rose-500 text-rose-500" /> 생리
           </span>
@@ -244,7 +244,7 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
     <div className="min-w-0 px-1">
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-rose-600 dark:text-rose-400">{value}</p>
-      {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
+      {sub ? <p className="truncate text-xs tabular-nums text-muted">{sub}</p> : null}
     </div>
   );
 }
@@ -276,7 +276,7 @@ function DayEditor({
           <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-50">
             {date.slice(5).replace("-", "월 ")}일
           </h3>
-          <button type="button" aria-label="닫기" onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+          <button type="button" aria-label="닫기" onClick={onClose} className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
             <X size={16} />
           </button>
         </div>

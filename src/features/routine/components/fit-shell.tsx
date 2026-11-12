@@ -51,7 +51,7 @@ export function FitHeader({
         <details className="group relative" data-testid="fit-how">
           <summary
             aria-label="계산 방법"
-            className="grid h-8 w-8 cursor-pointer list-none place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
+            className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] cursor-pointer list-none place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
           >
             <Info aria-hidden="true" size={15} />
           </summary>

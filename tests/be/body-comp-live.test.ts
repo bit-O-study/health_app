@@ -2,7 +2,10 @@ import { readFileSync } from "node:fs";
 import { chromium } from "@playwright/test";
 import { describe, expect, it, vi } from "vitest";
 import { resizeImageForAI } from "@/lib/image/resize-for-ai";
-vi.mock("@/features/coach/ai-usage", () => ({ consumeAiQuota: async () => ({ ok: true }) }));
+vi.mock("@/features/coach/ai-usage", () => ({
+  consumeAiQuota: async () => ({ ok: true }),
+  refundAiQuota: async () => {},
+}));
 import { scanBodyCompPhotoAction } from "@/features/body-composition/body-comp-scan-actions";
 
 // Opt-in only: sends the chosen local image to the configured AI provider once.

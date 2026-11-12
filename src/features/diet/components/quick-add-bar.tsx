@@ -81,7 +81,7 @@ export function QuickAddBar({
             aria-pressed={meal === m}
             data-testid="quick-meal"
             onClick={() => setMeal(m)}
-            className={`app-press h-8 flex-1 rounded-full text-xs font-semibold transition ${
+            className={`app-press relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] flex-1 rounded-full text-xs font-semibold transition ${
               meal === m
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-300"

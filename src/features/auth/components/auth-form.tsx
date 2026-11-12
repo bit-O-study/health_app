@@ -242,7 +242,7 @@ export function AuthForm({
             type="button"
             onClick={() => switchMode(m)}
             className={cn(
-              "h-8 rounded-lg text-sm font-semibold transition",
+              "h-11 rounded-lg text-sm font-semibold transition",
               mode === m
                 ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
                 : "text-zinc-500 dark:text-zinc-400",

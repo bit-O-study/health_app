@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { PageHeader } from "@/components/page-header";
@@ -8,6 +7,7 @@ import { getGroupProofBoard } from "@/features/groups/proof-data";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { GroupsClient } from "@/features/groups/components/groups-client";
 import { GroupBoard } from "@/features/groups/components/group-board";
+import { GroupNotificationBell } from "@/features/groups/components/group-notification-bell";
 import { GroupProofBoard } from "@/features/groups/components/group-proof-board";
 
 export const dynamic = "force-dynamic";
@@ -27,7 +27,7 @@ export default async function GroupsPage({
   if (groups.length === 0) {
     return (
       <div className="app-page">
-        <PageHeader branded title="그룹" />
+        <PageHeader branded title="그룹"><GroupNotificationBell /></PageHeader>
         {/* 설명 문장은 뺐다 — 아래 '새 그룹 만들기'가 할 일을 이미 말해 준다(2026-09-15). */}
         <main className="app-container">
           <GroupsClient groups={groups} mode={mode} />
@@ -40,16 +40,7 @@ export default async function GroupsPage({
   const { g, view } = await searchParams;
   const selectedId = g && groups.some((x) => x.id === g) ? g : groups[0].id;
 
-  if (view === "ranking") {
-    const ranking = await getGroupDetail(selectedId);
-    if (!ranking) redirect("/groups");
-    return <main className="app-page app-container space-y-4">
-      <h1 className="text-2xl font-bold">이번 주 그룹 랭킹</h1>
-      <nav aria-label="랭킹 그룹 선택" className="flex flex-wrap gap-2">{groups.map(group => <Link key={group.id} href={`/groups?view=ranking&g=${group.id}`} aria-current={group.id === selectedId ? "page" : undefined} className={"rounded-full border px-3 py-2 text-sm " + (group.id === selectedId ? "border-brand bg-brand-soft text-brand" : "border-zinc-300")}>{group.name}</Link>)}</nav>
-      <p className="text-sm text-zinc-500">{ranking.weekFrom} ~ {ranking.weekTo} · 운동 소비 칼로리 순</p>
-      <ol className="space-y-2">{ranking.ranking.map(member => <li key={member.userId} className="app-card flex items-center gap-3 p-4"><span className="text-xl font-bold text-brand">{member.rank}</span><div className="min-w-0 flex-1"><p className="truncate font-semibold">{member.name}{member.isMe ? " · 나" : ""}</p><p className="text-xs text-zinc-500">운동 {member.days}일 · {member.workouts}개</p></div><span className="text-sm font-semibold">{Math.round(member.kcal).toLocaleString()} kcal</span></li>)}</ol>
-    </main>;
-  }
+  if (view === "ranking") redirect(`/groups/ranking?g=${selectedId}`);
   // ── 오늘 운동 인증(움짤) 모드 ──────────────────────────────────────
   if (mode === "proof") {
     const board = await getGroupProofBoard(selectedId);

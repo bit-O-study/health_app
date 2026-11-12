@@ -190,7 +190,7 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`h-8 rounded-full border px-3 text-xs font-bold transition ${
+      className={`relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-full border px-3 text-xs font-bold transition ${
         active
           ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
           : "border-zinc-300 bg-white text-zinc-600 hover:border-brand/40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
@@ -270,7 +270,7 @@ function ShareDetailSheet({
             type="button"
             aria-label="닫기"
             onClick={onClose}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             <X aria-hidden="true" size={18} />
           </button>

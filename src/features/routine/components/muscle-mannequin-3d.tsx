@@ -54,7 +54,14 @@ import {
  * 쓰고(메쉬 이름 자동 매핑), 없으면 절차적 인체로 자연스럽게 폴백한다.
  * (다른 경로/끄기를 원하면 이 값을 바꾸거나 null 로.)
  */
-const ANATOMY_MODEL_URL: string | null = "/models/anatomy.glb";
+// 파일이 저장소에 아직 없다 — 켜 두면 방문마다 HEAD 요청이 404 로 실패한다.
+const ANATOMY_MODEL_URL: string | null = null;
+
+/**
+ * 카메라 위치. 몸 전체(머리 ≈ +1.6 ~ 발·바닥 ≈ -1.2)가 정사각형에 가까운 캔버스에서도
+ * 잘리지 않도록 z 를 충분히 뒤로 둔다(fov 42 에서 z 4.4 → 세로 약 3.4 단위가 보인다).
+ */
+const MANNEQUIN_CAMERA_POSITION: [number, number, number] = [0, 0.3, 4.4];
 
 /** 살색 톤 */
 const SKIN = "#e7b48f";
@@ -594,7 +601,7 @@ export function MuscleMannequin3D({
       data-testid="muscle-mannequin-canvas"
     >
       <Canvas
-        camera={{ position: [0, 0.25, 3.6], fov: 42 }}
+        camera={{ position: MANNEQUIN_CAMERA_POSITION, fov: 42 }}
         dpr={[1, 2]}
         gl={{ antialias: true, powerPreference: "high-performance" }}
         frameloop="demand"
@@ -639,7 +646,7 @@ export function MuscleMannequin3D({
         />
       </Canvas>
 
-      <p className="pointer-events-none absolute left-3 top-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
+      <p className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
         손가락으로 돌려 앞·뒤 보기 · 핀치로 확대/축소 · 근육 탭
       </p>
     </div>
@@ -734,7 +741,7 @@ export function MuscleBalanceMannequin3D({
       data-testid="balance-mannequin-canvas"
     >
       <Canvas
-        camera={{ position: [0, 0.25, 3.6], fov: 42 }}
+        camera={{ position: MANNEQUIN_CAMERA_POSITION, fov: 42 }}
         dpr={[1, 2]}
         gl={{ antialias: true, powerPreference: "high-performance" }}
         frameloop="demand"
@@ -765,7 +772,7 @@ export function MuscleBalanceMannequin3D({
         />
       </Canvas>
 
-      <p className="pointer-events-none absolute left-3 top-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
+      <p className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
         손가락으로 돌려 앞·뒤 · 핀치로 확대/축소
       </p>
     </div>

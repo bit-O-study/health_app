@@ -493,14 +493,14 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               ← 나가기
             </button>
           ) : null}
-          <h1 className="text-3xl font-bold drop-shadow-sm">실내 런닝 🏠</h1>
+          <h1 className="text-3xl font-bold drop-shadow-sm">실내 런닝</h1>
           <p className="max-w-xs text-sm font-medium leading-6">
             카메라가 <b>제자리 달리기</b>를 감지하면 풍경 속 캐릭터가 함께 달려요.
             멈추면 같이 쉬어요. 하단에서 속도·경사를 설정하고, 끝나면 오늘 마무리
             운동으로 기록됩니다.
           </p>
           <p className="max-w-xs rounded-lg bg-black/10 px-3 py-2 text-xs font-semibold text-emerald-950">
-            ⚠ 카메라 권한이 필요해요. 시작을 누르면 전면 카메라 권한을 요청합니다.
+            카메라 권한이 필요해요. 시작을 누르면 전면 카메라 권한을 요청합니다.
           </p>
           {error ? (
             <p className="max-w-xs rounded-lg bg-red-500/20 px-3 py-2 text-sm font-semibold text-red-800">

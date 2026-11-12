@@ -102,7 +102,7 @@ export function WeeklyOverviewCard({
           <Link
             href="/settings/progress"
             aria-label="성장 그래프"
-            className="-mr-1 ml-auto inline-flex h-8 w-8 items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+            className="-mr-1 ml-auto inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
           >
             <ChevronRight aria-hidden="true" size={18} />
           </Link>

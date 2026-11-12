@@ -1,4 +1,4 @@
-import { Trophy } from "lucide-react";
+import { Crown, Sparkles, Trophy } from "lucide-react";
 
 import type { RankedMember } from "@/features/groups/ranking";
 import type { CheerView } from "@/features/groups/data-access";
@@ -6,7 +6,12 @@ import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { topBadge } from "@/features/groups/streak";
 import { MemberCheers } from "@/features/groups/components/member-cheers";
 
-const MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
+// 순위 배지 — 이모지 메달 대신 금·은·동 원형 숫자.
+const MEDAL: Record<number, string> = {
+  1: "bg-amber-400 text-amber-950",
+  2: "bg-zinc-300 text-zinc-800",
+  3: "bg-orange-400 text-orange-950",
+};
 
 // 상위 3위 카드 — 파스텔 금·은·동.
 const TOP_CARD: Record<number, string> = {
@@ -53,8 +58,16 @@ export function GroupLeaderboard({
           >
             <div className="flex items-center gap-2">
               {/* 순위 */}
-              <span className="w-5 shrink-0 text-center text-sm font-bold tabular-nums text-zinc-400">
-                {MEDAL[m.rank] ?? m.rank}
+              <span className="flex w-5 shrink-0 justify-center text-sm font-bold tabular-nums text-zinc-400">
+                {MEDAL[m.rank] ? (
+                  <span
+                    className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold ${MEDAL[m.rank]}`}
+                  >
+                    {m.rank}
+                  </span>
+                ) : (
+                  m.rank
+                )}
               </span>
 
               {/* 캐릭터 */}
@@ -64,7 +77,7 @@ export function GroupLeaderboard({
                     aria-hidden="true"
                     className="g-crown absolute -top-2.5 left-1/2 -translate-x-1/2 text-xs"
                   >
-                    👑
+                    <Crown size={14} fill="currentColor" className="text-amber-500" />
                   </span>
                 ) : null}
                 {isTop3 ? (
@@ -72,7 +85,7 @@ export function GroupLeaderboard({
                     aria-hidden="true"
                     className="g-sparkle absolute -right-0.5 -top-0.5 text-xs"
                   >
-                    ✨
+                    <Sparkles size={12} className="text-amber-400" />
                   </span>
                 ) : null}
                 <span

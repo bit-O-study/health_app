@@ -263,7 +263,7 @@ export function PostDetail({
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="더보기"
               aria-expanded={menuOpen}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
+              className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
             >
               <MoreVertical aria-hidden="true" size={18} />
             </button>

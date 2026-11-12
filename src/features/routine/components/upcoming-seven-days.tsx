@@ -232,7 +232,7 @@ export function UpcomingSevenDaysGrid({
           "relative",
           editMode
             ? "grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7"
-            : "-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0",
+            : "-mx-4 flex snap-x scroll-px-4 gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0",
         )}
       >
         {blocks.map((dayBlocks, i) => {

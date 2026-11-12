@@ -94,7 +94,7 @@ export function ContributionGraph({
 
       <div
         ref={scrollRef}
-        className="max-w-full cursor-grab touch-pan-x select-none overflow-x-auto overscroll-x-contain active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="max-w-full cursor-grab touch-pan-x [mask-image:linear-gradient(to_right,transparent,#000_20px)] select-none overflow-x-auto overscroll-x-contain active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}

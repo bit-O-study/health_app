@@ -53,7 +53,7 @@ export function RunHistoryList({
                 <span>{formatRunPaceShort(row.paceSecPerKm)}</span>
               </p>
             </div>
-            <ChevronRight size={16} aria-hidden="true" className="shrink-0 text-zinc-400" />
+            <ChevronRight size={16} aria-hidden="true" className="shrink-0 text-muted" />
           </Link>
         </li>
       ))}

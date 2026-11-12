@@ -32,7 +32,7 @@ export function RunFinishSummary({
   const pace = meters > 0 ? sec / (meters / 1000) : null;
   return (
     <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/80 px-6 text-center">
-      <h2 className="text-2xl font-bold">{recorded ? "런닝 완료 🏁" : "런닝 종료"}</h2>
+      <h2 className="text-2xl font-bold">{recorded ? "런닝 완료" : "런닝 종료"}</h2>
       {!recorded ? <p className="text-sm text-zinc-300">{notRecordedText}</p> : null}
       {recorded ? (
         <p data-testid="run-finish-line" className="text-lg font-semibold tabular-nums">
@@ -43,7 +43,7 @@ export function RunFinishSummary({
         <ul aria-label="개인 최고 기록" className="flex flex-wrap justify-center gap-2">
           {records.map((kind) => (
             <li key={kind} className="rounded-full bg-emerald-500/20 px-3 py-1 text-sm font-semibold text-emerald-300">
-              🏅 {recordLabel(kind)}
+              {recordLabel(kind)}
             </li>
           ))}
         </ul>

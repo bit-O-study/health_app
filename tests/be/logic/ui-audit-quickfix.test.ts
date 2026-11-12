@@ -152,7 +152,7 @@ describe("UI 검수 1-5 — 상태바(안전영역)·스크롤바", () => {
   it("body 가 상태바 높이만큼 padding-top 을 가지므로 페이지 최소 높이에서 그만큼 뺀다(짧은 화면 스크롤 방지)", () => {
     const css = read("src/styles/globals.css");
     expect(css).toMatch(/body \{\s*padding-top: env\(safe-area-inset-top\);/);
-    expect(css).toMatch(/\.app-page \{[^}]*min-height: calc\(100dvh - env\(safe-area-inset-top\)\);/);
+    expect(css).toMatch(/\.app-page \{[^}]*min-height: calc\(100dvh - env\(safe-area-inset-top\) - var\(--app-nav-pad, 0px\)\);/);
     expect(css).not.toMatch(/\.app-page \{[^}]*min-height: 100dvh;/);
   });
 
@@ -173,5 +173,14 @@ describe("UI 검수 1-5 — 상태바(안전영역)·스크롤바", () => {
     const css = read("src/styles/globals.css");
     expect(css).toMatch(/@media \(pointer: coarse\) \{\s*html,\s*body,\s*\* \{\s*scrollbar-width: none;/);
     expect(css).toContain("*::-webkit-scrollbar");
+  });
+});
+
+describe("UI 검수 — 하단 탭 여백이 최소 높이에서 빠진다", () => {
+  it("탭이 보일 때 body 에 --app-nav-pad 를 설정하고 언마운트 때 지운다(짧은 화면 60px 스크롤 방지)", () => {
+    const nav = read("src/components/bottom-nav.tsx");
+    expect(nav).toContain('document.body.style.setProperty("--app-nav-pad", navPad)');
+    expect(nav).toContain('document.body.style.removeProperty("--app-nav-pad")');
+    expect(read("src/styles/globals.css")).toContain("var(--app-nav-pad, 0px)");
   });
 });

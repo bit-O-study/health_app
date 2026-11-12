@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5, h6 {
   /* 바탕은 단색 — 장식 그라데이션은 뺐다(2026-09-14 화면 간결화). */
   .app-page {
     /* body 가 상태바 높이만큼 padding-top 을 갖는다 — 그만큼 빼야 짧은 화면에 스크롤이 안 생긴다. */
-    min-height: calc(100dvh - env(safe-area-inset-top));
+    min-height: calc(100dvh - env(safe-area-inset-top) - var(--app-nav-pad, 0px)); /* --app-nav-pad: bottom-nav.tsx 가 탭이 보일 때 body 에 설정 */
     background: var(--background);
     color: var(--foreground);
   }

@@ -296,3 +296,11 @@ describe("UI 검수 3단계 — 다짐 생성", () => {
     expect(src).toContain('data-testid="share-groups"');
   });
 });
+
+describe("UI 검수 3단계 — 오늘 운동(루틴) 빈 상태", () => {
+  it("워밍업·마무리의 '비어 있어요' 안내는 카드가 아니라 48px 구분선 행이다", () => {
+    const src = read("src/features/routine/components/today-exercises.tsx");
+    expect(src).toContain('<p className="flex min-h-12 items-center justify-between border-t border-line px-1 text-sm text-zinc-500 dark:text-zinc-400">');
+    expect(src).not.toContain('<p className="app-card flex items-center justify-between px-4 py-3 text-sm');
+  });
+});

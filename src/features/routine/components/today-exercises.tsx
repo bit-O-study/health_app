@@ -981,7 +981,7 @@ function ConditioningSection({
       </div>
 
       {rowsCount === 0 ? (
-        <p className="app-card flex items-center justify-between px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="flex min-h-12 items-center justify-between border-t border-line px-1 text-sm text-zinc-500 dark:text-zinc-400">
           비어 있어요
           {/* 오늘 데이터 갱신과 SPA 이동의 경합을 피하고 전용 편집 화면을 새로 연다. */}
           <a href={`/plan/today?section=${kind}`} className="font-semibold text-brand">

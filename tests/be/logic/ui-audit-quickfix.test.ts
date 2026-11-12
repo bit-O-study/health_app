@@ -227,3 +227,10 @@ describe("UI 검수 — 작은 터치 영역 확장(2차)", () => {
     expect(read("src/app/calendar/page.tsx")).not.toMatch(/mx-auto mt-0\.5 flex relative h-7 w-7 after:absolute/);
   });
 });
+
+describe("UI 검수 3단계 — 내 운동 점수", () => {
+  it("근육 밸런스 3D 를 또 감싸던 바깥 카드가 없다(3D 캔버스가 이미 테두리를 가진다)", () => {
+    const src = read("src/app/settings/score/page.tsx");
+    expect(src).not.toMatch(/<div className="app-card p-3">\s*<p className="mb-3 text-xs/);
+  });
+});

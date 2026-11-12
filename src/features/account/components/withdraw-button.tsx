@@ -158,7 +158,7 @@ export function WithdrawButton() {
                   <div className="flex items-center gap-2 text-brand">
                     <CheckCircle2 aria-hidden="true" size={22} />
                     <h3 className="text-lg font-bold">
-                      그동안 이용해 주셔서 감사합니다 🙏
+                      그동안 이용해 주셔서 감사합니다.
                     </h3>
                   </div>
 

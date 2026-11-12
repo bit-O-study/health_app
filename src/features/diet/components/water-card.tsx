@@ -153,7 +153,7 @@ export function WaterCard({
       {/* 남은 양을 '무엇을 더 하면 되는지' 로 바꿔 말한다. */}
       <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
         {reached
-          ? "오늘 목표를 채웠어요 👏"
+          ? "오늘 목표를 채웠어요"
           : `${formatWater(left.ml)} 남음 · ${WATER_CUPS[0].label} ${left.cups}잔`}
       </p>
 

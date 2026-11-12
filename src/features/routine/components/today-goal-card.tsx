@@ -71,7 +71,7 @@ export function TodayGoalCard({
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
             {goal.reached ? (
-              <span className="block text-base font-bold text-brand">목표 달성 🎉</span>
+              <span className="block text-base font-bold text-brand">목표 달성</span>
             ) : (
               <span className="flex flex-wrap items-baseline gap-x-1.5 tabular-nums">
                 <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">

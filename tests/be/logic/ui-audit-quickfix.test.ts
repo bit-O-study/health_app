@@ -304,3 +304,21 @@ describe("UI 검수 3단계 — 오늘 운동(루틴) 빈 상태", () => {
     expect(src).not.toContain('<p className="app-card flex items-center justify-between px-4 py-3 text-sm');
   });
 });
+
+describe("UI 검수 4단계 — 문구 끝 이모지", () => {
+  it("화면에 보이는 안내 문구 끝에 이모지를 붙이지 않는다", () => {
+    const files = [
+      "src/features/diet/components/water-card.tsx",
+      "src/features/community/components/teaching-reels.tsx",
+      "src/features/community/components/report-button.tsx",
+      "src/features/teaching/components/teaching-compose.tsx",
+      "src/features/lite/components/goals-card.tsx",
+      "src/features/routine/components/today-goal-card.tsx",
+      "src/features/account/components/withdraw-button.tsx",
+    ];
+    for (const rel of files) {
+      const code = read(rel).split("\n").filter((l) => !/^\s*(\/\/|\*|\/\*|\{\/\*)/.test(l)).join("\n");
+      expect(code.match(/[\u{1F300}-\u{1FAFF}]/gu) ?? [], rel).toEqual([]);
+    }
+  });
+});

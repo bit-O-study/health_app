@@ -76,7 +76,7 @@ export function ReportButton({
         reason,
       });
       if (r.ok) {
-        setDone("신고가 접수되었어요. 감사합니다 🙏");
+        setDone("신고가 접수되었어요. 감사합니다.");
         setTimeout(() => {
           closeSheet();
           setDone(null);

@@ -198,7 +198,7 @@ export function RoutinePlanner({
   }
 
   return (
-    <section className="app-card p-4">
+    <section className="px-1">
       {/* 제목 한 줄만 — 영문 머리표·설명 문단은 뺐다(2026-09-16 촘촘하게). 버튼 이름이 스스로 설명한다. */}
       <div className="flex items-center gap-1.5">
         <CalendarDays aria-hidden="true" size={16} className="text-zinc-500 dark:text-zinc-400" />

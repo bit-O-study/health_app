@@ -122,3 +122,11 @@ describe("UI 검수 3단계 — 운동 등록(/plan)", () => {
     expect(src).not.toContain('<section className="app-card p-3">');
   });
 });
+
+describe("UI 검수 3단계 — 루틴 설정", () => {
+  it("루틴 설정 바깥 큰 카드를 걷는다(칩·요일 블록이 카드 안의 카드가 되지 않게)", () => {
+    const src = read("src/features/routine/components/routine-planner.tsx");
+    expect(src).toContain('<section className="px-1">');
+    expect(src).not.toContain('<section className="app-card p-4">');
+  });
+});

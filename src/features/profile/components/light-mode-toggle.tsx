@@ -42,7 +42,7 @@ export function LightModeToggle() {
         aria-checked={enabled}
         aria-label="경량 모드"
         onClick={toggle}
-        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
+        className={`relative inline-flex h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] w-12 shrink-0 items-center rounded-full transition-colors ${
           enabled ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
         }`}
       >

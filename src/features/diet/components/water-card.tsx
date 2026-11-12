@@ -227,7 +227,7 @@ export function WaterCard({
                 onClick={() => void remove(e.id)}
                 disabled={busy}
                 aria-label={`${timeLabel(e.at)} ${e.ml}ml 기록 지우기`}
-                className="ml-auto grid h-7 w-7 place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
+                className="ml-auto grid relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
               >
                 <X aria-hidden="true" size={13} />
               </button>

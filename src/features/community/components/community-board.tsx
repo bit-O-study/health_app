@@ -402,7 +402,7 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
+      className={`shrink-0 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
         active
           ? "border-transparent bg-brand text-white dark:text-zinc-950"
           : "border-zinc-200 text-zinc-500 hover:border-brand/40 hover:text-brand dark:border-zinc-700"

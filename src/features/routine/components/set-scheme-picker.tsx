@@ -74,7 +74,7 @@ export function SetSchemePicker({
         type="button"
         onClick={() => setOpen(true)}
         disabled={disabled}
-        className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
+        className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
       >
         <Wand2 aria-hidden="true" size={12} />
         세트 방식

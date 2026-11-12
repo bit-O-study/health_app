@@ -99,7 +99,7 @@ export function RestSoundPicker() {
         <button
           type="button"
           onClick={() => void playRestAlert(ctxRef, kind)}
-          className="app-press inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
+          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
         >
           <Play aria-hidden="true" size={12} />
           미리듣기
@@ -117,7 +117,7 @@ export function RestSoundPicker() {
                 type="button"
                 onClick={() => choose(o.kind)}
                 aria-pressed={active}
-                className={`h-7 rounded-lg text-xs font-semibold transition ${
+                className={`relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] rounded-lg text-xs font-semibold transition ${
                   active
                     ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
                     : "text-zinc-500 dark:text-zinc-400"

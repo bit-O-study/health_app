@@ -71,7 +71,7 @@ function FocusToggle({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition",
+        "inline-flex items-center gap-1.5 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-xs transition",
         whole ? "font-bold" : "font-semibold",
         active
           ? "border-brand/40 bg-brand-soft text-brand"

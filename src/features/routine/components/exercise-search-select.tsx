@@ -327,7 +327,7 @@ function FilterChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold transition ${
+      className={`inline-flex items-center gap-1 relative rounded-full after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] border px-2.5 py-1 text-xs font-semibold transition ${
         active
           ? "border-transparent text-white"
           : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300"

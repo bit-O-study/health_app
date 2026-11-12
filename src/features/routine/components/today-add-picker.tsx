@@ -136,7 +136,7 @@ export function TodayAddPicker() {
                     </span>
                   </span>
                   <span
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
+                    className={`flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] shrink-0 items-center justify-center rounded-full ${
                       on ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-500 dark:bg-white/10 dark:text-zinc-300"
                     }`}
                   >

@@ -1089,7 +1089,7 @@ function ExerciseEditForm({
             type="button"
             onClick={perSet ? disablePerSet : enablePerSet}
             disabled={pending}
-            className={`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
+            className={`inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-md border px-2 text-xs font-semibold transition ${
               perSet
                 ? "border-brand/40 bg-brand-soft text-brand"
                 : "app-field text-zinc-600 dark:text-zinc-300"

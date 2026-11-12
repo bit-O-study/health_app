@@ -1,0 +1,18 @@
+{
+  "wide-grip-lat-pulldown": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/blog/5-resistance-machines-gym-beginners-need-to-try/",
+    "criteria": "Wide overhand seated pulldown to upper chest, supported thighs and planted feet."
+  },
+  "captain-s-chair-leg-raise": {
+    "equipment": "machine",
+    "url": "https://www.acefitness.org/getfit/studies/bestworstabexercises.pdf",
+    "criteria": "Supported forearms and back, fixed handles; controlled bilateral leg raise to horizontal with slightly bent knees."
+  },
+  "kettlebell-front-squat": {
+    "equipment": "kettlebell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/kettlebell-front-squat",
+    "criteria": "Double kettlebell front rack squat, elbows down, feet planted, controlled descent near parallel and return."
+  },
+  "limits": "Procedural human and simplified equipment; sampled checks are not full collision or biomechanical certification. Production and device pending."
+}

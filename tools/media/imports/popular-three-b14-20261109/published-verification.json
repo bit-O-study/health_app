@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-10T00:24:36.383Z",
+  "report": [
+    {
+      "id": "chin-up",
+      "inputs": 13,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "wide-grip-pull-up",
+      "inputs": 13,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "smith-bench-press",
+      "inputs": 13,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

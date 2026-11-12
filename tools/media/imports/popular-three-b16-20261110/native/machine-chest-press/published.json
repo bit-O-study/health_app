@@ -1,0 +1,18 @@
+{
+  "id": "machine-chest-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "06f4c0e9fcaf27b0c937c9aaa6c71be5d1344304345ba276d49d6df21c4df44d",
+  "rigSourceSha256": "09c89070de38c8ead8e631e06fb2f5779bc5c9df8ab7eec304a23b851b99a24b",
+  "videoSha256": "84ec61f5f86e82317b9d3a3e09a74d0c1c022a14ffe52006ad41fae644d4b0d8",
+  "darkVideoSha256": "dc69a53fda00b5ebdda41baae4db358e8ca34cf2cd38f0d4018d7ee095f69211",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99042,
+  "darkBytes": 96004,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T02:32:05.584Z"
+}

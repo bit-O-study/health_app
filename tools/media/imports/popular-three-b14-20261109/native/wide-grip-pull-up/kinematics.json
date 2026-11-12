@@ -1,0 +1,8 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.04196174826039112,
+  "gripError": 4.490574227168739e-15,
+  "legDrift": 1.7763568394002505e-15,
+  "holdSeconds": 1
+}

@@ -1,0 +1,18 @@
+{
+  "id": "chest-dip",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6377a2c73d200e77be735646701c23297bc0efd780a47734410a152c71fe39d8",
+  "rigSourceSha256": "4f0e7ca0748923c8cb3d0fa945f1f5c80f10d3ac47815776add6b0236db22228",
+  "videoSha256": "3ec3f23f148dbe6f613587bffeccaa5c865e5b226fd8bb57303b27a2324c0721",
+  "darkVideoSha256": "a24b35aea58f6c4026ffd8c1697f1997554bd0c596195e4fd513b69ae600c4be",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77664,
+  "darkBytes": 82855,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T02:45:07.822Z"
+}

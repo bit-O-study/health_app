@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.029727840891952226,
+  "elbowDegrees": [
+    61.01141961816889,
+    160.08987907813528
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b16-20261110/native/machine-chest-press/geometry.json",
+    "limits": "Seat/back support and rigid linkage samples only, not all body collisions"
+  }
+}

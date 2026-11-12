@@ -1,0 +1,19 @@
+{
+  "machine-chest-press": {
+    "equipment": "machine",
+    "url": "https://www.puregym.com/exercises/chest/bench-press/seated-chest-press/",
+    "criteria": "Seated lever chest press, back supported, feet planted, handles near chest; press forward with control and return."
+  },
+  "machine-shoulder-press": {
+    "equipment": "machine",
+    "url": "https://www.puregym.com/exercises/arms-and-shoulders/shoulder-press/shoulder-press-machine/",
+    "criteria": "Seated lever shoulder press, back supported and feet planted; press overhead without locked elbows or trunk sway."
+  },
+  "pec-deck": {
+    "equipment": "machine",
+    "url": "https://www.puregym.com/us/blog/chest-machines-and-workouts-at-the-gym",
+    "criteria": "Seated bent-elbow pec deck, forearms supported on vertical pads; maintain elbow angle and bring arms together in front of chest.",
+    "supportingUrl": "https://www.puregym.com/exercises/chest/chest-fly/machine-fly/"
+  },
+  "limits": "Procedural shared human, newly constructed seated machine and exercise-specific motion. Simplified linkage; reference technique rather than a particular commercial machine. Sampled support and kinematics, not full mesh collision or biomechanical certification. Local only; production and phone pending."
+}

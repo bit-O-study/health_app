@@ -1,0 +1,18 @@
+{
+  "id": "front-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "df6afa527c7f5d76c8d9fce4a360e7ab426b91e218168bf412d9128aa17247d1",
+  "rigSourceSha256": "3479823207606bdd87c7edc430f3816640c8ebb5b9a6966d7c8c2346db34bd1a",
+  "videoSha256": "a24a4c6ff03a6b84da0e7eea2cc9effacfc37f45bf99c515e7ee74d4e58f5362",
+  "darkVideoSha256": "2a8293e5c983f31853ae0842f30296182ee1ec430c766426d2c6b5ccea7c8cbb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101614,
+  "darkBytes": 92125,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T01:33:29.081Z"
+}

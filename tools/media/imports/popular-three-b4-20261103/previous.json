@@ -1,0 +1,80 @@
+{
+  "ohp": [
+    {
+      "file": "tools/media/motion-guides/ohp.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/ohp.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/ohp-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/ohp.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/ohp-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/ohp-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "seated-cable-row": [
+    {
+      "file": "tools/media/motion-guides/seated-cable-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-cable-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-cable-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "dips": [
+    {
+      "file": "tools/media/motion-guides/dips.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dips.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dips-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dips.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dips-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dips-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

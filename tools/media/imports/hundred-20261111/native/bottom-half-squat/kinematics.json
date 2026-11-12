@@ -1,0 +1,11 @@
+{
+  "id": "bottom-half-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.030626977638290746,
+  "gripError": 3.7583960121458386e-15,
+  "rootVerticalRange": 2.3499999999999996,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

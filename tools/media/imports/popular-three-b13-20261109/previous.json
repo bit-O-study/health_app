@@ -1,0 +1,80 @@
+{
+  "incline-press": [
+    {
+      "file": "tools/media/motion-guides/incline-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "upright-row": [
+    {
+      "file": "tools/media/motion-guides/upright-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/upright-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/upright-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upright-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upright-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upright-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "wrist-curl": [
+    {
+      "file": "tools/media/motion-guides/wrist-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wrist-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wrist-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wrist-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wrist-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wrist-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "checkedAt": "2026-11-03T09:23:14.146Z",
+  "base": "https://www.helthssu.co.kr",
+  "results": [
+    {
+      "id": "dumbbell-sumo-deadlift",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0197,
+      "looped": true
+    },
+    {
+      "id": "dumbbell-sumo-deadlift",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0121,
+      "looped": true
+    },
+    {
+      "id": "bench-press",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0104,
+      "looped": true
+    },
+    {
+      "id": "bench-press",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0169,
+      "looped": true
+    },
+    {
+      "id": "deadlift",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0104,
+      "looped": true
+    },
+    {
+      "id": "deadlift",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0117,
+      "looped": true
+    },
+    {
+      "id": "plank",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0145,
+      "looped": true
+    },
+    {
+      "id": "plank",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0207,
+      "looped": true
+    },
+    {
+      "id": "pull-up",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0121,
+      "looped": true
+    },
+    {
+      "id": "pull-up",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0131,
+      "looped": true
+    },
+    {
+      "id": "lat-pulldown",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0115,
+      "looped": true
+    },
+    {
+      "id": "lat-pulldown",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0092,
+      "looped": true
+    },
+    {
+      "id": "leg-press",
+      "theme": "light",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0077,
+      "looped": true
+    },
+    {
+      "id": "leg-press",
+      "theme": "dark",
+      "duration": 8,
+      "width": 480,
+      "height": 480,
+      "error": null,
+      "fits": true,
+      "currentTime": 0.0178,
+      "looped": true
+    }
+  ]
+}

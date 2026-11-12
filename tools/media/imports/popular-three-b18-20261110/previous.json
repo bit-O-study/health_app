@@ -1,0 +1,91 @@
+{
+  "close-grip-lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/close-grip-lat-pulldown.json",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/close-grip-lat-pulldown-0.json",
+      "sha256": "8f3372ce73322efe3c9676f36f4711c778a858a5a9f8cd290f98ca930ac03f92"
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-lat-pulldown.jpg",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/close-grip-lat-pulldown-1.jpg",
+      "sha256": "154ebfeb4d67d51a9ee9456dbc0102e138eb979c6128dd116d1232eff3e5163d"
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-lat-pulldown.mp4",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/close-grip-lat-pulldown-3.mp4",
+      "sha256": "e9a33c22af6d385a4e5d6dd8d8079c7a84472b03701922c7d9eb8e29b41dee14"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hip-adduction-machine": [
+    {
+      "file": "tools/media/motion-guides/hip-adduction-machine.json",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/hip-adduction-machine-0.json",
+      "sha256": "0c812a9ceb29fa86c00772d0075279d55b7a379129585233592fbdfceafa4e30"
+    },
+    {
+      "file": "tools/media/motion-guides/hip-adduction-machine.jpg",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/hip-adduction-machine-1.jpg",
+      "sha256": "d104f0eeda75a283aa07ea2ed2bbccce2f28abcf5737559ce5c1fa3f8528a8c8"
+    },
+    {
+      "file": "tools/media/motion-guides/hip-adduction-machine-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hip-adduction-machine.mp4",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/hip-adduction-machine-3.mp4",
+      "sha256": "a31871b23a71bfa7887b44b27ce3f37c6aa064f1031371f18652901bace6c3f8"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hip-adduction-machine-dark.mp4",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/hip-adduction-machine-4.mp4",
+      "sha256": "b933989c4a462ae14957115e7d74dd3d9e6c0f8e436193a71e75e27b30f6d48b"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hip-adduction-machine-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "kettlebell-press": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-press.json",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/kettlebell-press-0.json",
+      "sha256": "6d5bf2bb2e2da12a3a855a405f80bca5c6ad434353285669ed61a2898cc93163"
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-press.jpg",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/kettlebell-press-1.jpg",
+      "sha256": "77589ca4acc8c5f402bc0a505a7140484f505b48058be0f1f545cb72d5d6047e"
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-press.mp4",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/kettlebell-press-3.mp4",
+      "sha256": "5dcffa099818b4d3eb453f54150bd69891f657e182808d661f95391a849cd3d3"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-press-dark.mp4",
+      "backup": "tools/media/imports/popular-three-b18-20261110/backup/kettlebell-press-4.mp4",
+      "sha256": "07bb880525ecd36fa40ed0e1d0f4fda9c4285131d74d7f2a55498c4d88772b0c"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

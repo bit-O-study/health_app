@@ -1,0 +1,40 @@
+{
+  "barbell-row": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Overhand bent-over barbell row, controlled pull toward abdomen and return.",
+      "equipment": "One continuous bar, paired plates and collars remain visible in both themes.",
+      "setup": "Slight knee flexion and fixed inclined torso. Reviewed side preview and both final 32-frame sheets.",
+      "hands": "Shoulder-width overhand grip; both sockets stay aligned with shaft. Closed fingers visible.",
+      "feet": "Both feet and toes remain fixed through all 481 pose samples.",
+      "movement": "Elbow angle 66.04–160.65 degrees; no torso swing, loop returns exactly. No visible interpolation ghosts in reviewed sheets."
+    }
+  },
+  "hip-thrust": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Bench-supported barbell hip thrust with one-second top pause.",
+      "equipment": "Stable bench, padded bar and symmetric plates. Pad position corrected against sampled hip surface before final render.",
+      "setup": "Upper back supported by bench edge; contact-region tolerance 0.0142 model units. Side and final both-theme sheets reviewed.",
+      "hands": "Both hands hold the bar outside the central pad; socket-target error below 3.3e-15.",
+      "feet": "Flat foot orientation and fixed ankle/toe positions; top knee angle approximately 89.37 degrees.",
+      "movement": "Hips rise to near-horizontal thighs; top pause and loop verified. Sampled pad-body clearance minimum 0.015 model units."
+    }
+  },
+  "biceps-curl": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Simultaneous supinated dumbbell curl with fixed upper arms.",
+      "equipment": "Two hex dumbbells remain attached to palm sockets, visible in both themes.",
+      "setup": "Upright body, elbows at sides; front preview and both final 32-frame sheets reviewed.",
+      "hands": "Supinated grip throughout; straight dumbbell axes and closed finger poses.",
+      "feet": "Fixed stance and torso across all 481 pose samples.",
+      "movement": "Elbow angle 72.36–164.95 degrees, one-second top pause, controlled symmetric return and exact loop."
+    }
+  },
+  "limitations": [
+    "Visual sampling and joint/surface checks do not prove collision-free motion for every skin, garment and equipment triangle.",
+    "Procedural character, not motion capture or biomechanical certification. Hip-thrust garment shape is simplified in deep flexion.",
+    "Physical Android device and production deployment remain unverified for this batch."
+  ]
+}

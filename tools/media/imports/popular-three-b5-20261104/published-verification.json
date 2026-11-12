@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-04T01:12:13.354Z",
+  "report": [
+    {
+      "id": "dead-bug",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "bird-dog",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "reverse-crunch",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

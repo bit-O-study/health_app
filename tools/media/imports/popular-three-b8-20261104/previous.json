@@ -1,0 +1,80 @@
+{
+  "arnold-press": [
+    {
+      "file": "tools/media/motion-guides/arnold-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/arnold-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/arnold-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/arnold-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/arnold-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/arnold-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "overhead-triceps-extension": [
+    {
+      "file": "tools/media/motion-guides/overhead-triceps-extension.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/overhead-triceps-extension.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/overhead-triceps-extension-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/overhead-triceps-extension.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/overhead-triceps-extension-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/overhead-triceps-extension-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-lateral-raise": [
+    {
+      "file": "tools/media/motion-guides/cable-lateral-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-lateral-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-lateral-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

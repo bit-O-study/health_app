@@ -1,0 +1,18 @@
+{
+  "id": "wrist-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "db3b25f7dad761310411c5d75d674d01f9dda1884da93f738a6e85746283e5da",
+  "rigSourceSha256": "f84d4e9fa15c2e0421dae23f29209f48901d11375f5253db7651ee795c79ebf0",
+  "videoSha256": "a59e6bdadc6789c96f70d7b5c0c0b4956585a9724969564a354ab37ed9bd4f8c",
+  "darkVideoSha256": "e5d5754f37ec4f8810f225f63943ea8a92a03d80843079f7d4ec845a6c579a92",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 75412,
+  "darkBytes": 67062,
+  "decode": "passed",
+  "verifiedAt": "2026-11-09T01:59:06.030Z"
+}

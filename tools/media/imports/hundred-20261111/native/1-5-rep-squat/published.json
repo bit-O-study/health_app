@@ -1,0 +1,18 @@
+{
+  "id": "1-5-rep-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b89f316612b6f060e7b22cf8dd9f9fef0340ed6e7ad74aafe2a4708740806f19",
+  "rigSourceSha256": "5a39192698ebf75aa5bf8fe595888b3b3e2532b6678a3691aa0421ddab3e8b23",
+  "videoSha256": "dd06c5f244899fafb72fba43bd431c5dd19a6caac12cde00151be5dcb544dc33",
+  "darkVideoSha256": "8649a2031052b4a0ac31a583268f226808cce179f9fae81fd9dcc601ebc87bfa",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 161109,
+  "darkBytes": 145349,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:19:31.061Z"
+}

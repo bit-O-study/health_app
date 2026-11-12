@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-04T02:33:37.677Z",
+  "report": [
+    {
+      "id": "arnold-press",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "overhead-triceps-extension",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "cable-lateral-raise",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

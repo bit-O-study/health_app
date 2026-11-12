@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.302469564622444,
+    "equipmentBenchClearance": 1.487531300529932,
+    "equipmentFloorClearance": 0.38495165069312076
+  },
+  {
+    "frame": 30,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.4128099173388604,
+    "equipmentBenchClearance": 1.5386250270864517,
+    "equipmentFloorClearance": 0.4056825889365294
+  },
+  {
+    "frame": 60,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 2.0830504076648784,
+    "equipmentBenchClearance": 1.8874658531796678,
+    "equipmentFloorClearance": 0.5860889866194707
+  },
+  {
+    "frame": 90,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 3.2814550731025163,
+    "equipmentBenchClearance": 2.7366519161591674,
+    "equipmentFloorClearance": 1.2230446281575578
+  },
+  {
+    "frame": 120,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.03977834055597,
+    "equipmentBenchClearance": 3.8545272607797822,
+    "equipmentFloorClearance": 2.4303579212007866
+  },
+  {
+    "frame": 150,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.699984519871237,
+    "equipmentBenchClearance": 4.739110119069693,
+    "equipmentFloorClearance": 3.7390443735085546
+  },
+  {
+    "frame": 180,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.987587597142778,
+    "equipmentBenchClearance": 5.180925211860306,
+    "equipmentFloorClearance": 4.522751992864452
+  },
+  {
+    "frame": 210,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.996328478756524,
+    "equipmentBenchClearance": 5.2647703887107395,
+    "equipmentFloorClearance": 4.6765629710003
+  },
+  {
+    "frame": 240,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.996328478756524,
+    "equipmentBenchClearance": 5.2647703887107395,
+    "equipmentFloorClearance": 4.6765629710003
+  },
+  {
+    "frame": 270,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.996328478756524,
+    "equipmentBenchClearance": 5.2647703887107395,
+    "equipmentFloorClearance": 4.6765629710003
+  },
+  {
+    "frame": 300,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.987587597142779,
+    "equipmentBenchClearance": 5.180925211860303,
+    "equipmentFloorClearance": 4.522751992864448
+  },
+  {
+    "frame": 330,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.699984519871239,
+    "equipmentBenchClearance": 4.739110119069694,
+    "equipmentFloorClearance": 3.7390443735085563
+  },
+  {
+    "frame": 360,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 4.03977834055597,
+    "equipmentBenchClearance": 3.8545272607797822,
+    "equipmentFloorClearance": 2.4303579212007866
+  },
+  {
+    "frame": 390,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 3.2814550731025163,
+    "equipmentBenchClearance": 2.7366519161591674,
+    "equipmentFloorClearance": 1.2230446281575578
+  },
+  {
+    "frame": 420,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 2.0830504076648797,
+    "equipmentBenchClearance": 1.8874658531796689,
+    "equipmentFloorClearance": 0.5860889866194707
+  },
+  {
+    "frame": 450,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.41280991733886,
+    "equipmentBenchClearance": 1.538625027086451,
+    "equipmentFloorClearance": 0.4056825889365303
+  },
+  {
+    "frame": 480,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.302469564622444,
+    "equipmentBenchClearance": 1.487531300529932,
+    "equipmentFloorClearance": 0.38495165069312076
+  }
+]

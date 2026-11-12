@@ -1,0 +1,11 @@
+{
+  "id": "pause-front-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.06479390258753288,
+  "gripError": 0,
+  "rootVerticalRange": 5.15,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

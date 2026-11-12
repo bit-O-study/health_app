@@ -1,0 +1,18 @@
+{
+  "id": "hip-adduction-machine",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "64b30da94be3101cd7ef0f9a4a304d473033053b86d79839acb8a2bd362b8ed9",
+  "rigSourceSha256": "ecd1deb09c886d72bdc217020e0206e2d5365af454134f48b3eda7fa05052b94",
+  "videoSha256": "4e35f0959f36f7d1309d686c3683bc99c7c417bc5d569b15394bcac080db3e75",
+  "darkVideoSha256": "b9ce068819e4c2427a1c9c93d78c34badeb207d0c92a9a3941a4a159ea47cfaa",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 100063,
+  "darkBytes": 96029,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:08:26.832Z"
+}

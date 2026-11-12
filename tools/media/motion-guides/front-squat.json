@@ -1,0 +1,15 @@
+{
+  "id": "front-squat",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "front-squat-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.crossfit.com/essentials/the-front-squat"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-04T07:37:06.507Z"
+}

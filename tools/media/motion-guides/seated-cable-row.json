@@ -1,0 +1,16 @@
+{
+  "id": "seated-cable-row",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-cable-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-row.html",
+    "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-03T14:04:35.424Z"
+}

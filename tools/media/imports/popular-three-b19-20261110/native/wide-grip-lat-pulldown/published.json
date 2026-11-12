@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-lat-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "491e5a6943d419a98d79a061ad0103054ed65c6b3332c8c45f9085943fe602b5",
+  "rigSourceSha256": "b52788f3ec7264a6b19ab09d5632f3ec1bbdcec9f6ea6156898eff47dff223c1",
+  "videoSha256": "673e2ea41c3c122726f7df46e1fad66eb2d30ee044f122aac7ace65357f33ac4",
+  "darkVideoSha256": "9cf81e2fdb72809f37278164bc11139b3819a02b232e57b80d6b2c9e28d32cd3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74813,
+  "darkBytes": 70054,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:27:20.324Z"
+}

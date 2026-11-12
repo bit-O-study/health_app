@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/popular-three-b20-20261110/native/cable-glute-kickback/cable-glute-kickback-alpha.webm",
+      "sha256": "56246cb4e5db6918b83f22e5259c41ca382deb875d2321836fa784626b00cf63",
+      "bytes": 158149,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/popular-three-b20-20261110/native/cable-glute-kickback/cable-glute-kickback.mp4",
+      "sha256": "fd71802708be7d38fba05438fec3f88a3f7f2aec89bde9e0ceee707e95072ea6",
+      "bytes": 66270,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/popular-three-b20-20261110/native/cable-glute-kickback/cable-glute-kickback-dark.mp4",
+      "sha256": "3239bbda119e4a7532663ad203b1822a7576060cc654061bef1b19d8d8cf9ee7",
+      "bytes": 51699,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/popular-three-b20-20261110/cable-glute-kickback-studio.mjs",
+      "sha256": "19f7acfcce0619f2798736cd1b1dd7bcba99b3f1d7c1b6493e5fbc8ae3e39fdb"
+    },
+    {
+      "file": "tools/media/imports/popular-three-b20-20261110/cable-glute-kickback-motion.mjs",
+      "sha256": "b46cc201a7dc53b91e97a9318077aa29afe20ab2fb4b0df6275c645f7542d631"
+    },
+    {
+      "file": "tools/media/imports/popular-three-b20-20261110/render.mjs",
+      "sha256": "383edcf5f829e3f8d377d02aabae2dae5b04f8c0316bcb4ec2de615c88cb9cea"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

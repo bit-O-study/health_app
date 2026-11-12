@@ -1,0 +1,67 @@
+{
+  "sourceHashChecks": "passed",
+  "poseSamples": 481,
+  "loopPoseError": 0,
+  "elbowDegrees": [
+    85.89940939147844,
+    175.03613695539448
+  ],
+  "alpha": {
+    "transparent": 36353729,
+    "opaque": 6192590,
+    "partial": 1690481,
+    "all192FrameEdgesClear": true
+  },
+  "playback": [
+    {
+      "theme": "alpha",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 0,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    },
+    {
+      "theme": "light",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    },
+    {
+      "theme": "dark",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    }
+  ],
+  "limits": [
+    "Procedural demonstration; not captured human motion.",
+    "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+    "Actual phone and production deployment are not verified."
+  ]
+}

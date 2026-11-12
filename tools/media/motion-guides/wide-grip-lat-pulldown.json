@@ -2,10 +2,14 @@
   "id": "wide-grip-lat-pulldown",
   "equipment": "cable",
   "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-lat-pulldown-provenance.json",
+  "cutout": true,
   "sources": [
-    "https://www.puregym.com/exercises/back/lat-exercises/wide-grip-lat-pulldown/"
+    "https://www.puregym.com/blog/5-resistance-machines-gym-beginners-need-to-try/"
   ],
-  "prompt": "Generate a BRAND NEW original square2048x2048 opaque gray studio sheet of16 sequential exercise animation poses, exact4x4 equal squareframes. NO NUMBERS, NO TEXT, NO LABELS. Gray anatomical3D mannequin wearingtealshorts andgrayshoes performs WIDE GRIP LAT PULLDOWN. Show entire pulldown machineINCLUDINGTOPPULLEY andtautcable attached atcenterofwidecurvedbar. Fullmachineandmannequin occupyonly60% ofeachsquaretileheight withwidegraymarginsaboveandbelow. Seatfixed, thighpadoverthighs, feetflatfloor. Torso slightleanback fixed. Bothhandsclosedoverhand faroutside shoulders onouterbargrips. Frame1 armsextendedup, gradual16stages pullbarDOWN INFRONTOFFACE to upperchest, elbowsdownandslightlyback. Neverbehindneck, neverliftbodyoffseat, cableconnectedcorrectly tobarandpulley, samegeometryallframes. Fixedthreequarterfrontview.",
-  "registeredAt": "2026-09-09T09:07:19.187Z",
-  "cutout": false
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-10T04:27:20.315Z"
 }

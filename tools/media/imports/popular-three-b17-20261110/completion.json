@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-10T02:45:52.430Z",
+  "ids": [
+    "chest-dip",
+    "hanging-knee-raise",
+    "reverse-grip-pushdown"
+  ],
+  "files": 9,
+  "bytes": 957789,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 24,
+  "appTests": 114,
+  "lint": "passed",
+  "typecheck": "passed",
+  "counts": {
+    "reviewed-both-themes": 392,
+    "needs-motion-review": 28,
+    "needs-cutout-review": 17,
+    "needs-new-video": 912,
+    "legacy-needs-remake": 2
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

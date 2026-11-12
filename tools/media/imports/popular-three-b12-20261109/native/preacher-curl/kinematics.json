@@ -1,0 +1,17 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.040890565886372465,
+  "elbowDegrees": [
+    68.04154994463863,
+    167.52535035055038
+  ],
+  "topHoldSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "minimumBodyClearance": 0.5747470008852636,
+    "minimumBenchClearance": 2.9992962442784665,
+    "scope": "Sampled simplified surfaces, not full mesh collision certification"
+  }
+}

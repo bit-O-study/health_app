@@ -1,0 +1,12 @@
+import {readFileSync} from 'node:fs';
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {checkPoses} from './check-poses.mjs';
+const read=id=>JSON.parse(readFileSync('tools/media/imports/popular-three-b4-20261103/native/'+id+'/poses.json'));
+for(const id of ['ohp','seated-cable-row','dips'])test(id+' valid cycle',()=>checkPoses(id,read(id)));
+test('press rejects bar penetration',()=>{const p=read('ohp');p[100].joints.clearance=-.1;assert.throws(()=>checkPoses('ohp',p),/Bar hits/);});
+test('press rejects foot slip',()=>{const p=read('ohp');p[100].joints['foot.L'][0]+=.1;assert.throws(()=>checkPoses('ohp',p),/Foot sliding/);});
+test('row rejects disconnected stack',()=>{const p=read('seated-cable-row');p[100].joints.stack[1]+=.1;assert.throws(()=>checkPoses('seated-cable-row',p),/Cable\/stack/);});
+test('row rejects torso swing',()=>{const p=read('seated-cable-row');p[100].joints.root[2]+=.1;assert.throws(()=>checkPoses('seated-cable-row',p),/Torso swing/);});
+test('dips reject grip slip',()=>{const p=read('dips');p[100].joints['grip.L'][0]+=.1;assert.throws(()=>checkPoses('dips',p),/Hands drift/);});
+test('dips reject feet touching floor',()=>{const p=read('dips');p[100].joints.contacts[0]=-9;assert.throws(()=>checkPoses('dips',p),/Feet touch/);});

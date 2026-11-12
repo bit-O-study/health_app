@@ -1,0 +1,32 @@
+ const dip=id==='chest-dip',hang=id==='hanging-knee-raise';
+ if(dip){byName.root.position.y+=.9-1.6*lift;byName.root.rotation.x=rad(23);byName.root.position.z-=.5;}
+ if(hang){byName.root.position.y-=.55;byName.root.position.z-=.8;}
+ if(!dip&&!hang)byName.root.position.y+=.4;
+ const grips=[];
+ for(const side of ['L','R']){
+  const sign=side==='L'?1:-1,hip='upperleg01.'+side,knee='lowerleg01.'+side,foot='foot.'+side;
+  if(dip){aim(hip,rest(hip,knee),v([sign*.03,-.985,.174]));aim(knee,rest(knee,foot),v([0,-.35,-.937]));}
+  if(hang){const t=rad(8+100*lift);aim(hip,rest(hip,knee),v([sign*.025,-Math.cos(t),Math.sin(t)]));const s=rad(-8+25*lift);aim(knee,rest(knee,foot),v([0,-Math.cos(s),Math.sin(s)]));mesh.updateMatrixWorld(true);byName[foot].quaternion.copy(byName[foot].parent.getWorldQuaternion(q()).invert());}
+  const upper='upperarm01.'+side,elbow='lowerarm01.'+side,wrist='wrist.'+side;
+  const index=v(dataByName['finger2-1.'+side].head),little=v(dataByName['finger5-1.'+side].head),palm=index.clone().add(little).multiplyScalar(.5).sub(v(dataByName[wrist].head)).normalize(),across=index.clone().sub(little).normalize(),forward=rest('finger3-1.'+side,'finger3-2.'+side).normalize(),inward=new THREE.Vector3().crossVectors(across,forward).normalize().multiplyScalar(-sign);
+  const socket=index.clone().add(little).multiplyScalar(.5).addScaledVector(forward,.13).addScaledVector(inward,.18).sub(v(dataByName[wrist].head));
+  let direction,handleAxis,grip,world;
+  if(dip||hang){
+   direction=dip?v([0,-1,0]):v([0,1,0]);handleAxis=dip?v([0,0,1]):v([-sign,0,0]);
+   world=q().setFromRotationMatrix(orientation(direction,handleAxis).multiply(orientation(palm,across).invert()));
+   grip=dip?v([sign*2.8,0,.8]):v([sign*3.6,11,1.2]);
+   ik(upper,elbow,wrist,grip.clone().sub(socket.clone().applyQuaternion(world)),dip?v([sign*.4,.1,-1]):v([sign,-1,0]));
+  }else{
+   const t=rad(88-73*lift);direction=v([0,-Math.cos(t),Math.sin(t)]);handleAxis=v([sign,0,0]);
+   aim(upper,rest(upper,elbow),v([sign*.02,-1,.12]));aim(elbow,rest(elbow,wrist),direction);
+   world=q().setFromRotationMatrix(orientation(direction,handleAxis).multiply(orientation(palm,across).invert()));
+   grip=pos(wrist).add(socket.clone().applyQuaternion(world));
+  }
+  mesh.updateMatrixWorld(true);byName[wrist].quaternion.copy(byName[wrist].parent.getWorldQuaternion(q()).invert().multiply(world));
+  for(let f=2;f<=5;f++)for(let j=1;j<=3;j++)byName[`finger${f}-${j}.${side}`].quaternion.setFromAxisAngle(across,rad(-sign*[0,65,80,50][j]));
+  const thumb=dataByName['finger1-1.'+side];byName['finger1-1.'+side].quaternion.setFromUnitVectors(v(thumb.tail).sub(v(thumb.head)).normalize(),index.clone().addScaledVector(inward,.24).sub(v(thumb.head)).normalize());
+  for(let j=2;j<=3;j++)byName[`finger1-${j}.${side}`].quaternion.setFromAxisAngle(across,rad(-sign*(j===2?55:45)));
+  grips.push({side,socket,grip,handleAxis});
+ }
+ return grips;
+}

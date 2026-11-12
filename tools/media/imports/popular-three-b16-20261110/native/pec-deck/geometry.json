@@ -1,0 +1,206 @@
+[
+  {
+    "frame": 0,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.020000000000000018,
+    "handleError": 0,
+    "linkLengthError": 1.3322676295501878e-15,
+    "links": [
+      2.542653262680293,
+      2.542653262680293
+    ]
+  },
+  {
+    "frame": 30,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.020740377523083886,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680294,
+      2.542653262680294
+    ]
+  },
+  {
+    "frame": 60,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.025116102005324326,
+    "handleError": 0,
+    "linkLengthError": 0,
+    "links": [
+      2.5426532626802945,
+      2.5426532626802945
+    ]
+  },
+  {
+    "frame": 90,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.033785305617528794,
+    "handleError": 0,
+    "linkLengthError": 0,
+    "links": [
+      2.5426532626802945,
+      2.5426532626802945
+    ]
+  },
+  {
+    "frame": 120,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.04006636079437842,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680295,
+      2.542653262680295
+    ]
+  },
+  {
+    "frame": 150,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.03662023471186282,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680295,
+      2.542653262680295
+    ]
+  },
+  {
+    "frame": 180,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.030599628815883628,
+    "handleError": 0,
+    "linkLengthError": 0,
+    "links": [
+      2.5426532626802945,
+      2.5426532626802945
+    ]
+  },
+  {
+    "frame": 210,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.029032661775610924,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680296,
+      2.542653262680296
+    ]
+  },
+  {
+    "frame": 240,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.029032661775610924,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680296,
+      2.542653262680296
+    ]
+  },
+  {
+    "frame": 270,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.029032661775610924,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680296,
+      2.542653262680296
+    ]
+  },
+  {
+    "frame": 300,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.030599628815883628,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.5426532626802953,
+      2.5426532626802953
+    ]
+  },
+  {
+    "frame": 330,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.03662023471186271,
+    "handleError": 0,
+    "linkLengthError": 0,
+    "links": [
+      2.5426532626802953,
+      2.5426532626802953
+    ]
+  },
+  {
+    "frame": 360,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.04006636079437842,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680295,
+      2.542653262680295
+    ]
+  },
+  {
+    "frame": 390,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.033785305617528794,
+    "handleError": 0,
+    "linkLengthError": 0,
+    "links": [
+      2.5426532626802945,
+      2.5426532626802945
+    ]
+  },
+  {
+    "frame": 420,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.025116102005324326,
+    "handleError": 0,
+    "linkLengthError": 8.881784197001252e-16,
+    "links": [
+      2.5426532626802953,
+      2.5426532626802953
+    ]
+  },
+  {
+    "frame": 450,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.020740377523083886,
+    "handleError": 0,
+    "linkLengthError": 4.440892098500626e-16,
+    "links": [
+      2.542653262680294,
+      2.542653262680294
+    ]
+  },
+  {
+    "frame": 480,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.020000000000000018,
+    "handleError": 0,
+    "linkLengthError": 1.3322676295501878e-15,
+    "links": [
+      2.542653262680293,
+      2.542653262680293
+    ]
+  }
+]

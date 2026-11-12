@@ -1,0 +1,87 @@
+{
+  "low-bar-squat": [
+    {
+      "file": "tools/media/motion-guides/low-bar-squat.json",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/low-bar-squat-0.json",
+      "sha256": "5ed98e8c2d1ee097092e9d1b5c7741d6c6c9e58141c2ef3a4e74bfb8ac2b699d"
+    },
+    {
+      "file": "tools/media/motion-guides/low-bar-squat.jpg",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/low-bar-squat-1.jpg",
+      "sha256": "0e7da2b0ae4719558dacfe0abfe7f57bb78ba74a53f3b1f8a7652b54c584038b"
+    },
+    {
+      "file": "tools/media/motion-guides/low-bar-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-bar-squat.mp4",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/low-bar-squat-3.mp4",
+      "sha256": "b57a2519e3f89d58680a3a5094ee285a194fa48d09a7bc443ba1bc2631b4972c"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-bar-squat-dark.mp4",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/low-bar-squat-4.mp4",
+      "sha256": "2084f46eb278b2f8135112780edf9601cdd45792804aca7a8dcc3177a140df87"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-bar-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-glute-kickback": [
+    {
+      "file": "tools/media/motion-guides/cable-glute-kickback.json",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/cable-glute-kickback-0.json",
+      "sha256": "f628938423bdbca8de4cb9ecb44b357c62c8eff2ac0b07af6587038d8304ec86"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-glute-kickback.jpg",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/cable-glute-kickback-1.jpg",
+      "sha256": "1bfd6ee727c36a7d6a24d87da3a3d142008cf90d41492854dcba2d6114c68964"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-glute-kickback-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-glute-kickback.mp4",
+      "backup": "tools/media/imports/popular-three-b20-20261110/backup/cable-glute-kickback-3.mp4",
+      "sha256": "f5a6f30850dbf0bcd87780fefd511a52b6118e07358791b6802909fc9b323a4a"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-glute-kickback-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-glute-kickback-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-good-morning": [
+    {
+      "file": "tools/media/motion-guides/band-good-morning.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-good-morning.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-good-morning-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-good-morning.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-good-morning-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-good-morning-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

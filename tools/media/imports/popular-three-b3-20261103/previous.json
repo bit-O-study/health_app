@@ -1,0 +1,80 @@
+{
+  "barbell-row": [
+    {
+      "file": "tools/media/motion-guides/barbell-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/barbell-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/barbell-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hip-thrust": [
+    {
+      "file": "tools/media/motion-guides/hip-thrust.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hip-thrust.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hip-thrust-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hip-thrust.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hip-thrust-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hip-thrust-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "biceps-curl": [
+    {
+      "file": "tools/media/motion-guides/biceps-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/biceps-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/biceps-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/biceps-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/biceps-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/biceps-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

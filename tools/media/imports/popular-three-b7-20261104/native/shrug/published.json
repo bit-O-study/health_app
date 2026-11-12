@@ -1,0 +1,18 @@
+{
+  "id": "shrug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b3f0ce38a49bc6e6b7f87110c6e2509869f5655188ad6671a113cff2d5d84659",
+  "rigSourceSha256": "2bd0d742864996f2767c9b47b6948f68e82204d2ca75bc95547bb736d47220cc",
+  "videoSha256": "8d61e4ed9598e4f7a91b06db0275bcbe37bcecf7de479e46079ff48b9ff7b012",
+  "darkVideoSha256": "c6f49c7fa57f112f4966810f3340c89601909ef8b5b35b1408c5eeca800d1f14",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 47262,
+  "darkBytes": 45999,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T02:15:21.270Z"
+}

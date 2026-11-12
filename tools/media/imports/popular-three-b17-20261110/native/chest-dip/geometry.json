@@ -1,0 +1,104 @@
+[
+  {
+    "frame": 0,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 3.0309841573317247,
+    "cableLength": 0
+  },
+  {
+    "frame": 30,
+    "gripError": 5.978733960281817e-16,
+    "floorClearance": 2.9937615715043915,
+    "cableLength": 0
+  },
+  {
+    "frame": 60,
+    "gripError": 9.485749680535094e-16,
+    "floorClearance": 2.7994615774542932,
+    "cableLength": 0
+  },
+  {
+    "frame": 90,
+    "gripError": 3.1401849173675503e-16,
+    "floorClearance": 2.442372269427876,
+    "cableLength": 0
+  },
+  {
+    "frame": 120,
+    "gripError": 6.377745716588144e-16,
+    "floorClearance": 2.0195960452355752,
+    "cableLength": 0
+  },
+  {
+    "frame": 150,
+    "gripError": 1.2008898127460164e-15,
+    "floorClearance": 1.6625067372091564,
+    "cableLength": 0
+  },
+  {
+    "frame": 180,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 1.4682067431590582,
+    "cableLength": 0
+  },
+  {
+    "frame": 210,
+    "gripError": 1.709166621382058e-15,
+    "floorClearance": 1.430984157331725,
+    "cableLength": 0
+  },
+  {
+    "frame": 240,
+    "gripError": 1.709166621382058e-15,
+    "floorClearance": 1.430984157331725,
+    "cableLength": 0
+  },
+  {
+    "frame": 270,
+    "gripError": 1.709166621382058e-15,
+    "floorClearance": 1.430984157331725,
+    "cableLength": 0
+  },
+  {
+    "frame": 300,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 1.4682067431590582,
+    "cableLength": 0
+  },
+  {
+    "frame": 330,
+    "gripError": 9.742167503148516e-16,
+    "floorClearance": 1.6625067372091564,
+    "cableLength": 0
+  },
+  {
+    "frame": 360,
+    "gripError": 6.377745716588144e-16,
+    "floorClearance": 2.0195960452355752,
+    "cableLength": 0
+  },
+  {
+    "frame": 390,
+    "gripError": 3.1401849173675503e-16,
+    "floorClearance": 2.442372269427876,
+    "cableLength": 0
+  },
+  {
+    "frame": 420,
+    "gripError": 6.661338147750939e-16,
+    "floorClearance": 2.7994615774542932,
+    "cableLength": 0
+  },
+  {
+    "frame": 450,
+    "gripError": 9.222205069512407e-16,
+    "floorClearance": 2.9937615715043915,
+    "cableLength": 0
+  },
+  {
+    "frame": 480,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 3.0309841573317247,
+    "cableLength": 0
+  }
+]

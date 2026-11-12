@@ -1,0 +1,18 @@
+{
+  "incline-press": {
+    "equipment": "barbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/incline-barbell-bench-press",
+    "criteria": "45-degree incline bench; supported back/head and planted feet; overhand barbell grip slightly outside shoulder width; controlled press above upper chest."
+  },
+  "upright-row": {
+    "equipment": "barbell",
+    "url": "https://www.puregym.com/exercises/arms-and-shoulders/upright-rows/barbell-upright-row/",
+    "criteria": "Standing barbell with overhand shoulder-width grip; elbows lead outwards, finish below shoulder height; fixed trunk and feet."
+  },
+  "wrist-curl": {
+    "equipment": "barbell",
+    "url": "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/barbell-wrist-curl/",
+    "criteria": "Seated with forearms resting on thighs and wrists beyond knees; palms up, move through wrist flexion/extension while forearms remain fixed."
+  },
+  "limits": "Reused procedural human/bench rig with new exercise IDs, camera and timing, adjusted press/row grip width. Simplified anatomy and equipment. Sampled checks do not certify all mesh collision or biomechanics; physical device and production pending."
+}

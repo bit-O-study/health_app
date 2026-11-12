@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-10T01:23:52.311Z",
+  "report": [
+    {
+      "id": "bulgarian-split-squat",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "one-arm-dumbbell-row",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "cable-fly",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

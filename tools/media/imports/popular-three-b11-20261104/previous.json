@@ -1,0 +1,80 @@
+{
+  "rdl": [
+    {
+      "file": "tools/media/motion-guides/rdl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/rdl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/rdl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rdl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rdl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rdl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "goblet-squat": [
+    {
+      "file": "tools/media/motion-guides/goblet-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/goblet-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/goblet-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/goblet-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/goblet-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/goblet-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "front-squat": [
+    {
+      "file": "tools/media/motion-guides/front-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

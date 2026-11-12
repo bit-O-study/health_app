@@ -1,0 +1,18 @@
+{
+  "id": "concentration-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0584125dc3f1798b35a5c75ce4dd13c5dee8882ed72c89a7393e342963fd533d",
+  "rigSourceSha256": "8c07027246885f88e969512d767b17d54bc0ef63d34d9fd31986e0e5be6fe6f7",
+  "videoSha256": "3ba8300258c656d7b5a5d14b771d6d5ae14e44e2d4f929be37b67ff99ecd5d3c",
+  "darkVideoSha256": "3c1cedeebdd2297eeb6f3a599b68f6bce40d145ca20a546e148fc3f9f7269836",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 72751,
+  "darkBytes": 60856,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T02:49:08.137Z"
+}

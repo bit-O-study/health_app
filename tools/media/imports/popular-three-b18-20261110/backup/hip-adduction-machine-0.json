@@ -1,0 +1,11 @@
+{
+  "prompt": "Clean studio 3D animation sheet with 4 columns and4 rows, all16 cells square and exactly equal. Gray anatomical man teal shorts gray shoes seated on hip ADDUCTION machine. Front view. Smooth solid gray backdrop. Feet on foot rests and hands on handles beside seat. Two small padded blocks contact inner thighs just above knees. Knees start spread with pads between them. In sixteen small evenly spaced steps knees squeeze toward each other until almost together. Pads and footrests follow legs; knee angle stays90 degrees, back and hips remain against seat and backrest. Only hip adduction changes, head torso hands stationary. Entire machine and person comfortably framed with equal margins in every cell. Constant scale and camera, no text or panel lines, continuous inward squeeze across all rows.",
+  "equipment": "machine",
+  "sources": [
+    "https://www.strengthlog.com/hip-adduction-machine/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "hip-adduction-machine",
+  "registeredAt": "2026-09-11T15:50:53.289Z"
+}

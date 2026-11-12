@@ -1,0 +1,9 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0,
+  "spanDrift": 8.881784197001252e-16,
+  "gripRise": 1.026299883791346,
+  "peakHoldSeconds": 1
+}

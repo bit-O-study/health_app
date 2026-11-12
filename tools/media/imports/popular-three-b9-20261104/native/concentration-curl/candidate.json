@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/popular-three-b9-20261104/native/concentration-curl/concentration-curl-alpha.webm",
+      "sha256": "821687a35b25b2aea432462d894da3a09b527f7ff332da0c8bcf9a120f4cd711",
+      "bytes": 126911,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/popular-three-b9-20261104/native/concentration-curl/concentration-curl.mp4",
+      "sha256": "3ba8300258c656d7b5a5d14b771d6d5ae14e44e2d4f929be37b67ff99ecd5d3c",
+      "bytes": 72751,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/popular-three-b9-20261104/native/concentration-curl/concentration-curl-dark.mp4",
+      "sha256": "3c1cedeebdd2297eeb6f3a599b68f6bce40d145ca20a546e148fc3f9f7269836",
+      "bytes": 60856,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/popular-three-b9-20261104/concentration-curl-studio.mjs",
+      "sha256": "5b30ca6965aa614bcacca9fc3f7bcd900cbd13e12a9674f63d4aa6ca0d375ccd"
+    },
+    {
+      "file": "tools/media/imports/popular-three-b9-20261104/concentration-curl-motion.mjs",
+      "sha256": "e91b3df368723f891730e9624ffccb66f8e11b0d838e0918bd80a64a334a283d"
+    },
+    {
+      "file": "tools/media/imports/popular-three-b9-20261104/render.mjs",
+      "sha256": "e7b87024976427f1231d31b2b3374f4bdfe06d28f0dcb06b987c99b5dbbe0ab0"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

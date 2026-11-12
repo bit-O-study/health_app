@@ -1,0 +1,80 @@
+{
+  "lateral-raise": [
+    {
+      "file": "tools/media/motion-guides/lateral-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lateral-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lateral-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lateral-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lateral-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lateral-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "front-raise": [
+    {
+      "file": "tools/media/motion-guides/front-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-rope-hammer-curl": [
+    {
+      "file": "tools/media/motion-guides/cable-rope-hammer-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-rope-hammer-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-rope-hammer-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

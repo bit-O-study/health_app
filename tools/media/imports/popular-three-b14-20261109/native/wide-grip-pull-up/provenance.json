@@ -1,0 +1,153 @@
+{
+  "id": "wide-grip-pull-up",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/wide-grip-pull-up-studio.mjs",
+      "sha256": "681c48c1d5df29ba2b197b57b6018b27b58321051382923b57be4d6655132e6e"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/wide-grip-pull-up-motion.mjs",
+      "sha256": "c98e7bb411b2d399e37e80e979655dcd3596ed6d4cd7d3472416b5edbf771237"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/render.mjs",
+      "sha256": "433b92613f850cb6b6fa9f0df8c5a2860247692a3afc528fed18a4386566d3d3"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/source.json",
+      "sha256": "bcd50fba074f6f4490a3fb462b28b6f3daa2af94cc1966d3941674ad34a74260"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/verify.mjs",
+      "sha256": "f9ed8f857188230e9d249cdfb1f8b28f764480f66b36d6b6da48d0b928ddb3df"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/finalize.mjs",
+      "sha256": "248d535eb4fa66e9e068036c911de2a8bc0df78639328e6c96bfde1b59bbe34d"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/check-poses.mjs",
+      "sha256": "343443ee5c3af65559fc586d4b1439165807c002394a0f17ad74d8c19c6bc545"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/inspect-geometry.mjs",
+      "sha256": "4d6a0428acbf5f0b4a12dbaa8e774756743dd5d12cf880b05f4b5bd10470fe25"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b14-20261109/native/wide-grip-pull-up/geometry.json",
+      "sha256": "9ac058cacf9f309c0db59a3f680de446e448b8492625f32c5a5965336f093ba0"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.puregym.com/exercises/back/pull-up/"
+  ],
+  "sourceSummary": "Overhand grip wider than shoulders, elbows lead down/out, chin rises above bar, controlled full cycle without swinging.",
+  "kinematics": {
+    "poseSamples": 481,
+    "loop": 0,
+    "maxStep": 0.04196174826039112,
+    "gripError": 4.490574227168739e-15,
+    "legDrift": 1.7763568394002505e-15,
+    "holdSeconds": 1
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      64.50175284232434,
+      164.42617657729832
+    ],
+    "alpha": {
+      "transparent": 40182100,
+      "opaque": 2964463,
+      "partial": 1090237,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/popular-three-b14-20261109/native/wide-grip-pull-up/source.jpg",
+    "sha256": "ca1a0ff16508ad892742783291da003d532b3b1010512bfaef97c9b279155a50",
+    "panels": 16
+  },
+  "limitations": "Procedural human and equipment reused with new grips/timing/camera. Simplified anatomy. Sampled checks are not full collision or biomechanical certification; production and physical-device validation pending."
+}

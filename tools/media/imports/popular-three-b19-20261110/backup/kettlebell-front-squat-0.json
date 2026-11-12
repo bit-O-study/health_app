@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose offset single kettlebell front squat, right shoulder rack, feet flat, descend to parallel, reverse",
+  "equipment": "kettlebell",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/offset-single-kettlebell-front-squat"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "kettlebell-front-squat",
+  "registeredAt": "2026-09-13T12:48:46.145Z"
+}

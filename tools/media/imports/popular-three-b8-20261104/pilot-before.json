@@ -1,0 +1,14 @@
+[
+  {
+    "file": "public/exercise-guides/skinned-pilot/arnold-press.mp4",
+    "sha256": "97709f76100148017a73ec16bd2536e40313b69ce2e7aa2cdcb5567b027025f7"
+  },
+  {
+    "file": "public/exercise-guides/skinned-pilot/arnold-press-dark.mp4",
+    "sha256": "86e40d88d2f523f95b1eb5b3f6c70c0d31e7199cce504716932c0c219aee4a2e"
+  },
+  {
+    "file": "src/features/exercises/skinned-media.ts",
+    "sha256": "0bc94806db17a70309ccda6d83259674666ce0607c08a32737c98a791996657f"
+  }
+]

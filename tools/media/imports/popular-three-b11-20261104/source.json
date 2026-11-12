@@ -1,0 +1,18 @@
+{
+  "rdl": {
+    "equipment": "barbell",
+    "url": "https://www.nsca.com/education/articles/kinetic-select/romanian-deadlift-rdl/",
+    "criteria": "Slight fixed knee flexion, hips move backward, neutral trunk, long arms, bar close to legs; return upright with hips."
+  },
+  "goblet-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-goblet-squat",
+    "criteria": "One vertical dumbbell supported at chest with both hands, planted feet turned slightly out, elbows down, squat to parallel and stand."
+  },
+  "front-squat": {
+    "equipment": "barbell",
+    "url": "https://www.crossfit.com/essentials/the-front-squat",
+    "criteria": "Bar on front shoulder rack, elbows forward, upright torso, planted feet, controlled squat to parallel and return."
+  },
+  "limits": "Procedural animation reuses existing human and leg IK. New exercise-specific arms, equipment, timing and camera. Simplified anatomy and grip; no full mesh collision or biomechanical certification. Production and physical device pending."
+}

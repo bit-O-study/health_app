@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.11751445659287069,
+  "gripError": 9.930136612989092e-16,
+  "elbowDegrees": [
+    89.99999999999999,
+    89.99999999999999
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b19-20261110/native/captain-s-chair-leg-raise/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

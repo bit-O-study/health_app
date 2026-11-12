@@ -1,0 +1,18 @@
+{
+  "id": "pause-front-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1ae5e33d115056bf474c3d988d66b8a17a084507764293676f6dbb6f90d2688d",
+  "rigSourceSha256": "d15ce15ee0aa484367d9e747163ae41f386b8fa2defb1bc7fc39c3ddd2a4bdbf",
+  "videoSha256": "7446e87215cc8608497baea87721f52ef3878776c6b240cd90cd46eaa4db9a0d",
+  "darkVideoSha256": "b1ea0b7df726556ccc3c1e10a5f689517086b49f24158f957583ad41a175a5d6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 132309,
+  "darkBytes": 117146,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:18:42.757Z"
+}

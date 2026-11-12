@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "gripError": 1.7342238036525468e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 30,
+    "gripError": 1.7342238036525468e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 60,
+    "gripError": 1.6616296724220897e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 90,
+    "gripError": 2.3603665272841412e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 120,
+    "gripError": 2.455074409046352e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 150,
+    "gripError": 8.759511914735174e-16,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 180,
+    "gripError": 2.710399819191012e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 210,
+    "gripError": 1.9484335006297032e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 240,
+    "gripError": 1.9484335006297032e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 270,
+    "gripError": 1.9484335006297032e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 300,
+    "gripError": 3.58724037616909e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 330,
+    "gripError": 9.930136612989092e-16,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 360,
+    "gripError": 2.455074409046352e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 390,
+    "gripError": 1.831026719408895e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 420,
+    "gripError": 1.88411095042053e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 450,
+    "gripError": 2.1413206232596582e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  },
+  {
+    "frame": 480,
+    "gripError": 1.7342238036525468e-15,
+    "floorClearance": 0.47476902008056676,
+    "seatGap": 0,
+    "seatVertices": 2632
+  }
+]

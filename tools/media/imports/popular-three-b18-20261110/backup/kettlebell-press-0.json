@@ -1,0 +1,11 @@
+{
+  "prompt": "Wide 2:1 animation sprite sheet: 4 columns and2 rows of EIGHT EQUAL SQUARE frames. Gray anatomical male mannequin teal shorts gray shoes doing right-arm kettlebell shoulder press. FIXED WIDE SHOT. Character occupies only half cell height in starting pose. Feet at80 percent of cell height. Head at35 percent of cell height. Overhead hand never higher than15 percent of cell height. Frame1 kettlebell rack at shoulder, frames2 through8 gradual continuous press to straight arm overhead. Eight distinct evenly spaced elbow angles from flexed to extended. Bell round body behind wrist, left arm down, torso and legs absolutely still, both feet flat. Clean gray studio seamless opaque background. Entire character and kettlebell visible with wide empty margins in every frame. Same exact camera scale position in all frames. No labels no lines no text.",
+  "equipment": "kettlebell",
+  "sources": [
+    "https://www.kettlebellkings.com/pages/the-kettlebell-press"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "kettlebell-press",
+  "registeredAt": "2026-09-11T16:45:40.072Z"
+}

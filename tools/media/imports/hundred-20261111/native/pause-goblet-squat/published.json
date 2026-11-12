@@ -1,0 +1,18 @@
+{
+  "id": "pause-goblet-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "64eeafe476d11c905ed61b0becf67320ddf8b841f15822ce43e4975feba719d1",
+  "rigSourceSha256": "2f05d7e42fed1bb09ce0c435c03faa5e0396f47abb934f57b8bfaa3d36ec559e",
+  "videoSha256": "f5350e3986b650e20bdde0f8488fc068eeb46dc7d3939ff6afce252534e7855d",
+  "darkVideoSha256": "4f3cb610527bebd4b860770af7f1487096ef92566f93c4d85a15707da2c25539",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 109257,
+  "darkBytes": 109976,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:20:58.473Z"
+}

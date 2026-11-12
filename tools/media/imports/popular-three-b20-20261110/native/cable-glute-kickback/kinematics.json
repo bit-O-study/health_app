@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.033848799548429974,
+  "gripError": 1.6011864169946886e-15,
+  "elbowDegrees": [
+    70.77667942096883,
+    72.53174458268414
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b20-20261110/native/cable-glute-kickback/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

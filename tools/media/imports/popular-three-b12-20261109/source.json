@@ -1,0 +1,18 @@
+{
+  "preacher-curl": {
+    "equipment": "dumbbell",
+    "url": "https://www.strengthlog.com/dumbbell-preacher-curl/",
+    "criteria": "Two dumbbells, supinated grip, upper arms supported on preacher pad, stable elbows and torso, controlled curl and return."
+  },
+  "rear-delt-fly": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-reverse-fly.html",
+    "criteria": "Seated bent-over reverse fly, torso stable, palms face inward, fixed soft elbow bend, arc out to sides without shrug or row."
+  },
+  "straight-arm-pulldown": {
+    "equipment": "cable",
+    "url": "https://www.muscleandstrength.com/exercises/straight-arm-lat-pull-down.html",
+    "criteria": "High pulley straight bar, slight forward torso lean, fixed slight elbow bend, lower bar in shoulder arc toward thighs and controlled return."
+  },
+  "limits": "Reuses procedural human and equipment rigs; newly rendered exercise-specific motion and timing. Simplified anatomy, hands and equipment, no full mesh collision or biomechanical certification. Device and production pending."
+}

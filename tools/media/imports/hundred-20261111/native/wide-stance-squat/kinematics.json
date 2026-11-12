@@ -1,0 +1,11 @@
+{
+  "id": "wide-stance-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.058655256570379434,
+  "gripError": 4.2743586448068535e-15,
+  "rootVerticalRange": 4.7,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

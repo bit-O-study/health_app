@@ -1,0 +1,7 @@
+{
+  "technicalVisualReview": "passed",
+  "userVisualAcceptance": "pending",
+  "inspected": ["native/full-sheet.png", "native/side-sheet.png", "native/final-light.png", "native/final-dark.png"],
+  "observations": ["Alternating bent-knee recovery and contralateral arm swing visible", "Neutral wrist orientation and curled fingers replace the earlier rolled hand posture", "Whole body visible in both themes; final frames inspected across multiple cycles"],
+  "limitations": ["Procedural animation, not motion capture", "Sampled visual review does not establish biomechanical accuracy or full mesh collision freedom", "User rejected the previous version; acceptance of this remake is still pending"]
+}

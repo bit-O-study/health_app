@@ -1,0 +1,18 @@
+{
+  "id": "low-bar-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0a40da3b92c1d179b1935436de333fb99355ed7cd44a16965468c4b8210bcf74",
+  "rigSourceSha256": "e82d532c3fab68aa3ef08554fea7722a2d68fefa17eb956064dd3dd53d2e08f4",
+  "videoSha256": "9146f85bec96936f2d3f9da45de0e2b43e38ba08cd49b11d4faad902ffeab7f6",
+  "darkVideoSha256": "fb924d42f4bb934121906817f74c4d16588051dae6d6044bf05fbec29fca99e8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 136173,
+  "darkBytes": 125151,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:39:47.839Z"
+}

@@ -1,0 +1,23 @@
+{
+  "completedAt": "2026-11-04T02:17:05.281Z",
+  "ids": [
+    "shrug",
+    "reverse-curl",
+    "cable-curl"
+  ],
+  "files": 9,
+  "bytes": 946932,
+  "poseTests": 11,
+  "appTests": 66,
+  "counts": {
+    "reviewed-both-themes": 362,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 18,
+    "needs-new-video": 936,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

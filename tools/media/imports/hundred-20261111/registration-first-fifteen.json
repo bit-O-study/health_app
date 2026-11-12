@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-11-11T02:27:13.717Z",
+  "ids": [
+    "pause-squat",
+    "tempo-squat",
+    "pause-front-squat",
+    "tempo-front-squat",
+    "wide-stance-squat",
+    "close-stance-squat",
+    "1-5-rep-squat",
+    "eccentric-squat",
+    "partial-squat",
+    "bottom-half-squat",
+    "pause-bulgarian-split-squat",
+    "tempo-bulgarian-split-squat",
+    "pause-goblet-squat",
+    "double-kettlebell-press",
+    "dumbbell-front-squat"
+  ],
+  "files": 45,
+  "batchCompleted": 15,
+  "batchRemaining": 85,
+  "appTestFiles": 28,
+  "appTests": 138,
+  "publishedVerification": "tools/media/imports/hundred-20261111/published-verification.json",
+  "counts": {
+    "reviewed-both-themes": 416,
+    "needs-motion-review": 23,
+    "needs-cutout-review": 15,
+    "needs-new-video": 895,
+    "legacy-needs-remake": 2
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

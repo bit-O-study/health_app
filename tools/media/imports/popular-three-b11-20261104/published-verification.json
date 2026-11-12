@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-04T07:37:27.946Z",
+  "report": [
+    {
+      "id": "rdl",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "goblet-squat",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "front-squat",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

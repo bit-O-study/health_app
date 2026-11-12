@@ -1,0 +1,18 @@
+{
+  "id": "dead-bug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "342e0f3f89129a3156ac02481ba4fe5437838e2765e860a65c369625136471d8",
+  "rigSourceSha256": "ba37c0f7810e6981e9d6a49a68d68cef5e288c2336ce036c821df5d384aa73e4",
+  "videoSha256": "5a6f657c4dc3f05bef895f70fc1cf1628ff876548f27d4943943688dafeda0c2",
+  "darkVideoSha256": "c76e4d83ad078c7948e13cfe744a253c87d8cfb17c74f2b69f0cf84a8c761a6c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 118739,
+  "darkBytes": 125980,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T01:11:17.321Z"
+}

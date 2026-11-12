@@ -1,0 +1,15 @@
+{
+  "id": "cable-fly",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-fly-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/chest/chest-fly/cable-flyes/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-10T01:23:16.168Z"
+}

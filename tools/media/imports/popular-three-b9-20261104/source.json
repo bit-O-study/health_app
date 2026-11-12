@@ -1,0 +1,18 @@
+{
+  "concentration-curl": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/concentration-cur.html",
+    "criteria": "Seated, torso leaned forward, upper arm supported at inner thigh, supinated single dumbbell curl with fixed elbow and free hand on opposite knee. Controlled return; repeat on other side."
+  },
+  "face-pull": {
+    "equipment": "cable",
+    "url": "https://www.nasm.org/resource-center/exercise-library/face-pull",
+    "criteria": "Eye-height cable, rope attachment, stable stance and torso. Pull rope toward face, separating hands outside face with elbows moving out/back. Controlled return; constant rope lengths."
+  },
+  "cable-upright-row": {
+    "equipment": "cable",
+    "url": "https://www.muscleandstrength.com/exercises/cable-upright-row.html",
+    "criteria": "Low pulley straight bar, pronated grip, lead with elbows while lifting in front of torso, upper arms no higher than shoulder level. Controlled return without torso swing."
+  },
+  "limits": "Procedural simplified anatomy, clothes and equipment. Not full mesh collision or biomechanics certification. One-sided curl demonstration; repeat opposite side. Physical device and production pending."
+}

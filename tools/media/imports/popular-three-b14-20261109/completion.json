@@ -1,0 +1,26 @@
+{
+  "completedAt": "2026-11-10T00:24:59.219Z",
+  "ids": [
+    "chin-up",
+    "wide-grip-pull-up",
+    "smith-bench-press"
+  ],
+  "newAiV3Ids": 3,
+  "files": 9,
+  "bytes": 1199596,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 21,
+  "appTests": 288,
+  "counts": {
+    "reviewed-both-themes": 383,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 916,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

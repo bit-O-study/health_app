@@ -1,0 +1,11 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "floorClearance": 0.0378604981369568,
+  "maxStep": 0.09417105374447954,
+  "elbowDegrees": [
+    173.00560024821732,
+    173.00560024821783
+  ],
+  "alternatingSides": 2
+}

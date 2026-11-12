@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-04T07:38:38.716Z",
+  "ids": [
+    "rdl",
+    "goblet-squat",
+    "front-squat"
+  ],
+  "newlyAdded": 3,
+  "files": 9,
+  "bytes": 1905219,
+  "poseTests": 12,
+  "appTestFiles": 18,
+  "appTests": 279,
+  "counts": {
+    "reviewed-both-themes": 374,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 925,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

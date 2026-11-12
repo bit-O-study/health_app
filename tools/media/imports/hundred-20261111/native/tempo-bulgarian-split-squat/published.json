@@ -1,0 +1,18 @@
+{
+  "id": "tempo-bulgarian-split-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f0bc2a7bb6c2674460f057ab4aa66638961e2ce9ae30cef495db6baa91e747eb",
+  "rigSourceSha256": "c282fb68bdeb3b19c82daf5d8bbba011c5c144cc799bf39324ccfd557b7a787b",
+  "videoSha256": "fabb631ebc15d875f89e761eee3a0a81849db836d7ef7936fa0f7d4419657a52",
+  "darkVideoSha256": "a54486864a1b124ade9c8d32b45b269f1e42473022d8ba6bc34f1b47641be22b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83634,
+  "darkBytes": 80991,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:20:44.622Z"
+}

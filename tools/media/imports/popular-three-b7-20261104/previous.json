@@ -1,0 +1,80 @@
+{
+  "shrug": [
+    {
+      "file": "tools/media/motion-guides/shrug.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/shrug.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/shrug-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/shrug.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/shrug-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/shrug-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "reverse-curl": [
+    {
+      "file": "tools/media/motion-guides/reverse-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-curl": [
+    {
+      "file": "tools/media/motion-guides/cable-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

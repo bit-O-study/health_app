@@ -1,0 +1,11 @@
+{
+  "id": "1-5-rep-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.08931294222787421,
+  "gripError": 4.529179288089325e-15,
+  "rootVerticalRange": 4.7,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

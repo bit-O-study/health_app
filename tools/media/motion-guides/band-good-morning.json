@@ -1,0 +1,15 @@
+{
+  "id": "band-good-morning",
+  "equipment": "band",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "band-good-morning-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://theprehabguys.com/vimeo-video/good-morning-band-2/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-10T04:40:06.980Z"
+}

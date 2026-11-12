@@ -1,0 +1,18 @@
+{
+  "id": "arnold-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fb748cf17a50e4a2126f81d458f8f035a2450c0f122a89bd8dbf0de9cff71f55",
+  "rigSourceSha256": "0692ec3e10ce812386b956ea82309f3407af5e589396fe96c8ef4015bfcbaaf4",
+  "videoSha256": "5e20b35c6b9759045156429288882fb3278e21409059cb8a56c1ec4950448749",
+  "darkVideoSha256": "22f85a2ce2b11e8ac6902521f08ca3690d0d0b66e75715454560bde15c9ec36e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 89597,
+  "darkBytes": 77622,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T02:32:20.937Z"
+}

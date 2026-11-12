@@ -1,0 +1,569 @@
+{
+  "sha": "71cd8113cc2c44db301936acc28c6a670023ca73",
+  "actions": [
+    {
+      "id": 41609140469,
+      "name": "Windows server deployment",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/bit-O-study/health_app/actions/runs/41609140469",
+      "jobs": [
+        {
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Test, build and package",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "deploy",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Activate release and verify health",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 41609140277,
+      "name": "ci",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/bit-O-study/health_app/actions/runs/41609140277",
+      "jobs": [
+        {
+          "name": "checks",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup Node (.nvmrc 로 고정)",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Enable corepack (pnpm 버전 고정)",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Cache pnpm store",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install deps",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Prepare log dir",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Unit tests (로직)",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Lint gate (기준선 대비 신규 에러만 차단)",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Type check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Schema sync (시크릿 있을 때만)",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Auth configuration",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "요약",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "로그 보존",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "최종 판정",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Cache pnpm store",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup Node (.nvmrc 로 고정)",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publicFiles": {
+    "checkedAt": "2026-11-03T09:22:00.431Z",
+    "results": [
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/dumbbell-sumo-deadlift.mp4",
+        "sha256": "30b2804ba9c99773653eadbeb7af8ffe789dd98b58ea019ba9a86be99af6c123",
+        "bytes": 103777,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/dumbbell-sumo-deadlift-dark.mp4",
+        "sha256": "de109efa3e9f2a6d11b45b453b07b655799b4b86b5d9fb2e489072f0d7822800",
+        "bytes": 100275,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/dumbbell-sumo-deadlift-alpha.webm",
+        "sha256": "32dda37d648cf1aa7c87daf458ebe8faa790be9ab0514d82659e02fa71c734e9",
+        "bytes": 237958,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/bench-press.mp4",
+        "sha256": "a01eb70d532874e2faff9c030d5e7f972fabbad0affc9f3eb4e6d17b80ad94fc",
+        "bytes": 122024,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/bench-press-dark.mp4",
+        "sha256": "7295425f8770fec293263c4f879a0d622e2a2c745aea34d613cc4515184889e6",
+        "bytes": 107276,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/bench-press-alpha.webm",
+        "sha256": "656c132eeb3904fa643a0568dd3bce42b4a4423fe07adf297dbe2cd456ccd3c8",
+        "bytes": 278939,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/deadlift.mp4",
+        "sha256": "c39503bd4b4410d281e3f5f04784205163d30b552876f654d13412175ca22fd5",
+        "bytes": 140277,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/deadlift-dark.mp4",
+        "sha256": "c5474acd212ab0f7204cfe939d099795761c4ced45c2153f8179248bab8d6f4b",
+        "bytes": 118142,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/deadlift-alpha.webm",
+        "sha256": "d819208af9e45fd484055f2e5dcbbcfbabd5601109d50102ea1e55936af62908",
+        "bytes": 321576,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/plank.mp4",
+        "sha256": "07f48d1449ffdd39f12f4f6114c09f406ec164229b660b36fb81ee4222caf8e9",
+        "bytes": 14306,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/plank-dark.mp4",
+        "sha256": "cc3fb14d9afafd9fa25011d3a32113c5edf85ec5560f986093b7a845572ecf70",
+        "bytes": 14725,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/plank-alpha.webm",
+        "sha256": "47ee369040815211e70a3f9a96562a623f93d4481df93aa13a743c73c9d1fa5c",
+        "bytes": 35276,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/pull-up.mp4",
+        "sha256": "fadc6c60bb211db61de52a9c9c92e868307f4dd175583df624a73316f86da200",
+        "bytes": 98363,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/pull-up-dark.mp4",
+        "sha256": "34c56fc9d474275cb7b7dd88808eac3ca9d87cafa9117483c228b759ae46affb",
+        "bytes": 103760,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/pull-up-alpha.webm",
+        "sha256": "fd74e6441fef0152d4eeaaf74e28751606372bfc0b1398cfa3de2615285ce407",
+        "bytes": 296096,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/lat-pulldown.mp4",
+        "sha256": "8aab96c03849225f766296c1f3b7c2079c1250e7a82fe9237606cfdfa942dce8",
+        "bytes": 85281,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/lat-pulldown-dark.mp4",
+        "sha256": "316ea48d951a51bbf7f07decd1cebdb215329f5a9793250b191980c4bdf79137",
+        "bytes": 82144,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/lat-pulldown-alpha.webm",
+        "sha256": "eaa2bc1ee91e9e3d4e8accb42fb36b1f69f49836230bf77f5a51b922fe7bc847",
+        "bytes": 226415,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/leg-press.mp4",
+        "sha256": "68674bb6ba981789cc8fd5fa0cd1eebd82ee435b6fc3e95d3ceafe1a5f5c3e73",
+        "bytes": 123568,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/leg-press-dark.mp4",
+        "sha256": "9111bbc87726d89fa0f70dc3d0282e289a5149fe872225acc4a7dfcb66437c25",
+        "bytes": 101246,
+        "status": 200
+      },
+      {
+        "url": "https://www.helthssu.co.kr/exercise-guides/ai-v3/leg-press-alpha.webm",
+        "sha256": "86dc4cb8c409b3bd905600fa32b50b6c60d27a15e5c12ec2054a7e8ade5d9b3a",
+        "bytes": 228191,
+        "status": 200
+      }
+    ],
+    "bothManifests": true
+  },
+  "app": {
+    "videos": [
+      {
+        "id": "dumbbell-sumo-deadlift",
+        "url": "/exercise-guides/ai-v3/dumbbell-sumo-deadlift.mp4",
+        "duration": 8,
+        "error": null
+      },
+      {
+        "id": "bench-press",
+        "url": "/exercise-guides/ai-v3/bench-press.mp4",
+        "duration": 8,
+        "error": null
+      },
+      {
+        "id": "deadlift",
+        "url": "/exercise-guides/ai-v3/deadlift.mp4",
+        "duration": 8,
+        "error": null
+      },
+      {
+        "id": "plank",
+        "url": "/exercise-guides/ai-v3/plank.mp4",
+        "duration": 8,
+        "error": null
+      },
+      {
+        "id": "pull-up",
+        "url": "/exercise-guides/ai-v3/pull-up.mp4",
+        "duration": 8,
+        "error": null
+      },
+      {
+        "id": "lat-pulldown",
+        "url": "/exercise-guides/ai-v3/lat-pulldown.mp4",
+        "duration": 8,
+        "error": null
+      },
+      {
+        "id": "leg-press",
+        "url": "/exercise-guides/ai-v3/leg-press.mp4",
+        "duration": 8,
+        "error": null
+      }
+    ],
+    "checkedAt": "2026-11-03T09:23:39.263Z",
+    "loginPage": "https://www.helthssu.co.kr/login?redirect=%2Fhome",
+    "authResponses": [
+      {
+        "host": "api.helthssu.co.kr",
+        "status": 200
+      }
+    ],
+    "finalPath": "/exercises/leg-press",
+    "sessionCookiePresent": true,
+    "temporaryAccount": true,
+    "temporaryAccountRemoved": true
+  },
+  "browser": {
+    "checkedAt": "2026-11-03T09:23:14.146Z",
+    "base": "https://www.helthssu.co.kr",
+    "results": [
+      {
+        "id": "dumbbell-sumo-deadlift",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0197,
+        "looped": true
+      },
+      {
+        "id": "dumbbell-sumo-deadlift",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0121,
+        "looped": true
+      },
+      {
+        "id": "bench-press",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0104,
+        "looped": true
+      },
+      {
+        "id": "bench-press",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0169,
+        "looped": true
+      },
+      {
+        "id": "deadlift",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0104,
+        "looped": true
+      },
+      {
+        "id": "deadlift",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0117,
+        "looped": true
+      },
+      {
+        "id": "plank",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0145,
+        "looped": true
+      },
+      {
+        "id": "plank",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0207,
+        "looped": true
+      },
+      {
+        "id": "pull-up",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0121,
+        "looped": true
+      },
+      {
+        "id": "pull-up",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0131,
+        "looped": true
+      },
+      {
+        "id": "lat-pulldown",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0115,
+        "looped": true
+      },
+      {
+        "id": "lat-pulldown",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0092,
+        "looped": true
+      },
+      {
+        "id": "leg-press",
+        "theme": "light",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0077,
+        "looped": true
+      },
+      {
+        "id": "leg-press",
+        "theme": "dark",
+        "duration": 8,
+        "width": 480,
+        "height": 480,
+        "error": null,
+        "fits": true,
+        "currentTime": 0.0178,
+        "looped": true
+      }
+    ]
+  },
+  "ciConfig": {
+    "updated": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "NEXT_PUBLIC_SITE_URL"
+    ],
+    "source": "Existing BUILD_PUBLIC_ENV deployment variable",
+    "authPreflight": "5 passed",
+    "rerun": 41609140277,
+    "at": "2026-11-03T09:19:12.800Z"
+  },
+  "limits": [
+    "Local full E2E and Android physical-device testing not rerun; user requested main CI/CD path.",
+    "Production smoke uses a temporary account; real user/social login not tested."
+  ]
+}

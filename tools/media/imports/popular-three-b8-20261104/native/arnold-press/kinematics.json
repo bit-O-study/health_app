@@ -1,0 +1,11 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.07323913985365119,
+  "elbowDegrees": [
+    41.7472359041019,
+    162.4963987007253
+  ],
+  "topHoldSeconds": 1
+}

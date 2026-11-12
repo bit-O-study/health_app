@@ -1,0 +1,7 @@
+{
+  "ohp": {"equipment":"barbell","url":"https://www.strengthlog.com/overhead-press/","criteria":"Standing strict barbell press: planted feet, stable trunk, shoulder-width-plus grip, bar clears face and moves overhead as arms extend. Controlled return. Rack entry omitted."},
+  "seated-cable-row": {"equipment":"cable","url":"https://www.muscleandstrength.com/exercises/seated-row.html","supportingUrl":"https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/","criteria":"Seated narrow neutral-grip cable row with bent knees and feet supported on inclined plates. Stable upright trunk, handle pulled toward abdomen, one-second squeeze and controlled return."},
+  "dips": {"equipment":"bodyweight","url":"https://www.strengthlog.com/bar-dip/","criteria":"Bodyweight parallel-bar dip: fixed neutral grips, slight forward torso inclination, bent knees and suspended feet. Controlled lowering to approximately right-angle elbows, then extend arms. Mounting and dismounting omitted."},
+  "checkedAt":"2026-11-03",
+  "limits":["Procedural educational demonstration, not captured human motion or biomechanical certification.","Simplified body, garments and equipment; sampled grip/pose checks do not certify all mesh collisions. Actual phone and production not verified."]
+}

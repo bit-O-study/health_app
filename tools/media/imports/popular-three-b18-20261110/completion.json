@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-10T04:09:31.641Z",
+  "ids": [
+    "close-grip-lat-pulldown",
+    "hip-adduction-machine",
+    "kettlebell-press"
+  ],
+  "files": 9,
+  "bytes": 883949,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 25,
+  "appTests": 117,
+  "lint": "passed",
+  "typecheck": "passed",
+  "counts": {
+    "reviewed-both-themes": 395,
+    "needs-motion-review": 25,
+    "needs-cutout-review": 17,
+    "needs-new-video": 912,
+    "legacy-needs-remake": 2
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

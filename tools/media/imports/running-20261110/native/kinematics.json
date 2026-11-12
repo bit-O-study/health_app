@@ -1,0 +1,11 @@
+{
+  "poseSamples": 481,
+  "strideFrames": 48,
+  "stridesPer8Seconds": 10,
+  "stepsPerMinute": 150,
+  "loop": 0,
+  "maxStep": 0.5842729306472854,
+  "supportY": 2.6645352591003757e-15,
+  "supportSpeedError": 5.10702591327572e-15,
+  "symmetry": 4.440892098500626e-15
+}

@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-03T14:05:34.077Z",
+  "report": [
+    {
+      "id": "ohp",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "seated-cable-row",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "dips",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

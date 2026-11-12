@@ -1,0 +1,18 @@
+{
+  "id": "band-good-morning",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6ffaeb55eb89669ac0584879e31c843b3201af1a95f718df8e68650774d7ea60",
+  "rigSourceSha256": "2b234cf56a67c8991031ced5b402ced8ed06d88ea9f78f2270e4d4454222c084",
+  "videoSha256": "1fa5afbc5e2728e1e7582ec686d8a552037efcc8258d0b6900fe58b106039cd4",
+  "darkVideoSha256": "fe0e0bfde38d2bd2ae4dfca7541e73ff0feb16812068b3c8d62a3bea621e96c3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 136723,
+  "darkBytes": 138132,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:40:06.989Z"
+}

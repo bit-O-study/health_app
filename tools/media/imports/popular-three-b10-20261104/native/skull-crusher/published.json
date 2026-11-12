@@ -1,0 +1,18 @@
+{
+  "id": "skull-crusher",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ddc724f7c4a021654c12e9452b3278d62e0a6594f014180f738d661bf52e5fa8",
+  "rigSourceSha256": "b3c4ee2205a5b2114970561afed64e78af70111d9bb61e66f7e6f2161c1ee019",
+  "videoSha256": "cc276cca6fb378dd586c582b3b47985d24664ff4d599988bffc1b5f5a5d69eb9",
+  "darkVideoSha256": "0ec173591ee0c60eba87494cc984d03468666a34d3d88f07d4f09f20d83b7e92",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103436,
+  "darkBytes": 81650,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T04:12:13.641Z"
+}

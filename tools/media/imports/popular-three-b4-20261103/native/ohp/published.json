@@ -1,0 +1,18 @@
+{
+  "id": "ohp",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "31ca5c54b1b70f9b6b136117b1ad7f3faa91f077d411c6785e13ba3d8595ab0a",
+  "rigSourceSha256": "10aef7e52347e025929e4a17234d14eacc2cb96d9694ec7f0acdc70b9d10724f",
+  "videoSha256": "af0d19857d119b8145c20325976038546bff039a613eb61b386a73d048eca34b",
+  "darkVideoSha256": "b52f4a1d12a4baf71f76d98394a75085020b4988559b9d59a6eaf05431097ade",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 93269,
+  "darkBytes": 83949,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T14:04:26.829Z"
+}

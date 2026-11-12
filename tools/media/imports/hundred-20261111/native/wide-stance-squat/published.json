@@ -1,0 +1,18 @@
+{
+  "id": "wide-stance-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c8c802248aa14ec2b86820858383ed3264126dbbe72524d8940009dd41c51235",
+  "rigSourceSha256": "d8e694eb8d8953387c1096de76fa6c97a72d89c26939433f142d477877fe35b9",
+  "videoSha256": "c1a2a01c02e44e57b0b223d4ce4c90c617123e93b63a222738eef4c00a4e7a8b",
+  "darkVideoSha256": "cb1b8613964fb30f58eb4299bd79a011952dffd0b373d4a2472afedd6bd858d0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 136744,
+  "darkBytes": 125940,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:19:06.200Z"
+}

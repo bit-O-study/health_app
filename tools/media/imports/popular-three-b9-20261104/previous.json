@@ -1,0 +1,83 @@
+{
+  "concentration-curl": [
+    {
+      "file": "tools/media/motion-guides/concentration-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/concentration-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/concentration-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/concentration-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/concentration-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/concentration-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "face-pull": [
+    {
+      "file": "tools/media/motion-guides/face-pull.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/face-pull.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/face-pull-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-upright-row": [
+    {
+      "file": "tools/media/motion-guides/cable-upright-row.json",
+      "backup": "tools/media/imports/popular-three-b9-20261104/backup/cable-upright-row-0.json",
+      "sha256": "7873152c02efed2c965a1d363cfa44b2224d80bc40d24841a5eb2f1b98811c58"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-upright-row.jpg",
+      "backup": "tools/media/imports/popular-three-b9-20261104/backup/cable-upright-row-1.jpg",
+      "sha256": "18936563922b546be3b60f5390b44ecdc869dac5960c85a37c5d5fd42623dba3"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-upright-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-upright-row.mp4",
+      "backup": "tools/media/imports/popular-three-b9-20261104/backup/cable-upright-row-3.mp4",
+      "sha256": "8bfee07300ac3a88e7c0e183a0ab28ad85fc55e2088d1057833469d7105d6eae"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-upright-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-upright-row-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

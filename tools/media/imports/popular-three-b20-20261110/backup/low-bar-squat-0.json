@@ -1,0 +1,11 @@
+{
+  "prompt": "Scientific educational 3D animation pose sheet, square canvas, EXACTLY4 columns and4rows:16 equally sized square panels, no borders. Gray athletic adult male mannequin wearing teal shorts and gray flat shoes performing LOW BAR BACK SQUAT. Fixed rear three-quarter camera, entire head feet and both bar ends visible with margins. Solid opaque uniform light-gray background WITHOUT transparency, texture or noise. A straight steel barbell with ONE small black weight plate on each end rests on rear deltoids BELOW upper trapezius; both hands grip the bar wider than shoulders in every panel, bar never floats. Feet stay in exactly identical image positions shoulder-width apart, toes slightly outward, heels planted. Head follows neutral spine without turning. Show ONLY DESCENT in16 evenly spaced incremental poses read left-to-right across all rows: pose1 standing, pose16 thighs parallel with floor. Every successive pose lowers hips by the SAME small amount, no repeated endpoint poses or row resets. Row1 standing to shallow bend, row2 shallow to quarter squat, row3 quarter to almost parallel, row4 progressively to parallel. Hips and knees bend together, hips move back and torso gradually inclines forward, spine neutral, bar tracks above midfoot. Knees track with toes, both whole feet planted. Constant body proportions, foot position, camera and lighting; only articulated squat motion changes. Crisp solid 3D shapes, no motion blur or ghost limbs, no text or labels. Light gray flat background fills all16panels.",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "reverse",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/low-bar-back-squat"
+  ],
+  "id": "low-bar-squat",
+  "registeredAt": "2026-09-18T02:44:38.700Z"
+}

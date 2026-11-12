@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.01428485047162198,
+  "gripError": 2.673771110915334e-15,
+  "elbowDegrees": [
+    87.44571726861416,
+    160.9734757434239
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b17-20261110/native/chest-dip/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

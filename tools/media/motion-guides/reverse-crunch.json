@@ -1,11 +1,16 @@
 {
-  "prompt": "8-frame 4x2 reverse crunch, grey mannequin teal shorts on mat, bent knees 90 degrees, pelvis curls toward rib cage while head/shoulders/hands remain down, fixed side view.",
-  "equipment": "bodyweight",
-  "sources": [
-    "https://www.acefitness.org/resources/everyone/exercise-library/76/reverse-crunch/"
-  ],
-  "panels": 8,
-  "cycle": "reverse",
   "id": "reverse-crunch",
-  "registeredAt": "2026-09-14T23:31:18.397Z"
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-crunch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.youtube.com/watch?v=lmSP-c1X_iY",
+    "https://www.puregym.com/exercises/abs/reverse-crunches/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-04T01:11:28.892Z"
 }

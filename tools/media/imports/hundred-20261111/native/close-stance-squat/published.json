@@ -1,0 +1,18 @@
+{
+  "id": "close-stance-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4e5a244dd50134b49b493f21429bbd9df98b1b98260568818e4843be2c861e30",
+  "rigSourceSha256": "dc6066666e32e0bce7dd52a0d2437a02b9b709259f2ab4fdb4b6cb64ad3e80fd",
+  "videoSha256": "54cac7c9df7f844fd2329fe7cc0548b69e3a498525e293795171f06f2ea0efe9",
+  "darkVideoSha256": "431910a8c0d6a8e9f5261dad300023ed430da90da7b7c95c03525b96dae03cd9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 135097,
+  "darkBytes": 123396,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:19:19.614Z"
+}

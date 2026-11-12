@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-10T01:24:51.221Z",
+  "ids": [
+    "bulgarian-split-squat",
+    "one-arm-dumbbell-row",
+    "cable-fly"
+  ],
+  "files": 9,
+  "bytes": 854515,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 22,
+  "appTests": 292,
+  "lint": "passed",
+  "typecheck": "passed",
+  "counts": {
+    "reviewed-both-themes": 386,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 913,
+    "legacy-needs-remake": 4
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

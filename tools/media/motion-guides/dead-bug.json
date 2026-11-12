@@ -1,11 +1,15 @@
 {
-  "sources": [
-    "https://www.muscleandstrength.com/exercises/dead-bug"
-  ],
-  "equipment": "bodyweight",
-  "cycle": "full",
-  "prompt": "Scientific educational 4x2 eight-panel dead bug on mat. Same gray adult 3D mannequin in teal shorts, fixed elevated side view. Supine back flat; both arms over shoulders and knees in tabletop, then opposite right arm and left leg extend toward floor together and return while the other arm and leg stay fixed. No labels, no extra limbs.",
-  "panels": 8,
   "id": "dead-bug",
-  "registeredAt": "2026-09-14T14:13:56.578Z"
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "alternating",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dead-bug-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/dead-bug"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-04T01:11:17.316Z"
 }

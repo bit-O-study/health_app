@@ -1,0 +1,18 @@
+{
+  "low-bar-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Bar across rear deltoid shelf, planted feet, controlled hip-dominant squat with bar over midfoot."
+  },
+  "cable-glute-kickback": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/exercises/glutes/glute-kickbacks/cable-kickbacks/",
+    "criteria": "Supported standing hip extension with ankle cuff connected to low pulley; stance foot and torso fixed."
+  },
+  "band-good-morning": {
+    "equipment": "band",
+    "url": "https://theprehabguys.com/vimeo-video/good-morning-band-2/",
+    "criteria": "Loop band under both feet and over upper back below neck; soft knees, hip hinge and controlled return."
+  },
+  "limits": "Procedural human and simplified equipment. Sampled checks are not full mesh collision or biomechanical certification. Local only; production and device pending."
+}

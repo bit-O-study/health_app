@@ -1,0 +1,19 @@
+{
+  "close-grip-lat-pulldown": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/exercises/back/lat-exercises/close-grip-lat-pulldown/",
+    "criteria": "Seated close neutral grip using narrow parallel attachment; feet planted, thighs held by pad, pull toward upper chest and return with control."
+  },
+  "hip-adduction-machine": {
+    "equipment": "machine",
+    "url": "https://www.puregym.com/exercises/legs/inner-outer-thigh/seated-hip-adduction/",
+    "criteria": "Seated supported torso, inner knees against pads; draw thighs together then controlled opening; feet supported on moving footplates."
+  },
+  "kettlebell-press": {
+    "equipment": "kettlebell",
+    "url": "https://us.humankinetics.com/blogs/excerpt/one-arm-kettlebell-press",
+    "supportingUrl": "https://redefiningstrength.com/single-arm-kettlebell-press/",
+    "criteria": "Single left-arm strict press from shoulder rack to overhead, bell behind forearm, feet and trunk stable, controlled lowering."
+  },
+  "limits": "Procedural shared human and simplified equipment; exercise-specific motion. Sampled checks are not full mesh collision or biomechanical certification. Local only; production and device pending."
+}

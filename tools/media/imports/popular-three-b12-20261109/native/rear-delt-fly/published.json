@@ -1,0 +1,18 @@
+{
+  "id": "rear-delt-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "661e641d9697bd51fa48b306948ac1f38da7376d9658706a529da25782d1fdb4",
+  "rigSourceSha256": "c0dfa3477f59095add3c55f051f103f6e625ed52de04c391a6e9a63a49b2f937",
+  "videoSha256": "681d2b854d8aa2d3628c0e3287f3ca5f454adc21f9b0221a49aa4a8fab569074",
+  "darkVideoSha256": "cf2eb355c9d04b227001dd8c142260c4f0104623a499ede46eb81b354ecab6c6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96282,
+  "darkBytes": 77754,
+  "decode": "passed",
+  "verifiedAt": "2026-11-09T00:44:40.876Z"
+}

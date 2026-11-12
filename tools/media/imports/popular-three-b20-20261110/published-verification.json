@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-10T04:40:30.350Z",
+  "report": [
+    {
+      "id": "low-bar-squat",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "cable-glute-kickback",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "band-good-morning",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

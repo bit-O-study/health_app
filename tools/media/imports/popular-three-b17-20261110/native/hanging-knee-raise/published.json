@@ -1,0 +1,18 @@
+{
+  "id": "hanging-knee-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4b1f51725d03eda84e2f4be992ed302135237cf95cd3447b51a4785993e284e7",
+  "rigSourceSha256": "29c15bc3d2792fc3ba04e77c658c4d5c99479b35f79a5f78f9aa72d0cb4c7fee",
+  "videoSha256": "51e5816701f21740fe0b9053073ba4dddbcf507904abbbd6076847bd8361105d",
+  "darkVideoSha256": "5dba7ff32a4135861bf23325e03b354de4dadc1cf2a3f531d4f04b6ceab154ff",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 64509,
+  "darkBytes": 60158,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T02:45:14.882Z"
+}

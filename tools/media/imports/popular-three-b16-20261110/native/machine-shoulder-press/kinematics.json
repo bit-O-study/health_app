@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.05484972039140812,
+  "elbowDegrees": [
+    93.21834191236927,
+    174.69399527963407
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b16-20261110/native/machine-shoulder-press/geometry.json",
+    "limits": "Seat/back support and rigid linkage samples only, not all body collisions"
+  }
+}

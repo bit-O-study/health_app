@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.05116955554136397,
+  "gripError": 4.39625888431457e-15,
+  "elbowDegrees": [
+    35.45433208389904,
+    38.828036472897985
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b20-20261110/native/band-good-morning/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

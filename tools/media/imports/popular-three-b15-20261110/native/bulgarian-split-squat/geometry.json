@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "supportVertices": 222,
+    "supportMinY": -4.02048172079056,
+    "padTop": -4.022,
+    "supportGap": 0.0015182792094401987
+  },
+  {
+    "frame": 30,
+    "supportVertices": 222,
+    "supportMinY": -4.0206353797889856,
+    "padTop": -4.022,
+    "supportGap": 0.0013646202110145222
+  },
+  {
+    "frame": 60,
+    "supportVertices": 220,
+    "supportMinY": -4.020875700273085,
+    "padTop": -4.022,
+    "supportGap": 0.0011242997269150234
+  },
+  {
+    "frame": 90,
+    "supportVertices": 215,
+    "supportMinY": -4.018769545974056,
+    "padTop": -4.022,
+    "supportGap": 0.003230454025944074
+  },
+  {
+    "frame": 120,
+    "supportVertices": 209,
+    "supportMinY": -3.999776532502986,
+    "padTop": -4.022,
+    "supportGap": 0.02222346749701415
+  },
+  {
+    "frame": 150,
+    "supportVertices": 204,
+    "supportMinY": -3.9760016436607306,
+    "padTop": -4.022,
+    "supportGap": 0.045998356339269464
+  },
+  {
+    "frame": 180,
+    "supportVertices": 201,
+    "supportMinY": -3.970307074269694,
+    "padTop": -4.022,
+    "supportGap": 0.051692925730306094
+  },
+  {
+    "frame": 210,
+    "supportVertices": 201,
+    "supportMinY": -3.9692440128000506,
+    "padTop": -4.022,
+    "supportGap": 0.052755987199949506
+  },
+  {
+    "frame": 240,
+    "supportVertices": 201,
+    "supportMinY": -3.9692440128000506,
+    "padTop": -4.022,
+    "supportGap": 0.052755987199949506
+  },
+  {
+    "frame": 270,
+    "supportVertices": 201,
+    "supportMinY": -3.9692440128000506,
+    "padTop": -4.022,
+    "supportGap": 0.052755987199949506
+  },
+  {
+    "frame": 300,
+    "supportVertices": 201,
+    "supportMinY": -3.9703070742696918,
+    "padTop": -4.022,
+    "supportGap": 0.051692925730308315
+  },
+  {
+    "frame": 330,
+    "supportVertices": 204,
+    "supportMinY": -3.9760016436607306,
+    "padTop": -4.022,
+    "supportGap": 0.045998356339269464
+  },
+  {
+    "frame": 360,
+    "supportVertices": 209,
+    "supportMinY": -3.999776532502986,
+    "padTop": -4.022,
+    "supportGap": 0.02222346749701415
+  },
+  {
+    "frame": 390,
+    "supportVertices": 215,
+    "supportMinY": -4.018769545974056,
+    "padTop": -4.022,
+    "supportGap": 0.003230454025944074
+  },
+  {
+    "frame": 420,
+    "supportVertices": 220,
+    "supportMinY": -4.020875700273085,
+    "padTop": -4.022,
+    "supportGap": 0.0011242997269150234
+  },
+  {
+    "frame": 450,
+    "supportVertices": 222,
+    "supportMinY": -4.020635379788983,
+    "padTop": -4.022,
+    "supportGap": 0.0013646202110171868
+  },
+  {
+    "frame": 480,
+    "supportVertices": 222,
+    "supportMinY": -4.02048172079056,
+    "padTop": -4.022,
+    "supportGap": 0.0015182792094401987
+  }
+]

@@ -1,0 +1,172 @@
+[
+  {
+    "frame": 0,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.5747470008852636,
+    "equipmentBenchClearance": 2.9992962442784665,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.00024812105801103046,
+    "supportR": 0.00024812105801103046,
+    "equipmentPad": 2.8498379397942433
+  },
+  {
+    "frame": 30,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.7227536115238827,
+    "equipmentBenchClearance": 3.132447898322276,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.012471614962131394,
+    "supportR": 0.012471614962131394,
+    "equipmentPad": 2.8673254656406035
+  },
+  {
+    "frame": 60,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.4771976641034996,
+    "equipmentBenchClearance": 3.8012763190417704,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.025253892375617648,
+    "supportR": 0.025253892375617648,
+    "equipmentPad": 2.964830067584701
+  },
+  {
+    "frame": 90,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 2.7688102850914422,
+    "equipmentBenchClearance": 4.896452659038756,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.012353083723483593,
+    "supportR": 0.012353083723483593,
+    "equipmentPad": 3.1575050060717715
+  },
+  {
+    "frame": 120,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 3.0235248772036964,
+    "equipmentBenchClearance": 5.921219524227649,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.013636743253977512,
+    "supportR": 0.013636743253977512,
+    "equipmentPad": 3.373516227888805
+  },
+  {
+    "frame": 150,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 2.1298607017589464,
+    "equipmentBenchClearance": 6.519172433407052,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.020002126921506325,
+    "supportR": 0.020002126921506325,
+    "equipmentPad": 3.5017543405485347
+  },
+  {
+    "frame": 180,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.5035307247766525,
+    "equipmentBenchClearance": 6.732339869424916,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.02660391671678225,
+    "supportR": 0.02660391671678225,
+    "equipmentPad": 3.4349376846590376
+  },
+  {
+    "frame": 210,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.3972760449661004,
+    "equipmentBenchClearance": 6.763833583369607,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.028603358072223417,
+    "supportR": 0.028603358072223417,
+    "equipmentPad": 3.4058693903924553
+  },
+  {
+    "frame": 240,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.3972760449661004,
+    "equipmentBenchClearance": 6.763833583369607,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.028603358072223417,
+    "supportR": 0.028603358072223417,
+    "equipmentPad": 3.4058693903924553
+  },
+  {
+    "frame": 270,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.3972760449661004,
+    "equipmentBenchClearance": 6.763833583369607,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.028603358072223417,
+    "supportR": 0.028603358072223417,
+    "equipmentPad": 3.4058693903924553
+  },
+  {
+    "frame": 300,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.503530724776655,
+    "equipmentBenchClearance": 6.732339869424913,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.02660391671678225,
+    "supportR": 0.02660391671678225,
+    "equipmentPad": 3.4349376846590394
+  },
+  {
+    "frame": 330,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 2.129860701758943,
+    "equipmentBenchClearance": 6.519172433407053,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.020002126921506103,
+    "supportR": 0.020002126921506103,
+    "equipmentPad": 3.501754340548534
+  },
+  {
+    "frame": 360,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 3.0235248772036964,
+    "equipmentBenchClearance": 5.921219524227649,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.013636743253977512,
+    "supportR": 0.013636743253977512,
+    "equipmentPad": 3.373516227888805
+  },
+  {
+    "frame": 390,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 2.7688102850914422,
+    "equipmentBenchClearance": 4.896452659038756,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.012353083723483593,
+    "supportR": 0.012353083723483593,
+    "equipmentPad": 3.1575050060717715
+  },
+  {
+    "frame": 420,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.4771976641035,
+    "equipmentBenchClearance": 3.8012763190417713,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.025253892375617204,
+    "supportR": 0.025253892375617204,
+    "equipmentPad": 2.964830067584702
+  },
+  {
+    "frame": 450,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.7227536115238814,
+    "equipmentBenchClearance": 3.1324478983222743,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.012471614962131394,
+    "supportR": 0.012471614962131394,
+    "equipmentPad": 2.867325465640604
+  },
+  {
+    "frame": 480,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.5747470008852636,
+    "equipmentBenchClearance": 2.9992962442784665,
+    "bodyPad": 0.06370169051858787,
+    "supportL": 0.00024812105801103046,
+    "supportR": 0.00024812105801103046,
+    "equipmentPad": 2.8498379397942433
+  }
+]

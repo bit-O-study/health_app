@@ -1,0 +1,18 @@
+{
+  "id": "seated-cable-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4606e4132fc26482aa48c1c86e3ceabce292033673e461cef90e081f234f6802",
+  "rigSourceSha256": "ab581eaf8fececf01ec6375020f36e1019b51977a67b13bffd4e3c2c3ef2e4f8",
+  "videoSha256": "0ba709e4eab8181bc13c11c551abf79b16cc473e516e8d9b0c680303cbf216cb",
+  "darkVideoSha256": "2b809edc0f3a9e8f302fcda755dc764a66203f90aa133c179f2f62bac2fd09e5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81816,
+  "darkBytes": 75888,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T14:04:35.429Z"
+}

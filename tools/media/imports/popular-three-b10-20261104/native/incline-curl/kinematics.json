@@ -1,0 +1,15 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.04319105484501374,
+  "elbowDegrees": [
+    67.92408127567504,
+    172.1761181063295
+  ],
+  "minimumGripSeparation": 6.49151124948812,
+  "topHoldSeconds": 1,
+  "geometrySamples": 17,
+  "minimumSampledClearance": 0.273391212039044,
+  "maximumBackGap": 0
+}

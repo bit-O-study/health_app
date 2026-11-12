@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-pull-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ca1a0ff16508ad892742783291da003d532b3b1010512bfaef97c9b279155a50",
+  "rigSourceSha256": "04b50024037273eb0a3de4b18190661d083c743ac3d6200762717c727b606817",
+  "videoSha256": "85b3b198d1e6d44de3cd358dd488bfa6412aa5eefc25a93070873ac5e8626603",
+  "darkVideoSha256": "a8cbe6400eaad302300a18bd1882d7c2528fea90fbf7a325ef8af5f779e54f18",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83253,
+  "darkBytes": 86992,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T00:23:13.381Z"
+}

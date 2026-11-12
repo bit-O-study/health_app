@@ -1,0 +1,18 @@
+{
+  "id": "biceps-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "32e37096487d397b1bf06392caac1b69d8e148b948742ea42f92b2cc85dc3c2f",
+  "rigSourceSha256": "3c62c9dabbe76ae8679b1e8badb4e38a593c2bbbec5d97b9dace26cf94b75f7b",
+  "videoSha256": "41427cc2f37a371b80c58435b620e10c643bbdcd3abde6aecea3f9afa9ea0dec",
+  "darkVideoSha256": "753dcb4884c145e85b04766db4af664ca7a6d00818be3da7969053bde9487946",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90258,
+  "darkBytes": 75553,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T13:43:07.207Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "machine-shoulder-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bce8f49dbe65d13a4ffc8a458057398937fb758148ba18b8fa7ee54961483b0a",
+  "rigSourceSha256": "916ad0f0a843e3f6080316cc887704e2ac383e5cc5e2518d2bff53dbcaa57145",
+  "videoSha256": "2a13afac3feb82c3585a8225efa839ee517c9fb0ae0f14bc6aa80705f11b0dc5",
+  "darkVideoSha256": "ac433a013aa5298ca6d57066da9971cfa1c255a474db62639c30b11d62cc5d95",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 118711,
+  "darkBytes": 113972,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T02:32:17.643Z"
+}

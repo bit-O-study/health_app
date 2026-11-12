@@ -1,0 +1,18 @@
+{
+  "id": "cable-upright-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4c31d416f6f4a614e8326533fbb22872001373eea59da7004e2e1c8f0a9aeabd",
+  "rigSourceSha256": "77af28587665e90d720f32d2ec5eaaa1fe51a13e12f3fe1fa7002355a4047431",
+  "videoSha256": "2a1d8bb0ed8f90138b46d17f403f4764a33d5107b34dc748f24b17915189817b",
+  "darkVideoSha256": "356ede8553fe8a15f3585cdc80592c10a6aa4dc8c07530f3a99f414699ae68b8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90051,
+  "darkBytes": 89669,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T02:49:26.733Z"
+}

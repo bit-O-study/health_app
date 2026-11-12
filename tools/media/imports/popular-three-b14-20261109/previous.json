@@ -1,0 +1,80 @@
+{
+  "chin-up": [
+    {
+      "file": "tools/media/motion-guides/chin-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/chin-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/chin-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chin-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chin-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chin-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "wide-grip-pull-up": [
+    {
+      "file": "tools/media/motion-guides/wide-grip-pull-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-pull-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-pull-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-pull-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-pull-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-pull-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "smith-bench-press": [
+    {
+      "file": "tools/media/motion-guides/smith-bench-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-bench-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-bench-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-bench-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-bench-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-bench-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

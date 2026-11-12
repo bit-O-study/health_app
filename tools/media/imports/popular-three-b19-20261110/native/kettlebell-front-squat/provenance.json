@@ -1,0 +1,295 @@
+{
+  "id": "kettlebell-front-squat",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/kettlebell-front-squat-studio.mjs",
+      "sha256": "6f0c1a143e858f2bc1aa919429ad2a9d0111eea8e8916b29545544c1e4c08c32"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/kettlebell-front-squat-motion.mjs",
+      "sha256": "b8423534c35c20fb84fa4158d0adde603f505df7d75c459fa082e32fc24e90da"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/render.mjs",
+      "sha256": "464a9ee0dfb1544a138cb1aa6d6b87b18c9724e78f0f6344940e7d89d5ad73cd"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/source.json",
+      "sha256": "81f037106159eafe00bb1ea0af35499cf57710be044e14ae0dc253fdde75eab1"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/verify.mjs",
+      "sha256": "88067fe29f7647a04c1825f139bc853e157b673ff6705596a36fd416832aa6c8"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/finalize.mjs",
+      "sha256": "846f6900413c3a1afbb2d67852fd26e68c6b5a080b119bb20969dfc906ba5f6a"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/check-poses.mjs",
+      "sha256": "79983b5c7850b43a57398bee7f78288aa8ebccecd7c2955e19d7a5e70d0442e8"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b19-20261110/inspect-geometry.mjs",
+      "sha256": "21d099eb45c2825a78a030f37c45bd800640dc99928c46b4850ee1cc0a02d70b"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.nasm.org/resource-center/exercise-library/kettlebell-front-squat"
+  ],
+  "sourceSummary": "Double kettlebell front rack squat, elbows down, feet planted, controlled descent near parallel and return.",
+  "geometry": [
+    {
+      "frame": 0,
+      "gripError": 2.220446049250313e-15,
+      "floorClearance": 0.032494020080565456,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 30,
+      "gripError": 1.6011864169946884e-15,
+      "floorClearance": 0.03249402008056279,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 60,
+      "gripError": 2.3914935841127266e-15,
+      "floorClearance": 0.032494020080565456,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 90,
+      "gripError": 2.636633597461006e-15,
+      "floorClearance": 0.032494020080566344,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 120,
+      "gripError": 2.589462819655575e-15,
+      "floorClearance": 0.032494020080565456,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 150,
+      "gripError": 3.052608629176561e-15,
+      "floorClearance": 0.03249402008056368,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 180,
+      "gripError": 9.930136612989092e-16,
+      "floorClearance": 0.03249402008056279,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 210,
+      "gripError": 1.4217791915866692e-15,
+      "floorClearance": 0.032494020080566344,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 240,
+      "gripError": 1.4217791915866692e-15,
+      "floorClearance": 0.032494020080566344,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 270,
+      "gripError": 1.4217791915866692e-15,
+      "floorClearance": 0.032494020080566344,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 300,
+      "gripError": 2.275280134513746e-15,
+      "floorClearance": 0.03249402008056457,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 330,
+      "gripError": 2.3288234633381844e-15,
+      "floorClearance": 0.032494020080566344,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 360,
+      "gripError": 2.589462819655575e-15,
+      "floorClearance": 0.032494020080565456,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 390,
+      "gripError": 1.2755491433176288e-15,
+      "floorClearance": 0.032494020080565456,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 420,
+      "gripError": 1.88411095042053e-15,
+      "floorClearance": 0.03249402008056457,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 450,
+      "gripError": 1.3322676295501878e-15,
+      "floorClearance": 0.03249402008056457,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    },
+    {
+      "frame": 480,
+      "gripError": 2.220446049250313e-15,
+      "floorClearance": 0.032494020080565456,
+      "seatGap": 0,
+      "forearmGaps": [],
+      "backGap": 0
+    }
+  ],
+  "kinematics": {
+    "poseSamples": 481,
+    "loop": 0,
+    "maxStep": 0.05107656849818453,
+    "gripError": 4.2826412465193164e-15,
+    "elbowDegrees": [
+      55.94306335803567,
+      58.99725482922885
+    ],
+    "peakSeconds": 1,
+    "geometry": {
+      "samples": 17,
+      "report": "tools/media/imports/popular-three-b19-20261110/native/kettlebell-front-squat/geometry.json",
+      "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+    }
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      55.94306335803567,
+      58.99725482922885
+    ],
+    "alpha": {
+      "transparent": 40764910,
+      "opaque": 2826855,
+      "partial": 645035,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/popular-three-b19-20261110/native/kettlebell-front-squat/source.jpg",
+    "sha256": "8179728f067cfe9a48f25afff78faf2ca99930c9b715c7e47aa335df482354ad",
+    "panels": 16
+  },
+  "limitations": "Procedural human and simplified equipment; sampled checks are not full collision or biomechanical certification. Production and device pending."
+}

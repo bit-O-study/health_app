@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-04T04:13:55.851Z",
+  "ids": [
+    "chest-fly",
+    "incline-curl",
+    "skull-crusher"
+  ],
+  "newlyAdded": 3,
+  "files": 9,
+  "bytes": 1242092,
+  "poseTests": 14,
+  "appTestFiles": 17,
+  "appTests": 276,
+  "counts": {
+    "reviewed-both-themes": 371,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 928,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

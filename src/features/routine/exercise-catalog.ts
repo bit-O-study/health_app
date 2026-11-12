@@ -178,7 +178,7 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "barbell",
         method: [
-          "힙 힌지로 상체 45도 숙이고 등 펴기",
+          "엉덩이를 접어 상체를 숙이고 등과 몸통 각도 유지",
           "바를 배꼽 쪽으로 당기며 견갑 모으기",
           "반동 없이 천천히 복귀",
         ],
@@ -316,7 +316,7 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "dumbbell",
         method: [
-          "손목을 살짝 회외하며 올리기",
+          "손바닥이 앞을 향하는 언더그립으로 덤벨 올리기",
           "팔꿈치 고정, 양팔 번갈아 또는 동시",
           "정점 수축 후 통제 복귀",
         ],
@@ -761,7 +761,7 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "dumbbell",
         method: [
-          "벤치에 한 손·한 무릎 지지, 등 평평",
+          "한 손은 벤치에 지지, 양발은 바닥에 두고 등 평평",
           "덤벨을 골반 쪽으로 당기며 팔꿈치 뒤",
           "광배 수축 후 통제 복귀",
         ],
@@ -1063,7 +1063,7 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "dumbbell",
         method: [
-          "덤벨 한 개를 양손으로 잡고 머리 위로",
+          "각 손에 덤벨 하나씩 잡고 손바닥이 마주 보게 머리 위로",
           "팔꿈치 고정한 채 뒤로 내리기",
           "삼두로 펴며 위로",
         ],

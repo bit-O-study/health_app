@@ -1,0 +1,18 @@
+{
+  "id": "captain-s-chair-leg-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "aae93fe4c65ce6c3d3b7b0a43ce817640028bcbf6342a4d1ffde39ba15cb62f6",
+  "rigSourceSha256": "bd435defa7a2127da0d669fdbd1ffbf2744f5b8d8f24d7c663ab4d4b3fe44de5",
+  "videoSha256": "ff2404f4ccc83d598e2054ebdd3b1d24402fa4321849d1f13f44a23dd788ad38",
+  "darkVideoSha256": "1c9a3449c458ede06d1df608de6acd8bba4af600559b2b0d62d18eaccf03ab56",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 82430,
+  "darkBytes": 78944,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:27:32.571Z"
+}

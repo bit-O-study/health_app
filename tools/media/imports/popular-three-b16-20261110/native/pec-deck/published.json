@@ -1,0 +1,18 @@
+{
+  "id": "pec-deck",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cecd2a373cab775489eaa7e217c2350f42e408e8a3f4b96d82d17864e6324252",
+  "rigSourceSha256": "896d93e52bca1083602e24493c0096b36d7f0b9477a9afe419242f673cf9ec88",
+  "videoSha256": "6bbe1768bdf219489c7e6a235319fd3288ceec9fc203f352bfbafe87699afdbc",
+  "darkVideoSha256": "5d2d70d56b0460e58b29b889d38a3ee284d0f425c8131d02cbbc4c06ce1ea088",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96357,
+  "darkBytes": 86553,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T02:32:27.704Z"
+}

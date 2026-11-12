@@ -1,0 +1,29 @@
+{
+  "completedAt": "2026-11-04T02:34:41.625Z",
+  "ids": [
+    "arnold-press",
+    "overhead-triceps-extension",
+    "cable-lateral-raise"
+  ],
+  "newlyAdded": 2,
+  "replacedPilot": [
+    "arnold-press"
+  ],
+  "files": 9,
+  "bytes": 1100057,
+  "poseTests": 9,
+  "appTestFiles": 15,
+  "appTests": 269,
+  "counts": {
+    "reviewed-both-themes": 365,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 18,
+    "needs-new-video": 933,
+    "legacy-needs-remake": 4
+  },
+  "preservedPilotHashes": "passed",
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

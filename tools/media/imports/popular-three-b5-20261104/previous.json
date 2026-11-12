@@ -1,0 +1,89 @@
+{
+  "dead-bug": [
+    {
+      "file": "tools/media/motion-guides/dead-bug.json",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/dead-bug-0.json",
+      "sha256": "01fc388d74a613b332b1d746f9e2f81b24f7f4c634cbe4d51ec5c4f93fcee3ab"
+    },
+    {
+      "file": "tools/media/motion-guides/dead-bug.jpg",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/dead-bug-1.jpg",
+      "sha256": "041b0f74ffb15698a2c1cce0b1122874e1e7aa2721d52790b350ad3f4ae123fb"
+    },
+    {
+      "file": "tools/media/motion-guides/dead-bug-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug.mp4",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/dead-bug-3.mp4",
+      "sha256": "53881d0ad809c9f79c03d83726df17d2d68eac10db84bbdb8f1f2ab42d742b48"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "bird-dog": [
+    {
+      "file": "tools/media/motion-guides/bird-dog.json",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/bird-dog-0.json",
+      "sha256": "86792e03a49131606bde3532a3471485938ec31b1cfbedafcd99b0cc033b40c1"
+    },
+    {
+      "file": "tools/media/motion-guides/bird-dog.jpg",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/bird-dog-1.jpg",
+      "sha256": "1244efabe20844a3ffedce96cac7abef6c303916857f783851297be819b3dad9"
+    },
+    {
+      "file": "tools/media/motion-guides/bird-dog-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bird-dog.mp4",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/bird-dog-3.mp4",
+      "sha256": "3425f0676837e15b9be5acce24efeb01160711411b771d0abfcf352a4f24c154"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bird-dog-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bird-dog-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "reverse-crunch": [
+    {
+      "file": "tools/media/motion-guides/reverse-crunch.json",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/reverse-crunch-0.json",
+      "sha256": "d827a9ca9b61601bde251aa8b59900cd16a8934c09f8e4b7f5fa0eb423b3ff17"
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-crunch.jpg",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/reverse-crunch-1.jpg",
+      "sha256": "d8629de21b8e3a60900a7db2e07e025da641b02af4cc45999265c6637a9e0238"
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-crunch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-crunch.mp4",
+      "backup": "tools/media/imports/popular-three-b5-20261104/backup/reverse-crunch-3.mp4",
+      "sha256": "4edd960568d8961ae744fc42a6ac09261cbf9207d336d129535c4ba3ac5a1ff4"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-crunch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-crunch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

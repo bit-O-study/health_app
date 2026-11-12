@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-04T01:36:26.061Z",
+  "report": [
+    {
+      "id": "lateral-raise",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "front-raise",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "cable-rope-hammer-curl",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/popular-three-b10-20261104/native/chest-fly/chest-fly-alpha.webm",
+      "sha256": "58c57fa4516574539be59f98cc3dcf22bbf5c2d11406badd7ec5709578fac45f",
+      "bytes": 248652,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/popular-three-b10-20261104/native/chest-fly/chest-fly.mp4",
+      "sha256": "65c738f8484f8bbdb574a9f83bb5b06084ae13383bd7c1e96b2ee162aeed35a4",
+      "bytes": 110132,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/popular-three-b10-20261104/native/chest-fly/chest-fly-dark.mp4",
+      "sha256": "e956626307549e42de8fe97d83c35454a76262d2d618d1e96c1c436ad9ade686",
+      "bytes": 91674,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/popular-three-b10-20261104/chest-fly-studio.mjs",
+      "sha256": "36e3f4cff9232c643ad115b598aa88e493e75de6de853f2b7b8f56a829e50fd7"
+    },
+    {
+      "file": "tools/media/imports/popular-three-b10-20261104/chest-fly-motion.mjs",
+      "sha256": "dd770683afb0be5099ff225cf27c825f647acf1870c1318c41c15cfb07e293bd"
+    },
+    {
+      "file": "tools/media/imports/popular-three-b10-20261104/render.mjs",
+      "sha256": "85dd1c56a7580d892b24e8611c8ffabd399e8e9e08fc4dbdb67675047c853fdf"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

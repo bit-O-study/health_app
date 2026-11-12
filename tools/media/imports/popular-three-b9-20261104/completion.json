@@ -1,0 +1,28 @@
+{
+  "completedAt": "2026-11-04T02:51:06.763Z",
+  "ids": [
+    "concentration-curl",
+    "face-pull",
+    "cable-upright-row"
+  ],
+  "newlyAdded": 2,
+  "replaced": [
+    "cable-upright-row"
+  ],
+  "files": 9,
+  "bytes": 1042685,
+  "poseTests": 12,
+  "appTestFiles": 16,
+  "appTests": 273,
+  "counts": {
+    "reviewed-both-themes": 368,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 931,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

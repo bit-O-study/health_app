@@ -1,0 +1,18 @@
+{
+  "id": "chin-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fffbecfcf5cc9607765d22d3c2c006a5fb5002efcffda347fd678c3f689fc9da",
+  "rigSourceSha256": "b8bc8acc4a089d658a11f29ba48b82cae30f0cd3b5eb9ed02a8f4cb9db74a4a7",
+  "videoSha256": "50d94c739b900886e1f2ec2f232c9a3408259f5054459caa7444f1da16e7b866",
+  "darkVideoSha256": "3ac0fe8b2b55d7adfe04955a91cc61857e5cf0bde53353493a06c7c33af4cedc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84031,
+  "darkBytes": 86689,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T00:22:57.917Z"
+}

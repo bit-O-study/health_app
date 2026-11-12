@@ -2686,8 +2686,8 @@ function ItemVisual({
     return (
       <VideoWithCaption
         media={{
-          url: "/exercise-guides/ai-v3/running.mp4?v=20261028",
-          darkUrl: "/exercise-guides/ai-v3/running-dark.mp4?v=20261028",
+          url: "/exercise-guides/ai-v3/running.mp4?v=20261110",
+          darkUrl: "/exercise-guides/ai-v3/running-dark.mp4?v=20261110",
           kind: "video",
         }}
         steps={hideCaption ? [] : item.method}

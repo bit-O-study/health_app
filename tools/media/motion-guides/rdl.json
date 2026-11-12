@@ -1,0 +1,15 @@
+{
+  "id": "rdl",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "rdl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nsca.com/education/articles/kinetic-select/romanian-deadlift-rdl/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-04T07:36:54.027Z"
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "frame": 0,
+    "gripError": 2.220446049250313e-15,
+    "floorClearance": 0.032494020080565456,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 30,
+    "gripError": 1.6011864169946884e-15,
+    "floorClearance": 0.03249402008056279,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 60,
+    "gripError": 2.3914935841127266e-15,
+    "floorClearance": 0.032494020080565456,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 90,
+    "gripError": 2.636633597461006e-15,
+    "floorClearance": 0.032494020080566344,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 120,
+    "gripError": 2.589462819655575e-15,
+    "floorClearance": 0.032494020080565456,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 150,
+    "gripError": 3.052608629176561e-15,
+    "floorClearance": 0.03249402008056368,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 180,
+    "gripError": 9.930136612989092e-16,
+    "floorClearance": 0.03249402008056279,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 210,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 0.032494020080566344,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 240,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 0.032494020080566344,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 270,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 0.032494020080566344,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 300,
+    "gripError": 2.275280134513746e-15,
+    "floorClearance": 0.03249402008056457,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 330,
+    "gripError": 2.3288234633381844e-15,
+    "floorClearance": 0.032494020080566344,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 360,
+    "gripError": 2.589462819655575e-15,
+    "floorClearance": 0.032494020080565456,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 390,
+    "gripError": 1.2755491433176288e-15,
+    "floorClearance": 0.032494020080565456,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 420,
+    "gripError": 1.88411095042053e-15,
+    "floorClearance": 0.03249402008056457,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 450,
+    "gripError": 1.3322676295501878e-15,
+    "floorClearance": 0.03249402008056457,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  },
+  {
+    "frame": 480,
+    "gripError": 2.220446049250313e-15,
+    "floorClearance": 0.032494020080565456,
+    "seatGap": 0,
+    "forearmGaps": [],
+    "backGap": 0
+  }
+]

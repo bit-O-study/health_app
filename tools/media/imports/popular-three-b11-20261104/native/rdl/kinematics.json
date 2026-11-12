@@ -1,0 +1,11 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 6.2251740513002686e-15,
+  "maxStep": 0.05116955554136397,
+  "kneeDegrees": [
+    155.00000000000006,
+    155.00000000000028
+  ],
+  "bottomHoldSeconds": 1
+}

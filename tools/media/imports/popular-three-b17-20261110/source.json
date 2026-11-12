@@ -1,0 +1,18 @@
+{
+  "chest-dip": {
+    "equipment": "bodyweight",
+    "url": "https://www.puregym.com/exercises/chest/dips/",
+    "criteria": "Parallel bars, forward trunk lean20-30 degrees, knees bent back, elbows approximately90 at bottom, controlled press without lockout."
+  },
+  "hanging-knee-raise": {
+    "equipment": "bodyweight",
+    "url": "https://www.puregym.com/exercises/abs/hanging-knee-raises/",
+    "criteria": "Overhand hang on fixed bar, raise bent knees toward chest without swinging, controlled lowering."
+  },
+  "reverse-grip-pushdown": {
+    "equipment": "cable",
+    "url": "https://archive.t-nation.com/training/tip-reverse-grip-pushdown/",
+    "criteria": "Underhand straight-bar grip; upper arms fixed beside torso, extend elbows, hold and controlled return."
+  },
+  "limits": "Procedural shared human and simplified equipment; new exercise-specific motions. Sampled geometry is not full mesh collision or biomechanical certification. Local only; production and device pending."
+}

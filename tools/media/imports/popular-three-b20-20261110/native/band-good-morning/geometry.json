@@ -1,0 +1,104 @@
+[
+  {
+    "frame": 0,
+    "gripError": 2.710399819191012e-15,
+    "floorClearance": 0.03249402008056368,
+    "bandLength": 40.398489801722576
+  },
+  {
+    "frame": 30,
+    "gripError": 1.6011864169946884e-15,
+    "floorClearance": 0.03249402008056368,
+    "bandLength": 40.323690325756964
+  },
+  {
+    "frame": 60,
+    "gripError": 1.4217791915866692e-15,
+    "floorClearance": 0.0324940200805619,
+    "bandLength": 39.82186829989112
+  },
+  {
+    "frame": 90,
+    "gripError": 1.9860273225978185e-15,
+    "floorClearance": 0.0324940200805619,
+    "bandLength": 38.41662812197782
+  },
+  {
+    "frame": 120,
+    "gripError": 2.589462819655575e-15,
+    "floorClearance": 0.03249402008056279,
+    "bandLength": 35.972469303662365
+  },
+  {
+    "frame": 150,
+    "gripError": 2.2644195468014703e-15,
+    "floorClearance": 0.03249402008056279,
+    "bandLength": 33.30281583805543
+  },
+  {
+    "frame": 180,
+    "gripError": 2.817430187029739e-15,
+    "floorClearance": 0.032494020080566344,
+    "bandLength": 31.647040739494614
+  },
+  {
+    "frame": 210,
+    "gripError": 1.8444410139024814e-15,
+    "floorClearance": 0.032494020080566344,
+    "bandLength": 31.31558157944294
+  },
+  {
+    "frame": 240,
+    "gripError": 1.8444410139024814e-15,
+    "floorClearance": 0.032494020080566344,
+    "bandLength": 31.31558157944294
+  },
+  {
+    "frame": 270,
+    "gripError": 1.8444410139024814e-15,
+    "floorClearance": 0.032494020080566344,
+    "bandLength": 31.31558157944294
+  },
+  {
+    "frame": 300,
+    "gripError": 9.155133597044475e-16,
+    "floorClearance": 0.032494020080561015,
+    "bandLength": 31.647040739494624
+  },
+  {
+    "frame": 330,
+    "gripError": 2.737549743767154e-15,
+    "floorClearance": 0.032494020080560126,
+    "bandLength": 33.30281583805543
+  },
+  {
+    "frame": 360,
+    "gripError": 2.589462819655575e-15,
+    "floorClearance": 0.03249402008056279,
+    "bandLength": 35.972469303662365
+  },
+  {
+    "frame": 390,
+    "gripError": 1.2560739669470201e-15,
+    "floorClearance": 0.0324940200805619,
+    "bandLength": 38.41662812197782
+  },
+  {
+    "frame": 420,
+    "gripError": 1.538370149106851e-15,
+    "floorClearance": 0.032494020080561015,
+    "bandLength": 39.82186829989113
+  },
+  {
+    "frame": 450,
+    "gripError": 1.790180836524724e-15,
+    "floorClearance": 0.032494020080561015,
+    "bandLength": 40.32369032575697
+  },
+  {
+    "frame": 480,
+    "gripError": 2.710399819191012e-15,
+    "floorClearance": 0.03249402008056368,
+    "bandLength": 40.398489801722576
+  }
+]

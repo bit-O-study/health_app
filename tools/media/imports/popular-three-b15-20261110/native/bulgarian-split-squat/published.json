@@ -1,0 +1,18 @@
+{
+  "id": "bulgarian-split-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8947b6fc3db6596a50631433547d40c5566059bdbcae254e25c19f17c8027af9",
+  "rigSourceSha256": "7e52bc5c5d7836085c143dd3472f49ab757516c47f5e8e4a5d8022230ac67960",
+  "videoSha256": "cd7480e5ad0a44e61a987b1327e295b0feeca5b57d7ecd255a0cc491c3091ed1",
+  "darkVideoSha256": "d8cd391ea7dc2e4b25bc6bb3a72713ea3ea2be4b92818c7dbed16f802f27305e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81882,
+  "darkBytes": 81854,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T01:23:00.589Z"
+}

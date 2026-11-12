@@ -1,0 +1,15 @@
+{
+  "id": "smith-bench-press",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-bench-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/node/3827"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-10T00:23:27.267Z"
+}

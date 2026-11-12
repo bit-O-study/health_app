@@ -1,0 +1,80 @@
+{
+  "bulgarian-split-squat": [
+    {
+      "file": "tools/media/motion-guides/bulgarian-split-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bulgarian-split-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bulgarian-split-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bulgarian-split-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bulgarian-split-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bulgarian-split-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "one-arm-dumbbell-row": [
+    {
+      "file": "tools/media/motion-guides/one-arm-dumbbell-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/one-arm-dumbbell-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/one-arm-dumbbell-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/one-arm-dumbbell-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/one-arm-dumbbell-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/one-arm-dumbbell-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-fly": [
+    {
+      "file": "tools/media/motion-guides/cable-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-fly-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

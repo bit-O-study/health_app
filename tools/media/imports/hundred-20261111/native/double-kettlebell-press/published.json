@@ -1,0 +1,18 @@
+{
+  "id": "double-kettlebell-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7eef0eae7c67847f4d119b3efbbf0ead49f66d513e2cb01b2523b0f13e5817c7",
+  "rigSourceSha256": "4eea1f0988140385192973b94752592e807d68ec7f7a8314635b3d2520a69193",
+  "videoSha256": "c8855745f71af8b1fe0392e9ee527c6adb03f1c7b3149625d13e64fad1d42ab2",
+  "darkVideoSha256": "733f6850749181852226d44950ce0ef3fa630334fbfbc1644e934d5c04c78a90",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77947,
+  "darkBytes": 71231,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:21:12.366Z"
+}

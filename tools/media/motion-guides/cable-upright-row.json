@@ -1,12 +1,15 @@
 {
-  "prompt": "A seamless square 4x4 animation sprite sheet on a uniform gray backdrop. Sixteen EXACTLY equal square cells without ANY dividing lines or white gutters. Gray anatomical male in teal shorts and gray shoes, full body doing cable upright row. Fixed frontal three-quarter view. Low cable pulley in front to his left, straight bar attached at center, both hands overhand grip shoulder width. Start bar at thighs and arms straight. Sixteen little successive stages lift the bar close to torso toward lower chest, elbows out and up, stopping elbows at shoulder height and wrists below them. Feet planted, head and torso stationary, no back arch. Same scale and identical head/feet position in every cell. Whole person fits with 15 percent head and foot margins. Smooth matte 3D studio render, gray background meets gray background at each cell boundary, no drawn borders, no white, no text, no motion restart at each row.",
+  "id": "cable-upright-row",
   "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-upright-row-provenance.json",
+  "cutout": true,
   "sources": [
     "https://www.muscleandstrength.com/exercises/cable-upright-row.html"
   ],
-  "panels": 16,
-  "cycle": "reverse",
-  "id": "cable-upright-row",
-  "registeredAt": "2026-09-11T15:49:19.768Z",
-  "cutout": false
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-04T02:49:26.728Z"
 }

@@ -1,0 +1,80 @@
+{
+  "chest-fly": [
+    {
+      "file": "tools/media/motion-guides/chest-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/chest-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/chest-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-fly-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "incline-curl": [
+    {
+      "file": "tools/media/motion-guides/incline-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "skull-crusher": [
+    {
+      "file": "tools/media/motion-guides/skull-crusher.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/skull-crusher.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/skull-crusher-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/skull-crusher.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/skull-crusher-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/skull-crusher-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

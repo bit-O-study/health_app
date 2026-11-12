@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.058655256570379434,
+  "gripError": 4.2743586448068535e-15,
+  "elbowDegrees": [
+    67.77663356439622,
+    67.77663356439638
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b20-20261110/native/low-bar-squat/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

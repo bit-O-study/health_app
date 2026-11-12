@@ -1,0 +1,392 @@
+{
+  "pause-squat": [
+    {
+      "file": "tools/media/motion-guides/pause-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "tempo-squat": [
+    {
+      "file": "tools/media/motion-guides/tempo-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "pause-front-squat": [
+    {
+      "file": "tools/media/motion-guides/pause-front-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-front-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-front-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-front-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-front-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-front-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "tempo-front-squat": [
+    {
+      "file": "tools/media/motion-guides/tempo-front-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-front-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-front-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-front-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-front-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-front-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "wide-stance-squat": [
+    {
+      "file": "tools/media/motion-guides/wide-stance-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-stance-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-stance-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "close-stance-squat": [
+    {
+      "file": "tools/media/motion-guides/close-stance-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-stance-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-stance-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "1-5-rep-squat": [
+    {
+      "file": "tools/media/motion-guides/1-5-rep-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-5-rep-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-5-rep-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "eccentric-squat": [
+    {
+      "file": "tools/media/motion-guides/eccentric-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "partial-squat": [
+    {
+      "file": "tools/media/motion-guides/partial-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/partial-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/partial-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "bottom-half-squat": [
+    {
+      "file": "tools/media/motion-guides/bottom-half-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bottom-half-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bottom-half-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bottom-half-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bottom-half-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bottom-half-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "pause-bulgarian-split-squat": [
+    {
+      "file": "tools/media/motion-guides/pause-bulgarian-split-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-bulgarian-split-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-bulgarian-split-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-bulgarian-split-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-bulgarian-split-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-bulgarian-split-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "tempo-bulgarian-split-squat": [
+    {
+      "file": "tools/media/motion-guides/tempo-bulgarian-split-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-bulgarian-split-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-bulgarian-split-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-bulgarian-split-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-bulgarian-split-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-bulgarian-split-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "pause-goblet-squat": [
+    {
+      "file": "tools/media/motion-guides/pause-goblet-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-goblet-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-goblet-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-goblet-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-goblet-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-goblet-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "double-kettlebell-press": [
+    {
+      "file": "tools/media/motion-guides/double-kettlebell-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/double-kettlebell-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/double-kettlebell-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-kettlebell-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-kettlebell-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-kettlebell-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "dumbbell-front-squat": [
+    {
+      "file": "tools/media/motion-guides/dumbbell-front-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dumbbell-front-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dumbbell-front-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-front-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-front-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dumbbell-front-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

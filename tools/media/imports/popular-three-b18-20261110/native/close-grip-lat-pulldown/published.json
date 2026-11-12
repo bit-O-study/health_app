@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-lat-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ffd6788b9ad65cbd68b058eda3da488975e3c04fbb4720cdb2f2ce0490f1e450",
+  "rigSourceSha256": "ca8d013ec22f0d20d919eff4e6f709a489831089aeb508687b1cde69300f652d",
+  "videoSha256": "454bccee06adae1cbe5601732c751b9b484872d353fbd510ed754a175a37740e",
+  "darkVideoSha256": "69cc540bff4ccb22d89b4a269810e18f8f16dfe536c9d2c2708f431dd8f56416",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65815,
+  "darkBytes": 64710,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:08:09.049Z"
+}

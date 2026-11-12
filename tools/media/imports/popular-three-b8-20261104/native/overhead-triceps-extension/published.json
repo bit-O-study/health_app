@@ -1,0 +1,18 @@
+{
+  "id": "overhead-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a0b4c403f95bf4502e557a87c666b8d9f93d1eb0a33ec751d01b16d02267c90f",
+  "rigSourceSha256": "51cd3257604f7e71a80a4b7d49ba672dee29c23e510ab77bf59e4f698bce47a5",
+  "videoSha256": "9ac47e5e27dd86d56fa095864ec55f87f30bd6563881c454a2bfe0d8b4c83339",
+  "darkVideoSha256": "cbac63c76d7bfe19e4f0bb566ade8e35cb5340151130cf72d78a80908813f65c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 68519,
+  "darkBytes": 56262,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T02:32:28.945Z"
+}

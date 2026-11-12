@@ -1,0 +1,15 @@
+{
+  "id": "cable-rope-hammer-curl",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-rope-hammer-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://gravitus.com/guides/exercises/cable-rope-hammer-curl/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-04T01:33:38.874Z"
+}

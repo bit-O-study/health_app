@@ -1,0 +1,15 @@
+{
+  "id": "incline-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "incline-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/incline-barbell-bench-press"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-09T01:58:53.626Z"
+}

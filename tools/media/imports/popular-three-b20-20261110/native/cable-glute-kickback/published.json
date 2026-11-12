@@ -1,0 +1,18 @@
+{
+  "id": "cable-glute-kickback",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "80d418367c3c4e3ee4e4600dc1a812e2d1579637cf8c797bbed8644140482e88",
+  "rigSourceSha256": "dac6f0ae7579b167988c5ca01dfeb7ca18c6cba1e1c9064b1a8b668e0eec61c3",
+  "videoSha256": "fd71802708be7d38fba05438fec3f88a3f7f2aec89bde9e0ceee707e95072ea6",
+  "darkVideoSha256": "3239bbda119e4a7532663ad203b1822a7576060cc654061bef1b19d8d8cf9ee7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 66270,
+  "darkBytes": 51699,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:39:57.556Z"
+}

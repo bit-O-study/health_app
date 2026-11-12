@@ -1,0 +1,18 @@
+{
+  "chin-up": {
+    "equipment": "bodyweight",
+    "url": "https://www.puregym.com/exercises/back/pull-up/chin-ups/",
+    "criteria": "Shoulder-width underhand grip, fixed hands on overhead bar, lift chin above bar without leg swing, controlled lowering."
+  },
+  "wide-grip-pull-up": {
+    "equipment": "bodyweight",
+    "url": "https://www.puregym.com/exercises/back/pull-up/",
+    "criteria": "Overhand grip wider than shoulders, elbows lead down/out, chin rises above bar, controlled full cycle without swinging."
+  },
+  "smith-bench-press": {
+    "equipment": "machine",
+    "url": "https://www.muscleandstrength.com/node/3827",
+    "criteria": "Flat bench and planted feet, back/head supported; overhand grip outside shoulders, vertical fixed rail bar to chest and controlled press. Adapted from wide-grip source to moderate grip."
+  },
+  "limits": "Procedural human and equipment reused with new grips/timing/camera. Simplified anatomy. Sampled checks are not full collision or biomechanical certification; production and physical-device validation pending."
+}

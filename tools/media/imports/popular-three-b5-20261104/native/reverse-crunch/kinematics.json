@@ -1,0 +1,12 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "floorClearance": 0.021432382901314995,
+  "maxStep": 0.026154936567318543,
+  "elbowDegrees": [
+    172.80158723334816,
+    172.80158723334827
+  ],
+  "pelvicRise": 1.5257430463483042,
+  "topHoldSeconds": 1
+}

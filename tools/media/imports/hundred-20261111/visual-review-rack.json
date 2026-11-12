@@ -1,0 +1,108 @@
+{
+  "double-kettlebell-press": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:07:53.141Z",
+    "checks": {
+      "exercise": "더블 케틀벨 프레스",
+      "equipment": "kettlebell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Both kettlebells press together from the rack to overhead; feet and trunk remain fixed."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/full-sheet.png",
+        "sha256": "5f692f350db39302af6b29b3853ae4a8488a4ff81d5b34c2ed63c3fef89fc9ab"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/side-sheet.png",
+        "sha256": "c48f18285f642fa870775a5ca3a6d42f2c9046f31894ecabb9e051c8b63d76d8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/final.jpg",
+        "sha256": "956434db1d235d806cdb1eeba2eb4364be7db8195622fc30076b13c325bd1eae"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/final-dark.jpg",
+        "sha256": "3c25ac2e5e04369e13d105badd461ab60964ee71aa4d39a5e421e68cb1e8459a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/double-kettlebell-press-alpha.webm",
+        "sha256": "22432259a0ec2bf3b0912715d0b246ca3787b2c0a0c69e4f62d2f59d6596d46d",
+        "bytes": 202208,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/double-kettlebell-press.mp4",
+        "sha256": "c8855745f71af8b1fe0392e9ee527c6adb03f1c7b3149625d13e64fad1d42ab2",
+        "bytes": 77947,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/double-kettlebell-press/double-kettlebell-press-dark.mp4",
+        "sha256": "733f6850749181852226d44950ce0ef3fa630334fbfbc1644e934d5c04c78a90",
+        "bytes": 71231,
+        "decode": "passed"
+      }
+    ]
+  },
+  "dumbbell-front-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:07:53.164Z",
+    "checks": {
+      "exercise": "덤벨 프론트 스쿼트",
+      "equipment": "dumbbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Two dumbbells held at the shoulders with a neutral grip, fixed feet, controlled squat to near parallel."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/full-sheet.png",
+        "sha256": "736e755afbbb65b4ccb303961a96d93a4a0e69e43b63619ca6ab82c5e80a3946"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/side-sheet.png",
+        "sha256": "561d13de387c450637329c8f59299866b766d9f5b44889f7c2a7c234d95cc952"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/final.jpg",
+        "sha256": "06a2a2fc91ff1b2d02e64e9a05b627a8f497b7ca01f6aa42e86b8c3502a0bc01"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/final-dark.jpg",
+        "sha256": "a6ec2b534cf6ae81d3ea4a24e70cf6c521e932de6865e0af5d0c286de8d57a5c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/dumbbell-front-squat-alpha.webm",
+        "sha256": "46f90fd24c82f4a30c8bd35e6e7cb710724dd85617b26e2f10b910d39d06b566",
+        "bytes": 321961,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/dumbbell-front-squat.mp4",
+        "sha256": "9e8bcef7f266856e41c613b231ba991add779c3f2bf8d252c8020e92ac66a551",
+        "bytes": 129988,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/dumbbell-front-squat/dumbbell-front-squat-dark.mp4",
+        "sha256": "9721cd2061b1aa50b19d1ea57e0306a8a84b5c352122a2bcf1fa406c39cb50d1",
+        "bytes": 123547,
+        "decode": "passed"
+      }
+    ]
+  }
+}

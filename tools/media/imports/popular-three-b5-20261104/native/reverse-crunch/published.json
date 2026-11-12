@@ -1,0 +1,18 @@
+{
+  "id": "reverse-crunch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9535253145d82ab86636da5a9637299379bf294bea844701365d53ec58eed825",
+  "rigSourceSha256": "693e8c35099cfd768758558fff13d852d932dd3b112287fcd2139d5035c179c1",
+  "videoSha256": "af5efee78bb5fdce2b893b987f93a7ee60263a10b00555e0523419baaac740c0",
+  "darkVideoSha256": "4fd84c2253fb865e7b4935f41f55df53655bdae287707966e0ef8515f3dea933",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 82584,
+  "darkBytes": 86912,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T01:11:28.896Z"
+}

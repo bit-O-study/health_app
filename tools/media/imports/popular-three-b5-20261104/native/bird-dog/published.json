@@ -1,0 +1,18 @@
+{
+  "id": "bird-dog",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cf7b2aef9edbd0e9bbcdc65112af2a8d625d91da1833534ed815b5cd961a58e3",
+  "rigSourceSha256": "1d4df08c16f7d546a385c3d75bcc74a7b5a7ff05383fde433560dfe0346617c3",
+  "videoSha256": "f06107a18939f428a1d8d7a4437481b5ec4135531e3e38743b8bca8c42d92195",
+  "darkVideoSha256": "8ecc13eebc983b284c9b5f1fcdc436e8d327147fbf381076106eed1aed50da38",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99095,
+  "darkBytes": 104793,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T01:11:22.993Z"
+}

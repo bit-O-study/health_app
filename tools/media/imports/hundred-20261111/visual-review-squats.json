@@ -1,0 +1,691 @@
+{
+  "pause-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.423Z",
+    "checks": {
+      "exercise": "포즈 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/full-sheet.png",
+        "sha256": "3eb1b833babed26ab20b2c852203d9f9ca50629bc5e2f451e4489a4a0e0342f2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/side-sheet.png",
+        "sha256": "3e1736018f9988acc039d3777a497f4148a9bfe43431ff2bbd7bd67deaeaeab8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/final.jpg",
+        "sha256": "5ebfeb6844e1b283a929f533b4b435b8bc766565de25010e1dd9c7d19a88105e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/final-dark.jpg",
+        "sha256": "17651944a97265e86dc8313b0311ade70269d1f40a46dc5bdbdec0e746884fc5"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/pause-squat-alpha.webm",
+        "sha256": "11070ca15de340274d1f0ece5021c0fa6f9b24f5de19b2eeda129d0452c986bd",
+        "bytes": 298790,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/pause-squat.mp4",
+        "sha256": "56a3804024f9f7c1711e0dacd2f1bbd2747875973533ab5d84f2db417b2bb67a",
+        "bytes": 120690,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/pause-squat/pause-squat-dark.mp4",
+        "sha256": "04f70d5ac1bf559992b31e675cf1b4e32cc8d641080304804b702ae19f5b6304",
+        "bytes": 109357,
+        "decode": "passed"
+      }
+    ]
+  },
+  "tempo-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.446Z",
+    "checks": {
+      "exercise": "템포 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/full-sheet.png",
+        "sha256": "6dae56b8606f299a7a5f9521f89be5996fd4b8be1dbcc636945d43111f952bf4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/side-sheet.png",
+        "sha256": "2cce0b8d8e97d7faf7e9afd1e3819dab993536323f7b688b4fc2c6af6143fdb0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/final.jpg",
+        "sha256": "c0669fcef6e87a83f2775890ecb9e1cd2cb7e7bc2deb01d0c7d1c5cf4a911e29"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/final-dark.jpg",
+        "sha256": "a2b09499f37cedd1e99759a80493baaade64eb3137a1af4150a0f2d26cb5e181"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/tempo-squat-alpha.webm",
+        "sha256": "8d29144c4268d304a72bff6d15b883a23d8d1364947a9e86129d6653df2cb0f3",
+        "bytes": 345060,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/tempo-squat.mp4",
+        "sha256": "0d6e23014cae8570afd8b1007b878e323144bd9570b243520f37e6eac897a1ac",
+        "bytes": 137819,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-squat/tempo-squat-dark.mp4",
+        "sha256": "62e1d3ccbe0d94aaafdbb814e720a3d4637fcff07bc89d1eb50c203097526943",
+        "bytes": 124848,
+        "decode": "passed"
+      }
+    ]
+  },
+  "pause-front-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.464Z",
+    "checks": {
+      "exercise": "포즈 프론트 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Controlled repetition with a distinct 2.4-second bottom pause."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/full-sheet.png",
+        "sha256": "0c1e0ecda1a757022f261ec971bb405f77963056598c80a615683dc65407f21e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/side-sheet.png",
+        "sha256": "ec361b9d8f364bc1fb389d4c7b816f5441aa285e482ea764274885dacbc8b1b4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/final.jpg",
+        "sha256": "c4267e10c40a0dfc6d99d7301c593eacfe5a8db33fcd82b73e64715278432d7f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/final-dark.jpg",
+        "sha256": "27c740e7bcbafee94d488fc2374fe6ddb0436d30c71ec37115cba1bb948222b1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/pause-front-squat-alpha.webm",
+        "sha256": "6914ea38c065d0371ae26b1a42856f2298ea9039b9a03fc14b2818e7358edec7",
+        "bytes": 309002,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/pause-front-squat.mp4",
+        "sha256": "7446e87215cc8608497baea87721f52ef3878776c6b240cd90cd46eaa4db9a0d",
+        "bytes": 132309,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/pause-front-squat/pause-front-squat-dark.mp4",
+        "sha256": "b1ea0b7df726556ccc3c1e10a5f689517086b49f24158f957583ad41a175a5d6",
+        "bytes": 117146,
+        "decode": "passed"
+      }
+    ]
+  },
+  "tempo-front-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.483Z",
+    "checks": {
+      "exercise": "템포 프론트 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Five-second descent, one-second bottom hold and two-second ascent."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/full-sheet.png",
+        "sha256": "1490c94f215ff72bd0e9c02c27e13c022906a03b088e04345e700a862d405ee5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/side-sheet.png",
+        "sha256": "ba3884c6f35a7677b2ae2c0f2df01ffaba534d0f6818aa6445a241382b6e5784"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/final.jpg",
+        "sha256": "bf846dcf9c3df1c41f1bff6c1fb0c10770d05a2b76d264c24c87445e3156b9f5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/final-dark.jpg",
+        "sha256": "a023b67a50981a9cdc886420866123e39a2034d8d90b68e3fa6b5be19c6631ec"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/tempo-front-squat-alpha.webm",
+        "sha256": "91a8458dedaa526a876c03042ff5cd4a8d1eded2922dbcdd3c40c0f4258d1da9",
+        "bytes": 367110,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/tempo-front-squat.mp4",
+        "sha256": "266a575c59667e48ee6d5e6a5c63501b44f46ba76d52ef7b43c29be7600749c4",
+        "bytes": 152386,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-front-squat/tempo-front-squat-dark.mp4",
+        "sha256": "1cff76666023b25a2a257094d1e05b060d41aa6f4d76c16282dfe755b46e3da8",
+        "bytes": 137204,
+        "decode": "passed"
+      }
+    ]
+  },
+  "wide-stance-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.502Z",
+    "checks": {
+      "exercise": "와이드 스탠스 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/full-sheet.png",
+        "sha256": "199e685554549bcf266c3a88bde1a917b69b1bc6cf10d6edd8b45c63ea4e20fe"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/side-sheet.png",
+        "sha256": "301055454769f4c4e064e01565ae997acebe2ae870ef97aa1ad4ba2dded67d0a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/final.jpg",
+        "sha256": "a7ff1db481c7eb531a65736913a4314d30a27b185d91202e34f168de0fb62402"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/final-dark.jpg",
+        "sha256": "26a965a69bbf960b4238852b58ad424d5020d41a99469c7e4f98a3551b941b9c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/wide-stance-squat-alpha.webm",
+        "sha256": "d863b4ad27c7b467ce5414a76d7e5a9d6771db661087ac187e37890f585bcbec",
+        "bytes": 345989,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/wide-stance-squat.mp4",
+        "sha256": "c1a2a01c02e44e57b0b223d4ce4c90c617123e93b63a222738eef4c00a4e7a8b",
+        "bytes": 136744,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/wide-stance-squat/wide-stance-squat-dark.mp4",
+        "sha256": "cb1b8613964fb30f58eb4299bd79a011952dffd0b373d4a2472afedd6bd858d0",
+        "bytes": 125940,
+        "decode": "passed"
+      }
+    ]
+  },
+  "close-stance-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.522Z",
+    "checks": {
+      "exercise": "클로즈 스탠스 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/full-sheet.png",
+        "sha256": "6cbe55476c5a16c90a4c8ee8428c464e212ec0cd921e8fca568e43a6316a2bf1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/side-sheet.png",
+        "sha256": "1424927b191144e3d3609049cd6060f182ef0a3276a566bb05af1f857018b84c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/final.jpg",
+        "sha256": "1aac9fca05b1238c301bef2aa71c11152f90493752220d0c84fa48db9aedb892"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/final-dark.jpg",
+        "sha256": "3fe515783cf8328cf8438d2d7cc1ce8d8159b8684db216992357564ccb0866d6"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/close-stance-squat-alpha.webm",
+        "sha256": "2c31142f53efd6395225f7caa9ac53690a8d98f1d36f9b0aee27dc8d6c4b4d87",
+        "bytes": 341656,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/close-stance-squat.mp4",
+        "sha256": "54cac7c9df7f844fd2329fe7cc0548b69e3a498525e293795171f06f2ea0efe9",
+        "bytes": 135097,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/close-stance-squat/close-stance-squat-dark.mp4",
+        "sha256": "431910a8c0d6a8e9f5261dad300023ed430da90da7b7c95c03525b96dae03cd9",
+        "bytes": 123396,
+        "decode": "passed"
+      }
+    ]
+  },
+  "1-5-rep-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.550Z",
+    "checks": {
+      "exercise": "1.5 렙 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/full-sheet.png",
+        "sha256": "29bcedd7427dde6920bfa18918c727d3cdec90a8e17326a2db3692778f9d8daa"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/side-sheet.png",
+        "sha256": "f60c5328aa82840c4c2740825d989cbabead1d3cc0e5a8feb4e772b261f2c850"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/final.jpg",
+        "sha256": "06635dc14ab6bb495ab7889d9724c73d20b8dfb38e2d2bf8278bb9e86371edf3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/final-dark.jpg",
+        "sha256": "4ff24dfb5593b05b819646135f71cb5731028aa666a31f152467994df01a3fb3"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/1-5-rep-squat-alpha.webm",
+        "sha256": "2104cf1ae2a051382e3d7e693e1b0cea789082d9b6ae488db6e48fdd34c2d627",
+        "bytes": 406409,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/1-5-rep-squat.mp4",
+        "sha256": "dd06c5f244899fafb72fba43bd431c5dd19a6caac12cde00151be5dcb544dc33",
+        "bytes": 161109,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/1-5-rep-squat/1-5-rep-squat-dark.mp4",
+        "sha256": "8649a2031052b4a0ac31a583268f226808cce179f9fae81fd9dcc601ebc87bfa",
+        "bytes": 145349,
+        "decode": "passed"
+      }
+    ]
+  },
+  "eccentric-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.586Z",
+    "checks": {
+      "exercise": "이센트릭 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/full-sheet.png",
+        "sha256": "8890341a8a5815b0ccc375000cdff4eb9535dc9385b2b9adcd68d398e2fd96e0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/side-sheet.png",
+        "sha256": "d10f12f6ce20887965e0cd6bfe60185830377299ce48a4c1d72b5f5355ce30bb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/final.jpg",
+        "sha256": "919a45a00c39e05e6f6de31e7c07e019385529b8fdac1d2d147422505562843c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/final-dark.jpg",
+        "sha256": "2404dd09d1f418e5d91ecd452496c7ba834d4990fdec16396f1c80dc109869e0"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/eccentric-squat-alpha.webm",
+        "sha256": "9eef7925b4a1082cccdcf13d025203e117ec33e79bbbd91407e97a7552a65189",
+        "bytes": 354768,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/eccentric-squat.mp4",
+        "sha256": "10d1c6e3c624011248077d21188ce66961fc22d788159d106d0ba19b597a828b",
+        "bytes": 142709,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/eccentric-squat/eccentric-squat-dark.mp4",
+        "sha256": "a2cc4cf38dcb940303735243e66521e28ef2d0cbfd3350a11e82c04e668a4640",
+        "bytes": 130135,
+        "decode": "passed"
+      }
+    ]
+  },
+  "partial-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.624Z",
+    "checks": {
+      "exercise": "파셜 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/full-sheet.png",
+        "sha256": "2deb7898a16ad56984d9955429886ae396227f6d210ffb9c4e8b4e46a3be7dd9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/side-sheet.png",
+        "sha256": "0bfa33287aa3f730c91fc0845b016f9a5b6a93f8b46d122ff838410cdefaaf39"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/final.jpg",
+        "sha256": "1d4b3d430bfde54e508be31785c3ccb90358fb6377aeb8b4543a0cb817cb3778"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/final-dark.jpg",
+        "sha256": "053e533dbce8859ac4efaf62e95200a122f5e13af2bdec2db2e10676c5361b6e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/partial-squat-alpha.webm",
+        "sha256": "395da827d4b033ce4b040b3cbc84fe6322d5055642f046cc5c9ecccf55537a9a",
+        "bytes": 316853,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/partial-squat.mp4",
+        "sha256": "48f44532b1f24ee9a1cec877a25c2b34bcd6e4d22e153cf3ffee473c5c8087a4",
+        "bytes": 125754,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/partial-squat/partial-squat-dark.mp4",
+        "sha256": "ab1e588f3eeaf60dd01aaf0775987410a14f8674bc6b6d02736ff6d90293c721",
+        "bytes": 116283,
+        "decode": "passed"
+      }
+    ]
+  },
+  "bottom-half-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.663Z",
+    "checks": {
+      "exercise": "바텀 하프 스쿼트",
+      "equipment": "barbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/full-sheet.png",
+        "sha256": "c6692256b002d92e49458b9534d744eeb395fa02295e845f871b6fe5efc1c0dc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/side-sheet.png",
+        "sha256": "67a637cef3d1c6ed671af9977d13c1e79841c6ceb875fe63acbe3487d9b8e2db"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/final.jpg",
+        "sha256": "8263d4e68587cfb0794c056f313ba283957ca49b420e241409463070091201fa"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/final-dark.jpg",
+        "sha256": "5a7c24c75188c15d7e68011236ed07c51852ff01e3810bbb6f506aada1e49164"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/bottom-half-squat-alpha.webm",
+        "sha256": "87ad813f3c1fb45c1cb59a53cdb23a3ca8ddbc05a68e5796f4542cb7b8063609",
+        "bytes": 277548,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/bottom-half-squat.mp4",
+        "sha256": "acf6c303b9d402e3f38f5ba3adbaedbbdea2583a51f6803270bb4237b9c8c9ce",
+        "bytes": 114204,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/bottom-half-squat/bottom-half-squat-dark.mp4",
+        "sha256": "a2459d724d57cfb825db455dfdc217f2245baf31e96dc56c852e969f243b1925",
+        "bytes": 101655,
+        "decode": "passed"
+      }
+    ]
+  },
+  "pause-bulgarian-split-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.685Z",
+    "checks": {
+      "exercise": "페이즈 불가리안 스플릿 스쿼트",
+      "equipment": "dumbbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Front foot planted; rear foot supported by bench.",
+      "movement": "Controlled repetition with a distinct 2.4-second bottom pause."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/full-sheet.png",
+        "sha256": "74207c2e444a420ae1db6ef723f28bd3acb5f0cb21aa7f6ce4d4d5877a48a1a9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/side-sheet.png",
+        "sha256": "9c88c6c4e520e7bc5f69495adad401faa21b35cb68b03a5e5f52704cbc2f358b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/final.jpg",
+        "sha256": "59f2a7dea24e845eb8a9c2205a44859a6326b554d715261118fb87330a25b5b6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/final-dark.jpg",
+        "sha256": "178b4ac18c48f937188b08b5fd395f403aed0101b3b45e262e22497b697fe5b2"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/pause-bulgarian-split-squat-alpha.webm",
+        "sha256": "6fd5e0965c3b556d40c3c3cbf12066844bb8add2a5f53f821a4e3ca602d47a53",
+        "bytes": 169282,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/pause-bulgarian-split-squat.mp4",
+        "sha256": "3da9765f5b4278c63a88750170ceb518b028751a90c34ed4f0898375bfd2339a",
+        "bytes": 72961,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/pause-bulgarian-split-squat-dark.mp4",
+        "sha256": "f9d89aa2d05bd8ee13ff971d97b9633e83e90911d5d167ef2e77d155c6a33c54",
+        "bytes": 72002,
+        "decode": "passed"
+      }
+    ]
+  },
+  "tempo-bulgarian-split-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.707Z",
+    "checks": {
+      "exercise": "템포 불가리안 스플릿 스쿼트",
+      "equipment": "dumbbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Front foot planted; rear foot supported by bench.",
+      "movement": "Five-second descent, one-second bottom hold and two-second ascent."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/full-sheet.png",
+        "sha256": "8e1e6ceb5000a08fb6407631b47d8e44a6aae5712bd11cfb77010a0cfcf2d72c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/side-sheet.png",
+        "sha256": "ff542df9a361512c40a5dddf71dd92991eb6a6cf76f43778ae564a7d49c1b672"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/final.jpg",
+        "sha256": "fe0b29502abdd69ec3965864aa952e3b00023f781797603f3ec71cc642567933"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/final-dark.jpg",
+        "sha256": "b3a0d214dff209fdcd3525983c7da6c34f6dca98eb1efb6dd8b4c171b5ec892d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/tempo-bulgarian-split-squat-alpha.webm",
+        "sha256": "9d150117df6c10c985ec72f369f22dd7712588b7d13ca15fa66bc2bdf7348eec",
+        "bytes": 192020,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/tempo-bulgarian-split-squat.mp4",
+        "sha256": "fabb631ebc15d875f89e761eee3a0a81849db836d7ef7936fa0f7d4419657a52",
+        "bytes": 83634,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/tempo-bulgarian-split-squat/tempo-bulgarian-split-squat-dark.mp4",
+        "sha256": "a54486864a1b124ade9c8d32b45b269f1e42473022d8ba6bc34f1b47641be22b",
+        "bytes": 80991,
+        "decode": "passed"
+      }
+    ]
+  },
+  "pause-goblet-squat": {
+    "status": "passed-isolated-candidate",
+    "reviewedAt": "2026-11-11T02:06:47.726Z",
+    "checks": {
+      "exercise": "페이즈 고블릿 스쿼트",
+      "equipment": "dumbbell",
+      "setup": "Front and side sheets checked; complete body and equipment in frame.",
+      "hands": "Hands remain attached to rack, goblet or dumbbell grips.",
+      "feet": "Both feet planted with the specified stance.",
+      "movement": "Controlled repetition with a distinct 2.4-second bottom pause."
+    },
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/full-sheet.png",
+        "sha256": "b6cfc6db52353e83b32fa1d519025716b456532c44fd5a410fb99c14633d7b1e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/side-sheet.png",
+        "sha256": "96c23d02119f2478c69b13c555c3f238045262fc89a60d58232a707667cdbd91"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/final.jpg",
+        "sha256": "f1ece2f771bcec7cc2ab9aacb8fc2be8488984b5deb846f5940660bb24ca35b2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/final-dark.jpg",
+        "sha256": "6180b4cee2274ec4128a475847a6c297b1bfc31e49a1b207968ef62d4e2485a6"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/pause-goblet-squat-alpha.webm",
+        "sha256": "e4ef86017575c8aaba7e89cb2cd8fe99808c02d7399d42d58fbc2b62aff970aa",
+        "bytes": 267988,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/pause-goblet-squat.mp4",
+        "sha256": "f5350e3986b650e20bdde0f8488fc068eeb46dc7d3939ff6afce252534e7855d",
+        "bytes": 109257,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/pause-goblet-squat/pause-goblet-squat-dark.mp4",
+        "sha256": "4f3cb610527bebd4b860770af7f1487096ef92566f93c4d85a15707da2c25539",
+        "bytes": 109976,
+        "decode": "passed"
+      }
+    ]
+  }
+}

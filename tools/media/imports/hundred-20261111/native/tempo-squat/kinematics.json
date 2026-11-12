@@ -1,0 +1,11 @@
+{
+  "id": "tempo-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.10264179654779296,
+  "gripError": 4.468561475845091e-15,
+  "rootVerticalRange": 4.7,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

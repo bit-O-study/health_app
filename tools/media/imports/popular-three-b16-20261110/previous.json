@@ -1,0 +1,80 @@
+{
+  "machine-chest-press": [
+    {
+      "file": "tools/media/motion-guides/machine-chest-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/machine-chest-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/machine-chest-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/machine-chest-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/machine-chest-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/machine-chest-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "machine-shoulder-press": [
+    {
+      "file": "tools/media/motion-guides/machine-shoulder-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/machine-shoulder-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/machine-shoulder-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/machine-shoulder-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/machine-shoulder-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/machine-shoulder-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "pec-deck": [
+    {
+      "file": "tools/media/motion-guides/pec-deck.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pec-deck.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pec-deck-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pec-deck.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pec-deck-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pec-deck-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "93a50c63768ffff4a7d8b124d36d668a6be11e0f0efa6b9b948e7ada74038ea5",
+  "rigSourceSha256": "51c04136e4f1b1c2eb0f621ee9ee8b198a5bb5f0ba8edff2d5fac7bbbfab3d4c",
+  "videoSha256": "10d1c6e3c624011248077d21188ce66961fc22d788159d106d0ba19b597a828b",
+  "darkVideoSha256": "a2cc4cf38dcb940303735243e66521e28ef2d0cbfd3350a11e82c04e668a4640",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 142709,
+  "darkBytes": 130135,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:19:45.231Z"
+}

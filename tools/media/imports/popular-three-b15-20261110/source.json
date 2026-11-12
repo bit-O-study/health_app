@@ -1,0 +1,18 @@
+{
+  "bulgarian-split-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/bulgarian-split-squat",
+    "criteria": "Rear foot elevated on bench, front foot fixed, bend front knee and lower hips then rise. Dumbbells at sides; one side shown."
+  },
+  "one-arm-dumbbell-row": {
+    "equipment": "dumbbell",
+    "url": "https://www.puregym.com/exercises/back/rows/single-arm-dumbbell-row/",
+    "criteria": "One-arm neutral-grip row with opposite hand supported on bench; both feet remain on floor in this variation. Stable bent torso, pull toward hip and lower. One side shown."
+  },
+  "cable-fly": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/exercises/chest/chest-fly/cable-flyes/",
+    "criteria": "Standing bilateral cable fly at chest height, slight fixed elbow bend, hands come together in front of chest and open under control."
+  },
+  "limits": "Procedural human reused; new motion/equipment and rendered files. One side shown for unilateral exercises; repeat opposite side. Simplified support, grip and anatomy; no full mesh collision or biomechanical certification. Production and physical device pending."
+}

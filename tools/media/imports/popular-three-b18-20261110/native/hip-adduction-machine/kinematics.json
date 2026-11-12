@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.0313799204828915,
+  "gripError": 9.992007221626409e-16,
+  "elbowDegrees": [
+    126.91450339389904,
+    131.4291688958689
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b18-20261110/native/hip-adduction-machine/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

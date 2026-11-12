@@ -1,0 +1,18 @@
+{
+  "id": "cable-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "efcfc55aa440f7a4b4ad061dae26410664d41fe023b49b59cae6edd0b39b3df9",
+  "rigSourceSha256": "293c0767e4ae5c03b88b66465e236d45ed72eddc5dae1d75910b7ae36461e067",
+  "videoSha256": "baa887bde2ce6c71336c8d37f516580d5a809fb60766994953fa657bd4b849cb",
+  "darkVideoSha256": "0e51e67ecb2eda2ad911cf666667f64f2567a39969fd88d83cca34c5d6b269c5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96705,
+  "darkBytes": 94750,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T02:32:35.637Z"
+}

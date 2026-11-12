@@ -1,0 +1,26 @@
+{
+  "completedAt": "2026-11-09T02:01:52.647Z",
+  "ids": [
+    "incline-press",
+    "upright-row",
+    "wrist-curl"
+  ],
+  "newAiV3Ids": 3,
+  "existingPilotVariantPreserved": "upright-row dumbbell",
+  "files": 9,
+  "bytes": 1221535,
+  "poseTests": 12,
+  "appTestFiles": 20,
+  "appTests": 285,
+  "counts": {
+    "reviewed-both-themes": 380,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 919,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

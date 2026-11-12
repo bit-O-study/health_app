@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.07857882828028682,
+  "gripError": 1.1102230246251565e-15,
+  "elbowDegrees": [
+    170.85574022024204,
+    170.85574022024204
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b17-20261110/native/hanging-knee-raise/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

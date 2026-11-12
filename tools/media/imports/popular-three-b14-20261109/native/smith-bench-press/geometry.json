@@ -1,0 +1,189 @@
+[
+  {
+    "frame": 0,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.0269702685201256,
+    "equipmentBenchClearance": 6.866282437790635,
+    "backContactError": 0.009983070377799663,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 1.0269702685201256,
+    "headTriangleGap": 4.875014795780209
+  },
+  {
+    "frame": 30,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.016602867281731,
+    "equipmentBenchClearance": 6.769982262188482,
+    "backContactError": 0.007704114456603239,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 1.016602867281731,
+    "headTriangleGap": 4.786050161677964
+  },
+  {
+    "frame": 60,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9844566858841094,
+    "equipmentBenchClearance": 6.267378877984902,
+    "backContactError": 0.0019205532904318368,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.9844566858841094,
+    "headTriangleGap": 4.3264953074389645
+  },
+  {
+    "frame": 90,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.955510233528308,
+    "equipmentBenchClearance": 5.344121933648879,
+    "backContactError": 0.00028051258923689204,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.955510233528308,
+    "headTriangleGap": 3.509729378275078
+  },
+  {
+    "frame": 120,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9464227594439586,
+    "equipmentBenchClearance": 4.252192007842294,
+    "backContactError": 0.007382716522456256,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.9464227594439586,
+    "headTriangleGap": 2.629559554852422
+  },
+  {
+    "frame": 150,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.8484369562220594,
+    "equipmentBenchClearance": 3.3317306478562587,
+    "backContactError": 0.021052458042267297,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.8484369562220594,
+    "headTriangleGap": 2.0283034371527835
+  },
+  {
+    "frame": 180,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.34943594291560065,
+    "equipmentBenchClearance": 2.832180147864701,
+    "backContactError": 0.03405458939315187,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.3492046362071543,
+    "headTriangleGap": 1.8028126468422085
+  },
+  {
+    "frame": 210,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.2552214067292182,
+    "equipmentBenchClearance": 2.736638953549129,
+    "backContactError": 0.03709428825028738,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.2540000241887467,
+    "headTriangleGap": 1.7603769617851475
+  },
+  {
+    "frame": 240,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.2552214067292182,
+    "equipmentBenchClearance": 2.736638953549129,
+    "backContactError": 0.03709428825028738,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.2540000241887467,
+    "headTriangleGap": 1.7603769617851475
+  },
+  {
+    "frame": 270,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.2552214067292182,
+    "equipmentBenchClearance": 2.736638953549129,
+    "backContactError": 0.03709428825028738,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.2540000241887467,
+    "headTriangleGap": 1.7603769617851475
+  },
+  {
+    "frame": 300,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.34943594291560276,
+    "equipmentBenchClearance": 2.832180147864703,
+    "backContactError": 0.03405458939315187,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.34920463620715647,
+    "headTriangleGap": 1.8028126468422085
+  },
+  {
+    "frame": 330,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.848436956222057,
+    "equipmentBenchClearance": 3.331730647856256,
+    "backContactError": 0.021052458042267297,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.848436956222057,
+    "headTriangleGap": 2.0283034371527817
+  },
+  {
+    "frame": 360,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9464227594439588,
+    "equipmentBenchClearance": 4.252192007842294,
+    "backContactError": 0.007382716522456256,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.9464227594439588,
+    "headTriangleGap": 2.6295595548524227
+  },
+  {
+    "frame": 390,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.955510233528308,
+    "equipmentBenchClearance": 5.344121933648879,
+    "backContactError": 0.00028051258923689204,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.955510233528308,
+    "headTriangleGap": 3.509729378275078
+  },
+  {
+    "frame": 420,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9844566858841092,
+    "equipmentBenchClearance": 6.2673788779849,
+    "backContactError": 0.0019205532904318368,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 0.9844566858841092,
+    "headTriangleGap": 4.326495307438964
+  },
+  {
+    "frame": 450,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.0166028672817307,
+    "equipmentBenchClearance": 6.769982262188482,
+    "backContactError": 0.007704114456603239,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 1.0166028672817307,
+    "headTriangleGap": 4.786050161677964
+  },
+  {
+    "frame": 480,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.0269702685201256,
+    "equipmentBenchClearance": 6.866282437790635,
+    "backContactError": 0.009983070377799663,
+    "headSupportError": 0,
+    "barGripPlaneError": 0,
+    "shaftTriangleGap": 1.0269702685201256,
+    "headTriangleGap": 4.875014795780209
+  }
+]

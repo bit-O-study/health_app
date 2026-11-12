@@ -1,0 +1,11 @@
+{
+  "id": "chest-dip",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/chest-dip.html",
+    "https://www.strengthlog.com/bar-dip/"
+  ],
+  "prompt": "Use case: scientific-educational. Original bald gray anatomical 3D mannequin wearing teal shorts and gray trainers in gray studio. Square sprite sheet of EXACTLY 16 equal square cells, 4 columns by 4 rows. No text, numbers, borders or logos. Same fixed camera and scale in every cell. Entire body and entire equipment comfortably inside central 65% of each cell. Sixteen progressive phases of ONE half-repetition reading left to right then next row, no resetting or returning until after final cell. Bodyweight CHEST DIP on parallel dip bars. Three-quarter side view showing both hands. Hands neutral closed thumb grip on fixed parallel bars just outside torso. Body suspended with feet clear of floor, knees bent slightly and feet together behind body, torso leaning forward20degrees as one braced unit, shoulders away from ears. Start elbows almost straight above bars. Across all16frames bend elbows and lower whole body under control until upper arms approximately parallel floor, elbows around90degrees, chest forward. Forearms roughly vertical. Keep head aligned with spine, no exaggerated shoulder dip or deep stretch. Hands and bars stay at identical pixel position allframes. Feet move with body while staying off floor. Do not sit on bench, no machines or extra weights.",
+  "registeredAt": "2026-09-09T12:55:59.948Z"
+}

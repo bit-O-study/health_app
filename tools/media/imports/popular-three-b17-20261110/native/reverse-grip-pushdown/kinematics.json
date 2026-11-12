@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.02985025416006245,
+  "gripError": 1.2560739669470201e-15,
+  "elbowDegrees": [
+    98.8410165115376,
+    171.76436210522306
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b17-20261110/native/reverse-grip-pushdown/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

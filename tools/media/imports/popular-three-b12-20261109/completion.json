@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-09T00:46:39.711Z",
+  "ids": [
+    "preacher-curl",
+    "rear-delt-fly",
+    "straight-arm-pulldown"
+  ],
+  "newlyAdded": 3,
+  "files": 9,
+  "bytes": 1146546,
+  "poseTests": 16,
+  "appTestFiles": 19,
+  "appTests": 282,
+  "counts": {
+    "reviewed-both-themes": 377,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 922,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

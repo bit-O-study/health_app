@@ -1,0 +1,35 @@
+{
+  "chin-up": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Underhand shoulder-width chin-up; front/side previews and final light/dark 32-frame sheets inspected.",
+      "equipment": "Fixed overhead bar on stationary frame; head and frame remain within image boundaries.",
+      "setup": "Upright hanging torso without swing; legs maintain fixed position relative to pelvis.",
+      "hands": "Supinated grip, 5 model-unit span, 481-sample bar/socket error below 5e-15.",
+      "feet": "Suspended above frame base throughout; no leg swing or floor contact.",
+      "movement": "Lowered starting position to extend elbow to 162.09 degrees; chin/head region clears bar at peak, one-second hold, continuous loop. Simplified shoulder/hand anatomy; dark frame has limited contrast."
+    }
+  },
+  "wide-grip-pull-up": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Wide overhand pull-up; front/side previews and final light/dark 32-frame sheets inspected.",
+      "equipment": "Fixed overhead bar with 8.4 model-unit grip span, wider than shoulders.",
+      "setup": "Upright trunk and stable legs, no kipping; corrected initial unreachable arm target before render.",
+      "hands": "Pronated grip; hand sockets fixed to bar through all 481 poses.",
+      "feet": "Feet suspended above base without swinging, following pelvis vertically.",
+      "movement": "Controlled rise and return with bottom elbow extension 164.43 degrees and one-second peak hold. Head region above bar; frame fits all 192 output frames. Simplified anatomy and equipment."
+    }
+  },
+  "smith-bench-press": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Flat Smith bench press with moderate overhand grip; front/side and final light/dark sheets inspected.",
+      "equipment": "Rigid bar and plates travel vertically between fixed rails; no lateral drift.",
+      "setup": "Back and head supported on bench, sampled back gap below .04 model units, head support error zero.",
+      "hands": "Both hands remain aligned to rigid bar; sampled grip-plane error zero.",
+      "feet": "Both feet fixed and planted throughout cycle.",
+      "movement": "Controlled descent toward chest, one-second bottom pause, press without elbow lockout. Sampled shaft/body triangle clearance above .254 model units; limited dark plate contrast."
+    }
+  }
+}

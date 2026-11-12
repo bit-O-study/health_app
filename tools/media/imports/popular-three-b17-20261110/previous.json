@@ -1,0 +1,91 @@
+{
+  "chest-dip": [
+    {
+      "file": "tools/media/motion-guides/chest-dip.json",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/chest-dip-0.json",
+      "sha256": "4191eebaaded46e6bf0c6cbe382ce05f55fa063efed415c1be03c2a80b70450d"
+    },
+    {
+      "file": "tools/media/motion-guides/chest-dip.jpg",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/chest-dip-1.jpg",
+      "sha256": "44644735bded62f54e39450f2aa0afde2a3d22914b8a37cbb7544d33e4c5f785"
+    },
+    {
+      "file": "tools/media/motion-guides/chest-dip-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-dip.mp4",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/chest-dip-3.mp4",
+      "sha256": "d2ebb8190e755e7a89b0e3cae6f197bae10be98f41f92e625467be96274e90ff"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-dip-dark.mp4",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/chest-dip-4.mp4",
+      "sha256": "b46bc02336655e8339ff65112148c23d856fcb137899ab5db2c467fdb5921bef"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-dip-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hanging-knee-raise": [
+    {
+      "file": "tools/media/motion-guides/hanging-knee-raise.json",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/hanging-knee-raise-0.json",
+      "sha256": "1fefabe443ee556798e0cff3b3a2b4aff9e903fb623d5b49067ca921f18bed05"
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-knee-raise.jpg",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/hanging-knee-raise-1.jpg",
+      "sha256": "57a7e540f19f403425d7c889cca6c9df1b41a5a76776c3d055d6394b3e64df3a"
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-knee-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise.mp4",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/hanging-knee-raise-3.mp4",
+      "sha256": "a6e78bf0539e942b932180c00ee0e869f6b86a30e0294e848e97892d8e3c4779"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-dark.mp4",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/hanging-knee-raise-4.mp4",
+      "sha256": "3df07f9b4d7e8878eefd12f1373c0f015a3764d13816e40ccfe6a5eb3175577e"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "reverse-grip-pushdown": [
+    {
+      "file": "tools/media/motion-guides/reverse-grip-pushdown.json",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/reverse-grip-pushdown-0.json",
+      "sha256": "ff4cdc5d8fbe50ac707ef8e0f5af75166e33b0c8df9fb04e1aad83efc031265b"
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-grip-pushdown.jpg",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/reverse-grip-pushdown-1.jpg",
+      "sha256": "b77f771a31bb6048943dee46cf10e053f90dc1e77ca4c02f9226288fbb6e968d"
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-grip-pushdown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-grip-pushdown.mp4",
+      "backup": "tools/media/imports/popular-three-b17-20261110/backup/reverse-grip-pushdown-3.mp4",
+      "sha256": "3c6e211ab422f06ca70c5d83bdc2f4020cba3a42e449fc3ec23cc742a23a92eb"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-grip-pushdown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-grip-pushdown-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

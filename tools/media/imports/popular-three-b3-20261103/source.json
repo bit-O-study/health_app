@@ -1,0 +1,22 @@
+{
+  "barbell-row": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/barbell-row/",
+    "criteria": "Overhand shoulder-width grip, fixed hip hinge, bar travels toward abdomen and lowers under control; no floor reset."
+  },
+  "hip-thrust": {
+    "equipment": "barbell",
+    "url": "https://www.puregym.com/exercises/glutes/hip-thrusts/barbell-hip-thrust/",
+    "criteria": "Upper back on stable bench, padded bar at hip crease, feet planted, extend hips to trunk/thigh alignment without hyperextension. One second top pause. Entry and exit omitted."
+  },
+  "biceps-curl": {
+    "equipment": "dumbbell",
+    "url": "https://www.strengthlog.com/dumbbell-curl/",
+    "criteria": "Simultaneous supinated dumbbell curl. Upper arms remain at sides, controlled elbow flexion and extension without trunk swing."
+  },
+  "checkedAt": "2026-11-03T13:29:26.046Z",
+  "limits": [
+    "Procedural educational demonstration, not captured human motion or biomechanical certification.",
+    "Simplified body, garments and equipment; actual phone and production not verified."
+  ]
+}

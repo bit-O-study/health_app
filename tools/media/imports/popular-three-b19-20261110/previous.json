@@ -1,0 +1,87 @@
+{
+  "wide-grip-lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/wide-grip-lat-pulldown.json",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/wide-grip-lat-pulldown-0.json",
+      "sha256": "759ba41026a01e769df5b934b85a3c7e6b3dfd7be50026e323872a655b13a314"
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-lat-pulldown.jpg",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/wide-grip-lat-pulldown-1.jpg",
+      "sha256": "276373c711f4bc54dda82c75211c9284ff059933f2b9f38b602053536b5d3d59"
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-lat-pulldown.mp4",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/wide-grip-lat-pulldown-3.mp4",
+      "sha256": "c9fd0ae9b98b0357a9010e11481e36522800f5d95a80361fe78463bf66081265"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "captain-s-chair-leg-raise": [
+    {
+      "file": "tools/media/motion-guides/captain-s-chair-leg-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/captain-s-chair-leg-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/captain-s-chair-leg-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/captain-s-chair-leg-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/captain-s-chair-leg-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/captain-s-chair-leg-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "kettlebell-front-squat": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-front-squat.json",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/kettlebell-front-squat-0.json",
+      "sha256": "24d99c1d0f31fd53d75b8dcca615f1010fbff7149f32e0bbed90b8edcf63bfce"
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-front-squat.jpg",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/kettlebell-front-squat-1.jpg",
+      "sha256": "977d35238b770f5542df662ea3d4c186cc6aba3cefa8816bb71673d6a4dd7772"
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-front-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-front-squat.mp4",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/kettlebell-front-squat-3.mp4",
+      "sha256": "efb6eb8f1dbbe4d8180850c33038161f4902328ed00a006cab12cb9e8bfe5bf2"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-front-squat-dark.mp4",
+      "backup": "tools/media/imports/popular-three-b19-20261110/backup/kettlebell-front-squat-4.mp4",
+      "sha256": "0bef25dba7eeb8dfa87bd75ac4b1507463e7c5bf007fb189f9746c14bc099fe5"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-front-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

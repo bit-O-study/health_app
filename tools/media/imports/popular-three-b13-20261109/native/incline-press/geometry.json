@@ -1,0 +1,155 @@
+[
+  {
+    "frame": 0,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": -1.1187568556281224e-7,
+    "equipmentBenchClearance": 4.397149987692565,
+    "backContactError": 0.029951993578190006,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 30,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.09312952371466121,
+    "equipmentBenchClearance": 4.497427800154075,
+    "backContactError": 0.02814379962516922,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 60,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.6095689001671495,
+    "equipmentBenchClearance": 5.021384752589857,
+    "backContactError": 0.018105441430298796,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 90,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9499326968736052,
+    "equipmentBenchClearance": 5.983440657060972,
+    "backContactError": 0.005132438294189079,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 120,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9416028678179827,
+    "equipmentBenchClearance": 7.1224751787647715,
+    "backContactError": 0.000037723471911110806,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 150,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9630705746418634,
+    "equipmentBenchClearance": 8.084598099458233,
+    "backContactError": 0.0050265508474818255,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 180,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9933467566840483,
+    "equipmentBenchClearance": 8.607823228734032,
+    "backContactError": 0.013469293884338818,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 210,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.0040102253119678,
+    "equipmentBenchClearance": 8.708111296930685,
+    "backContactError": 0.01651756505546098,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 240,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.0040102253119678,
+    "equipmentBenchClearance": 8.708111296930685,
+    "backContactError": 0.01651756505546098,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 270,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 1.0040102253119678,
+    "equipmentBenchClearance": 8.708111296930685,
+    "backContactError": 0.01651756505546098,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 300,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9933467566840478,
+    "equipmentBenchClearance": 8.60782322873403,
+    "backContactError": 0.013469293884338818,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 330,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9630705746418627,
+    "equipmentBenchClearance": 8.084598099458232,
+    "backContactError": 0.0050265508474818255,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 360,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.9416028678179827,
+    "equipmentBenchClearance": 7.1224751787647715,
+    "backContactError": 0.000037723471911110806,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 390,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.949932696873606,
+    "equipmentBenchClearance": 5.983440657060972,
+    "backContactError": 0.005132438294189079,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 420,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.609568900167151,
+    "equipmentBenchClearance": 5.02138475258986,
+    "backContactError": 0.018105441430298796,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 450,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": 0.0931295237146604,
+    "equipmentBenchClearance": 4.497427800154073,
+    "backContactError": 0.02814379962516922,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  },
+  {
+    "frame": 480,
+    "soleMinY": -7.751374738328083,
+    "equipmentBodyClearance": -1.1187568556281224e-7,
+    "equipmentBenchClearance": 4.397149987692565,
+    "backContactError": 0.029951993578190006,
+    "headSupportError": 0,
+    "barGripPlaneError": 0
+  }
+]

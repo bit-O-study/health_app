@@ -1,0 +1,35 @@
+{
+  "incline-press": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "45-degree barbell incline press; front/side eight poses and both final 32-frame sheets inspected.",
+      "equipment": "Single rigid barbell, supported incline bench; plates clear body and bench in sampled geometry.",
+      "setup": "Back/head support retained; sampled back gap below .031 model units, head support error zero.",
+      "hands": "Overhand grip slightly outside shoulder width; grip span constant and bar plane error zero.",
+      "feet": "Both feet planted; 481-sample foot drift zero.",
+      "movement": "Controlled upper-chest press, one-second peak pause, smooth return and matching loop endpoints. Simplified shoulder anatomy. Dark plates have limited contrast."
+    }
+  },
+  "upright-row": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Standing barbell upright row; front/side and both final 32-frame sheets inspected.",
+      "equipment": "Single rigid barbell with end plates. Removed unwanted visible dumbbell geometry before final render.",
+      "setup": "Upright stationary torso, no hip swing.",
+      "hands": "Shoulder-width overhand grip stays aligned to rigid bar throughout cycle.",
+      "feet": "Both feet remain planted with zero measured drift.",
+      "movement": "Elbows lead outward and remain below shoulders; controlled return and one-second peak pause. Existing dumbbell pilot retained by equipment fallback."
+    }
+  },
+  "wrist-curl": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Seated barbell wrist curl with forearms supported on thighs; front/side and both final sheets inspected.",
+      "equipment": "Single horizontal barbell with end plates; bench supports seated figure.",
+      "setup": "Neutral support sample has 556 forearm/thigh pairs and .01913 minimum gap. This geometry inspector evaluates frame zero only; no full-cycle collision claim.",
+      "hands": "Palms up with wrists past knees; grip sockets remain aligned to bar.",
+      "feet": "Feet and forearms fixed through 481 sampled poses.",
+      "movement": "Wrist-only flexion/extension, one-second peak pause, continuous loop. Small hand movement and dark plates are less legible at reduced size."
+    }
+  }
+}

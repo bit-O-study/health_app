@@ -1,0 +1,15 @@
+{
+  "id": "1-5-rep-squat",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "1-5-rep-squat-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://stronglifts.com/squat/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-11T02:19:31.053Z"
+}

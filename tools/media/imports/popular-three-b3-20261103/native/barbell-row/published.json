@@ -1,0 +1,18 @@
+{
+  "id": "barbell-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fe8dc9a470a52382f173d75f32e5d7ae17cc10ede958c9d50bec8c3de3df5fd6",
+  "rigSourceSha256": "d80de9187eb0ccd16e3420fb9e582a7e81d5301bb1190526bc90bc0aa5ed460c",
+  "videoSha256": "5e5c013c403baf36ea72eefdbbfd9d2c756f9e74eccbccd1b6dc61ec101348d4",
+  "darkVideoSha256": "71c06098aaa5a800dfaafc3fd22903638b220fc87f2972a95d25db8d445ac2ad",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101761,
+  "darkBytes": 83820,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T13:42:48.572Z"
+}

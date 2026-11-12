@@ -1,0 +1,18 @@
+{
+  "id": "bottom-half-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b143bfe9afaca3c2a285cfde5e5ecb1fe09771abca825e7e702259a8dd18281e",
+  "rigSourceSha256": "c626e40e44b8a39008727c2ac8220dd06f18bd442673d4878fed4b86f18ad3da",
+  "videoSha256": "acf6c303b9d402e3f38f5ba3adbaedbbdea2583a51f6803270bb4237b9c8c9ce",
+  "darkVideoSha256": "a2459d724d57cfb825db455dfdc217f2245baf31e96dc56c852e969f243b1925",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 114204,
+  "darkBytes": 101655,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:20:15.897Z"
+}

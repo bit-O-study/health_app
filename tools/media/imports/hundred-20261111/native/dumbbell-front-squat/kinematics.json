@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-front-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "gripError": 4.2826412465193164e-15,
+  "maxStep": 0.05107656849818453,
+  "rootVerticalRange": 5.15,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed"
+}

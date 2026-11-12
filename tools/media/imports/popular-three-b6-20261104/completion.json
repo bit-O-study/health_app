@@ -1,0 +1,23 @@
+{
+  "completedAt": "2026-11-04T01:37:02.684Z",
+  "ids": [
+    "lateral-raise",
+    "front-raise",
+    "cable-rope-hammer-curl"
+  ],
+  "files": 9,
+  "bytes": 1243941,
+  "poseTests": 10,
+  "appTests": 63,
+  "counts": {
+    "reviewed-both-themes": 359,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 18,
+    "needs-new-video": 939,
+    "legacy-needs-remake": 4
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

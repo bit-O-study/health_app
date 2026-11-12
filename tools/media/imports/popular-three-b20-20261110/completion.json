@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-10T04:40:47.470Z",
+  "ids": [
+    "low-bar-squat",
+    "cable-glute-kickback",
+    "band-good-morning"
+  ],
+  "files": 9,
+  "bytes": 1491790,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 27,
+  "appTests": 123,
+  "lint": "passed",
+  "typecheck": "passed",
+  "counts": {
+    "reviewed-both-themes": 401,
+    "needs-motion-review": 23,
+    "needs-cutout-review": 15,
+    "needs-new-video": 910,
+    "legacy-needs-remake": 2
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

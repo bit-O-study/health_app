@@ -1,0 +1,35 @@
+{
+  "rdl": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Front/side previews and both encoded 32-frame sheets show a hip hinge and upright return.",
+      "equipment": "One barbell; shaft and plates remain identifiable in both themes, with lower plate contrast in dark theme.",
+      "setup": "Hip-width stance, soft knees, neutral rigid trunk; controlled below-knee bar descent.",
+      "hands": "Two pronated grips remain attached to the bar; long arms without curling.",
+      "feet": "Both feet and toes remain fixed through all 481 samples.",
+      "movement": "155-degree knee angle retained; hips move back, bottom pause, smooth return and loop. Simplified procedural anatomy."
+    }
+  },
+  "goblet-squat": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Front/side and both encoded sheets show a controlled squat to parallel and return.",
+      "equipment": "One vertical dumbbell held in front of chest, upper plate between cupped hands.",
+      "setup": "Slight toe-out, braced upright trunk with modest lean, elbows down.",
+      "hands": "Wrist orientation corrected to support upper dumbbell plate; cupped grip follows trunk throughout cycle.",
+      "feet": "Feet and toes stay planted through all 481 samples.",
+      "movement": "Hip lowers 5.15 model units, thigh reaches parallel, one-second bottom pause. Simplified finger contacts; no full mesh collision certification."
+    }
+  },
+  "front-squat": {
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Front/side and both encoded sheets show front-rack squat to parallel and return.",
+      "equipment": "One barbell at front shoulder height, visible shaft and plates in both themes.",
+      "setup": "Upright braced torso, planted feet with slight toe-out, elbows forward.",
+      "hands": "Wider clean-style grip corrected elbow fold from 16.47 to 31.52 degrees; hands support shaft and elbows remain forward.",
+      "feet": "Feet and toes stay fixed through all 481 samples.",
+      "movement": "Fixed front rack follows trunk, smooth squat and pause, loop matches. Simplified anatomy and grip; production/device validation pending."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.05107656849818453,
+  "gripError": 4.2826412465193164e-15,
+  "elbowDegrees": [
+    55.94306335803567,
+    58.99725482922885
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b19-20261110/native/kettlebell-front-squat/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

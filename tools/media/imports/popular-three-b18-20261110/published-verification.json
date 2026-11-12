@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-10T04:09:12.305Z",
+  "report": [
+    {
+      "id": "close-grip-lat-pulldown",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "hip-adduction-machine",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "kettlebell-press",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "completedAt": "2026-11-03T14:06:48.980Z",
+  "ids": [
+    "ohp",
+    "seated-cable-row",
+    "dips"
+  ],
+  "videos": 9,
+  "poseTests": 9,
+  "appTests": {
+    "files": 8,
+    "passed": 57,
+    "redBeforeRegistration": 3
+  },
+  "typecheck": "passed",
+  "changedTypeScriptEslint": "passed",
+  "reviewedBothThemes": 353,
+  "catalog": 1351,
+  "manifestEntries": 371,
+  "localOnly": true,
+  "production": false,
+  "androidDevice": false
+}

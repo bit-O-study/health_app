@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-10T02:33:20.321Z",
+  "ids": [
+    "machine-chest-press",
+    "machine-shoulder-press",
+    "pec-deck"
+  ],
+  "files": 9,
+  "bytes": 1405196,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 23,
+  "appTests": 111,
+  "lint": "passed",
+  "typecheck": "passed",
+  "counts": {
+    "reviewed-both-themes": 389,
+    "needs-motion-review": 31,
+    "needs-cutout-review": 17,
+    "needs-new-video": 912,
+    "legacy-needs-remake": 2
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

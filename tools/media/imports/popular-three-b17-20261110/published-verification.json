@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-10T02:45:40.874Z",
+  "report": [
+    {
+      "id": "chest-dip",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "hanging-knee-raise",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "reverse-grip-pushdown",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

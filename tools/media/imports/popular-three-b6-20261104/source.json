@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-11-04",
+  "lateral-raise": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-lateral-raise.html",
+    "criteria": "Standing bilateral lateral raise; slight elbow bend, lift near shoulder level and controlled return; no torso momentum."
+  },
+  "front-raise": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-front-raise.html",
+    "criteria": "Standing bilateral front raise; pronated grip, slight elbow bend, arms rise toward horizontal without leaning back."
+  },
+  "cable-rope-hammer-curl": {
+    "equipment": "cable",
+    "url": "https://gravitus.com/guides/exercises/cable-rope-hammer-curl/",
+    "criteria": "Low pulley rope curl with neutral grip and stationary upper arms; controlled elbow flexion and return. Rope branches retain length and stack follows cable travel."
+  },
+  "limits": "Procedural illustration with simplified equipment, hands and clothing, not human motion capture or biomechanical certification. One-second pause is illustrative. No full mesh collision guarantee. Local playback reviewed; production and physical Android device pending."
+}

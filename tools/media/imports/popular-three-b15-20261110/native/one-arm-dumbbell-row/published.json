@@ -1,0 +1,18 @@
+{
+  "id": "one-arm-dumbbell-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c8f6f37ddc91114eb4dddcb2b6f57893f6317f8804d6206fedd1cd96830aa9cf",
+  "rigSourceSha256": "df3a711a7a12ee309f001d269460074bf3a97199a6e63000b79349c1f5478a77",
+  "videoSha256": "3e233a4cc7a8c027a525ef8538bc00547ac3a61772aab1e81848a811c47d9409",
+  "darkVideoSha256": "d7365784c2926183af12e1e38617c0bc36165044e461de2fbbe9caa842a42d36",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 49282,
+  "darkBytes": 48616,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T01:23:08.674Z"
+}

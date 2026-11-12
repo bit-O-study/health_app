@@ -1,0 +1,11 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "gripError": 0,
+  "elbowDegrees": [
+    45.95123878936007,
+    164.57630778436518
+  ],
+  "centralBarClearance": 0.27110914837545136
+}

@@ -1,0 +1,15 @@
+{
+  "id": "biceps-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "biceps-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/dumbbell-curl/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-03T13:43:07.203Z"
+}

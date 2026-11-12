@@ -1,0 +1,80 @@
+{
+  "preacher-curl": [
+    {
+      "file": "tools/media/motion-guides/preacher-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/preacher-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/preacher-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/preacher-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/preacher-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/preacher-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "rear-delt-fly": [
+    {
+      "file": "tools/media/motion-guides/rear-delt-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/rear-delt-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/rear-delt-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rear-delt-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rear-delt-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rear-delt-fly-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "straight-arm-pulldown": [
+    {
+      "file": "tools/media/motion-guides/straight-arm-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/straight-arm-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/straight-arm-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

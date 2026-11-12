@@ -1,0 +1,18 @@
+{
+  "id": "hip-thrust",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "eca5f59d3c8bdbfa82e66ba95d92a646161aff22beb353e180affd15031b7e6c",
+  "rigSourceSha256": "3527b0ba11bb19714c3e5d0edad2866ff53003bec69cf35a6bc1f26ca9f5f464",
+  "videoSha256": "87c98b137a1cb2d584022e30597c7fed2f5ad7ca1700fe755de24b7ee51808de",
+  "darkVideoSha256": "939a8b9c5cf52bc3cda527f23d7881c89a89de73e82170b75ee4384e56ba8681",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 157153,
+  "darkBytes": 143138,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T13:42:57.436Z"
+}

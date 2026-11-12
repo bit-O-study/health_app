@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 7.993605777301127e-15,
+  "maxStep": 0.02901266098994514,
+  "elbowDegrees": [
+    175.50679185991143,
+    175.5067918599116
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b15-20261110/native/bulgarian-split-squat/geometry.json",
+    "limits": "Support vertices and cable length only, not all body collisions"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "pause-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "tempo-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "pause-front-squat": {
+    "equipment": "barbell",
+    "url": "https://www.crossfit.com/essentials/the-front-squat",
+    "criteria": "Controlled repetition with a distinct 2.4-second bottom pause.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "tempo-front-squat": {
+    "equipment": "barbell",
+    "url": "https://www.crossfit.com/essentials/the-front-squat",
+    "criteria": "Five-second descent, one-second bottom hold and two-second ascent.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "wide-stance-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "close-stance-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "1-5-rep-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "eccentric-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "partial-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "bottom-half-squat": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/",
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "pause-bulgarian-split-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/bulgarian-split-squat",
+    "criteria": "Controlled repetition with a distinct 2.4-second bottom pause.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "tempo-bulgarian-split-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/bulgarian-split-squat",
+    "criteria": "Five-second descent, one-second bottom hold and two-second ascent.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "pause-goblet-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-goblet-squat",
+    "criteria": "Controlled repetition with a distinct 2.4-second bottom pause.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "double-kettlebell-press": {
+    "equipment": "kettlebell",
+    "url": "https://us.humankinetics.com/blogs/excerpt/one-arm-kettlebell-press",
+    "criteria": "Both kettlebells press together from the rack to overhead; feet and trunk remain fixed.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "dumbbell-front-squat": {
+    "equipment": "dumbbell",
+    "url": "https://www.nasm.org/resource-center/exercise-library/kettlebell-front-squat",
+    "criteria": "Two dumbbells held at the shoulders with a neutral grip, fixed feet, controlled squat to near parallel.",
+    "referenceScope": "Related base exercise; variation timing and equipment are described by the local recipe."
+  },
+  "limits": "Procedural animation and sampled checks, not full mesh collision or biomechanical certification. Local only; production and device pending."
+}

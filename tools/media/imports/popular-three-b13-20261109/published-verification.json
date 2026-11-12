@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-09T01:59:59.491Z",
+  "report": [
+    {
+      "id": "incline-press",
+      "inputs": 13,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "upright-row",
+      "inputs": 11,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "wrist-curl",
+      "inputs": 13,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

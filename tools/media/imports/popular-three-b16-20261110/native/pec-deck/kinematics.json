@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.03605437551288387,
+  "elbowDegrees": [
+    89.99999999999994,
+    90.00000000000006
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b16-20261110/native/pec-deck/geometry.json",
+    "limits": "Seat/back support and rigid linkage samples only, not all body collisions"
+  }
+}

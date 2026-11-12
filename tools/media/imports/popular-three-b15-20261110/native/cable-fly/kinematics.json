@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.06739486891857308,
+  "elbowDegrees": [
+    159.99999999999991,
+    160.00000000000017
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b15-20261110/native/cable-fly/geometry.json",
+    "limits": "Support vertices and cable length only, not all body collisions"
+  }
+}

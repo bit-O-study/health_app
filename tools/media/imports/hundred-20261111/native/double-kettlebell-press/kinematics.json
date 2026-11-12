@@ -1,0 +1,10 @@
+{
+  "id": "double-kettlebell-press",
+  "poseSamples": 481,
+  "loop": 0,
+  "gripError": 7.122753468078641e-15,
+  "maxStep": 0.05130659389936976,
+  "rootVerticalRange": 0,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed"
+}

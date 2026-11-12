@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-10T04:28:05.378Z",
+  "report": [
+    {
+      "id": "wide-grip-lat-pulldown",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "captain-s-chair-leg-raise",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "kettlebell-front-squat",
+      "inputs": 12,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

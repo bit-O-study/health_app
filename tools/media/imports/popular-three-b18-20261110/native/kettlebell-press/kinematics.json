@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.07602123698150194,
+  "gripError": 5.945656340154264e-15,
+  "elbowDegrees": [
+    33.16286877013992,
+    176.6143905651737
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b18-20261110/native/kettlebell-press/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

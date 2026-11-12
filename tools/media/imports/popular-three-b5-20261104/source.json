@@ -1,0 +1,7 @@
+{
+ "dead-bug":{"equipment":"bodyweight","url":"https://www.nasm.org/resource-center/exercise-library/dead-bug","criteria":"Supine, arms toward ceiling and hips/knees at right angles. Alternate opposite arm and leg extension without trunk motion; controlled return before changing sides."},
+ "bird-dog":{"equipment":"bodyweight","url":"https://www.nasm.org/resource-center/exercise-library/bird-dog","criteria":"Quadruped setup, support hand under shoulder and knee below hip. Alternate opposite arm reaching forward and leg extending back, with stable trunk and pelvis; return before swapping sides."},
+ "reverse-crunch":{"equipment":"bodyweight","url":"https://www.youtube.com/watch?v=lmSP-c1X_iY","supportingUrl":"https://www.puregym.com/exercises/abs/reverse-crunches/","criteria":"Supine tabletop-leg variation, arms at sides. Curl pelvis toward trunk while lifting hips and maintaining bent knees. Head, upper trunk and hands remain supported; one-second top pause and controlled return."},
+ "checkedAt":"2026-11-04",
+ "limits":["Procedural educational demonstration, not motion capture or biomechanical certification.","Sampled mesh-to-mat and joint checks do not certify every cloth/body collision. Production and Android device verification pending."]
+}

@@ -1,0 +1,260 @@
+{
+  "id": "tempo-squat",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/tempo-squat-studio.mjs",
+      "sha256": "7100bca09ffe1a82c4d05ccd37d3322bb8f91500f5e8f795344c389ff5e256fa"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/tempo-squat-motion.mjs",
+      "sha256": "c9d960bed809a2b085f31c96d531ea91d0e3da6cff0e409fc69768bcfb4984c9"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "barbell-squat",
+    "sourceBatch": "tools/media/imports/popular-three-b20-20261110",
+    "knots": [
+      [
+        0,
+        0
+      ],
+      [
+        0.625,
+        1
+      ],
+      [
+        0.75,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "min": 0,
+    "scale": 1,
+    "stance": 1.9,
+    "criteria": "Low-bar squat variation; timing, range or stance changed for this catalog ID; planted feet and bar above midfoot.",
+    "sourceUrl": "https://stronglifts.com/squat/"
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "gripError": 2.5510982866352577e-15,
+      "floorClearance": 0.03249402008056457,
+      "barZ": 0.2
+    },
+    {
+      "frame": 30,
+      "gripError": 9.39188966358397e-16,
+      "floorClearance": 0.03249402008056368,
+      "barZ": 0.19999999999999998
+    },
+    {
+      "frame": 60,
+      "gripError": 1.9929972195927004e-15,
+      "floorClearance": 0.03249402008056279,
+      "barZ": 0.2
+    },
+    {
+      "frame": 90,
+      "gripError": 1.3517848686956847e-15,
+      "floorClearance": 0.03249402008056723,
+      "barZ": 0.2
+    },
+    {
+      "frame": 120,
+      "gripError": 1.5100665727558131e-15,
+      "floorClearance": 0.032494020080566344,
+      "barZ": 0.20000000000000007
+    },
+    {
+      "frame": 150,
+      "gripError": 1.4043333874306805e-15,
+      "floorClearance": 0.03249402008056457,
+      "barZ": 0.19999999999999996
+    },
+    {
+      "frame": 180,
+      "gripError": 8.881784197001252e-16,
+      "floorClearance": 0.03249402008056368,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 210,
+      "gripError": 1.6504651808933464e-15,
+      "floorClearance": 0.032494020080565456,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 240,
+      "gripError": 1.0235750533041806e-15,
+      "floorClearance": 0.032494020080566344,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 270,
+      "gripError": 1.5463617361248926e-15,
+      "floorClearance": 0.03249402008056457,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 300,
+      "gripError": 9.171947447016606e-16,
+      "floorClearance": 0.03249402008056279,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 330,
+      "gripError": 9.171947447016606e-16,
+      "floorClearance": 0.03249402008056279,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 360,
+      "gripError": 9.171947447016606e-16,
+      "floorClearance": 0.03249402008056279,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 390,
+      "gripError": 1.355199909595506e-15,
+      "floorClearance": 0.0324940200805619,
+      "barZ": 0.19999999999999973
+    },
+    {
+      "frame": 420,
+      "gripError": 1.4043333874306805e-15,
+      "floorClearance": 0.03249402008056457,
+      "barZ": 0.19999999999999996
+    },
+    {
+      "frame": 450,
+      "gripError": 1.8718044114782024e-15,
+      "floorClearance": 0.032494020080566344,
+      "barZ": 0.2
+    },
+    {
+      "frame": 480,
+      "gripError": 2.5510982866352577e-15,
+      "floorClearance": 0.03249402008056457,
+      "barZ": 0.2
+    }
+  ],
+  "kinematics": {
+    "id": "tempo-squat",
+    "poseSamples": 481,
+    "loop": 0,
+    "maxStep": 0.10264179654779296,
+    "gripError": 4.468561475845091e-15,
+    "rootVerticalRange": 4.7,
+    "geometrySamples": 17,
+    "status": "numeric-checks-passed",
+    "limits": "Sampled checks; visual review still required, not all mesh collisions."
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      67.77663356439622,
+      67.77663356439638
+    ],
+    "alpha": {
+      "transparent": 40670475,
+      "opaque": 2866870,
+      "partial": 699455,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/tempo-squat/source.jpg",
+    "sha256": "8471a20dcc40c75642250ea1c4e248846d3127fe638091de3893b9ef9b7cbe53",
+    "panels": 16
+  },
+  "status": "awaiting-final-visual-review",
+  "limitations": "Procedural animation; sampled geometry checks, not full mesh collision or biomechanical validation."
+}

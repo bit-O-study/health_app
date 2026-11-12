@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-04T01:13:12.431Z",
+  "ids": [
+    "dead-bug",
+    "bird-dog",
+    "reverse-crunch"
+  ],
+  "videos": 9,
+  "bytes": 1275611,
+  "poseTests": 9,
+  "appTests": {
+    "files": 9,
+    "passed": 60,
+    "redBeforeRegistration": 3
+  },
+  "typecheck": "passed",
+  "changedTypeScriptEslint": "passed",
+  "diffCheck": "passed",
+  "reviewedBothThemes": 356,
+  "catalog": 1351,
+  "manifestEntries": 374,
+  "localOnly": true,
+  "production": false,
+  "androidDevice": false
+}

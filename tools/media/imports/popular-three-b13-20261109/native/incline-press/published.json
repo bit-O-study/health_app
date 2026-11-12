@@ -1,0 +1,18 @@
+{
+  "id": "incline-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b709a7ae7931b056b20bd4782fd17f1575d52f0b05c4bb95b836f8398376beb7",
+  "rigSourceSha256": "7653a864a4d97752d26d5b4cba535d765487a16839a9f2e50cbb352fa30f1e83",
+  "videoSha256": "939bc8e655b34c89fa7afd34d3f41f733f4507cb673ddf8503a6bf991a38381c",
+  "darkVideoSha256": "5e1c5f24ff759e4a7708c07e44030ce653ed401b11a616ae16fbb280d02b622e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 115321,
+  "darkBytes": 101542,
+  "decode": "passed",
+  "verifiedAt": "2026-11-09T01:58:53.632Z"
+}

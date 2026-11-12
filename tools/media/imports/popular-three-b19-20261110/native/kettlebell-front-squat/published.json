@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-front-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8179728f067cfe9a48f25afff78faf2ca99930c9b715c7e47aa335df482354ad",
+  "rigSourceSha256": "846a8f3f9221238c94073010a274250f563e74ce3822cc5be3843d1c637af1fd",
+  "videoSha256": "c8ff004f3a94ef239fe1bcb07d96eef310220d07a72afdc663d733c292fa34d2",
+  "darkVideoSha256": "723f4ce6487265a733c8cc1196a860e955933989d653d621927da17fbe9d06c4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 126870,
+  "darkBytes": 120853,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T04:27:41.800Z"
+}

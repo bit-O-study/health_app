@@ -1,0 +1,11 @@
+{
+  "id": "partial-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.027741503843965315,
+  "gripError": 3.6826116135695276e-15,
+  "rootVerticalRange": 2.3500000000000005,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

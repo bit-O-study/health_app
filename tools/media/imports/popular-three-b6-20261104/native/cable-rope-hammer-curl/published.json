@@ -1,0 +1,18 @@
+{
+  "id": "cable-rope-hammer-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "68d151e45dc0182ee5b0fb15b6abaaff786f29681e86bb4c3b6a75e22743c507",
+  "rigSourceSha256": "f76d364cc7d894715cadacb965ac9639696fc0c1ad738c04db63cfcd76e92790",
+  "videoSha256": "f896292622f496902f930cd82c6456eb3b0fa7abe884dbb15470578b06d974af",
+  "darkVideoSha256": "0ff80db8de69f11d92bb4e1ad5f5896ab187c96e2f0018db5cef29fa86144b23",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 116511,
+  "darkBytes": 88699,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T01:33:38.878Z"
+}

@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/pause-bulgarian-split-squat-alpha.webm",
+      "sha256": "6fd5e0965c3b556d40c3c3cbf12066844bb8add2a5f53f821a4e3ca602d47a53",
+      "bytes": 169282,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/pause-bulgarian-split-squat.mp4",
+      "sha256": "3da9765f5b4278c63a88750170ceb518b028751a90c34ed4f0898375bfd2339a",
+      "bytes": 72961,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/pause-bulgarian-split-squat/pause-bulgarian-split-squat-dark.mp4",
+      "sha256": "f9d89aa2d05bd8ee13ff971d97b9633e83e90911d5d167ef2e77d155c6a33c54",
+      "bytes": 72002,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/pause-bulgarian-split-squat-studio.mjs",
+      "sha256": "d146d889d0b17b23e26193f9130a73cb03885b83a2a520e5dc62a2cc69fd35a5"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/pause-bulgarian-split-squat-motion.mjs",
+      "sha256": "54d56d2f36d6e2ce4ab4871632b98da75df36d6afc5d595a2b5beb63f2a71e5a"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

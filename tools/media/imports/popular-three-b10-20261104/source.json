@@ -1,0 +1,19 @@
+{
+  "chest-fly": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-flys.html",
+    "criteria": "Flat bench dumbbell fly with palms facing, fixed slight elbow bend. Open arms to chest level and return in an arc above chest. Head/back supported and feet fixed."
+  },
+  "incline-curl": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/incline-dumbbell-curl.html",
+    "criteria": "45-degree incline bench, back supported, supinated dumbbells. Upper arms hang behind torso without swinging; curl and slowly lower with fixed elbows and feet.",
+    "supportingUrl": "https://www.puregym.com/exercises/arms-and-shoulders/bicep-curl/incline-bicep-curls/"
+  },
+  "skull-crusher": {
+    "equipment": "dumbbell",
+    "url": "https://www.strengthlog.com/dumbbell-lying-triceps-extension/",
+    "criteria": "Flat bench, two dumbbells in neutral grip. Keep upper arms stable, lower weights alongside head by bending elbows, extend and return under control. Head/back supported."
+  },
+  "limits": "Reuses established procedural human/bench rigs, newly renders each app ID with revised cycle and camera; incline curl changes hammer grip to supination. Simplified anatomy/clothes/equipment, not biomechanics certification. Physical device and production pending."
+}

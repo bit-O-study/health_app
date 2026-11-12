@@ -1,0 +1,18 @@
+{
+  "id": "lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "268107934a4893f780d8b0c28b13a510b26330cda901050d8eee9a0c1f8dc180",
+  "rigSourceSha256": "2a9d045a479aae081f28974b5fa7b7c3cccbb5771569cb797162dcc05f8c51ca",
+  "videoSha256": "de942b7b82b514532c348b9ab95162937c103f56f5443de180b5f912675b151c",
+  "darkVideoSha256": "d19d5d283653297ce41c916cfef56025aee5b6788068f2645122cd425e328b38",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 93825,
+  "darkBytes": 79074,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T01:33:20.630Z"
+}

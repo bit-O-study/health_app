@@ -1,0 +1,18 @@
+{
+  "id": "tempo-front-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3dbebe35784b1f4618e8b41ccdc9c3ba174021146e96c8fa61785fd422442096",
+  "rigSourceSha256": "d374204baf129fecd99f164f20025f27f5efe2787c3970da18802cbf28bebb57",
+  "videoSha256": "266a575c59667e48ee6d5e6a5c63501b44f46ba76d52ef7b43c29be7600749c4",
+  "darkVideoSha256": "1cff76666023b25a2a257094d1e05b060d41aa6f4d76c16282dfe755b46e3da8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 152386,
+  "darkBytes": 137204,
+  "decode": "passed",
+  "verifiedAt": "2026-11-11T02:18:54.670Z"
+}

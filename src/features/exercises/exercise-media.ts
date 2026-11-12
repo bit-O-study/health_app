@@ -39,7 +39,12 @@ export function selectExerciseMedia(
   equipment?: string,
 ): ExerciseMedia | null {
   if (!media) return null;
-  if (equipment && media.equipmentIds && !media.equipmentIds.includes(equipment)) return null;
+  if (equipment && media.equipmentIds && !media.equipmentIds.includes(equipment)) {
+    // A newer reviewed variant must not hide a different equipment's pilot.
+    const pilot = SKINNED_MEDIA[media.exerciseId];
+    if (media === BUILT_IN_MEDIA[media.exerciseId] && pilot?.equipmentIds?.includes(equipment)) return pilot;
+    return null;
+  }
   return media;
 }
 

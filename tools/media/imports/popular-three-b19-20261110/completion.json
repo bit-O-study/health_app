@@ -1,0 +1,25 @@
+{
+  "completedAt": "2026-11-10T04:28:19.671Z",
+  "ids": [
+    "wide-grip-lat-pulldown",
+    "captain-s-chair-leg-raise",
+    "kettlebell-front-squat"
+  ],
+  "files": 9,
+  "bytes": 1259689,
+  "poseTests": 12,
+  "geometrySamplesPerExercise": 17,
+  "appTestFiles": 26,
+  "appTests": 120,
+  "lint": "passed",
+  "typecheck": "passed",
+  "counts": {
+    "reviewed-both-themes": 398,
+    "needs-motion-review": 24,
+    "needs-cutout-review": 16,
+    "needs-new-video": 911,
+    "legacy-needs-remake": 2
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

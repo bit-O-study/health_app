@@ -1,0 +1,16 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.04553296087829528,
+  "gripError": 5.600852339972845e-15,
+  "elbowDegrees": [
+    63.738522822680835,
+    161.5518617630978
+  ],
+  "peakSeconds": 1,
+  "geometry": {
+    "samples": 17,
+    "report": "tools/media/imports/popular-three-b18-20261110/native/close-grip-lat-pulldown/geometry.json",
+    "limits": "Grip, foot clearance and cable length samples only, not all body collisions"
+  }
+}

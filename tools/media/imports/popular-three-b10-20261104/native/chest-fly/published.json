@@ -1,0 +1,18 @@
+{
+  "id": "chest-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e540cf3ae2c71b2edcc9d624b63d16f9c154141b717614a5b4907330201cee55",
+  "rigSourceSha256": "7df816025eb3aa70a730fc1b29988a98af0e7dd5a758475f5148cc193b1a405f",
+  "videoSha256": "65c738f8484f8bbdb574a9f83bb5b06084ae13383bd7c1e96b2ee162aeed35a4",
+  "darkVideoSha256": "e956626307549e42de8fe97d83c35454a76262d2d618d1e96c1c436ad9ade686",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 110132,
+  "darkBytes": 91674,
+  "decode": "passed",
+  "verifiedAt": "2026-11-04T04:11:54.333Z"
+}

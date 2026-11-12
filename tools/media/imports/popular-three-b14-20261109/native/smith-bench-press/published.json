@@ -1,0 +1,18 @@
+{
+  "id": "smith-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b44f4c439275e4a6c55b59609f43e40259f98e1f9e61283f8dd9b972f786b716",
+  "rigSourceSha256": "22e9673d076b62f22e7713ff0a9381fe57f256743faad94d048f824c59a17ea8",
+  "videoSha256": "fa9ef792f269b1ce54a4d6fc6446618986e2a31e8c63c2b027add280df97a3aa",
+  "darkVideoSha256": "fcb238410bb08e7344ee8e8f0abae5ed915e331c77442f2289e16dc87676ff90",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90632,
+  "darkBytes": 81540,
+  "decode": "passed",
+  "verifiedAt": "2026-11-10T00:23:27.277Z"
+}

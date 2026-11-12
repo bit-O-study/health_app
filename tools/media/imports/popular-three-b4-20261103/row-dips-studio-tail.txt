@@ -1,0 +1,27 @@
+let seat,stack,cable,returnCable,footplates=[];const handles=[];
+const handle=new THREE.Group();scene.add(handle);
+if(exercise==='seated-cable-row'){
+ seat=box([4,.65,3.3],[0,-3.1,0],pad);
+ for(const x of [-1.5,1.5]){rod([x,-7.2,0],[x,-3.4,0],.2);box([1,.25,4],[x,-7.25,0],rubber);}
+ for(const x of [-1.3,1.3]){const p=box([2.4,.3,3],[x,-5.2,8],rubber);p.rotation.x=-Math.PI/4;footplates.push(p);rod([x,-7.2,9],[x,-5.2,8],.15);}
+ for(const x of [-2.1,2.1]){rod([x,-7.2,11],[x,4.5,11],.19);box([1,.25,5],[x,-7.25,11],rubber);}
+ rod([-2.1,4.5,11],[2.1,4.5,11],.2);stack=box([3,1.3,1.4],[0,-5.5,11],rubber);
+ for(const x of [-.9,.9])rod([x,-7.2,11],[x,4.4,11],.065);
+ for(const x of [-1.15,1.15]){const m=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,1.5,24),metal);m.position.x=x;handle.add(m);handles.push(m);}
+ const cross=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,2.3,24),metal);cross.rotation.z=Math.PI/2;cross.position.y=-.65;handle.add(cross);
+ const connector=new THREE.Mesh(new THREE.CylinderGeometry(.08,.08,.8,24),metal);connector.rotation.x=Math.PI/2;connector.position.set(0,-.65,.4);handle.add(connector);
+ rod([0,.35,11],[0,4.4,11],.035,rubber);rod([0,4.4,11],[0,4.4,11.5],.035,rubber);
+ for(const [y,z] of [[.6,10.75],[4.15,11.25]]){const p=new THREE.Mesh(new THREE.CylinderGeometry(.25,.25,.25,24),metal);p.rotation.z=Math.PI/2;p.position.set(0,y,z);scene.add(p);}
+}else{
+ for(const x of [-2.8,2.8]){rod([x,0,-2.5],[x,0,3],.15);for(const z of [-2.5,3]){rod([x,-9,z],[x,0,z],.2);box([1,.25,2],[x,-9,z],rubber);}}
+}
+const restPositions=bones.map(b=>b.position.clone());let grips=[];
+function pose(frame){const t=((frame%480)+480)%480/480,phase=exercise==='seated-cable-row'?(t<.4375?t/.875:t<=.5625?.5:.5+(t-.5625)/.875):t,lift=(1-Math.cos(phase*2*Math.PI))/2;
+ for(let i=0;i<bones.length;i++){bones[i].quaternion.identity();bones[i].position.copy(restPositions[i]);}
+ grips=applyMotion(exercise,lift,{byName,dataByName,mesh});mesh.updateMatrixWorld(true);skeleton.update();
+ if(stack){handle.position.set(0,1,6.1-4.0*lift);stack.position.y=-5.5+4.0*lift;if(cable){scene.remove(cable);cable.geometry.dispose();}cable=rod([0,.35,handle.position.z+.8],[0,.35,11],.035,rubber);if(returnCable){scene.remove(returnCable);returnCable.geometry.dispose();}returnCable=rod([0,4.4,11.5],[0,stack.position.y+.65,11.5],.035,rubber);}
+}
+window.renderSkinned=(frame=0,view='full',dark=false)=>{pose(frame);camera.zoom=exercise==='dips'?.9:.86;camera.position.set(view==='side'?32:26,exercise==='dips'?3:7,view==='side'?0:28);camera.lookAt(0,exercise==='dips'?-1:-1,exercise==='dips'?0:4);camera.updateProjectionMatrix();scene.background=dark==='alpha'?null:new THREE.Color(dark?'#09090b':'#fafafa');renderer.setClearAlpha(dark==='alpha'?0:1);renderer.render(scene,camera);return canvas.toDataURL('image/png').split(',')[1];};
+window.inspectRunning=frame=>{pose(frame);const j={};for(const side of ['L','R'])for(const n of ['upperleg01','lowerleg01','foot','toe2-1','upperarm01','lowerarm01','wrist'])j[n+'.'+side]=byName[n+'.'+side].getWorldPosition(new THREE.Vector3()).toArray();for(const n of ['root','spine01','head'])j[n]=byName[n].getWorldPosition(new THREE.Vector3()).toArray();for(const {side,socket,grip}of grips){j['grip.'+side]=byName['wrist.'+side].localToWorld(socket.clone()).toArray();j['target.'+side]=grip.toArray();}if(stack){j.handle=handle.position.toArray();j.stack=stack.position.toArray();}let sole=Infinity,seatBottom=Infinity;for(let i=0;i<model.vertices.length/3;i++){const r=vec(model.vertices.slice(i*3,i*3+3)),p=mesh.applyBoneTransform(i,new THREE.Vector3().fromBufferAttribute(geometry.attributes.position,i));if(r.y<-7.5)sole=Math.min(sole,p.y);if(Math.abs(r.x)<1.4&&r.y>-.8&&r.y<1.5&&r.z<0)seatBottom=Math.min(seatBottom,p.y);}j.contacts=[sole,seatBottom];return j;};
+window.renderSkinned(0);if(seat){seat.position.y=window.inspectRunning(0).contacts[1]-.325;}
+window.renderSkinned(0);window.ready=true;

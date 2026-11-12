@@ -1,0 +1,18 @@
+{
+  "id": "dips",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "aa6aa9c0f648663e5aaead5244c51921edcac8666ecc02dc1e7adeca696fc06a",
+  "rigSourceSha256": "ab048b67f491a4573c53eb70cc8a94e83847d536bcc29328cfede1716bc01634",
+  "videoSha256": "47679abe9ec68d941eae22418ff7e93b03a23da4fbfba8c6f6df48ef4c591146",
+  "darkVideoSha256": "8cecc1ce6d761b309a4d27f9ebb9e952babe8e5b800e972f9435cda4bd69c535",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 92938,
+  "darkBytes": 102682,
+  "decode": "passed",
+  "verifiedAt": "2026-11-03T14:04:44.837Z"
+}

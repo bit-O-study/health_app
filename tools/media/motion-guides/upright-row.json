@@ -1,0 +1,15 @@
+{
+  "id": "upright-row",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "upright-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/arms-and-shoulders/upright-rows/barbell-upright-row/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-09T01:59:00.164Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "pec-deck",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "pec-deck-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/us/blog/chest-machines-and-workouts-at-the-gym",
+    "https://www.puregym.com/exercises/chest/chest-fly/machine-fly/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-10T02:32:27.699Z"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "tempo-bulgarian-split-squat",
+  "poseSamples": 481,
+  "loop": 0,
+  "maxStep": 0.05077037552663259,
+  "gripError": 0,
+  "rootVerticalRange": 3.0000000000000004,
+  "geometrySamples": 17,
+  "status": "numeric-checks-passed",
+  "limits": "Sampled checks; visual review still required, not all mesh collisions."
+}

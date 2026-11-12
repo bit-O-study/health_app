@@ -1,0 +1,278 @@
+{
+  "id": "one-arm-dumbbell-row",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/one-arm-dumbbell-row-studio.mjs",
+      "sha256": "7c90fefedf92e5a199c48d02fb5a2e30026bae296048ac236825c4d465cd5198"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/one-arm-dumbbell-row-motion.mjs",
+      "sha256": "9dc77be1e67fdae0a6901c8341de6b62373fc126bb219a735b74523ae2fd560f"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/render.mjs",
+      "sha256": "204443f24fe5d8dc99eeda4b3e5d5624d842c812517c1f787e7ab046d33c6bc5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/source.json",
+      "sha256": "4d93aa977dbfe33e8a5d0a885ad9c8e9b14d45ff56f520d50dee23a9d7c0e825"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/verify.mjs",
+      "sha256": "0c32ce2b53b4921e4009f35e3f113dbf27aed3e33bdf1e6b3d4b1c631e2db176"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/finalize.mjs",
+      "sha256": "2a792e4304d92d6634b78f34c081c3dfbaef831ae6358a4fcb54e403184c8a6a"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/check-poses.mjs",
+      "sha256": "36cf2e9ca5137603bfd0fd8a60117785dd52b266dc6d85dded97e7caf1bb2bd5"
+    },
+    {
+      "path": "tools/media/imports/popular-three-b15-20261110/inspect-geometry.mjs",
+      "sha256": "2d2c4648461f6b2bf35b1b90f672ec5d31c0d34fdfcfc268a04ce78deba545ff"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "sourceUrls": [
+    "https://www.puregym.com/exercises/back/rows/single-arm-dumbbell-row/"
+  ],
+  "sourceSummary": "One-arm neutral-grip row with opposite hand supported on bench; both feet remain on floor in this variation. Stable bent torso, pull toward hip and lower. One side shown.",
+  "geometry": [
+    {
+      "frame": 0,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 30,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 60,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 90,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 120,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 150,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 180,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 210,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 240,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 270,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 300,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 330,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 360,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 390,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 420,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 450,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    },
+    {
+      "frame": 480,
+      "supportVertices": 6383,
+      "supportMinY": -1.414142349510943,
+      "padTop": -1.42,
+      "supportGap": 0.005857650489056898
+    }
+  ],
+  "kinematics": {
+    "poseSamples": 481,
+    "loop": 0,
+    "footDrift": 0,
+    "maxStep": 0.04723414876425457,
+    "elbowDegrees": [
+      87.17526212241228,
+      158.40789099097975
+    ],
+    "peakSeconds": 1,
+    "geometry": {
+      "samples": 17,
+      "report": "tools/media/imports/popular-three-b15-20261110/native/one-arm-dumbbell-row/geometry.json",
+      "limits": "Support vertices and cable length only, not all body collisions"
+    }
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      87.17526212241228,
+      158.40789099097978
+    ],
+    "alpha": {
+      "transparent": 39353894,
+      "opaque": 4292352,
+      "partial": 590554,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/popular-three-b15-20261110/native/one-arm-dumbbell-row/source.jpg",
+    "sha256": "c8f6f37ddc91114eb4dddcb2b6f57893f6317f8804d6206fedd1cd96830aa9cf",
+    "panels": 16
+  },
+  "limitations": "Procedural human reused; new motion/equipment and rendered files. One side shown for unilateral exercises; repeat opposite side. Simplified support, grip and anatomy; no full mesh collision or biomechanical certification. Production and physical device pending."
+}

@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-11-04",
+  "shrug": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/dumbbell-shrugs.html",
+    "criteria": "Standing dumbbell shrug with neutral grip, long arms, vertical shoulder elevation and controlled lowering; no rolling shoulders."
+  },
+  "reverse-curl": {
+    "equipment": "dumbbell",
+    "url": "https://www.muscleandstrength.com/exercises/standing-dumbbell-reverse-curl.html",
+    "criteria": "Standing pronated dumbbell curl, stationary upper arms and straight wrists; controlled elbow flexion and return."
+  },
+  "cable-curl": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/exercises/arms-and-shoulders/bicep-curl/cable-bicep-curls/",
+    "criteria": "Low pulley straight-bar curl with underhand grip; elbows stationary and controlled return. Bar remains in both hands and stack follows cable travel."
+  },
+  "limits": "Procedural demonstration with simplified clothing, hands and equipment; not human motion capture or biomechanical certification. Illustrative one-second pause. No full mesh-collision guarantee. Production and physical Android device pending."
+}

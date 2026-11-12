@@ -20,6 +20,9 @@ describe("UI 검수 1단계", () => {
     expect(src).toMatch(/ANATOMY_MODEL_URL: string \| null = null/);
     // 설명 문구는 머리 위가 아니라 아래에 둔다
     expect(src).not.toContain("absolute left-3 top-3");
+    // 설명 문구는 캔버스 안(발을 가리는 오버레이)이 아니라 캔버스 아래 일반 문단
+    expect(src).not.toContain("absolute bottom-3 left-3");
+    expect(src.match(/<p className="mt-2 px-1 text-xs text-muted">/g)?.length).toBe(2);
   });
 
   it("다가오는 7일: 스냅 스크롤이 왼쪽 안쪽 여백(16px)을 지킨다", () => {
@@ -182,5 +185,18 @@ describe("UI 검수 — 하단 탭 여백이 최소 높이에서 빠진다", () 
     expect(nav).toContain('document.body.style.setProperty("--app-nav-pad", navPad)');
     expect(nav).toContain('document.body.style.removeProperty("--app-nav-pad")');
     expect(read("src/styles/globals.css")).toContain("var(--app-nav-pad, 0px)");
+  });
+});
+
+describe("UI 검수 1-6·체형 정보", () => {
+  it("하단 탭·고정 헤더의 유리 배경은 본문 글자가 비치지 않게 94% 불투명", () => {
+    const css = read("src/styles/globals.css");
+    expect(css).not.toContain("var(--background) 78%, transparent");
+    expect(css.match(/var\(--background\) 94%, transparent/g)?.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("체형 정보: 그래프 카드들을 또 감싸는 바깥 카드가 없다", () => {
+    const src = read("src/app/settings/profile/page.tsx");
+    expect(src).toMatch(/<h2 className="app-section-label">추이 그래프<\/h2>\s*<BodyChart logs=\{logs\} \/>/);
   });
 });

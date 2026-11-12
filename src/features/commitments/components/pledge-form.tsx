@@ -337,12 +337,12 @@ export function PledgeForm({
             {groups.length === 0 ? (
               <p className="text-xs text-zinc-500">속한 그룹이 없어요.</p>
             ) : (
-              <ul className="space-y-1.5" data-testid="share-groups">
+              <ul data-testid="share-groups">
                 {groups.map((g) => {
                   const on = share.includes(g.id);
                   return (
                     <li key={g.id}>
-                      <label className="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700">
+                      <label className="flex min-h-11 items-center justify-between border-t border-line px-1 text-sm">
                         <span className="font-semibold">{g.name}</span>
                         <input
                           type="checkbox"

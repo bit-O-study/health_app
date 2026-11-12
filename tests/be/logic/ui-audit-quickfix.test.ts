@@ -287,3 +287,12 @@ describe("UI 검수 1-4 — 하단 탭 높이는 변수 하나", () => {
     expect(read("src/components/bottom-nav.tsx")).toContain('const navPad = "calc(var(--nav-h) + env(safe-area-inset-bottom))"');
   });
 });
+
+describe("UI 검수 3단계 — 다짐 생성", () => {
+  it("그룹 공유 행은 카드 안의 테두리 박스가 아니라 44px 구분선 행이다", () => {
+    const src = read("src/features/commitments/components/pledge-form.tsx");
+    expect(src).toContain('<label className="flex min-h-11 items-center justify-between border-t border-line px-1 text-sm">');
+    expect(src).not.toContain("rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700");
+    expect(src).toContain('data-testid="share-groups"');
+  });
+});

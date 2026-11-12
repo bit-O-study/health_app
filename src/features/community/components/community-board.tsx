@@ -174,7 +174,7 @@ export function CommunityBoard({
       className={
         isReels
           ? "app-page mx-auto flex h-[calc(100dvh-var(--nav-h)-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-3xl flex-col overflow-hidden"
-          : "app-page mx-auto flex min-h-[calc(100dvh-env(safe-area-inset-top))] w-full max-w-3xl flex-col"
+          : "app-page mx-auto flex min-h-[calc(100dvh-env(safe-area-inset-top)-var(--app-nav-pad,0px))] w-full max-w-3xl flex-col"
       }
     >
       <div className="app-header shrink-0 px-4 pb-0 pt-5 sm:px-6">

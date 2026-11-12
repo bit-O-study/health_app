@@ -330,3 +330,11 @@ describe("UI 검수 4단계 — 휴식 알림 문구", () => {
     expect(code.match(/[\u{1F4AA}]/gu) ?? []).toEqual([]);
   });
 });
+
+describe("UI 검수 — 커뮤니티 목록 최소 높이에서도 탭 여백을 뺀다", () => {
+  it(".app-page 최소 높이를 덮어쓰는 곳은 --app-nav-pad 도 함께 뺀다(61px 스크롤 방지)", () => {
+    const src = read("src/features/community/components/community-board.tsx");
+    expect(src).toContain("min-h-[calc(100dvh-env(safe-area-inset-top)-var(--app-nav-pad,0px))]");
+    expect(src).not.toContain('"app-page mx-auto flex min-h-[calc(100dvh-env(safe-area-inset-top))] w-full');
+  });
+});

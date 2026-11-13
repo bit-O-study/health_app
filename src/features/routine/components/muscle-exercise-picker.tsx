@@ -241,7 +241,7 @@ export function MuscleExercisePicker({
                 aria-pressed={active}
                 onClick={() => selectMuscle(g.id)}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition",
+                  "inline-flex items-center gap-1.5 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-transparent text-white"
                     : "app-field text-zinc-700 hover:border-zinc-400 dark:text-zinc-200",
@@ -273,7 +273,7 @@ export function MuscleExercisePicker({
       </div>
 
       {/* 세부근육 + 운동 목록 */}
-      <section className="app-card p-3">
+      <section className="border-t border-line px-1 pt-4">
         <div className="flex flex-wrap items-center gap-2">
           <span
             aria-hidden
@@ -301,7 +301,7 @@ export function MuscleExercisePicker({
             aria-pressed={selectedSub === null}
             onClick={() => setSelectedSub(null)}
             className={cn(
-              "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
+              "relative rounded-full after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] border px-2.5 py-1 text-xs font-semibold transition",
               selectedSub === null
                 ? "border-transparent text-white"
                 : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
@@ -320,7 +320,7 @@ export function MuscleExercisePicker({
                 aria-pressed={active}
                 onClick={() => setSelectedSub(active ? null : s.id)}
                 className={cn(
-                  "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
+                  "relative rounded-full after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] border px-2.5 py-1 text-xs font-semibold transition",
                   active
                     ? "border-transparent text-white"
                     : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
@@ -333,7 +333,8 @@ export function MuscleExercisePicker({
           })}
         </div>
 
-        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+        {/* 운동 목록 — 박스 대신 구분선 행. 담은 행만 옅은 면으로 표시 */}
+        <ul className="mt-3">
           {list.map((ex) => {
             const on = pickedHere.includes(ex.id);
             const exSubs = subMusclesForExerciseData(ex.id, ex.name, ex.target);
@@ -341,19 +342,18 @@ export function MuscleExercisePicker({
               <li
                 key={ex.id}
                 className={cn(
-                  "flex items-start gap-2 rounded-lg border p-3 transition",
-                  on
-                    ? "border-brand/40 bg-brand-soft"
-                    : "border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900",
+                  "flex items-start gap-2 border-t border-line py-3 transition first:border-t-0",
+                  on && "-mx-2 rounded-lg bg-brand-soft px-2",
                 )}
               >
                 <button
                   type="button"
                   data-testid={`pick-${ex.id}`}
                   aria-pressed={on}
+                  aria-label={`${ex.name} ${on ? "선택 해제" : "추가"}`}
                   onClick={() => toggle(selectedMuscle, ex.id, ex.name)}
                   className={cn(
-                    "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition",
+                    "relative mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition after:absolute after:-inset-2.5 after:content-['']",
                     on
                       ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                       : "app-field text-transparent hover:border-brand/40",
@@ -362,7 +362,7 @@ export function MuscleExercisePicker({
                   {on ? (
                     <Check size={15} />
                   ) : (
-                    <Plus size={15} className="text-zinc-400" />
+                    <Plus size={15} className="text-muted" />
                   )}
                 </button>
                 <div className="min-w-0 flex-1">
@@ -397,7 +397,7 @@ export function MuscleExercisePicker({
                   </div>
                   <Link
                     href={`/exercises/${ex.id}`}
-                    className="mt-1 inline-flex items-center gap-0.5 text-xs font-semibold text-brand hover:underline"
+                    className="relative mt-1 after:absolute after:-inset-y-3.5 after:-inset-x-2 after:content-[''] inline-flex items-center gap-0.5 text-xs font-semibold text-brand hover:underline"
                   >
                     자세히 <ArrowRight size={12} />
                   </Link>
@@ -432,7 +432,7 @@ export function MuscleExercisePicker({
               type="button"
               data-testid="clear-all-picked"
               onClick={clearAll}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
+              className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
             >
               <Trash2 size={13} />
               전체 초기화
@@ -462,7 +462,7 @@ export function MuscleExercisePicker({
                     type="button"
                     onClick={() => removeMuscle(g.id)}
                     aria-label={`${g.label} 전체 비우기`}
-                    className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
+                    className="ml-auto inline-flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
                   >
                     <Trash2 size={15} />
                   </button>

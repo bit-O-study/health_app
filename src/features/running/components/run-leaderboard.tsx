@@ -72,7 +72,7 @@ export function RunLeaderboard({
       style={{ top: top ?? "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
     >
       <p className="mb-1 text-right text-xs font-bold uppercase tracking-wide text-white/80 drop-shadow">
-        🏃 {board.groupName} 오늘 순위
+        {board.groupName} 오늘 순위
       </p>
       <div className="relative" style={{ height: rows.length * ROW_H }}>
         {rows.map((r, i) => (

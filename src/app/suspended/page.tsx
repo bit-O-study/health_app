@@ -44,7 +44,7 @@ export default async function SuspendedPage() {
   // 입구 화면과 같은 촘촘한 한 줄기(2026-09-16 8단계) — 상태 아이콘은 의미색(위험·주의) 옅은 칩.
   return (
     <div className="app-page">
-      <main className="app-container flex min-h-dvh max-w-sm flex-col justify-center gap-4 py-10">
+      <main className="app-container flex min-h-[calc(100dvh-env(safe-area-inset-top))] max-w-sm flex-col justify-center gap-4 py-10">
         <span
           className={`flex h-12 w-12 items-center justify-center rounded-[14px] ${
             withdrawn

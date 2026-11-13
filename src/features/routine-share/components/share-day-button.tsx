@@ -31,7 +31,7 @@ export function ShareDayButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full border border-brand/40 bg-brand-soft px-2.5 text-xs font-bold text-brand transition hover:bg-brand-soft"
+        className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full border border-brand/40 bg-brand-soft px-2.5 text-xs font-bold text-brand transition hover:bg-brand-soft"
       >
         <Share2 aria-hidden="true" size={12} />
         {label}

@@ -20,7 +20,7 @@ export const metadata = { title: "기록" };
 
 function Delta({ now, prev, unit }: { now: number; prev: number; unit: string }) {
   const d = deltaMark(now, prev);
-  if (d.mark === "same") return <span className="text-xs text-zinc-400">―</span>;
+  if (d.mark === "same") return <span className="text-xs text-muted">―</span>;
   return (
     <span className={`text-xs font-semibold ${d.mark === "up" ? "text-brand" : "text-zinc-500"}`}>
       {d.mark === "up" ? "▲" : "▼"} {d.diff.toLocaleString("ko-KR")}
@@ -79,7 +79,7 @@ export default async function FitRecordPage() {
             </dl>
           ) : null}
           {full ? (
-            <p className="text-xs text-zinc-400" data-testid="fit-report-compare-range">
+            <p className="text-xs text-muted" data-testid="fit-report-compare-range">
               지난달 같은 기간({pm}/1~{pm}/{pmEnd})과 비교 · 러닝한 날 포함
             </p>
           ) : null}
@@ -115,7 +115,7 @@ export default async function FitRecordPage() {
                       </svg>
                       <span
                         className={`w-14 shrink-0 text-right text-xs font-semibold tabular-nums ${
-                          g.stalled ? "text-warn" : ends && ends.diffKg > 0 ? "text-brand" : "text-zinc-400"
+                          g.stalled ? "text-warn" : ends && ends.diffKg > 0 ? "text-brand" : "text-muted"
                         }`}
                       >
                         {g.stalled ? "정체" : ends ? `${ends.diffKg > 0 ? "+" : ""}${ends.diffKg}kg` : "―"}
@@ -159,7 +159,7 @@ export default async function FitRecordPage() {
           data-testid="fit-records-link"
         >
           종목별 기록 찾기
-          <ChevronRight aria-hidden="true" size={18} className="text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={18} className="text-muted" />
         </Link>
 
         <Link
@@ -168,7 +168,7 @@ export default async function FitRecordPage() {
           data-testid="fit-year-link"
         >
           올해 돌아보기
-          <ChevronRight aria-hidden="true" size={18} className="text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={18} className="text-muted" />
         </Link>
       </main>
     </div>

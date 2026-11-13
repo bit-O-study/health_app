@@ -242,7 +242,7 @@ export function AuthForm({
             type="button"
             onClick={() => switchMode(m)}
             className={cn(
-              "h-8 rounded-lg text-sm font-semibold transition",
+              "h-11 rounded-lg text-sm font-semibold transition",
               mode === m
                 ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
                 : "text-zinc-500 dark:text-zinc-400",
@@ -273,7 +273,7 @@ export function AuthForm({
             </div>
             <div>
               <label className={labelCls} htmlFor="nickname">
-                닉네임 <span className="font-normal text-zinc-400">(선택)</span>
+                닉네임 <span className="font-normal text-muted">(선택)</span>
               </label>
               <input
                 id="nickname"
@@ -288,7 +288,7 @@ export function AuthForm({
             </div>
             <div>
               <label className={labelCls} htmlFor="phone">
-                전화번호 <span className="font-normal text-zinc-400">(선택)</span>
+                전화번호 <span className="font-normal text-muted">(선택)</span>
               </label>
               <input
                 id="phone"

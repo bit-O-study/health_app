@@ -179,7 +179,7 @@ export default async function HistoryPage({
         <Link
           href={`/settings/history?month=${prev.year}-${pad(prev.month0 + 1)}`}
           aria-label="이전 달"
-          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <ChevronLeft aria-hidden="true" size={18} />
         </Link>
@@ -189,7 +189,7 @@ export default async function HistoryPage({
         <Link
           href={`/settings/history?month=${next.year}-${pad(next.month0 + 1)}`}
           aria-label="다음 달"
-          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <ChevronRightIcon aria-hidden="true" size={18} />
         </Link>
@@ -198,7 +198,7 @@ export default async function HistoryPage({
         {/* 캘린더(칼로리·식단·다짐)와 서로 오간다 — 두 달력을 합치는 대신 연결(캘린더 3단계). */}
         <Link
           href={`/calendar?m=${year}-${pad(month0 + 1)}`}
-          className="app-press inline-flex h-7 items-center rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
         >
           캘린더에서 보기 →
         </Link>
@@ -282,14 +282,14 @@ export default async function HistoryPage({
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">횟수</p>
                 <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {weekSummary.sessions}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">회</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">회</span>
                 </p>
               </div>
               <div className="min-w-0 px-2">
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">거리</p>
                 <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {(weekSummary.distanceM / 1_000).toFixed(2)}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">km</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">km</span>
                 </p>
               </div>
               <div className="min-w-0 px-2">
@@ -313,7 +313,7 @@ export default async function HistoryPage({
           className="app-card flex min-h-12 items-center justify-between px-4 text-sm font-semibold"
         >
           런닝 기록 전체 보기
-          <span aria-hidden="true" className="text-zinc-400">›</span>
+          <span aria-hidden="true" className="text-muted">›</span>
         </Link>
       </main>
     </div>

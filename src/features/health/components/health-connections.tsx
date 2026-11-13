@@ -208,7 +208,7 @@ export function HealthConnections() {
                   data-testid={`health-connect-${f.id}`}
                   disabled={!canAct || busy}
                   onClick={() => (connected ? resync(f.id) : connect(f.id))}
-                  className={`app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
+                  className={`app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
                     connected
                       ? "bg-zinc-100 text-brand dark:bg-white/[0.08]"
                       : "bg-brand text-white dark:text-zinc-950"

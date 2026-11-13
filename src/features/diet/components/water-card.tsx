@@ -128,9 +128,9 @@ export function WaterCard({
           수분
         </p>
         <p className="text-base font-bold tabular-nums">{formatWater(ml)}</p>
-        <p className="text-xs text-zinc-400">/ {formatWater(targetMl)}</p>
+        <p className="text-xs text-muted">/ {formatWater(targetMl)}</p>
         {last ? (
-          <p className="ml-auto text-xs text-zinc-400" data-testid="water-since">
+          <p className="ml-auto text-xs text-muted" data-testid="water-since">
             마지막 {sinceLabel(last.at)}
           </p>
         ) : null}
@@ -153,7 +153,7 @@ export function WaterCard({
       {/* 남은 양을 '무엇을 더 하면 되는지' 로 바꿔 말한다. */}
       <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
         {reached
-          ? "오늘 목표를 채웠어요 👏"
+          ? "오늘 목표를 채웠어요"
           : `${formatWater(left.ml)} 남음 · ${WATER_CUPS[0].label} ${left.cups}잔`}
       </p>
 
@@ -166,7 +166,7 @@ export function WaterCard({
             className="app-press inline-flex h-9 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
-            <span className="text-zinc-400">{cup.label}</span>
+            <span className="text-muted">{cup.label}</span>
           </button>
         ))}
         <button
@@ -227,14 +227,14 @@ export function WaterCard({
                 onClick={() => void remove(e.id)}
                 disabled={busy}
                 aria-label={`${timeLabel(e.at)} ${e.ml}ml 기록 지우기`}
-                className="ml-auto grid h-7 w-7 place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
+                className="ml-auto grid relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
               >
                 <X aria-hidden="true" size={13} />
               </button>
             </li>
           ))}
           {entries.length > 8 ? (
-            <li className="py-1 text-xs text-zinc-400">
+            <li className="py-1 text-xs text-muted">
               외 {entries.length - 8}건
             </li>
           ) : null}

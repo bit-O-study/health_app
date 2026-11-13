@@ -51,7 +51,7 @@ export function FitHeader({
         <details className="group relative" data-testid="fit-how">
           <summary
             aria-label="계산 방법"
-            className="grid h-8 w-8 cursor-pointer list-none place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
+            className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] cursor-pointer list-none place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
           >
             <Info aria-hidden="true" size={15} />
           </summary>
@@ -83,7 +83,7 @@ export function FitHeadline({ children, sub, testId }: { children: ReactNode; su
 export function FitLocked({ what }: { what: string }) {
   return (
     <section className="app-card space-y-2 p-4 text-center" data-testid="fit-locked">
-      <Lock aria-hidden="true" size={18} className="mx-auto text-zinc-400" />
+      <Lock aria-hidden="true" size={18} className="mx-auto text-muted" />
       <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{what}</p>
       <p className="text-xs text-zinc-500 dark:text-zinc-400">라이트에서 볼 수 있어요 · 월 990원</p>
       <Link href="/settings/subscription" className="inline-block text-sm font-semibold text-brand">

@@ -71,7 +71,7 @@ function FocusToggle({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition",
+        "inline-flex items-center gap-1.5 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-xs transition",
         whole ? "font-bold" : "font-semibold",
         active
           ? "border-brand/40 bg-brand-soft text-brand"
@@ -356,7 +356,7 @@ export function TodayAdjustMenu({
                       <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">운동 전체 바꾸기</span>
                       <span className="block text-xs text-zinc-600 dark:text-zinc-400">끝낸 운동은 남기고 나머지를 고른 부위로 바꿔요</span>
                     </span>
-                    <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-zinc-400" />
+                    <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-muted" />
                   </button>
                 </div>
                 <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">

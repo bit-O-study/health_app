@@ -75,7 +75,7 @@ export function WeightStepPicker({
             disabled={pending}
             onClick={() => save(kg)}
             aria-pressed={kg === currentStepKg}
-            className={`inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
+            className={`inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
               kg === currentStepKg
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "bg-white text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"

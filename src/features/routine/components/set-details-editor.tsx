@@ -58,7 +58,7 @@ function EnableWeightsPrompt({
               setBusy(false);
             }
           }}
-          className="inline-flex h-8 items-center rounded-full bg-brand px-3 text-xs font-semibold text-white transition disabled:opacity-50 dark:text-zinc-950"
+          className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-brand px-3 text-xs font-semibold text-white transition disabled:opacity-50 dark:text-zinc-950"
         >
           {busy ? "켜는 중…" : "켜고 계속"}
         </button>
@@ -253,7 +253,7 @@ export function SetDetailsEditor({
                 aria-label="세트 삭제"
                 onClick={() => removeRow(i)}
                 disabled={disabled || rows.length <= Math.max(1, minSets)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
+                className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
               </button>
@@ -264,7 +264,7 @@ export function SetDetailsEditor({
               type="button"
               onClick={addRow}
               disabled={disabled || rows.length >= 20}
-              className="inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
+              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
             >
               <Plus aria-hidden="true" size={13} />
               세트 추가
@@ -331,7 +331,7 @@ export function SetDetailsEditor({
             type="button"
             onClick={enable}
             disabled={disabled}
-            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand"
+            className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand"
           >
             세트별 다르게
           </button>

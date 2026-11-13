@@ -137,7 +137,7 @@ export default async function ExerciseDetailPage({
             <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               유튜브에서 ‘{exercise.name}’ 운동법 보기
             </span>
-            <span aria-hidden="true" className="shrink-0 text-xs text-zinc-400">↗</span>
+            <span aria-hidden="true" className="shrink-0 text-xs text-muted">↗</span>
           </a>
         )}
 

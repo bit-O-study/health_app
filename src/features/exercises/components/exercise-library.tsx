@@ -79,7 +79,7 @@ export function ExerciseLibrary({ sections, mobility = [] }: { sections: Section
           <section key={key}>
             <div className="flex items-baseline justify-between">
               <h2 className="app-section-label">{title}</h2>
-              <span className="mb-1.5 px-1 text-xs text-zinc-400">{items.length}개</span>
+              <span className="mb-1.5 px-1 text-xs text-muted">{items.length}개</span>
             </div>
 
             <ul className="app-list">
@@ -100,7 +100,7 @@ export function ExerciseLibrary({ sections, mobility = [] }: { sections: Section
                         {ex.equipments.map((e) => EQUIPMENT_LABELS[e.equipment]).join(" · ")}
                       </span>
                     </span>
-                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
                   </Link>
                 </li>
               ))}
@@ -128,7 +128,7 @@ function FilterChip({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-8 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-3 text-sm font-semibold transition",
+        "inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-3 text-sm font-semibold transition",
         active
           ? "bg-brand text-white dark:text-zinc-950"
           : "bg-zinc-100 text-zinc-700 active:bg-zinc-200 dark:bg-white/[0.08] dark:text-zinc-300",

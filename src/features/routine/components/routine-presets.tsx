@@ -129,7 +129,7 @@ export function RoutinePresets({
                 type="button"
                 onClick={() => setLoadTarget(p)}
                 disabled={pending}
-                className="app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand disabled:opacity-50 dark:bg-white/[0.08]"
+                className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand disabled:opacity-50 dark:bg-white/[0.08]"
               >
                 <Download aria-hidden="true" size={14} />
                 불러오기

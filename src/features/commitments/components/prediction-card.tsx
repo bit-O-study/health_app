@@ -91,7 +91,7 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
         </ul>
       ) : null}
 
-      <p className="border-t border-[var(--line)] pt-2 text-xs leading-4 text-zinc-400">
+      <p className="border-t border-[var(--line)] pt-2 text-xs leading-4 text-muted">
         기초대사 {pred.baseline.bmr.toLocaleString()}kcal · 체지방 {pred.baseline.bodyFatPct}%
         {pred.baseline.bodyFatMeasured ? "(측정)" : "(추정)"}
         {pred.baseline.metabolicFactor ? ` · 내 기록 대사 보정 ×${pred.baseline.metabolicFactor}` : ""} · 예상치이며

@@ -96,13 +96,13 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
             {row.periodEnd ? ` · ~${row.periodEnd}` : ""}
           </p>
           {row.bizName ? (
-            <p className="mt-0.5 text-xs text-zinc-400">
+            <p className="mt-0.5 text-xs text-muted">
               {row.bizName}
               {row.bizNumber ? ` · ${formatBizNumber(row.bizNumber)}` : ""}
               {row.bizEmail ? ` · ${row.bizEmail}` : ""}
             </p>
           ) : (
-            <p className="mt-0.5 text-xs text-zinc-400">사업자 정보 없음</p>
+            <p className="mt-0.5 text-xs text-muted">사업자 정보 없음</p>
           )}
         </div>
       </div>

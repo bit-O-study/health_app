@@ -27,7 +27,7 @@ export function CommunityNotificationList({ items }: { items: CommunityNotificat
           <div className="flex flex-col items-center gap-2 py-20 text-center">
             <Bell aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
             <p className="text-sm text-zinc-500 dark:text-zinc-400">아직 알림이 없어요</p>
-            <p className="text-xs text-zinc-400">내 글에 댓글이 달리면 바로, 받은 좋아요는 하루 한 번 모아 알려드려요.</p>
+            <p className="text-xs text-muted">내 글에 댓글이 달리면 바로, 받은 좋아요는 하루 한 번 모아 알려드려요.</p>
           </div>
         ) : (
           <ul className="flex flex-col divide-y divide-zinc-100 dark:divide-white/[0.06]" data-testid="community-notifications">
@@ -52,7 +52,7 @@ export function CommunityNotificationList({ items }: { items: CommunityNotificat
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold leading-snug text-zinc-900 dark:text-zinc-100">{text.title}</span>
                       {text.body ? <span className="mt-0.5 block truncate text-sm text-zinc-500 dark:text-zinc-400">{text.body}</span> : null}
-                      <span className="mt-0.5 block text-xs text-zinc-400">{relativeTime(new Date(n.createdAt).getTime(), now)}</span>
+                      <span className="mt-0.5 block text-xs text-muted">{relativeTime(new Date(n.createdAt).getTime(), now)}</span>
                     </span>
                     {!n.read ? <span aria-label="새 알림" className="mt-2 h-2 w-2 shrink-0 rounded-full bg-rose-500" /> : null}
                   </Link>
@@ -61,7 +61,7 @@ export function CommunityNotificationList({ items }: { items: CommunityNotificat
             })}
           </ul>
         )}
-        <p className="mt-6 text-center text-xs text-zinc-400">
+        <p className="mt-6 text-center text-xs text-muted">
           푸시 알림은 <Link href="/settings/notifications" className="underline">설정 › 알림</Link>의 ‘커뮤니티 반응’에서 끌 수 있어요.
         </p>
       </main>

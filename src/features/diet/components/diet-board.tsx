@@ -428,7 +428,7 @@ export function DietBoard({
               // 저장 중에는 옛 버튼처럼 막는다(낙관적 상태가 화면째 날아가지 않게).
               if (pending) e.preventDefault();
             }}
-            className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
+            className={`flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
               pending ? "pointer-events-none opacity-30" : ""
             }`}
           >
@@ -441,7 +441,7 @@ export function DietBoard({
             aria-label="날짜 선택 — 과거 식단 등록·수정"
             className="flex min-w-[4.5rem] items-center justify-center gap-1 rounded-full px-2 py-1 text-sm font-bold text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
-            <Calendar aria-hidden="true" size={13} className="text-zinc-400" />
+            <Calendar aria-hidden="true" size={13} className="text-muted" />
             {isToday ? "오늘" : label}
           </button>
           {isToday ? (
@@ -450,7 +450,7 @@ export function DietBoard({
               type="button"
               aria-label="다음 날"
               disabled
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
+              className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
             >
               <ChevronRight aria-hidden="true" size={18} />
             </button>
@@ -463,7 +463,7 @@ export function DietBoard({
               onClick={(e) => {
                 if (pending) e.preventDefault();
               }}
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
+              className={`flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
                 pending ? "pointer-events-none opacity-30" : ""
               }`}
             >
@@ -611,7 +611,7 @@ function DatePickerDialog({
           <h2 className="flex items-center gap-1.5 text-base font-bold">
             <Calendar size={18} className="text-brand" /> 날짜 선택
           </h2>
-          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
+          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
@@ -711,7 +711,7 @@ function MacroChip({
 }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-2 py-2 text-center dark:border-zinc-800 dark:bg-zinc-900">
-      <p className="text-xs font-bold text-zinc-400">{label}</p>
+      <p className="text-xs font-bold text-muted">{label}</p>
       <p className="text-sm font-bold tabular-nums" style={{ color }}>
         {Math.round(value)}g
       </p>
@@ -735,7 +735,7 @@ function DefaultMealPhoto({
       <span className="text-5xl opacity-70" aria-hidden="true">
         {MEAL_ICON[meal]}
       </span>
-      <span className="text-xs font-semibold text-zinc-400">사진 없음</span>
+      <span className="text-xs font-semibold text-muted">사진 없음</span>
     </div>
   );
 }
@@ -957,7 +957,7 @@ function MealDetailDialog({
             <button
               type="button"
               onClick={() => setConfirmDel(false)}
-              className="h-8 rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
+              className="relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
             >
               취소
             </button>
@@ -965,7 +965,7 @@ function MealDetailDialog({
               type="button"
               aria-label="삭제 확인"
               onClick={onDeleteMeal}
-              className="h-8 rounded-md bg-red-600 px-3 text-sm font-bold text-white transition hover:bg-red-500"
+              className="relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-md bg-red-600 px-3 text-sm font-bold text-white transition hover:bg-red-500"
             >
               삭제
             </button>
@@ -1056,7 +1056,7 @@ function MealDetailDialog({
                   <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
                     {MEAL_LABEL[meal]}
                   </p>
-                  <p className="text-xs text-zinc-400">
+                  <p className="text-xs text-muted">
                     {time ? fmtClock(time) : "시간 미입력"}
                   </p>
                 </div>
@@ -1065,7 +1065,7 @@ function MealDetailDialog({
                 <p className="text-xl font-bold tabular-nums text-brand">
                   {Math.round(totals.kcal)}
                 </p>
-                <p className="text-xs font-semibold text-zinc-400">kcal</p>
+                <p className="text-xs font-semibold text-muted">kcal</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -1116,7 +1116,7 @@ function MealDetailDialog({
                           </span>
                         ) : null}
                         {it.amount ? (
-                          <span className="ml-1.5 text-xs font-normal text-zinc-400">
+                          <span className="ml-1.5 text-xs font-normal text-muted">
                             {it.amount}
                           </span>
                         ) : null}
@@ -1132,7 +1132,7 @@ function MealDetailDialog({
                       <Pencil
                         aria-hidden="true"
                         size={15}
-                        className="shrink-0 text-zinc-400"
+                        className="shrink-0 text-muted"
                       />
                     ) : null}
                   </button>
@@ -1309,7 +1309,7 @@ function MultiPhotoPicker({
   }
 
   const tile =
-    "flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-zinc-300 text-zinc-400 dark:border-zinc-600";
+    "flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-zinc-300 text-muted dark:border-zinc-600";
 
   return (
     <div>
@@ -1693,13 +1693,13 @@ function AddFoodDialog({
       {/* 이미 담은 음식(읽기 전용) — 삭제·수정은 게시물 상세에서 */}
       {items.length > 0 ? (
         <div className="border-b border-zinc-100 px-4 py-2 dark:border-zinc-800">
-          <p className="mb-1 text-xs font-bold text-zinc-400">담은 음식</p>
+          <p className="mb-1 text-xs font-bold text-muted">담은 음식</p>
           <ul className="flex flex-col gap-1">
             {items.map((it) => (
               <li key={it.rowKey ?? it.id} className="flex items-center gap-2">
                 <span className="min-w-0 flex-1 truncate text-sm text-zinc-700 dark:text-zinc-200">
                   {it.name}
-                  <span className="ml-1 text-xs text-zinc-400">
+                  <span className="ml-1 text-xs text-muted">
                     {it.amount ? `${it.amount} · ` : ""}
                     {Math.round(it.kcal)}kcal
                   </span>
@@ -1759,7 +1759,7 @@ function AddFoodDialog({
       ) : (
         <>
           <div className="food-search-field mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
-            <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+            <Search aria-hidden="true" size={16} className="shrink-0 text-muted" />
             <input
               autoFocus
               value={q}
@@ -1776,7 +1776,7 @@ function AddFoodDialog({
               사람도 그 안에서 자기 음식을 다시 찾아내야 했다. */}
           {q.trim() === "" && mine.length > 0 ? (
             <div className="mx-4 mt-3">
-              <p className="mb-1.5 text-xs font-bold text-zinc-400">최근 먹은 것</p>
+              <p className="mb-1.5 text-xs font-bold text-muted">최근 먹은 것</p>
               <ul className="flex flex-wrap gap-1.5" data-testid="recent-foods">
                 {mine.map((f) => (
                   <li key={f.key}>
@@ -1789,9 +1789,9 @@ function AddFoodDialog({
                       aria-label={`${f.name} 담기`}
                       className="app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                     >
-                      <Plus aria-hidden="true" size={13} className="text-zinc-400" />
+                      <Plus aria-hidden="true" size={13} className="text-muted" />
                       <span className="truncate">{f.name}</span>
-                      <span className="text-zinc-400">{Math.round(f.kcal)}</span>
+                      <span className="text-muted">{Math.round(f.kcal)}</span>
                     </button>
                   </li>
                 ))}
@@ -1800,12 +1800,12 @@ function AddFoodDialog({
           ) : null}
           <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
             {foodSearchLoading && results.length === 0 ? (
-              <li className="flex items-center justify-center gap-2 py-10 text-sm text-zinc-400">
+              <li className="flex items-center justify-center gap-2 py-10 text-sm text-muted">
                 <Loader2 aria-hidden="true" size={16} className="animate-spin" />
                 음식 목록 불러오는 중…
               </li>
             ) : results.length === 0 ? (
-              <li className="py-10 text-center text-sm text-zinc-400">
+              <li className="py-10 text-center text-sm text-muted">
                 검색 결과가 없어요. ‘직접 입력’으로 추가하세요.
               </li>
             ) : (

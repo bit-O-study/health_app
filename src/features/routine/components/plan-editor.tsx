@@ -864,7 +864,7 @@ export function PlanEditor({
               aria-expanded={swapPickerOpen}
               disabled={pending}
               onClick={toggleArmSwapPicker}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
             >
               <ArrowLeftRight aria-hidden="true" size={14} />
               팔 루틴 교환
@@ -875,7 +875,7 @@ export function PlanEditor({
             data-testid="clear-all-exercises"
             disabled={pending}
             onClick={() => setConfirm({ kind: "clear-all" })}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-3 text-xs font-semibold text-danger transition active:opacity-70 disabled:opacity-60"
+            className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-3 text-xs font-semibold text-danger transition active:opacity-70 disabled:opacity-60"
           >
             <Trash2 aria-hidden="true" size={14} />
             전체 운동 초기화
@@ -988,7 +988,7 @@ export function PlanEditor({
               (f) => !optionsByKey[f.key],
             );
             return (
-              <section className="app-card p-3">
+              <section className="border-t border-line px-1 pt-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
                     본운동
@@ -997,7 +997,7 @@ export function PlanEditor({
                     <button
                       type="button"
                       onClick={() => recommendDay(day)}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 dark:bg-white/[0.08]"
+                      className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 dark:bg-white/[0.08]"
                     >
                       <Sparkles aria-hidden="true" size={14} />
                       추천으로 채우기
@@ -1006,7 +1006,7 @@ export function PlanEditor({
                       type="button"
                       onClick={() => requestAddRow(day)}
                       disabled={dayOptionsLoading}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+                      className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
                     >
                       {dayOptionsLoading ? (
                         <Loader2
@@ -1043,7 +1043,7 @@ export function PlanEditor({
                         >
                           {name}
                           {focus.isSide ? (
-                            <span className="ml-1 text-zinc-400">보조</span>
+                            <span className="ml-1 text-muted">보조</span>
                           ) : null}
                         </button>
                       );
@@ -1096,7 +1096,7 @@ export function PlanEditor({
                             onPointerMove={onGripMove}
                             onPointerUp={onGripUp}
                             onPointerCancel={onGripUp}
-                            className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
+                            className="flex relative h-9 w-6 after:absolute after:-inset-x-2.5 after:-inset-y-1 after:content-[''] shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
                           >
                             <GripVertical aria-hidden="true" size={16} />
                           </button>

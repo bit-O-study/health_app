@@ -68,7 +68,7 @@ export default async function CalendarDayPage({
   const foodsByMeal = (meal: Meal) => foods.filter((f) => f.meal === meal);
 
   const empty = (text: string) => (
-    <p className="app-card p-3 text-center text-sm text-zinc-400">{text}</p>
+    <p className="app-card p-3 text-center text-sm text-muted">{text}</p>
   );
 
   // 공통 머리글 + 섹션 라벨 + 그룹 목록(2026-09-16 8단계). 요약 카드 4장 → 한 장 네 칸.
@@ -162,7 +162,7 @@ export default async function CalendarDayPage({
                         </span>
                       </span>
                     </span>
-                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
                   </Link>
                 </li>
               ))}
@@ -203,7 +203,7 @@ export default async function CalendarDayPage({
                           {!p.done && !p.expired ? ` · D-${p.daysLeft}` : ""}
                         </span>
                       </span>
-                      <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                      <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
                     </Link>
                   </li>
                 );
@@ -237,7 +237,7 @@ export default async function CalendarDayPage({
                 <li key={`c${i}`} className="app-row justify-between py-1.5">
                   <span className="min-w-0">
                     <span className="flex items-center gap-1 truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                      <Wind aria-hidden="true" size={13} className="shrink-0 text-zinc-400" />
+                      <Wind aria-hidden="true" size={13} className="shrink-0 text-muted" />
                       {c.name}
                     </span>
                     {c.detail ? (
@@ -269,7 +269,7 @@ export default async function CalendarDayPage({
                         <span className="min-w-0 truncate text-sm text-zinc-900 dark:text-zinc-100">
                           {f.name}
                           {f.amount ? (
-                            <span className="ml-1 text-xs text-zinc-400">{f.amount}</span>
+                            <span className="ml-1 text-xs text-muted">{f.amount}</span>
                           ) : null}
                         </span>
                         <span className="shrink-0 text-sm tabular-nums text-zinc-500 dark:text-zinc-400">
@@ -303,7 +303,7 @@ function DayStat({
     <div className="min-w-0 px-1 text-center">
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
       <p className={`mt-0.5 truncate text-sm font-semibold tabular-nums ${tone}`}>{value}</p>
-      {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
+      {sub ? <p className="truncate text-xs tabular-nums text-muted">{sub}</p> : null}
     </div>
   );
 }

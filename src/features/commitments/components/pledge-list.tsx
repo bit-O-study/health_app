@@ -63,7 +63,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                         <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${STATUS_TONE[st]}`} data-testid="pledge-status">
                           {STATUS_LABEL[st]}
                         </span>
-                        {p.direction === "reverse" ? <span className="text-xs text-zinc-400">목표로 만든 다짐</span> : null}
+                        {p.direction === "reverse" ? <span className="text-xs text-muted">목표로 만든 다짐</span> : null}
                       </p>
                       <p className="mt-1 text-base font-semibold leading-5">{p.title}</p>
                       <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">
@@ -76,7 +76,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                       <Link
                         href={`/commitments/${p.id}/edit`}
                         aria-label="다짐 편집"
-                        className="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08]"
+                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08]"
                       >
                         <Pencil aria-hidden="true" size={14} />
                       </Link>
@@ -85,7 +85,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                         aria-label="다짐 삭제"
                         onClick={() => remove(p.id)}
                         disabled={pending}
-                        className="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                       >
                         <Trash2 aria-hidden="true" size={14} />
                       </button>

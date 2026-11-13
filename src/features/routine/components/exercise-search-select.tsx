@@ -162,7 +162,7 @@ export function ExerciseSearchSelect({
         className="flex h-9 w-full items-center justify-between gap-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 disabled:opacity-60"
       >
         <span className="truncate">{selected?.name ?? "운동 선택"}</span>
-        <ChevronDown aria-hidden="true" size={15} className="shrink-0 text-zinc-400" />
+        <ChevronDown aria-hidden="true" size={15} className="shrink-0 text-muted" />
       </button>
 
       {open && mounted && !disabled
@@ -180,7 +180,7 @@ export function ExerciseSearchSelect({
               />
               <div className="relative mx-auto mt-[max(env(safe-area-inset-top),0.75rem)] flex max-h-[85vh] w-[min(28rem,94vw)] flex-col overflow-hidden app-card bg-[var(--surface-strong)] shadow-2xl">
                 <div className="flex items-center gap-1.5 border-b border-zinc-100 px-3 py-2.5 dark:border-zinc-800">
-                  <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  <Search aria-hidden="true" size={16} className="shrink-0 text-muted" />
                   <input
                     ref={inputRef}
                     value={q}
@@ -258,7 +258,7 @@ export function ExerciseSearchSelect({
                 ) : null}
                 <ul role="listbox" className="flex-1 overflow-y-auto overscroll-contain py-1">
                   {filtered.length === 0 ? (
-                    <li className="px-3 py-8 text-center text-sm text-zinc-400">
+                    <li className="px-3 py-8 text-center text-sm text-muted">
                       검색 결과 없음
                     </li>
                   ) : (
@@ -327,7 +327,7 @@ function FilterChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold transition ${
+      className={`inline-flex items-center gap-1 relative rounded-full after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] border px-2.5 py-1 text-xs font-semibold transition ${
         active
           ? "border-transparent text-white"
           : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300"

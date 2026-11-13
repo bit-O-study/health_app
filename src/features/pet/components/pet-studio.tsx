@@ -130,7 +130,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
             key={c.cat}
             type="button"
             onClick={() => setCat(c.cat)}
-            className={`h-8 flex-1 rounded-lg text-xs font-bold transition ${
+            className={`relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] flex-1 rounded-lg text-xs font-bold transition ${
               cat === c.cat
                 ? "bg-violet-600 text-white"
                 : "app-card text-zinc-600 dark:text-zinc-300"

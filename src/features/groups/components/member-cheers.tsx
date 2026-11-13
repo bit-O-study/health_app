@@ -52,7 +52,7 @@ export function MemberCheers({
                   : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
               }`}
             >
-              <span className="text-zinc-400">{c.fromName}</span>
+              <span className="text-muted">{c.fromName}</span>
               {c.message}
             </span>
           ))}
@@ -79,7 +79,7 @@ export function MemberCheers({
             onClick={submit}
             disabled={pending}
             aria-label="응원 남기기"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+            className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-md bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={14} className="animate-spin" />

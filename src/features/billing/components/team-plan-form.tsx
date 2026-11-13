@@ -103,7 +103,7 @@ export function TeamPlanForm({
               : ""}
           </p>
           {initial.bizName ? (
-            <p className="mt-1 text-xs text-zinc-400">
+            <p className="mt-1 text-xs text-muted">
               {initial.bizName}
               {initial.bizNumber ? ` · ${formatBizNumber(initial.bizNumber)}` : ""}
             </p>
@@ -188,7 +188,7 @@ export function TeamPlanForm({
                 </button>
               );
             })}
-            <p className="px-1 text-xs text-zinc-400">
+            <p className="px-1 text-xs text-muted">
               부가세 별도. 실제 청구액은 인원·기간에 따라 협의해요.
             </p>
           </div>
@@ -215,7 +215,7 @@ export function TeamPlanForm({
                 />
               </label>
             ))}
-            <p className="text-xs leading-5 text-zinc-400">
+            <p className="text-xs leading-5 text-muted">
               계산서는 확인 후 사람이 발행해요. 지금 안 적어도 신청은 돼요.
             </p>
           </div>

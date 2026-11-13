@@ -116,7 +116,7 @@ export function GroupControls({
           type="button"
           onClick={shareKakao}
           disabled={sharing}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-xs font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
+          className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-xs font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
         >
           {sharing ? (
             <Loader2 aria-hidden="true" size={13} className="animate-spin" />
@@ -128,7 +128,7 @@ export function GroupControls({
         <button
           type="button"
           onClick={copyLink}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-brand/40 bg-brand-soft text-xs font-bold text-brand transition hover:bg-brand-soft"
+          className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] flex-1 items-center justify-center gap-1 rounded-lg border border-brand/40 bg-brand-soft text-xs font-bold text-brand transition hover:bg-brand-soft"
         >
           {copied ? (
             <Check aria-hidden="true" size={13} />
@@ -142,7 +142,7 @@ export function GroupControls({
           disabled={pending}
           onClick={isOwner ? remove : leave}
           aria-label={isOwner ? "그룹 삭제" : "그룹 나가기"}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
+          className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
         >
           {isOwner ? (
             <Trash2 aria-hidden="true" size={14} />

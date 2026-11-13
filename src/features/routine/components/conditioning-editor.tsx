@@ -220,7 +220,7 @@ export function ConditioningEditor({
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-60"
+              className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-60"
             >
               <Sparkles aria-hidden="true" size={13} />
               추천으로 채우기
@@ -229,7 +229,7 @@ export function ConditioningEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
+            className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
           >
             <Plus aria-hidden="true" size={13} />
             추가
@@ -314,7 +314,7 @@ export function ConditioningEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-8 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-3 text-xs font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
+          className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-3 text-xs font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />

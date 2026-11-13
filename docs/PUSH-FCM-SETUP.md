@@ -14,6 +14,12 @@
 - 웹푸시+FCM 통합 팬아웃(`push-fanout.notifyUser`)으로 응원/주간MVP/일일리마인더/무활동 트리거 전부 교체.
 - 로컬 `.env.local` 에 `FIREBASE_SERVICE_ACCOUNT` 저장(gitignore, 커밋 안 됨).
 
+## 알림 아이콘(2026-11-11)
+- 상태표시줄 알림이 동그라미 안의 "i" 로 오던 것을 헬쑤 로고로 바꿨다. 시스템은 작은 아이콘을 **이름으로** 찾고, 없으면 "i" 기본 아이콘을 쓴다.
+- 그림: `android/app/src/main/res/drawable/ic_stat_helssu.xml`(흰색 단색 벡터 — 색 있는 로고를 쓰면 흰 네모가 된다). 색: `values/colors.xml` `notification_accent`.
+- 연결: 매니페스트 `default_notification_icon/color` + 서버 FCM 페이로드(`android.notification.icon/color`) + 로컬 알림(`smallIcon`). 이름·색은 `notif-icon.ts` 한 곳, 일치는 `tests/be/logic/notification-icon.test.ts` 가 지킨다.
+- ⚠ 그림이 앱 안에 있으므로 **APK 를 다시 빌드·설치해야 반영**된다(서버만 배포해서는 안 바뀐다). 기기에서 확인 필요.
+
 ## 🔴 남은 2가지 (이거 하면 상태바 알림 동작)
 1. **Vercel 환경변수 설정**(서버 전송용) — 내가 Vercel 접근 권한이 없어 직접 못 넣음:
    - Vercel → 프로젝트 → Settings → Environment Variables → 추가

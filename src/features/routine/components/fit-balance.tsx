@@ -138,7 +138,7 @@ function BalanceSheet({
         <div className="flex items-center gap-2">
           <h2 className="flex-1 text-base font-bold">몸 균형</h2>
           <span className="text-xs text-zinc-500">지난 7일 · 세부 근육 25개</span>
-          <button type="button" aria-label="닫기" onClick={onClose} className="rounded-full p-1 text-zinc-400">
+          <button type="button" aria-label="닫기" onClick={onClose} className="rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>

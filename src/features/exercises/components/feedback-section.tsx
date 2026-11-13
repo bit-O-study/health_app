@@ -18,7 +18,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
       <section>
         <h2 className="app-section-label">자세 영상</h2>
         <p className="app-list app-row text-sm text-zinc-500 dark:text-zinc-400">
-          <MessageSquare aria-hidden="true" className="shrink-0 text-zinc-400" size={16} />
+          <MessageSquare aria-hidden="true" className="shrink-0 text-muted" size={16} />
           아직 업로드된 영상이 없습니다
         </p>
       </section>

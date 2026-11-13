@@ -46,7 +46,7 @@ export function BodyLogList({ logs }: { logs: BodyLog[] }) {
                 </span>
                 <span className="text-xs font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                   {m.value}
-                  <span className="text-xs font-medium text-zinc-400">
+                  <span className="text-xs font-medium text-muted">
                     {m.unit}
                   </span>
                 </span>

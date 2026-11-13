@@ -144,7 +144,7 @@ export function PermissionNudge() {
     <div
       data-testid="permission-nudge"
       data-kind={kind}
-      className="app-card flex items-center gap-3 py-2 pl-3.5 pr-2"
+      className="flex items-center gap-3 border-b border-line px-1 py-2"
     >
       <Icon aria-hidden="true" size={16} className="shrink-0 text-brand" />
       <p className="text-safe min-w-0 flex-1 text-sm leading-5 text-zinc-700 dark:text-zinc-300">
@@ -154,7 +154,7 @@ export function PermissionNudge() {
         type="button"
         onClick={isPush ? allowPush : allowSteps}
         disabled={busy !== null}
-        className="inline-flex h-8 shrink-0 items-center gap-1 rounded-[10px] px-2.5 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
+        className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-[10px] px-2.5 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
       >
         {busy ? (
           <Loader2 aria-hidden="true" size={14} className="animate-spin" />
@@ -167,7 +167,7 @@ export function PermissionNudge() {
         disabled={busy !== null}
         aria-label={dismissLabel}
         title={dismissLabel}
-        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
+        className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
       >
         <X aria-hidden="true" size={16} />
       </button>

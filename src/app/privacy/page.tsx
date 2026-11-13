@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         시행일: {EFFECTIVE_DATE} · 서비스명: {siteConfig.name}
       </p>
 
-      <p className="app-card mt-3 p-3">
+      <p className="mt-3 px-1">
         {OPERATOR}(이하 “운영자”)은(는) 「개인정보 보호법」 등 관련 법령을 준수하며,
         {siteConfig.name}(이하 “서비스”) 이용자의 개인정보를 보호하기 위해 다음과 같은
         처리방침을 둡니다.
@@ -180,9 +180,9 @@ export default function PrivacyPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="mt-5">
-      <h2 className="app-section-label">{title}</h2>
-      <div className="app-card space-y-2 p-3">{children}</div>
+    <section className="mt-6 border-t border-line px-1 pt-4">
+      <h2 className="mb-2.5 text-base font-semibold tracking-tight text-zinc-950 dark:text-white">{title}</h2>
+      <div className="space-y-2">{children}</div>
     </section>
   );
 }

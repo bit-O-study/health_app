@@ -103,7 +103,7 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
         ) : (
           <>
             <form action="/fit/records" className="app-card flex items-center gap-2 p-2" role="search">
-              <Search aria-hidden="true" size={16} className="ml-1.5 shrink-0 text-zinc-400" />
+              <Search aria-hidden="true" size={16} className="ml-1.5 shrink-0 text-muted" />
               <input
                 id="fit-records-q"
                 name="q"

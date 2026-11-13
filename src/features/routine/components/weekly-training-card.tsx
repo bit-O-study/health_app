@@ -96,7 +96,7 @@ export function WeeklyTrainingCard({
     >
       <div className="flex items-baseline gap-1.5">
         <h2 className="app-section-label">이번 주 훈련</h2>
-        <span className="mb-1.5 text-xs tabular-nums text-zinc-400">
+        <span className="mb-1.5 text-xs tabular-nums text-muted">
           {trainedDays}일 · {weekTotal}세트
         </span>
       </div>
@@ -212,7 +212,7 @@ export function WeeklyTrainingCard({
           <div className="border-t border-[var(--line)] pt-3">
             <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               무게가 안 오르는 종목
-              <span className="ml-1.5 text-xs font-normal text-zinc-400">{stalled.length}개</span>
+              <span className="ml-1.5 text-xs font-normal text-muted">{stalled.length}개</span>
             </p>
             <ul className="mt-1.5 space-y-1" data-testid="stalled-exercises">
               {stalled.map((st) => (
@@ -237,7 +237,7 @@ export function WeeklyTrainingCard({
         <div className="border-t border-[var(--line)] pt-3">
           <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
             이번 주 안 한 세부근육
-            <span className="ml-1.5 text-xs font-normal text-zinc-400">{untouchedSubs.length}개</span>
+            <span className="ml-1.5 text-xs font-normal text-muted">{untouchedSubs.length}개</span>
           </p>
           {untouchedSubs.length === 0 ? (
             <p className="mt-1 text-xs text-brand">모든 세부근육을 한 번 이상 했어요</p>
@@ -260,7 +260,7 @@ export function WeeklyTrainingCard({
             <div className="mt-2.5">
               <p className="text-xs text-zinc-500 dark:text-zinc-400">
                 거들기만 한 곳
-                <span className="ml-1 text-zinc-400">{synergistOnlySubs.length}개</span>
+                <span className="ml-1 text-muted">{synergistOnlySubs.length}개</span>
               </p>
               <ul className="mt-1 flex flex-wrap gap-1" data-testid="synergist-only-subs">
                 {synergistOnlySubs.map((s) => (
@@ -321,7 +321,7 @@ function BalanceRow({
       <div className="flex items-baseline justify-between gap-2 text-xs">
         <span className="min-w-0 truncate text-zinc-600 dark:text-zinc-300">
           {label}
-          <span className="ml-1.5 text-zinc-400">
+          <span className="ml-1.5 text-muted">
             {aLabel} : {bLabel}
           </span>
         </span>

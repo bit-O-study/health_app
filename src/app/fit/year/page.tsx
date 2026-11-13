@@ -81,7 +81,7 @@ export default async function YearReviewPage() {
           </>
         ) : (
           <section className="app-card space-y-2 p-4 text-center" data-testid="year-locked">
-            <Lock aria-hidden="true" size={20} className="mx-auto text-zinc-400" />
+            <Lock aria-hidden="true" size={20} className="mx-auto text-muted" />
             <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">한 해 숫자와 공유 이미지는 라이트에서 볼 수 있어요</p>
             <Link href="/settings/subscription" className="inline-block text-sm font-semibold text-brand">
               라이트 알아보기 →

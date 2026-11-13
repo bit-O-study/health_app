@@ -5,6 +5,7 @@ import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/serve
 import { getMyGroups } from "./data-access";
 import { getGroupMode } from "./group-mode.server";
 import { GroupsClient } from "./components/groups-client";
+import { GroupNotificationBell } from "./components/group-notification-bell";
 
 export async function GroupSectionPage({section,query=""}:{section:"find"|"notifications"|"activity";query?:string}) {
   const user=await getCurrentUser(); if(!user) redirect("/login");
@@ -16,7 +17,7 @@ export async function GroupSectionPage({section,query=""}:{section:"find"|"notif
   const posts=section==="find"||!ids.length?null:await (section==="activity"?postsQuery.eq("user_id",user.id):postsQuery);
   const joined=section==="notifications"&&ids.length?await db.from("group_members").select("id,display_name,group_id,joined_at").in("group_id",ids).order("joined_at",{ascending:false}).limit(30):null;
   const groupName=(id:string|null)=>groups.find(group=>group.id===id)?.name??"그룹";
-  return <div className="app-page"><PageHeader branded title={title}/><main className="app-container space-y-5"><h2 className="text-2xl font-bold">{title}</h2>
+  return <div className="app-page"><PageHeader branded title={title}>{section !== "notifications" ? <GroupNotificationBell /> : <Link href="/groups" className="min-h-11 py-3 text-sm text-brand">그룹으로</Link>}</PageHeader><main className="app-container space-y-5"><h2 className="text-2xl font-bold">{title}</h2>
     {section==="find"?<>
       <p className="text-sm text-muted">내 그룹을 검색하거나 받은 초대 링크·코드로 새 그룹에 참여하세요.</p>
       <form className="flex gap-2"><input type="search" name="q" aria-label="그룹 이름 검색" defaultValue={query} placeholder="내 그룹 이름 검색" className="min-h-11 min-w-0 flex-1 rounded-xl border border-line px-3"/><button className="rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950">검색</button></form>

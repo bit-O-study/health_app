@@ -64,7 +64,7 @@ export function AdminNav() {
           key={section.title}
           className="flex items-center gap-2 lg:mt-2 lg:flex-col lg:items-stretch lg:gap-1"
         >
-          <p className="hidden px-2 pb-1 text-xs font-bold uppercase tracking-wide text-zinc-400 lg:block">
+          <p className="hidden px-2 pb-1 text-xs font-bold uppercase tracking-wide text-muted lg:block">
             {section.title}
           </p>
           {section.links.map((link) => {

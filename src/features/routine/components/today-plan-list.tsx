@@ -286,7 +286,8 @@ export function TodayPlanList({
     // 화면(행 색·뱃지)은 위 optimistic 로 이미 즉시 반영됨. 마지막에 새로고침 한 번(합쳐짐).
     enqueueWrite(async () => {
       if (delta) await addWorkoutDurationAction(delta.forDate, delta.deltaSec);
-      await setExerciseStatusAction(id, target, snap);
+      const saved = await setExerciseStatusAction(id, target, snap);
+      if (saved.ok) window.dispatchEvent(new Event("workout-score-refresh"));
     });
     coalescedRefresh();
   }
@@ -721,7 +722,7 @@ export function TodayPlanList({
                         <StickyNote
                           aria-hidden="true"
                           size={12}
-                          className="mt-0.5 shrink-0 text-zinc-400"
+                          className="mt-0.5 shrink-0 text-muted"
                         />
                         <span className="whitespace-pre-wrap">{item.memo}</span>
                       </p>
@@ -1088,7 +1089,7 @@ function ExerciseEditForm({
             type="button"
             onClick={perSet ? disablePerSet : enablePerSet}
             disabled={pending}
-            className={`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
+            className={`inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-md border px-2 text-xs font-semibold transition ${
               perSet
                 ? "border-brand/40 bg-brand-soft text-brand"
                 : "app-field text-zinc-600 dark:text-zinc-300"
@@ -1136,7 +1137,7 @@ function ExerciseEditForm({
                 aria-label="세트 삭제"
                 onClick={() => removeDetail(i)}
                 disabled={pending || detailRows.length <= minSets}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
+                className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
               </button>
@@ -1146,7 +1147,7 @@ function ExerciseEditForm({
             type="button"
             onClick={addDetail}
             disabled={pending || detailRows.length >= 20}
-            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
+            className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
           >
             <Plus aria-hidden="true" size={13} />
             세트 추가

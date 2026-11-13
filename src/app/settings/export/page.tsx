@@ -97,7 +97,7 @@ export default async function ExportPage() {
             계정을 삭제하면 기록이 <b className="font-semibold text-danger">되돌릴 수 없게</b> 사라져요
           </span>
           <span className="shrink-0 font-semibold text-brand">계정 삭제 안내 보기</span>
-          <ChevronRight aria-hidden="true" size={16} className="-ml-1 shrink-0 text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={16} className="-ml-1 shrink-0 text-muted" />
         </Link>
       </main>
     </div>

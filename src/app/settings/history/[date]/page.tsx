@@ -206,7 +206,7 @@ export default async function HistoryDetailPage({
               </p>
               <p className="mt-0.5 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                 {totalKcal}
-                <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+                <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
               </p>
             </div>
             <div className="min-w-0 px-2">
@@ -234,7 +234,7 @@ export default async function HistoryDetailPage({
             <ul className="app-list">
               {mainItems.map((it, i) => (
                 <li key={i} className="flex min-h-12 items-center gap-3 px-3 py-2">
-                  <Dumbbell aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  <Dumbbell aria-hidden="true" size={16} className="shrink-0 text-muted" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm text-zinc-950 dark:text-zinc-100">
                       {it.name}

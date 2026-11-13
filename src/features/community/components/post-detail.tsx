@@ -263,7 +263,7 @@ export function PostDetail({
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="더보기"
               aria-expanded={menuOpen}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
+              className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
             >
               <MoreVertical aria-hidden="true" size={18} />
             </button>
@@ -347,7 +347,7 @@ export function PostDetail({
               leaveOnBlock={() => router.replace("/community")}
             />
           </p>
-          <p className="text-xs leading-4 text-zinc-400">{when}</p>
+          <p className="text-xs leading-4 text-muted">{when}</p>
         </div>
         {post.groupName ? (
           <span className="ml-auto rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
@@ -459,12 +459,12 @@ export function PostDetail({
         >
           <Heart
             size={20}
-            className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"}
+            className={liked ? "fill-rose-500 text-rose-500" : "text-muted"}
           />
           {likeCount}
         </button>
         <span className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums text-zinc-500">
-          <MessageCircle size={20} className="text-zinc-400" />
+          <MessageCircle size={20} className="text-muted" />
           {commentCount}
         </span>
         <button
@@ -475,7 +475,7 @@ export function PostDetail({
           aria-pressed={saved}
           className="ml-auto inline-flex items-center disabled:opacity-60"
         >
-          <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-zinc-400"} />
+          <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-muted"} />
         </button>
       </div>
 
@@ -507,7 +507,7 @@ export function PostDetail({
           ) : null;
         })()}
         {comments.length === 0 ? (
-          <p className="py-3 text-center text-sm text-zinc-400">
+          <p className="py-3 text-center text-sm text-muted">
             {isQuestion ? "아직 답변이 없어요. 아는 걸 알려 주세요." : "아직 댓글이 없어요"}
           </p>
         ) : (
@@ -543,14 +543,14 @@ export function PostDetail({
                       <CheckCircle2 aria-hidden="true" size={12} /> 채택됨
                     </span>
                   ) : null}
-                  <span className="ml-1.5 font-normal text-zinc-400">
+                  <span className="ml-1.5 font-normal text-muted">
                     {relativeTime(new Date(c.createdAt).getTime(), now)}
                   </span>
                 </p>
                 <p className="whitespace-pre-wrap break-words text-sm">
                   {c.body}
                 </p>
-                <div className="flex gap-3 text-xs text-zinc-400">
+                <div className="flex gap-3 text-xs text-muted">
                   <button type="button" onClick={() => startReply(c)} className="min-h-8 font-semibold hover:text-brand">
                     답글
                   </button>
@@ -605,7 +605,7 @@ export function PostDetail({
       </div>
 
       {/* 댓글 입력 — 하단 고정탭(4rem) + 제스처바(safe-area) 위에 붙게 오프셋. */}
-      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] bg-background py-2">
+      <div className="sticky bottom-[calc(var(--nav-h)+env(safe-area-inset-bottom))] bg-background py-2">
       {replyTo ? (
         <p className="mb-1.5 flex items-center gap-2 px-1 text-xs text-zinc-500" data-testid="reply-to">
           <span className="min-w-0 flex-1 truncate">@{replyTo.name}에게 답글</span>

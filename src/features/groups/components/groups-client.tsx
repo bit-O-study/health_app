@@ -104,7 +104,7 @@ export function GroupsClient({
                       멤버 {g.memberCount}명
                     </span>
                   </span>
-                  <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
                 </Link>
                 <div className="pb-2.5 pl-[3.25rem] pr-3">
                   <GroupControls

@@ -104,7 +104,7 @@ export function NotificationSettings({
                 disabled={pending}
                 onChange={(h) => save({ ...prefs, quietStartHour: h })}
               />
-              <span className="text-sm text-zinc-400">~</span>
+              <span className="text-sm text-muted">~</span>
               <HourSelect
                 label="종료"
                 value={prefs.quietEndHour}

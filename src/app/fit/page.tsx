@@ -160,7 +160,7 @@ export default async function FitPage({
               ) : (
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">모자란 근육이 없어요</p>
               )}
-              <p className="text-xs text-zinc-400">점선 = 이번 주 목표 · 그림을 누르면 자세히</p>
+              <p className="text-xs text-muted">점선 = 이번 주 목표 · 그림을 누르면 자세히</p>
             </div>
           </div>
         </section>

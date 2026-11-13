@@ -74,7 +74,7 @@ export function TrainerCommentForm({
           className="w-full rounded-[10px] bg-zinc-100 p-3 text-base leading-6 outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
         <div className="flex items-center justify-between">
-          <span className="text-xs tabular-nums text-zinc-400">
+          <span className="text-xs tabular-nums text-muted">
             {body.trim().length} / {MAX_COMMENT_LEN}
           </span>
           <button
@@ -125,7 +125,7 @@ export function TrainerCommentForm({
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
               </div>
-              <p className="mt-1.5 text-xs text-zinc-400">
+              <p className="mt-1.5 text-xs text-muted">
                 {commentDateLabel(c.createdAt)}
               </p>
             </li>

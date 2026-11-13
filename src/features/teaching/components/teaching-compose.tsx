@@ -102,12 +102,12 @@ export function TeachingComposeModal({
     <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
       <div role="dialog" aria-modal="true" aria-labelledby="teaching-upload-title" className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 id="teaching-upload-title" className="text-base font-bold">내 운동 영상 올리고 티칭받기 🎬</h2>
+          <h2 id="teaching-upload-title" className="text-base font-bold">내 운동 영상 올리고 티칭받기</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="닫기"
-            className="rounded-full p-1 text-zinc-400"
+            className="rounded-full p-1 text-muted"
           >
             <X size={20} />
           </button>
@@ -133,7 +133,7 @@ export function TeachingComposeModal({
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-muted dark:border-zinc-700 dark:bg-zinc-800"
           >
             <Video size={32} />
             30초 이내 영상 찍기 / 올리기

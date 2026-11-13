@@ -54,7 +54,7 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                   aria-label="다짐 삭제"
                   onClick={() => remove(c.id)}
                   disabled={pending}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                  className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
@@ -66,11 +66,11 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                     {p.done ? (
                       <span className="ml-1 font-semibold text-brand">달성 ✓</span>
                     ) : p.upcoming ? (
-                      <span className="ml-1 text-zinc-400">시작 전</span>
+                      <span className="ml-1 text-muted">시작 전</span>
                     ) : p.expired ? (
                       <span className="ml-1 font-semibold text-danger">기간 종료</span>
                     ) : (
-                      <span className="ml-1 text-zinc-400">D-{p.daysLeft}</span>
+                      <span className="ml-1 text-muted">D-{p.daysLeft}</span>
                     )}
                   </span>
                   <span className="font-bold tabular-nums text-zinc-900 dark:text-zinc-100">

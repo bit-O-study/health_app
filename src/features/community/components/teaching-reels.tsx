@@ -61,7 +61,7 @@ export function TeachingReels({
           해당하는 운동 영상이 없어요
         </p>
         <p className="text-xs text-zinc-400">
-          내 운동 영상을 올리고 자세 티칭을 받아보세요. 영상은 여기에 모여요! 🎬
+          내 운동 영상을 올리고 자세 티칭을 받아보세요. 영상은 여기에 모여요.
         </p>
       </div>
     );
@@ -467,7 +467,7 @@ function CommentSheet({
             </div>
           ) : list.length === 0 ? (
             <p className="py-8 text-center text-sm text-zinc-400">
-              첫 댓글을 남겨보세요 💬
+              첫 댓글을 남겨보세요
             </p>
           ) : (
             <ul className="flex flex-col gap-3">

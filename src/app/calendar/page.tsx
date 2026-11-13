@@ -167,7 +167,7 @@ export default async function CalendarPage({
       <Link
         href={isWeek ? `/calendar/week?d=${week.previous}` : `/calendar?m=${monthParam(prev)}`}
         aria-label={isWeek ? "이전 주" : "이전 달"}
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
         <ChevronLeft aria-hidden="true" size={18} />
       </Link>
@@ -177,7 +177,7 @@ export default async function CalendarPage({
       <Link
         href={isWeek ? `/calendar/week?d=${week.next}` : `/calendar?m=${monthParam(next)}`}
         aria-label={isWeek ? "다음 주" : "다음 달"}
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
         <ChevronRight aria-hidden="true" size={18} />
       </Link>
@@ -188,7 +188,7 @@ export default async function CalendarPage({
         {streak > 0 ? (
           <span
             data-testid="calendar-streak"
-            className="mr-auto inline-flex h-7 items-center gap-1 rounded-full bg-brand-soft px-2.5 text-xs font-bold text-brand"
+            className="mr-auto inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-brand-soft px-2.5 text-xs font-bold text-brand"
           >
             <Flame aria-hidden="true" size={13} />
             {streak}일 연속 운동
@@ -197,7 +197,7 @@ export default async function CalendarPage({
         {/* 운동 기록(부위별 달력)과 서로 오간다 — 두 달력을 합치는 대신 연결(3단계). */}
         <Link
           href={`/settings/history?month=${isWeek ? week.from.slice(0, 7) : monthParam({ year, month0 })}`}
-          className="app-press inline-flex h-7 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
         >
           <History aria-hidden="true" size={12} />
           운동 기록
@@ -205,7 +205,7 @@ export default async function CalendarPage({
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
-            className="app-press inline-flex h-7 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+            className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             <Heart aria-hidden="true" size={12} />
             생리 기록
@@ -418,7 +418,7 @@ function WeightRow({
       >
         <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
         <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
-        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-muted" />
       </Link>
     );
   }
@@ -443,7 +443,7 @@ function WeightRow({
       </span>
       <span className="flex items-center gap-2">
         {d === null ? (
-          <span className="text-xs font-semibold text-zinc-400">첫 기록</span>
+          <span className="text-xs font-semibold text-muted">첫 기록</span>
         ) : (
           <span className={`flex items-center gap-0.5 text-xs font-semibold tabular-nums ${toneCls}`}>
             {down ? (
@@ -456,7 +456,7 @@ function WeightRow({
         )}
         <span className="whitespace-nowrap text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
           {delta.latestKg.toLocaleString()}
-          <span className="ml-0.5 text-xs font-medium text-zinc-400">kg</span>
+          <span className="ml-0.5 text-xs font-medium text-muted">kg</span>
         </span>
       </span>
     </div>
@@ -478,7 +478,7 @@ function SummaryStat({
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {value.toLocaleString()}
-        <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+        <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
       </p>
     </div>
   );
@@ -502,7 +502,7 @@ function BalanceStat({ balance }: { balance: CalorieBalance }) {
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {balance.loggedDays === 0 ? "—" : signedKcal(balance.netKcal)}
         {balance.loggedDays === 0 ? null : (
-          <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+          <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
         )}
       </p>
       <p className={`truncate text-xs font-semibold ${tone}`}>{directionLabel(balance)}</p>

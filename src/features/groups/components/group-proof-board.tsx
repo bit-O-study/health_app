@@ -13,6 +13,7 @@ import { GroupSwitcher } from "@/features/groups/components/group-switcher";
 import { ProofRecorder } from "@/features/groups/components/proof-recorder";
 import { ProofMemberSheet } from "@/features/groups/components/proof-member-sheet";
 import { useConfirm } from "@/components/use-confirm";
+import { GroupNotificationBell } from "./group-notification-bell";
 
 /** 인증 시각 → 한국시간 "오후 3:24". */
 function formatTime(iso: string): string {
@@ -78,11 +79,11 @@ function ProofCard({ member }: { member: ProofMember }) {
 function PendingCard({ member }: { member: ProofMember }) {
   return (
     <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/50">
-      <Dumbbell size={26} className="text-zinc-400" />
+      <Dumbbell size={26} className="text-muted" />
       <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
         {member.name}
       </span>
-      <span className="text-xs text-zinc-400">아직 인증 전</span>
+      <span className="text-xs text-muted">아직 인증 전</span>
     </div>
   );
 }
@@ -139,7 +140,7 @@ export function GroupProofBoard({
     <div className="w-full">
       {/* 헤더 — 그룹 전환 칩 + 위쪽 빈 여백(패딩) */}
       <header className="px-4 pt-3 sm:px-6">
-        <Link href="/home" aria-label="헬쑤 홈" className="mb-2 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
+        <div className="mb-2 flex items-center justify-between"><Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><GroupNotificationBell /></div>
         <GroupSwitcher groups={groups} currentId={board.id} />
         <div className="h-8" />
       </header>

@@ -1,0 +1,76 @@
+{
+  "trx-chest-press": {
+    "checks": {
+      "exercise": "TRX chest press facing away from anchor",
+      "equipment": "Fixed rear overhead anchor, constant-length straps and horizontal handles",
+      "setup": "고정점을 등지고 손잡이를 가슴 앞에 잡는다. 발을 고정하고 복부에 힘을 주어 머리부터 발목까지 곧게 유지한다.",
+      "hands": "Closed overhand grips, fixed hands while body moves",
+      "feet": "Both feet fixed, rigid legs rock around ankles",
+      "movement": "팔꿈치를 굽혀 가슴을 손잡이 쪽으로 천천히 내린다. 손잡이를 밀며 팔을 펴 시작 자세로 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Rigid straps and simplified anchor; no loading simulation.",
+      "Sampled body clearance; no exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:06:22.660Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/final.jpg",
+        "sha256": "a2a9ab1506900602ef3eed0778f0d78f32a423bc09457f64224905ab91ea3690"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/final-dark.jpg",
+        "sha256": "f82c9d162f6b15df74ee7880578bfe0fc7b4be912de2e3003492e1c46c8d74b9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/full-sheet.png",
+        "sha256": "dbc8033551da72abfa84d26da71e8102c2823b977d6e6f29d2d1f43f9f4f0245"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/side-sheet.png",
+        "sha256": "fc4b3afdaf71e1051faca0ad38be8acb24831212416a44b79e7d0cf770a62780"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/verification.json",
+        "sha256": "e826210a52d33ed5327ade93bf7fd0de9e9cf57eb3fa6c7aa378f9d2e11bf838"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/geometry.json",
+        "sha256": "f51f726cd62493650c38b95908d19f6b0978984940905ba74e3f460770cf8c61"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/kinematics.json",
+        "sha256": "07d7f0ac749dc6feb33995a24b4b0cb3453180f6f259dc122828b26e04ba5706"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/provenance.json",
+        "sha256": "4a0ff4c3d93dafba31b2e10f36f96b1745962319ebd873be36133f09940b48ce"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/trx-chest-press-alpha.webm",
+        "sha256": "a1206fc2321f603ceb550781f547652bd8110776b44abb244e9d2a761620ee53",
+        "bytes": 276037,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/trx-chest-press.mp4",
+        "sha256": "468faad678b250109d8eb1bf66182e7dea4bf0cb8593a891bf4360561af63cc7",
+        "bytes": 99102,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/trx-chest-press-dark.mp4",
+        "sha256": "9fff1d0a9a3af8ba7db17d6aad8f5c371289520ee1c975337689b884cccbc238",
+        "bytes": 100228,
+        "decode": "passed"
+      }
+    ]
+  }
+}

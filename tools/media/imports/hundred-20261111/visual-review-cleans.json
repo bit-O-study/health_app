@@ -1,0 +1,150 @@
+{
+  "power-clean": {
+    "checks": {
+      "exercise": "Power clean with partial squat catch",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 정강이 앞에 두고 어깨너비보다 약간 넓게 잡는다. 팔을 길게 펴고 엉덩이를 낮춘다.",
+      "hands": "Closed grips, long initial arms and front-rack turnover",
+      "feet": "Planted-foot teaching variation; stable stance during catch",
+      "movement": "바닥을 밀며 바를 올리고 다리와 엉덩이를 편다. 팔꿈치를 앞으로 돌리며 무릎을 가볍게 굽혀 어깨 앞에서 바를 받은 뒤 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed planted-foot teaching sequence without flight or foot repositioning.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:38:21.773Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/final.jpg",
+        "sha256": "5bb59e24ef2dd8d7190dd20b44b2a32659501352829dd084c47e3494cf13f36b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/final-dark.jpg",
+        "sha256": "5edda8ee7ac48c99debe6714f85c9b6e9182bcdcc38eb9fcb57791cc437a69ab"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/full-sheet.png",
+        "sha256": "7aed3860c29257af07c9572571eba2ea278a4394d83b6a363d5479af0d0b3598"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/side-sheet.png",
+        "sha256": "6cdf700dcb7bc194b99e38701f9db430ade7959e1feb6bf9979833c6b7386340"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/verification.json",
+        "sha256": "b03f208531b587208c400aa35ed7419972ea352a1150c708645827c7eb4c373e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/geometry.json",
+        "sha256": "3230378d2b74d2cf75822b20f0304572f0714185da591253d05207724def7b34"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/kinematics.json",
+        "sha256": "931f04571551ab8157d4087f0bc217a75839e70902a09a369b6fc3ba31e7c05f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/provenance.json",
+        "sha256": "018e82048cc8d870594a55982b6c5b73b31ee55ae849a9f37d83cd0a00d7e48f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/power-clean-alpha.webm",
+        "sha256": "ed01a64074f3e2c64d7d085cf075ed188df45ec6c659d9132b3b31e22caac2fc",
+        "bytes": 359656,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/power-clean.mp4",
+        "sha256": "ea72096c1f75a32b268e21870cfc18cbc0192f2a9f9b6ca51f8893f46f28f203",
+        "bytes": 161936,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/power-clean-dark.mp4",
+        "sha256": "a327c38dfc436c64928f15e498e34c77d53e7b52f25c3ed378ffe6e779e72c85",
+        "bytes": 136711,
+        "decode": "passed"
+      }
+    ]
+  },
+  "hang-clean": {
+    "checks": {
+      "exercise": "Hang clean with squat catch",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 잡고 무릎 위에 둔다. 엉덩이를 뒤로 보내고 팔을 길게 편 채 등을 안정적으로 유지한다.",
+      "hands": "Closed grips, long initial arms and front-rack turnover",
+      "feet": "Planted-foot teaching variation; stable stance during catch",
+      "movement": "다리와 엉덩이를 펴며 바를 끌어 올린다. 팔꿈치를 앞으로 돌리고 스쿼트 자세로 내려가 어깨 앞에서 바를 받은 뒤 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed planted-foot teaching sequence without flight or foot repositioning.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:38:21.818Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/final.jpg",
+        "sha256": "231a6e9ab00c9d484c1fa372cc1c62fd244939095cf9aa0a9d96ebc23e54fcc8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/final-dark.jpg",
+        "sha256": "1e71aaccb1331ba9d80c8db09d2a90caa49d9e05bcd871831d2be9f664b6a208"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/full-sheet.png",
+        "sha256": "fd3b01c1875d683a2ee0bab842fac4fd569b58061d3a6aa9068cc8fda3066622"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/side-sheet.png",
+        "sha256": "6f332ec34cdd597d8f2c20524b01dca6919b231dd752c6fdf402a81310de2e09"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/verification.json",
+        "sha256": "d54498ae367cc45d7d49e7b271760b13d7debc05cef2ccbeb09d64a33ea15199"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/geometry.json",
+        "sha256": "97dd55043a75db22dad01568fcad3a3c2196a02b4e3473310ad2cac553d4dc23"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/kinematics.json",
+        "sha256": "351cf3ddc0c9b6dcc5217057a42098bea81c52c644f50334fc5cc5922edd4e59"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/provenance.json",
+        "sha256": "f945746c1ca77da2e92dbfc0524923d668d7664a99a7e6d62aeb561236ea258a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/hang-clean-alpha.webm",
+        "sha256": "22c2f3f81e6c6ca7b6b145ad457bc31faa0ce4a9617b2fb10b790742ef817734",
+        "bytes": 324721,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/hang-clean.mp4",
+        "sha256": "548d42189665143558dc6fb2c0a3ee697495526a995a3a71dae64e295ec8b573",
+        "bytes": 148224,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/hang-clean-dark.mp4",
+        "sha256": "c9674659b53b474c0227f98f8115be8ca37050128e81a4681ff11888907ca1cc",
+        "bytes": 124505,
+        "decode": "passed"
+      }
+    ]
+  }
+}

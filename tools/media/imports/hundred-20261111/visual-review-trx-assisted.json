@@ -1,0 +1,149 @@
+{
+  "trx-squat": {
+    "checks": {
+      "exercise": "TRX assisted two-foot squat",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 양발을 어깨너비로 벌리고 바닥에 고정한다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Both feet flat and fixed",
+      "movement": "손잡이로 균형을 보조하면서 엉덩이를 뒤로 보내고 무릎을 굽힌다. 양발로 바닥을 밀어 일어난다."
+    },
+    "limitations": [
+      "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+      "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation."
+    ],
+    "reviewedAt": "2026-11-13T04:05:59.350Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/final.jpg",
+        "sha256": "9cdff0e1f381a5105364cfc90eaa2a1003545ef460b1d5cbaa5859d4f5a09c31"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/final-dark.jpg",
+        "sha256": "328ddc31476727434ed321f99ad487a10f7f6390e8736bfe2d098413d59eb35b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/full-sheet.png",
+        "sha256": "5a3e6e8f884f0e0c0469535eeb86d4184a9613b3d1931bd8b4e0b62c2c135a73"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/side-sheet.png",
+        "sha256": "83845de4b9f3099b31c142f032e07a32f14a8387c9515b7ad7179d864c6e355e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/verification.json",
+        "sha256": "a4f6400aabb695b012082aa7a92942cd99823c7bf52242c9aae2e83bac14c0a8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/geometry.json",
+        "sha256": "8c52e818f4343e27fbb94d6c8e90b88b83cef6e4ea7ac68a3a7cc297c71a8a46"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/kinematics.json",
+        "sha256": "b808c6c9a8b6b4e97413163c6c105f65f7a2e1a28954f40e8beb027bef198379"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/provenance.json",
+        "sha256": "4bcf08e532783f18c95b0fc8ee3624043967c209fdd67b598aea59d374c42be4"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/trx-squat-alpha.webm",
+        "sha256": "541599012ad5d86778f7b35d033ae6a1f54e11ab09b2d7ec54c7b705c05c1a74",
+        "bytes": 263699,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/trx-squat.mp4",
+        "sha256": "f9bfcf3e4aebdd3db7a565cf761fa4486e5f4b5e93ab2a6de2ed5f5f5d990480",
+        "bytes": 101951,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/trx-squat-dark.mp4",
+        "sha256": "b69763d54258e4864cee59a93f8e08d1c027a8938d116c85c6133a4a0443cfe6",
+        "bytes": 103527,
+        "decode": "passed"
+      }
+    ]
+  },
+  "trx-lunge": {
+    "checks": {
+      "exercise": "Grounded TRX assisted split-stance lunge",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 한 발은 앞에, 반대 발은 뒤에 두고 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Front foot flat and rear forefoot fixed",
+      "movement": "상체를 세운 채 양 무릎을 굽혀 내려갔다가 앞발로 바닥을 밀며 올라온다. 손잡이로 균형을 보조한다."
+    },
+    "limitations": [
+      "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+      "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation.",
+      "Grounded assisted lunge variation, not suspended-foot lunge; left-leg-leading example."
+    ],
+    "reviewedAt": "2026-11-13T04:05:59.370Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/final.jpg",
+        "sha256": "2431bf3ac3b57c48643016ef3912ac51fc730ce80a75fa5653ae9db4acdfd977"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/final-dark.jpg",
+        "sha256": "512eb02c5d45014b55bb1617034c5f48712f0f01293c62ad40a4252ac9b5f00b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/full-sheet.png",
+        "sha256": "d9f8342d6fb25b42cf722d909fc58104d844f674454d1823ce3288606bc4be63"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/side-sheet.png",
+        "sha256": "e5aaa9dd7efcbd44df66112bf13d51c1095637fcf3776c5cb28183c9814e2552"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/verification.json",
+        "sha256": "6e97459c8b346b56417e4caad983a33b50fb7f222f164f617e58628791cb18e1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/geometry.json",
+        "sha256": "388f84ab7e679c9e5afcf2a6ff28e2d3c2a3e86ad7f10d12de4f4da7db2b4327"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/kinematics.json",
+        "sha256": "190c1e1cc8951c32fe52172c3c9b766212d1b27b197a25f63bc18edcef006ad6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/provenance.json",
+        "sha256": "8ef0ef6e3a27e2ddb3602b342d2ce8687b332c2bb426d99af5d00f083b762915"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/trx-lunge-alpha.webm",
+        "sha256": "89d0d0fa77e427a56f0b9fba9e5ce38e4d849a2993c00fab048c0bcec61a3869",
+        "bytes": 223230,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/trx-lunge.mp4",
+        "sha256": "493086b933dcbd8cf99fc7feeba0ce069211f0f48f5dc949c8e6c0de2c2a23d3",
+        "bytes": 83671,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/trx-lunge-dark.mp4",
+        "sha256": "4ebe55561cb42de0e3b45fb5f30881ddfe7947396caff58e2f707d87156946d0",
+        "bytes": 84791,
+        "decode": "passed"
+      }
+    ]
+  }
+}

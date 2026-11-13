@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "linkLengthError": 1.7763568394002505e-15,
+  "maxStep": 0.023759471477224486,
+  "handRise": 2.4546600025095353,
+  "handAdvance": 2.6323005804403343,
+  "elbowRange": [
+    59.07761903932732,
+    152.1116248406238
+  ],
+  "backrestDegreesFromVertical": 30,
+  "loopError": 0
+}

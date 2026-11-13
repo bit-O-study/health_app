@@ -1,0 +1,17 @@
+{
+  "decline-dumbbell-fly": {
+    "checks": {
+      "exercise": "Decline dumbbell fly with fixed 20-degree elbow bend",
+      "equipment": "Thirty-degree decline bench, head pad, elevated foot platform and two dumbbells",
+      "setup": "머리가 낮아지는 디클라인 벤치에 등과 머리를 대고 눕는다. 양발을 지지대에 단단히 올리고 덤벨을 가슴 위로 든다.",
+      "hands": "Neutral closed grips and symmetric fly arc",
+      "feet": "Fixed flat feet on supported elevated platform",
+      "movement": "손바닥을 마주 보게 하고 팔꿈치를 살짝 굽힌 각도를 유지한다. 덤벨을 옆으로 벌렸다가 가슴 위로 모은다."
+    },
+    "limitations": [
+      "Procedural demonstration; not captured human motion.",
+      "Elevated foot platform represents one supported setup; no bench entry or exit.",
+      "Sampled equipment/body and support checks; not exhaustive mesh collision certification."
+    ]
+  }
+}

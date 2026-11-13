@@ -1,0 +1,54 @@
+{
+  "squeeze-press": [
+    {
+      "file": "tools/media/motion-guides/squeeze-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/squeeze-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/squeeze-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squeeze-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squeeze-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/squeeze-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "tate-press": [
+    {
+      "file": "tools/media/motion-guides/tate-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tate-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tate-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tate-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tate-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tate-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

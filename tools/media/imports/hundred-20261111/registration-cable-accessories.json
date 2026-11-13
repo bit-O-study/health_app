@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-11-13T00:31:53.549Z",
+  "ids": [
+    "cable-external-rotation",
+    "band-external-rotation",
+    "high-cable-fly",
+    "standing-cable-reverse-fly",
+    "cable-y-raise",
+    "cable-shrug"
+  ],
+  "files": 18,
+  "batchCompleted": 42,
+  "batchRemaining": 58,
+  "counts": {
+    "reviewed-both-themes": 443,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 872,
+    "legacy-needs-remake": 2
+  },
+  "tests": 17,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

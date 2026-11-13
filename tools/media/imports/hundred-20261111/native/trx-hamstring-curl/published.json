@@ -1,0 +1,18 @@
+{
+  "id": "trx-hamstring-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "934d586f79ae433df335063303a64a64d7ca0f79762ce856dfc71b799377504a",
+  "rigSourceSha256": "c81d640ff99865d0cb0be99a110b55cbbdb80656669dd9b950c09644b67b5d6b",
+  "videoSha256": "54206311e6ec3eaa04dfcf91576d48f3f1c78d14bca64bbf5c17b49c130bea9a",
+  "darkVideoSha256": "adb8a2ac4113756f38ee6753e8159d2d1ceabdb78ac562c51d42b25c3606d6cb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 130438,
+  "darkBytes": 135886,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:36:44.141Z"
+}

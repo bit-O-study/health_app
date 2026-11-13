@@ -1,0 +1,54 @@
+{
+  "full-can-raise": [
+    {
+      "file": "tools/media/motion-guides/full-can-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/full-can-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/full-can-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-can-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-can-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-can-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "empty-can-raise": [
+    {
+      "file": "tools/media/motion-guides/empty-can-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/empty-can-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/empty-can-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/empty-can-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/empty-can-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/empty-can-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

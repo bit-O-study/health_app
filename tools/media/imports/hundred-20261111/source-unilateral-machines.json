@@ -1,0 +1,17 @@
+{
+  "single-arm-machine-chest-press": {
+    "equipment": "machine",
+    "url": "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html",
+    "criteria": "Seated independent left-arm machine-chest-press with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length."
+  },
+  "single-arm-machine-shoulder-press": {
+    "equipment": "machine",
+    "url": "https://www.technogym.com/en-GB/product/artis-shoulder-press_MK69EH.html",
+    "criteria": "Seated independent left-arm machine-shoulder-press with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length."
+  },
+  "single-arm-pec-deck-fly": {
+    "equipment": "machine",
+    "url": "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html",
+    "criteria": "Seated independent left-arm pec-deck with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length."
+  }
+}

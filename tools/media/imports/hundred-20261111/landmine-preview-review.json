@@ -1,0 +1,41 @@
+{
+  "landmine-squat": {
+    "checks": {
+      "exercise": "Front-loaded landmine squat with distinct anchored arc",
+      "equipment": "Fixed base, constant-length bar, plate and compact transverse handle",
+      "setup": "한쪽 끝이 고정된 랜드마인 바의 앞쪽 손잡이를 양손으로 잡고 가슴 앞에 둔다.",
+      "hands": "Closed bilateral grips remain on the handle",
+      "feet": "Both feet and toes remain planted",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손잡이는 바의 원호를 따라 움직인다."
+    },
+    "limitations": [
+      "Generic compact transverse handle rather than bare-sleeve cup grip.",
+      "Slow procedural motion with fixed 20-unit bar; no force or tissue simulation.",
+      "Sampled plate and central-body/shaft clearance; not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:29:45.787Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/full-sheet.png",
+        "sha256": "8381d7fd049ddf21af9ae01d87e985567f3a1347f8f32b3876c116c0392251ce"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/side-sheet.png",
+        "sha256": "7caf1ad9b639fbf1458cce993b63ba8bc67ba845b8afc81225b0d8b9d5c1056a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/poses.json",
+        "sha256": "f59f8e5e59a63cb86c463e34194beedb498ad6a57355095669b9fd684d11b669"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/geometry.json",
+        "sha256": "9871944a63d76cbe1a8b19a99f459fa8c7c8246d9a0f0824194297db7661bf03"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/kinematics.json",
+        "sha256": "3b5c89ff25e7ea2f34c2e3861d9affcae2eef0ff1677a6fbde9b6f0496de1360"
+      }
+    ]
+  }
+}

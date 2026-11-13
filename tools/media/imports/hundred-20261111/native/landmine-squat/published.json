@@ -1,0 +1,18 @@
+{
+  "id": "landmine-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "72edaef9b924802e6c29ef88ffffbf8f4138f5b77dc4b7985687cb09953ade0a",
+  "rigSourceSha256": "03b3d28c23f067fcb1126d0513519247cf312c461af18154de81eaff3d1cf158",
+  "videoSha256": "1464932b7ee0a0beb982d4ab659893a0d886040301cfaf3a21f22c0f4bd057fd",
+  "darkVideoSha256": "acbeba13f4a4b9bf7c3c2e24e81319f455b3e4fb0c3a4fe2c472704efe382102",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 130559,
+  "darkBytes": 109410,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:32:23.397Z"
+}

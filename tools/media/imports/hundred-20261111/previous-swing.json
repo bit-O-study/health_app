@@ -1,0 +1,28 @@
+{
+  "kettlebell-swing": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-swing.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-swing.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-swing-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-swing.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-swing-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-swing-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

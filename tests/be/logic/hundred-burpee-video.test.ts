@@ -1,0 +1,20 @@
+import { expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
+vi.mock("server-only", () => ({}));
+vi.mock("@/lib/supabase/server", () => ({ createSupabaseServerClient: () => { throw new Error("Expected built-in media"); } }));
+import { getExerciseMedia } from "@/features/exercises/exercise-media";
+import { methodSteps } from "@/features/routine/exercise-methods";
+it("burpee preserves hand support, plank and jump landing", async () => {
+  const id = "burpee";
+  expect(await getExerciseMedia(id, "bodyweight")).toMatchObject({kind: "video", equipmentIds: ["bodyweight"], url: expect.stringContaining(id + ".mp4"), darkUrl: expect.stringContaining(id + "-dark.mp4")});
+  expect(await getExerciseMedia(id, "barbell")).toBeNull();
+  expect(methodSteps(id, "bodyweight").join(" ")).toContain("푸시업을 생략");
+  const p = JSON.parse(readFileSync(`tools/media/motion-guides/${id}-provenance.json`, "utf8"));
+  expect(p.kinematics.handSupportDrift).toBeLessThan(1e-5);
+  expect(p.kinematics.plankToeDrift).toBeLessThan(1e-5);
+  expect(p.kinematics.plankKnee).toBeGreaterThan(160);
+  expect(p.kinematics.plankHip).toBeGreaterThan(155);
+  expect(p.kinematics.jumpHeight).toBeGreaterThan(1);
+  expect(p.kinematics.landingDip).toBeGreaterThan(.5);
+  expect(p.kinematics.loopError).toBe(0);
+});

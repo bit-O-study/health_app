@@ -1,0 +1,15 @@
+{
+  "id": "medicine-ball-russian-twist",
+  "equipment": "medicineball",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "medicine-ball-russian-twist-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/russian-twist"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T13:33:27.883Z"
+}

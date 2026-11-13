@@ -1,0 +1,41 @@
+{
+  "burpee": {
+    "checks": {
+      "exercise": "Burpee without push-up",
+      "equipment": "Bodyweight only",
+      "setup": "발을 골반 너비로 벌리고 선다. 앞뒤와 머리 위 공간을 확보한다.",
+      "hands": "Planted throughout feet-back and feet-in phases",
+      "feet": "Paired backward/forward hop, vertical jump and soft landing",
+      "movement": "앉아서 양손을 바닥에 짚고 두 발을 뒤로 보내 플랭크 자세를 만든다. 발을 다시 손 쪽으로 당기고 일어서며 가볍게 점프한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "No-push-up teaching variation, slowed eight-second cycle.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:59:05.956Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/full-sheet.png",
+        "sha256": "a5836a01bb6e0174fd99e5c30453ef993cfe0aa2feaf9fba026d87d49c3f6df2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/side-sheet.png",
+        "sha256": "4949449c49819d024cefa3e4548f1194471032e6e7f4acd4671ef2e5f093b37b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/poses.json",
+        "sha256": "0251e93c58116360f1d277124bd0d58796feb32e6f74beb0c62a364158028568"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/geometry.json",
+        "sha256": "4ac1b1299eca9ac047ff2b1016a75623c8751610e7b729777325c7b172985b0a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/kinematics.json",
+        "sha256": "ff0aaa346156d781982b99c309296e9cc4046370c5fa67c066a4116913327c02"
+      }
+    ]
+  }
+}

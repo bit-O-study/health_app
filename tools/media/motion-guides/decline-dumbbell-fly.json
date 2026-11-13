@@ -1,0 +1,15 @@
+{
+  "id": "decline-dumbbell-fly",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "decline-dumbbell-fly-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/chest/chest-fly/decline-dumbbell-fly/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:45:34.185Z"
+}

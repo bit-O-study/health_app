@@ -1,0 +1,76 @@
+{
+  "stability-ball-hamstring-curl": {
+    "checks": {
+      "exercise": "Bilateral stability-ball hamstring curl",
+      "equipment": "Rolling stability ball beneath both heels",
+      "setup": "바로 누워 양쪽 뒤꿈치를 짐볼 위에 놓고 손바닥을 몸 옆 바닥에 댄다. 복부와 엉덩이에 힘을 주어 골반을 들어 올린다.",
+      "hands": "Both palms fixed at floor level",
+      "feet": "Dorsiflexed feet with heels remaining on ball",
+      "movement": "양쪽 무릎을 굽혀 짐볼을 몸 쪽으로 굴린다. 엉덩이를 바닥에서 띄운 채 다리를 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Rigid ball with rolling rotation; no compression or friction simulation.",
+      "Sampled heel contact and body clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:41:32.473Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/final.jpg",
+        "sha256": "59f4ace8e4356c57399a28e5cc45f97373fe1d23627ad034946ce139d220a4e8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/final-dark.jpg",
+        "sha256": "f8ee350c3880c77213a0271f4bf50f6421102545d40213cc7d5ca9c558a5cc32"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/full-sheet.png",
+        "sha256": "55b083939c988ee55e4c8aa718f81c5badc0fbd308bc77d630f08acc984aa4d5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/side-sheet.png",
+        "sha256": "8e4474bad27d19096a91e635b02666d8ae38dccb500658275ee525255678e3b7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/verification.json",
+        "sha256": "e9c2fe0e8cd35093e524a76b5d50dae000e5108071c5938bcaa40fbacf3b73ea"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/geometry.json",
+        "sha256": "1efc667fb2b7a2fef31beb34b36a7b7de609a5ab999b48a6487000af3de17c1b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/kinematics.json",
+        "sha256": "e6966dce1758a1305bc684dbcd0637b9e1584cabe46efa9dfcd5d2659b0b04bc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/provenance.json",
+        "sha256": "394a486640fd98f953523f4c009730c937f870e5c5b1bb8283a84731c05271da"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/stability-ball-hamstring-curl-alpha.webm",
+        "sha256": "8f103b8fe755454fc3416ed7858ea01370408850eef290a8c1b4a8b0c19cfb58",
+        "bytes": 352594,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/stability-ball-hamstring-curl.mp4",
+        "sha256": "4cc3ab4399192e417d28148b65875de1aeccd68353e2c2c5ab9543f1c3d7cbee",
+        "bytes": 159145,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/stability-ball-hamstring-curl-dark.mp4",
+        "sha256": "8db27548fb23a676cc00be9d5fae1d6eafc07df80967c49ef540caaa8b4c6aa7",
+        "bytes": 147059,
+        "decode": "passed"
+      }
+    ]
+  }
+}

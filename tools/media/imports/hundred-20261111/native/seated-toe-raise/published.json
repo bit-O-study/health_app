@@ -1,0 +1,18 @@
+{
+  "id": "seated-toe-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e3501208ae76321ed6b7eeae07d5f5a5e5a69bd8980a7f5edd35468c57b27f37",
+  "rigSourceSha256": "1f8084c4d48aafbbf32692fbbb57896f4b74a1899ecf871fbecf3a2e8ca74c9f",
+  "videoSha256": "8354c048603565655df08786f90a20bc5cd3ac4c92d51891d2537149e6347ef7",
+  "darkVideoSha256": "a2e5b8a94b0627a228a2ecf220ad886770274115ef6d20cdb31c4962a75cdfc7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74389,
+  "darkBytes": 60494,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:22:36.459Z"
+}

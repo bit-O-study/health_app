@@ -1,0 +1,299 @@
+{
+  "id": "decline-dumbbell-fly",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/decline-dumbbell-fly-studio.mjs",
+      "sha256": "98c1418dc408f2a75877a1bcb83c1f02a9c7519ee08ce7ec84dbbd2ec9d5aa01"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/decline-dumbbell-fly-motion.mjs",
+      "sha256": "c06d4dea3187143b8fb6f27409dae80e304b3927b36b2da908e4db263218fa92"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "decline-fly",
+    "sourceUrls": [
+      "https://www.puregym.com/exercises/chest/chest-fly/decline-dumbbell-fly/"
+    ],
+    "criteria": "Thirty-degree head-down supported bench, planted feet on elevated platform, fixed elbow bend and chest-level fly arc.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Procedural demonstration; not captured human motion.",
+      "Elevated foot platform represents one supported setup; no bench entry or exit.",
+      "Sampled equipment/body and support checks; not exhaustive mesh collision certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.743515556497855,
+      "backGap": 0.020000000000000018,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 13.216128372069422
+    },
+    {
+      "frame": 30,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7410117095321984,
+      "backGap": 0.01958923343066754,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 13.00885825395057
+    },
+    {
+      "frame": 60,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7336790584577694,
+      "backGap": 0.01890381276115516,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 12.272752158226702
+    },
+    {
+      "frame": 90,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7221706837845011,
+      "backGap": 0.01923347958422661,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 10.794646396181918
+    },
+    {
+      "frame": 120,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7080416833678137,
+      "backGap": 0.02168325458212661,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 8.550540062049585
+    },
+    {
+      "frame": 150,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.6845678402972145,
+      "backGap": 0.026221010886287477,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 5.891721052506718
+    },
+    {
+      "frame": 180,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.66215628854976,
+      "backGap": 0.03150630944848132,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 3.4292760271791654
+    },
+    {
+      "frame": 210,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.6463539645789073,
+      "backGap": 0.035657338076956924,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 1.7324075546927613
+    },
+    {
+      "frame": 240,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.6382616680209421,
+      "backGap": 0.03721536218419508,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 1.1340022307691773
+    },
+    {
+      "frame": 270,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.6463539645789077,
+      "backGap": 0.035657338076956924,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 1.7324075546927524
+    },
+    {
+      "frame": 300,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.6621562885497586,
+      "backGap": 0.03150630944848132,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 3.4292760271791654
+    },
+    {
+      "frame": 330,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.6845678402972137,
+      "backGap": 0.026221010886287477,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 5.891721052506712
+    },
+    {
+      "frame": 360,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7080416833678129,
+      "backGap": 0.02168325458212661,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 8.55054006204958
+    },
+    {
+      "frame": 390,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7221706837845004,
+      "backGap": 0.01923347958422661,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 10.794646396181914
+    },
+    {
+      "frame": 420,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7336790584577705,
+      "backGap": 0.01890381276115516,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 12.272752158226705
+    },
+    {
+      "frame": 450,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.7410117095321977,
+      "backGap": 0.01958923343066754,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 13.008858253950569
+    },
+    {
+      "frame": 480,
+      "floorClearance": 2.348625261671918,
+      "equipmentBody": 0.743515556497855,
+      "backGap": 0.020000000000000018,
+      "headGap": 0,
+      "footSupportGap": 0.02,
+      "pairClearance": 13.216128372069422
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "maxStep": 0.051457321277058744,
+    "handSpanChange": 12.082126141300245,
+    "elbowRange": [
+      159.99999999999994,
+      160.00000000000009
+    ],
+    "benchDeclineDegrees": 30,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      159.99999999999994,
+      160.00000000000009
+    ],
+    "alpha": {
+      "transparent": 38546116,
+      "opaque": 4943085,
+      "partial": 747599,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/source.jpg",
+    "sha256": "7b763ce52a447dd3b0432881a00f2e8949be4063ec3b0dc21f54e1b6ed26a2b4",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; not captured human motion. Elevated foot platform represents one supported setup; no bench entry or exit. Sampled equipment/body and support checks; not exhaustive mesh collision certification."
+}

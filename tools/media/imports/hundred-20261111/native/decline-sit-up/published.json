@@ -1,0 +1,18 @@
+{
+  "id": "decline-sit-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c9c86b1600b2012d9a444ec3bf35824f057c94919055a807a971888ce82222f9",
+  "rigSourceSha256": "7168aa461543b3a74a2df7d71e16a36949cacfc3037cda3994a31a94523d232f",
+  "videoSha256": "d73bfc01d368578155fa52fb339f77a08ff43b0c839972680c65d2adc35a0dcf",
+  "darkVideoSha256": "dc33fee21417aca2450a0c9083b64921cbc1538be6327c25119cbbf0cf18a8d0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84763,
+  "darkBytes": 90323,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:30:34.883Z"
+}

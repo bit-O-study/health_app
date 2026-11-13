@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stanceDrift": 8.881784197001252e-15,
+  "maxStep": 0.20018918247100465,
+  "airFrames": 166,
+  "flightHeight": 1.6000000000000005,
+  "landingKnees": [
+    87.77613232099654,
+    84.29696684408228
+  ],
+  "loopError": 0
+}

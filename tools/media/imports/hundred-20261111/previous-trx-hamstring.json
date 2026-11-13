@@ -1,0 +1,28 @@
+{
+  "trx-hamstring-curl": [
+    {
+      "file": "tools/media/motion-guides/trx-hamstring-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-hamstring-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-hamstring-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-hamstring-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-hamstring-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-hamstring-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

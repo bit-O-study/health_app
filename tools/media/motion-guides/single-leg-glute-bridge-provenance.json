@@ -1,0 +1,322 @@
+{
+  "id": "single-leg-glute-bridge",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/single-leg-glute-bridge-studio.mjs",
+      "sha256": "f712332b73a6630efa9d22f0fa94a1c266dbdc9a0a7f69a0c04511bd7f0cc7fb"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/single-leg-glute-bridge-motion.mjs",
+      "sha256": "0f832593511b3a945ffb6a4adb30fdf1f981512cd1dc2017d4b3ace37be4a34c"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "single-bridge",
+    "sourceUrls": [
+      "https://www.puregym.com/exercises/glutes/glute-bridge/single-leg-glute-bridges/"
+    ],
+    "criteria": "Supine unilateral bridge with left foot planted, right knee held bent and lifted, pelvis level and controlled hip extension.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Procedural left-leg example; repeat on opposite side.",
+      "Small floor clearances are sampled; no exhaustive collision certification.",
+      "Bent raised-knee variation with a controlled partial hip-extension range."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -7.765586470075322,
+      "palms": -7.874571027779334,
+      "kneeL": -4.20226491789808,
+      "kneeR": -3.536532395184792,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 30,
+      "body": -7.874571027779336,
+      "toes": -7.857606121015726,
+      "cloth": -7.64616940410723,
+      "palms": -7.874571027779336,
+      "kneeL": -4.1505553898502265,
+      "kneeR": -3.4302530656636794,
+      "floorClearance": 0.025428972220664647
+    },
+    {
+      "frame": 60,
+      "body": -7.874571027779337,
+      "toes": -7.857606121015727,
+      "cloth": -7.307185784783815,
+      "palms": -7.874571027779337,
+      "kneeL": -4.020526828628489,
+      "kneeR": -3.127941117084621,
+      "floorClearance": 0.02542897222066376
+    },
+    {
+      "frame": 90,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015722,
+      "cloth": -6.844511111454981,
+      "palms": -7.874571027779334,
+      "kneeL": -3.872270460364201,
+      "kneeR": -2.677958605666115,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 120,
+      "body": -7.874571027779333,
+      "toes": -7.857606121015727,
+      "cloth": -6.343424578236204,
+      "palms": -7.874571027779333,
+      "kneeL": -3.7618628247918937,
+      "kneeR": -2.1544030565372836,
+      "floorClearance": 0.025428972220667312
+    },
+    {
+      "frame": 150,
+      "body": -7.874571027779333,
+      "toes": -7.857606121015727,
+      "cloth": -5.845905964127384,
+      "palms": -7.874571027779333,
+      "kneeL": -3.7101332658525,
+      "kneeR": -1.6430181816283234,
+      "floorClearance": 0.025428972220667312
+    },
+    {
+      "frame": 180,
+      "body": -7.874571027779336,
+      "toes": -7.857606121015726,
+      "cloth": -5.455494695838642,
+      "palms": -7.874571027779336,
+      "kneeL": -3.705360608887832,
+      "kneeR": -1.2223452223734288,
+      "floorClearance": 0.025428972220664647
+    },
+    {
+      "frame": 210,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015729,
+      "cloth": -5.205819295330778,
+      "palms": -7.874571027779334,
+      "kneeL": -3.7208156021147136,
+      "kneeR": -0.9492396865975553,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 240,
+      "body": -7.874571027779333,
+      "toes": -7.857606121015725,
+      "cloth": -5.1191729207776,
+      "palms": -7.874571027779333,
+      "kneeL": -3.7298110928213797,
+      "kneeR": -0.8550278918811091,
+      "floorClearance": 0.025428972220667312
+    },
+    {
+      "frame": 270,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015729,
+      "cloth": -5.205819295330778,
+      "palms": -7.874571027779334,
+      "kneeL": -3.7208156021147136,
+      "kneeR": -0.9492396865975553,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 300,
+      "body": -7.874571027779336,
+      "toes": -7.857606121015726,
+      "cloth": -5.455494695838642,
+      "palms": -7.874571027779336,
+      "kneeL": -3.705360608887832,
+      "kneeR": -1.2223452223734288,
+      "floorClearance": 0.025428972220664647
+    },
+    {
+      "frame": 330,
+      "body": -7.87457102777933,
+      "toes": -7.857606121015726,
+      "cloth": -5.845905964127381,
+      "palms": -7.87457102777933,
+      "kneeL": -3.7101332658524964,
+      "kneeR": -1.643018181628321,
+      "floorClearance": 0.025428972220669976
+    },
+    {
+      "frame": 360,
+      "body": -7.874571027779333,
+      "toes": -7.857606121015727,
+      "cloth": -6.343424578236204,
+      "palms": -7.874571027779333,
+      "kneeL": -3.7618628247918937,
+      "kneeR": -2.1544030565372836,
+      "floorClearance": 0.025428972220667312
+    },
+    {
+      "frame": 390,
+      "body": -7.874571027779332,
+      "toes": -7.857606121015725,
+      "cloth": -6.84451111145498,
+      "palms": -7.874571027779332,
+      "kneeL": -3.872270460364202,
+      "kneeR": -2.6779586056661127,
+      "floorClearance": 0.0254289722206682
+    },
+    {
+      "frame": 420,
+      "body": -7.874571027779337,
+      "toes": -7.857606121015727,
+      "cloth": -7.307185784783815,
+      "palms": -7.874571027779337,
+      "kneeL": -4.020526828628489,
+      "kneeR": -3.127941117084621,
+      "floorClearance": 0.02542897222066376
+    },
+    {
+      "frame": 450,
+      "body": -7.874571027779335,
+      "toes": -7.857606121015723,
+      "cloth": -7.646169404107229,
+      "palms": -7.874571027779335,
+      "kneeL": -4.150555389850226,
+      "kneeR": -3.430253065663678,
+      "floorClearance": 0.025428972220665536
+    },
+    {
+      "frame": 480,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -7.765586470075322,
+      "palms": -7.874571027779334,
+      "kneeL": -4.20226491789808,
+      "kneeR": -3.536532395184792,
+      "floorClearance": 0.025428972220666424
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 7.66938336801217e-15,
+    "pelvisTilt": 0,
+    "raisedFoot": 4.3457308341800225,
+    "hipRise": 2.7977390710423053,
+    "topHipAngle": 163.0785091366497,
+    "maxStep": 0.018750439800479055,
+    "workingKnee": [
+      66.06389986283205,
+      90.9610292870449
+    ],
+    "raisedKnee": [
+      111.80140948635179,
+      111.80140948635186
+    ],
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      86.99947462984613,
+      95.12410796761729
+    ],
+    "alpha": {
+      "transparent": 41369059,
+      "opaque": 2304385,
+      "partial": 563356,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/source.jpg",
+    "sha256": "16444372c4deb6ba499b58113cca2348b98d14609d9441fad606659383b94ed0",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural left-leg example; repeat on opposite side. Small floor clearances are sampled; no exhaustive collision certification. Bent raised-knee variation with a controlled partial hip-extension range."
+}

@@ -1,0 +1,41 @@
+{
+  "nordic-hamstring-curl": {
+    "checks": {
+      "exercise": "Limited-range Nordic curl with a 45-degree forward lean from the knees.",
+      "equipment": "Padded knee support and anchored ankle roller visible.",
+      "setup": "Front and side eight-frame sheets inspected; hips remain extended and trunk aligned.",
+      "hands": "Hands held forward ready for support; no hand push-off in this limited-range version.",
+      "feet": "Both knees and ankles fixed; feet extend behind the ankle restraint.",
+      "movement": "Controlled lean and return as one aligned trunk/thigh segment, continuous loop."
+    },
+    "limitations": [
+      "Limited 45-degree unassisted range; not full eccentric-to-floor or hand-assisted return.",
+      "Knee skin support gap up to 0.065 model units; ankle gap about 0.023; padded supports are rigid.",
+      "Sampled geometry is not complete mesh collision or biomechanics certification."
+    ],
+    "reviewedAt": "2026-11-12T10:29:48.203Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/full-sheet.png",
+        "sha256": "9334d9ba5ca3544d6d025789458fdf4a3355feefbd98ca1991c5c1231b70f822"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/side-sheet.png",
+        "sha256": "c3f10ce3bd59e28b92f69ddfed15868373f94050453bfdb97ec4d0b1b3cf9e3d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/poses.json",
+        "sha256": "04ce4e1aba04a607447ab251d72c33dcf104b5e6d900d87da7ad965b9fd1654e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/geometry.json",
+        "sha256": "0777a08d870b74ae3225a3c4bbc5b737b54b0d0882c62197c57fa0bf0ee03cad"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/kinematics.json",
+        "sha256": "4f858024da10544785945b63942adaebc2ab9a645cef3699d8e2bef3e3084c73"
+      }
+    ]
+  }
+}

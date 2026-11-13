@@ -1,0 +1,15 @@
+{
+  "id": "thruster",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "thruster-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.crossfit.com/essentials/the-thruster"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T02:57:48.148Z"
+}

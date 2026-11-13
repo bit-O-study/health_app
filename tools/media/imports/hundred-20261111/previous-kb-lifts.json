@@ -1,0 +1,54 @@
+{
+  "kettlebell-clean": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-clean.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-clean.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-clean-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-clean.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-clean-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-clean-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "kettlebell-snatch": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-snatch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-snatch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-snatch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-snatch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-snatch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-snatch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

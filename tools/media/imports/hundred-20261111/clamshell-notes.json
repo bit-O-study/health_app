@@ -1,0 +1,18 @@
+{
+  "clamshell": {
+    "checks": {
+      "exercise": "Banded side-lying clamshell",
+      "equipment": "Loop band above both knees, follows garment cross section",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 옆으로 눕는다. 아래쪽 팔로 머리를 받치고 두 무릎을 굽혀 발을 포갠다.",
+      "hands": "Lower arm supports head, upper hand monitors hip",
+      "feet": "Both feet and toes fixed with stacked-foot spacing",
+      "movement": "골반을 뒤로 돌리지 않고 발을 붙인 채 위쪽 무릎을 천천히 연다. 엉덩이 옆쪽에 힘을 느끼며 무릎을 조절해서 닫는다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Upper hand placed at hip rather than on floor as in source.",
+      "Band path follows sampled garment/body outline with a small visual offset; no elastic-force simulation.",
+      "Sampled vertex clearances are not exhaustive collision certification."
+    ]
+  }
+}

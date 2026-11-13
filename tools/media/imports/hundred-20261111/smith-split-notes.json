@@ -1,0 +1,17 @@
+{
+  "smith-machine-split-squat": {
+    "checks": {
+      "exercise": "Smith split squat with grounded staggered stance",
+      "equipment": "Vertical Smith rails and upper-back bar",
+      "setup": "스미스 바를 등 위쪽에 받치고 한 발을 앞으로, 반대 발을 뒤로 둔다. 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Closed symmetric back-bar grips; fixed x/z throughout vertical travel",
+      "feet": "Front foot flat; rear forefoot planted with raised heel; both feet fixed",
+      "movement": "상체를 세우고 두 무릎을 굽혀 아래로 내려간다. 앞발로 바닥을 밀며 올라온다."
+    },
+    "limitations": [
+      "Left-leg-leading demonstration; repeat on the opposite side.",
+      "Procedural animation with sampled clearance checks; not motion capture or exhaustive mesh collision certification.",
+      "Bar-to-back clearance approximately 0.025 model units; rack unlocking omitted."
+    ]
+  }
+}

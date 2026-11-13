@@ -1,0 +1,28 @@
+{
+  "skater-jump": [
+    {
+      "file": "tools/media/motion-guides/skater-jump.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/skater-jump.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/skater-jump-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/skater-jump.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/skater-jump-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/skater-jump-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

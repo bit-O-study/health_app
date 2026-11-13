@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-13T02:47:52.089Z",
+  "report": [
+    {
+      "id": "squeeze-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "tate-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

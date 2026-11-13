@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 7.66938336801217e-15,
+  "pelvisTilt": 0,
+  "raisedFoot": 4.3457308341800225,
+  "hipRise": 2.7977390710423053,
+  "topHipAngle": 163.0785091366497,
+  "maxStep": 0.018750439800479055,
+  "workingKnee": [
+    66.06389986283205,
+    90.9610292870449
+  ],
+  "raisedKnee": [
+    111.80140948635179,
+    111.80140948635186
+  ],
+  "loopError": 0
+}

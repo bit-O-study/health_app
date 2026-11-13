@@ -1,0 +1,28 @@
+{
+  "downward-dog": [
+    {
+      "file": "tools/media/motion-guides/downward-dog.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/downward-dog.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/downward-dog-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/downward-dog.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/downward-dog-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/downward-dog-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

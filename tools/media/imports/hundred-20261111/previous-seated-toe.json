@@ -1,0 +1,28 @@
+{
+  "seated-toe-raise": [
+    {
+      "file": "tools/media/motion-guides/seated-toe-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-toe-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-toe-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-toe-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-toe-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-toe-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

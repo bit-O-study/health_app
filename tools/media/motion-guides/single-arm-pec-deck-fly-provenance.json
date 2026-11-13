@@ -1,0 +1,350 @@
+{
+  "id": "single-arm-pec-deck-fly",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/single-arm-pec-deck-fly-studio.mjs",
+      "sha256": "890f55a7cb9e02aa26d743890b58a68336909fddade2caeddac145457c3105e3"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/single-arm-pec-deck-fly-motion.mjs",
+      "sha256": "621709a9264455f287fbc3b1c88dd4e8bb43b31abf6430899a3e3c6a296d051d"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "pec-deck",
+    "sourceUrls": [
+      "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html"
+    ],
+    "criteria": "Seated independent left-arm pec-deck with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length.",
+    "sourcesCheckedAt": "2026-11-12",
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680293,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 30,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680294,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 60,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802945,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 90,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802945,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 120,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680295,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 150,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680295,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 180,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802945,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 210,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680296,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 240,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680296,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 270,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680296,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 300,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802953,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 330,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802953,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 360,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680295,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 390,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802945,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 420,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.5426532626802953,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 450,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680294,
+        2.542653262680293
+      ]
+    },
+    {
+      "frame": 480,
+      "seatVertices": 2002,
+      "seatGap": 0.019999999999999907,
+      "backGap": 0.020000000000000018,
+      "handleError": 0,
+      "linkLengthError": 1.3322676295501878e-15,
+      "links": [
+        2.542653262680293,
+        2.542653262680293
+      ]
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "inactiveDrift": 0,
+    "maxStep": 0.03605437551288375,
+    "workingTravel": 3.627097163300131,
+    "loopError": 0,
+    "maxSeatGap": 0.019999999999999907,
+    "maxBackGap": 0.020000000000000018,
+    "maxHandleError": 0,
+    "maxLinkError": 1.3322676295501878e-15
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      89.99999999999994,
+      90.00000000000006
+    ],
+    "alpha": {
+      "transparent": 38453588,
+      "opaque": 4608686,
+      "partial": 1174526,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/single-arm-pec-deck-fly/source.jpg",
+    "sha256": "e4741686f79fd8dbc61273ab8aef4412c81563f9bd1acb1ac1d1291f7ef39aed",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Slow procedural left-arm demonstration; right side is not animated. Simplified lever and stack geometry, not a specific commercial machine. Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+}

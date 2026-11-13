@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 8.3820000221454525e-16,
+  "stanceWorldDrift": 4.945052531667069e-15,
+  "maxStep": 0.06145315442658836,
+  "airborneSamples": 218,
+  "worldTravelPerCycle": 8,
+  "minimumPlateBodyGap": 0.17216885019987593,
+  "minimumPlateClothGap": 0.9180593232780866
+}

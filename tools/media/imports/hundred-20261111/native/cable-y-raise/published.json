@@ -1,0 +1,18 @@
+{
+  "id": "cable-y-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "117746895a8d11415c6b79ff39da5b2f8b7cde3d4df98522b74cc155f63c05c7",
+  "rigSourceSha256": "518d83e1f3b760f7c4cefbcc84dd4cad9dbea85f0293a385de87bff01611023d",
+  "videoSha256": "6a28daff648dc39c9f445d598cf27fb5526b05b6b59c92939cfd62adf5bb555b",
+  "darkVideoSha256": "dc3cb252dd32ebaba4e3e1025da7c6ab22661807cacd878228711806abce2b02",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 124790,
+  "darkBytes": 124661,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T00:30:57.934Z"
+}

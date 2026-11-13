@@ -1,0 +1,41 @@
+{
+  "smith-machine-split-squat": {
+    "checks": {
+      "exercise": "Smith split squat with grounded staggered stance",
+      "equipment": "Vertical Smith rails and upper-back bar",
+      "setup": "스미스 바를 등 위쪽에 받치고 한 발을 앞으로, 반대 발을 뒤로 둔다. 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Closed symmetric back-bar grips; fixed x/z throughout vertical travel",
+      "feet": "Front foot flat; rear forefoot planted with raised heel; both feet fixed",
+      "movement": "상체를 세우고 두 무릎을 굽혀 아래로 내려간다. 앞발로 바닥을 밀며 올라온다."
+    },
+    "limitations": [
+      "Left-leg-leading demonstration; repeat on the opposite side.",
+      "Procedural animation with sampled clearance checks; not motion capture or exhaustive mesh collision certification.",
+      "Bar-to-back clearance approximately 0.025 model units; rack unlocking omitted."
+    ],
+    "reviewedAt": "2026-11-13T03:36:43.602Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/full-sheet.png",
+        "sha256": "7f2e360b918a001f468ee46f2f680967db5aea5861697cf8b11d58ff33eabf28"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/side-sheet.png",
+        "sha256": "0c184615922583a5b0c961406a13e73dccbae350e3b1cc50be123b864126bc63"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/poses.json",
+        "sha256": "0668e753f4ff8fe2a4259a229dd481d5e5f0f2cbad4009e653894a3dc60e4d1d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/geometry.json",
+        "sha256": "c5cd19af10f0468dc77c14eb921ef38ccf700d3635a409781627b7951a3f384f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/kinematics.json",
+        "sha256": "dc156aaa4dbe79e25c1a900081b784ef58d394ea74e8413410a3df6657183bce"
+      }
+    ]
+  }
+}

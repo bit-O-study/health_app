@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T13:50:54.482Z",
+  "report": [
+    {
+      "id": "broad-jump",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "squeeze-press": {
+    "checks": {
+      "exercise": "Distinct squeeze-press path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and flat bench with head support",
+      "setup": "평벤치에 등과 머리를 받치고 양발을 바닥에 둔 채 덤벨을 잡는다.",
+      "hands": "Neutral close grip with constant dumbbell spacing",
+      "feet": "Both feet, head and trunk fixed",
+      "movement": "손바닥이 서로 마주 보게 잡고 덤벨을 모은 채 가슴 위로 밀어 올렸다가 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not captured human movement or full collision certification.",
+      "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+      "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+    ],
+    "reviewedAt": "2026-11-13T02:47:30.320Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/final.jpg",
+        "sha256": "67f98e6848e5c3c0d912a29ab230080a5d12ce3ca75b1b38409d8d3786f94993"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/final-dark.jpg",
+        "sha256": "2eb573e9a2898935d65d9b795c5b514d68cf469909d1b5c5c7256cf94d6dfbc2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/full-sheet.png",
+        "sha256": "c35ef4535b329c129fb0d7307906dfa4f29aca5aa59b08da81bb794479b718fc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/side-sheet.png",
+        "sha256": "90f5c10b3b45aeabbb02319719aa16636699d07d336d9365ab403b1e6a104a86"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/verification.json",
+        "sha256": "bf98aa97a881fa3789d2558bcc24457c803cb1670d57087a99849baaf408fe2f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/geometry.json",
+        "sha256": "20a0ef6a5db06c45df1f4d5593258b818366bc9ee9fd45b764e30c85478e17d7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/kinematics.json",
+        "sha256": "01b1033c6ce6aeb36ddf2d1b44e33613ba7db86e889261484127ba9ee4119515"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/provenance.json",
+        "sha256": "5251c3bf704d0c9eaf03e1a03e401c33161af7a558ece6630cdde07e560786c5"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/squeeze-press-alpha.webm",
+        "sha256": "355048f2e55d96f4debc3aebcba19240c9b2fd3330d486e90ccae420ad57f5af",
+        "bytes": 150654,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/squeeze-press.mp4",
+        "sha256": "61162ef6d9ef4676cfe0256610536f5f64e8b19a9e4d8965a1ce510345968441",
+        "bytes": 66094,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/squeeze-press-dark.mp4",
+        "sha256": "63a0b37337f1e1669ad9b4fcb08599ec1e9b710b2e562b3c0698e0eefa9c4022",
+        "bytes": 59170,
+        "decode": "passed"
+      }
+    ]
+  },
+  "tate-press": {
+    "checks": {
+      "exercise": "Distinct tate-press path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and flat bench with head support",
+      "setup": "평벤치에 등과 머리를 받치고 양발을 바닥에 둔 채 덤벨을 잡는다.",
+      "hands": "Outward elbows and inward folding forearms; dumbbells separated after correction",
+      "feet": "Both feet, head and trunk fixed",
+      "movement": "팔꿈치를 옆으로 벌리며 덤벨을 가슴 쪽으로 접어 내린 뒤 팔꿈치를 펴서 들어 올린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not captured human movement or full collision certification.",
+      "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+      "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+    ],
+    "reviewedAt": "2026-11-13T02:47:30.335Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/final.jpg",
+        "sha256": "e46eb9a2330e915cea09f1fd13a448e4374371e91c0e7d7dc649cd1e65c17d6f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/final-dark.jpg",
+        "sha256": "4af8035f5fff5f4ecafe6962f23f08c1411b9f461a949c5bcf0920dbd11a4ac1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/full-sheet.png",
+        "sha256": "729dfdcb64e522281b75a33adb318939b59b32fde4c4fa6a53fe9afcc2e59cae"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/side-sheet.png",
+        "sha256": "fa04ef8a30c63992d1fee71f0970f8133efd42d278bbbe1b2ad1a00a860c8b3b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/verification.json",
+        "sha256": "649b438a8d0acb67914c63ee7c8c576fd7390cb5eaef892b3b52e99f660ddd37"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/geometry.json",
+        "sha256": "84700670afd3548c7232fa76d5fffe883077f2d82ba43de779bc381a36e13e28"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/kinematics.json",
+        "sha256": "8b146906d97f7a2581791e4199fbca81e2cfee93d1063b37cbfa10b2026120fa"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/provenance.json",
+        "sha256": "4313d37b49b162c705104a36a5216f92086fc62753e9b6bcf0d944ac60e78347"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/tate-press-alpha.webm",
+        "sha256": "7bc240d9a9f431f7ad22987d8698957ff36bf7188b0a40baecc9ba674cd2fa8f",
+        "bytes": 223077,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/tate-press.mp4",
+        "sha256": "0a94a1e205d0b12f2fda424ce8ce1f38c68966b3e77482092d4be6384d2bdf1e",
+        "bytes": 96433,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/tate-press-dark.mp4",
+        "sha256": "c6863dd39b2599d6cea48edfa35005b1c7f0f8b81a9f7653b03160d8e4f92b5a",
+        "bytes": 82337,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "maxStep": 0.06819130341644485,
+  "headRise": 8.896924069622962,
+  "benchDeclineDegrees": 30,
+  "loopError": 0
+}

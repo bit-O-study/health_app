@@ -1,0 +1,18 @@
+{
+  "id": "medicine-ball-russian-twist",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a14698c0beb1de0f41e0bbcec5f439ad2e30f8f4677d57e947bcc03a91c028b3",
+  "rigSourceSha256": "4e88d0c76ee3d686584f83f2c3896605955cd397c7e002e1f4504de1367e880f",
+  "videoSha256": "fe26bd94b261d9c6f94bf82113d7e65c4112c5465d688cd9b94ef5d51995d04f",
+  "darkVideoSha256": "bacfefbfa760534c8f39596d75b9bfa4328bd24b56ba646ef79902bbe0ee6ccb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 91658,
+  "darkBytes": 94528,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:33:27.889Z"
+}

@@ -1,0 +1,32 @@
+{
+  "cable-external-rotation": {
+    "equipment": "cable",
+    "url": "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation",
+    "criteria": "Standing external with cable; fixed feet, controlled movement and aligned handles."
+  },
+  "band-external-rotation": {
+    "equipment": "band",
+    "url": "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation",
+    "criteria": "Standing external with band; fixed feet, controlled movement and aligned handles."
+  },
+  "high-cable-fly": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1",
+    "criteria": "Standing highfly with cable; fixed feet, controlled movement and aligned handles."
+  },
+  "standing-cable-reverse-fly": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1",
+    "criteria": "Standing reversefly with cable; fixed feet, controlled movement and aligned handles."
+  },
+  "cable-y-raise": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1",
+    "criteria": "Standing yraise with cable; fixed feet, controlled movement and aligned handles."
+  },
+  "cable-shrug": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1",
+    "criteria": "Standing shrug with cable; fixed feet, controlled movement and aligned handles."
+  }
+}

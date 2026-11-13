@@ -1,0 +1,28 @@
+{
+  "box-jump": [
+    {
+      "file": "tools/media/motion-guides/box-jump.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/box-jump.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/box-jump-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/box-jump.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/box-jump-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/box-jump-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

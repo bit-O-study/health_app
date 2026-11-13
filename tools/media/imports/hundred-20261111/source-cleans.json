@@ -1,0 +1,12 @@
+{
+  "power-clean": {
+    "equipment": "barbell",
+    "url": "https://www.nsca.com/education/articles/kinetic-select/power-clean/",
+    "criteria": "Floor pull, leg drive, front-rack partial-squat catch and stand."
+  },
+  "hang-clean": {
+    "equipment": "barbell",
+    "url": "https://www.benning.army.mil/TENANT/75THRANGER/content/PDF/RAW%20Handbook%20Final%20v4.pdf",
+    "criteria": "Above-knee hang, leg drive, front-rack squat catch and stand."
+  }
+}

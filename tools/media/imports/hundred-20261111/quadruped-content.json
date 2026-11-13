@@ -1,0 +1,26 @@
+{
+  "donkey-kick": {
+    "equipment": "bodyweight",
+    "target": "둔근",
+    "setup": "양손을 어깨 아래, 무릎을 골반 아래에 둔 네발 자세를 만든다.",
+    "movement": "오른쪽 무릎을 굽힌 채 허벅지를 뒤로 들어 올렸다가 천천히 내린다.",
+    "tip": "오른쪽 시범이다. 허리를 꺾거나 골반을 돌리지 않고 반대쪽도 수행한다.",
+    "url": "https://www.rehabhero.ca/exercise/donkey-kick"
+  },
+  "fire-hydrant": {
+    "equipment": "bodyweight",
+    "target": "엉덩이 옆쪽",
+    "setup": "양손을 어깨 아래에 놓고 무릎을 굽힌 네발 자세로 몸통을 고정한다.",
+    "movement": "오른쪽 무릎을 굽힌 채 옆으로 벌렸다가 골반 아래로 천천히 되돌린다.",
+    "tip": "오른쪽 시범이다. 골반과 허리가 따라 돌아가지 않는 범위에서 움직인다.",
+    "url": "https://www.rehabhero.ca/exercise/fire-hydrant"
+  },
+  "cat-cow": {
+    "equipment": "bodyweight",
+    "target": "등과 몸통",
+    "setup": "양손과 무릎으로 지지하고 손을 어깨 아래, 무릎을 골반 아래에 놓는다.",
+    "movement": "손과 무릎을 고정한 채 등을 천천히 둥글게 말고 다시 부드럽게 펴 준다.",
+    "tip": "작은 범위의 반복 시범이다. 목이나 허리를 끝까지 꺾지 않고 편안하게 호흡한다.",
+    "url": "https://www.acefitness.org/resources/everyone/exercise-library/15/cat-cow/"
+  }
+}

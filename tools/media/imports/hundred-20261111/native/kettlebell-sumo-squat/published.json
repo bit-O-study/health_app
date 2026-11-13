@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-sumo-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d8615181270b7ae79c086489cbcd24290414ca7422e5ba4f1f0f13fc816558b9",
+  "rigSourceSha256": "2cc877d6a5b1196413e044b92a9b242ecda0ce78338e5171ef05c109e9ddb240",
+  "videoSha256": "314fc2fe1b586a2fc9a6a010e022b5f2ef7b4b2281cf373c64442b3b316f172b",
+  "darkVideoSha256": "b928fd5c0bd4fd3a8a264a57175695a4d84e7d9f8e6cf2a6c519f6dfec5c1329",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 130368,
+  "darkBytes": 126247,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T10:06:37.322Z"
+}

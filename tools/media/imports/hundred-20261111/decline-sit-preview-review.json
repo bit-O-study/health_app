@@ -1,0 +1,41 @@
+{
+  "decline-sit-up": {
+    "checks": {
+      "exercise": "Decline bench sit-up",
+      "equipment": "Thirty-degree decline bench, ankle roller and foot platform",
+      "setup": "경사 벤치에 누워 발목을 고정대에 걸고 양손을 가슴 앞에 둔다. 복부에 힘을 주고 목을 편안하게 유지한다.",
+      "hands": "Hands held near chest without pulling neck",
+      "feet": "Lower legs and feet remain fixed at the support",
+      "movement": "하체를 고정한 채 상체를 천천히 들어 올린다. 복부의 긴장을 유지하며 등과 머리를 벤치 쪽으로 천천히 되돌린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Hands-near-chest variation, one slowed repetition.",
+      "Sampled support planes, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:27:38.100Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/full-sheet.png",
+        "sha256": "bae41e76dab3d10464451363fbd3f8b22b96a80d0cd3a683190b436c21574ac9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/side-sheet.png",
+        "sha256": "5dd3087f58ad2dd6c1dae57018df279c83b6ecc1f11d12843a1562dafb91fa69"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/poses.json",
+        "sha256": "82d83d250c32550d6da7ab192a76698b0c17c48b7c7d5b7d5063cde57dc21bc2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/geometry.json",
+        "sha256": "64f6c8c1e516405d964c5c761f175894c289bd77a41730a9029ab0c19663f349"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/kinematics.json",
+        "sha256": "68d716c06ccc9a983530e0bf2222b69cd582d2200bf815f497d36b4d0917d464"
+      }
+    ]
+  }
+}

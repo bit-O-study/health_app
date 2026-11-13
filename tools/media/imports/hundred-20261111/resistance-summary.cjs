@@ -1,0 +1,2 @@
+const fs=require('node:fs'),base='tools/media/imports/hundred-20261111';
+for(const id of JSON.parse(fs.readFileSync(base+'/resistance-ids.json'))){const p=JSON.parse(fs.readFileSync(base+'/native/'+id+'/poses.json'));console.log(id,{lengthRange:[Math.min(...p.map(x=>x.joints.lengths[0])),Math.max(...p.map(x=>x.joints.lengths[0]))],stackRange:[Math.min(...p.flatMap(x=>x.joints.stackHeights??[])),Math.max(...p.flatMap(x=>x.joints.stackHeights??[]))]});}

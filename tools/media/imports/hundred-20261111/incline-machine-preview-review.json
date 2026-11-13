@@ -1,0 +1,41 @@
+{
+  "incline-machine-chest-press": {
+    "checks": {
+      "exercise": "Incline machine chest press with upward-forward extension",
+      "equipment": "Reclined seated plate-loaded machine with fixed pivots and equal-length independent levers",
+      "setup": "기울어진 등받이에 등과 머리를 대고 앉아 양발을 바닥에 고정한다. 손잡이가 가슴 높이에 오도록 좌석을 맞추고 잡는다.",
+      "hands": "Closed horizontal handles with symmetric press arc",
+      "feet": "Flat planted feet and static seated pelvis",
+      "movement": "가슴을 편 채 손잡이를 앞쪽 위로 밀어 올린다. 팔꿈치를 굽히며 천천히 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Generic simplified machine; not an exact manufacturer model.",
+      "Procedural animation and sampled geometry checks; not captured human motion or exhaustive mesh collision certification.",
+      "Seat adjustments and loading omitted; elbows stop short of lockout."
+    ],
+    "reviewedAt": "2026-11-13T03:56:05.890Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-machine-chest-press/full-sheet.png",
+        "sha256": "1364dfc74e5e3aa7eade01a445f74243af6a641e856cb366232ae6b9626ea40b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-machine-chest-press/side-sheet.png",
+        "sha256": "56e018c95a26c9e036c61f6e3b96fcd239efb1b2f964a31b6addfd1de9deed68"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-machine-chest-press/poses.json",
+        "sha256": "da8b146f87bd0cf0d8fbd8b77f11961fbb47d4ecc738470baf44ca2dfc57bd8a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-machine-chest-press/geometry.json",
+        "sha256": "79a8b091dbee7d8484ac244e0505dfdd0ed639cbbb6b05bee2edac960013ea42"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-machine-chest-press/kinematics.json",
+        "sha256": "fd272a7f89759e46eb74da9f9421012e18119f3cb6312b3a064ae05b033e4129"
+      }
+    ]
+  }
+}

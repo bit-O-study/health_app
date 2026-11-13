@@ -1,0 +1,18 @@
+{
+  "id": "jump-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9bed517aa45c2705b3bd501e410478d4fd3c22de2644af9695ff065dbb3b4e89",
+  "rigSourceSha256": "44a020af0db2b612c89c1a2a19b2433f7bd0cd083d84298633ee75262fb0563e",
+  "videoSha256": "a3b7544abab5002a97d128219df9c0d0d2a5ce738913bdd845b98c2373912751",
+  "darkVideoSha256": "f0b99ff809e30f4a4acbaf76f09b7e9d24f359b0f3edfe7ebf0bb089c95e65c4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 158566,
+  "darkBytes": 161358,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T09:46:22.969Z"
+}

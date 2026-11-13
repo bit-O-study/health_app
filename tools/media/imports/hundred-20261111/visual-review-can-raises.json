@@ -1,0 +1,150 @@
+{
+  "full-can-raise": {
+    "checks": {
+      "exercise": "Distinct full-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points up at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 위를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ],
+    "reviewedAt": "2026-11-13T02:29:10.180Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/final.jpg",
+        "sha256": "2a370543393c12ff875ba50e4846fd8daa1e5cbd32bb3e2fa91cc66f67ee9279"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/final-dark.jpg",
+        "sha256": "7aeaae6b23f946eee074c2b9257fa334d08bbdd1f07b90a19682980e522d3571"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/full-sheet.png",
+        "sha256": "13ec3766b89eedc59319e462846a568876535d5147ba4fb1bd685380f9d8e09b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/side-sheet.png",
+        "sha256": "3e676e11d528269fbb7598b94027d054ef6428e5f686ae2e662e2637c4a65201"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/verification.json",
+        "sha256": "98f1ce4597e5c63cfc118d0eb87899da84da1afd0cb1f2d9ffb5e289ed861037"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/geometry.json",
+        "sha256": "f4428d7c7cb1714014a00758c11e656c802dae3773b52b59cbda3664347f81b0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/kinematics.json",
+        "sha256": "042731867a0e2efd4d21d41b9a03b42402d956ccd48b107186391663980fda2b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/provenance.json",
+        "sha256": "6661b230bb574100e0797f8cbf32d0f1bbbfb384676534a0cc9900dbf9ee5f50"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/full-can-raise-alpha.webm",
+        "sha256": "ec197f3bae7c7cb6eff006fc10d161765fce30565b2dae68a324d0a0c3311004",
+        "bytes": 253206,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/full-can-raise.mp4",
+        "sha256": "d774933f50cb55cb6bb0a78fca50abfcfe945e1768f18db97b7a3f8e4798feff",
+        "bytes": 102945,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/full-can-raise-dark.mp4",
+        "sha256": "af4ad7ff5851e3b7e5d183ff6340406e2ce59790cd29cdf135a8b38fb2596571",
+        "bytes": 86038,
+        "decode": "passed"
+      }
+    ]
+  },
+  "empty-can-raise": {
+    "checks": {
+      "exercise": "Distinct empty-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points down at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 아래를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ],
+    "reviewedAt": "2026-11-13T02:29:10.198Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/final.jpg",
+        "sha256": "9d49ade22c649980cb45a99cd258359c6b57d1d5efde78ccc5bf44c229bdb01d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/final-dark.jpg",
+        "sha256": "581f2e015b0702a2bd91236449ae1eb3acf39ca6416667516ba5e64eddafc506"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/full-sheet.png",
+        "sha256": "09e09292e7f316fe73b0694806383e94f46dee8597459638c2392aee41a83d2b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/side-sheet.png",
+        "sha256": "ec321702115ef6cfadcc803e92e67c3a1ee10ffcbb79d20d2fe7a2ec6cde7011"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/verification.json",
+        "sha256": "41e402974bd9cdbd20be4b5aaf4489e23eb0a1e5bbcbebd1505cc0e1f6ed2bb9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/geometry.json",
+        "sha256": "f4428d7c7cb1714014a00758c11e656c802dae3773b52b59cbda3664347f81b0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/kinematics.json",
+        "sha256": "578c965bac7a317b106acb212a0019b59aa00160fb81f6b6c0f4c40a99e49f97"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/provenance.json",
+        "sha256": "64de504c9b6b353757ca552f369e094c40cce8a623f770a4aaaefbc90d218224"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/empty-can-raise-alpha.webm",
+        "sha256": "df8b9826fecf5f2e3dfbc50d7553945ce379759137bd3a885f15135721f99a63",
+        "bytes": 260444,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/empty-can-raise.mp4",
+        "sha256": "7f050e5d0db76d244962d174660e4bc6eebaab0015f509c89b7923371f514014",
+        "bytes": 104486,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/empty-can-raise-dark.mp4",
+        "sha256": "159644d8929075bdaefe995447cec1256d5bd2577d2eb323cd616b15a889cff3",
+        "bytes": 87970,
+        "decode": "passed"
+      }
+    ]
+  }
+}

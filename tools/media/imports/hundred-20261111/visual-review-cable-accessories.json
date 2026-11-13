@@ -1,0 +1,446 @@
+{
+  "cable-external-rotation": {
+    "checks": {
+      "exercise": "cable-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "도르래를 팔꿈치 높이에 두고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:30:14.291Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/final.jpg",
+        "sha256": "683efcdd952d2a2c8662506aa526ece27db22240af04d40d5ca86a88b509d8ac"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/final-dark.jpg",
+        "sha256": "a8e8c9cae59827e9117c10b2b18e1f26b7681d972bc56e39452ed18eb34094c7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/full-sheet.png",
+        "sha256": "64e187ef839430bb3dd8d115b572499f863fad4725f7fa8b6f6a14be75e0b29c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/side-sheet.png",
+        "sha256": "548fc0c9c8ed00e00ce84174e207b13d34cc46d55b33698cb126205a34e140b7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/verification.json",
+        "sha256": "8a505de61e94f127aa92307804b9b9639450792f978c8e18a138dc6b6b083f3c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/geometry.json",
+        "sha256": "ef72def507a3a5261d25529c85816c5144495b5a34c87ad088ef52fc2fb4b6f9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/kinematics.json",
+        "sha256": "a94e4fd3b667ab5683d4d3d919b0d43e22970b63d0e1233b936366dda595f2a1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/provenance.json",
+        "sha256": "c51ec41c6c9cf1d64ca22ba44ce285e1b6957384e1e9af9802d803c922e5e608"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/cable-external-rotation-alpha.webm",
+        "sha256": "8dab6b9d61dc25dfa4f536ffc3d64e10ed0de75275919c4c21f8fbd7be877c43",
+        "bytes": 89243,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/cable-external-rotation.mp4",
+        "sha256": "440d13e0cae14cfd75556452c9bd99b6afd8c7b7b98c9d18114b8632859672be",
+        "bytes": 41562,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/cable-external-rotation-dark.mp4",
+        "sha256": "b16e19540638832aa650a7617802cda8db46c9aca4db5ec1e9726b969aea6440",
+        "bytes": 37558,
+        "decode": "passed"
+      }
+    ]
+  },
+  "band-external-rotation": {
+    "checks": {
+      "exercise": "band-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "밴드를 팔꿈치 높이에 고정하고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:30:14.347Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/final.jpg",
+        "sha256": "dce4e4ab65d58a123a2723ad2614f2083e0ec7d747bbe5e703d6bd05eaa4118e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/final-dark.jpg",
+        "sha256": "7299a920043697eb6ba0e746b905df200184741ecf3af5abb431ff98caf6ed10"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/full-sheet.png",
+        "sha256": "0e49e43a8ba20d355f3d6242fe444682d6609d434cf20fca6e4f6dd0f3102229"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/side-sheet.png",
+        "sha256": "06dce001bf12ce565cc1a217468d7209dadd9649e285b2eb869119b5d2344e7a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/verification.json",
+        "sha256": "e9fc952a427281c2042c42ef9da7f9253f57408fe11bbea3d514659c96b10dda"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/geometry.json",
+        "sha256": "ef72def507a3a5261d25529c85816c5144495b5a34c87ad088ef52fc2fb4b6f9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/kinematics.json",
+        "sha256": "a94e4fd3b667ab5683d4d3d919b0d43e22970b63d0e1233b936366dda595f2a1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/provenance.json",
+        "sha256": "ac2b0bf9ceb5c5af6aa7a54da3d7aab14624e1976b4821fcda3b988c2926a2eb"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/band-external-rotation-alpha.webm",
+        "sha256": "3b168e0ccb8c296c4ea2bc09444f88b35967e45a938057d8de9f59999142321e",
+        "bytes": 74024,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/band-external-rotation.mp4",
+        "sha256": "8071e2bbf33b7598a7c464867dbbb79140c236391a3b11478018f121c2d5a7cb",
+        "bytes": 34018,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/band-external-rotation-dark.mp4",
+        "sha256": "32916c4f4ff0116ef801e6859babedb247932cb77950c021707c974e160bfe3a",
+        "bytes": 34125,
+        "decode": "passed"
+      }
+    ]
+  },
+  "high-cable-fly": {
+    "checks": {
+      "exercise": "high-cable-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "양쪽 높은 도르래의 손잡이를 잡고 기구보다 앞에 안정적으로 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 두 손을 앞쪽 아래로 모으고 천천히 벌린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:30:14.390Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/final.jpg",
+        "sha256": "97ed0dd1f6e01805173afcae54681a807e8cbd2396b5eb2b2aae00524ab068bf"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/final-dark.jpg",
+        "sha256": "f394512dad885266c86ed6bf890ae66b615f167dbfaeaa1754b47f99f0c21450"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/full-sheet.png",
+        "sha256": "4180586824fadadb79a629af536218ad8edff6e6900b0a9f10d4bd6ecc83a739"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/side-sheet.png",
+        "sha256": "1a93c75daffa02657a08a7bff4dc3ad1380b43de0c7cc6828e27eebc86810e29"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/verification.json",
+        "sha256": "05da099e8f86f6b5ac4f3902145d5516031dde951cfa4bf1a7ac0db7f177c84f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/geometry.json",
+        "sha256": "61a688676f1ceb0b4416235cc8f13a634e62f380c3d521556550374b77280bc2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/kinematics.json",
+        "sha256": "cfb73e4e6f8bcb6a808441130d96814d23538e2048260644303599192106dd1f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/provenance.json",
+        "sha256": "63f0010433daac13c35f677a80e1b33b1413f886c97f737d5cf3fef447d4eefd"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/high-cable-fly-alpha.webm",
+        "sha256": "bd5725a1cff204634ed963f837ae98c8c3f2905c4d1e8a34c94d618d93ca9a8a",
+        "bytes": 249423,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/high-cable-fly.mp4",
+        "sha256": "388e0eb0b7d7c2b8c8438d2f6745859c21cbcc77e6c5484460fb1191e53981a6",
+        "bytes": 96467,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/high-cable-fly-dark.mp4",
+        "sha256": "5f5421d444125232f6d6c8664675df4defc9465fcea9bc4325e061047ec2be9d",
+        "bytes": 96373,
+        "decode": "passed"
+      }
+    ]
+  },
+  "standing-cable-reverse-fly": {
+    "checks": {
+      "exercise": "standing-cable-reverse-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "가슴 높이의 도르래를 마주 보고 양손으로 반대편 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 옆으로 벌리고 천천히 앞으로 모은다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:30:14.444Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/final.jpg",
+        "sha256": "3b1197355d2edc0f0f38f8d2816d514f38ae2672d6338989281c5e96ba233763"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/final-dark.jpg",
+        "sha256": "b5d9400c6d22838e5299a623b756d362053ff4e6c7c45f065a432d25ba29bbcd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/full-sheet.png",
+        "sha256": "56354c3f0f3e2e407fee593a3178ba48e8552ede681c625d3cac3d88723e482e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/side-sheet.png",
+        "sha256": "50d0d6657ce74340031c4c71f55cf77fd385e3b12d6774de46fc8ac8c3a4dfde"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/verification.json",
+        "sha256": "ba7590fe41c34e97c230bf464ad57c8e21fc68f84ac440b65d8972fd123f4bfb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/geometry.json",
+        "sha256": "c3698a18094e834b01d391d3107f23ddb7acc82df95b8c9f66b064d1085d7ac6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/kinematics.json",
+        "sha256": "b53f180f5f40faf92ba2930508413a156f44bad6c16fd5e48c37ce915432f277"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/provenance.json",
+        "sha256": "e7bfa0794bf0bf156ac460be90136a2bc8f1963dbcf087bdea87d43835787c2d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/standing-cable-reverse-fly-alpha.webm",
+        "sha256": "ec879d91fa56dc71173ec007eb7003cf09f2220443fd193970251e7a9323ae93",
+        "bytes": 192573,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/standing-cable-reverse-fly.mp4",
+        "sha256": "849f16fb795b53b77e5639933629012c1adfaaa4539fbc94ca7401282f65aaf4",
+        "bytes": 80260,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/standing-cable-reverse-fly-dark.mp4",
+        "sha256": "43034f491d02712c3eda5e6e4b300c5c025f25d71130cd0d9b633b02ad64f938",
+        "bytes": 75814,
+        "decode": "passed"
+      }
+    ]
+  },
+  "cable-y-raise": {
+    "checks": {
+      "exercise": "cable-y-raise front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 잡고 발을 고정해 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 앞쪽 대각선 위로 올려 Y 모양을 만들고 내린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:30:14.497Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/final.jpg",
+        "sha256": "d7fc06a2cd0c8cd1896fc7fa7d274242d6bad4bee3a10295d509b89bd4b3fd00"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/final-dark.jpg",
+        "sha256": "a79b7ddcdd6d556733c17ca8cace1101506e9675df337ce8d47f60ea39416a74"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/full-sheet.png",
+        "sha256": "1d44bd01e0234cf05a5f8627c4d1b8c800d2cbc623e1a0586b12b7fdda3cc4f3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/side-sheet.png",
+        "sha256": "5fd16fc3186bd93800c4f71a06c5c32b6f387d2d11c6f2154ecb8d384ab51788"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/verification.json",
+        "sha256": "90a24e30167258c58412c624d5e91434efce6fcf688d1684bcd3777841b28de2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/geometry.json",
+        "sha256": "a18fd0ecf6023fb867629343189e1c82bc918aceafdde77fb3a37c39d64cae4e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/kinematics.json",
+        "sha256": "951502138a35b066fb5584da7d534002e5ae440d64138645a386be25c822e6bc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/provenance.json",
+        "sha256": "518d83e1f3b760f7c4cefbcc84dd4cad9dbea85f0293a385de87bff01611023d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/cable-y-raise-alpha.webm",
+        "sha256": "4f6cf45bd43520b9936ec8bf53c108fd1511f65c7fb96073043d019480abea81",
+        "bytes": 291807,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/cable-y-raise.mp4",
+        "sha256": "6a28daff648dc39c9f445d598cf27fb5526b05b6b59c92939cfd62adf5bb555b",
+        "bytes": 124790,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/cable-y-raise-dark.mp4",
+        "sha256": "dc3cb252dd32ebaba4e3e1025da7c6ab22661807cacd878228711806abce2b02",
+        "bytes": 124661,
+        "decode": "passed"
+      }
+    ]
+  },
+  "cable-shrug": {
+    "checks": {
+      "exercise": "cable-shrug front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 양옆에서 잡고 팔을 길게 늘어뜨린다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 굽히지 않고 양어깨를 위로 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:30:14.536Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/final.jpg",
+        "sha256": "bbae67061376e1ce333a14ac80c32abbf0122f218bdda0920cc538b5f3f272a3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/final-dark.jpg",
+        "sha256": "150b2058998239887cf20db8adbea1ebe8dc0103ffbb2dcaacb0a6972409be83"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/full-sheet.png",
+        "sha256": "0210e20197d9bb117f2aa4ff61d487c3e62061d6fd8cacb792f04d61bc0d4516"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/side-sheet.png",
+        "sha256": "858486cea1769e657fa3d82c92b3d67d4893155ddef80613ef04b0e700795932"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/verification.json",
+        "sha256": "cfefb36c6e7e270e5ca1ecacf17ef5a43e9406daaa56b96460d3039312d85d42"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/geometry.json",
+        "sha256": "72a8048db19e10cb3aa8a6a680ea4ae027a986cb09c090046965ef3007406d76"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/kinematics.json",
+        "sha256": "c4884f921ca97ea842f635930e48fdf8e9b7139fc08fe409f3940b8ea03901b3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/provenance.json",
+        "sha256": "21fdb2461ab6ef4532378a80ffb511d34f264d3dbae5709ecd6b1bc05257dbc7"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/cable-shrug-alpha.webm",
+        "sha256": "41c005ff567784c477339dba2d59bd9d4f02c3d139097b0115cccefe3037bfc2",
+        "bytes": 146591,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/cable-shrug.mp4",
+        "sha256": "6fe6c5aa485e6ee4d7016e36cac208478341581633f75f0044dbfcb02c0943dc",
+        "bytes": 58619,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/cable-shrug-dark.mp4",
+        "sha256": "cc22d9fef6decac460a88f630a3b01de2d2b4db52573c3949b2d93f8ed8b5507",
+        "bytes": 53711,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "smith-machine-decline-press",
+  "equipment": "smith",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-decline-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/decline-smith-machine-bench-press.html"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:52:52.635Z"
+}

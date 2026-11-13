@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-12T23:59:10.735Z",
+  "report": [
+    {
+      "id": "single-arm-machine-chest-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "single-arm-machine-shoulder-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "single-arm-pec-deck-fly",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T03:23:36.677Z",
+  "ids": [
+    "seated-toe-raise"
+  ],
+  "files": 3,
+  "batchCompleted": 61,
+  "batchRemaining": 39,
+  "counts": {
+    "reviewed-both-themes": 462,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 853,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

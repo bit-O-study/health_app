@@ -1,0 +1,1 @@
+const fs=require('node:fs'),base='tools/media/imports/hundred-20261111';for(const id of JSON.parse(fs.readFileSync(base+'/seated-rows-ids.json'))){const p=base+'/'+id+'-studio.mjs';let s=fs.readFileSync(p,'utf8').replaceAll('x,-5.2,8','x,-5.539327,8').replace('(p.y+5.2-(p.z-8))','(p.y-footplates[index].position.y-(p.z-8))');fs.writeFileSync(p,s);}

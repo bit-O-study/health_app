@@ -1,0 +1,224 @@
+{
+  "incline-rear-delt-raise": {
+    "checks": {
+      "exercise": "Distinct incline-rear-delt-raise path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "팔꿈치를 살짝 굽힌 채 양팔을 옆으로 벌려 어깨 높이까지 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ],
+    "reviewedAt": "2026-11-13T02:37:31.830Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/final.jpg",
+        "sha256": "db94868f0b47c32efc159fcf9319a998ee0e47084a5ab322687477d35325927d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/final-dark.jpg",
+        "sha256": "de21c95bf627c68d0f810a53ee372133b2c65e4943e5b26fd55f3dd10b134561"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/full-sheet.png",
+        "sha256": "e381d9268daf35fb8aed98dd3d40cfb014f859ea42c1e5d57686396cadeca954"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/side-sheet.png",
+        "sha256": "5d604934f2101c252e8ec752a99cf58fe033cc7147a663e8595eed19f06f97cf"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/verification.json",
+        "sha256": "1850db378c96e930b65aeaa4b9cb74840f4402a8592645951b8e3cf85951ce69"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/geometry.json",
+        "sha256": "938911cf940dc9c91e1358e5af848a382e1a08339e9f5b33659233707f4f0b09"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/kinematics.json",
+        "sha256": "fd356b00bdbf5cd42a89ed5ca58bf65952c85576ff5922d2908a11b0cd407b73"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/provenance.json",
+        "sha256": "8b2c25eb196906b8d231d2f01b81876620aab15bb366644fa7d616a068fb6725"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/incline-rear-delt-raise-alpha.webm",
+        "sha256": "0d53890713dc6e89a1081b2cd5d486a59af4267bfce190f17efb6ac1b84c2fa7",
+        "bytes": 222320,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/incline-rear-delt-raise.mp4",
+        "sha256": "54024054c210c19e4cf968b0beac43480a1bd1bc70bf2aca82f16f8d3768c3ce",
+        "bytes": 101176,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/incline-rear-delt-raise/incline-rear-delt-raise-dark.mp4",
+        "sha256": "fccb9c119f595b238b1ed5fad78fbd219139ada655a4e746ec3a399b0ee286ea",
+        "bytes": 85299,
+        "decode": "passed"
+      }
+    ]
+  },
+  "incline-bench-dumbbell-row": {
+    "checks": {
+      "exercise": "Distinct incline-bench-dumbbell-row path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "팔꿈치를 뒤로 당겨 덤벨을 몸 옆으로 끌어올렸다가 천천히 팔을 편다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ],
+    "reviewedAt": "2026-11-13T02:37:31.848Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/final.jpg",
+        "sha256": "fe42409d091a7def60ffbddeb115e3ccddbc030757f8e944746e2c3a000f1d25"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/final-dark.jpg",
+        "sha256": "3c24b0f757f79046a028d3f47065aa396722e2ebe1b667499bc5c769b971f979"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/full-sheet.png",
+        "sha256": "3c8b29ae15c439b141929f8d46778180c16bb903f5ea4fffc93a07a5638d18ac"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/side-sheet.png",
+        "sha256": "49cc3f54549aa694175ae198829dd1eadef944cf8757100691f0577e347a2f38"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/verification.json",
+        "sha256": "4ddad3df10763e740d725d0c371a5a92a4c26e59f2b855aab890d3c48e128914"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/geometry.json",
+        "sha256": "25a1b2743e2c9e5e0bdedc1b326e503abf5f0e82d053a61f058a57a402432972"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/kinematics.json",
+        "sha256": "9b968e739959d4e070ab36a2f056642b4b88e20c4225f31068cafc4b29685fe1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/provenance.json",
+        "sha256": "375434b2d5c477662c13d5be4ebe511f613f592733926fb45cd674e2165992dc"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/incline-bench-dumbbell-row-alpha.webm",
+        "sha256": "0b0f9785d084f4175eb259050c1b84411f1297c09a8d5b48ced836eab7c300f9",
+        "bytes": 140637,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/incline-bench-dumbbell-row.mp4",
+        "sha256": "6bfd2df5589f25b5831d256cda9d421590bb6d3bc54ab8e6db76b2f0eb6a1578",
+        "bytes": 65447,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/incline-bench-dumbbell-row/incline-bench-dumbbell-row-dark.mp4",
+        "sha256": "f6c4810a73a7734e7766f43e26bc8fa50a86802a94b34b488cb1d4c426e95f75",
+        "bytes": 56499,
+        "decode": "passed"
+      }
+    ]
+  },
+  "prone-y-raise": {
+    "checks": {
+      "exercise": "Distinct prone-y-raise path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "양팔을 머리 앞 대각선으로 올려 Y자를 만든 뒤 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ],
+    "reviewedAt": "2026-11-13T02:37:31.862Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/final.jpg",
+        "sha256": "8bba65afe4cea6c1aa0a1d83f2b4c49900c0a31d284d4019bb09b9ae7171c53c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/final-dark.jpg",
+        "sha256": "149059ef46ce1deea90028ff2d4d7fd571f0cf52eb57ab9a18de9a7329e8dcbf"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/full-sheet.png",
+        "sha256": "b1a0e5f3e736576159c5ee48783a3319b69d6f108f69d4d6651f1b53c10017ca"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/side-sheet.png",
+        "sha256": "3ead3741ba1e325503df72d03fb19d586642ebcdafa4e87f5357e1609d4a8e88"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/verification.json",
+        "sha256": "050e1b7367e7f004ec775e1604f974a27c8a6a4af7f32d77f9f6b2be77e06e30"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/geometry.json",
+        "sha256": "6b867413636e43e985a724add96b60b04cf9f5df7be1ebde3fe035ce1b9984b3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/kinematics.json",
+        "sha256": "3b6d4d594df8790531adbd02e471f2c710dacf041ac005ed57017d6c3183f08b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/provenance.json",
+        "sha256": "b38e3f94e0160191ca93b936e46b8197afc27d8ea550eb04ca2dd11aec1e77db"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/prone-y-raise-alpha.webm",
+        "sha256": "fb5e9e97eafdb7c79d7ff9291e55c8967def09e1c862b2e3497dc653fe466f1e",
+        "bytes": 226669,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/prone-y-raise.mp4",
+        "sha256": "7ee60f0f720b8fb3dfaba46811f1c047f21f53cafff5a29c439a0b8609cb54ac",
+        "bytes": 104748,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/prone-y-raise/prone-y-raise-dark.mp4",
+        "sha256": "c99970d080b3f30281742247b01d75dd5853a86c9818f3a5439bcf02597ab980",
+        "bytes": 86958,
+        "decode": "passed"
+      }
+    ]
+  }
+}

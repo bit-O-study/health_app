@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T13:27:05.176Z",
+  "ids": [
+    "band-monster-walk"
+  ],
+  "files": 3,
+  "batchCompleted": 81,
+  "batchRemaining": 19,
+  "counts": {
+    "reviewed-both-themes": 482,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 834,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

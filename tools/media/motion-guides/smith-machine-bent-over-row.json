@@ -1,0 +1,15 @@
+{
+  "id": "smith-machine-bent-over-row",
+  "equipment": "smith",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "smith-machine-bent-over-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/smith-machine-bent-over-row.html"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:09:03.035Z"
+}

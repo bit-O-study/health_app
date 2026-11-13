@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T12:02:33.473Z",
+  "ids": [
+    "trx-row"
+  ],
+  "files": 3,
+  "batchCompleted": 70,
+  "batchRemaining": 30,
+  "counts": {
+    "reviewed-both-themes": 471,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 845,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

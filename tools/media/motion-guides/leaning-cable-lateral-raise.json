@@ -1,0 +1,15 @@
+{
+  "id": "leaning-cable-lateral-raise",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "leaning-cable-lateral-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.majorfitness.com/blogs/training-tips/cable-lateral-raise"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T12:59:01.526Z"
+}

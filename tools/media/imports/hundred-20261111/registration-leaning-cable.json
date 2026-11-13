@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T13:01:25.772Z",
+  "ids": [
+    "leaning-cable-lateral-raise"
+  ],
+  "files": 3,
+  "batchCompleted": 78,
+  "batchRemaining": 22,
+  "counts": {
+    "reviewed-both-themes": 479,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 837,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

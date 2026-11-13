@@ -1,0 +1,32 @@
+{
+  "kettlebell-clean": {
+    "checks": {
+      "exercise": "Single-arm kettlebell clean",
+      "equipment": "One kettlebell",
+      "setup": "발을 안정적으로 벌리고 케틀벨을 한 손으로 잡는다. 엉덩이를 뒤로 보내고 무릎을 굽혀 준비한다.",
+      "hands": "Closed grip, low elbow rack",
+      "feet": "Stable planted stance",
+      "movement": "다리와 엉덩이를 펴며 케틀벨을 몸 가까이 끌어 올린다. 손을 손잡이 안으로 넣고 팔꿈치를 낮춰 가슴 앞에서 받는다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed hang-start teaching variation; no full ballistic backswing.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ]
+  },
+  "kettlebell-snatch": {
+    "checks": {
+      "exercise": "Single-arm kettlebell snatch",
+      "equipment": "One kettlebell",
+      "setup": "발을 안정적으로 벌리고 케틀벨을 한 손으로 잡는다. 엉덩이를 뒤로 보내고 무릎을 굽혀 준비한다.",
+      "hands": "Closed grip, overhead extended elbow, controlled return",
+      "feet": "Stable planted stance",
+      "movement": "다리와 엉덩이를 펴며 케틀벨을 끌어 올리고 손을 손잡이 안으로 넣어 머리 위에서 팔을 편다. 안정적으로 멈춘 뒤 부드럽게 내린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed hang-start teaching variation; no full ballistic backswing.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ]
+  }
+}

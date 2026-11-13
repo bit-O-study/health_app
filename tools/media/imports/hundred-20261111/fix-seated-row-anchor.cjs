@@ -1,0 +1,1 @@
+const fs=require('node:fs'),base='tools/media/imports/hundred-20261111';for(const id of JSON.parse(fs.readFileSync(base+'/seated-rows-ids.json')))for(const kind of ['motion','studio']){const p=base+'/'+id+'-'+kind+'.mjs';fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('"anchor":[0,1,12]','"anchor":[0,3,12]'));}

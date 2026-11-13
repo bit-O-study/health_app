@@ -1,0 +1,28 @@
+{
+  "kettlebell-windmill": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-windmill.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-windmill.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-windmill-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-windmill.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-windmill-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-windmill-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

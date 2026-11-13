@@ -1,0 +1,15 @@
+{
+  "id": "sled-push",
+  "equipment": "sled",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "sled-push-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://ceu-quizzes-cdn.ncsf.org/training-programming/Push_or_Pull_Using_Sleds_for_Sports_Performance.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:14:55.909Z"
+}

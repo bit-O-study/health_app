@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T15:16:02.736Z",
+  "ids": [
+    "turkish-get-up"
+  ],
+  "files": 3,
+  "batchCompleted": 100,
+  "batchRemaining": 0,
+  "counts": {
+    "reviewed-both-themes": 501,
+    "needs-motion-review": 17,
+    "needs-cutout-review": 14,
+    "needs-new-video": 817,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

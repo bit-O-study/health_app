@@ -1,0 +1,12 @@
+{
+  "full-can-raise": {
+    "equipment": "dumbbell",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/",
+    "criteria": "Bilateral dumbbell elevation in plane 30 degrees anterior to frontal plane; thumbs up; fixed feet and trunk, shoulder-height range."
+  },
+  "empty-can-raise": {
+    "equipment": "dumbbell",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/",
+    "criteria": "Bilateral dumbbell elevation in plane 30 degrees anterior to frontal plane; thumbs down; fixed feet and trunk, shoulder-height range."
+  }
+}

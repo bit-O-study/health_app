@@ -1,0 +1,18 @@
+{
+  "id": "cable-shrug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "eb94e689f663d00fdba3391cba04d0a13c653e5563dced4128a84d3d14f7be2a",
+  "rigSourceSha256": "21fdb2461ab6ef4532378a80ffb511d34f264d3dbae5709ecd6b1bc05257dbc7",
+  "videoSha256": "6fe6c5aa485e6ee4d7016e36cac208478341581633f75f0044dbfcb02c0943dc",
+  "darkVideoSha256": "cc22d9fef6decac460a88f630a3b01de2d2b4db52573c3949b2d93f8ed8b5507",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 58619,
+  "darkBytes": 53711,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T00:31:03.314Z"
+}

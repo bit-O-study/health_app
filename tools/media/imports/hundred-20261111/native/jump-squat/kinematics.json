@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "samples": 481,
+  "loopError": 0,
+  "maxStep": 0.1829661960682165,
+  "maxFootHeightDifference": 0,
+  "maxGroundToeDrift": 6.2685830808342686e-15,
+  "landingKnee": 136.77629221594108,
+  "dipKnee": 76.58951152687496,
+  "apexHeight": 1.4999603364482654,
+  "minFloorClearance": 0.03249402008056368
+}

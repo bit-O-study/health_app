@@ -1,11 +1,16 @@
 {
-  "prompt": "Eight-pose dumbbell farmer carry walking step, both dumbbells fixed at sides, tall trunk, controlled gait",
-  "equipment": "dumbbell",
-  "sources": [
-    "https://cdn.muscleandstrength.com/exercises/farmers-walk"
-  ],
-  "panels": 8,
-  "cycle": "full",
   "id": "farmer-s-carry",
-  "registeredAt": "2026-09-13T12:52:50.225Z"
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "farmer-s-carry-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf",
+    "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-12T10:18:18.573Z"
 }

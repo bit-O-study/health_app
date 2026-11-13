@@ -1,0 +1,41 @@
+{
+  "push-jerk": {
+    "checks": {
+      "exercise": "Push jerk with planted feet",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 어깨 앞쪽에 두고 양발을 어깨너비로 벌린다. 몸통을 세우고 팔꿈치를 바보다 약간 앞으로 둔다.",
+      "hands": "Closed grips attached throughout rack to overhead",
+      "feet": "Feet and toes remain planted during both knee bends",
+      "movement": "무릎을 짧게 굽혔다가 다리로 바닥을 밀며 바를 올린다. 바 아래로 몸을 낮추며 팔을 머리 위로 펴서 받은 뒤 무릎을 펴고 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed eight-second technique sequence; not a prescription of explosive lifting speed.",
+      "Sampled geometry checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:19:53.131Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/push-jerk/full-sheet.png",
+        "sha256": "cce41d104ecd0a638a8dcec3f58c9511724daef6b2fc4127e68ec8cd5eea283b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/push-jerk/side-sheet.png",
+        "sha256": "54838f0218a9f1b5d363fec9b758b341ba15e43931dd0ca13105f9a9fe4d899c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/push-jerk/poses.json",
+        "sha256": "bdc25055951c4d3642a40905a93b5298e8fca9226490a2133297667e4b9f8e3c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/push-jerk/geometry.json",
+        "sha256": "7537f8251fc58373d41a113f248980cda19384dc17979c19b359823964b65f0a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/push-jerk/kinematics.json",
+        "sha256": "3f9c04ee2dcbd1c800aa218e2718720d08c665322e14a21235f4735a6f17d4e5"
+      }
+    ]
+  }
+}

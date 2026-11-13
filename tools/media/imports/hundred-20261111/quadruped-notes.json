@@ -1,0 +1,50 @@
+{
+  "donkey-kick": {
+    "checks": {
+      "exercise": "donkey-kick front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손을 어깨 아래, 무릎을 골반 아래에 둔 네발 자세를 만든다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Left support knee and lower leg fixed; right bent leg moves",
+      "movement": "오른쪽 무릎을 굽힌 채 허벅지를 뒤로 들어 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+      "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+      "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+      "Right-side demonstration; repeat on the other side."
+    ]
+  },
+  "fire-hydrant": {
+    "checks": {
+      "exercise": "fire-hydrant front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손을 어깨 아래에 놓고 무릎을 굽힌 네발 자세로 몸통을 고정한다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Left support knee and lower leg fixed; right bent leg moves",
+      "movement": "오른쪽 무릎을 굽힌 채 옆으로 벌렸다가 골반 아래로 천천히 되돌린다."
+    },
+    "limitations": [
+      "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+      "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+      "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+      "Right-side demonstration; repeat on the other side."
+    ]
+  },
+  "cat-cow": {
+    "checks": {
+      "exercise": "cat-cow front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손과 무릎으로 지지하고 손을 어깨 아래, 무릎을 골반 아래에 놓는다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Both knees fixed; lower legs remain still",
+      "movement": "손과 무릎을 고정한 채 등을 천천히 둥글게 말고 다시 부드럽게 펴 준다."
+    },
+    "limitations": [
+      "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+      "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+      "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+      "Small-range spinal flexion/extension; eight-second loop does not reproduce the source hold duration."
+    ]
+  }
+}

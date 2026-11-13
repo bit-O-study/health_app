@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T13:47:46.127Z",
+  "ids": [
+    "skater-jump"
+  ],
+  "files": 3,
+  "batchCompleted": 84,
+  "batchRemaining": 16,
+  "counts": {
+    "reviewed-both-themes": 485,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 831,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

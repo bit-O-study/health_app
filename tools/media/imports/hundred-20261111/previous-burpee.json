@@ -1,0 +1,28 @@
+{
+  "burpee": [
+    {
+      "file": "tools/media/motion-guides/burpee.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/burpee.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/burpee-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/burpee.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/burpee-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/burpee-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

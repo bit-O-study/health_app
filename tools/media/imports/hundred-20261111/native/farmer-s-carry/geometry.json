@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.03249402008056368,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9268215908086475,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.0324940200805619,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9261595578053139,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9240039082172122,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9211999671749919,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9219722702559335,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.032494020080566344,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9251612940403082,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.032494020080566344,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9403573349174754,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.03249402008056457,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9260213810838303,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.03249402008056368,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9190769501097189,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.0324940200805619,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9187794960954846,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9180593232780866,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9181737037059724,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.923118384907447,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.032494020080565456,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9290966654024065,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.032494020080566344,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9463847225423156,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.03249402008056457,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9348806312574847,
+    "gripError": 8.3820000221454525e-16
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.03249402008056368,
+    "plateBodyGap": 0.17216885019987593,
+    "plateClothGap": 0.9268215908086475,
+    "gripError": 8.3820000221454525e-16
+  }
+]

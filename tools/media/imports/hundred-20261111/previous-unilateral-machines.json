@@ -1,0 +1,80 @@
+{
+  "single-arm-machine-chest-press": [
+    {
+      "file": "tools/media/motion-guides/single-arm-machine-chest-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-machine-chest-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-machine-chest-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-machine-chest-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-machine-chest-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-machine-chest-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-machine-shoulder-press": [
+    {
+      "file": "tools/media/motion-guides/single-arm-machine-shoulder-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-machine-shoulder-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-machine-shoulder-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-machine-shoulder-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-machine-shoulder-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-machine-shoulder-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-pec-deck-fly": [
+    {
+      "file": "tools/media/motion-guides/single-arm-pec-deck-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-pec-deck-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-pec-deck-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-pec-deck-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-pec-deck-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-pec-deck-fly-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

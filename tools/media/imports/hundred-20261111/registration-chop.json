@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T14:29:12.394Z",
+  "ids": [
+    "cable-woodchopper"
+  ],
+  "files": 3,
+  "batchCompleted": 92,
+  "batchRemaining": 8,
+  "counts": {
+    "reviewed-both-themes": 493,
+    "needs-motion-review": 18,
+    "needs-cutout-review": 14,
+    "needs-new-video": 824,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

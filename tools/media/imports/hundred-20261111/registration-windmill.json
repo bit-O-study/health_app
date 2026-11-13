@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T14:55:20.911Z",
+  "ids": [
+    "kettlebell-windmill"
+  ],
+  "files": 3,
+  "batchCompleted": 98,
+  "batchRemaining": 2,
+  "counts": {
+    "reviewed-both-themes": 499,
+    "needs-motion-review": 17,
+    "needs-cutout-review": 14,
+    "needs-new-video": 819,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

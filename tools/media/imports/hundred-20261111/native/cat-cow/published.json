@@ -1,0 +1,18 @@
+{
+  "id": "cat-cow",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cd9a171bde3e1968411a8c992d13fa9a34805a34161d028bd9ba995340f3e598",
+  "rigSourceSha256": "f6a31a3610df13306cd2b40ed7b5da3a73522dda0fdbeaf68db2045659631d3c",
+  "videoSha256": "83b49e0b7fb2ebd41583bab00560bb089ee9567b07c35697ecf8bd28c0262edf",
+  "darkVideoSha256": "bc0e27113e1043f1983269ef6e0fde0bc7c9e1bbfc86c57e99c8aa3a156e5cc6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 56586,
+  "darkBytes": 56673,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:20:02.388Z"
+}

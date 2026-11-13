@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T12:08:11.830Z",
+  "ids": [
+    "trx-chest-press"
+  ],
+  "files": 3,
+  "batchCompleted": 71,
+  "batchRemaining": 29,
+  "counts": {
+    "reviewed-both-themes": 472,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 844,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

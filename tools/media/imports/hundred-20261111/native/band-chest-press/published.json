@@ -1,0 +1,18 @@
+{
+  "id": "band-chest-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0cbe09698ac3c23efd68c9f8b9e0613b4a90d326f6673d5aefc1bb2de3b44bb7",
+  "rigSourceSha256": "0951e9ecf99a84a17bd440d4f6069520b15b2e2a514e25de17b8d0dda834e61f",
+  "videoSha256": "7c60dfb4d3746c4a9048feb326191639a2e19e1186e6e5e654d6a00fa805253c",
+  "darkVideoSha256": "694d48502d9f3172f11307fc044c32d296dbe2698a464d7befb5e219a1d13adb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 69255,
+  "darkBytes": 68947,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:24:38.082Z"
+}

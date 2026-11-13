@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-split-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bd893013aec5bf49ac333b4141d77776c178be816fba59cde5383ea269a6ab75",
+  "rigSourceSha256": "5798f9606fc2d91357ee2593b7e7195a8e55364131b494defe90526dfb112606",
+  "videoSha256": "ecba41cc3887f2a90d0b4f001f6a00b58389a97767e48a8adcf3bc77ccb29d09",
+  "darkVideoSha256": "52e2d21c14245aad7772c6697a034168c72888b29509f326accbd7f7983859db",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103430,
+  "darkBytes": 85385,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:38:13.054Z"
+}

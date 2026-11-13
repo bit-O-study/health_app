@@ -1,0 +1,5 @@
+{
+ "single-arm-machine-chest-press":{"equipment":"machine","setup":"좌우 레버가 독립적으로 움직이는 머신에 앉아 등과 양발을 지지하고 손잡이를 잡는다","movement":"한쪽 손잡이를 가슴 앞쪽으로 밀었다가 천천히 돌아온다","target":"가슴·삼두근","tip":"영상은 왼팔 시범이며 반대팔은 시작 위치의 손잡이를 잡고 유지한다"},
+ "single-arm-machine-shoulder-press":{"equipment":"machine","setup":"독립 레버 숄더 프레스 머신에 앉아 등을 기대고 손잡이를 어깨 옆에서 잡는다","movement":"한쪽 손잡이를 머리 위로 밀어 올렸다가 천천히 돌아온다","target":"어깨·삼두근","tip":"영상은 왼팔 시범이며 몸통과 반대팔을 고정한다"},
+ "single-arm-pec-deck-fly":{"equipment":"machine","setup":"독립 레버 펙덱 머신에 앉아 팔꿈치를 굽히고 전완을 패드에 댄 뒤 손잡이를 잡는다","movement":"한쪽 팔의 굽힘을 유지한 채 패드를 가슴 앞쪽으로 모았다가 천천히 돌아온다","target":"가슴","tip":"영상은 왼팔 시범이며 좌우가 따로 움직이는 기구에서 수행한다"}
+}

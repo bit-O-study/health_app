@@ -1,0 +1,18 @@
+{
+  "id": "hang-clean",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1e6caaba6477029dcd19076bb6c92065d9c608aa9e341c14282f47b3adfb14ee",
+  "rigSourceSha256": "f945746c1ca77da2e92dbfc0524923d668d7664a99a7e6d62aeb561236ea258a",
+  "videoSha256": "548d42189665143558dc6fb2c0a3ee697495526a995a3a71dae64e295ec8b573",
+  "darkVideoSha256": "c9674659b53b474c0227f98f8115be8ca37050128e81a4681ff11888907ca1cc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 148224,
+  "darkBytes": 124505,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:38:41.044Z"
+}

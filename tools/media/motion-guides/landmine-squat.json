@@ -1,0 +1,15 @@
+{
+  "id": "landmine-squat",
+  "equipment": "landmine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "landmine-squat-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/legs/quad-exercises/squats/landmine-squat/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:32:23.392Z"
+}

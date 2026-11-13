@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "geometrySamples": 17,
+  "supportDrift": 0,
+  "maxStep": 0.08849580988493647,
+  "loopError": 0,
+  "kneeDegrees": [
+    89.99999999999993,
+    90.00000000000017
+  ],
+  "limits": "Virtual floor; sampled skin support, no full mesh collision certification."
+}

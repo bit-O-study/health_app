@@ -1,0 +1,80 @@
+{
+  "power-clean": {
+    "checks": {
+      "exercise": "Power clean with partial squat catch",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 정강이 앞에 두고 어깨너비보다 약간 넓게 잡는다. 팔을 길게 펴고 엉덩이를 낮춘다.",
+      "hands": "Closed grips, long initial arms and front-rack turnover",
+      "feet": "Planted-foot teaching variation; stable stance during catch",
+      "movement": "바닥을 밀며 바를 올리고 다리와 엉덩이를 편다. 팔꿈치를 앞으로 돌리며 무릎을 가볍게 굽혀 어깨 앞에서 바를 받은 뒤 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed planted-foot teaching sequence without flight or foot repositioning.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:34:29.003Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/full-sheet.png",
+        "sha256": "7aed3860c29257af07c9572571eba2ea278a4394d83b6a363d5479af0d0b3598"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/side-sheet.png",
+        "sha256": "6cdf700dcb7bc194b99e38701f9db430ade7959e1feb6bf9979833c6b7386340"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/poses.json",
+        "sha256": "bd7116cbbeeeca231577bcc7c5fa59edce79b45137cbd9e3d4bab2ba089d1974"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/geometry.json",
+        "sha256": "3230378d2b74d2cf75822b20f0304572f0714185da591253d05207724def7b34"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/power-clean/kinematics.json",
+        "sha256": "931f04571551ab8157d4087f0bc217a75839e70902a09a369b6fc3ba31e7c05f"
+      }
+    ]
+  },
+  "hang-clean": {
+    "checks": {
+      "exercise": "Hang clean with squat catch",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 잡고 무릎 위에 둔다. 엉덩이를 뒤로 보내고 팔을 길게 편 채 등을 안정적으로 유지한다.",
+      "hands": "Closed grips, long initial arms and front-rack turnover",
+      "feet": "Planted-foot teaching variation; stable stance during catch",
+      "movement": "다리와 엉덩이를 펴며 바를 끌어 올린다. 팔꿈치를 앞으로 돌리고 스쿼트 자세로 내려가 어깨 앞에서 바를 받은 뒤 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed planted-foot teaching sequence without flight or foot repositioning.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:34:29.009Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/full-sheet.png",
+        "sha256": "fd3b01c1875d683a2ee0bab842fac4fd569b58061d3a6aa9068cc8fda3066622"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/side-sheet.png",
+        "sha256": "6f332ec34cdd597d8f2c20524b01dca6919b231dd752c6fdf402a81310de2e09"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/poses.json",
+        "sha256": "bac451e0ce9bd9c6e49c8a2aea399ebb9e24ad16dd511dc8199528ef6a3bd649"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/geometry.json",
+        "sha256": "97dd55043a75db22dad01568fcad3a3c2196a02b4e3473310ad2cac553d4dc23"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/hang-clean/kinematics.json",
+        "sha256": "351cf3ddc0c9b6dcc5217057a42098bea81c52c644f50334fc5cc5922edd4e59"
+      }
+    ]
+  }
+}

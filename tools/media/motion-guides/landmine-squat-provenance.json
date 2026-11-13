@@ -1,0 +1,262 @@
+{
+  "id": "landmine-squat",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/landmine-squat-studio.mjs",
+      "sha256": "51fd594d13c577a418e072b0ee6b3d070afb3542729e44995b73b268a2fb873f"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/landmine-squat-motion.mjs",
+      "sha256": "622cb22d81d75f943a1443e9490b7f9261ba2547c814dc5360a743306baab4ac"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "landmine-squat",
+    "sourceUrls": [
+      "https://www.puregym.com/exercises/legs/quad-exercises/squats/landmine-squat/"
+    ],
+    "criteria": "Planted squat holding a compact landmine handle; constant bar length and fixed floor anchor.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Generic compact transverse handle rather than bare-sleeve cup grip.",
+      "Slow procedural motion with fixed 20-unit bar; no force or tissue simulation.",
+      "Sampled plate and central-body/shaft clearance; not exhaustive collision certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 1.065533337012262,
+      "shaftBody": 2.1022053429257603,
+      "barLength": 20
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 1.0758061665257188,
+      "shaftBody": 2.009370639044996,
+      "barLength": 20
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 1.1057495150015295,
+      "shaftBody": 1.7609022542468558,
+      "barLength": 20
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 1.1520619136239083,
+      "shaftBody": 1.4327031197880244,
+      "barLength": 20
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 1.2085455995661605,
+      "shaftBody": 1.1054575550406844,
+      "barLength": 19.999999999999996
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 1.2667298211455655,
+      "shaftBody": 0.8413502054412852,
+      "barLength": 20
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.03249402008056723,
+      "plateBody": 1.3171381880374702,
+      "shaftBody": 0.6581562833078526,
+      "barLength": 20
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 1.3512222005862982,
+      "shaftBody": 0.5602609531951797,
+      "barLength": 20
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.03249402008056368,
+      "plateBody": 1.363243500241805,
+      "shaftBody": 0.5305025457880849,
+      "barLength": 20
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 1.3512222005862982,
+      "shaftBody": 0.5602609531951797,
+      "barLength": 20
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 1.3171381880374695,
+      "shaftBody": 0.658156283307853,
+      "barLength": 20
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 1.2667298211455646,
+      "shaftBody": 0.8413502054412858,
+      "barLength": 20
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 1.2085455995661607,
+      "shaftBody": 1.1054575550406849,
+      "barLength": 19.999999999999996
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 1.1520619136239079,
+      "shaftBody": 1.4327031197880244,
+      "barLength": 20.000000000000004
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 1.1057495150015295,
+      "shaftBody": 1.760902254246854,
+      "barLength": 20
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 1.0758061665257181,
+      "shaftBody": 2.0093706390449944,
+      "barLength": 20
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 1.065533337012262,
+      "shaftBody": 2.1022053429257603,
+      "barLength": 20
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 5.165893502716378e-15,
+    "gripError": 4.053454519487839e-15,
+    "barLengthError": 3.552713678800501e-15,
+    "maxStep": 0.0304456226922292,
+    "squatDepth": 4.2,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      62.665166499908736,
+      101.64041130926132
+    ],
+    "alpha": {
+      "transparent": 42072729,
+      "opaque": 1519800,
+      "partial": 644271,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/landmine-squat/source.jpg",
+    "sha256": "72edaef9b924802e6c29ef88ffffbf8f4138f5b77dc4b7985687cb09953ade0a",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Generic compact transverse handle rather than bare-sleeve cup grip. Slow procedural motion with fixed 20-unit bar; no force or tissue simulation. Sampled plate and central-body/shaft clearance; not exhaustive collision certification."
+}

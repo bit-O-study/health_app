@@ -1,0 +1,28 @@
+{
+  "jump-rope": [
+    {
+      "file": "tools/media/motion-guides/jump-rope.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/jump-rope.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/jump-rope-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-rope.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-rope-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-rope-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

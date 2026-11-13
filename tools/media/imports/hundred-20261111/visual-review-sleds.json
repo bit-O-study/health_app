@@ -1,0 +1,152 @@
+{
+  "sled-push": {
+    "checks": {
+      "exercise": "Forward sled push",
+      "equipment": "Plate-loaded sled with two upright handles",
+      "setup": "슬레드의 양쪽 기둥을 잡고 상체를 앞으로 기울인다. 복부에 힘을 주고 허리를 길게 유지한다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "양발로 바닥을 번갈아 밀며 슬레드를 앞으로 이동시킨다. 손잡이를 계속 잡고 몸통의 기울기를 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Camera follows the athlete and sled; no floor is rendered.",
+      "Two slowed gait cycles in eight seconds.",
+      "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+    ],
+    "reviewedAt": "2026-11-13T14:14:53.958Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/final.jpg",
+        "sha256": "82e85025e27a1998cdc97ffe22862b85c2a770acd82898adf649aac2739bf090"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/final-dark.jpg",
+        "sha256": "3ca653cad08c59477f9d3f7e30f0bf1455af77625393b4c123b92d7e64f13393"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/full-sheet.png",
+        "sha256": "b0d40ad3710e5735007709b57ce0cf4f6798041a4f9a3cf20b1aee651da0d96b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/side-sheet.png",
+        "sha256": "f110553c40447079ade9bc7b749fd73bb21296124608e9ebbd5f3a35777f1481"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/verification.json",
+        "sha256": "3d11374019135c2bf63bebf889bebe13645a8e8972ee6a059d0acd99ff6227cd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/geometry.json",
+        "sha256": "fe2235f5d603caa74c9111133e3629c1c6f8d2ed19c73620acf9b08b10b242f8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/kinematics.json",
+        "sha256": "e618aed45e5a58dba7efd8fdfc08d667b9c147dcb3fc99a0537155f4514618a4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/provenance.json",
+        "sha256": "62309df670539924563487877a3f5afdefdfb71b730cd0c338589097ff7ffd4d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/sled-push-alpha.webm",
+        "sha256": "699ef716556ec082baba06af692f90eb38518760d0e01116b575c1f21779c97a",
+        "bytes": 204928,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/sled-push.mp4",
+        "sha256": "63cf66516121299a86435dd4d9ef0e956cc96f5f393cf7c09a4c29f2f1ea17e3",
+        "bytes": 78665,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/sled-push-dark.mp4",
+        "sha256": "cb3131a0678ca6f33243f589ea880dbf5a46b107153a17d004a9510011559841",
+        "bytes": 75556,
+        "decode": "passed"
+      }
+    ]
+  },
+  "sled-pull": {
+    "checks": {
+      "exercise": "Backward sled drag",
+      "equipment": "Plate-loaded sled and two strap handles",
+      "setup": "슬레드를 바라보고 양손으로 스트랩 손잡이를 잡는다. 무릎을 살짝 굽히고 몸통을 안정적으로 세운다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "짧은 보폭으로 뒤로 걸으며 슬레드를 당긴다. 양발을 번갈아 딛고 스트랩의 장력을 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Camera follows the athlete and sled; no floor is rendered.",
+      "Two slowed gait cycles in eight seconds.",
+      "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+    ],
+    "reviewedAt": "2026-11-13T14:14:53.981Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/final.jpg",
+        "sha256": "394420bcfcebf6afdf9c0d912b0433b5cd835f507833fda61aea64e2931c8c29"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/final-dark.jpg",
+        "sha256": "4f2643d76deeae66d80caca58bab6b2e9ff9bf7672bc4a58c692ac09bcf23dbd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/full-sheet.png",
+        "sha256": "bf29a931f7076caeaaf544576f88a37dee302a899a489ce02033245a5ead7fb1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/side-sheet.png",
+        "sha256": "3029e4208cbb77584c53f069d76d92870c40a91757f1210c284facde74e1256a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/verification.json",
+        "sha256": "456c37e695bc83c97b76645ff5302226158cea9423eac8146a529f1cd764d671"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/geometry.json",
+        "sha256": "57234a2a8c60aa9f3dbfd8b3ced0d6c95d79e5aaf4ea1b8fe333d8225f96bb39"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/kinematics.json",
+        "sha256": "35887e6ce7f903529c7ff937d3be8eb2c69457f0aec734e8ff96816715fef73e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/provenance.json",
+        "sha256": "c43f6b4edd0642e0f9270578f38959eef36d2ad4618cc2e5aaaae0bac1da64e1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/sled-pull-alpha.webm",
+        "sha256": "a46f45b2bf36349087b3ca9969fc15efee24d6747f48b27b2fe804a8d7f7c14f",
+        "bytes": 227492,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/sled-pull.mp4",
+        "sha256": "cae90063b1b485b8902b0edefe19c19f9dcfd3d9a77e99a556ec1bffc2cd88c5",
+        "bytes": 86700,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/sled-pull-dark.mp4",
+        "sha256": "21477da9e969c61c9c36617e756626ecc753125934dd222618c62d27edc6dc79",
+        "bytes": 84091,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "geometrySamples": 49,
+  "frontFootDrift": 1.013652469562605e-14,
+  "handSupportDrift": 6.466036496704424e-15,
+  "gripError": 6.734946328680592e-15,
+  "verticalError": 2.7755575615628914e-15,
+  "minElbow": 161.09319572071516,
+  "maxStep": 0.9460364839300466,
+  "headRise": 13.91725,
+  "sweepDistance": 11.499698277078902,
+  "kneelingKneeY": -7.15,
+  "elbowSupportY": -7.306091960416096,
+  "loopError": 0
+}

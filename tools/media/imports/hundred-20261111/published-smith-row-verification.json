@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T03:09:33.243Z",
+  "report": [
+    {
+      "id": "smith-machine-bent-over-row",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

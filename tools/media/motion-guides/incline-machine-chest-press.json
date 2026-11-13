@@ -1,0 +1,15 @@
+{
+  "id": "incline-machine-chest-press",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "incline-machine-chest-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://resources.lifefitness.com/hub/life-fitness/en-US/1000419-0001-xd_32ce9968be620066-6b5ac64-1817a3e5ec1--7f3d.ditamap?onepage=true"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:58:57.282Z"
+}

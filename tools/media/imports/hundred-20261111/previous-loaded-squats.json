@@ -1,0 +1,80 @@
+{
+  "band-squat": [
+    {
+      "file": "tools/media/motion-guides/band-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "overhead-squat": [
+    {
+      "file": "tools/media/motion-guides/overhead-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/overhead-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/overhead-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/overhead-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/overhead-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/overhead-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "thruster": [
+    {
+      "file": "tools/media/motion-guides/thruster.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/thruster.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/thruster-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/thruster.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/thruster-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/thruster-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

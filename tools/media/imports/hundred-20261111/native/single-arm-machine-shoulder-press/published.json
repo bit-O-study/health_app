@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-machine-shoulder-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "783bb8bf73524783a4cb65f71f0d996c43c700b2ca2f6c96a6e470639e83cc3b",
+  "rigSourceSha256": "77c22c4ae835a65f58950197255d209caee28f7975c1f9bb3b014f1748397ec2",
+  "videoSha256": "dc4ed514ad1781ba73ab1bf61a6a457dc774f53cd6fa57d6d515a13479b1dfc6",
+  "darkVideoSha256": "ed66799f77c2df05b1a54f2c0217929990437eb18fd8f1ae5cd345f21897cd6b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77023,
+  "darkBytes": 72429,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T21:25:26.906Z"
+}

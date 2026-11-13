@@ -1,0 +1,119 @@
+{
+  "wide-grip-cable-row": {
+    "checks": {
+      "exercise": "wide-grip-cable-row front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "벤치에 앉아 발판에 발을 대고 양쪽 손잡이를 어깨보다 넓게 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "몸통을 세운 채 팔꿈치를 옆으로 벌리며 손잡이를 몸 쪽으로 당기고 천천히 편다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T01:33:56.486Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-grip-cable-row/full-sheet.png",
+        "sha256": "7d7c44a2a6705e16e93b232fb340e6bf1881fbb41320e4ea9447b85e30bd94a8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-grip-cable-row/side-sheet.png",
+        "sha256": "73b96d2b943dcb466afad54d578a79cc415f5543ecace8ab81c3284b18067607"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-grip-cable-row/poses.json",
+        "sha256": "b08c9825d3d7c06da57cd2cde07f1354f2b28d22e42bad0bc4c42ccb40a6e14c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-grip-cable-row/geometry.json",
+        "sha256": "abcc4edab7bcdb10db2c0b0d2c70d10e3655d883e71ea60db4f5234686c96c38"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-grip-cable-row/kinematics.json",
+        "sha256": "bd47ea63e649840000693d4e2e8514d4965488969b1e1984bde7d5d71d3a9238"
+      }
+    ]
+  },
+  "single-arm-cable-row": {
+    "checks": {
+      "exercise": "single-arm-cable-row front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "벤치에 앉아 발판에 발을 대고 한 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "몸통과 반대팔을 고정한 채 팔꿈치를 뒤로 당겼다가 천천히 편다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T01:33:56.490Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-row/full-sheet.png",
+        "sha256": "e31cc5153e46e271fa87a61bf47b398be2eb4eaafabf9aec4cc27f36d8b5c1d5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-row/side-sheet.png",
+        "sha256": "f323027a0a4acc44f5490368a7e014ad06a10bd110866c5e1123d405b655f228"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-row/poses.json",
+        "sha256": "c603e0a35f95ffa0be3b19d78d0e0ef2e534f05b6afd6582046e268d2d6f885b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-row/geometry.json",
+        "sha256": "a5cc8ead6ab6634209325e868c09e6e36a3705488cd20636d31e5d620c210813"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-row/kinematics.json",
+        "sha256": "db74316ef72e5267ad2fbf09171f4e18eaf27d1e4cf52e84d5e833874c4d758e"
+      }
+    ]
+  },
+  "band-row": {
+    "checks": {
+      "exercise": "band-row front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "앞쪽 고정점에 밴드를 연결하고 벤치에 앉아 양손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "발판에 발을 고정한 채 팔꿈치를 뒤로 당기고 밴드 저항을 조절하며 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T01:33:56.492Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-row/full-sheet.png",
+        "sha256": "4aa896d3a6d3d5e103ee21dbc4303ce7813c36b9f104c92479c5c08da4c9bf57"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-row/side-sheet.png",
+        "sha256": "69c525e55a8d313f7cac5a0a1b6ac7f6f9c857838d1f9fcd9cdc1df5c41e36e2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-row/poses.json",
+        "sha256": "7dddd02d92a51b245a0215ad305914274f1038bb519398e34ea477c2e531767b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-row/geometry.json",
+        "sha256": "a5cc8ead6ab6634209325e868c09e6e36a3705488cd20636d31e5d620c210813"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-row/kinematics.json",
+        "sha256": "b4891dd648931ea48b967efad76488cff14b57e797fabd5a4c133b8ec526fb6b"
+      }
+    ]
+  }
+}

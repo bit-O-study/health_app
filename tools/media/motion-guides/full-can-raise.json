@@ -1,0 +1,15 @@
+{
+  "id": "full-can-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "full-can-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T02:29:11.487Z"
+}

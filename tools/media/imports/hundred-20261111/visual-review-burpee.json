@@ -1,0 +1,76 @@
+{
+  "burpee": {
+    "checks": {
+      "exercise": "Burpee without push-up",
+      "equipment": "Bodyweight only",
+      "setup": "발을 골반 너비로 벌리고 선다. 앞뒤와 머리 위 공간을 확보한다.",
+      "hands": "Planted throughout feet-back and feet-in phases",
+      "feet": "Paired backward/forward hop, vertical jump and soft landing",
+      "movement": "앉아서 양손을 바닥에 짚고 두 발을 뒤로 보내 플랭크 자세를 만든다. 발을 다시 손 쪽으로 당기고 일어서며 가볍게 점프한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "No-push-up teaching variation, slowed eight-second cycle.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T15:02:21.969Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/final.jpg",
+        "sha256": "d4b5c41689844ed863daf3fc139cc6b6d392ac27d50e6102a727ce773ee8e453"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/final-dark.jpg",
+        "sha256": "b26cc975a2bb083c091ff241e409b9fb4a786fd0b02aa35d2327b4e893c18888"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/full-sheet.png",
+        "sha256": "a5836a01bb6e0174fd99e5c30453ef993cfe0aa2feaf9fba026d87d49c3f6df2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/side-sheet.png",
+        "sha256": "4949449c49819d024cefa3e4548f1194471032e6e7f4acd4671ef2e5f093b37b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/verification.json",
+        "sha256": "c5eea190737440a614a8b796e86ca594d93f98ca801a13cc4f905f67e2daf96f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/geometry.json",
+        "sha256": "4ac1b1299eca9ac047ff2b1016a75623c8751610e7b729777325c7b172985b0a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/kinematics.json",
+        "sha256": "ff0aaa346156d781982b99c309296e9cc4046370c5fa67c066a4116913327c02"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/burpee/provenance.json",
+        "sha256": "8cb200e469f04974bf46a88e604426ec0626362975fcc66452f7d08c79857fb0"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/burpee/burpee-alpha.webm",
+        "sha256": "766c9da7d1089a1a4b5189e6affa94f7765a49e1fba32cc687f4a402e267fd4a",
+        "bytes": 314967,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/burpee/burpee.mp4",
+        "sha256": "75205b89b212543088aec4b60e5652243660e34d54c67f182d60f7bd15547875",
+        "bytes": 131089,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/burpee/burpee-dark.mp4",
+        "sha256": "40885859085f35a2ae0ab49be0cd2ede7346eabe9ebf06834128e75fb9395e6c",
+        "bytes": 133491,
+        "decode": "passed"
+      }
+    ]
+  }
+}

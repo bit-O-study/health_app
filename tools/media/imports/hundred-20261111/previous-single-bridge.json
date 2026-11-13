@@ -1,0 +1,28 @@
+{
+  "single-leg-glute-bridge": [
+    {
+      "file": "tools/media/motion-guides/single-leg-glute-bridge.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-glute-bridge.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-glute-bridge-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-glute-bridge.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-glute-bridge-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-glute-bridge-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

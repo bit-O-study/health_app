@@ -1,0 +1,18 @@
+{
+  "id": "box-jump",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "16247c744a66df69cb7fad2f19638849a91b6810eafd4c123ccd55e7230e92c8",
+  "rigSourceSha256": "e6363d4db34d12aa355c6ca0f8db4556f081dbb0770f2da8b9ceab2f26bf6995",
+  "videoSha256": "ef127dd1064b6446503f3a3697248241d1631dfbee835a0237d951299bc4c127",
+  "darkVideoSha256": "1cfafdbdf487262b088d316be2f0bbaa9294aa79aabf213998eb1bf95aa3c0c8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 138414,
+  "darkBytes": 140513,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:55:31.152Z"
+}

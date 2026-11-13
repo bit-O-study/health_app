@@ -1,0 +1,17 @@
+{
+  "smith-machine-decline-press": {
+    "checks": {
+      "exercise": "Smith decline chest press with elbow extension and vertical guided bar",
+      "equipment": "Thirty-degree decline bench, foot platform and Smith rails",
+      "setup": "스미스 머신 안에 디클라인 벤치를 놓고 머리가 낮아지도록 눕는다. 등과 머리를 받치고 양발을 지지대에 고정한 뒤 바를 어깨보다 넓게 잡는다.",
+      "hands": "Closed symmetric overhand grip fixed to bar",
+      "feet": "Fixed flat feet on elevated supported platform",
+      "movement": "바를 가슴 아래쪽 앞으로 천천히 내린다. 팔꿈치를 펴며 수직으로 밀어 올린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Bar stops approximately 0.11 model units above sampled torso surface; no chest bounce.",
+      "Bench entry/exit and rack unlocking omitted; sampled clearance, not exhaustive collision certification."
+    ]
+  }
+}

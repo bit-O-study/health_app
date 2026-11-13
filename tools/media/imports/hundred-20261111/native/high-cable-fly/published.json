@@ -1,0 +1,18 @@
+{
+  "id": "high-cable-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "df5f29b14bed4ce3e5fc2857703f0275156a0885a0c3f014f4ef1e3697fdd5d3",
+  "rigSourceSha256": "63f0010433daac13c35f677a80e1b33b1413f886c97f737d5cf3fef447d4eefd",
+  "videoSha256": "388e0eb0b7d7c2b8c8438d2f6745859c21cbcc77e6c5484460fb1191e53981a6",
+  "darkVideoSha256": "5f5421d444125232f6d6c8664675df4defc9465fcea9bc4325e061047ec2be9d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96467,
+  "darkBytes": 96373,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T00:30:45.521Z"
+}

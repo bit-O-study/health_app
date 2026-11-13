@@ -1,0 +1,76 @@
+{
+  "trx-row": {
+    "checks": {
+      "exercise": "Bilateral TRX row with rigid torso and elbow flexion",
+      "equipment": "Fixed overhead anchor and constant-length suspension straps",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 발을 바닥에 고정하고 몸을 뒤로 기울여 머리부터 다리까지 길게 유지한다.",
+      "hands": "Fixed closed neutral grips",
+      "feet": "Both feet planted; straight legs rock around ankles",
+      "movement": "팔꿈치를 뒤로 보내며 가슴을 손잡이 쪽으로 당긴다. 몸통을 곧게 유지하면서 팔을 펴 천천히 돌아간다."
+    },
+    "limitations": [
+      "Procedural motion, not motion capture; small ankle-pivot whole-body lean.",
+      "Rigid straps and simplified anchor; no load or elasticity simulation.",
+      "Sampled clearance checks, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T11:59:48.529Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/final.jpg",
+        "sha256": "50d0f0dd2e28fb0aa9330496ac7ee61ea1826fa0521bcf5f76bea404e9d7cebc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/final-dark.jpg",
+        "sha256": "811766f0c99ade249a8b6b69d5995f035f804384d87accdb1a32aeef9a31045f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/full-sheet.png",
+        "sha256": "e7661edf819a243a9fe858740c643fa004d1d5e438e8a412f393d98ca910ef31"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/side-sheet.png",
+        "sha256": "bb8ca63afb96ebcf72093d61275e55ad543363aeb1921a115bcba6b12832fadd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/verification.json",
+        "sha256": "ddc5d2122a234ecaca02944ac2b4b5bf4d1c788a5dec5ad16e54f9fbb74b9444"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/geometry.json",
+        "sha256": "d2d7a57a41f9e47960532b3442ea9e8807d2bce19ffe81fb65600f104a85af2d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/kinematics.json",
+        "sha256": "b43f1f76975328ebfdc15319499bcf5a28b5324916b60be95ca43f5657dbe722"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/provenance.json",
+        "sha256": "933aea74502fe0ffaf4ff2fc2c6c392b75bdb7eb408e6f02b027583f259c6188"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/trx-row-alpha.webm",
+        "sha256": "6f6bddd5f3a7f4e263a8759447856a998f4116bcca8e35439ee60c651d6149ee",
+        "bytes": 261356,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/trx-row.mp4",
+        "sha256": "72a52c30e4167f1f5cf8782dbcd3b973c33bfec228f0954c6b49fa44d1148ac1",
+        "bytes": 91564,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/trx-row-dark.mp4",
+        "sha256": "0f720dbe8093520a6b1e4931abb594869c9ad6bf305069f51c350eaea9ba2b46",
+        "bytes": 90736,
+        "decode": "passed"
+      }
+    ]
+  }
+}

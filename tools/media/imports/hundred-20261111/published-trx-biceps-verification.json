@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T12:16:28.472Z",
+  "report": [
+    {
+      "id": "trx-biceps-curl",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

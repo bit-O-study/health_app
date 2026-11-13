@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-12T10:19:06.918Z",
+  "report": [
+    {
+      "id": "farmer-s-carry",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

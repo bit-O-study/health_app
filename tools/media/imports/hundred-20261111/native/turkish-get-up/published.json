@@ -1,0 +1,18 @@
+{
+  "id": "turkish-get-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f1e53352598811db05f73099b62a410baa5360a68e2f08adae542eb57affe435",
+  "rigSourceSha256": "f25fe3b208b4197de4ad273daed9684b67d75bc5da568be65ce1fb47c810b4dc",
+  "videoSha256": "384bbc4d0f2748c665fc8fb7a935a9122bb114f97d57ba1a0d03990f3de8d929",
+  "darkVideoSha256": "dcc4d5ef5a145166696dcede8215dd730a94f0bb45330ac7079f1847a062cd34",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 141685,
+  "darkBytes": 132340,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T15:14:33.076Z"
+}

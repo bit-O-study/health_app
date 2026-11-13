@@ -1,0 +1,92 @@
+{
+  "cable-external-rotation": {
+    "checks": {
+      "exercise": "cable-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "도르래를 팔꿈치 높이에 두고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "band-external-rotation": {
+    "checks": {
+      "exercise": "band-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "밴드를 팔꿈치 높이에 고정하고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "high-cable-fly": {
+    "checks": {
+      "exercise": "high-cable-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "양쪽 높은 도르래의 손잡이를 잡고 기구보다 앞에 안정적으로 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 두 손을 앞쪽 아래로 모으고 천천히 벌린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "standing-cable-reverse-fly": {
+    "checks": {
+      "exercise": "standing-cable-reverse-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "가슴 높이의 도르래를 마주 보고 양손으로 반대편 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 옆으로 벌리고 천천히 앞으로 모은다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "cable-y-raise": {
+    "checks": {
+      "exercise": "cable-y-raise front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 잡고 발을 고정해 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 앞쪽 대각선 위로 올려 Y 모양을 만들고 내린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "cable-shrug": {
+    "checks": {
+      "exercise": "cable-shrug front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 양옆에서 잡고 팔을 길게 늘어뜨린다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 굽히지 않고 양어깨를 위로 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-snatch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "793deffcc33be9a2fad10c824eebb5e2e9515e9b9fad097b820ff00e4fb5fb74",
+  "rigSourceSha256": "1d4efa57d33f39cf8ecd8f146e9938eb5a0ba344e36224b9c9d617e361a18170",
+  "videoSha256": "8217f6f6bebcae85822f8c7fa3c1f258a78c9ace73f3c32249a5dd71458af82a",
+  "darkVideoSha256": "8a2fe303733c8f2d011c58f06de22e20ec65410352e20ad26009c2b01f62ad14",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 110953,
+  "darkBytes": 106283,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:48:16.150Z"
+}

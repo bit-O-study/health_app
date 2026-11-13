@@ -1,0 +1,300 @@
+{
+  "id": "battle-rope-wave",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/battle-rope-wave-studio.mjs",
+      "sha256": "507795d5ab05b133915fe820bb46d089c98a01e8da8765c88f5236bbbafd07fa"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/battle-rope-wave-motion.mjs",
+      "sha256": "9283d15465a87f745cc093872cca63ee8d8686c98dba08cf252accc57444a619"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "battle",
+    "sourceUrls": [
+      "https://www.acefitness.org/continuing-education/certified/research/7470/muscle-activation-during-battle-rope-exercises/"
+    ],
+    "criteria": "Alternating rope waves from a stable shallow squat, with fixed floor anchor and opposing hand motion.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Small-wave variation below shoulder height; four slowed cycles in eight seconds.",
+      "Driven traveling curves with slack; rope length and tension are not physically simulated.",
+      "Sampled vertex checks, not exhaustive collision certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 30,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 60,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 90,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 120,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 150,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 180,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 210,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 240,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 270,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 300,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 330,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 360,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 390,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 420,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 450,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1052344412155115,
+      "ropeFloor": 0.1299999999999999
+    },
+    {
+      "frame": 480,
+      "body": -7.867505979919436,
+      "toes": -7.857606121015726,
+      "cloth": -3.2737502357366974,
+      "floorClearance": 0.03249402008056457,
+      "ropeBody": 1.1422314412926635,
+      "ropeFloor": 0.1299999999999999
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "gripError": 2.2644195468014707e-15,
+    "anchorDrift": 0,
+    "maxStep": 0.057569551867238555,
+    "oppositionError": 2.6645352591003757e-15,
+    "amplitude": 2.199999999999999,
+    "waveTravel": -1.5331120039532644,
+    "cycles": 4,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      67.54546003402827,
+      110.82911165316997
+    ],
+    "alpha": {
+      "transparent": 41965648,
+      "opaque": 1494312,
+      "partial": 776840,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/battle-rope-wave/source.jpg",
+    "sha256": "715a42660a40ecea2d90919a14bb588ccc265b11effa3337b37d119b88e13506",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration, not captured human motion. Small-wave variation below shoulder height; four slowed cycles in eight seconds. Driven traveling curves with slack; rope length and tension are not physically simulated. Sampled vertex checks, not exhaustive collision certification."
+}

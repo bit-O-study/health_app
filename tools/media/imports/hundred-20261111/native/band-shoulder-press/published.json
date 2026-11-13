@@ -1,0 +1,18 @@
+{
+  "id": "band-shoulder-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cf052732f93074086d6757534d6bda9fec926e299a621c8ebac2396f24066e0e",
+  "rigSourceSha256": "ec886e91f1cf7c9936d1c14b68bdb29ca13844b832c1d09b76ca3e46020f83ec",
+  "videoSha256": "ec7243cb02d57c29d4a0fb3a795dcd7a9a9991bdff7b038cc7bc35bab1ffa7cc",
+  "darkVideoSha256": "f51ba7530084ba021c2a49a942bd193fabc20bbc64726040b408652b66c7a0c1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104304,
+  "darkBytes": 107932,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:24:57.033Z"
+}

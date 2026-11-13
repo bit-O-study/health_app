@@ -1,0 +1,76 @@
+{
+  "farmer-s-carry": {
+    "reviewedAt": "2026-11-12T10:18:11.095Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Farmer carry with two dumbbells and alternating short walking steps.",
+      "equipment": "One dumbbell on each side, parallel handles in neutral grip.",
+      "setup": "Front and side eight-frame sheets inspected; upright torso, head forward.",
+      "hands": "Both curled hands retain handle sockets; weights stay beside hips.",
+      "feet": "Alternating swing and stance, at least one support foot, no reconstructed world stance drift.",
+      "movement": "Body-relative gait loop represents forward camera tracking; limbs return continuously."
+    },
+    "limitations": [
+      "Slow procedural camera-relative walking loop; no visible ground or traveled distance.",
+      "Simplified flat-foot gait without heel-to-toe roll; elbows retain about 20 degrees flexion.",
+      "Seventeen sampled vertex-to-plate clearances do not certify all mesh/handle collisions or human gait biomechanics."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/final.jpg",
+        "sha256": "5924d212e40bdade09040aa7ea6ed475025c656575fd83365c19ee5bc8721157"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/final-dark.jpg",
+        "sha256": "dd8996d43218231ac4faff68adf453517a97a17d6b0946fb0959815ca551faf4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/full-sheet.png",
+        "sha256": "e80879a300c960c0494024bfa5321e37a91e34dfeeaf3c5a121566e032fb4315"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/side-sheet.png",
+        "sha256": "1f20cdb24053c5ec97d2a7f966399945c449603a8829e1ea79c68611b403e643"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/verification.json",
+        "sha256": "041020daec8dfaba692b7ade63f91fca1bb1f5891a99e00952c0589658063b0f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/geometry.json",
+        "sha256": "fbcc1b1a4241ca2c9d0076ce24446f6f1ec70a4e43c9e46191b58d087bcdf841"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/kinematics.json",
+        "sha256": "9a90333894def0c7ae5fdf7fef3512f49fe1753530b1809934056d7ef6ff0872"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/provenance.json",
+        "sha256": "c06e71589d49d24981066e171033ec6962b37917d3e5f94475643a459c9b685c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/farmer-s-carry-alpha.webm",
+        "sha256": "fee23d44f8036d9a6c2fb9c976a60be56540d995526b0abcfeb4c90bd48b86f0",
+        "bytes": 313855,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/farmer-s-carry.mp4",
+        "sha256": "2e4bd484f6f740a961629a306e0a563aba717965f8e76686ab3818475f6696f8",
+        "bytes": 131295,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/farmer-s-carry-dark.mp4",
+        "sha256": "0b609431e5962e7a817342f58ba2bc0823f66670ead2b34ceb81d978db7c425e",
+        "bytes": 118888,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "railDrift": 0,
+  "maxStep": 0.024870231585554903,
+  "barTravel": 3.8,
+  "elbowRange": [
+    47.85851694600205,
+    155.64474937226007
+  ],
+  "benchDeclineDegrees": 30,
+  "loopError": 0
+}

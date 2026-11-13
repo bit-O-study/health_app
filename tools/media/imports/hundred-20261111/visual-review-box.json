@@ -1,0 +1,76 @@
+{
+  "box-jump": {
+    "checks": {
+      "exercise": "Two-foot box jump with step-down",
+      "equipment": "Bodyweight and low plyometric box",
+      "setup": "흔들리지 않는 낮은 박스 앞에 두 발을 골반 너비로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing and forward arm swing during flight",
+      "feet": "Symmetric raised landing; one support foot remains fixed during each step-down",
+      "movement": "팔을 앞으로 올리며 두 다리로 밀어 박스 위로 뛴다. 양발로 착지하면서 무릎과 엉덩이를 굽히고, 균형을 잡아 선다. 한 발씩 뒤로 내려와 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Low box with controlled backward step-down and two additional reset steps.",
+      "Sampled body/box vertex separation, not exhaustive collision or impact-force certification."
+    ],
+    "reviewedAt": "2026-11-13T13:54:55.252Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/final.jpg",
+        "sha256": "1d1c20a35de27d072067f698b48dcd4c3a74d400175ff2d6eb27604021567d95"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/final-dark.jpg",
+        "sha256": "0f4910f887684df1ff3ea106429e1e8b0ce9824cee3a22aef4d98c09c0efc08f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/full-sheet.png",
+        "sha256": "32abf3afc42d3e35e973725d9ff1772c4811902c624ef9160f9a00ea27fee7e2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/side-sheet.png",
+        "sha256": "1a23cbb54a2638e09272b455be91d5e91f11474df41f807e9de6a63c565c6160"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/verification.json",
+        "sha256": "5ea9189a4c69e81fc22d3e0bafcd3eaf6577afa76a718e2df01adc914fa2f603"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/geometry.json",
+        "sha256": "8f2bb07c6b22bc7491d5b2500464f2644acc02ccce8828b38bbbe6bcd2126140"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/kinematics.json",
+        "sha256": "735e329009fd012cf1fe80181d158a08145a01a8311c266ee7884a5833971e55"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/provenance.json",
+        "sha256": "e6363d4db34d12aa355c6ca0f8db4556f081dbb0770f2da8b9ceab2f26bf6995"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/box-jump-alpha.webm",
+        "sha256": "5c8e466110783284fceb15815a9bd003778762bec2b7bd532a241652c188c06f",
+        "bytes": 372790,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/box-jump.mp4",
+        "sha256": "ef127dd1064b6446503f3a3697248241d1631dfbee835a0237d951299bc4c127",
+        "bytes": 138414,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/box-jump-dark.mp4",
+        "sha256": "1cfafdbdf487262b088d316be2f0bbaa9294aa79aabf213998eb1bf95aa3c0c8",
+        "bytes": 140513,
+        "decode": "passed"
+      }
+    ]
+  }
+}

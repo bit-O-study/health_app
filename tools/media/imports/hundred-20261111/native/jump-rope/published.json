@@ -1,0 +1,18 @@
+{
+  "id": "jump-rope",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a2c7e3a14c6feb785144782c05ffd5f96c17fb050e285c1ce765b9ca3a275aa9",
+  "rigSourceSha256": "18f8372820ed1bad19fdceba819df6658374dad10f9d8f88d0aba9091d4c708d",
+  "videoSha256": "4e2d247ccec6b07824b9224eae4753d1cb1a8e9262bc3aa67d60ffe1fa65f19b",
+  "darkVideoSha256": "e2386415b23761efde01ae3e70e332683ecc680604ecdfa73cf64632e992a10c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 164159,
+  "darkBytes": 171316,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:00:43.454Z"
+}

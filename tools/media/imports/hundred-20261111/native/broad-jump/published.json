@@ -1,0 +1,18 @@
+{
+  "id": "broad-jump",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "db69b15b12ddf0e4c66385ba759c6e9dbdb597d9d6966ab260f86eae3eddf82f",
+  "rigSourceSha256": "2623793132dfbd6b2102f91c646943ee70557ac12abd96f76d6bdff5390f7b20",
+  "videoSha256": "935a2a66df202f05bb822aa26e458062fa2627ebb63bfd759735a31a8feb4196",
+  "darkVideoSha256": "ac6dfa83c484f9253ec158c409677ef7238120e9481cd7762568638b5a1d1421",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 155884,
+  "darkBytes": 162384,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:49:13.853Z"
+}

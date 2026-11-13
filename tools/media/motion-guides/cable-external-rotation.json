@@ -1,0 +1,15 @@
+{
+  "id": "cable-external-rotation",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "cable-external-rotation-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T00:30:18.997Z"
+}

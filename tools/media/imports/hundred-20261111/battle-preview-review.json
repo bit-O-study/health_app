@@ -1,0 +1,42 @@
+{
+  "battle-rope-wave": {
+    "checks": {
+      "exercise": "Alternating battle rope waves",
+      "equipment": "Two rope ends with fixed floor anchor",
+      "setup": "배틀로프 양 끝을 잡고 발을 골반보다 조금 넓게 벌린다. 무릎과 엉덩이를 가볍게 굽히고 상체를 안정적으로 유지한다.",
+      "hands": "Opposite vertical motions with attached closed grips",
+      "feet": "Feet, toes and pelvis remain fixed in a shallow squat",
+      "movement": "한 손을 올릴 때 다른 손을 내리며 두 팔을 번갈아 움직인다. 로프의 파동이 앞쪽 고정점으로 이어지도록 일정한 리듬을 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Small-wave variation below shoulder height; four slowed cycles in eight seconds.",
+      "Driven traveling curves with slack; rope length and tension are not physically simulated.",
+      "Sampled vertex checks, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T14:02:29.966Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/full-sheet.png",
+        "sha256": "4d4c4de79e7ac3db055291baae5744c2b0c06c4f66bef9f1f40381b24b0a22d7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/side-sheet.png",
+        "sha256": "5eefc0d690d956c7b7f1500bb3f73891649ec1615f6f91d1864eb353fd88706f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/poses.json",
+        "sha256": "d10f7dfe508b6544c078ca864adaec1709cb4f878b01d5196c2ae80ce41794a3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/geometry.json",
+        "sha256": "12e7c9a09d955fa9cce0b9fa62603162ca04194baf963ba0dacccbd701de971c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/kinematics.json",
+        "sha256": "2c7256efd002977b33d167ccfc8beeb56e195cfbf5276ab0dd14492cb3624d42"
+      }
+    ]
+  }
+}

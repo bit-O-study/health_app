@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377932,
+    "shaftBody": 0.5584416710771706,
+    "gripError": 9.930136612989092e-16
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.7844519217377932,
+    "shaftBody": 0.5455263560415334,
+    "gripError": 1.4217791915866692e-15
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.784451921737794,
+    "shaftBody": 0.4839510187545468,
+    "gripError": 6.661338147750939e-16
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.7844519217377937,
+    "shaftBody": 0.38672489476732785,
+    "gripError": 1.2560739669470201e-15
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.03249402008056723,
+    "plateBody": 1.7844519217377937,
+    "shaftBody": 0.2988978173901625,
+    "gripError": 1.1102230246251565e-15
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.7844519217377937,
+    "shaftBody": 0.2579742792222522,
+    "gripError": 6.280369834735101e-16
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.7844519217377937,
+    "shaftBody": 0.25635284989390744,
+    "gripError": 6.280369834735101e-16
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.7844519217377932,
+    "shaftBody": 0.3011917523077203,
+    "gripError": 1.0175362097255202e-15
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.03249402008056368,
+    "plateBody": 1.7844519217377937,
+    "shaftBody": 0.40700661496229096,
+    "gripError": 4.440892098500626e-16
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.03249402008056368,
+    "plateBody": 1.7844519217377954,
+    "shaftBody": 0.3028851901043878,
+    "gripError": 2.094764613337708e-15
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.03249402008056368,
+    "plateBody": 1.7844519217377932,
+    "shaftBody": 1.1281016610525754,
+    "gripError": 1.4043333874306805e-15
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377928,
+    "shaftBody": 2.33501990055312,
+    "gripError": 1.9891280697202825e-15
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377945,
+    "shaftBody": 2.4754160597045987,
+    "gripError": 2.249571853013791e-15
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377945,
+    "shaftBody": 2.4754160597045987,
+    "gripError": 2.249571853013791e-15
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377945,
+    "shaftBody": 1.5816217535838586,
+    "gripError": 1.88411095042053e-15
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377937,
+    "shaftBody": 0.27147398986278637,
+    "gripError": 9.930136612989092e-16
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.7844519217377932,
+    "shaftBody": 0.5584416710771706,
+    "gripError": 9.930136612989092e-16
+  }
+]

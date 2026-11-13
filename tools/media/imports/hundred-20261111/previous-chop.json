@@ -1,0 +1,31 @@
+{
+  "cable-woodchopper": [
+    {
+      "file": "tools/media/motion-guides/cable-woodchopper.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-chop/cable-woodchopper-0.json",
+      "sha256": "f095625c85d727968794effe92d19e5af4b291ef12196b56f5edb1bd1b24fd72"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-woodchopper.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-chop/cable-woodchopper-1.jpg",
+      "sha256": "85695873e166007b135258463768730d581afde4022f57663dcbe86c1a0440d7"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-woodchopper-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-woodchopper.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-chop/cable-woodchopper-3.mp4",
+      "sha256": "28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-woodchopper-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-woodchopper-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,324 @@
+{
+  "id": "trx-triceps-extension",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/trx-triceps-extension-studio.mjs",
+      "sha256": "9f755d7d4c2de960b8aa12f861091f01eacf71d29270c784721694be43a1743a"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/trx-triceps-extension-motion.mjs",
+      "sha256": "9f88c3ce72821f6593d6ad301adc9cfbb065fb5a4beeb1d0493c8372bfd01ed6"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "trx-triceps",
+    "sourceUrls": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/80/trx-reg-overhead-triceps-extension/"
+    ],
+    "criteria": "Facing away from anchor, elbows forward and overhead, flex and extend elbows with rigid body; fixed feet and strap lengths.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Procedural parallel-stance variation; source also demonstrates split stance.",
+      "Rigid straps and simplified frame; no load simulation.",
+      "Sampled body clearance, not exhaustive collision certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.03249402008056723,
+      "strapBody": 0.08806849620598253,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.5510982866352577e-15
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 0.2115431063159493,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.0350724194510405e-15
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 0.5306478840180171,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 4.070144838902081e-15
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 0.8502171907686931,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 1.2560739669470201e-15
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.03249402008056723,
+      "strapBody": 0.9504941533359568,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.5510982866352577e-15
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.0741179873440017,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.5121479338940403e-15
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.1322224927795357,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.175583928816829e-15
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 1.1064914831415436,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.5121479338940403e-15
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.0938447597045773,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.220446049250313e-15
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 1.1064914831415436,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.5121479338940403e-15
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.1322224927795321,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.808666774861361e-15
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.0741179873440039,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 3.9968028886505635e-15
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.03249402008056723,
+      "strapBody": 0.9504941533359588,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 8.881784197001252e-16
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 0.8502171907686937,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 8.881784197001252e-16
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 0.5306478840180151,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 0
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 0.21154310631594903,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 9.930136612989092e-16
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.03249402008056723,
+      "strapBody": 0.08806849620598253,
+      "strapLengths": [
+        18.172781845386247,
+        18.172781845386247
+      ],
+      "gripError": 2.5510982866352577e-15
+    }
+  ],
+  "kinematics": {
+    "elbowForward": 0.5537365418061153,
+    "jointStep": 0.11610731910792957,
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 3.614624287906422e-15,
+    "handDrift": 7.793734002518813e-15,
+    "gripError": 5.9580819677934555e-15,
+    "strapLengthError": 7.105427357601002e-15,
+    "maxStep": 0.024347018483492036,
+    "bodyDescent": 1.1259449456038473,
+    "elbowRange": [
+      75.06124540102024,
+      166.27090060203744
+    ],
+    "kneeRange": [
+      173.83236709677163,
+      173.83236709677197
+    ],
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      75.06124540102024,
+      166.27090060203753
+    ],
+    "alpha": {
+      "transparent": 41410780,
+      "opaque": 1950194,
+      "partial": 875826,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/trx-triceps-extension/source.jpg",
+    "sha256": "ef9e5a4f894ef2fc185409e40ea9aa7642e6eff55656e9f9cb75722b274358ab",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural parallel-stance variation; source also demonstrates split stance. Rigid straps and simplified frame; no load simulation. Sampled body clearance, not exhaustive collision certification."
+}

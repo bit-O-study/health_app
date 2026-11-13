@@ -1,0 +1,18 @@
+{
+  "id": "tate-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3312339da8eefd151f4853c3e059e82744bf57186c914af37945c1a78d5c0258",
+  "rigSourceSha256": "4313d37b49b162c705104a36a5216f92086fc62753e9b6bcf0d944ac60e78347",
+  "videoSha256": "0a94a1e205d0b12f2fda424ce8ce1f38c68966b3e77482092d4be6384d2bdf1e",
+  "darkVideoSha256": "c6863dd39b2599d6cea48edfa35005b1c7f0f8b81a9f7653b03160d8e4f92b5a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 96433,
+  "darkBytes": 82337,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:47:37.803Z"
+}

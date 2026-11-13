@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T13:40:36.182Z",
+  "report": [
+    {
+      "id": "jump-lunge",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

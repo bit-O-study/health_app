@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/cable-woodchopper-alpha.webm",
+      "sha256": "ac9f92c88fd24e369a3271efa72ba35a75a6a024c223246c7e671cd9b55cdf12",
+      "bytes": 197774,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/cable-woodchopper.mp4",
+      "sha256": "b93f7cc34249c75cc1f301ebafa26b554b598e27da3128125387f0b05f92dcd3",
+      "bytes": 81380,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/cable-woodchopper-dark.mp4",
+      "sha256": "2f6af4a68b39c50996efc8b8a5ea78bb5ba47b46c9a401c70b005bb59787e9db",
+      "bytes": 78041,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/cable-woodchopper-studio.mjs",
+      "sha256": "838dc8fe6fc9906568d8b70157a0160484b55db0e02d8427fae78d2afb7215d7"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/cable-woodchopper-motion.mjs",
+      "sha256": "5c773f456d5680d72de2f2e83f6516a23b22a524ec710dc216e2522e24d86ee9"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

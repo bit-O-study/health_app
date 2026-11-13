@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-cable-front-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cd1418b91e93326c2c5b8db87cfbf8c0cd9070f8d253afd3c9efd72c820a4713",
+  "rigSourceSha256": "1dc89bf4d1bff339f44879eb4b297a2a6c5f619ef8278e5562575113e8653098",
+  "videoSha256": "faffb15a1f83a092cc228c454bee9c6058f2923ae6864c22edeed4cbbd267ce8",
+  "darkVideoSha256": "99926fce52b0b69da066f06cc3c0c3c6205209cb3632ca8fcaa752a4e666bf9f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 66183,
+  "darkBytes": 67155,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:36.511Z"
+}

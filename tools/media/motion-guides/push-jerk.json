@@ -1,0 +1,15 @@
+{
+  "id": "push-jerk",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "push-jerk-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/405/Push-Jerk/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:20:45.239Z"
+}

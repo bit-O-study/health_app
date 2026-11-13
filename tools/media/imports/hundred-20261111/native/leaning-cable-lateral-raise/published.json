@@ -1,0 +1,18 @@
+{
+  "id": "leaning-cable-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d125fe5d847f641f6302f32b61ee15342b61b9f6beff59a23a8844c128b315dd",
+  "rigSourceSha256": "1179c6ef3b36fa0cb597f4f589f6266419da806a1f6cd64ec76f114364b395e8",
+  "videoSha256": "15634eeb98fa7b72f50efc5c92b6cc7fff3d816e7556aae9979d61354aa378cc",
+  "darkVideoSha256": "057f92d665974c93151c00a2695d7c84aee6216c8f509f9066e7e3438bc5c328",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79825,
+  "darkBytes": 75774,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:59:01.541Z"
+}

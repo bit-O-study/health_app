@@ -1,0 +1,31 @@
+{
+  "nordic-hamstring-curl": [
+    {
+      "file": "tools/media/motion-guides/nordic-hamstring-curl.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-nordic/nordic-hamstring-curl-0.json",
+      "sha256": "c4a540c7b9b9b775600ed9ef39e2e7d2ebce37a534264389f35cca13cb148535"
+    },
+    {
+      "file": "tools/media/motion-guides/nordic-hamstring-curl.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-nordic/nordic-hamstring-curl-1.jpg",
+      "sha256": "0b2d03a3c6b89f27ed8a5475051ed8fc5ab7b6857bfb800f61c24f9589eaeb37"
+    },
+    {
+      "file": "tools/media/motion-guides/nordic-hamstring-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/nordic-hamstring-curl.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-nordic/nordic-hamstring-curl-3.mp4",
+      "sha256": "1b604c8f05919206f04ced2729d6b3553116d1d89632e26ba426e88e8f5d3cc4"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/nordic-hamstring-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/nordic-hamstring-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

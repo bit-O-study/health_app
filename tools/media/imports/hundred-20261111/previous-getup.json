@@ -1,0 +1,28 @@
+{
+  "turkish-get-up": [
+    {
+      "file": "tools/media/motion-guides/turkish-get-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/turkish-get-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/turkish-get-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/turkish-get-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/turkish-get-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/turkish-get-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

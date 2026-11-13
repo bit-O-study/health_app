@@ -1,0 +1,41 @@
+{
+  "trx-chest-press": {
+    "checks": {
+      "exercise": "TRX chest press facing away from anchor",
+      "equipment": "Fixed rear overhead anchor, constant-length straps and horizontal handles",
+      "setup": "고정점을 등지고 손잡이를 가슴 앞에 잡는다. 발을 고정하고 복부에 힘을 주어 머리부터 발목까지 곧게 유지한다.",
+      "hands": "Closed overhand grips, fixed hands while body moves",
+      "feet": "Both feet fixed, rigid legs rock around ankles",
+      "movement": "팔꿈치를 굽혀 가슴을 손잡이 쪽으로 천천히 내린다. 손잡이를 밀며 팔을 펴 시작 자세로 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Rigid straps and simplified anchor; no loading simulation.",
+      "Sampled body clearance; no exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:02:50.933Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/full-sheet.png",
+        "sha256": "dbc8033551da72abfa84d26da71e8102c2823b977d6e6f29d2d1f43f9f4f0245"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/side-sheet.png",
+        "sha256": "fc4b3afdaf71e1051faca0ad38be8acb24831212416a44b79e7d0cf770a62780"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/poses.json",
+        "sha256": "6182edd285f0e670112cc8a6ab93831acd9fdf716b32c8ffb266e023e9d94169"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/geometry.json",
+        "sha256": "f51f726cd62493650c38b95908d19f6b0978984940905ba74e3f460770cf8c61"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-chest-press/kinematics.json",
+        "sha256": "07d7f0ac749dc6feb33995a24b4b0cb3453180f6f259dc122828b26e04ba5706"
+      }
+    ]
+  }
+}

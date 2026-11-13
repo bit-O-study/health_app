@@ -1,0 +1,262 @@
+{
+  "standing-band-row": [
+    {
+      "file": "tools/media/motion-guides/standing-band-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-band-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-band-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-band-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-band-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-band-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-chest-press": [
+    {
+      "file": "tools/media/motion-guides/band-chest-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-chest-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-chest-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-chest-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-chest-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-chest-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-shoulder-press": [
+    {
+      "file": "tools/media/motion-guides/band-shoulder-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-shoulder-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-shoulder-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-shoulder-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-shoulder-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-shoulder-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-pulldown": [
+    {
+      "file": "tools/media/motion-guides/band-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-face-pull": [
+    {
+      "file": "tools/media/motion-guides/band-face-pull.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-face-pull.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-face-pull-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-face-pull.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-face-pull-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-face-pull-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "standing-cable-chest-press": [
+    {
+      "file": "tools/media/motion-guides/standing-cable-chest-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-cable-chest-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-cable-chest-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-cable-chest-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-cable-chest-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-cable-chest-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/single-arm-lat-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-lat-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-lat-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-straight-arm-pulldown": [
+    {
+      "file": "tools/media/motion-guides/single-arm-straight-arm-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-straight-arm-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-straight-arm-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-straight-arm-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-straight-arm-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-straight-arm-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-cable-front-raise": [
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-front-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-front-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-front-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-front-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-front-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-front-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-cable-lateral-raise": [
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-lateral-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-lateral-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-lateral-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-lateral-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-lateral-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-lateral-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

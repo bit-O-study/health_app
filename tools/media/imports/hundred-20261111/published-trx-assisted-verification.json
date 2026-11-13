@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-13T11:55:41.305Z",
+  "report": [
+    {
+      "id": "trx-squat",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "trx-lunge",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

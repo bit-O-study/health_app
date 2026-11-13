@@ -1,0 +1,18 @@
+{
+  "id": "trx-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2a5e1ccba1c1cfe67fb263b6759e92f0ef0d37f1a38fc2b3780c70e94aa11a71",
+  "rigSourceSha256": "4bcf08e532783f18c95b0fc8ee3624043967c209fdd67b598aea59d374c42be4",
+  "videoSha256": "f9bfcf3e4aebdd3db7a565cf761fa4486e5f4b5e93ab2a6de2ed5f5f5d990480",
+  "darkVideoSha256": "b69763d54258e4864cee59a93f8e08d1c027a8938d116c85c6133a4a0443cfe6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101951,
+  "darkBytes": 103527,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T04:06:05.685Z"
+}

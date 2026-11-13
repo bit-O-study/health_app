@@ -1,0 +1,18 @@
+{
+  "smith-machine-bent-over-row": {
+    "checks": {
+      "exercise": "Smith bent-over row; elbows move posteriorly in reviewed full and side sheets",
+      "equipment": "Two vertical guide rails, bar and paired plates",
+      "setup": "스미스 바를 오버핸드로 잡고 무릎을 조금 굽힌 채 상체를 앞으로 기울인다.",
+      "hands": "Closed overhand grips follow vertical bar with gradual wrist rotation",
+      "feet": "Fixed feet, toes and hinged trunk",
+      "movement": "몸통과 발을 고정하고 팔꿈치를 뒤로 보내 바를 복부 가까이 당긴다. 레일을 따라 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not captured human motion.",
+      "Limited range with the bar stopping short of abdominal contact; virtual floor clearance 0.0325 model units.",
+      "17 sampled body/plate and central-body/shaft clearances; not exhaustive mesh collision certification.",
+      "Rack release and safety catches omitted from the repeated exercise cycle."
+    ]
+  }
+}

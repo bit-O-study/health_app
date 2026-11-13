@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.065533337012262,
+    "shaftBody": 2.1022053429257603,
+    "barLength": 20
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.0758061665257188,
+    "shaftBody": 2.009370639044996,
+    "barLength": 20
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.1057495150015295,
+    "shaftBody": 1.7609022542468558,
+    "barLength": 20
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.1520619136239083,
+    "shaftBody": 1.4327031197880244,
+    "barLength": 20
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.2085455995661605,
+    "shaftBody": 1.1054575550406844,
+    "barLength": 19.999999999999996
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.2667298211455655,
+    "shaftBody": 0.8413502054412852,
+    "barLength": 20
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.03249402008056723,
+    "plateBody": 1.3171381880374702,
+    "shaftBody": 0.6581562833078526,
+    "barLength": 20
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.3512222005862982,
+    "shaftBody": 0.5602609531951797,
+    "barLength": 20
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.03249402008056368,
+    "plateBody": 1.363243500241805,
+    "shaftBody": 0.5305025457880849,
+    "barLength": 20
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.3512222005862982,
+    "shaftBody": 0.5602609531951797,
+    "barLength": 20
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.3171381880374695,
+    "shaftBody": 0.658156283307853,
+    "barLength": 20
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.2667298211455646,
+    "shaftBody": 0.8413502054412858,
+    "barLength": 20
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.2085455995661607,
+    "shaftBody": 1.1054575550406849,
+    "barLength": 19.999999999999996
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.1520619136239079,
+    "shaftBody": 1.4327031197880244,
+    "barLength": 20.000000000000004
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.032494020080565456,
+    "plateBody": 1.1057495150015295,
+    "shaftBody": 1.760902254246854,
+    "barLength": 20
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.03249402008056457,
+    "plateBody": 1.0758061665257181,
+    "shaftBody": 2.0093706390449944,
+    "barLength": 20
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.032494020080566344,
+    "plateBody": 1.065533337012262,
+    "shaftBody": 2.1022053429257603,
+    "barLength": 20
+  }
+]

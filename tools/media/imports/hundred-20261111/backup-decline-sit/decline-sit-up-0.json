@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose unweighted decline bench sit-up, feet secured under top rollers, arms crossed, torso curls from supine to upright, controlled reverse",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.muscleandstrength.com/node/3617"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "decline-sit-up",
+  "registeredAt": "2026-09-13T01:58:44.858Z"
+}

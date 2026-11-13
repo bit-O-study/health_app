@@ -1,0 +1,15 @@
+{
+  "id": "trx-chest-press",
+  "equipment": "trx",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "trx-chest-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.trxtraining.com/blogs/news/7-basic-movements"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T12:06:29.296Z"
+}

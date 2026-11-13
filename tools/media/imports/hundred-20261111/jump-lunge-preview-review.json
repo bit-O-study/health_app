@@ -1,0 +1,41 @@
+{
+  "jump-lunge": {
+    "checks": {
+      "exercise": "Alternating jump lunge",
+      "equipment": "Bodyweight",
+      "setup": "한 발을 앞으로 내밀고 양 무릎을 굽혀 런지 자세를 만든다. 앞발은 바닥에 두고 뒷발은 뒤꿈치를 들어 발가락으로 지지한다.",
+      "hands": "Bent elbows with reciprocal small arm motion",
+      "feet": "Front sole and rear toes remain fixed on ground; legs exchange only during flight",
+      "movement": "양다리로 밀어 위로 뛰면서 공중에서 앞뒤 다리를 바꾼다. 반대쪽 런지 자세로 착지하며 무릎과 엉덩이를 굽힌다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Two slowed jumps in eight seconds; timing illustrates technique rather than real-time athletic speed.",
+      "No impact force simulation or exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:34:22.219Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-lunge/full-sheet.png",
+        "sha256": "52f158b8e2bf7a10113703b4fe37984c575c35b04b7da55fe0b03e9e247c6119"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-lunge/side-sheet.png",
+        "sha256": "2c95d3c4506186e1dd96336cf6e94bc58528dbe8e27e9b5196e27aaf1c0b6157"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-lunge/poses.json",
+        "sha256": "e4d5a4cd9018de80f8049d6128d538a658ee7f577fd0d1601b0efdd10984c166"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-lunge/geometry.json",
+        "sha256": "d5e277f576fc337827789b23551fd80763111d1933b2339a4216957eec2310b5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-lunge/kinematics.json",
+        "sha256": "725aa7636ee335427b234c456227e14ce665dc692ab21b17ec3e78d99f2d7543"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "incline-rear-delt-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ae4c9b4238a8b50eb2282f783bac3475dc65af3654521f13e4d9c155bb92c6a8",
+  "rigSourceSha256": "8b2c25eb196906b8d231d2f01b81876620aab15bb366644fa7d616a068fb6725",
+  "videoSha256": "54024054c210c19e4cf968b0beac43480a1bd1bc70bf2aca82f16f8d3768c3ce",
+  "darkVideoSha256": "fccb9c119f595b238b1ed5fad78fbd219139ada655a4e746ec3a399b0ee286ea",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101176,
+  "darkBytes": 85299,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:37:33.159Z"
+}

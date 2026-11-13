@@ -1,0 +1,76 @@
+{
+  "skater-jump": {
+    "checks": {
+      "exercise": "Alternating lateral skater bounds",
+      "equipment": "Bodyweight",
+      "setup": "상체를 조금 앞으로 기울이고 한쪽 무릎을 굽혀 체중을 싣는다. 반대발은 몸 뒤쪽으로 들어 둔다.",
+      "hands": "Reciprocal bent-arm swing assists balance",
+      "feet": "One foot supports each landing; free foot stays behind and above floor",
+      "movement": "지지 다리로 바닥을 밀어 옆으로 뛰고 반대발로 부드럽게 착지한다. 착지한 무릎과 엉덩이를 굽혀 균형을 잡은 뒤 반대 방향으로 반복한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Two slowed lateral bounds in eight seconds with balance pauses.",
+      "No impact force simulation or exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:43:31.432Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/final.jpg",
+        "sha256": "7ed75e2f35de07fc8fc2142bfb6ff822a29ff1342c61d6c408b499a2c6988090"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/final-dark.jpg",
+        "sha256": "1e8264fdb92ac9508fc5183acf07b69ddbd28754a3ca2b6f532e1c538dd6d6c1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/full-sheet.png",
+        "sha256": "1474b8fa5584debf0e25707d4653aed6340fb2df71fd688982e95658231b01c7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/side-sheet.png",
+        "sha256": "c34617e11cf14d099b78da6ddebe1b33d31231014c0185586c2420e00b534b6e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/verification.json",
+        "sha256": "d37b64db2ed364020dfb91434d2a03023e3fba7cb016306af83e283264d6fa07"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/geometry.json",
+        "sha256": "8e1b74531a8af669ba4b3fe314d450e13825fbf1b9f63cd1c7b4b671c3be0208"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/kinematics.json",
+        "sha256": "2c08272f94bc38a05472477538de3b80f19e7fac136ec005e13cdcfc0e4fea8f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/provenance.json",
+        "sha256": "2a1c9c8942be452c94b9fdc3bddc2c4a04031ecddd73526e758f4f537723f9a7"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/skater-jump-alpha.webm",
+        "sha256": "4eb556643a50d39db3700097e27fe39d4f05d759318407f3861d26674bcf0e0b",
+        "bytes": 313447,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/skater-jump.mp4",
+        "sha256": "8c460bdd215f7eefacadd887683bcebaad3a996ec189f4e002e6805b433476cb",
+        "bytes": 121836,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/skater-jump-dark.mp4",
+        "sha256": "d7b56ee09a32f27f8ead3a6cbbd5cfae56556e230a73c4dcd8935838dbf06d2d",
+        "bytes": 119880,
+        "decode": "passed"
+      }
+    ]
+  }
+}

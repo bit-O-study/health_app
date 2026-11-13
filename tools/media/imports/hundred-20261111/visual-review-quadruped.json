@@ -1,0 +1,227 @@
+{
+  "donkey-kick": {
+    "checks": {
+      "exercise": "donkey-kick front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손을 어깨 아래, 무릎을 골반 아래에 둔 네발 자세를 만든다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Left support knee and lower leg fixed; right bent leg moves",
+      "movement": "오른쪽 무릎을 굽힌 채 허벅지를 뒤로 들어 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+      "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+      "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+      "Right-side demonstration; repeat on the other side."
+    ],
+    "reviewedAt": "2026-11-13T02:19:47.893Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/final.jpg",
+        "sha256": "1e6621b35ff1bf95ebace5a158d0faeb36d0e13ade0e9cc09159ca3f97bd1598"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/final-dark.jpg",
+        "sha256": "552c37b32fbd06bb4da76084d9c4086c43bc982ef20811abcc47db030288b3e3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/full-sheet.png",
+        "sha256": "f394d1a3f475d0ec616951b90da70a9af1e6d3f2e614ed1887e186a530734661"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/side-sheet.png",
+        "sha256": "9e23af12e733e8dab2614ed4683aa0ed15c4bf318c6c021735ae7d52e9d46e52"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/verification.json",
+        "sha256": "05eafc70b35d1b57df280d095079d92b44e648f26d9b704fec9c144605cfb920"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/geometry.json",
+        "sha256": "3f91764a36ab50af05868f401bb8c3a33201d5c47307aa70c389a024f1d2aec0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/kinematics.json",
+        "sha256": "1cef5abe8017de779f6aaf91615e8cf6009a4f2b0fafecd346fd6dea13f49763"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/provenance.json",
+        "sha256": "4381001b71003418f940cad8f289fd6580372412551c97455d6296415342e858"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/donkey-kick-alpha.webm",
+        "sha256": "004133106dafe520f7379a253ddb65f89948dd163418c6730324a09813c4cc9b",
+        "bytes": 151208,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/donkey-kick.mp4",
+        "sha256": "f17c32734e369e0243a5b393a04ed3b1944fc29b987e273e282a970b1053ad9d",
+        "bytes": 65397,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/donkey-kick/donkey-kick-dark.mp4",
+        "sha256": "1146ed1dbb9f8abdacef0cde3e0590066ca1cf6ebcf3f1a767af6b4901ac1c21",
+        "bytes": 63827,
+        "decode": "passed"
+      }
+    ]
+  },
+  "fire-hydrant": {
+    "checks": {
+      "exercise": "fire-hydrant front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손을 어깨 아래에 놓고 무릎을 굽힌 네발 자세로 몸통을 고정한다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Left support knee and lower leg fixed; right bent leg moves",
+      "movement": "오른쪽 무릎을 굽힌 채 옆으로 벌렸다가 골반 아래로 천천히 되돌린다."
+    },
+    "limitations": [
+      "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+      "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+      "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+      "Right-side demonstration; repeat on the other side."
+    ],
+    "reviewedAt": "2026-11-13T02:19:47.910Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/final.jpg",
+        "sha256": "663d2a39c5cbffccfad22092dd7e05f368c795c6f065fb8465ea8487558a7d7c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/final-dark.jpg",
+        "sha256": "e5eb4d541abf3a64313b0f37afb0c0f34f10769db77e12a188187b56080e03b2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/full-sheet.png",
+        "sha256": "ac4ed1ababb146e43b5e24102c5b669f7ccf24c86f98f355219149384a81856d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/side-sheet.png",
+        "sha256": "6f2cb105794f5c2b5cfe11b6f49d379d13bafe088f1135dced27e442b3a77da9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/verification.json",
+        "sha256": "cbb634d8894cfde905d4dc55c5df73bafdfe2ed2c896853822af9735f43cfd1d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/geometry.json",
+        "sha256": "7612fb730c8c2c68af6a2be1e625bd375ec4b8af53390757102b682c5652019c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/kinematics.json",
+        "sha256": "dd55d6e7aa53076cc4ecccc0f80bb6e2087f1a128f72ca9d8338a09e09d97c3e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/provenance.json",
+        "sha256": "924f8f2074c471618f5fc408d20864cd329138c3bf0ff24801836837cfb9bb5a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/fire-hydrant-alpha.webm",
+        "sha256": "d55db1efe3a03a727a55b98939448e0d18dadec107cea943ceea9c7196288e14",
+        "bytes": 133040,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/fire-hydrant.mp4",
+        "sha256": "210fbccbdee0e10c37aa5298f1459f5e9cb8fd70a2e8d26f7bde4f8c01d20395",
+        "bytes": 55466,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/fire-hydrant/fire-hydrant-dark.mp4",
+        "sha256": "5e2da2f3467879472e79f0c751677ff0cbafe62b28233fb7c307657a72a77435",
+        "bytes": 52153,
+        "decode": "passed"
+      }
+    ]
+  },
+  "cat-cow": {
+    "checks": {
+      "exercise": "cat-cow front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손과 무릎으로 지지하고 손을 어깨 아래, 무릎을 골반 아래에 놓는다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Both knees fixed; lower legs remain still",
+      "movement": "손과 무릎을 고정한 채 등을 천천히 둥글게 말고 다시 부드럽게 펴 준다."
+    },
+    "limitations": [
+      "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+      "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+      "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+      "Small-range spinal flexion/extension; eight-second loop does not reproduce the source hold duration."
+    ],
+    "reviewedAt": "2026-11-13T02:19:47.925Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/final.jpg",
+        "sha256": "579ef160d87ecbcebc106b812d8a8807d5e187297250f5dbf52ff975ef375919"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/final-dark.jpg",
+        "sha256": "01421a28bf06b4474d92ecd056de873c8839c574f9d8575a19172b8247325809"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/full-sheet.png",
+        "sha256": "732f8d2abfdc00b6fd2d0804fa1294d4c5c423aeb78ce614aefa91919505b3ea"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/side-sheet.png",
+        "sha256": "5d60c70e7a4c79e3a14ce31099ffa1701128d1ac196b6f4c3b1732e73c229491"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/verification.json",
+        "sha256": "8202848f46cd4c8bfbbe3aa45760feba73fae62749bdc5f01310660be47589b5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/geometry.json",
+        "sha256": "a73fc699830d1e9c54f9d9d5f892811f34830809b1177f6080b7ba79fbedb5e6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/kinematics.json",
+        "sha256": "12f2cd3a2fae84cfe275b591b3c573ac6179dc229a68b912b4ccc9b836a7dc63"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/provenance.json",
+        "sha256": "f6a31a3610df13306cd2b40ed7b5da3a73522dda0fdbeaf68db2045659631d3c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/cat-cow-alpha.webm",
+        "sha256": "0e53ba8ed65fd626e94418a75f71733a9b31f87f4b2adc2e653718946193a884",
+        "bytes": 114533,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/cat-cow.mp4",
+        "sha256": "83b49e0b7fb2ebd41583bab00560bb089ee9567b07c35697ecf8bd28c0262edf",
+        "bytes": 56586,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/cat-cow/cat-cow-dark.mp4",
+        "sha256": "bc0e27113e1043f1983269ef6e0fde0bc7c9e1bbfc86c57e99c8aa3a156e5cc6",
+        "bytes": 56673,
+        "decode": "passed"
+      }
+    ]
+  }
+}

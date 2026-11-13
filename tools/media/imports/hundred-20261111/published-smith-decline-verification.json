@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T03:53:03.019Z",
+  "report": [
+    {
+      "id": "smith-machine-decline-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

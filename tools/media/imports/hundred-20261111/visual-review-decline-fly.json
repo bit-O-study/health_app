@@ -1,0 +1,76 @@
+{
+  "decline-dumbbell-fly": {
+    "checks": {
+      "exercise": "Decline dumbbell fly with fixed 20-degree elbow bend",
+      "equipment": "Thirty-degree decline bench, head pad, elevated foot platform and two dumbbells",
+      "setup": "머리가 낮아지는 디클라인 벤치에 등과 머리를 대고 눕는다. 양발을 지지대에 단단히 올리고 덤벨을 가슴 위로 든다.",
+      "hands": "Neutral closed grips and symmetric fly arc",
+      "feet": "Fixed flat feet on supported elevated platform",
+      "movement": "손바닥을 마주 보게 하고 팔꿈치를 살짝 굽힌 각도를 유지한다. 덤벨을 옆으로 벌렸다가 가슴 위로 모은다."
+    },
+    "limitations": [
+      "Procedural demonstration; not captured human motion.",
+      "Elevated foot platform represents one supported setup; no bench entry or exit.",
+      "Sampled equipment/body and support checks; not exhaustive mesh collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:45:30.305Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/final.jpg",
+        "sha256": "ebb60c19fbd6fee7529766ee8288a6e1b4a808fab9ccefb7d9eca0ab21c31130"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/final-dark.jpg",
+        "sha256": "225fd3b3c7943ded08fab2b775d2dee2177f25e3edf97d4c4c5306b8ea30ef2a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/full-sheet.png",
+        "sha256": "4cdd21929b339104d8099f579521902a3827bf9f3f9a4e0df248c08c50e7319a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/side-sheet.png",
+        "sha256": "88c9ea5f8fbbf6a6d6f3d10e4b01431c58b14399ab1799d736377da231f1fe66"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/verification.json",
+        "sha256": "ac71cf25360f438d79f08c98f7b5d90a5a25d2ce426888acaf65b5475ef3ba54"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/geometry.json",
+        "sha256": "ca921264b8a09ad61aba2c28fae9f8d230ebda995bfc1927c95d98afdbe54013"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/kinematics.json",
+        "sha256": "455988534faa2190669292d478371c0963d58ad2a3a03684a0a5ec127c7745e1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/provenance.json",
+        "sha256": "c98d21f204f76393a9c98eebeb2a7535728128c0d0804149870f1346d98baca7"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/decline-dumbbell-fly-alpha.webm",
+        "sha256": "e13c6839b948914d6df8354d7b55313d5f06103bdb4dd3d1a6c8a4812d199e7c",
+        "bytes": 248044,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/decline-dumbbell-fly.mp4",
+        "sha256": "426a2ab3777fce3f984b26e42493ec09fa252abc9e9ffb39d16d6505131da61c",
+        "bytes": 99274,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/decline-dumbbell-fly/decline-dumbbell-fly-dark.mp4",
+        "sha256": "6478eaf89a1763824ab7ed51c779c6beb37a556188f46e5e3ce8923699139f21",
+        "bytes": 78348,
+        "decode": "passed"
+      }
+    ]
+  }
+}

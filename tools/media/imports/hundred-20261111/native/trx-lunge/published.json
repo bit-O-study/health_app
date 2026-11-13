@@ -1,0 +1,18 @@
+{
+  "id": "trx-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d4563f82bd2dbfe079d81152dc07fbfd5b5961aa1a885cc95bdbb9e9044c49f4",
+  "rigSourceSha256": "8ef0ef6e3a27e2ddb3602b342d2ce8687b332c2bb426d99af5d00f083b762915",
+  "videoSha256": "493086b933dcbd8cf99fc7feeba0ce069211f0f48f5dc949c8e6c0de2c2a23d3",
+  "darkVideoSha256": "4ebe55561cb42de0e3b45fb5f30881ddfe7947396caff58e2f707d87156946d0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83671,
+  "darkBytes": 84791,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T04:06:22.648Z"
+}

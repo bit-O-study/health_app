@@ -1,0 +1,104 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 2.220446049250313e-16
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 0
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 4.965068306494546e-16
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 2.220446049250313e-16
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 2.220446049250313e-16
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 4.440892098500626e-16
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 1.831026719408895e-15
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 1.1102230246251565e-15
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 1.9860273225978185e-15
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 6.661338147750939e-16
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 1.790180836524724e-15
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 2.0350724194510405e-15
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 1.8444410139024814e-15
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 4.965068306494546e-16
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 1.8444410139024814e-15
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.044769020080567046,
+    "clothFloorClearance": 5.569999835193155,
+    "gripError": 2.220446049250313e-16
+  }
+]

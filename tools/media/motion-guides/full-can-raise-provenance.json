@@ -1,0 +1,230 @@
+{
+  "id": "full-can-raise",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/full-can-raise-studio.mjs",
+      "sha256": "253f16554a388de31e954827de1edc1c89a803db227064b1b79b66b96704a222"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/full-can-raise-motion.mjs",
+      "sha256": "28c04186c3da4fd8c8edc970814c33673d45e61add4d62ba6db61114b4b91522"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "scaption",
+    "sourceUrls": [
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/"
+    ],
+    "criteria": "Bilateral dumbbell elevation in plane 30 degrees anterior to frontal plane; thumbs up; fixed feet and trunk, shoulder-height range.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.004769020080566122,
+      "clothFloorClearance": 5.529999834001062
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "maxStep": 0.05631438170197592,
+    "planeError": 7.460698725481052e-14,
+    "thumbSideAxisY": [
+      0.9396840502216872,
+      0.9396840502216872
+    ],
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      173.2770376196067,
+      174.36787881586875
+    ],
+    "alpha": {
+      "transparent": 39095576,
+      "opaque": 4285342,
+      "partial": 855882,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/full-can-raise/source.jpg",
+    "sha256": "67529212d2df62a7569cdb370fc7ee30f3b9ff2aae6cde8f15d190065d609403",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification. Arm elevation limited below shoulder height; small fixed elbow bend. Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+}

@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "maxStep": 0.051457321277058744,
+  "handSpanChange": 12.082126141300245,
+  "elbowRange": [
+    159.99999999999994,
+    160.00000000000009
+  ],
+  "benchDeclineDegrees": 30,
+  "loopError": 0
+}

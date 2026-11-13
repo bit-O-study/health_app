@@ -1,0 +1,28 @@
+{
+  "medicine-ball-russian-twist": [
+    {
+      "file": "tools/media/motion-guides/medicine-ball-russian-twist.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/medicine-ball-russian-twist.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/medicine-ball-russian-twist-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/medicine-ball-russian-twist.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/medicine-ball-russian-twist-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/medicine-ball-russian-twist-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

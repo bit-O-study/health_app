@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-cable-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "757183621d956082230b28cf6ee77b1dcd27307eaeade8c223ae0b38311c31c1",
+  "rigSourceSha256": "33a30883fdbf16b4150125dda413fc8a58107b07159423b75d88056104be04c8",
+  "videoSha256": "e232c56c7b1ce5b4fdfd9b2b0b261bfe0db75d91b1ccf278d0afde07fceb2d53",
+  "darkVideoSha256": "4ce023a84b6c16fa846f0cd7f5698a8dfea42fe25f4783c3cec62361f7293189",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65853,
+  "darkBytes": 61050,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:07:01.004Z"
+}

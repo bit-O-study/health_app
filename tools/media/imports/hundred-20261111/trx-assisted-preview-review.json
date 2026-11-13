@@ -1,0 +1,79 @@
+{
+  "trx-squat": {
+    "checks": {
+      "exercise": "TRX assisted two-foot squat",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 양발을 어깨너비로 벌리고 바닥에 고정한다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Both feet flat and fixed",
+      "movement": "손잡이로 균형을 보조하면서 엉덩이를 뒤로 보내고 무릎을 굽힌다. 양발로 바닥을 밀어 일어난다."
+    },
+    "limitations": [
+      "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+      "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation."
+    ],
+    "reviewedAt": "2026-11-13T04:01:54.421Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/full-sheet.png",
+        "sha256": "5a3e6e8f884f0e0c0469535eeb86d4184a9613b3d1931bd8b4e0b62c2c135a73"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/side-sheet.png",
+        "sha256": "83845de4b9f3099b31c142f032e07a32f14a8387c9515b7ad7179d864c6e355e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/poses.json",
+        "sha256": "4f217356377a1474761fa13195ac3b9f6e98aaf04d724f2d2de9bd4d40ec1ec7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/geometry.json",
+        "sha256": "8c52e818f4343e27fbb94d6c8e90b88b83cef6e4ea7ac68a3a7cc297c71a8a46"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-squat/kinematics.json",
+        "sha256": "b808c6c9a8b6b4e97413163c6c105f65f7a2e1a28954f40e8beb027bef198379"
+      }
+    ]
+  },
+  "trx-lunge": {
+    "checks": {
+      "exercise": "Grounded TRX assisted split-stance lunge",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 한 발은 앞에, 반대 발은 뒤에 두고 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Front foot flat and rear forefoot fixed",
+      "movement": "상체를 세운 채 양 무릎을 굽혀 내려갔다가 앞발로 바닥을 밀며 올라온다. 손잡이로 균형을 보조한다."
+    },
+    "limitations": [
+      "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+      "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation.",
+      "Grounded assisted lunge variation, not suspended-foot lunge; left-leg-leading example."
+    ],
+    "reviewedAt": "2026-11-13T04:01:54.425Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/full-sheet.png",
+        "sha256": "d9f8342d6fb25b42cf722d909fc58104d844f674454d1823ce3288606bc4be63"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/side-sheet.png",
+        "sha256": "e5aaa9dd7efcbd44df66112bf13d51c1095637fcf3776c5cb28183c9814e2552"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/poses.json",
+        "sha256": "f6e99f61c4c8bed5c9874ca83a5f6af6e446954916e1bb9bc5fcaff19a0eaf1c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/geometry.json",
+        "sha256": "388f84ab7e679c9e5afcf2a6ff28e2d3c2a3e86ad7f10d12de4f4da7db2b4327"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-lunge/kinematics.json",
+        "sha256": "190c1e1cc8951c32fe52172c3c9b766212d1b27b197a25f63bc18edcef006ad6"
+      }
+    ]
+  }
+}

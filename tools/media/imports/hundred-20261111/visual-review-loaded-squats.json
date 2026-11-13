@@ -1,0 +1,227 @@
+{
+  "band-squat": {
+    "checks": {
+      "exercise": "Distinct band-squat sequence inspected in full and side sheets",
+      "equipment": "Two bands fixed at outer soles with shoulder-height handles",
+      "setup": "밴드를 양발로 고정하고 양손 손잡이를 어깨 높이에서 잡는다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손 높이를 몸통에 맞춰 유지한다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ],
+    "reviewedAt": "2026-11-13T02:57:34.159Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/final.jpg",
+        "sha256": "07760f5ca4eb30509ae7f6830e1e9dbcc18fe913e5793da637e95527fc5ba258"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/final-dark.jpg",
+        "sha256": "8db0c8e9f7461ee4fa0007036d8d1e25d313aadb3a00192b7565ca707844c688"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/full-sheet.png",
+        "sha256": "67be5907c47aece0df0ef9bea37a881affbabe5b796d0e75e4087cc0b20e64a1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/side-sheet.png",
+        "sha256": "52b05f31719666346d854563cdeda5a6d59e8634895ac358062155320607ec9e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/verification.json",
+        "sha256": "15166417e2931ccb9406fa31cc029c9328e94933c0f9c7cf61a4dd46802ffde3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/geometry.json",
+        "sha256": "70114b40adb174aebbfd97b0b9ca1dc8aa8ba72ed917c0abdb3397fbb5985e75"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/kinematics.json",
+        "sha256": "3d4df4b119e85db37e738a3c628d006087ff3753fdd79e94b670c7cfff877302"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/provenance.json",
+        "sha256": "dc4509e0bff8ce5be1690fb98bc3d7bf9563e1f40aa1e31b04285d30725f88b3"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/band-squat-alpha.webm",
+        "sha256": "1c6b9e637758264b2002d0c900aefcaaa4d6456341ac53a3806bdeb2343657af",
+        "bytes": 374422,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/band-squat.mp4",
+        "sha256": "e1d571454c1c12eb29085691153801b4713f87a78a10339d0ff9200bf48162d0",
+        "bytes": 132443,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/band-squat-dark.mp4",
+        "sha256": "71bf5906eedcbe4cab161ea97414731d77ad259b0c6195718ac54a0fbdc2854a",
+        "bytes": 132354,
+        "decode": "passed"
+      }
+    ]
+  },
+  "overhead-squat": {
+    "checks": {
+      "exercise": "Distinct overhead-squat sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 넓게 잡아 머리 위로 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "팔을 편 상태로 바벨을 머리 위에 유지하며 앉았다가 일어난다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ],
+    "reviewedAt": "2026-11-13T02:57:34.175Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/final.jpg",
+        "sha256": "3fc0dbf5975198c44150574661a68efe80419638a2baf505a73699c5891bb4a3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/final-dark.jpg",
+        "sha256": "b2cee06cd8d735627db55d4e13c1d800a6d4104e1d180ee44429627ce29d25dd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/full-sheet.png",
+        "sha256": "e0cc66f9ab79bf8d80124dda84d47026ea21b1582f2639baa459aa9e01f0bee6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/side-sheet.png",
+        "sha256": "2553d5e9ad605ea3d17f44fc40a85b8d84f4f04e6afd26a455ff98c7d5946d6b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/verification.json",
+        "sha256": "d24014d3cc1f7f820bd762dccddb1f39302a259fe6f0fdc8483cb4087484a69d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/geometry.json",
+        "sha256": "2c8b2a6f5fed4843eca5b0c339c45cce951511c85043f45a22b39555f3cfa531"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/kinematics.json",
+        "sha256": "4bb0a87104ddf656bdb7087a1ba8e6a41bf035a7aeda30213892a25413be3c15"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/provenance.json",
+        "sha256": "c5d58dcb5d15d0f26ac95dddd912c32afe621969af116f60ea72de1fee64255a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/overhead-squat-alpha.webm",
+        "sha256": "3f0ad77324e04b2f245a45a574965135a86d45f502fef6a888cc5c2b5d8b43cf",
+        "bytes": 380739,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/overhead-squat.mp4",
+        "sha256": "979c3846f439c390810d6e30a51970633db298053f81f9e615b14c871cdd01d5",
+        "bytes": 142714,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/overhead-squat-dark.mp4",
+        "sha256": "dc51736031c5a5052b1f65e40fbe607d171c64674ad2f6d1bfe962f5fa930b51",
+        "bytes": 127602,
+        "decode": "passed"
+      }
+    ]
+  },
+  "thruster": {
+    "checks": {
+      "exercise": "Distinct thruster sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 어깨 앞에 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "스쿼트로 앉았다가 일어나면서 바벨을 머리 위로 밀어 올린다. 바벨을 어깨 앞으로 되돌린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ],
+    "reviewedAt": "2026-11-13T02:57:34.190Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/final.jpg",
+        "sha256": "c42a2c23d7304720cd094329f1a30e680141d0d2782e16590574894304522e9a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/final-dark.jpg",
+        "sha256": "067d32732859dc631af1f2b26a94a206e98c5119d936c4ebaadeb9733d475fed"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/full-sheet.png",
+        "sha256": "1ae5f3366acacf258b09e4eddb10dc5bd90d87d088ea7e2585814b6a5075c885"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/side-sheet.png",
+        "sha256": "7befe87729b2e256f62101350e504efdd06713c799dd2cbe7af045604c7ee252"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/verification.json",
+        "sha256": "91b103e0a072c09abbdcb4f64555287f1a757caa8ec9f80b1db252bf2885f159"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/geometry.json",
+        "sha256": "09b906ac77e4d57b15236d53bb6a47d2d2f6ca78f267d7d899dec08b4c8d5e53"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/kinematics.json",
+        "sha256": "5d41e09339a6564c02792ca4c90c65404c430665a889aed9d47c586ded69b3ad"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/provenance.json",
+        "sha256": "636531338ac2a183b0fc46e874911aa229ae28fbf788f1d743d30bd4922e9fc7"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/thruster/thruster-alpha.webm",
+        "sha256": "bf69bb7eec75240df9fac64d6e9652dc5f97f20ff98d23dea4a5d59178ee634d",
+        "bytes": 311834,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/thruster/thruster.mp4",
+        "sha256": "536829d9b3c7d5de12e80e34462a5aa8d1ecd6b6382765e8631cdc9ec4fe2f6a",
+        "bytes": 137259,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/thruster/thruster-dark.mp4",
+        "sha256": "82e1dfeffa878a374543e8639b85d59c4af497774673a70ed4e88fce206c3572",
+        "bytes": 115481,
+        "decode": "passed"
+      }
+    ]
+  }
+}

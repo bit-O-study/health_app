@@ -1,0 +1,42 @@
+{
+  "lying-side-lateral-raise": {
+    "checks": {
+      "exercise": "Side-lying dumbbell lateral raise, floor variation",
+      "equipment": "Single dumbbell with plates clear of hand and body",
+      "setup": "바닥에 옆으로 누워 아래쪽 팔로 머리를 받치고 다리를 포갠다. 위쪽 손으로 가벼운 덤벨을 잡아 허벅지 옆에 둔다.",
+      "hands": "Lower hand supports head; upper hand closes around dumbbell handle",
+      "feet": "Stacked legs remain still",
+      "movement": "몸통과 골반을 고정한 채 위쪽 팔을 천장 쪽으로 들어 올린다. 팔꿈치를 살짝 굽힌 상태로 어깨 위에서 멈춘 뒤 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Floor variation; reference illustrates inclined bench setup.",
+      "Left-arm example only; opposite side not shown.",
+      "Sampled mesh vertices and plate clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:09:30.787Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/lying-side-lateral-raise/full-sheet.png",
+        "sha256": "ab45c1b7522c4aed376cc2e64243a97c743ad3bdfd51e65d61059bf17f16989a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/lying-side-lateral-raise/side-sheet.png",
+        "sha256": "1ec4c27dc065c6306260694bdf6f82043ff89e38657cbc61bea2d3832f2bc169"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/lying-side-lateral-raise/poses.json",
+        "sha256": "673b30814fe0b03bcc52400a0940ba89c0702f70d5d4b1faa088c7597475b4ec"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/lying-side-lateral-raise/geometry.json",
+        "sha256": "d2f54f9c0b56dea170d73fde0a1aa80dddecbf3966b426de0432c90b69598d27"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/lying-side-lateral-raise/kinematics.json",
+        "sha256": "2ea40a8608f2d78566568cc1578d6c56271dd09ac915751b3992054314446861"
+      }
+    ]
+  }
+}

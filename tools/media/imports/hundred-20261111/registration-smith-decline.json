@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T03:54:04.835Z",
+  "ids": [
+    "smith-machine-decline-press"
+  ],
+  "files": 3,
+  "batchCompleted": 66,
+  "batchRemaining": 34,
+  "counts": {
+    "reviewed-both-themes": 467,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 848,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

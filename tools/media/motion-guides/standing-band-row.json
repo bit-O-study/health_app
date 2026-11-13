@@ -1,0 +1,15 @@
+{
+  "id": "standing-band-row",
+  "equipment": "band",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "standing-band-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-12T11:24:33.338Z"
+}

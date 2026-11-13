@@ -1,0 +1,13 @@
+const fs=require('node:fs');
+const base='tools/media/imports/hundred-20261111',batch=JSON.parse(fs.readFileSync(base+'/batch.json'));
+const entry=batch.entries.find(e=>e.id==='kettlebell-sumo-squat');if(entry.status!=='awaiting-motion-implementation')throw Error('Already started');
+let motion=fs.readFileSync(base+'/kettlebell-swing-motion.mjs','utf8').replaceAll('kettlebell-swing','kettlebell-sumo-squat');
+motion=motion.replace(',hinge=1-phase','');
+const begin=motion.indexOf(' byName.root.position.z-='),end=motion.indexOf(' const grips=[];');
+motion=motion.slice(0,begin)+` byName.root.position.y+=.25-4.2*phase;byName.root.position.z-=1.3*phase;byName.root.quaternion.setFromAxisAngle(v([1,0,0]),rad(15*phase));
+ const direction=v([0,-1,0]);
+`+motion.slice(end);
+motion=motion.replaceAll('sign*2.25','sign*2.6').replaceAll('sign*.2,0,1','sign*.45,0,1').replaceAll('rad(sign*12)','rad(sign*22)');
+fs.writeFileSync(base+'/kettlebell-sumo-squat-motion.mjs',motion);
+fs.copyFileSync(base+'/kettlebell-swing-studio.mjs',base+'/kettlebell-sumo-squat-studio.mjs');
+entry.status='motion-preview';entry.recipe={family:'kettlebell-sumo-squat',sourceUrls:['https://www.nuffieldhealth.com/article/how-to-kettlebell-squat'],criteria:'Wide stance, toes outward, single kettlebell held between legs with long arms; knees track toes, controlled squat and stand.',sourcesCheckedAt:'2026-11-12'};fs.writeFileSync(base+'/batch.json',JSON.stringify(batch,null,2)+'\n');

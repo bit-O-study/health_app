@@ -1,0 +1,18 @@
+{
+  "id": "cable-external-rotation",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "71daec8f086a4b688505542f59aa8f7abfaf1647b3b9a41a8bd4fcc783e769df",
+  "rigSourceSha256": "c51ec41c6c9cf1d64ca22ba44ce285e1b6957384e1e9af9802d803c922e5e608",
+  "videoSha256": "440d13e0cae14cfd75556452c9bd99b6afd8c7b7b98c9d18114b8632859672be",
+  "darkVideoSha256": "b16e19540638832aa650a7617802cda8db46c9aca4db5ec1e9726b969aea6440",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 41562,
+  "darkBytes": 37558,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T00:30:19.005Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-swing",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "94eecf331a18df04f83a6b5110ea1be337113998d049fcaed7af8f3925be7136",
+  "rigSourceSha256": "342553f1306894abff2d6f70bc682dd314b843fe98e4d7ef28b0ba60f0f9d0d0",
+  "videoSha256": "684ba733f2f0c09d264d8de98b3c189cbfad640eafad1df843a94709e3c8b37e",
+  "darkVideoSha256": "a8f912cea4b7fe3e6aadaacce7ae79b213a43cc59a90a8a7b7de10abe4efa6ac",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 163664,
+  "darkBytes": 150382,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T10:00:37.212Z"
+}

@@ -1,0 +1,76 @@
+{
+  "decline-sit-up": {
+    "checks": {
+      "exercise": "Decline bench sit-up",
+      "equipment": "Thirty-degree decline bench, ankle roller and foot platform",
+      "setup": "경사 벤치에 누워 발목을 고정대에 걸고 양손을 가슴 앞에 둔다. 복부에 힘을 주고 목을 편안하게 유지한다.",
+      "hands": "Hands held near chest without pulling neck",
+      "feet": "Lower legs and feet remain fixed at the support",
+      "movement": "하체를 고정한 채 상체를 천천히 들어 올린다. 복부의 긴장을 유지하며 등과 머리를 벤치 쪽으로 천천히 되돌린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Hands-near-chest variation, one slowed repetition.",
+      "Sampled support planes, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:30:33.053Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/final.jpg",
+        "sha256": "0b8d4d8842239ce925800b6a52e6fd5bfe4a51d7f6f41c62ce249c2283b481df"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/final-dark.jpg",
+        "sha256": "e26b2a860862e090e630471452a808d8ade9ed953794021965640edf67a14db5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/full-sheet.png",
+        "sha256": "bae41e76dab3d10464451363fbd3f8b22b96a80d0cd3a683190b436c21574ac9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/side-sheet.png",
+        "sha256": "5dd3087f58ad2dd6c1dae57018df279c83b6ecc1f11d12843a1562dafb91fa69"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/verification.json",
+        "sha256": "2cabb85e0f271d0db90d504a12d1cf788537c113904f80878687c58c2ab3ba49"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/geometry.json",
+        "sha256": "64f6c8c1e516405d964c5c761f175894c289bd77a41730a9029ab0c19663f349"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/kinematics.json",
+        "sha256": "68d716c06ccc9a983530e0bf2222b69cd582d2200bf815f497d36b4d0917d464"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/provenance.json",
+        "sha256": "7168aa461543b3a74a2df7d71e16a36949cacfc3037cda3994a31a94523d232f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/decline-sit-up-alpha.webm",
+        "sha256": "d236cc503c36b41f29f770a8c1ba66ba7125fcebf90411435d63ae104c0f9a7c",
+        "bytes": 221554,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/decline-sit-up.mp4",
+        "sha256": "d73bfc01d368578155fa52fb339f77a08ff43b0c839972680c65d2adc35a0dcf",
+        "bytes": 84763,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/decline-sit-up/decline-sit-up-dark.mp4",
+        "sha256": "dc33fee21417aca2450a0c9083b64921cbc1538be6327c25119cbbf0cf18a8d0",
+        "bytes": 90323,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "trx-biceps-curl": {
+    "checks": {
+      "exercise": "Suspension biceps curl with elevated elbows",
+      "equipment": "Fixed overhead anchor and horizontal handles; constant-length straps",
+      "setup": "고정점을 바라보고 손바닥이 위를 향하도록 손잡이를 잡는다. 발을 고정한 채 몸을 뒤로 기울이고 복부에 힘을 준다.",
+      "hands": "Closed supinated grips rotate with the curl",
+      "feet": "Both feet fixed; rigid body rocks around ankles",
+      "movement": "팔꿈치를 어깨보다 높게 유지하며 손잡이를 이마 쪽으로 당긴다. 몸을 곧게 유지하고 팔꿈치를 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not motion capture.",
+      "Rigid straps and simplified anchor; no load simulation.",
+      "Sampled clearances, not exhaustive collision certification."
+    ]
+  }
+}

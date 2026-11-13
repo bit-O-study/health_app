@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "maxStep": 0.05631438170197592,
+  "planeError": 7.460698725481052e-14,
+  "thumbSideAxisY": [
+    0.9396840502216872,
+    0.9396840502216872
+  ],
+  "loopError": 0
+}

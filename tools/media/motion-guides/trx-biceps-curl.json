@@ -1,0 +1,15 @@
+{
+  "id": "trx-biceps-curl",
+  "equipment": "trx",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "trx-biceps-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.trxtraining.com/blogs/news/5-trx-bicep-workouts-you-should-be-doing-daily"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T12:15:15.540Z"
+}

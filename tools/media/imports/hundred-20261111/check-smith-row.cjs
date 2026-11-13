@@ -1,0 +1,7 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),base='tools/media/imports/hundred-20261111',id='smith-machine-bent-over-row',dir=base+'/native/'+id,p=JSON.parse(fs.readFileSync(dir+'/poses.json')),g=JSON.parse(fs.readFileSync(dir+'/geometry.json'));
+const distance=(a,b)=>Math.hypot(...a.map((x,i)=>x-b[i]));let supportDrift=0,gripError=0,maxStep=0,verticalError=0;
+assert.equal(p.length,481);assert.deepEqual(p[0].joints,p.at(-1).joints);
+for(let i=0;i<p.length;i++){const j=p[i].joints;assert.ok(Object.values(j).flat(Infinity).every(Number.isFinite));for(const n of ['foot.L','foot.R','toe2-1.L','toe2-1.R','root','head'])supportDrift=Math.max(supportDrift,distance(j[n],p[0].joints[n]));for(let k=0;k<2;k++){gripError=Math.max(gripError,distance(j.grips[k],j.targets[k]));verticalError=Math.max(verticalError,Math.abs(j.grips[k][2]-3.4),Math.abs(Math.abs(j.grips[k][0])-2.6));if(i)maxStep=Math.max(maxStep,distance(j.grips[k],p[i-1].joints.grips[k]));}}
+assert.ok(supportDrift<1e-5&&gripError<1e-5&&verticalError<1e-5&&maxStep<.1);assert.ok(p[240].joints.grips[0][1]-p[0].joints.grips[0][1]>2.8);assert.ok(p[240].joints['lowerarm01.L'][2]<p[240].joints['upperarm01.L'][2]);
+assert.equal(g.length,17);for(const x of g)assert.ok(x.floorClearance>=0&&x.floorClearance<.08&&x.plateBody>0&&x.shaftBody>0);
+const result={status:'numeric-checks-passed',poseSamples:481,supportDrift,gripError,verticalError,maxStep,loopError:0};fs.writeFileSync(dir+'/kinematics.json',JSON.stringify(result,null,2)+'\n');console.log(result);

@@ -8,7 +8,7 @@ export function applyMotion(id,lift,{byName,dataByName,mesh}){
  const rest=(a,b)=>v(dataByName[b].head).sub(v(dataByName[a].head));
  const pos=n=>{mesh.updateMatrixWorld(true);return byName[n].getWorldPosition(v([0,0,0]));};
  const aim=(name,r,d)=>{mesh.updateMatrixWorld(true);byName[name].quaternion.copy(byName[name].parent.getWorldQuaternion(q()).invert().multiply(q().setFromUnitVectors(r.clone().normalize(),d.clone().normalize())));};
- const angle=rad((decline?87.6:wide?75.35:74.45)+(decline?6.9:wide?7.65:7.05)*lift);
+ const angle=rad((decline?87.36:wide?74.95:74.05)+(decline?7.14:wide?8.05:7.45)*lift);
  byName.root.position.set(0,0,0);byName.root.quaternion.setFromAxisAngle(v([1,0,0]),angle);
  for(const s of ['L','R']){
   const leg=v([0,-Math.cos(angle),-Math.sin(angle)]);

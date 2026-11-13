@@ -1,0 +1,17 @@
+{
+  "decline-sit-up": {
+    "checks": {
+      "exercise": "Decline bench sit-up",
+      "equipment": "Thirty-degree decline bench, ankle roller and foot platform",
+      "setup": "경사 벤치에 누워 발목을 고정대에 걸고 양손을 가슴 앞에 둔다. 복부에 힘을 주고 목을 편안하게 유지한다.",
+      "hands": "Hands held near chest without pulling neck",
+      "feet": "Lower legs and feet remain fixed at the support",
+      "movement": "하체를 고정한 채 상체를 천천히 들어 올린다. 복부의 긴장을 유지하며 등과 머리를 벤치 쪽으로 천천히 되돌린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Hands-near-chest variation, one slowed repetition.",
+      "Sampled support planes, not exhaustive collision or biomechanical validation."
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "prone-cobra": [
+    {
+      "file": "tools/media/motion-guides/prone-cobra.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-cobra.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-cobra-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-cobra.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-cobra-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-cobra-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "stability-ball-hamstring-curl": {
+    "checks": {
+      "exercise": "Bilateral stability-ball hamstring curl",
+      "equipment": "Rolling stability ball beneath both heels",
+      "setup": "바로 누워 양쪽 뒤꿈치를 짐볼 위에 놓고 손바닥을 몸 옆 바닥에 댄다. 복부와 엉덩이에 힘을 주어 골반을 들어 올린다.",
+      "hands": "Both palms fixed at floor level",
+      "feet": "Dorsiflexed feet with heels remaining on ball",
+      "movement": "양쪽 무릎을 굽혀 짐볼을 몸 쪽으로 굴린다. 엉덩이를 바닥에서 띄운 채 다리를 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Rigid ball with rolling rotation; no compression or friction simulation.",
+      "Sampled heel contact and body clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:39:22.854Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/full-sheet.png",
+        "sha256": "55b083939c988ee55e4c8aa718f81c5badc0fbd308bc77d630f08acc984aa4d5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/side-sheet.png",
+        "sha256": "8e4474bad27d19096a91e635b02666d8ae38dccb500658275ee525255678e3b7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/poses.json",
+        "sha256": "622256dc39c97af13189dee752d82443999dfac6189167c3396e7542af2d1810"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/geometry.json",
+        "sha256": "1efc667fb2b7a2fef31beb34b36a7b7de609a5ab999b48a6487000af3de17c1b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/stability-ball-hamstring-curl/kinematics.json",
+        "sha256": "e6966dce1758a1305bc684dbcd0637b9e1584cabe46efa9dfcd5d2659b0b04bc"
+      }
+    ]
+  }
+}

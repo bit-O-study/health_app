@@ -1,0 +1,76 @@
+{
+  "smith-machine-split-squat": {
+    "checks": {
+      "exercise": "Smith split squat with grounded staggered stance",
+      "equipment": "Vertical Smith rails and upper-back bar",
+      "setup": "스미스 바를 등 위쪽에 받치고 한 발을 앞으로, 반대 발을 뒤로 둔다. 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Closed symmetric back-bar grips; fixed x/z throughout vertical travel",
+      "feet": "Front foot flat; rear forefoot planted with raised heel; both feet fixed",
+      "movement": "상체를 세우고 두 무릎을 굽혀 아래로 내려간다. 앞발로 바닥을 밀며 올라온다."
+    },
+    "limitations": [
+      "Left-leg-leading demonstration; repeat on the opposite side.",
+      "Procedural animation with sampled clearance checks; not motion capture or exhaustive mesh collision certification.",
+      "Bar-to-back clearance approximately 0.025 model units; rack unlocking omitted."
+    ],
+    "reviewedAt": "2026-11-13T03:38:09.105Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/final.jpg",
+        "sha256": "6ce302c2117f62b1d31aed401c63be49bbaf8066f6841681b63bcb651dbe8266"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/final-dark.jpg",
+        "sha256": "f40eae816169023c896528155433bd17a8c7a51312978183f954d1f9e47e7a6a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/full-sheet.png",
+        "sha256": "7f2e360b918a001f468ee46f2f680967db5aea5861697cf8b11d58ff33eabf28"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/side-sheet.png",
+        "sha256": "0c184615922583a5b0c961406a13e73dccbae350e3b1cc50be123b864126bc63"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/verification.json",
+        "sha256": "d1b68e448023d0aa6d5bc0261b83477a1c1d78d43128053db4bdd4b6fa80df9b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/geometry.json",
+        "sha256": "c5cd19af10f0468dc77c14eb921ef38ccf700d3635a409781627b7951a3f384f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/kinematics.json",
+        "sha256": "dc156aaa4dbe79e25c1a900081b784ef58d394ea74e8413410a3df6657183bce"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/provenance.json",
+        "sha256": "5798f9606fc2d91357ee2593b7e7195a8e55364131b494defe90526dfb112606"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/smith-machine-split-squat-alpha.webm",
+        "sha256": "ec63f10c6f081a1892cb46de64b62a6d7636f7043ea226b3eecfcd70a25ec1c4",
+        "bytes": 277939,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/smith-machine-split-squat.mp4",
+        "sha256": "ecba41cc3887f2a90d0b4f001f6a00b58389a97767e48a8adcf3bc77ccb29d09",
+        "bytes": 103430,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-split-squat/smith-machine-split-squat-dark.mp4",
+        "sha256": "52e2d21c14245aad7772c6697a034168c72888b29509f326accbd7f7983859db",
+        "bytes": 85385,
+        "decode": "passed"
+      }
+    ]
+  }
+}

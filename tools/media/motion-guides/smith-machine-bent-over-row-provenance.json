@@ -1,0 +1,262 @@
+{
+  "id": "smith-machine-bent-over-row",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/smith-machine-bent-over-row-studio.mjs",
+      "sha256": "ce26746be2d48852a21a244afbd61bc96aee67e5af9d9e9d99f6a598a1337b53"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/smith-machine-bent-over-row-motion.mjs",
+      "sha256": "1a1ca6c4437823f41e3ac2809015980a441cd1ec20ee298b2d5431d8632005e1"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "smith-row",
+    "sourceUrls": [
+      "https://www.muscleandstrength.com/exercises/smith-machine-bent-over-row.html"
+    ],
+    "criteria": "Fixed hinged torso and feet; overhand row with a vertical bar path on two rails.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Slow procedural demonstration, not captured human motion.",
+      "Limited range with the bar stopping short of abdominal contact; virtual floor clearance 0.0325 model units.",
+      "17 sampled body/plate and central-body/shaft clearances; not exhaustive mesh collision certification.",
+      "Rack release and safety catches omitted from the repeated exercise cycle."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.8669355575722992,
+      "gripError": 4.440892098500626e-16
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.8758815212565723,
+      "gripError": 1.4043333874306805e-15
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.9188735115437545,
+      "gripError": 1.6946818973100072e-15
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166815,
+      "shaftBody": 2.0199596048636153,
+      "gripError": 1.831026719408895e-15
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 2.135978282998578,
+      "gripError": 1.2560739669470201e-15
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166815,
+      "shaftBody": 1.7461523901846583,
+      "gripError": 1.790180836524724e-15
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.3361647052456074,
+      "gripError": 6.661338147750939e-16
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166798,
+      "shaftBody": 1.0660611849779915,
+      "gripError": 1.1957467920563633e-15
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166815,
+      "shaftBody": 0.9749780126977802,
+      "gripError": 1.88411095042053e-15
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.066061184977991,
+      "gripError": 9.155133597044475e-16
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.336164705245607,
+      "gripError": 4.965068306494546e-16
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.7461523901846574,
+      "gripError": 1.0877919644084146e-15
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166798,
+      "shaftBody": 2.1359782829985776,
+      "gripError": 8.005932084973442e-16
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 2.0199596048636157,
+      "gripError": 9.155133597044475e-16
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166798,
+      "shaftBody": 1.9188735115437545,
+      "gripError": 1.0877919644084146e-15
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166798,
+      "shaftBody": 1.8758815212565723,
+      "gripError": 4.440892098500626e-16
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 2.4844519315166806,
+      "shaftBody": 1.8669355575722992,
+      "gripError": 4.440892098500626e-16
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "gripError": 2.636633597461006e-15,
+    "verticalError": 2.220446049250313e-15,
+    "maxStep": 0.01897991357845008,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      44.301740328938585,
+      126.81929322232524
+    ],
+    "alpha": {
+      "transparent": 40670021,
+      "opaque": 2621630,
+      "partial": 945149,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/smith-machine-bent-over-row/source.jpg",
+    "sha256": "08c579b8a40050be8d2d43ed076be68af6ce68ca38df59079fa5cc2664c19c99",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Slow procedural demonstration, not captured human motion. Limited range with the bar stopping short of abdominal contact; virtual floor clearance 0.0325 model units. 17 sampled body/plate and central-body/shaft clearances; not exhaustive mesh collision certification. Rack release and safety catches omitted from the repeated exercise cycle."
+}

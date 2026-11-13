@@ -1,0 +1,80 @@
+{
+  "wide-grip-cable-row": [
+    {
+      "file": "tools/media/motion-guides/wide-grip-cable-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-cable-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-cable-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-cable-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-cable-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-cable-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-arm-cable-row": [
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-arm-cable-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-arm-cable-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-row": [
+    {
+      "file": "tools/media/motion-guides/band-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-row-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

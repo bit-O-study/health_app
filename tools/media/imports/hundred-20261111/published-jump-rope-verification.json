@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T14:03:08.891Z",
+  "report": [
+    {
+      "id": "jump-rope",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

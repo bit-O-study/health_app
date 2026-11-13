@@ -1,0 +1,54 @@
+{
+  "sled-push": [
+    {
+      "file": "tools/media/motion-guides/sled-push.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/sled-push.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/sled-push-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sled-push.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sled-push-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sled-push-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "sled-pull": [
+    {
+      "file": "tools/media/motion-guides/sled-pull.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/sled-pull.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/sled-pull-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sled-pull.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sled-pull-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sled-pull-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

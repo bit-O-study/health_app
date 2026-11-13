@@ -1,0 +1,119 @@
+{
+  "single-arm-machine-chest-press": {
+    "checks": {
+      "exercise": "single-arm-machine-chest-press front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "좌우 레버가 독립적으로 움직이는 머신에 앉아 등과 양발을 지지하고 손잡이를 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 손잡이를 가슴 앞쪽으로 밀었다가 천천히 돌아온다"
+    },
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ],
+    "reviewedAt": "2026-11-12T11:18:58.401Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-chest-press/full-sheet.png",
+        "sha256": "bbae37f354ecc750d4f84ea01265c091c8af1568a94b2c7dfc3800d2f04a314e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-chest-press/side-sheet.png",
+        "sha256": "f5b64cb577eb2491686f76c384d63179b6fa42b151f0c95b36454eab5d9cc089"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-chest-press/poses.json",
+        "sha256": "f0dc9e267d1b23131d83fa2b9643caef118e98fe753ec089929f7c7a64698739"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-chest-press/geometry.json",
+        "sha256": "90dd2f364ef8b53e60c233b65b17723f770a0811fb65056e2cdf1d54787d1226"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-chest-press/kinematics.json",
+        "sha256": "235aab6a5bb39317ab1ad3324602c8a6717bc911dc63bb96e5cd307f6a57fe94"
+      }
+    ]
+  },
+  "single-arm-machine-shoulder-press": {
+    "checks": {
+      "exercise": "single-arm-machine-shoulder-press front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "독립 레버 숄더 프레스 머신에 앉아 등을 기대고 손잡이를 어깨 옆에서 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 손잡이를 머리 위로 밀어 올렸다가 천천히 돌아온다"
+    },
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ],
+    "reviewedAt": "2026-11-12T11:18:58.406Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-shoulder-press/full-sheet.png",
+        "sha256": "f674ad69830350cdcb912249664ff4e754e63b2087cfdace38e5d2acb30fd91b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-shoulder-press/side-sheet.png",
+        "sha256": "addcbe1a11ef3d8363bf2a2827ffaf89d2b52c2564ef046e1ec687ec1834288e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-shoulder-press/poses.json",
+        "sha256": "ab43d5d8f5e578ee748b6e0a89d22cca85268138e6e704ffcade18d288bed1f7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-shoulder-press/geometry.json",
+        "sha256": "4917b86239b1f276e56f2d1bb88a3c56220dadc5d4d585b8e6fb3c23da695966"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-machine-shoulder-press/kinematics.json",
+        "sha256": "c30c98c9db76194fdceaee51d55a25a20008e3d66e6abff32922a01ff0a8939c"
+      }
+    ]
+  },
+  "single-arm-pec-deck-fly": {
+    "checks": {
+      "exercise": "single-arm-pec-deck-fly front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "독립 레버 펙덱 머신에 앉아 팔꿈치를 굽히고 전완을 패드에 댄 뒤 손잡이를 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 팔의 굽힘을 유지한 채 패드를 가슴 앞쪽으로 모았다가 천천히 돌아온다"
+    },
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ],
+    "reviewedAt": "2026-11-12T11:18:58.410Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-pec-deck-fly/full-sheet.png",
+        "sha256": "0be05f45424c2a6e801c43a0a127b622db689f975f9a4902070ce97efd12df40"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-pec-deck-fly/side-sheet.png",
+        "sha256": "c271d069213b8890f6f599514c096086dc19a465ef411156a630a655024b6470"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-pec-deck-fly/poses.json",
+        "sha256": "e94a1bb3b2884652248565bc12ba960a81b23f08fc1e6d15f6efd5bebb9f605c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-pec-deck-fly/geometry.json",
+        "sha256": "4d6ff47e739c0bf470b46d3093fb7e0b443b99119cb8d12164b20f8a7cc9b945"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-pec-deck-fly/kinematics.json",
+        "sha256": "5db798d218996af7e8367d3f1c8d9e1d8a4e46ffab7cb3dfb5cb6e2207c69bd1"
+      }
+    ]
+  }
+}

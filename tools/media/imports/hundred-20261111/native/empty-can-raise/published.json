@@ -1,0 +1,18 @@
+{
+  "id": "empty-can-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "72568106acdfb39b1d0afe385e5bf4a85fa06dcb07a18fe92987a4f69e298790",
+  "rigSourceSha256": "64de504c9b6b353757ca552f369e094c40cce8a623f770a4aaaefbc90d218224",
+  "videoSha256": "7f050e5d0db76d244962d174660e4bc6eebaab0015f509c89b7923371f514014",
+  "darkVideoSha256": "159644d8929075bdaefe995447cec1256d5bd2577d2eb323cd616b15a889cff3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104486,
+  "darkBytes": 87970,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:29:18.084Z"
+}

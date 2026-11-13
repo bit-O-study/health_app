@@ -1,0 +1,76 @@
+{
+  "broad-jump": {
+    "checks": {
+      "exercise": "Standing broad jump with walking reset",
+      "equipment": "Bodyweight",
+      "setup": "두 발을 골반 너비 정도로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing into countermovement and forward arm swing during flight",
+      "feet": "Both feet leave and land together; four alternating backward steps reset the loop",
+      "movement": "팔을 앞으로 휘두르며 양발로 바닥을 밀어 앞으로 뛴다. 두 발로 함께 착지하고 무릎과 엉덩이를 굽혀 충격을 받는다. 균형을 잡고 걸어서 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "One moderate-distance jump and four reset steps in eight seconds.",
+      "No impact-force simulation or exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:49:06.917Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/final.jpg",
+        "sha256": "b5298101e384c2985ab71e4f10c2e7bfeeac312807dcc3cc48db07142bfda9d9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/final-dark.jpg",
+        "sha256": "ffe70c24ae58ab340c6add0c3bbea6d60bc591308367cfb50a6c7889771a3c59"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/full-sheet.png",
+        "sha256": "29462780e53431de5bc9e2ae9f58c73528e3443160a5926196b520aaf5a9df12"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/side-sheet.png",
+        "sha256": "e654aec71010791eecefce54982753e9765125e2befcb16cfae3a12b131b3844"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/verification.json",
+        "sha256": "e887eec3172f637a1ea6f727b8beee3f1bae8f0edd06c5bf2e3648a67b9c4955"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/geometry.json",
+        "sha256": "7a6a3af6a4be007f2331432f3d2f573701049facc7703e47180fd12d28a512ed"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/kinematics.json",
+        "sha256": "8921df381dacf323c8165739abf9098b06307e9980eadafd37290e5d9832775a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/provenance.json",
+        "sha256": "2623793132dfbd6b2102f91c646943ee70557ac12abd96f76d6bdff5390f7b20"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/broad-jump-alpha.webm",
+        "sha256": "12017ea1305984092c3860925180c471375faca08295928c417f46b52c7e9f95",
+        "bytes": 411750,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/broad-jump.mp4",
+        "sha256": "935a2a66df202f05bb822aa26e458062fa2627ebb63bfd759735a31a8feb4196",
+        "bytes": 155884,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/broad-jump/broad-jump-dark.mp4",
+        "sha256": "ac6dfa83c484f9253ec158c409677ef7238120e9481cd7762568638b5a1d1421",
+        "bytes": 162384,
+        "decode": "passed"
+      }
+    ]
+  }
+}

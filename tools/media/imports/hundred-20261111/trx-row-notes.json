@@ -1,0 +1,17 @@
+{
+  "trx-row": {
+    "checks": {
+      "exercise": "Bilateral TRX row with rigid torso and elbow flexion",
+      "equipment": "Fixed overhead anchor and constant-length suspension straps",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 발을 바닥에 고정하고 몸을 뒤로 기울여 머리부터 다리까지 길게 유지한다.",
+      "hands": "Fixed closed neutral grips",
+      "feet": "Both feet planted; straight legs rock around ankles",
+      "movement": "팔꿈치를 뒤로 보내며 가슴을 손잡이 쪽으로 당긴다. 몸통을 곧게 유지하면서 팔을 펴 천천히 돌아간다."
+    },
+    "limitations": [
+      "Procedural motion, not motion capture; small ankle-pivot whole-body lean.",
+      "Rigid straps and simplified anchor; no load or elasticity simulation.",
+      "Sampled clearance checks, not exhaustive collision certification."
+    ]
+  }
+}

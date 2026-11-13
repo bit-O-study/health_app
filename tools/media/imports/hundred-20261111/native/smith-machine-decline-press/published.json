@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-decline-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "774f07b71adec44c74837a5cf1e07e4d8563413aa09d561fa1b8d5e2d0b1ea37",
+  "rigSourceSha256": "7dff6e9593a2f733f4a1ebf40d816c41ac712117106a4bafe63e3daef172b012",
+  "videoSha256": "1dab9a2ae83495bb388315c59a4048d68e70f0bdad0b0bba57f0c4df2dbadccc",
+  "darkVideoSha256": "c045a38fc522651583a1c07d9ebe14458f5578e4bc1d5e4475865700217891cf",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84769,
+  "darkBytes": 61708,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:52:52.639Z"
+}

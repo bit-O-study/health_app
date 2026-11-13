@@ -1,0 +1,18 @@
+{
+  "id": "standing-cable-chest-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "fca3f9deded8602220394c97a11542940721274b66789083908713265e775b36",
+  "rigSourceSha256": "a78c135d534fadd69dc0d92043d92e3819d0d7ba2fbe180d5de8cbbe4f92dccd",
+  "videoSha256": "1308de1774f54da305930fa4d4d08e0839c2bb12c7b4bdcec352b2b60568c0c0",
+  "darkVideoSha256": "94c19d2e5e88aee11397b2dd28361bbd101593442ad823046e4493ffedb6a426",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 77743,
+  "darkBytes": 72065,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:11.514Z"
+}

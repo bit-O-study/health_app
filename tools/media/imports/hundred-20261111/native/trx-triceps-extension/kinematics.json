@@ -1,0 +1,21 @@
+{
+  "elbowForward": 0.5537365418061153,
+  "jointStep": 0.11610731910792957,
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 3.614624287906422e-15,
+  "handDrift": 7.793734002518813e-15,
+  "gripError": 5.9580819677934555e-15,
+  "strapLengthError": 7.105427357601002e-15,
+  "maxStep": 0.024347018483492036,
+  "bodyDescent": 1.1259449456038473,
+  "elbowRange": [
+    75.06124540102024,
+    166.27090060203744
+  ],
+  "kneeRange": [
+    173.83236709677163,
+    173.83236709677197
+  ],
+  "loopError": 0
+}

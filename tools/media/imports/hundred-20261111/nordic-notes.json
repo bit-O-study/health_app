@@ -1,0 +1,13 @@
+{
+  "nordic-hamstring-curl": {
+    "checks": {
+      "exercise": "Limited-range Nordic curl with a 45-degree forward lean from the knees.",
+      "equipment": "Padded knee support and anchored ankle roller visible.",
+      "setup": "Front and side eight-frame sheets inspected; hips remain extended and trunk aligned.",
+      "hands": "Hands held forward ready for support; no hand push-off in this limited-range version.",
+      "feet": "Both knees and ankles fixed; feet extend behind the ankle restraint.",
+      "movement": "Controlled lean and return as one aligned trunk/thigh segment, continuous loop."
+    },
+    "limitations": ["Limited 45-degree unassisted range; not full eccentric-to-floor or hand-assisted return.", "Knee skin support gap up to 0.065 model units; ankle gap about 0.023; padded supports are rigid.", "Sampled geometry is not complete mesh collision or biomechanics certification."]
+  }
+}

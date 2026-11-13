@@ -1,0 +1,28 @@
+{
+  "trx-chest-press": [
+    {
+      "file": "tools/media/motion-guides/trx-chest-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-chest-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-chest-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-chest-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-chest-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-chest-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

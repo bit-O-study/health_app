@@ -1,0 +1,18 @@
+{
+  "id": "fire-hydrant",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d17df3e33eb3c1b4b505ff39b18da4bf3bc5f8b7bca2ed40eb5c0fc0c075bb87",
+  "rigSourceSha256": "924f8f2074c471618f5fc408d20864cd329138c3bf0ff24801836837cfb9bb5a",
+  "videoSha256": "210fbccbdee0e10c37aa5298f1459f5e9cb8fd70a2e8d26f7bde4f8c01d20395",
+  "darkVideoSha256": "5e2da2f3467879472e79f0c751677ff0cbafe62b28233fb7c307657a72a77435",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 55466,
+  "darkBytes": 52153,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:19:56.122Z"
+}

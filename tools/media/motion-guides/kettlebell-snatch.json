@@ -1,0 +1,15 @@
+{
+  "id": "kettlebell-snatch",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-snatch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strongfirst.com/mind-the-drop-tame-the-arc-for-better-snatches/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:48:16.143Z"
+}

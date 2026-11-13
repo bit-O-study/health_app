@@ -1,0 +1,17 @@
+{
+  "skater-jump": {
+    "checks": {
+      "exercise": "Alternating lateral skater bounds",
+      "equipment": "Bodyweight",
+      "setup": "상체를 조금 앞으로 기울이고 한쪽 무릎을 굽혀 체중을 싣는다. 반대발은 몸 뒤쪽으로 들어 둔다.",
+      "hands": "Reciprocal bent-arm swing assists balance",
+      "feet": "One foot supports each landing; free foot stays behind and above floor",
+      "movement": "지지 다리로 바닥을 밀어 옆으로 뛰고 반대발로 부드럽게 착지한다. 착지한 무릎과 엉덩이를 굽혀 균형을 잡은 뒤 반대 방향으로 반복한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Two slowed lateral bounds in eight seconds with balance pauses.",
+      "No impact force simulation or exhaustive collision certification."
+    ]
+  }
+}

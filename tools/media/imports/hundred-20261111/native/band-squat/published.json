@@ -1,0 +1,18 @@
+{
+  "id": "band-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "79e2254ec5a4f9f8af5fdc9d1c964b79caaf471ab76e2421079f5d29533c20f3",
+  "rigSourceSha256": "dc4509e0bff8ce5be1690fb98bc3d7bf9563e1f40aa1e31b04285d30725f88b3",
+  "videoSha256": "e1d571454c1c12eb29085691153801b4713f87a78a10339d0ff9200bf48162d0",
+  "darkVideoSha256": "71bf5906eedcbe4cab161ea97414731d77ad259b0c6195718ac54a0fbdc2854a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 132443,
+  "darkBytes": 132354,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:57:35.462Z"
+}

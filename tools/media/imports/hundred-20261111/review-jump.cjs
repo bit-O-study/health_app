@@ -1,0 +1,11 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+const base='tools/media/imports/hundred-20261111',id='jump-squat',dir=base+'/native/'+id;
+const read=f=>JSON.parse(fs.readFileSync(f)),sha=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex'),write=(f,x)=>fs.writeFileSync(f,JSON.stringify(x,null,2)+'\n');
+assert.equal(read(dir+'/kinematics.json').status,'numeric-checks-passed');
+const batch=read(base+'/batch.json'),e=batch.entries.find(e=>e.id===id);
+assert.equal(e.status,'motion-preview');
+const limitations=['Procedural slowed demonstration, not real-time jump dynamics.','Virtual floor support has 0.032–0.058 model-unit clearance; no visible floor.','Seventeen geometry samples do not certify full mesh collisions or human biomechanics.'];
+const review={reviewedAt:new Date().toISOString(),status:'preview-approved',checks:{exercise:'Bodyweight squat jump with dip, vertical takeoff and flexed-knee landing.',equipment:'No weights or equipment; fingers relaxed.',setup:'Front and side eight-frame sheets inspected; balanced symmetric stance.',hands:'Unloaded arms move for balance, no rigid weight grip.',feet:'Simultaneous takeoff; fixed toe support before takeoff and after landing; no forward drift.',movement:'Landing knee 136.8 degrees before compression; dip knee 76.6 degrees; loop continuous.'},limitations,artifacts:['full-sheet.png','side-sheet.png','poses.json','geometry.json','kinematics.json'].map(f=>({file:dir+'/'+f,sha256:sha(dir+'/'+f)}))};
+write(base+'/jump-preview-review.json',{[id]:review});e.numericChecks='passed';e.status='awaiting-final-review';e.recipe.limitations=limitations;write(base+'/batch.json',batch);
+let script=fs.readFileSync(base+'/prepare-pushup-publication.cjs','utf8').replaceAll("['decline-push-up','close-grip-push-up','wide-push-up']","['jump-squat']").replaceAll('pushups','jump');
+fs.writeFileSync(base+'/prepare-jump-publication.cjs',script);

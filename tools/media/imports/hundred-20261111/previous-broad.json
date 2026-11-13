@@ -1,0 +1,28 @@
+{
+  "broad-jump": [
+    {
+      "file": "tools/media/motion-guides/broad-jump.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/broad-jump.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/broad-jump-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/broad-jump.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/broad-jump-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/broad-jump-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

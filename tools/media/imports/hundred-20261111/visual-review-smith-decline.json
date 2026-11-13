@@ -1,0 +1,76 @@
+{
+  "smith-machine-decline-press": {
+    "checks": {
+      "exercise": "Smith decline chest press with elbow extension and vertical guided bar",
+      "equipment": "Thirty-degree decline bench, foot platform and Smith rails",
+      "setup": "스미스 머신 안에 디클라인 벤치를 놓고 머리가 낮아지도록 눕는다. 등과 머리를 받치고 양발을 지지대에 고정한 뒤 바를 어깨보다 넓게 잡는다.",
+      "hands": "Closed symmetric overhand grip fixed to bar",
+      "feet": "Fixed flat feet on elevated supported platform",
+      "movement": "바를 가슴 아래쪽 앞으로 천천히 내린다. 팔꿈치를 펴며 수직으로 밀어 올린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Bar stops approximately 0.11 model units above sampled torso surface; no chest bounce.",
+      "Bench entry/exit and rack unlocking omitted; sampled clearance, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:52:48.803Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/final.jpg",
+        "sha256": "f6c555fcc86096c83b6b677ed95cf57d1d5cac41a05f8030d1c8073036a35749"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/final-dark.jpg",
+        "sha256": "fde6d42be9d188f6ec2ac639be54cff24017c410e4bfb74053daf1c8f527a4eb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/full-sheet.png",
+        "sha256": "9db926b8dc59244901745b5fd3fb9f91b37287695911d88a9978416d9c74c6fb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/side-sheet.png",
+        "sha256": "176189046c43ac72746a955d2675a57ad9ebbb16e341fad8b1566bd54a875186"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/verification.json",
+        "sha256": "add4debea8e8da2022eec435bda81cfdb4513bf866336e32a3a1a87d80213faa"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/geometry.json",
+        "sha256": "43107e3f4201e4334d932e0afaba3eac4a21211ace3ef010e6658f7b7258d0c4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/kinematics.json",
+        "sha256": "e4dd2a7b8cfe500c67eccfd5d0040788e200bde5e111f14a76a9e5c03d7dc5e8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/provenance.json",
+        "sha256": "7dff6e9593a2f733f4a1ebf40d816c41ac712117106a4bafe63e3daef172b012"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/smith-machine-decline-press-alpha.webm",
+        "sha256": "150b4c72752d682ada7a8d7d3e1f3a5c5512b2a8e776c2878350117554d77c0c",
+        "bytes": 197348,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/smith-machine-decline-press.mp4",
+        "sha256": "1dab9a2ae83495bb388315c59a4048d68e70f0bdad0b0bba57f0c4df2dbadccc",
+        "bytes": 84769,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-decline-press/smith-machine-decline-press-dark.mp4",
+        "sha256": "c045a38fc522651583a1c07d9ebe14458f5578e4bc1d5e4475865700217891cf",
+        "bytes": 61708,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "jump-rope": {
+    "checks": {
+      "exercise": "Basic two-foot jump rope",
+      "equipment": "Jump rope with two handles; catalog equipment other",
+      "setup": "줄넘기 손잡이를 양손으로 잡고 두 발을 가깝게 둔다. 상체를 세우고 어깨에 힘을 빼며 무릎을 조금 굽힌다.",
+      "hands": "Closed grips follow handles with small wrist circles and elbows near torso",
+      "feet": "Synchronized low hops timed to each underfoot rope pass",
+      "movement": "손목을 작게 돌려 줄을 머리 위에서 앞으로 넘긴다. 줄이 발밑을 지날 때 양발로 낮게 뛰고 발 앞쪽으로 부드럽게 착지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Four slowed rope revolutions in eight seconds.",
+      "Rope is a driven arc without full flexible-rope or impact physics.",
+      "25 angular samples supplement 17 cycle samples; not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:57:14.471Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/full-sheet.png",
+        "sha256": "97dc091b3b444b5b660e7a184fe85d4274f75c766d2e90d3630e187f1facabe2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/side-sheet.png",
+        "sha256": "81ebfac717120115a8977189c91f532579f0194c1ddf32af9c09b857bfa91884"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/poses.json",
+        "sha256": "57537e840e1e2531eabdb6f99c3432a5e810a12dd116ab0b139c00ac8db53474"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/geometry.json",
+        "sha256": "3999731aed09d2cf6d462212d09a8c0d2fa794db57ffd1d2fb688e7b0d98b202"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/kinematics.json",
+        "sha256": "efe29a69c5ec9d11f3b818b79586fd3446962c9e6dd714f8417e38b05d63ebae"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),base='tools/media/imports/hundred-20261111',b=JSON.parse(fs.readFileSync(base+'/batch.json'));
+for(const id of ['band-squat','overhead-squat','thruster']){
+ const e=b.entries.find(e=>e.id===id);assert.equal(e.status,'awaiting-motion-implementation');
+ let m=fs.readFileSync(base+'/kettlebell-sumo-squat-motion.mjs','utf8'),s=fs.readFileSync(base+'/kettlebell-sumo-squat-studio.mjs','utf8');
+ m=m.replace(/export const exercises=.*?;/,'export const exercises='+JSON.stringify([id])+';');
+ m=m.replace('const phase=(1-Math.cos(2*Math.PI*(((frame%480)+480)%480)/480))/2;',`const t=((frame%480)+480)%480/480,ease=x=>{x=THREE.MathUtils.clamp(x,0,1);return x*x*x*(x*(x*6-15)+10);};
+ const phase=${id==='thruster'?'t<.35?ease(t/.35):t<.65?1-ease((t-.35)/.3):0':'(1-Math.cos(2*Math.PI*t))/2'};
+ const press=${id==='thruster'?'t<.5?0:t<.72?ease((t-.5)/.22):t<.82?1:1-ease((t-.82)/.18)':id==='overhead-squat'?'1':'0'};`);
+ m=m.replace('.2-4.35*phase','.32-4.6*phase').replace('sign*2.6','sign*1.8').replace('sign*22','sign*10').replace('rad(15*phase)','rad(10*phase)').replace('v([0,-1,0])','v([0,1,0])');
+ const start=m.indexOf('  const offset='),end=m.indexOf('  for(let f=2;',start);assert.ok(start>0&&end>start);
+ m=m.slice(0,start)+`  const offset=socket.clone().applyQuaternion(world),shoulder=pos(upper),grip=v([sign*${id==='overhead-squat'?4.3:id==='band-squat'?2.8:3.3},shoulder.y+.7+${id==='overhead-squat'?'5.0':'5.25'}*press,shoulder.z+1.6*(1-press)]);
+  ik(upper,elbow,wrist,grip.clone().sub(offset),v([sign*.4,-1,1]));mesh.updateMatrixWorld(true);byName[wrist].quaternion.copy(byName[wrist].parent.getWorldQuaternion(q()).invert().multiply(world));
+`+m.slice(end);
+ m=m.replace('grips.push({side,socket,grip,direction});','grips.push({side,socket,grip,direction,handleAxis:v([-sign,0,0])});');
+ s=s.slice(0,s.indexOf('const bell='))+`
+const steel=new THREE.MeshStandardMaterial({color:'#344b56',roughness:.5,metalness:.5}),rubber=new THREE.MeshStandardMaterial({color:'${id==='band-squat'?'#dd8641':'#202b34'}',roughness:.7}),rods=[];
+function rod(a,b,r,mat=steel){const d=b.clone().sub(a),o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,d.length(),24),mat);o.position.copy(a).add(b).multiplyScalar(.5);o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());scene.add(o);rods.push(o);return o;}
+const restPositions=bones.map(b=>b.position.clone());let grips=[],plateCenters=[];
+function pose(frame){for(let i=0;i<bones.length;i++){bones[i].quaternion.identity();bones[i].position.copy(restPositions[i]);}grips=applyMotion(exercise,0,{byName,dataByName,mesh},frame);mesh.updateMatrixWorld(true);skeleton.update();for(const r of rods){scene.remove(r);r.geometry.dispose();}rods.length=0;plateCenters=[];
+ ${id==='band-squat'?`for(const [i,g]of grips.entries()){const sign=i===0?1:-1;rod(g.grip.clone().add(new THREE.Vector3(-.55,0,0)),g.grip.clone().add(new THREE.Vector3(.55,0,0)),.12);rod(new THREE.Vector3(sign*1.8,-7.83,.5),g.grip,.07,rubber);}`:`const center=grips[0].grip.clone().add(grips[1].grip).multiplyScalar(.5);rod(center.clone().add(new THREE.Vector3(-6.7,0,0)),center.clone().add(new THREE.Vector3(6.7,0,0)),.12);for(const sign of [-1,1]){const p=center.clone().add(new THREE.Vector3(sign*5.8,0,0));plateCenters.push(p);rod(p.clone().add(new THREE.Vector3(-.24,0,0)),p.clone().add(new THREE.Vector3(.24,0,0)),1.15,rubber);}`}
+}
+window.renderSkinned=(frame=0,view='full',dark=false)=>{pose(frame);camera.zoom=.72;camera.position.set(view==='side'?32:17,4,view==='side'?0:30);camera.lookAt(0,2,0);camera.updateProjectionMatrix();scene.background=dark==='alpha'?null:new THREE.Color(dark?'#09090b':'#fafafa');renderer.setClearAlpha(dark==='alpha'?0:1);renderer.render(scene,camera);return canvas.toDataURL('image/png').split(',')[1];};
+window.inspectRunning=frame=>{pose(frame);const j={};for(const side of ['L','R'])for(const n of ['upperleg01','lowerleg01','foot','toe2-1','upperarm01','lowerarm01','wrist'])j[n+'.'+side]=byName[n+'.'+side].getWorldPosition(new THREE.Vector3()).toArray();for(const n of ['root','spine01','head'])j[n]=byName[n].getWorldPosition(new THREE.Vector3()).toArray();j.grips=grips.map(({side,socket})=>byName['wrist.'+side].localToWorld(socket.clone()).toArray());j.targets=grips.map(g=>g.grip.toArray());return j;};
+window.inspectGeometry=frame=>{pose(frame);let floor=Infinity,plateBody=100,shaftBody=100;const center=grips[0].grip.clone().add(grips[1].grip).multiplyScalar(.5);for(let i=0;i<geometry.attributes.position.count;i++){const p=mesh.applyBoneTransform(i,new THREE.Vector3().fromBufferAttribute(geometry.attributes.position,i));floor=Math.min(floor,p.y);for(const c of plateCenters){const x=Math.abs(p.x-c.x)-.24,y=Math.hypot(p.y-c.y,p.z-c.z)-1.15;plateBody=Math.min(plateBody,Math.hypot(Math.max(x,0),Math.max(y,0))+Math.min(Math.max(x,y),0));}if(Math.abs(model.vertices[3*i])<1.7)shaftBody=Math.min(shaftBody,Math.hypot(p.y-center.y,p.z-center.z)-.12);}return {floorClearance:floor+7.9,plateBody,shaftBody,gripError:Math.max(...grips.map(({side,socket,grip})=>byName['wrist.'+side].localToWorld(socket.clone()).distanceTo(grip)))};};
+window.renderSkinned(0);window.ready=true;
+`;
+ fs.writeFileSync(base+'/'+id+'-motion.mjs',m);fs.writeFileSync(base+'/'+id+'-studio.mjs',s);e.status='motion-preview';e.recipe={family:'loaded-squat',sourceUrls:[id==='band-squat'?'https://www.acefitness.org/resources/everyone/exercise-library/135/bodyweight-squat/':id==='thruster'?'https://www.crossfit.com/essentials/the-thruster':'https://www.crossfit.com/essentials/the-overhead-squat'],criteria:'Planted feet and controlled squat with '+(id==='band-squat'?'bands under feet and shoulder-height handles':id==='overhead-squat'?'wide overhead bar hold':'front rack, squat then overhead extension')+'.',sourcesCheckedAt:'2026-11-13'};
+}
+fs.writeFileSync(base+'/batch.json',JSON.stringify(b,null,2)+'\n');

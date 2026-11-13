@@ -1,0 +1,76 @@
+{
+  "prone-cobra": {
+    "checks": {
+      "exercise": "Prone cobra back extension, distinct from hand-supported cobra stretch",
+      "equipment": "No added equipment",
+      "setup": "엎드려 다리를 뻗고 양팔을 몸 옆에 둔다.",
+      "hands": "Open hands with thumbs oriented upward, reaching toward feet",
+      "feet": "Pelvis, legs and toes remain stationary",
+      "movement": "엄지가 위를 향하도록 손바닥을 바깥으로 돌리고 팔을 발 쪽으로 뻗으며 가슴을 조금 든다. 잠시 유지한 뒤 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural spinal extension of 2–20 degrees, not motion capture.",
+      "Three-second illustrated hold within the eight-second loop; not a prescribed training duration.",
+      "Virtual floor clearances and sampled geometry; no tissue compression or complete collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:18:25.184Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/final.jpg",
+        "sha256": "2957d28cec125b67c0d953fd0788d6f35e83440b5e3bf23c1c1123852d731a7e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/final-dark.jpg",
+        "sha256": "dc739d1c78b6cf72de8377b4e2f2a6defa02394fbc36efa1a62838e9770359c0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/full-sheet.png",
+        "sha256": "24116a78ce6c6bb6873e1de192d72520c5b30f0e0fe3b2c193a287ab32ca6622"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/side-sheet.png",
+        "sha256": "2fb8effb4853e6d48d5b69211499f92be4f8819ba59f4bd37d0fa53dd41f503c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/verification.json",
+        "sha256": "b0ca80aabe7c223733b605ec2d25d9ab0c17f38aa81a382291228344502a781e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/geometry.json",
+        "sha256": "edf51b2544a81f4f4f151e14b1ad7e278ee628dec152591f6543b16f95f3c43f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/kinematics.json",
+        "sha256": "83cc36101d416aebba77c07796b0a00d7fa62d6208d303ee9302ff012e0470d8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/provenance.json",
+        "sha256": "845b1ca71a7e2290957ecf51fd029790699b4a52f8d548eb67d03ffafd180a37"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/prone-cobra-alpha.webm",
+        "sha256": "91874f96857f45761493f61a5ff91c77d1752a93fe519faab0e65fb385a761fd",
+        "bytes": 107958,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/prone-cobra.mp4",
+        "sha256": "810e80a286c7e5bf68c573ced0b57f3d01239d88231e567f79011ae9d8c652a2",
+        "bytes": 50107,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/prone-cobra-dark.mp4",
+        "sha256": "77dc2b62dc7f62034db8daf3d841aadf100f6ba22094834c2fd309ab457ef5f6",
+        "bytes": 50128,
+        "decode": "passed"
+      }
+    ]
+  }
+}

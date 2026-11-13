@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-12T10:05:08.023Z",
+  "report": [
+    {
+      "id": "kettlebell-swing",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

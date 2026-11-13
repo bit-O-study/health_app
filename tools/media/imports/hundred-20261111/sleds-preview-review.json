@@ -1,0 +1,82 @@
+{
+  "sled-push": {
+    "checks": {
+      "exercise": "Forward sled push",
+      "equipment": "Plate-loaded sled with two upright handles",
+      "setup": "슬레드의 양쪽 기둥을 잡고 상체를 앞으로 기울인다. 복부에 힘을 주고 허리를 길게 유지한다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "양발로 바닥을 번갈아 밀며 슬레드를 앞으로 이동시킨다. 손잡이를 계속 잡고 몸통의 기울기를 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Camera follows the athlete and sled; no floor is rendered.",
+      "Two slowed gait cycles in eight seconds.",
+      "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+    ],
+    "reviewedAt": "2026-11-13T14:12:48.712Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/full-sheet.png",
+        "sha256": "b0d40ad3710e5735007709b57ce0cf4f6798041a4f9a3cf20b1aee651da0d96b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/side-sheet.png",
+        "sha256": "f110553c40447079ade9bc7b749fd73bb21296124608e9ebbd5f3a35777f1481"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/poses.json",
+        "sha256": "b0107875df2397817978658d12f20eda0521641dbd5f7d72c326be4cfab294ea"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/geometry.json",
+        "sha256": "fe2235f5d603caa74c9111133e3629c1c6f8d2ed19c73620acf9b08b10b242f8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-push/kinematics.json",
+        "sha256": "e618aed45e5a58dba7efd8fdfc08d667b9c147dcb3fc99a0537155f4514618a4"
+      }
+    ]
+  },
+  "sled-pull": {
+    "checks": {
+      "exercise": "Backward sled drag",
+      "equipment": "Plate-loaded sled and two strap handles",
+      "setup": "슬레드를 바라보고 양손으로 스트랩 손잡이를 잡는다. 무릎을 살짝 굽히고 몸통을 안정적으로 세운다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "짧은 보폭으로 뒤로 걸으며 슬레드를 당긴다. 양발을 번갈아 딛고 스트랩의 장력을 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Camera follows the athlete and sled; no floor is rendered.",
+      "Two slowed gait cycles in eight seconds.",
+      "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+    ],
+    "reviewedAt": "2026-11-13T14:12:48.718Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/full-sheet.png",
+        "sha256": "bf29a931f7076caeaaf544576f88a37dee302a899a489ce02033245a5ead7fb1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/side-sheet.png",
+        "sha256": "3029e4208cbb77584c53f069d76d92870c40a91757f1210c284facde74e1256a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/poses.json",
+        "sha256": "af3fa09e4ee4446644552b92db11a9fd3ab472c9ffc1750bec496ded9e826ab2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/geometry.json",
+        "sha256": "57234a2a8c60aa9f3dbfd8b3ced0d6c95d79e5aaf4ea1b8fe333d8225f96bb39"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/sled-pull/kinematics.json",
+        "sha256": "35887e6ce7f903529c7ff937d3be8eb2c69457f0aec734e8ff96816715fef73e"
+      }
+    ]
+  }
+}

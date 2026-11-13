@@ -1,0 +1,18 @@
+{
+  "id": "sled-push",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6aaff4e6d4b59824e34737b20632513ebf809f370c27b83ae2f3883717c83acd",
+  "rigSourceSha256": "62309df670539924563487877a3f5afdefdfb71b730cd0c338589097ff7ffd4d",
+  "videoSha256": "63cf66516121299a86435dd4d9ef0e956cc96f5f393cf7c09a4c29f2f1ea17e3",
+  "darkVideoSha256": "cb3131a0678ca6f33243f589ea880dbf5a46b107153a17d004a9510011559841",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78665,
+  "darkBytes": 75556,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:14:55.917Z"
+}

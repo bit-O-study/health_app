@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-12T09:47:14.440Z",
+  "report": [
+    {
+      "id": "jump-squat",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

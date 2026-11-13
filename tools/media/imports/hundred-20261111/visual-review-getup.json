@@ -1,0 +1,76 @@
+{
+  "turkish-get-up": {
+    "checks": {
+      "exercise": "Turkish get-up with return",
+      "equipment": "One kettlebell",
+      "setup": "누워서 케틀벨을 한 손으로 가슴 위에 들고 팔을 편다. 같은 쪽 무릎을 굽혀 발을 바닥에 두고 반대쪽 다리를 길게 뻗는다.",
+      "hands": "Closed vertical loaded grip; opposite elbow then hand support",
+      "feet": "Loaded-side foot remains fixed; opposite leg sweeps to kneeling and steps in",
+      "movement": "반대 팔꿈치와 손으로 차례로 바닥을 지지하며 상체를 세운다. 엉덩이를 들고 뻗은 다리를 뒤로 옮겨 반무릎 자세를 만든 뒤 일어선다. 역순으로 누운 자세까지 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Eight-second illustrated sequence; real practice should pause at each stable position.",
+      "Floor-aware joint placement and 49 sampled clearance checks; not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T15:14:26.437Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/final.jpg",
+        "sha256": "588c935ab31501060b5ff4c223f3f5f4a837d5623bc2a65d57e57f3c74b7314f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/final-dark.jpg",
+        "sha256": "9aaf5f41c3c524000f7475e75c381656dfa86ff3b80eed8dfa79029f7b65f69c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/full-sheet.png",
+        "sha256": "7cd38e797c6e95c93636fbd7cac69c9d739555361ca8383bab6bb86f66afa839"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/side-sheet.png",
+        "sha256": "12842e17775f0d24c8899dec83789d384bc081298e2339af9d76075956877248"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/verification.json",
+        "sha256": "815ba8de900166711dab4c02d0bf00fae3cce822e8773a2f56b924ea2aee4455"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/geometry.json",
+        "sha256": "e85fa54968ae4a59e2f0aa157b7ee710c3b59795728bb939582706eeaea01639"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/kinematics.json",
+        "sha256": "3cbca1990d60ca235eb99785d9d4876e05c96c55105a9a31ccc08dafdb755c92"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/provenance.json",
+        "sha256": "f25fe3b208b4197de4ad273daed9684b67d75bc5da568be65ce1fb47c810b4dc"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/turkish-get-up-alpha.webm",
+        "sha256": "ea4a38a4a32e0318a0805e30e0141bc734ed078d85082b8ea2bfc5fc1dcc95de",
+        "bytes": 350499,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/turkish-get-up.mp4",
+        "sha256": "384bbc4d0f2748c665fc8fb7a935a9122bb114f97d57ba1a0d03990f3de8d929",
+        "bytes": 141685,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/turkish-get-up/turkish-get-up-dark.mp4",
+        "sha256": "dcc4d5ef5a145166696dcede8215dd730a94f0bb45330ac7079f1847a062cd34",
+        "bytes": 132340,
+        "decode": "passed"
+      }
+    ]
+  }
+}

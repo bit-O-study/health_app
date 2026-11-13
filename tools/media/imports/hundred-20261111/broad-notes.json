@@ -1,0 +1,17 @@
+{
+  "broad-jump": {
+    "checks": {
+      "exercise": "Standing broad jump with walking reset",
+      "equipment": "Bodyweight",
+      "setup": "두 발을 골반 너비 정도로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing into countermovement and forward arm swing during flight",
+      "feet": "Both feet leave and land together; four alternating backward steps reset the loop",
+      "movement": "팔을 앞으로 휘두르며 양발로 바닥을 밀어 앞으로 뛴다. 두 발로 함께 착지하고 무릎과 엉덩이를 굽혀 충격을 받는다. 균형을 잡고 걸어서 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "One moderate-distance jump and four reset steps in eight seconds.",
+      "No impact-force simulation or exhaustive collision certification."
+    ]
+  }
+}

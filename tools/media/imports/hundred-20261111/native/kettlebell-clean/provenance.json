@@ -1,0 +1,244 @@
+{
+  "id": "kettlebell-clean",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/kettlebell-clean-studio.mjs",
+      "sha256": "ae11d440a8b1d3f858444ddd228907fb8fbbbc6dec98f48eefd8f6f36998dd24"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/kettlebell-clean-motion.mjs",
+      "sha256": "c7081ac850693adbfafc00e7b73e3b701880cb4461a495b6fe8990cc0bf6bc47"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "kb-lifts",
+    "sourceUrls": [
+      "https://www.strongfirst.com/an-olympic-weightlifting-approach-to-coaching-the-kettlebell-clean/"
+    ],
+    "criteria": "One-arm hip-driven clean to front rack.",
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed hang-start teaching variation; no full ballistic backswing.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.6328880604141217,
+      "bellFloor": 2.859830272536348
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.6328880670512637,
+      "bellFloor": 3.0949301719401214
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.6246767733776232,
+      "bellFloor": 4.071801850770505
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.5791725858405469,
+      "bellFloor": 5.241445457559024
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.03249402008056457,
+      "bellBody": 0.607014316307804,
+      "bellFloor": 5.894389223840006
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.03249402008056368,
+      "bellBody": 0.6184044480334764,
+      "bellFloor": 6.269553444372179
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.03249402008056723,
+      "bellBody": 0.43764026565827685,
+      "bellFloor": 9.364640169465629
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.03249402008056368,
+      "bellBody": 0.9479384550473063,
+      "bellFloor": 11.910113818759969
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.03249402008056368,
+      "bellBody": 0.9851318469839888,
+      "bellFloor": 12.003332234147143
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.9851318467013407,
+      "bellFloor": 12.063374741732323
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.03249402008056457,
+      "bellBody": 0.9851318452133145,
+      "bellFloor": 12.379557338922615
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.032494020080566344,
+      "bellBody": 0.9851318447168701,
+      "bellFloor": 12.485050000000001
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.032494020080566344,
+      "bellBody": 0.9851318447168701,
+      "bellFloor": 12.485050000000001
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.032494020080566344,
+      "bellBody": 0.2576282931539927,
+      "bellFloor": 9.988871372985841
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.032494020080566344,
+      "bellBody": 0.6325855629586802,
+      "bellFloor": 5.989462992500959
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.575295918791961,
+      "bellFloor": 4.687680121865235
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.6328880604141217,
+      "bellFloor": 2.859830272536348
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 5.639506780706364e-15,
+    "gripError": 1.1791383911365253e-14,
+    "maxStep": 0.21795271024486948,
+    "topElbow": 40.258736881842246,
+    "handAboveShoulder": 0.7000000000000011,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      38.74558704747362,
+      172.15594073973804
+    ],
+    "alpha": {
+      "transparent": 41486609,
+      "opaque": 2164935,
+      "partial": 585256,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/kettlebell-clean/source.jpg",
+    "sha256": "e5ab2aa6f099af37a174557dbb63f82fb883e0e3551df233e0914c819d725729",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration, not captured human motion. Slowed hang-start teaching variation; no full ballistic backswing. Sampled clearance checks, not exhaustive collision or biomechanical validation."
+}

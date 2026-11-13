@@ -1,0 +1,47 @@
+{
+  "single-arm-machine-chest-press": {
+    "checks": {
+      "exercise": "single-arm-machine-chest-press front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "좌우 레버가 독립적으로 움직이는 머신에 앉아 등과 양발을 지지하고 손잡이를 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 손잡이를 가슴 앞쪽으로 밀었다가 천천히 돌아온다"
+    },
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ]
+  },
+  "single-arm-machine-shoulder-press": {
+    "checks": {
+      "exercise": "single-arm-machine-shoulder-press front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "독립 레버 숄더 프레스 머신에 앉아 등을 기대고 손잡이를 어깨 옆에서 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 손잡이를 머리 위로 밀어 올렸다가 천천히 돌아온다"
+    },
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ]
+  },
+  "single-arm-pec-deck-fly": {
+    "checks": {
+      "exercise": "single-arm-pec-deck-fly front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "독립 레버 펙덱 머신에 앉아 팔꿈치를 굽히고 전완을 패드에 댄 뒤 손잡이를 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 팔의 굽힘을 유지한 채 패드를 가슴 앞쪽으로 모았다가 천천히 돌아온다"
+    },
+    "limitations": [
+      "Slow procedural left-arm demonstration; right side is not animated.",
+      "Simplified lever and stack geometry, not a specific commercial machine.",
+      "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+    ]
+  }
+}

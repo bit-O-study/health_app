@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-machine-chest-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "70055915e8a84d7582a29a16149fcca66a570563dab198d52ccffebf2bfd1fbb",
+  "rigSourceSha256": "626049bd671df940930087565d9e697af0d646794cf379315acaae824d06d154",
+  "videoSha256": "4ae476b08672121c8d81842f8d01e09966dfb16b62ae23308a8c7a08317772e2",
+  "darkVideoSha256": "275674e384057470d37e67b3d251e6df7ac44e5a0670b487454297d075bf8e0d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 62841,
+  "darkBytes": 59314,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:26:11.536Z"
+}

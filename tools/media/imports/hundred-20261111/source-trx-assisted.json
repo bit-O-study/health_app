@@ -1,0 +1,12 @@
+{
+  "trx-squat": {
+    "equipment": "trx",
+    "url": "https://www.trxtraining.com/blogs/news/trx-is-functional-fitness",
+    "criteria": "Two-foot planted squat facing fixed suspension anchor."
+  },
+  "trx-lunge": {
+    "equipment": "trx",
+    "url": "https://www.trxtraining.com/blogs/news/trx-is-functional-fitness",
+    "criteria": "Assisted grounded split-stance lunge facing fixed suspension anchor."
+  }
+}

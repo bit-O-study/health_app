@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose bodyweight jump squat, arms crossed, squat to parallel, both feet visibly airborne, soft landing, return to standing",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/bodyweight-jump-squat.html"
+  ],
+  "panels": 8,
+  "cycle": "full",
+  "id": "jump-squat",
+  "registeredAt": "2026-09-13T12:50:52.112Z"
+}

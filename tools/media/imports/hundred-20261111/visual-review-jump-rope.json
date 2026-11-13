@@ -1,0 +1,77 @@
+{
+  "jump-rope": {
+    "checks": {
+      "exercise": "Basic two-foot jump rope",
+      "equipment": "Jump rope with two handles; catalog equipment other",
+      "setup": "줄넘기 손잡이를 양손으로 잡고 두 발을 가깝게 둔다. 상체를 세우고 어깨에 힘을 빼며 무릎을 조금 굽힌다.",
+      "hands": "Closed grips follow handles with small wrist circles and elbows near torso",
+      "feet": "Synchronized low hops timed to each underfoot rope pass",
+      "movement": "손목을 작게 돌려 줄을 머리 위에서 앞으로 넘긴다. 줄이 발밑을 지날 때 양발로 낮게 뛰고 발 앞쪽으로 부드럽게 착지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Four slowed rope revolutions in eight seconds.",
+      "Rope is a driven arc without full flexible-rope or impact physics.",
+      "25 angular samples supplement 17 cycle samples; not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T14:00:36.724Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/final.jpg",
+        "sha256": "560ec96aba4fbe386a5c681b16ebffaed73a539efae2e07c35dea59342d2f54d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/final-dark.jpg",
+        "sha256": "e206fdd15ec9e9bf4e23a136917654f457273e036a50d6f758ca5b427f582b4e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/full-sheet.png",
+        "sha256": "97dc091b3b444b5b660e7a184fe85d4274f75c766d2e90d3630e187f1facabe2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/side-sheet.png",
+        "sha256": "81ebfac717120115a8977189c91f532579f0194c1ddf32af9c09b857bfa91884"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/verification.json",
+        "sha256": "d8ff898418a6edc500f9e764ac129e827e9c6090b2b1ecd92ee05a9ca2eae61c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/geometry.json",
+        "sha256": "3999731aed09d2cf6d462212d09a8c0d2fa794db57ffd1d2fb688e7b0d98b202"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/kinematics.json",
+        "sha256": "efe29a69c5ec9d11f3b818b79586fd3446962c9e6dd714f8417e38b05d63ebae"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/provenance.json",
+        "sha256": "18f8372820ed1bad19fdceba819df6658374dad10f9d8f88d0aba9091d4c708d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/jump-rope-alpha.webm",
+        "sha256": "997e95897972d29f3768e8520658d0f25430c1148c3fa8aac5b26ddbd5c2add2",
+        "bytes": 384674,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/jump-rope.mp4",
+        "sha256": "4e2d247ccec6b07824b9224eae4753d1cb1a8e9262bc3aa67d60ffe1fa65f19b",
+        "bytes": 164159,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/jump-rope/jump-rope-dark.mp4",
+        "sha256": "e2386415b23761efde01ae3e70e332683ecc680604ecdfa73cf64632e992a10c",
+        "bytes": 171316,
+        "decode": "passed"
+      }
+    ]
+  }
+}

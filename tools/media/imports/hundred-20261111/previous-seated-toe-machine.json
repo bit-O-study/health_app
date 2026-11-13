@@ -1,0 +1,34 @@
+{
+  "seated-toe-raise": [
+    {
+      "file": "tools/media/motion-guides/seated-toe-raise.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-seated-toe-machine/seated-toe-raise-0.json",
+      "sha256": "d48b6cae47f665e35126885a52a9f7f8466ebc5b12d279ea954b3202a550d70b"
+    },
+    {
+      "file": "tools/media/motion-guides/seated-toe-raise.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-seated-toe-machine/seated-toe-raise-1.jpg",
+      "sha256": "75dcddc2b779179ca7b3a100ec130e8dc0d98ae0c15220a72a699c9ba3945962"
+    },
+    {
+      "file": "tools/media/motion-guides/seated-toe-raise-provenance.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-seated-toe-machine/seated-toe-raise-2.json",
+      "sha256": "5c4f242e5b966834981cc225c8449160e025405d6cdf363ee6fad6ddbd2671a5"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-toe-raise.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-seated-toe-machine/seated-toe-raise-3.mp4",
+      "sha256": "f256f5acc6b4c3b5e5075847d321511ccd09b1cbbb0e4fd608657435089f56a6"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-toe-raise-dark.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-seated-toe-machine/seated-toe-raise-4.mp4",
+      "sha256": "25b38d2929b32fbd30dc2557fa03b1181ae7a629ad28f4a828a3fc0027b6e2b3"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-toe-raise-alpha.webm",
+      "backup": "tools/media/imports/hundred-20261111/backup-seated-toe-machine/seated-toe-raise-5.webm",
+      "sha256": "6ea31c17334b3f145741e36183e8fb87220d7d894d86640fc983fd4c6f5c629b"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "power-clean": [
+    {
+      "file": "tools/media/motion-guides/power-clean.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/power-clean.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/power-clean-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/power-clean.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/power-clean-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/power-clean-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hang-clean": [
+    {
+      "file": "tools/media/motion-guides/hang-clean.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hang-clean.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hang-clean-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hang-clean.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hang-clean-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hang-clean-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

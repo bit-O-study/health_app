@@ -1,0 +1,76 @@
+{
+  "scapular-pull-up": {
+    "checks": {
+      "exercise": "Scapular pull-up with small shoulder-girdle driven torso elevation",
+      "equipment": "Fixed overhead pull-up bar and support frame",
+      "setup": "철봉을 어깨너비 정도의 오버핸드로 잡고 팔을 편 채 매달린다.",
+      "hands": "Closed fixed overhand grips; elbows remain at 175 degrees",
+      "feet": "Feet suspended throughout; no horizontal swing",
+      "movement": "팔꿈치를 굽히지 않고 어깨를 귀에서 멀어지게 내려 몸통을 조금 들어 올린다. 천천히 매달린 자세로 돌아온다."
+    },
+    "limitations": [
+      "Shoulder-girdle glide approximated by clavicle translation; not anatomical scapular simulation or motion capture.",
+      "Five degrees retained elbow bend; 0.45 model-unit torso rise.",
+      "Sampled bar/body clearance, not exhaustive mesh collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:27:34.822Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/final.jpg",
+        "sha256": "073e12f6f7732b39a21bfabd8f6d13af2e9efa460b87d8f256d7abc4b75a4eb0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/final-dark.jpg",
+        "sha256": "c13f874eb6baf121af2ffea2403601b8ac442d02d56e24c20a8bfb64c664691b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/full-sheet.png",
+        "sha256": "39f12e6f841f4fbd704394249bb716a81bd3c10d12ea83a84acaeb08136a2a44"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/side-sheet.png",
+        "sha256": "ab129dc5156c6b09f88ad9a495c42e029171efd3b2728227eb1ab2a8086b1a0c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/verification.json",
+        "sha256": "f73d4714d6da25e9ddec47ed9cf9bba600644c8c7b3fc74dac58877dada24010"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/geometry.json",
+        "sha256": "46ac14713e876c853ecdcc6f318d3f210c38a7c58b650de5aa1454bb9787ec55"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/kinematics.json",
+        "sha256": "8883cb10a7c979e28de22daabc9027182f41b8d2801980c600c5fbac6f3b273e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/provenance.json",
+        "sha256": "b44e889c795a2c657190702946b5d7d6dc452142039aadb7a1184ea349211762"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/scapular-pull-up-alpha.webm",
+        "sha256": "da93a3180f1bec2750526cd2dc670b47cfdbb9cde64eb51b05a32318c16035e9",
+        "bytes": 115939,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/scapular-pull-up.mp4",
+        "sha256": "290dc9b707b59fcaf8677208f0dafea724897c08876b0f52f2410639c60accee",
+        "bytes": 50090,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/scapular-pull-up-dark.mp4",
+        "sha256": "00eb479262db4e031139ecb46135c0ae5937b40fb0fbe455a9b881fad1e398d5",
+        "bytes": 52437,
+        "decode": "passed"
+      }
+    ]
+  }
+}

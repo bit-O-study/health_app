@@ -1,0 +1,17 @@
+{
+  "trx-triceps-extension": {
+    "checks": {
+      "exercise": "Forward-leaning suspension triceps extension",
+      "equipment": "Rear overhead anchor, horizontal handles and constant-length straps",
+      "setup": "고정점을 등지고 양손으로 손잡이를 잡는다. 발을 고정하고 몸통을 곧게 유지한 채 팔을 앞으로 편다.",
+      "hands": "Closed overhand grips rotate through elbow flexion",
+      "feet": "Parallel planted feet; ankles pivot with the rigid body",
+      "movement": "팔꿈치를 앞으로 향하게 유지하며 굽혀 이마를 손잡이 쪽으로 가져간다. 팔 뒤쪽에 힘을 주어 팔꿈치를 펴고 몸을 밀어 돌아간다."
+    },
+    "limitations": [
+      "Procedural parallel-stance variation; source also demonstrates split stance.",
+      "Rigid straps and simplified frame; no load simulation.",
+      "Sampled body clearance, not exhaustive collision certification."
+    ]
+  }
+}

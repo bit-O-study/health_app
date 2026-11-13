@@ -1,0 +1,323 @@
+{
+  "id": "trx-biceps-curl",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/trx-biceps-curl-studio.mjs",
+      "sha256": "9a3a9d6817b3c9aa5d8d473d0379b75fdb95f3513b85e1116eb64ae173855dbe"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/trx-biceps-curl-motion.mjs",
+      "sha256": "3aef22c5557c6ecdeff19149edc0d2a23e97b33f8acc14a08ca05f92d58a8702"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "trx-biceps",
+    "sourceUrls": [
+      "https://www.trxtraining.com/blogs/news/5-trx-bicep-workouts-you-should-be-doing-daily"
+    ],
+    "criteria": "Supinated suspension biceps curl, elbows elevated, hands approach forehead, rigid body and fixed feet.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Procedural demonstration, not motion capture.",
+      "Rigid straps and simplified anchor; no load simulation.",
+      "Sampled clearances, not exhaustive collision certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 1.149311242633975,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.831026719408895e-15
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.154070326472185,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.831026719408895e-15
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 1.169187842416805,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 3.580361673049448e-15
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.1520861975456038,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.3322676295501878e-15
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.063021718417897,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 9.930136612989092e-16
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 0.9726742008279947,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.2560739669470201e-15
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 0.910692905431757,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 3.352800008858181e-15
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.03249402008056368,
+      "strapBody": 0.8770444459830242,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 2.8780270159990897e-15
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 0.8510064093277561,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 3.794299872214038e-15
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.03249402008056368,
+      "strapBody": 0.8770444459830247,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.6011864169946884e-15
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 0.9106929054317543,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 2.0350724194510405e-15
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 0.9726742008279934,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 2.3914935841127266e-15
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.063021718417898,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 2.0350724194510405e-15
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.1520861975456052,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 2.2644195468014703e-15
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.032494020080566344,
+      "strapBody": 1.1691878424168054,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 3.607797795906347e-15
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.032494020080565456,
+      "strapBody": 1.154070326472185,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.88411095042053e-15
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.03249402008056457,
+      "strapBody": 1.149311242633975,
+      "strapLengths": [
+        11.79025020938911,
+        11.79025020938911
+      ],
+      "gripError": 1.831026719408895e-15
+    }
+  ],
+  "kinematics": {
+    "elbowAboveShoulder": 0.06227618189584572,
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 3.66205343881779e-15,
+    "handDrift": 7.215595591812694e-15,
+    "gripError": 5.6348603740594776e-15,
+    "strapLengthError": 5.329070518200751e-15,
+    "maxStep": 0.012173512344112973,
+    "bodyRise": 0.9557214781533041,
+    "elbowRange": [
+      74.40587031423577,
+      160.01913021488156
+    ],
+    "kneeRange": [
+      173.83236709677163,
+      173.83236709677212
+    ],
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      74.40587031423577,
+      160.01913021488153
+    ],
+    "alpha": {
+      "transparent": 41456316,
+      "opaque": 2006909,
+      "partial": 773575,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/source.jpg",
+    "sha256": "168ded243cf465cd14b414dc49f39b0a791543184ac51023bb4ee3b0ea02af2a",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration, not motion capture. Rigid straps and simplified anchor; no load simulation. Sampled clearances, not exhaustive collision certification."
+}

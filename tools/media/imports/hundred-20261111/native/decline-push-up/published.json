@@ -1,0 +1,18 @@
+{
+  "id": "decline-push-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "93af25083f5478084e4f9d9a0ba50d6441bb9b974f6ac2c4ecd17fc30a280ce0",
+  "rigSourceSha256": "849ff1c1bddaf7072fb19599697a014eaa570ca64b26b4b54506b91393c13683",
+  "videoSha256": "84b97acd62bc75369ee793185831871434a370511d26ee524bdf7b17f04d0d52",
+  "darkVideoSha256": "598f8358f1607e719d7120db3aebf7eb6c97c62b3db4439ebe1197e287c8a9cb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 98078,
+  "darkBytes": 99309,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T09:33:00.732Z"
+}

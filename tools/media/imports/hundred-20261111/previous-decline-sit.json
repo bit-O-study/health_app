@@ -1,0 +1,32 @@
+{
+  "decline-sit-up": [
+    {
+      "file": "tools/media/motion-guides/decline-sit-up.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-decline-sit/decline-sit-up-0.json",
+      "sha256": "42791cc77b18a7c331d20eb4e7a8ba08240b244cdc0bd9ae982b2f96e33f15a1"
+    },
+    {
+      "file": "tools/media/motion-guides/decline-sit-up.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-decline-sit/decline-sit-up-1.jpg",
+      "sha256": "78a3ead6a4db6592107dfb6e1003df9f4d43a2add91c15324bd355601dc2fdb1"
+    },
+    {
+      "file": "tools/media/motion-guides/decline-sit-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-sit-up.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-decline-sit/decline-sit-up-3.mp4",
+      "sha256": "71476f17ff0b1c26470fabf72a4385aea141bb8e8afa70ae0d8c75a3d004d07d"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-sit-up-dark.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-decline-sit/decline-sit-up-4.mp4",
+      "sha256": "308a31a7ec3b9f7d752b0ee173eb38db4747fa43d54bdcb7540f0b19f4fe6b10"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-sit-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

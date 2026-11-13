@@ -1,0 +1,28 @@
+{
+  "smith-machine-split-squat": [
+    {
+      "file": "tools/media/motion-guides/smith-machine-split-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-split-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-split-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-split-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-split-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-split-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

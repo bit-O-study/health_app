@@ -1,0 +1,12 @@
+{
+  "kettlebell-clean": {
+    "equipment": "kettlebell",
+    "url": "https://www.strongfirst.com/an-olympic-weightlifting-approach-to-coaching-the-kettlebell-clean/",
+    "criteria": "One-arm hip-driven clean to front rack."
+  },
+  "kettlebell-snatch": {
+    "equipment": "kettlebell",
+    "url": "https://www.strongfirst.com/mind-the-drop-tame-the-arc-for-better-snatches/",
+    "criteria": "One-arm hip-driven snatch to overhead lockout."
+  }
+}

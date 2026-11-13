@@ -1,0 +1,8 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "maxStep": 0.022079583503715795,
+  "headRise": 1.4529148255188922,
+  "loopError": 0
+}

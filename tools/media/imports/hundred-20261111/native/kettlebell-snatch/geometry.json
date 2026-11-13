@@ -1,0 +1,104 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.6328880604141217,
+    "bellFloor": 2.859830272536348
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.6328880670512637,
+    "bellFloor": 3.0949301719401214
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.6246767733776232,
+    "bellFloor": 4.071801850770505
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.5791725858405469,
+    "bellFloor": 5.241445457559024
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.03249402008056457,
+    "bellBody": 0.607014316307804,
+    "bellFloor": 5.894389223840006
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.618404439637083,
+    "bellFloor": 6.0562213612302305
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.03249402008056723,
+    "bellBody": 0.38386978776309444,
+    "bellFloor": 12.740453787974072
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9403612092976202,
+    "bellFloor": 17.500658958205932
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9726576747607597,
+    "bellFloor": 17.50333223414714
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9726576748092318,
+    "bellFloor": 17.563374741732325
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.03249402008056457,
+    "bellBody": 0.9726576750644981,
+    "bellFloor": 17.879557338922613
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.032494020080566344,
+    "bellBody": 0.9726576751496675,
+    "bellFloor": 17.98505
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.032494020080566344,
+    "bellBody": 0.8708131523193791,
+    "bellFloor": 17.89760081598005
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.032494020080566344,
+    "bellBody": 0.5444931513945018,
+    "bellFloor": 9.390203560598898
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.032494020080566344,
+    "bellBody": 0.6327581358191546,
+    "bellFloor": 5.985168844343432
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.575295918791961,
+    "bellFloor": 4.687680121865235
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.6328880604141217,
+    "bellFloor": 2.859830272536348
+  }
+]

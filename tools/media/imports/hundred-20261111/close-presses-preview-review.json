@@ -1,0 +1,80 @@
+{
+  "squeeze-press": {
+    "checks": {
+      "exercise": "Distinct squeeze-press path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and flat bench with head support",
+      "setup": "평벤치에 등과 머리를 받치고 양발을 바닥에 둔 채 덤벨을 잡는다.",
+      "hands": "Neutral close grip with constant dumbbell spacing",
+      "feet": "Both feet, head and trunk fixed",
+      "movement": "손바닥이 서로 마주 보게 잡고 덤벨을 모은 채 가슴 위로 밀어 올렸다가 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not captured human movement or full collision certification.",
+      "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+      "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+    ],
+    "reviewedAt": "2026-11-13T02:46:23.531Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/full-sheet.png",
+        "sha256": "c35ef4535b329c129fb0d7307906dfa4f29aca5aa59b08da81bb794479b718fc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/side-sheet.png",
+        "sha256": "90f5c10b3b45aeabbb02319719aa16636699d07d336d9365ab403b1e6a104a86"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/poses.json",
+        "sha256": "1cec113dff9c2f3de1f3d5712d60c41ea18c85bb48f8d25ccc12755a85cb496c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/geometry.json",
+        "sha256": "20a0ef6a5db06c45df1f4d5593258b818366bc9ee9fd45b764e30c85478e17d7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/squeeze-press/kinematics.json",
+        "sha256": "01b1033c6ce6aeb36ddf2d1b44e33613ba7db86e889261484127ba9ee4119515"
+      }
+    ]
+  },
+  "tate-press": {
+    "checks": {
+      "exercise": "Distinct tate-press path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and flat bench with head support",
+      "setup": "평벤치에 등과 머리를 받치고 양발을 바닥에 둔 채 덤벨을 잡는다.",
+      "hands": "Outward elbows and inward folding forearms; dumbbells separated after correction",
+      "feet": "Both feet, head and trunk fixed",
+      "movement": "팔꿈치를 옆으로 벌리며 덤벨을 가슴 쪽으로 접어 내린 뒤 팔꿈치를 펴서 들어 올린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not captured human movement or full collision certification.",
+      "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+      "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+    ],
+    "reviewedAt": "2026-11-13T02:46:23.534Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/full-sheet.png",
+        "sha256": "729dfdcb64e522281b75a33adb318939b59b32fde4c4fa6a53fe9afcc2e59cae"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/side-sheet.png",
+        "sha256": "fa04ef8a30c63992d1fee71f0970f8133efd42d278bbbe1b2ad1a00a860c8b3b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/poses.json",
+        "sha256": "c9dc6361079dba94dd50ebf7d92464488855762ad241e54f52b3b2c559988c4c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/geometry.json",
+        "sha256": "84700670afd3548c7232fa76d5fffe883077f2d82ba43de779bc381a36e13e28"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/tate-press/kinematics.json",
+        "sha256": "8b146906d97f7a2581791e4199fbca81e2cfee93d1063b37cbfa10b2026120fa"
+      }
+    ]
+  }
+}

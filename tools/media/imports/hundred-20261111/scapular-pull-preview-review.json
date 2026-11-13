@@ -1,0 +1,41 @@
+{
+  "scapular-pull-up": {
+    "checks": {
+      "exercise": "Scapular pull-up with small shoulder-girdle driven torso elevation",
+      "equipment": "Fixed overhead pull-up bar and support frame",
+      "setup": "철봉을 어깨너비 정도의 오버핸드로 잡고 팔을 편 채 매달린다.",
+      "hands": "Closed fixed overhand grips; elbows remain at 175 degrees",
+      "feet": "Feet suspended throughout; no horizontal swing",
+      "movement": "팔꿈치를 굽히지 않고 어깨를 귀에서 멀어지게 내려 몸통을 조금 들어 올린다. 천천히 매달린 자세로 돌아온다."
+    },
+    "limitations": [
+      "Shoulder-girdle glide approximated by clavicle translation; not anatomical scapular simulation or motion capture.",
+      "Five degrees retained elbow bend; 0.45 model-unit torso rise.",
+      "Sampled bar/body clearance, not exhaustive mesh collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:24:54.848Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/full-sheet.png",
+        "sha256": "39f12e6f841f4fbd704394249bb716a81bd3c10d12ea83a84acaeb08136a2a44"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/side-sheet.png",
+        "sha256": "ab129dc5156c6b09f88ad9a495c42e029171efd3b2728227eb1ab2a8086b1a0c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/poses.json",
+        "sha256": "0cf395a285b50873b082492d162c85628b21687f138675148b99a9af1faa614a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/geometry.json",
+        "sha256": "46ac14713e876c853ecdcc6f318d3f210c38a7c58b650de5aa1454bb9787ec55"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/scapular-pull-up/kinematics.json",
+        "sha256": "8883cb10a7c979e28de22daabc9027182f41b8d2801980c600c5fbac6f3b273e"
+      }
+    ]
+  }
+}

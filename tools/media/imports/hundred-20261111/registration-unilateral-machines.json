@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-12T23:59:22.836Z",
+  "ids": [
+    "single-arm-machine-chest-press",
+    "single-arm-machine-shoulder-press",
+    "single-arm-pec-deck-fly"
+  ],
+  "files": 9,
+  "batchCompleted": 36,
+  "batchRemaining": 64,
+  "counts": {
+    "reviewed-both-themes": 437,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 878,
+    "legacy-needs-remake": 2
+  },
+  "tests": 5,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

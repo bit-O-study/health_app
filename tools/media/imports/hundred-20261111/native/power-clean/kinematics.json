@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 8.278841977527726e-15,
+  "gripError": 3.580361673049448e-15,
+  "maxStep": 0.2230925943467729,
+  "initialElbow": 167.26911742400134,
+  "catchKnee": 104.52021455097324,
+  "rackRise": 12.886047209529504,
+  "catchDip": 1.8,
+  "plateFloor": 0.0000027904704946735137,
+  "loopError": 0
+}

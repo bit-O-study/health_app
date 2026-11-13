@@ -1,0 +1,18 @@
+{
+  "leaning-cable-lateral-raise": {
+    "checks": {
+      "exercise": "One-arm leaning cable lateral raise",
+      "equipment": "Low pulley and moving stack; opposite hand holds frame attachment",
+      "setup": "낮은 풀리 옆에 서서 먼 쪽 손으로 손잡이를 잡고 반대손은 프레임을 잡는다. 두 발을 바닥에 둔 채 몸 전체를 기구 반대쪽으로 조금 기울인다.",
+      "hands": "Closed working grip; opposite grip fixed on vertical support",
+      "feet": "Both feet grounded throughout",
+      "movement": "몸의 기울기를 유지하며 작업 팔을 옆으로 들어 올린다. 팔꿈치를 살짝 굽힌 채 어깨 높이 부근에서 멈추고 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Fixed 12-degree lean and left-arm example; opposite side is not shown.",
+      "Cable lower-body clearance checked at sampled vertices; not exhaustive collision certification.",
+      "Idealized single-ratio cable system without friction."
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-cable-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cec8219486f713e2d14e86d22d97ec35a4d4e696353427eb618420a1c8124b74",
+  "rigSourceSha256": "d67d572af79e7d75ef4f9eb70612ef4b86241c8df75c7d5b78196764a3088422",
+  "videoSha256": "d4f4e1c9a4a342769f15a0f5027dbec6a6d59db1f1c902626b4b52d8a04a7435",
+  "darkVideoSha256": "6392aa6035f4dba94a1bfe1f950aa6519727be9b30d576dc79cf7cf6bd2d0f1a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 52743,
+  "darkBytes": 48867,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:07:07.187Z"
+}

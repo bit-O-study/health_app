@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-13T02:29:29.621Z",
+  "report": [
+    {
+      "id": "full-can-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "empty-can-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

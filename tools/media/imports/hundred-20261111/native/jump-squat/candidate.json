@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/jump-squat/jump-squat-alpha.webm",
+      "sha256": "1235f0ce51e2e3bd355a26a983620d254eaff4345a17f5de0983a7a174271ee4",
+      "bytes": 413220,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/jump-squat/jump-squat.mp4",
+      "sha256": "a3b7544abab5002a97d128219df9c0d0d2a5ce738913bdd845b98c2373912751",
+      "bytes": 158566,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/jump-squat/jump-squat-dark.mp4",
+      "sha256": "f0b99ff809e30f4a4acbaf76f09b7e9d24f359b0f3edfe7ebf0bb089c95e65c4",
+      "bytes": 161358,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/jump-squat-studio.mjs",
+      "sha256": "9d14f8c98f5e0598f8a1c79387b6fbbfc28af56e3737ab73935137ceff4f2165"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/jump-squat-motion.mjs",
+      "sha256": "5919653e16635bd6aa8d949ee20df3327a390a7dd978b83a164050558e883a7f"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

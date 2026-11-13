@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/standing-cable-reverse-fly-alpha.webm",
+      "sha256": "ec879d91fa56dc71173ec007eb7003cf09f2220443fd193970251e7a9323ae93",
+      "bytes": 192573,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/standing-cable-reverse-fly.mp4",
+      "sha256": "849f16fb795b53b77e5639933629012c1adfaaa4539fbc94ca7401282f65aaf4",
+      "bytes": 80260,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/standing-cable-reverse-fly-dark.mp4",
+      "sha256": "43034f491d02712c3eda5e6e4b300c5c025f25d71130cd0d9b633b02ad64f938",
+      "bytes": 75814,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/standing-cable-reverse-fly-studio.mjs",
+      "sha256": "b44ec5509e8f34dc887183befa3e63c09d03f21ca004b1a1a5d3ec476880e0f9"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/standing-cable-reverse-fly-motion.mjs",
+      "sha256": "c811aab1e8be382b9d9a47d17c561d79785067ccb7c93890ff5ade85ec0cf6af"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

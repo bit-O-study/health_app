@@ -1,0 +1,15 @@
+{
+  "id": "power-clean",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "power-clean-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nsca.com/education/articles/kinetic-select/power-clean/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:38:25.083Z"
+}

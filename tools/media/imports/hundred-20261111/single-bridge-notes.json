@@ -1,0 +1,17 @@
+{
+  "single-leg-glute-bridge": {
+    "checks": {
+      "exercise": "Single-leg glute bridge, bent raised-knee variation",
+      "equipment": "Bodyweight only",
+      "setup": "바로 누워 왼발을 바닥에 놓고 오른쪽 무릎을 굽혀 든다. 양손은 몸 옆 바닥에 두고 골반을 수평으로 유지한다.",
+      "hands": "Both open palms fixed beside body",
+      "feet": "Left sole planted, right foot lifted throughout",
+      "movement": "왼발로 바닥을 누르며 엉덩이를 들어 올린다. 허리를 과하게 젖히지 않고 천천히 내린다. 반대쪽도 같은 방법으로 실시한다."
+    },
+    "limitations": [
+      "Procedural left-leg example; repeat on opposite side.",
+      "Small floor clearances are sampled; no exhaustive collision certification.",
+      "Bent raised-knee variation with a controlled partial hip-extension range."
+    ]
+  }
+}

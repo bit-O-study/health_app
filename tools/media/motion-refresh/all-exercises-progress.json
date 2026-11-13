@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-11T02:22:24.190Z",
+  "updatedAt": "2026-11-13T15:15:06.014Z",
   "scope": "Catalog IDs; equivalent equipment/movement aliases require review before new generation. Reviewed themes are not physical-device or biomechanical certification.",
   "total": 1351,
   "counts": {
-    "reviewed-both-themes": 416,
-    "needs-motion-review": 23,
-    "needs-cutout-review": 15,
-    "needs-new-video": 895,
+    "reviewed-both-themes": 501,
+    "needs-motion-review": 17,
+    "needs-cutout-review": 14,
+    "needs-new-video": 817,
     "legacy-needs-remake": 2
   },
   "entries": [
@@ -164,10 +164,11 @@
       ],
       "registered": true,
       "legacyVideo": true,
-      "sourceSha256": "fe5d96da65edbd6e00c633e6fb0f1dde23cff6d2c9326a3829fa19a33a05fd5e",
-      "videoSha256": "f38a25130c84ef0c3c7437a92a6bd69c1ed42fc88c81d4642e7f796f15e1a432",
-      "darkVideoSha256": "a502b35e75760cc1ca8cc9a2940cea14e488ca41432dde905a40fca999a50471",
-      "status": "needs-motion-review"
+      "sourceSha256": "93af25083f5478084e4f9d9a0ba50d6441bb9b974f6ac2c4ecd17fc30a280ce0",
+      "videoSha256": "84b97acd62bc75369ee793185831871434a370511d26ee524bdf7b17f04d0d52",
+      "darkVideoSha256": "598f8358f1607e719d7120db3aebf7eb6c97c62b3db4439ebe1197e287c8a9cb",
+      "rigSourceSha256": "849ff1c1bddaf7072fb19599697a014eaa570ca64b26b4b54506b91393c13683",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "chest-dip",
@@ -813,10 +814,11 @@
       ],
       "registered": true,
       "legacyVideo": false,
-      "sourceSha256": "0b2d03a3c6b89f27ed8a5475051ed8fc5ab7b6857bfb800f61c24f9589eaeb37",
-      "videoSha256": "1b604c8f05919206f04ced2729d6b3553116d1d89632e26ba426e88e8f5d3cc4",
-      "darkVideoSha256": null,
-      "status": "needs-motion-review"
+      "sourceSha256": "951e5f184ed9ec84b9a15883c30846efccd1439d4c16d7ef817cf0e9dae21ce0",
+      "videoSha256": "860c55af0f96cf5e706e1ee8b993a51dbcd682e42a65d74f0db167f93a691bda",
+      "darkVideoSha256": "83d329e6bc92cef02293183fefd7ee9e4dba2ab9795b10ebc89efa69ded08179",
+      "rigSourceSha256": "406dfbf001b02a031652ae78e9584d842082c64772234af8b9963c86a4d297b0",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "glute-ham-raise",
@@ -839,10 +841,11 @@
       ],
       "registered": true,
       "legacyVideo": false,
-      "sourceSha256": "d9bc12f6fa32e9f3709c6b5e00de4ff58ab61598901cf0a78b38568c7d7bdb83",
-      "videoSha256": "da0db5106db680208127eb17b0516cff9fa4fcf18bdb91d238e95a28462c640e",
-      "darkVideoSha256": null,
-      "status": "needs-motion-review"
+      "sourceSha256": "9bed517aa45c2705b3bd501e410478d4fd3c22de2644af9695ff065dbb3b4e89",
+      "videoSha256": "a3b7544abab5002a97d128219df9c0d0d2a5ce738913bdd845b98c2373912751",
+      "darkVideoSha256": "f0b99ff809e30f4a4acbaf76f09b7e9d24f359b0f3edfe7ebf0bb089c95e65c4",
+      "rigSourceSha256": "44a020af0db2b612c89c1a2a19b2433f7bd0cd083d84298633ee75262fb0563e",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "barbell-curl",
@@ -1173,10 +1176,11 @@
       ],
       "registered": true,
       "legacyVideo": true,
-      "sourceSha256": "877f35734cc06951edfd2b960e528a525fbcdfe4537d66f6dbac12f6eadd24e2",
-      "videoSha256": "17a7ddea0145b8f55b5538a4cc2bc5b9e1f3c01c44d9a3454984d3724a67d657",
-      "darkVideoSha256": "ea1f27345f64ef262e8ed30f7b10d13f7cccb97f25a674ec900eb99f7ef9827e",
-      "status": "needs-motion-review"
+      "sourceSha256": "79361ac8b3d4beefdf4f496cba31143d32f0bd4e6440a2c2b2fb9256e9a0e3d9",
+      "videoSha256": "2e4bd484f6f740a961629a306e0a563aba717965f8e76686ab3818475f6696f8",
+      "darkVideoSha256": "0b609431e5962e7a817342f58ba2bc0823f66670ead2b34ceb81d978db7c425e",
+      "rigSourceSha256": "c06e71589d49d24981066e171033ec6962b37917d3e5f94475643a459c9b685c",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "plate-pinch",
@@ -1212,10 +1216,11 @@
       ],
       "registered": true,
       "legacyVideo": false,
-      "sourceSha256": "78a3ead6a4db6592107dfb6e1003df9f4d43a2add91c15324bd355601dc2fdb1",
-      "videoSha256": "71476f17ff0b1c26470fabf72a4385aea141bb8e8afa70ae0d8c75a3d004d07d",
-      "darkVideoSha256": "308a31a7ec3b9f7d752b0ee173eb38db4747fa43d54bdcb7540f0b19f4fe6b10",
-      "status": "needs-motion-review"
+      "sourceSha256": "c9c86b1600b2012d9a444ec3bf35824f057c94919055a807a971888ce82222f9",
+      "videoSha256": "d73bfc01d368578155fa52fb339f77a08ff43b0c839972680c65d2adc35a0dcf",
+      "darkVideoSha256": "dc33fee21417aca2450a0c9083b64921cbc1538be6327c25119cbbf0cf18a8d0",
+      "rigSourceSha256": "7168aa461543b3a74a2df7d71e16a36949cacfc3037cda3994a31a94523d232f",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "hanging-leg-raise-2",
@@ -1265,10 +1270,11 @@
       ],
       "registered": true,
       "legacyVideo": false,
-      "sourceSha256": "85695873e166007b135258463768730d581afde4022f57663dcbe86c1a0440d7",
-      "videoSha256": "28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff",
-      "darkVideoSha256": null,
-      "status": "needs-motion-review"
+      "sourceSha256": "3f23694bdc2fc2107278bb245cac0807a9dc1c5bfbe94e11a7316eb4bf118d00",
+      "videoSha256": "b93f7cc34249c75cc1f301ebafa26b554b598e27da3128125387f0b05f92dcd3",
+      "darkVideoSha256": "2f6af4a68b39c50996efc8b8a5ea78bb5ba47b46c9a401c70b005bb59787e9db",
+      "rigSourceSha256": "3040a7b1acd5a57e685fd515ad398d0fd7ddcdc253dffbb7bdcc9fb7fb2623ad",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "pallof-press-2",
@@ -1370,12 +1376,13 @@
       "equipment": [
         "kettlebell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "94eecf331a18df04f83a6b5110ea1be337113998d049fcaed7af8f3925be7136",
+      "videoSha256": "684ba733f2f0c09d264d8de98b3c189cbfad640eafad1df843a94709e3c8b37e",
+      "darkVideoSha256": "a8f912cea4b7fe3e6aadaacce7ae79b213a43cc59a90a8a7b7de10abe4efa6ac",
+      "rigSourceSha256": "342553f1306894abff2d6f70bc682dd314b843fe98e4d7ef28b0ba60f0f9d0d0",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "kettlebell-goblet-squat",
@@ -1396,12 +1403,13 @@
       "equipment": [
         "kettlebell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "e5ab2aa6f099af37a174557dbb63f82fb883e0e3551df233e0914c819d725729",
+      "videoSha256": "eb7f425380066b43d5d5159061a49241a64bb23bb0cab5e604938a19a472d486",
+      "darkVideoSha256": "c0c9892481b2e4eba8e9129a88600251d957bc8a39937d62dd07b280f0e13508",
+      "rigSourceSha256": "15944372718c318810b747c392ad179bf250593dc906bfd6af7c049dc35e4070",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "kettlebell-snatch",
@@ -1409,12 +1417,13 @@
       "equipment": [
         "kettlebell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "793deffcc33be9a2fad10c824eebb5e2e9515e9b9fad097b820ff00e4fb5fb74",
+      "videoSha256": "8217f6f6bebcae85822f8c7fa3c1f258a78c9ace73f3c32249a5dd71458af82a",
+      "darkVideoSha256": "8a2fe303733c8f2d011c58f06de22e20ec65410352e20ad26009c2b01f62ad14",
+      "rigSourceSha256": "1d4efa57d33f39cf8ecd8f146e9938eb5a0ba344e36224b9c9d617e361a18170",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "turkish-get-up",
@@ -1422,12 +1431,13 @@
       "equipment": [
         "kettlebell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "f1e53352598811db05f73099b62a410baa5360a68e2f08adae542eb57affe435",
+      "videoSha256": "384bbc4d0f2748c665fc8fb7a935a9122bb114f97d57ba1a0d03990f3de8d929",
+      "darkVideoSha256": "dcc4d5ef5a145166696dcede8215dd730a94f0bb45330ac7079f1847a062cd34",
+      "rigSourceSha256": "f25fe3b208b4197de4ad273daed9684b67d75bc5da568be65ce1fb47c810b4dc",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "kettlebell-press",
@@ -1449,12 +1459,13 @@
       "equipment": [
         "kettlebell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "2d6d3a2b267dd92be9367773c57420e0412f094bbe92b39a53218328d98af0ef",
+      "videoSha256": "b52fec376f055177e4b2745619bcf634298bdf8956a1f36fa26c4db4fcf9e05b",
+      "darkVideoSha256": "385f20e9a2e38a28cc6d820088ceb42dc48decc910fbdc56bfc51d164de601e8",
+      "rigSourceSha256": "d4f570d615ed1090fd01727b843bb26af17696234edaedf55a86f4f681185aef",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "kettlebell-deadlift",
@@ -1504,10 +1515,11 @@
       ],
       "registered": true,
       "legacyVideo": false,
-      "sourceSha256": "fc673ea2390adc917588c891bc06aea2477097a748157b09c35b610c388fd2a9",
-      "videoSha256": "66a189e8e2e0f3a70a7be6358c3bce0168bb95b07a16e91c58b4e49c809b1f95",
-      "darkVideoSha256": null,
-      "status": "needs-cutout-review"
+      "sourceSha256": "b2219e545ec6c6a6234f442af46dc7b0f4a36019b8bb3953033f59fedca6c86a",
+      "videoSha256": "72a52c30e4167f1f5cf8782dbcd3b973c33bfec228f0954c6b49fa44d1148ac1",
+      "darkVideoSha256": "0f720dbe8093520a6b1e4931abb594869c9ad6bf305069f51c350eaea9ba2b46",
+      "rigSourceSha256": "933aea74502fe0ffaf4ff2fc2c6c392b75bdb7eb408e6f02b027583f259c6188",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "trx-push-up",
@@ -1541,12 +1553,13 @@
       "equipment": [
         "trx"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "168ded243cf465cd14b414dc49f39b0a791543184ac51023bb4ee3b0ea02af2a",
+      "videoSha256": "9bd1fde43b5ffcff465d377d0d0e28c7bdb63ebf7734f8c92617b4d944d46b71",
+      "darkVideoSha256": "1f6712a1cadd860abc819e026a816bd349fef7b237e541309ce970a9853b65b1",
+      "rigSourceSha256": "5274b5f3ac1768d4bb9ad528a396656865274078bf50d7bcd531cb045a409ad1",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "trx-triceps-extension",
@@ -1554,12 +1567,13 @@
       "equipment": [
         "trx"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "ef9e5a4f894ef2fc185409e40ea9aa7642e6eff55656e9f9cb75722b274358ab",
+      "videoSha256": "a165c3009c91a7b86f02acf076c23de01a1acf3329fb068d9c67654cbf6908a4",
+      "darkVideoSha256": "8892efa8c0f75631c295d634d73c45da8c41b4c535ab36d5587bfc4bd3bbf727",
+      "rigSourceSha256": "2a75dd55a826409653371311e93a97b17a57e78b219591ff38d518013bde8a84",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "trx-lunge",
@@ -1567,12 +1581,13 @@
       "equipment": [
         "trx"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "d4563f82bd2dbfe079d81152dc07fbfd5b5961aa1a885cc95bdbb9e9044c49f4",
+      "videoSha256": "493086b933dcbd8cf99fc7feeba0ce069211f0f48f5dc949c8e6c0de2c2a23d3",
+      "darkVideoSha256": "4ebe55561cb42de0e3b45fb5f30881ddfe7947396caff58e2f707d87156946d0",
+      "rigSourceSha256": "8ef0ef6e3a27e2ddb3602b342d2ce8687b332c2bb426d99af5d00f083b762915",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "trx-hamstring-curl",
@@ -1580,12 +1595,13 @@
       "equipment": [
         "trx"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "934d586f79ae433df335063303a64a64d7ca0f79762ce856dfc71b799377504a",
+      "videoSha256": "54206311e6ec3eaa04dfcf91576d48f3f1c78d14bca64bbf5c17b49c130bea9a",
+      "darkVideoSha256": "adb8a2ac4113756f38ee6753e8159d2d1ceabdb78ac562c51d42b25c3606d6cb",
+      "rigSourceSha256": "c81d640ff99865d0cb0be99a110b55cbbdb80656669dd9b950c09644b67b5d6b",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "trx-chest-press",
@@ -1593,12 +1609,13 @@
       "equipment": [
         "trx"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "4c3785495be9aa08780b67d39e668d030ec95ee0e09a07ade24e1b205c967f69",
+      "videoSha256": "468faad678b250109d8eb1bf66182e7dea4bf0cb8593a891bf4360561af63cc7",
+      "darkVideoSha256": "9fff1d0a9a3af8ba7db17d6aad8f5c371289520ee1c975337689b884cccbc238",
+      "rigSourceSha256": "4a0ff4c3d93dafba31b2e10f36f96b1745962319ebd873be36133f09940b48ce",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-pull-apart",
@@ -1661,12 +1678,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "eed54c84efe8beb20f3952b3a14b519b2edce8eae9ff6aa338e9039739c2add4",
+      "videoSha256": "e7ee6f43524a29945046d43260479a88b15d59a410f47075c576df096ce216b1",
+      "darkVideoSha256": "171d66a95badf8907d7df9067d37632d5929ac4b27563d58d2c0e1a33f819943",
+      "rigSourceSha256": "a18db2f2bb2ad414bd1e4d16ed10d99a0b023b6d185fbc5ddfbebd7108e0432a",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-good-morning",
@@ -1688,12 +1706,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "3673dd7f1e5a4615b5e988822cf8a839fff00157d74de5cbddd0067f9b8a0226",
+      "videoSha256": "dad9b519115b57426183d8d74e0de7fc316b8d01e9ef5d07b7629be4424aa36f",
+      "darkVideoSha256": "cc526e4a2421271909ec1e403cd99fe73a9ea669c12b59d62beaa44b1f590817",
+      "rigSourceSha256": "f573eed7b5591a64f860ff6d535d919bdc232d7b5886a7449058a1e7626bf843",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-glute-bridge",
@@ -1740,12 +1759,13 @@
       "equipment": [
         "medicineball"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "a14698c0beb1de0f41e0bbcec5f439ad2e30f8f4677d57e947bcc03a91c028b3",
+      "videoSha256": "fe26bd94b261d9c6f94bf82113d7e65c4112c5465d688cd9b94ef5d51995d04f",
+      "darkVideoSha256": "bacfefbfa760534c8f39596d75b9bfa4328bd24b56ba646ef79902bbe0ee6ccb",
+      "rigSourceSha256": "4e88d0c76ee3d686584f83f2c3896605955cd397c7e002e1f4504de1367e880f",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "wall-ball",
@@ -1766,12 +1786,13 @@
       "equipment": [
         "battlerope"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "715a42660a40ecea2d90919a14bb588ccc265b11effa3337b37d119b88e13506",
+      "videoSha256": "7ea8e536e42e46d093ee02a16c5e40ef2f75e459e24abba40d558cfd313f2f74",
+      "darkVideoSha256": "34639f05f0b2640067833d3f47e540d7fab7e79d1d954a463bf733e5193ddb01",
+      "rigSourceSha256": "4048f59d349a170fc8bf99c0f7692c5fb3e9c1ffa322ccf26e5bfc81fed16ad1",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "sled-push",
@@ -1779,12 +1800,13 @@
       "equipment": [
         "sled"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "6aaff4e6d4b59824e34737b20632513ebf809f370c27b83ae2f3883717c83acd",
+      "videoSha256": "63cf66516121299a86435dd4d9ef0e956cc96f5f393cf7c09a4c29f2f1ea17e3",
+      "darkVideoSha256": "cb3131a0678ca6f33243f589ea880dbf5a46b107153a17d004a9510011559841",
+      "rigSourceSha256": "62309df670539924563487877a3f5afdefdfb71b730cd0c338589097ff7ffd4d",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "sled-pull",
@@ -1792,12 +1814,13 @@
       "equipment": [
         "sled"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "f2cb635be9b222f5eac32b12ddde60188163f89bfec1cc809514bcf02a9b2a1f",
+      "videoSha256": "cae90063b1b485b8902b0edefe19c19f9dcfd3d9a77e99a556ec1bffc2cd88c5",
+      "darkVideoSha256": "21477da9e969c61c9c36617e756626ecc753125934dd222618c62d27edc6dc79",
+      "rigSourceSha256": "c43f6b4edd0642e0f9270578f38959eef36d2ad4618cc2e5aaaae0bac1da64e1",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "bosu-squat",
@@ -1831,12 +1854,13 @@
       "equipment": [
         "ball"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "47d0a2bb47eaa96495dd49df8ac7b4e4fa8aab2b3c9e5ebf163eca5b4ce328c6",
+      "videoSha256": "4cc3ab4399192e417d28148b65875de1aeccd68353e2c2c5ab9543f1c3d7cbee",
+      "darkVideoSha256": "8db27548fb23a676cc00be9d5fae1d6eafc07df80967c49ef540caaa8b4c6aa7",
+      "rigSourceSha256": "394a486640fd98f953523f4c009730c937f870e5c5b1bb8283a84731c05271da",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "stability-ball-plank",
@@ -1857,12 +1881,13 @@
       "equipment": [
         "barbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "426dacfc961ea6b70e1774aa7796e7517aeaea9eb73b528d5a7e8c9945a6ed89",
+      "videoSha256": "ea72096c1f75a32b268e21870cfc18cbc0192f2a9f9b6ca51f8893f46f28f203",
+      "darkVideoSha256": "a327c38dfc436c64928f15e498e34c77d53e7b52f25c3ed378ffe6e779e72c85",
+      "rigSourceSha256": "018e82048cc8d870594a55982b6c5b73b31ee55ae849a9f37d83cd0a00d7e48f",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "hang-clean",
@@ -1870,12 +1895,13 @@
       "equipment": [
         "barbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "1e6caaba6477029dcd19076bb6c92065d9c608aa9e341c14282f47b3adfb14ee",
+      "videoSha256": "548d42189665143558dc6fb2c0a3ee697495526a995a3a71dae64e295ec8b573",
+      "darkVideoSha256": "c9674659b53b474c0227f98f8115be8ca37050128e81a4681ff11888907ca1cc",
+      "rigSourceSha256": "f945746c1ca77da2e92dbfc0524923d668d7664a99a7e6d62aeb561236ea258a",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "push-press",
@@ -1975,12 +2001,13 @@
       "equipment": [
         "barbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "790ba2c0bfe4df5a4b110a2de310dc75cdf79dc681858777971382639fedfb7c",
+      "videoSha256": "c36fe705ca2e10ff8426a9e8fc4fc242f10cfce9efa2d2e63a1631b36f6da4d9",
+      "darkVideoSha256": "353280b5c3afbcc3f8aa73df7a22ac651233de14b57c202d6561c2a9d4ee5cc4",
+      "rigSourceSha256": "f78134b158748564e84f762e6cf1735eb0f9631e8ff871ec2b0b59145843ca48",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "clean-pull",
@@ -2014,12 +2041,13 @@
       "equipment": [
         "barbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "928463255854852aeda3eabae9d1c9d19a4a8a5b5e38cdf665bdc69252ad7aeb",
+      "videoSha256": "979c3846f439c390810d6e30a51970633db298053f81f9e615b14c871cdd01d5",
+      "darkVideoSha256": "dc51736031c5a5052b1f65e40fbe607d171c64674ad2f6d1bfe962f5fa930b51",
+      "rigSourceSha256": "c5d58dcb5d15d0f26ac95dddd912c32afe621969af116f60ea72de1fee64255a",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "muscle-snatch",
@@ -2265,12 +2293,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "16247c744a66df69cb7fad2f19638849a91b6810eafd4c123ccd55e7230e92c8",
+      "videoSha256": "ef127dd1064b6446503f3a3697248241d1631dfbee835a0237d951299bc4c127",
+      "darkVideoSha256": "1cfafdbdf487262b088d316be2f0bbaa9294aa79aabf213998eb1bf95aa3c0c8",
+      "rigSourceSha256": "e6363d4db34d12aa355c6ca0f8db4556f081dbb0770f2da8b9ceab2f26bf6995",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "broad-jump",
@@ -2278,12 +2307,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "db69b15b12ddf0e4c66385ba759c6e9dbdb597d9d6966ab260f86eae3eddf82f",
+      "videoSha256": "935a2a66df202f05bb822aa26e458062fa2627ebb63bfd759735a31a8feb4196",
+      "darkVideoSha256": "ac6dfa83c484f9253ec158c409677ef7238120e9481cd7762568638b5a1d1421",
+      "rigSourceSha256": "2623793132dfbd6b2102f91c646943ee70557ac12abd96f76d6bdff5390f7b20",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "jump-lunge",
@@ -2291,12 +2321,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "2316dca7f47e56ff74ed78ab7e6f8e728c239924d35d2190c3049b782088fbf3",
+      "videoSha256": "390ef3793f08800f99619d55521ee6d729450b12af39900d685aba83b094ae0b",
+      "darkVideoSha256": "c0d041d20267792825ee962e6222ca811b23fad3d99931704896931949c4c580",
+      "rigSourceSha256": "01bd6f090a8e5b5100646bea78beb7e4ade4cde58ec66d7279c8100c3de6ba12",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "depth-jump",
@@ -2317,12 +2348,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "4d4df6bdec03379ad233fefb0fd92146a2908dcdfe0c11515c00696077c298b8",
+      "videoSha256": "75205b89b212543088aec4b60e5652243660e34d54c67f182d60f7bd15547875",
+      "darkVideoSha256": "40885859085f35a2ae0ab49be0cd2ede7346eabe9ebf06834128e75fb9395e6c",
+      "rigSourceSha256": "8cb200e469f04974bf46a88e604426ec0626362975fcc66452f7d08c79857fb0",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "box-jump-over",
@@ -2382,12 +2414,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "39e34a3ff629476413c0fd31c821e4b74bad2dcbaaa1506ac478bf36ba2cff2d",
+      "videoSha256": "8c460bdd215f7eefacadd887683bcebaad3a996ec189f4e002e6805b433476cb",
+      "darkVideoSha256": "d7b56ee09a32f27f8ead3a6cbbd5cfae56556e230a73c4dcd8935838dbf06d2d",
+      "rigSourceSha256": "2a1c9c8942be452c94b9fdc3bddc2c4a04031ecddd73526e758f4f537723f9a7",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "tuck-jump",
@@ -2408,12 +2441,13 @@
       "equipment": [
         "other"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "a2c7e3a14c6feb785144782c05ffd5f96c17fb050e285c1ce765b9ca3a275aa9",
+      "videoSha256": "4e2d247ccec6b07824b9224eae4753d1cb1a8e9262bc3aa67d60ffe1fa65f19b",
+      "darkVideoSha256": "e2386415b23761efde01ae3e70e332683ecc680604ecdfa73cf64632e992a10c",
+      "rigSourceSha256": "18f8372820ed1bad19fdceba819df6658374dad10f9d8f88d0aba9091d4c708d",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "double-under",
@@ -2512,12 +2546,13 @@
       "equipment": [
         "barbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "9af2fb73d9d6bb7ca3547b4a02804cc0d4f56325715cd6808ab0b4efbc3c5e50",
+      "videoSha256": "536829d9b3c7d5de12e80e34462a5aa8d1ecd6b6382765e8631cdc9ec4fe2f6a",
+      "darkVideoSha256": "82e1dfeffa878a374543e8639b85d59c4af497774673a70ed4e88fce206c3572",
+      "rigSourceSha256": "636531338ac2a183b0fc46e874911aa229ae28fbf788f1d743d30bd4922e9fc7",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "american-kettlebell-swing",
@@ -2682,12 +2717,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "71daec8f086a4b688505542f59aa8f7abfaf1647b3b9a41a8bd4fcc783e769df",
+      "videoSha256": "440d13e0cae14cfd75556452c9bd99b6afd8c7b7b98c9d18114b8632859672be",
+      "darkVideoSha256": "b16e19540638832aa650a7617802cda8db46c9aca4db5ec1e9726b969aea6440",
+      "rigSourceSha256": "c51ec41c6c9cf1d64ca22ba44ce285e1b6957384e1e9af9802d803c922e5e608",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "empty-can-raise",
@@ -2695,12 +2731,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "72568106acdfb39b1d0afe385e5bf4a85fa06dcb07a18fe92987a4f69e298790",
+      "videoSha256": "7f050e5d0db76d244962d174660e4bc6eebaab0015f509c89b7923371f514014",
+      "darkVideoSha256": "159644d8929075bdaefe995447cec1256d5bd2577d2eb323cd616b15a889cff3",
+      "rigSourceSha256": "64de504c9b6b353757ca552f369e094c40cce8a623f770a4aaaefbc90d218224",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "full-can-raise",
@@ -2708,12 +2745,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "67529212d2df62a7569cdb370fc7ee30f3b9ff2aae6cde8f15d190065d609403",
+      "videoSha256": "d774933f50cb55cb6bb0a78fca50abfcfe945e1768f18db97b7a3f8e4798feff",
+      "darkVideoSha256": "af4ad7ff5851e3b7e5d183ff6340406e2ce59790cd29cdf135a8b38fb2596571",
+      "rigSourceSha256": "6661b230bb574100e0797f8cbf32d0f1bbbfb384676534a0cc9900dbf9ee5f50",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "scaption",
@@ -2735,12 +2773,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "4f4eaf86c01978914ad63ebef0b4e18a9a24ad15107c04b0cd7de891d6cdffa6",
+      "videoSha256": "8071e2bbf33b7598a7c464867dbbb79140c236391a3b11478018f121c2d5a7cb",
+      "darkVideoSha256": "32916c4f4ff0116ef801e6859babedb247932cb77950c021707c974e160bfe3a",
+      "rigSourceSha256": "ac2b0bf9ceb5c5af6aa7a54da3d7aab14624e1976b4821fcda3b988c2926a2eb",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "prone-cobra",
@@ -2748,12 +2787,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "36cac498eecaef439139355eeed0928c52ee9722c1fd35f7afeccade52d0d49f",
+      "videoSha256": "810e80a286c7e5bf68c573ced0b57f3d01239d88231e567f79011ae9d8c652a2",
+      "darkVideoSha256": "77dc2b62dc7f62034db8daf3d841aadf100f6ba22094834c2fd309ab457ef5f6",
+      "rigSourceSha256": "845b1ca71a7e2290957ecf51fd029790699b4a52f8d548eb67d03ffafd180a37",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "wall-slide",
@@ -2775,12 +2815,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "d5d1594482269c3211d4ca1bf7653f6674ccd125f3f337d20b7d4bdfbce752f1",
+      "videoSha256": "290dc9b707b59fcaf8677208f0dafea724897c08876b0f52f2410639c60accee",
+      "darkVideoSha256": "00eb479262db4e031139ecb46135c0ae5937b40fb0fbe455a9b881fad1e398d5",
+      "rigSourceSha256": "b44e889c795a2c657190702946b5d7d6dc452142039aadb7a1184ea349211762",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "clamshell",
@@ -2788,12 +2829,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "620a5d5e413d8d314831faf5d2e15b56f0adcb6b3ae0b7b5a6f866b8a01dc226",
+      "videoSha256": "fd62d4eaae94a1d8c25815f3a60f7a0a2ce65841815d5a0ee5c346f1bdefb1b1",
+      "darkVideoSha256": "98a6b4cae9bc47f647e1645f507e6f6601e3f269e19f1f4e1ec53f00527cab0a",
+      "rigSourceSha256": "2df1c56e91cfb8fb86409a58963180ee633c695d6bd3b87dc36cc58daadc55af",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "fire-hydrant",
@@ -2801,12 +2843,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "d17df3e33eb3c1b4b505ff39b18da4bf3bc5f8b7bca2ed40eb5c0fc0c075bb87",
+      "videoSha256": "210fbccbdee0e10c37aa5298f1459f5e9cb8fd70a2e8d26f7bde4f8c01d20395",
+      "darkVideoSha256": "5e2da2f3467879472e79f0c751677ff0cbafe62b28233fb7c307657a72a77435",
+      "rigSourceSha256": "924f8f2074c471618f5fc408d20864cd329138c3bf0ff24801836837cfb9bb5a",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-leg-glute-bridge",
@@ -2814,12 +2857,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "16444372c4deb6ba499b58113cca2348b98d14609d9441fad606659383b94ed0",
+      "videoSha256": "172a28ce86681549c36770bb9935ac6352549d524e3bce5809725af3e6612840",
+      "darkVideoSha256": "5afa7d19d6f8534630b54721389d0134f54f29dd768ff13d16aacbe753fb8057",
+      "rigSourceSha256": "6de85c2e5d17bcacea693bbfcbdb463a0798dde4b22e044ac15a61b670412840",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "donkey-kick",
@@ -2827,12 +2871,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "7d6d0201dc51399a11d207f2cb10b7be62e82329b6f04f16a5cc823d184da14b",
+      "videoSha256": "f17c32734e369e0243a5b393a04ed3b1944fc29b987e273e282a970b1053ad9d",
+      "darkVideoSha256": "1146ed1dbb9f8abdacef0cde3e0590066ca1cf6ebcf3f1a767af6b4901ac1c21",
+      "rigSourceSha256": "4381001b71003418f940cad8f289fd6580372412551c97455d6296415342e858",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "cat-cow",
@@ -2840,12 +2885,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "cd9a171bde3e1968411a8c992d13fa9a34805a34161d028bd9ba995340f3e598",
+      "videoSha256": "83b49e0b7fb2ebd41583bab00560bb089ee9567b07c35697ecf8bd28c0262edf",
+      "darkVideoSha256": "bc0e27113e1043f1983269ef6e0fde0bc7c9e1bbfc86c57e99c8aa3a156e5cc6",
+      "rigSourceSha256": "f6a31a3610df13306cd2b40ed7b5da3a73522dda0fdbeaf68db2045659631d3c",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "child-s-pose",
@@ -2921,12 +2967,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "9081fa539d6b83520ed3015c0c020ff400faa69c760af9a9482d97958de71971",
+      "videoSha256": "3e53c5ea1c436b52fafc87bb3584d4b4adb519f3480d0b2d4111af8dfc9555c0",
+      "darkVideoSha256": "0888c9b384ff5eb6d7b4720dee754ee12189844c4ea696eee370864accdb2e8d",
+      "rigSourceSha256": "f4bfa492ac2b289a572c8d09095b449a7540933cf9a68f5b40c161c6d25ab1d4",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "90-90-hip-stretch",
@@ -3221,12 +3268,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "77e00a25c5ed96ef48033f7b439947d8374e16452f1b22f4b2ab14c2230894bc",
+      "videoSha256": "e69bbcdcf4c843c58c1ea94a443f3ed8e0bb7d8b81748f7b2e2af7db18e4f756",
+      "darkVideoSha256": "6b375342ef60a5fe2b7eb65803b1cdd12cdab852044e9d1fec3856a57ae40bf2",
+      "rigSourceSha256": "7ad46fc3766dc7a3a8bcea4fb937b8ec33a90546f7df90369ffd947edaeb0895",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "wide-push-up",
@@ -3234,12 +3282,13 @@
       "equipment": [
         "bodyweight"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "78f53d2e37054ee239b4a2af912e1c7e20a2108cc3167da143e8aa8b88261488",
+      "videoSha256": "8b45890fe3219e5157ea301bee641e161cb55bece93eb342de979ad7f49f8004",
+      "darkVideoSha256": "9e790020818f50d6390b4cbc1211f8e0cae2c24ac9673eff98e959efc85f0bab",
+      "rigSourceSha256": "fe7bc74e5fc589ac4d66fb0746548d8eca898eb28afd0d709533712b2919cbda",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "archer-push-up",
@@ -3273,12 +3322,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "df5f29b14bed4ce3e5fc2857703f0275156a0885a0c3f014f4ef1e3697fdd5d3",
+      "videoSha256": "388e0eb0b7d7c2b8c8438d2f6745859c21cbcc77e6c5484460fb1191e53981a6",
+      "darkVideoSha256": "5f5421d444125232f6d6c8664675df4defc9465fcea9bc4325e061047ec2be9d",
+      "rigSourceSha256": "63f0010433daac13c35f677a80e1b33b1413f886c97f737d5cf3fef447d4eefd",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-cable-crossover",
@@ -3313,12 +3363,13 @@
       "equipment": [
         "smith"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "774f07b71adec44c74837a5cf1e07e4d8563413aa09d561fa1b8d5e2d0b1ea37",
+      "videoSha256": "1dab9a2ae83495bb388315c59a4048d68e70f0bdad0b0bba57f0c4df2dbadccc",
+      "darkVideoSha256": "c045a38fc522651583a1c07d9ebe14458f5578e4bc1d5e4475865700217891cf",
+      "rigSourceSha256": "7dff6e9593a2f733f4a1ebf40d816c41ac712117106a4bafe63e3daef172b012",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "incline-machine-chest-press",
@@ -3326,12 +3377,13 @@
       "equipment": [
         "machine"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "c545f1bb3731fd0000f677377de3461a2ab98464ab915f7f0d2c1769da1e87aa",
+      "videoSha256": "cdb0348c216ef89df6ac0e1bf602cec9fa92597d045e8c2ddafca0491c30eca8",
+      "darkVideoSha256": "cadf58b96da795d05ab3336709f5be01f963d4b76b50459c1c0be93dd9e86cb0",
+      "rigSourceSha256": "ae860cf459a4bd5ca69e995c852bfeb8d5ea664fc5e760ae9d19d2e0290f7cce",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-dumbbell-bench-press",
@@ -3367,12 +3419,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "5aaa6b7603ae84aa548ced27314576e360cc1cc0d004dd3c54db37c041e573da",
+      "videoSha256": "61162ef6d9ef4676cfe0256610536f5f64e8b19a9e4d8965a1ce510345968441",
+      "darkVideoSha256": "63a0b37337f1e1669ad9b4fcb08599ec1e9b710b2e562b3c0698e0eefa9c4022",
+      "rigSourceSha256": "5251c3bf704d0c9eaf03e1a03e401c33161af7a558ece6630cdde07e560786c5",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "decline-dumbbell-fly",
@@ -3380,12 +3433,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "7b763ce52a447dd3b0432881a00f2e8949be4063ec3b0dc21f54e1b6ed26a2b4",
+      "videoSha256": "426a2ab3777fce3f984b26e42493ec09fa252abc9e9ffb39d16d6505131da61c",
+      "darkVideoSha256": "6478eaf89a1763824ab7ed51c779c6beb37a556188f46e5e3ce8923699139f21",
+      "rigSourceSha256": "c98d21f204f76393a9c98eebeb2a7535728128c0d0804149870f1346d98baca7",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "wide-grip-barbell-row",
@@ -3421,12 +3475,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "757183621d956082230b28cf6ee77b1dcd27307eaeade8c223ae0b38311c31c1",
+      "videoSha256": "e232c56c7b1ce5b4fdfd9b2b0b261bfe0db75d91b1ccf278d0afde07fceb2d53",
+      "darkVideoSha256": "4ce023a84b6c16fa846f0cd7f5698a8dfea42fe25f4783c3cec62361f7293189",
+      "rigSourceSha256": "33a30883fdbf16b4150125dda413fc8a58107b07159423b75d88056104be04c8",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-cable-row",
@@ -3434,12 +3489,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "cec8219486f713e2d14e86d22d97ec35a4d4e696353427eb618420a1c8124b74",
+      "videoSha256": "d4f4e1c9a4a342769f15a0f5027dbec6a6d59db1f1c902626b4b52d8a04a7435",
+      "darkVideoSha256": "6392aa6035f4dba94a1bfe1f950aa6519727be9b30d576dc79cf7cf6bd2d0f1a",
+      "rigSourceSha256": "d67d572af79e7d75ef4f9eb70612ef4b86241c8df75c7d5b78196764a3088422",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "neutral-grip-lat-pulldown",
@@ -3473,12 +3529,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "815b7909780eb0443730681c868b7de3fa80e151c1046bfc64c0a44b24e00067",
+      "videoSha256": "f8d640009001357923aaad9cbbab2da9aa88c8959fdb8258c3754d06518b23d8",
+      "darkVideoSha256": "1d12ed95a078b73e6e64e6aebc8aa4e0320063efd5c4366afd26b5761b663f53",
+      "rigSourceSha256": "883fa5c4e6ded812216a097e34fe077417611a862b89855d8db9a760f8f94e4b",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "cable-pullover",
@@ -3512,12 +3569,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "298a7cc349d6796d4ce1bf46991ffadb55837dcd354a89f7bc415097a10f94ac",
+      "videoSha256": "6bfd2df5589f25b5831d256cda9d421590bb6d3bc54ab8e6db76b2f0eb6a1578",
+      "darkVideoSha256": "f6c4810a73a7734e7766f43e26bc8fa50a86802a94b34b488cb1d4c426e95f75",
+      "rigSourceSha256": "375434b2d5c477662c13d5be4ebe511f613f592733926fb45cd674e2165992dc",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "smith-machine-bent-over-row",
@@ -3525,12 +3583,13 @@
       "equipment": [
         "smith"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "08c579b8a40050be8d2d43ed076be68af6ce68ca38df59079fa5cc2664c19c99",
+      "videoSha256": "1ee983498c611e98d3da5eeb16f1f65432ebfef02b605cab2a5ecb328c77c4ae",
+      "darkVideoSha256": "5f3919a39bfec2c2d05f018de1ed12063157e77dace352b7307d810a77330e39",
+      "rigSourceSha256": "7274db665921506ceb127bee24871213fbf99f92d4e16736f4f4816f91a84b4a",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "deficit-deadlift",
@@ -3580,12 +3639,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "eb94e689f663d00fdba3391cba04d0a13c653e5563dced4128a84d3d14f7be2a",
+      "videoSha256": "6fe6c5aa485e6ee4d7016e36cac208478341581633f75f0044dbfcb02c0943dc",
+      "darkVideoSha256": "cc22d9fef6decac460a88f630a3b01de2d2b4db52573c3949b2d93f8ed8b5507",
+      "rigSourceSha256": "21fdb2461ab6ef4532378a80ffb511d34f264d3dbae5709ecd6b1bc05257dbc7",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-machine-row",
@@ -3674,12 +3734,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "d125fe5d847f641f6302f32b61ee15342b61b9f6beff59a23a8844c128b315dd",
+      "videoSha256": "15634eeb98fa7b72f50efc5c92b6cc7fff3d816e7556aae9979d61354aa378cc",
+      "darkVideoSha256": "057f92d665974c93151c00a2695d7c84aee6216c8f509f9066e7e3438bc5c328",
+      "rigSourceSha256": "1179c6ef3b36fa0cb597f4f589f6266419da806a1f6cd64ec76f114364b395e8",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "lying-side-lateral-raise",
@@ -3687,12 +3748,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "1c87699c9a16dc0128f05af8f4e4dcbcd958137da968a2f8bd0a298ae4c6ef64",
+      "videoSha256": "55436994d143c94a1ab95fba5cfa721b0d15c8d34ba419bf6da434fa0aee6931",
+      "darkVideoSha256": "5e036591ec6709d6b34a564da4f972a0a60350011a626c800c33af343b4b1fb8",
+      "rigSourceSha256": "45ca8e650ad1573c1db5316e140db3606087695a0501d3a006e0c833a2e60833",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "cable-y-raise",
@@ -3700,12 +3762,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "117746895a8d11415c6b79ff39da5b2f8b7cde3d4df98522b74cc155f63c05c7",
+      "videoSha256": "6a28daff648dc39c9f445d598cf27fb5526b05b6b59c92939cfd62adf5bb555b",
+      "darkVideoSha256": "dc3cb252dd32ebaba4e3e1025da7c6ab22661807cacd878228711806abce2b02",
+      "rigSourceSha256": "518d83e1f3b760f7c4cefbcc84dd4cad9dbea85f0293a385de87bff01611023d",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "incline-rear-delt-raise",
@@ -3713,12 +3776,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "ae4c9b4238a8b50eb2282f783bac3475dc65af3654521f13e4d9c155bb92c6a8",
+      "videoSha256": "54024054c210c19e4cf968b0beac43480a1bd1bc70bf2aca82f16f8d3768c3ce",
+      "darkVideoSha256": "fccb9c119f595b238b1ed5fad78fbd219139ada655a4e746ec3a399b0ee286ea",
+      "rigSourceSha256": "8b2c25eb196906b8d231d2f01b81876620aab15bb366644fa7d616a068fb6725",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "seated-bent-over-lateral-raise",
@@ -3807,12 +3871,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "27d6cef97ef0209f8ec52f940c11f1f52ce13f34273ec905416e3ff9913c32bc",
+      "videoSha256": "d9dce75cedd7cf1eddc751fa70773833261f9043eb71afcb558949f1af85a54c",
+      "darkVideoSha256": "d06cfbc376fbe8da77623107725be7b85c8b5c6f6b9a5137405fa7d2f8b2e898",
+      "rigSourceSha256": "4ce32f5b21b440e4feabbef9f152aa8aadf0839a144e4f685c0685378401b5d9",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "dumbbell-push-press",
@@ -4044,12 +4109,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "3312339da8eefd151f4853c3e059e82744bf57186c914af37945c1a78d5c0258",
+      "videoSha256": "0a94a1e205d0b12f2fda424ce8ce1f38c68966b3e77482092d4be6384d2bdf1e",
+      "darkVideoSha256": "c6863dd39b2599d6cea48edfa35005b1c7f0f8b81a9f7653b03160d8e4f92b5a",
+      "rigSourceSha256": "4313d37b49b162c705104a36a5216f92086fc62753e9b6bcf0d944ac60e78347",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "close-grip-dumbbell-floor-press",
@@ -4314,12 +4380,13 @@
       "equipment": [
         "landmine"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "72edaef9b924802e6c29ef88ffffbf8f4138f5b77dc4b7985687cb09953ade0a",
+      "videoSha256": "1464932b7ee0a0beb982d4ab659893a0d886040301cfaf3a21f22c0f4bd057fd",
+      "darkVideoSha256": "acbeba13f4a4b9bf7c3c2e24e81319f455b3e4fb0c3a4fe2c472704efe382102",
+      "rigSourceSha256": "03b3d28c23f067fcb1126d0513519247cf312c461af18154de81eaff3d1cf158",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-leg-calf-raise",
@@ -4617,12 +4684,13 @@
       "equipment": [
         "smith"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "bd893013aec5bf49ac333b4141d77776c178be816fba59cde5383ea269a6ab75",
+      "videoSha256": "ecba41cc3887f2a90d0b4f001f6a00b58389a97767e48a8adcf3bc77ccb29d09",
+      "darkVideoSha256": "52e2d21c14245aad7772c6697a034168c72888b29509f326accbd7f7983859db",
+      "rigSourceSha256": "5798f9606fc2d91357ee2593b7e7195a8e55364131b494defe90526dfb112606",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "kettlebell-lunge",
@@ -4723,12 +4791,13 @@
       "equipment": [
         "machine"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "e3501208ae76321ed6b7eeae07d5f5a5e5a69bd8980a7f5edd35468c57b27f37",
+      "videoSha256": "8354c048603565655df08786f90a20bc5cd3ac4c92d51891d2537149e6347ef7",
+      "darkVideoSha256": "a2e5b8a94b0627a228a2ecf220ad886770274115ef6d20cdb31c4962a75cdfc7",
+      "rigSourceSha256": "1f8084c4d48aafbbf32692fbbb57896f4b74a1899ecf871fbecf3a2e8ca74c9f",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-toe-raise",
@@ -4817,12 +4886,13 @@
       "equipment": [
         "dumbbell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "352dac5eb11359466ee4aaeed80e93a24a9141e60ba14d80611d30041094851d",
+      "videoSha256": "7ee60f0f720b8fb3dfaba46811f1c047f21f53cafff5a29c439a0b8609cb54ac",
+      "darkVideoSha256": "c99970d080b3f30281742247b01d75dd5853a86c9818f3a5439bcf02597ab980",
+      "rigSourceSha256": "b38e3f94e0160191ca93b936e46b8197afc27d8ea550eb04ca2dd11aec1e77db",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "prone-t-raise",
@@ -4908,12 +4978,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "57ed6ffd455fcfa451e3692536b294602c5e214e3df85c9a509e11b760850d3b",
+      "videoSha256": "de4fdbf9bbff9754d8b4fca8fbdcf7a270368fb9438e46e74f8cdb983559f4b7",
+      "darkVideoSha256": "aa85be1fc6ea663d2609217e3c9e06fee647799f552561fdf1b7a55e871c9eb6",
+      "rigSourceSha256": "f02c523302607e34a46455adc23f484b8b93338b44d5efdc8a4f954a6f21a30d",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "dead-hang",
@@ -5000,12 +5071,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "fca3f9deded8602220394c97a11542940721274b66789083908713265e775b36",
+      "videoSha256": "1308de1774f54da305930fa4d4d08e0839c2bb12c7b4bdcec352b2b60568c0c0",
+      "darkVideoSha256": "94c19d2e5e88aee11397b2dd28361bbd101593442ad823046e4493ffedb6a426",
+      "rigSourceSha256": "a78c135d534fadd69dc0d92043d92e3819d0d7ba2fbe180d5de8cbbe4f92dccd",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "cable-incline-press",
@@ -5065,12 +5137,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "8333bf838f1ad083df7deb27f339d423e37c889fa954f5bd43e39a53d5d2ce5a",
+      "videoSha256": "849f16fb795b53b77e5639933629012c1adfaaa4539fbc94ca7401282f65aaf4",
+      "darkVideoSha256": "43034f491d02712c3eda5e6e4b300c5c025f25d71130cd0d9b633b02ad64f938",
+      "rigSourceSha256": "e7bfa0794bf0bf156ac460be90136a2bc8f1963dbcf087bdea87d43835787c2d",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-cable-front-raise",
@@ -5078,12 +5151,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "cd1418b91e93326c2c5b8db87cfbf8c0cd9070f8d253afd3c9efd72c820a4713",
+      "videoSha256": "faffb15a1f83a092cc228c454bee9c6058f2923ae6864c22edeed4cbbd267ce8",
+      "darkVideoSha256": "99926fce52b0b69da066f06cc3c0c3c6205209cb3632ca8fcaa752a4e666bf9f",
+      "rigSourceSha256": "1dc89bf4d1bff339f44879eb4b297a2a6c5f619ef8278e5562575113e8653098",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "behind-the-back-cable-shrug",
@@ -5338,12 +5412,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "0cbe09698ac3c23efd68c9f8b9e0613b4a90d326f6673d5aefc1bb2de3b44bb7",
+      "videoSha256": "7c60dfb4d3746c4a9048feb326191639a2e19e1186e6e5e654d6a00fa805253c",
+      "darkVideoSha256": "694d48502d9f3172f11307fc044c32d296dbe2698a464d7befb5e219a1d13adb",
+      "rigSourceSha256": "0951e9ecf99a84a17bd440d4f6069520b15b2e2a514e25de17b8d0dda834e61f",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-row",
@@ -5351,12 +5426,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "38244e68f4d88b497e42133d37e979c602adea6604574aff5b145bbb19fbc8ef",
+      "videoSha256": "c3479f297d0f15f4fd7ef21302423f71bc7d3faecdf5d551a421f8696d5e4a45",
+      "darkVideoSha256": "d50b92ca14ed02c4e57fd87a9acebc19376b0d876ee0bc3ca88a175f90cfbfaf",
+      "rigSourceSha256": "e880929f850cc3e48374617d54f4fda234a8bc849d778a58148352cadbe28ef3",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-pulldown",
@@ -5364,12 +5440,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "6067d2025a42056285e53791d12422e2bc3e83a18ec94e0d4e9b49b4af49f228",
+      "videoSha256": "a5bcad4cf031ccfefff5cd2853b8e497f4dcb20fb690eb7c0eb2ec99706b9af5",
+      "darkVideoSha256": "8ff3deb0fa56d0341e6ad0277b99210e59a66b0ccbbef2487ba80176f7c36367",
+      "rigSourceSha256": "16f6a3e141417f75dcf1ad5275e487b971144686da64fd1f0c53362668749ce8",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-shoulder-press",
@@ -5377,12 +5454,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "cf052732f93074086d6757534d6bda9fec926e299a621c8ebac2396f24066e0e",
+      "videoSha256": "ec7243cb02d57c29d4a0fb3a795dcd7a9a9991bdff7b038cc7bc35bab1ffa7cc",
+      "darkVideoSha256": "f51ba7530084ba021c2a49a942bd193fabc20bbc64726040b408652b66c7a0c1",
+      "rigSourceSha256": "ec886e91f1cf7c9936d1c14b68bdb29ca13844b832c1d09b76ca3e46020f83ec",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-squat",
@@ -5390,12 +5468,13 @@
       "equipment": [
         "band"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "79e2254ec5a4f9f8af5fdc9d1c964b79caaf471ab76e2421079f5d29533c20f3",
+      "videoSha256": "e1d571454c1c12eb29085691153801b4713f87a78a10339d0ff9200bf48162d0",
+      "darkVideoSha256": "71bf5906eedcbe4cab161ea97414731d77ad259b0c6195718ac54a0fbdc2854a",
+      "rigSourceSha256": "dc4509e0bff8ce5be1690fb98bc3d7bf9563e1f40aa1e31b04285d30725f88b3",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "band-deadlift",
@@ -7131,12 +7210,13 @@
       "equipment": [
         "machine"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "70055915e8a84d7582a29a16149fcca66a570563dab198d52ccffebf2bfd1fbb",
+      "videoSha256": "4ae476b08672121c8d81842f8d01e09966dfb16b62ae23308a8c7a08317772e2",
+      "darkVideoSha256": "275674e384057470d37e67b3d251e6df7ac44e5a0670b487454297d075bf8e0d",
+      "rigSourceSha256": "626049bd671df940930087565d9e697af0d646794cf379315acaae824d06d154",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "decline-cable-fly",
@@ -7433,12 +7513,13 @@
       "equipment": [
         "cable"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "f35c3ad885d6e4120e39bdfb1d463f047f143a89824704bfc40368a23cf1a002",
+      "videoSha256": "02cb4b80cc8a3af2c242dc3d32f486e1c7434896675048777ff17047c4800012",
+      "darkVideoSha256": "b5a9a591e83c1992ac30a2700d096ec5ab5d706f8261f0683232ee4183d20c26",
+      "rigSourceSha256": "9a7efa680651e028b6e8cc357f6360484e1a226aba3d1dd8bcc8deca73bc18da",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "incline-dumbbell-pullover",
@@ -10042,12 +10123,13 @@
       "equipment": [
         "kettlebell"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "d8615181270b7ae79c086489cbcd24290414ca7422e5ba4f1f0f13fc816558b9",
+      "videoSha256": "314fc2fe1b586a2fc9a6a010e022b5f2ef7b4b2281cf373c64442b3b316f172b",
+      "darkVideoSha256": "b928fd5c0bd4fd3a8a264a57175695a4d84e7d9f8e6cf2a6c519f6dfec5c1329",
+      "rigSourceSha256": "2cc877d6a5b1196413e044b92a9b242ecda0ce78338e5171ef05c109e9ddb240",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "kettlebell-side-lunge",
@@ -10198,12 +10280,13 @@
       "equipment": [
         "trx"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "2a5e1ccba1c1cfe67fb263b6759e92f0ef0d37f1a38fc2b3780c70e94aa11a71",
+      "videoSha256": "f9bfcf3e4aebdd3db7a565cf761fa4486e5f4b5e93ab2a6de2ed5f5f5d990480",
+      "darkVideoSha256": "b69763d54258e4864cee59a93f8e08d1c027a8938d116c85c6133a4a0443cfe6",
+      "rigSourceSha256": "4bcf08e532783f18c95b0fc8ee3624043967c209fdd67b598aea59d374c42be4",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "trx-atomic-push-up",
@@ -14148,12 +14231,13 @@
       "equipment": [
         "machine"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "783bb8bf73524783a4cb65f71f0d996c43c700b2ca2f6c96a6e470639e83cc3b",
+      "videoSha256": "dc4ed514ad1781ba73ab1bf61a6a457dc774f53cd6fa57d6d515a13479b1dfc6",
+      "darkVideoSha256": "ed66799f77c2df05b1a54f2c0217929990437eb18fd8f1ae5cd345f21897cd6b",
+      "rigSourceSha256": "77c22c4ae835a65f58950197255d209caee28f7975c1f9bb3b014f1748397ec2",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-machine-lat-pulldown",
@@ -14187,12 +14271,13 @@
       "equipment": [
         "machine"
       ],
-      "registered": false,
+      "registered": true,
       "legacyVideo": false,
-      "sourceSha256": null,
-      "videoSha256": null,
-      "darkVideoSha256": null,
-      "status": "needs-new-video"
+      "sourceSha256": "e4741686f79fd8dbc61273ab8aef4412c81563f9bd1acb1ac1d1291f7ef39aed",
+      "videoSha256": "e1c47ece2b8918a837c71c2204cadf47ef13f4e1353ee4d8010a3e4197a41269",
+      "darkVideoSha256": "b424bd20971a1266653d5014ad567143c06fc4689915205373721f2372c39a17",
+      "rigSourceSha256": "fbbfbf4165765db1067b08cb5ebb998259a7c14490421b71c199e51f88b07ca9",
+      "status": "reviewed-both-themes"
     },
     {
       "id": "single-arm-cable-pulldown",

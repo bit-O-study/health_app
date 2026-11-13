@@ -1,0 +1,28 @@
+{
+  "band-monster-walk": [
+    {
+      "file": "tools/media/motion-guides/band-monster-walk.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-monster-walk.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-monster-walk-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-monster-walk.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-monster-walk-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-monster-walk-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

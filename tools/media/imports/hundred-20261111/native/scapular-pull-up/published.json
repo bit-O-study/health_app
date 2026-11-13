@@ -1,0 +1,18 @@
+{
+  "id": "scapular-pull-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d5d1594482269c3211d4ca1bf7653f6674ccd125f3f337d20b7d4bdfbce752f1",
+  "rigSourceSha256": "b44e889c795a2c657190702946b5d7d6dc452142039aadb7a1184ea349211762",
+  "videoSha256": "290dc9b707b59fcaf8677208f0dafea724897c08876b0f52f2410639c60accee",
+  "darkVideoSha256": "00eb479262db4e031139ecb46135c0ae5937b40fb0fbe455a9b881fad1e398d5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 50090,
+  "darkBytes": 52437,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:27:38.941Z"
+}

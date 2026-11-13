@@ -44,20 +44,6 @@
   },
   {
     "status": "rejected",
-    "note": "Rendered jump phase crops the head in transition frames and shows strong double-image ghosting; requires new source with more vertical headroom and smoother jump phases.",
-    "id": "jump-squat",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/bodyweight-jump-squat.html"
-    ],
-    "sourceSha256": "d9bc12f6fa32e9f3709c6b5e00de4ff58ab61598901cf0a78b38568c7d7bdb83",
-    "videoSha256": "da0db5106db680208127eb17b0516cff9fa4fcf18bdb91d238e95a28462c640e",
-    "reviewedAt": "2026-09-13T12:51:56.932Z"
-  },
-  {
-    "status": "rejected",
     "note": "Both light and dark renderVersion5 contact sheets show duplicate translucent torso and head during trunk rotation, notably early descent and return. Dark cutout accentuates ghosting. Source poses and GHD setup are accurate but optical flow output is visually unsuitable. Do not publish.",
     "id": "glute-ham-raise",
     "equipmentIds": [
@@ -531,21 +517,6 @@
     "videoSha256": "2d82247686030419a01b12df2a6bc7a9b9fc49d39454c304f1c9e08201220cac",
     "darkVideoSha256": "9659738deb0f9ef504ed1bb6b87a68c1fd738e765aecfbf6089e4494a1e53a18",
     "reviewedAt": "2026-09-15T14:07:22.995Z"
-  },
-  {
-    "status": "rejected",
-    "note": "Fresh v5 light and dark 32-frame inspection: some transition frames show a pale duplicated forearm contour, especially the return segment. Feet and support bench remain recognizable, but visual quality needs improved consistent source poses. Exclude current artifact until corrected.",
-    "id": "decline-push-up",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.nasm.org/resource-center/exercise-library/decline-push-up"
-    ],
-    "sourceSha256": "fe5d96da65edbd6e00c633e6fb0f1dde23cff6d2c9326a3829fa19a33a05fd5e",
-    "videoSha256": "f38a25130c84ef0c3c7437a92a6bd69c1ed42fc88c81d4642e7f796f15e1a432",
-    "darkVideoSha256": "a502b35e75760cc1ca8cc9a2940cea14e488ca41432dde905a40fca999a50471",
-    "reviewedAt": "2026-09-15T14:07:31.656Z"
   },
   {
     "status": "passed",
@@ -1119,21 +1090,6 @@
     "reviewedAt": "2026-09-18T01:27:35.215Z"
   },
   {
-    "status": "pending",
-    "note": "2026-09-18 cutout (renderVersion 5) re-review after the light/dark rebuild - DO NOT PUBLISH. The movement is right (decline sit-up: shins hooked over the roller, arms crossed on the chest, torso curls up from the decline and lowers under control) and the bench survives the cutout whole in both themes. The blocker is severe head and upper-trunk ghosting through the whole rep - a duplicated, translucent second head trails the real one in roughly a third of the frames: light 32-frame sheet at row1 col4-5 and col8, row2 col1 and col3-5 and col8, row3 col1-2, col5-6 and col8; the dark sheet shows the same at matching positions. Root cause is pose density: this source has only 8 panels and the torso travels a long arc between them. Separate from the cutout, the source is a photorealistic model rather than the approved grey character, so it is off-style for the catalogue. Next: regenerate at 16 panels in the approved style, re-render and re-review both sheets. Do not pass on playback alone.",
-    "id": "decline-sit-up",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/node/3617"
-    ],
-    "sourceSha256": "78a3ead6a4db6592107dfb6e1003df9f4d43a2add91c15324bd355601dc2fdb1",
-    "videoSha256": "71476f17ff0b1c26470fabf72a4385aea141bb8e8afa70ae0d8c75a3d004d07d",
-    "darkVideoSha256": "308a31a7ec3b9f7d752b0ee173eb38db4747fa43d54bdcb7540f0b19f4fe6b10",
-    "reviewedAt": "2026-09-18T01:28:02.564Z"
-  },
-  {
     "status": "passed",
     "checks": {
       "exercise": "Bent-over two-kettlebell row: 8 source poses pull both bells from a hanging start up to hip/lower-rib height with the elbows driving back, and the video reverses to the hang for one full repetition.",
@@ -1155,21 +1111,6 @@
     "videoSha256": "0084af0d07b265cc147ee43ccfb792c0b28bd5acae80cad764455b84b428cf08",
     "darkVideoSha256": "df99e8302bd7128a091025ed2897f4dd7c8a1034923925d7011fdc3861000571",
     "reviewedAt": "2026-09-18T01:30:27.146Z"
-  },
-  {
-    "status": "pending",
-    "note": "2026-09-18 cutout (renderVersion 5) re-review after the light/dark rebuild - DO NOT PUBLISH. The movement is right (loaded carry: a dumbbell hanging in each hand, trunk tall, shoulders packed, walking with short controlled steps) and the cutout keeps both dumbbells and both shoes whole in light and dark. The blocker is leg ghosting through the gait: zoomed 8fps tiles at 0.4-1.2s show a translucent third leg between the real two as the swing leg passes. Unzoomed it shows on the light 32-frame sheet at row1 col3 and col8, row2 col1, row3 col3 and col7, and at matching spots on the dark sheet. Root cause is pose density - an 8-panel source cannot carry a walking cycle through minterpolate. Separate from the cutout, the source is a photorealistic model rather than the approved grey character, so it is off-style for the catalogue. Next: regenerate at 16 panels in the approved style with even step spacing, re-render and re-review both sheets. Do not pass on playback alone.",
-    "id": "farmer-s-carry",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://cdn.muscleandstrength.com/exercises/farmers-walk"
-    ],
-    "sourceSha256": "877f35734cc06951edfd2b960e528a525fbcdfe4537d66f6dbac12f6eadd24e2",
-    "videoSha256": "17a7ddea0145b8f55b5538a4cc2bc5b9e1f3c01c44d9a3454984d3724a67d657",
-    "darkVideoSha256": "ea1f27345f64ef262e8ed30f7b10d13f7cccb97f25a674ec900eb99f7ef9827e",
-    "reviewedAt": "2026-09-18T01:30:34.078Z"
   },
   {
     "status": "passed",
@@ -1497,20 +1438,6 @@
     "reviewedAt": "2026-09-19T23:50:16.664Z"
   },
   {
-    "status": "pending",
-    "note": "2026-09-19 재렌더 재검토 — 공개 금지. 기구 문제는 해결했다: 누끼 상태에서는 무릎 패드와 발목 고정대가 프레임마다 통째로 사라져(2.2-3.2s 확대 타일에서 흰 유령으로 변함) 운동 자체가 성립하지 않았는데, cutout:false 로 재렌더하니 패드·고정대가 모든 프레임에서 단단히 남는다. 동작도 맞다(무릎 꿇은 자세에서 무릎-어깨 일직선을 유지한 채 앞으로 내려가 손으로 받고 되돌아옴, 고관절 굴곡 없음). 남은 blocker 는 머리 유령이다: 0.3-0.9s 확대 8fps 타일에서 하강 시작 구간에 반투명한 두 번째 머리가 실제 머리 옆에 겹쳐 보이고, 확대하지 않은 32프레임 시트 row1 col3 과 row4 col4 에도 같은 흰 잔상이 보인다. 빠른 구간 보간 문제 유형(kettlebell-press·machine-preacher-curl 과 동일). 다음: 하강 시작 구간 자세 간격을 좁힌 원본으로 재생성 후 재렌더·재검토. 재생만으로 통과 금지.",
-    "id": "nordic-hamstring-curl",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/nordic-hamstring-curl-bodyweight"
-    ],
-    "sourceSha256": "0b2d03a3c6b89f27ed8a5475051ed8fc5ab7b6857bfb800f61c24f9589eaeb37",
-    "videoSha256": "1b604c8f05919206f04ced2729d6b3553116d1d89632e26ba426e88e8f5d3cc4",
-    "reviewedAt": "2026-09-19T23:57:56.257Z"
-  },
-  {
     "status": "passed",
     "checks": {
       "exercise": "Standard push-up: 16 source poses lower the chest toward the floor from a high plank and the video reverses to lockout, giving one full repetition rather than a plank hold.",
@@ -1833,28 +1760,6 @@
     "reviewedAt": "2026-09-20T01:50:42.801Z"
   },
   {
-    "status": "passed",
-    "checks": {
-      "exercise": "TRX low row: 16 source poses pull the chest up toward the handles by bending the elbows from a hanging-back start, and the video reverses to the extended hang.",
-      "equipment": "Suspension trainer. With cutout:false the wall anchor and BOTH straps survive unbroken from anchor to handle in every frame - this is exactly the thin-strap case the cutout deletes, so the flag is doing its job.",
-      "setup": "The body holds a rigid straight line from head through hips to heels at a fixed lean angle for the whole rep; no hip sag or pike, which is the usual fault.",
-      "hands": "Both hands stay closed on the handles with a neutral grip throughout; the handles stay attached to the straps and the two sides stay level.",
-      "feet": "Both heels stay planted at exactly the same floor position through all 32 frames; no stepping in to cheat the angle.",
-      "movement": "Elbows bend and drive back along the ribs as the shoulder blades retract, bringing the chest to the handles, then return to a full arm extension along the same path. No duplicated arms, no broken strap, no anchor dropout."
-    },
-    "note": "2026-09-20 재렌더 직후 재검토. 9/18 에 스트랩 종목으로 미리 cutout:false 를 걸어둔 덕에 60초 만에 렌더됐고 앵커·스트랩이 온전하다. 별도 사항: 원본이 승인된 회색 캐릭터가 아니라 실사 사진 스타일이다 — 렌더 결함은 아니지만 카탈로그 통일성 이슈로 기존 6종(cable-woodchopper·decline-sit-up·hanging-leg-raise-2·kettlebell-front-squat·farmer-s-carry·kettlebell-row)에 이어 7번째다. 앱 화면 E2E·실기기 미실행.",
-    "id": "trx-row",
-    "equipmentIds": [
-      "trx"
-    ],
-    "sources": [
-      "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
-    ],
-    "sourceSha256": "fc673ea2390adc917588c891bc06aea2477097a748157b09c35b610c388fd2a9",
-    "videoSha256": "66a189e8e2e0f3a70a7be6358c3bce0168bb95b07a16e91c58b4e49c809b1f95",
-    "reviewedAt": "2026-09-20T01:52:33.599Z"
-  },
-  {
     "status": "pending",
     "note": "2026-09-20 재렌더 직후 재검토 — 공개 금지. 동작은 맞다(바닥에 누운 상태에서 곧은 다리와 상체가 동시에 올라와 V 자를 만들고 손이 발목 쪽으로 향했다가 되돌아옴, 무릎·팔꿈치 굽힘 없음). 맨몸 종목이라 누끼가 지울 기구도 없다. 막는 것은 접는 구간 전반의 보간 잔상이다: 라이트 32프레임 시트 row1 col3-4 와 col6-7 에서 다리와 머리가 반투명하게 겹쳐 두 겹으로 보이고, row2 col5·col8, row3 col5-8, row4 col1 에도 같은 유령이 있다. 다크 시트도 같은 위치에서 동일하다. 원인은 자세 밀도다 — 8패널 원본인데 V 접기는 이동 거리가 커서 minterpolate 가 못 따라간다. decline-sit-up·farmer-s-carry 와 같은 유형. 이 종목은 이미 16패널 재생성 대상(_repanel-16/plan.json A군)에 들어 있으므로 그 작업으로 해결한다. 별도 사항: 원본이 승인된 회색 캐릭터가 아닌 실사 스타일이다(통일성 이슈 8번째). 재생만으로 통과 금지.",
     "id": "v-up-2",
@@ -1868,21 +1773,6 @@
     "videoSha256": "650d19df5d3761f6a802fdb36064e08d67ffdbcabe0576b741e3a51b4259f360",
     "darkVideoSha256": "288ec7786ee6977930466782de0e3df9c907f4a15a925d3a66550855a9cd14c3",
     "reviewedAt": "2026-09-20T02:01:46.694Z"
-  },
-  {
-    "status": "pending",
-    "note": "2026-09-20 후속 재개: 후보6 채택, 기구 쪽 골반 바깥 시작으로 수정. 후보7은 변화 부족, 후보8은 시작 자세/마지막 케이블 연결 문제로 미채택. 원본16칸과 최종32프레임 대조: 기구·케이블 보존, 대각선 상승/복귀 확인. 그러나 중간 손·머리 잔상과 불균일한 자세 간격이 남아 공개 보류. 480x480/8초/24fps/282968bytes 전체decode 통과. Pixel7 모바일 Chromium loopback HTML video 재생 및7.5초 seek 통과, 정상 종료. imports/woodchopper-16-20260920/playback.json은 현재 영상SHA256에 묶인 증거. 앱 UI·Android 실기기 미검증.",
-    "id": "cable-woodchopper",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://www.strengthlog.com/cable-machine-wood-chop-low-to-high/",
-      "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
-    ],
-    "sourceSha256": "85695873e166007b135258463768730d581afde4022f57663dcbe86c1a0440d7",
-    "videoSha256": "28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff",
-    "reviewedAt": "2026-09-20T14:30:17.262Z"
   },
   {
     "status": "rejected",
@@ -10747,5 +10637,2052 @@
     "rigSourceSha256": "21d5f7ee36d0e3440afd8d105899d4a277cb617a3b01802dcb16717b82fe7323",
     "darkVideoSha256": "9721cd2061b1aa50b19d1ea57e0306a8a84b5c352122a2bcf1fa406c39cb50d1",
     "reviewedAt": "2026-11-11T02:21:24.769Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Push-up: rigid torso and legs lower together and return.",
+      "equipment": "Feet on raised platform; both hands below.",
+      "setup": "Front oblique and side 8-frame sheets inspected; head, waist and leg alignment retained.",
+      "hands": "Separate fixed palms; wide version visibly wider than shoulders.",
+      "feet": "Both toe supports remain fixed; elevated only for decline.",
+      "movement": "Upper elbows 170.9–172.4 degrees; lower elbows 84.6–85.9 degrees, continuous cycle with no jump."
+    },
+    "note": "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor. No rendered floor; support measured against virtual floor at -7.9. Sampled geometry checks are not complete mesh collision or human motion certification.",
+    "id": "decline-push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://theprehabguys.com/vimeo-video/decline-push-up/",
+      "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
+    ],
+    "sourceSha256": "93af25083f5478084e4f9d9a0ba50d6441bb9b974f6ac2c4ecd17fc30a280ce0",
+    "videoSha256": "84b97acd62bc75369ee793185831871434a370511d26ee524bdf7b17f04d0d52",
+    "rigSourceSha256": "849ff1c1bddaf7072fb19599697a014eaa570ca64b26b4b54506b91393c13683",
+    "darkVideoSha256": "598f8358f1607e719d7120db3aebf7eb6c97c62b3db4439ebe1197e287c8a9cb",
+    "reviewedAt": "2026-11-12T09:33:00.745Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Push-up: rigid torso and legs lower together and return.",
+      "equipment": "Bodyweight with no equipment.",
+      "setup": "Front oblique and side 8-frame sheets inspected; head, waist and leg alignment retained.",
+      "hands": "Palms narrower than shoulders; tucked elbows.",
+      "feet": "Both toe supports remain fixed; elevated only for decline.",
+      "movement": "Upper elbows 170.9–172.4 degrees; lower elbows 84.6–85.9 degrees, continuous cycle with no jump."
+    },
+    "note": "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor. No rendered floor; support measured against virtual floor at -7.9. Sampled geometry checks are not complete mesh collision or human motion certification.",
+    "id": "close-grip-push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/",
+      "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
+    ],
+    "sourceSha256": "77e00a25c5ed96ef48033f7b439947d8374e16452f1b22f4b2ab14c2230894bc",
+    "videoSha256": "e69bbcdcf4c843c58c1ea94a443f3ed8e0bb7d8b81748f7b2e2af7db18e4f756",
+    "rigSourceSha256": "7ad46fc3766dc7a3a8bcea4fb937b8ec33a90546f7df90369ffd947edaeb0895",
+    "darkVideoSha256": "6b375342ef60a5fe2b7eb65803b1cdd12cdab852044e9d1fec3856a57ae40bf2",
+    "reviewedAt": "2026-11-12T09:33:08.527Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Push-up: rigid torso and legs lower together and return.",
+      "equipment": "Bodyweight with no equipment.",
+      "setup": "Front oblique and side 8-frame sheets inspected; head, waist and leg alignment retained.",
+      "hands": "Separate fixed palms; wide version visibly wider than shoulders.",
+      "feet": "Both toe supports remain fixed; elevated only for decline.",
+      "movement": "Upper elbows 170.9–172.4 degrees; lower elbows 84.6–85.9 degrees, continuous cycle with no jump."
+    },
+    "note": "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor. No rendered floor; support measured against virtual floor at -7.9. Sampled geometry checks are not complete mesh collision or human motion certification.",
+    "id": "wide-push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/chest/press-up/wide-grip-push-ups/",
+      "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
+    ],
+    "sourceSha256": "78f53d2e37054ee239b4a2af912e1c7e20a2108cc3167da143e8aa8b88261488",
+    "videoSha256": "8b45890fe3219e5157ea301bee641e161cb55bece93eb342de979ad7f49f8004",
+    "rigSourceSha256": "fe7bc74e5fc589ac4d66fb0746548d8eca898eb28afd0d709533712b2919cbda",
+    "darkVideoSha256": "9e790020818f50d6390b4cbc1211f8e0cae2c24ac9673eff98e959efc85f0bab",
+    "reviewedAt": "2026-11-12T09:33:15.733Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bodyweight squat jump with dip, vertical takeoff and flexed-knee landing.",
+      "equipment": "No weights or equipment; fingers relaxed.",
+      "setup": "Front and side eight-frame sheets inspected; balanced symmetric stance.",
+      "hands": "Unloaded arms move for balance, no rigid weight grip.",
+      "feet": "Simultaneous takeoff; fixed toe support before takeoff and after landing; no forward drift.",
+      "movement": "Landing knee 136.8 degrees before compression; dip knee 76.6 degrees; loop continuous."
+    },
+    "note": "Procedural slowed demonstration, not real-time jump dynamics. Virtual floor support has 0.032–0.058 model-unit clearance; no visible floor. Seventeen geometry samples do not certify full mesh collisions or human biomechanics.",
+    "id": "jump-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/222/squat-jump/",
+      "https://www.acefitness.org/resources/everyone/exercise-library/222/squat-jump/"
+    ],
+    "sourceSha256": "9bed517aa45c2705b3bd501e410478d4fd3c22de2644af9695ff065dbb3b4e89",
+    "videoSha256": "a3b7544abab5002a97d128219df9c0d0d2a5ce738913bdd845b98c2373912751",
+    "rigSourceSha256": "44a020af0db2b612c89c1a2a19b2433f7bd0cd083d84298633ee75262fb0563e",
+    "darkVideoSha256": "f0b99ff809e30f4a4acbaf76f09b7e9d24f359b0f3edfe7ebf0bb089c95e65c4",
+    "reviewedAt": "2026-11-12T09:46:22.978Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Two-handed kettlebell swing: hip hinge backswing to shoulder-height extension.",
+      "equipment": "One kettlebell with horizontal two-handed handle; sphere and handle follow swing direction.",
+      "setup": "Front and side eight-frame sheets inspected; spine held with torso, feet apart.",
+      "hands": "Both curled hands retain the same handle sockets through the full cycle.",
+      "feet": "Both feet and toes stay planted without drift.",
+      "movement": "Hips move back during hinge and extend on upswing; arms remain long with slight elbow flexion; no overhead lift."
+    },
+    "note": "Procedural slow demonstration, not a ballistic dynamics simulation. Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units. Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics.",
+    "id": "kettlebell-swing",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/january-2025/8788/the-ace-do-it-better-series-the-two-handed-kettlebell-swing/",
+      "https://www.acefitness.org/continuing-education/certified/january-2025/8788/the-ace-do-it-better-series-the-two-handed-kettlebell-swing/"
+    ],
+    "sourceSha256": "94eecf331a18df04f83a6b5110ea1be337113998d049fcaed7af8f3925be7136",
+    "videoSha256": "684ba733f2f0c09d264d8de98b3c189cbfad640eafad1df843a94709e3c8b37e",
+    "rigSourceSha256": "342553f1306894abff2d6f70bc682dd314b843fe98e4d7ef28b0ba60f0f9d0d0",
+    "darkVideoSha256": "a8f912cea4b7fe3e6aadaacce7ae79b213a43cc59a90a8a7b7de10abe4efa6ac",
+    "reviewedAt": "2026-11-12T10:00:37.220Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Wide-stance kettlebell sumo squat with knees tracking outward and controlled descent.",
+      "equipment": "One kettlebell with horizontal two-handed handle; sphere hangs below the handle.",
+      "setup": "Front and side eight-frame sheets inspected; spine held with torso, feet apart.",
+      "hands": "Both curled hands retain the same handle sockets through the full cycle.",
+      "feet": "Both feet and toes stay planted without drift.",
+      "movement": "Knees and hips flex for squat; bell lowers between legs and stays below waist; torso remains mostly upright."
+    },
+    "note": "Procedural demonstration; kettlebell does not touch the floor. Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units. Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics.",
+    "id": "kettlebell-sumo-squat",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.nuffieldhealth.com/article/how-to-kettlebell-squat",
+      "https://www.nuffieldhealth.com/article/how-to-kettlebell-squat"
+    ],
+    "sourceSha256": "d8615181270b7ae79c086489cbcd24290414ca7422e5ba4f1f0f13fc816558b9",
+    "videoSha256": "314fc2fe1b586a2fc9a6a010e022b5f2ef7b4b2281cf373c64442b3b316f172b",
+    "rigSourceSha256": "2cc877d6a5b1196413e044b92a9b242ecda0ce78338e5171ef05c109e9ddb240",
+    "darkVideoSha256": "b928fd5c0bd4fd3a8a264a57175695a4d84e7d9f8e6cf2a6c519f6dfec5c1329",
+    "reviewedAt": "2026-11-12T10:06:37.333Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Farmer carry with two dumbbells and alternating short walking steps.",
+      "equipment": "One dumbbell on each side, parallel handles in neutral grip.",
+      "setup": "Front and side eight-frame sheets inspected; upright torso, head forward.",
+      "hands": "Both curled hands retain handle sockets; weights stay beside hips.",
+      "feet": "Alternating swing and stance, at least one support foot, no reconstructed world stance drift.",
+      "movement": "Body-relative gait loop represents forward camera tracking; limbs return continuously."
+    },
+    "note": "Slow procedural camera-relative walking loop; no visible ground or traveled distance. Simplified flat-foot gait without heel-to-toe roll; elbows retain about 20 degrees flexion. Seventeen sampled vertex-to-plate clearances do not certify all mesh/handle collisions or human gait biomechanics.",
+    "id": "farmer-s-carry",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf",
+      "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf"
+    ],
+    "sourceSha256": "79361ac8b3d4beefdf4f496cba31143d32f0bd4e6440a2c2b2fb9256e9a0e3d9",
+    "videoSha256": "2e4bd484f6f740a961629a306e0a563aba717965f8e76686ab3818475f6696f8",
+    "rigSourceSha256": "c06e71589d49d24981066e171033ec6962b37917d3e5f94475643a459c9b685c",
+    "darkVideoSha256": "0b609431e5962e7a817342f58ba2bc0823f66670ead2b34ceb81d978db7c425e",
+    "reviewedAt": "2026-11-12T10:18:18.646Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Limited-range Nordic curl with a 45-degree forward lean from the knees.",
+      "equipment": "Padded knee support and anchored ankle roller visible.",
+      "setup": "Front and side eight-frame sheets inspected; hips remain extended and trunk aligned.",
+      "hands": "Hands held forward ready for support; no hand push-off in this limited-range version.",
+      "feet": "Both knees and ankles fixed; feet extend behind the ankle restraint.",
+      "movement": "Controlled lean and return as one aligned trunk/thigh segment, continuous loop."
+    },
+    "note": "Limited 45-degree unassisted range; not full eccentric-to-floor or hand-assisted return. Knee skin support gap up to 0.065 model units; ankle gap about 0.023; padded supports are rigid. Sampled geometry is not complete mesh collision or biomechanics certification.",
+    "id": "nordic-hamstring-curl",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://theprehabguys.com/vimeo-video/nordic-curl/"
+    ],
+    "sourceSha256": "951e5f184ed9ec84b9a15883c30846efccd1439d4c16d7ef817cf0e9dae21ce0",
+    "videoSha256": "860c55af0f96cf5e706e1ee8b993a51dbcd682e42a65d74f0db167f93a691bda",
+    "rigSourceSha256": "406dfbf001b02a031652ae78e9584d842082c64772234af8b9963c86a4d297b0",
+    "darkVideoSha256": "83d329e6bc92cef02293183fefd7ee9e4dba2ab9795b10ebc89efa69ded08179",
+    "reviewedAt": "2026-11-12T10:31:44.361Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "standing-band-row identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "앞쪽의 안정된 지지대에 밴드를 고정하고 양손으로 손잡이를 잡아 선다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치를 굽혀 손잡이를 몸통 가까이 당긴 뒤 천천히 앞으로 보낸다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 몸통을 뒤로 젖히지 않고 양발을 고정한다",
+    "id": "standing-band-row",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "57ed6ffd455fcfa451e3692536b294602c5e214e3df85c9a509e11b760850d3b",
+    "videoSha256": "de4fdbf9bbff9754d8b4fca8fbdcf7a270368fb9438e46e74f8cdb983559f4b7",
+    "rigSourceSha256": "f02c523302607e34a46455adc23f484b8b93338b44d5efdc8a4f954a6f21a30d",
+    "darkVideoSha256": "aa85be1fc6ea663d2609217e3c9e06fee647799f552561fdf1b7a55e871c9eb6",
+    "reviewedAt": "2026-11-12T11:24:33.353Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "band-chest-press identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "뒤쪽의 안정된 지지대에 밴드를 고정하고 양손 손잡이를 가슴 옆에 둔다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "손잡이를 가슴 앞쪽으로 밀어 팔을 편 뒤 천천히 돌아온다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 팔꿈치를 몸통 가까이에 두고 허리를 젖히지 않는다",
+    "id": "band-chest-press",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "0cbe09698ac3c23efd68c9f8b9e0613b4a90d326f6673d5aefc1bb2de3b44bb7",
+    "videoSha256": "7c60dfb4d3746c4a9048feb326191639a2e19e1186e6e5e654d6a00fa805253c",
+    "rigSourceSha256": "0951e9ecf99a84a17bd440d4f6069520b15b2e2a514e25de17b8d0dda834e61f",
+    "darkVideoSha256": "694d48502d9f3172f11307fc044c32d296dbe2698a464d7befb5e219a1d13adb",
+    "reviewedAt": "2026-11-12T11:24:38.090Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "band-shoulder-press identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "발 옆의 낮고 안정된 지지점에 밴드를 고정하고 양손 손잡이를 어깨 위쪽에 둔다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "양손을 머리 위로 밀어 올린 뒤 팔꿈치를 굽혀 돌아온다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 바닥 지지점에 고정한 밴드를 사용한다",
+    "id": "band-shoulder-press",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "cf052732f93074086d6757534d6bda9fec926e299a621c8ebac2396f24066e0e",
+    "videoSha256": "ec7243cb02d57c29d4a0fb3a795dcd7a9a9991bdff7b038cc7bc35bab1ffa7cc",
+    "rigSourceSha256": "ec886e91f1cf7c9936d1c14b68bdb29ca13844b832c1d09b76ca3e46020f83ec",
+    "darkVideoSha256": "f51ba7530084ba021c2a49a942bd193fabc20bbc64726040b408652b66c7a0c1",
+    "reviewedAt": "2026-11-12T11:24:57.056Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "band-pulldown identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "머리 위의 안정된 지지점에 밴드를 고정하고 양손으로 손잡이를 잡아 선다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치를 아래로 굽혀 손잡이를 얼굴 양옆으로 당긴 뒤 천천히 올린다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 서서 하는 풀다운이며 무릎을 굽혀 반동을 주지 않는다",
+    "id": "band-pulldown",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "6067d2025a42056285e53791d12422e2bc3e83a18ec94e0d4e9b49b4af49f228",
+    "videoSha256": "a5bcad4cf031ccfefff5cd2853b8e497f4dcb20fb690eb7c0eb2ec99706b9af5",
+    "rigSourceSha256": "16f6a3e141417f75dcf1ad5275e487b971144686da64fd1f0c53362668749ce8",
+    "darkVideoSha256": "8ff3deb0fa56d0341e6ad0277b99210e59a66b0ccbbef2487ba80176f7c36367",
+    "reviewedAt": "2026-11-12T11:25:02.763Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "band-face-pull identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "얼굴 높이 앞쪽 지지점에 밴드를 고정하고 양손 손잡이를 잡는다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치를 옆으로 벌리며 손잡이를 얼굴 양옆으로 당긴 뒤 돌아온다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 손이 얼굴에 부딪히지 않도록 양옆으로 벌린다",
+    "id": "band-face-pull",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "eed54c84efe8beb20f3952b3a14b519b2edce8eae9ff6aa338e9039739c2add4",
+    "videoSha256": "e7ee6f43524a29945046d43260479a88b15d59a410f47075c576df096ce216b1",
+    "rigSourceSha256": "a18db2f2bb2ad414bd1e4d16ed10d99a0b023b6d185fbc5ddfbebd7108e0432a",
+    "darkVideoSha256": "171d66a95badf8907d7df9067d37632d5929ac4b27563d58d2c0e1a33f819943",
+    "reviewedAt": "2026-11-12T11:25:07.192Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "standing-cable-chest-press identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "뒤쪽 가슴 높이의 두 케이블 손잡이를 잡고 양발을 벌려 선다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "양손을 가슴 앞쪽으로 밀어 팔을 편 뒤 천천히 돌아온다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 기구를 등지고 서며 몸통을 흔들지 않는다",
+    "id": "standing-cable-chest-press",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "fca3f9deded8602220394c97a11542940721274b66789083908713265e775b36",
+    "videoSha256": "1308de1774f54da305930fa4d4d08e0839c2bb12c7b4bdcec352b2b60568c0c0",
+    "rigSourceSha256": "a78c135d534fadd69dc0d92043d92e3819d0d7ba2fbe180d5de8cbbe4f92dccd",
+    "darkVideoSha256": "94c19d2e5e88aee11397b2dd28361bbd101593442ad823046e4493ffedb6a426",
+    "reviewedAt": "2026-11-12T11:25:11.521Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-lat-pulldown identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "높은 도르래의 손잡이를 한 손으로 잡고 반대팔은 몸 옆에 내린다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "작업 팔꿈치를 아래로 굽혀 손잡이를 얼굴 옆으로 당긴 뒤 천천히 올린다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 왼팔을 움직이는 서서 하는 변형이며 반대쪽도 같은 방식으로 수행한다",
+    "id": "single-arm-lat-pulldown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "815b7909780eb0443730681c868b7de3fa80e151c1046bfc64c0a44b24e00067",
+    "videoSha256": "f8d640009001357923aaad9cbbab2da9aa88c8959fdb8258c3754d06518b23d8",
+    "rigSourceSha256": "883fa5c4e6ded812216a097e34fe077417611a862b89855d8db9a760f8f94e4b",
+    "darkVideoSha256": "1d12ed95a078b73e6e64e6aebc8aa4e0320063efd5c4366afd26b5761b663f53",
+    "reviewedAt": "2026-11-12T11:25:15.787Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-straight-arm-pulldown identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "높은 도르래의 손잡이를 한 손으로 잡고 팔을 앞위로 뻗어 선다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 손잡이를 허벅지 앞까지 내린 뒤 돌아온다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 왼팔 시범이며 팔꿈치를 굽혀 당기는 풀다운과 구분한다",
+    "id": "single-arm-straight-arm-pulldown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "f35c3ad885d6e4120e39bdfb1d463f047f143a89824704bfc40368a23cf1a002",
+    "videoSha256": "02cb4b80cc8a3af2c242dc3d32f486e1c7434896675048777ff17047c4800012",
+    "rigSourceSha256": "9a7efa680651e028b6e8cc357f6360484e1a226aba3d1dd8bcc8deca73bc18da",
+    "darkVideoSha256": "b5a9a591e83c1992ac30a2700d096ec5ab5d706f8261f0683232ee4183d20c26",
+    "reviewedAt": "2026-11-12T11:25:20.157Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-cable-front-raise identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "앞쪽 낮은 도르래의 손잡이를 한 손으로 잡고 팔을 몸보다 조금 앞에 둔다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔을 앞쪽으로 어깨 높이까지 올린 뒤 천천히 내린다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 왼팔 시범이며 몸통을 뒤로 젖히지 않는다",
+    "id": "single-arm-cable-front-raise",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "cd1418b91e93326c2c5b8db87cfbf8c0cd9070f8d253afd3c9efd72c820a4713",
+    "videoSha256": "faffb15a1f83a092cc228c454bee9c6058f2923ae6864c22edeed4cbbd267ce8",
+    "rigSourceSha256": "1dc89bf4d1bff339f44879eb4b297a2a6c5f619ef8278e5562575113e8653098",
+    "darkVideoSha256": "99926fce52b0b69da066f06cc3c0c3c6205209cb3632ca8fcaa752a4e666bf9f",
+    "reviewedAt": "2026-11-12T11:25:36.543Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-cable-lateral-raise identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "반대편 낮은 도르래의 손잡이를 한 손으로 잡고 줄이 다리 앞을 지나게 선다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "작업 팔을 옆으로 어깨 높이까지 올린 뒤 천천히 내린다"
+    },
+    "note": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 왼팔 시범이며 어깨를 으쓱하지 않는다",
+    "id": "single-arm-cable-lateral-raise",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "sourceSha256": "27d6cef97ef0209f8ec52f940c11f1f52ce13f34273ec905416e3ff9913c32bc",
+    "videoSha256": "d9dce75cedd7cf1eddc751fa70773833261f9043eb71afcb558949f1af85a54c",
+    "rigSourceSha256": "4ce32f5b21b440e4feabbef9f152aa8aadf0839a144e4f685c0685378401b5d9",
+    "darkVideoSha256": "d06cfbc376fbe8da77623107725be7b85c8b5c6f6b9a5137405fa7d2f8b2e898",
+    "reviewedAt": "2026-11-12T11:25:48.932Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-machine-chest-press front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "좌우 레버가 독립적으로 움직이는 머신에 앉아 등과 양발을 지지하고 손잡이를 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 손잡이를 가슴 앞쪽으로 밀었다가 천천히 돌아온다"
+    },
+    "note": "Slow procedural left-arm demonstration; right side is not animated. Simplified lever and stack geometry, not a specific commercial machine. Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification.",
+    "id": "single-arm-machine-chest-press",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html"
+    ],
+    "sourceSha256": "70055915e8a84d7582a29a16149fcca66a570563dab198d52ccffebf2bfd1fbb",
+    "videoSha256": "4ae476b08672121c8d81842f8d01e09966dfb16b62ae23308a8c7a08317772e2",
+    "rigSourceSha256": "626049bd671df940930087565d9e697af0d646794cf379315acaae824d06d154",
+    "darkVideoSha256": "275674e384057470d37e67b3d251e6df7ac44e5a0670b487454297d075bf8e0d",
+    "reviewedAt": "2026-11-12T11:26:11.553Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-machine-shoulder-press front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "독립 레버 숄더 프레스 머신에 앉아 등을 기대고 손잡이를 어깨 옆에서 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 손잡이를 머리 위로 밀어 올렸다가 천천히 돌아온다"
+    },
+    "note": "Slow procedural left-arm demonstration; right side is not animated. Simplified lever and stack geometry, not a specific commercial machine. Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification.",
+    "id": "single-arm-machine-shoulder-press",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.technogym.com/en-GB/product/artis-shoulder-press_MK69EH.html"
+    ],
+    "sourceSha256": "783bb8bf73524783a4cb65f71f0d996c43c700b2ca2f6c96a6e470639e83cc3b",
+    "videoSha256": "dc4ed514ad1781ba73ab1bf61a6a457dc774f53cd6fa57d6d515a13479b1dfc6",
+    "rigSourceSha256": "77c22c4ae835a65f58950197255d209caee28f7975c1f9bb3b014f1748397ec2",
+    "darkVideoSha256": "ed66799f77c2df05b1a54f2c0217929990437eb18fd8f1ae5cd345f21897cd6b",
+    "reviewedAt": "2026-11-12T21:25:26.974Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-pec-deck-fly front and side sheets inspected",
+      "equipment": "Seated machine with independent levers; pec deck has forearm pads",
+      "setup": "독립 레버 펙덱 머신에 앉아 팔꿈치를 굽히고 전완을 패드에 댄 뒤 손잡이를 잡는다",
+      "hands": "Both hands closed around handles; right hand and lever remain at starting position",
+      "feet": "Feet fixed; seat and back support remain stable",
+      "movement": "한쪽 팔의 굽힘을 유지한 채 패드를 가슴 앞쪽으로 모았다가 천천히 돌아온다"
+    },
+    "note": "Slow procedural left-arm demonstration; right side is not animated. Simplified lever and stack geometry, not a specific commercial machine. Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification.",
+    "id": "single-arm-pec-deck-fly",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html"
+    ],
+    "sourceSha256": "e4741686f79fd8dbc61273ab8aef4412c81563f9bd1acb1ac1d1291f7ef39aed",
+    "videoSha256": "e1c47ece2b8918a837c71c2204cadf47ef13f4e1353ee4d8010a3e4197a41269",
+    "rigSourceSha256": "fbbfbf4165765db1067b08cb5ebb998259a7c14490421b71c199e51f88b07ca9",
+    "darkVideoSha256": "b424bd20971a1266653d5014ad567143c06fc4689915205373721f2372c39a17",
+    "reviewedAt": "2026-11-12T23:57:09.893Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "cable-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "도르래를 팔꿈치 높이에 두고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. External rotation demonstrates left arm only. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "cable-external-rotation",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation"
+    ],
+    "sourceSha256": "71daec8f086a4b688505542f59aa8f7abfaf1647b3b9a41a8bd4fcc783e769df",
+    "videoSha256": "440d13e0cae14cfd75556452c9bd99b6afd8c7b7b98c9d18114b8632859672be",
+    "rigSourceSha256": "c51ec41c6c9cf1d64ca22ba44ce285e1b6957384e1e9af9802d803c922e5e608",
+    "darkVideoSha256": "b16e19540638832aa650a7617802cda8db46c9aca4db5ec1e9726b969aea6440",
+    "reviewedAt": "2026-11-13T00:30:19.019Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "band-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "밴드를 팔꿈치 높이에 고정하고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. External rotation demonstrates left arm only. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "band-external-rotation",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation"
+    ],
+    "sourceSha256": "4f4eaf86c01978914ad63ebef0b4e18a9a24ad15107c04b0cd7de891d6cdffa6",
+    "videoSha256": "8071e2bbf33b7598a7c464867dbbb79140c236391a3b11478018f121c2d5a7cb",
+    "rigSourceSha256": "ac2b0bf9ceb5c5af6aa7a54da3d7aab14624e1976b4821fcda3b988c2926a2eb",
+    "darkVideoSha256": "32916c4f4ff0116ef801e6859babedb247932cb77950c021707c974e160bfe3a",
+    "reviewedAt": "2026-11-13T00:30:34.870Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "high-cable-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "양쪽 높은 도르래의 손잡이를 잡고 기구보다 앞에 안정적으로 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 두 손을 앞쪽 아래로 모으고 천천히 벌린다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. External rotation demonstrates left arm only. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "high-cable-fly",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+    ],
+    "sourceSha256": "df5f29b14bed4ce3e5fc2857703f0275156a0885a0c3f014f4ef1e3697fdd5d3",
+    "videoSha256": "388e0eb0b7d7c2b8c8438d2f6745859c21cbcc77e6c5484460fb1191e53981a6",
+    "rigSourceSha256": "63f0010433daac13c35f677a80e1b33b1413f886c97f737d5cf3fef447d4eefd",
+    "darkVideoSha256": "5f5421d444125232f6d6c8664675df4defc9465fcea9bc4325e061047ec2be9d",
+    "reviewedAt": "2026-11-13T00:30:45.529Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "standing-cable-reverse-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "가슴 높이의 도르래를 마주 보고 양손으로 반대편 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 옆으로 벌리고 천천히 앞으로 모은다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. External rotation demonstrates left arm only. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "standing-cable-reverse-fly",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+    ],
+    "sourceSha256": "8333bf838f1ad083df7deb27f339d423e37c889fa954f5bd43e39a53d5d2ce5a",
+    "videoSha256": "849f16fb795b53b77e5639933629012c1adfaaa4539fbc94ca7401282f65aaf4",
+    "rigSourceSha256": "e7bfa0794bf0bf156ac460be90136a2bc8f1963dbcf087bdea87d43835787c2d",
+    "darkVideoSha256": "43034f491d02712c3eda5e6e4b300c5c025f25d71130cd0d9b633b02ad64f938",
+    "reviewedAt": "2026-11-13T00:30:52.397Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "cable-y-raise front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 잡고 발을 고정해 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 앞쪽 대각선 위로 올려 Y 모양을 만들고 내린다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. External rotation demonstrates left arm only. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "cable-y-raise",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+    ],
+    "sourceSha256": "117746895a8d11415c6b79ff39da5b2f8b7cde3d4df98522b74cc155f63c05c7",
+    "videoSha256": "6a28daff648dc39c9f445d598cf27fb5526b05b6b59c92939cfd62adf5bb555b",
+    "rigSourceSha256": "518d83e1f3b760f7c4cefbcc84dd4cad9dbea85f0293a385de87bff01611023d",
+    "darkVideoSha256": "dc3cb252dd32ebaba4e3e1025da7c6ab22661807cacd878228711806abce2b02",
+    "reviewedAt": "2026-11-13T00:30:57.942Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "cable-shrug front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 양옆에서 잡고 팔을 길게 늘어뜨린다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 굽히지 않고 양어깨를 위로 올렸다가 천천히 내린다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. External rotation demonstrates left arm only. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "cable-shrug",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+    ],
+    "sourceSha256": "eb94e689f663d00fdba3391cba04d0a13c653e5563dced4128a84d3d14f7be2a",
+    "videoSha256": "6fe6c5aa485e6ee4d7016e36cac208478341581633f75f0044dbfcb02c0943dc",
+    "rigSourceSha256": "21fdb2461ab6ef4532378a80ffb511d34f264d3dbae5709ecd6b1bc05257dbc7",
+    "darkVideoSha256": "cc22d9fef6decac460a88f630a3b01de2d2b4db52573c3949b2d93f8ed8b5507",
+    "reviewedAt": "2026-11-13T00:31:03.321Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "wide-grip-cable-row front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "벤치에 앉아 발판에 발을 대고 양쪽 손잡이를 어깨보다 넓게 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "몸통을 세운 채 팔꿈치를 옆으로 벌리며 손잡이를 몸 쪽으로 당기고 천천히 편다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. Single-arm row demonstrates left arm only; wide row uses two independent handles. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "wide-grip-cable-row",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+    ],
+    "sourceSha256": "757183621d956082230b28cf6ee77b1dcd27307eaeade8c223ae0b38311c31c1",
+    "videoSha256": "e232c56c7b1ce5b4fdfd9b2b0b261bfe0db75d91b1ccf278d0afde07fceb2d53",
+    "rigSourceSha256": "33a30883fdbf16b4150125dda413fc8a58107b07159423b75d88056104be04c8",
+    "darkVideoSha256": "4ce023a84b6c16fa846f0cd7f5698a8dfea42fe25f4783c3cec62361f7293189",
+    "reviewedAt": "2026-11-13T02:07:01.019Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "single-arm-cable-row front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "벤치에 앉아 발판에 발을 대고 한 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "몸통과 반대팔을 고정한 채 팔꿈치를 뒤로 당겼다가 천천히 편다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. Single-arm row demonstrates left arm only; wide row uses two independent handles. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "single-arm-cable-row",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+    ],
+    "sourceSha256": "cec8219486f713e2d14e86d22d97ec35a4d4e696353427eb618420a1c8124b74",
+    "videoSha256": "d4f4e1c9a4a342769f15a0f5027dbec6a6d59db1f1c902626b4b52d8a04a7435",
+    "rigSourceSha256": "d67d572af79e7d75ef4f9eb70612ef4b86241c8df75c7d5b78196764a3088422",
+    "darkVideoSha256": "6392aa6035f4dba94a1bfe1f950aa6519727be9b30d576dc79cf7cf6bd2d0f1a",
+    "reviewedAt": "2026-11-13T02:07:07.196Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "band-row front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "앞쪽 고정점에 밴드를 연결하고 벤치에 앉아 양손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "발판에 발을 고정한 채 팔꿈치를 뒤로 당기고 밴드 저항을 조절하며 돌아온다."
+    },
+    "note": "Procedural slow demonstration with simplified equipment, not human motion capture. Single-arm row demonstrates left arm only; wide row uses two independent handles. Seventeen geometry samples do not certify full mesh collision or biomechanics.",
+    "id": "band-row",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+    ],
+    "sourceSha256": "38244e68f4d88b497e42133d37e979c602adea6604574aff5b145bbb19fbc8ef",
+    "videoSha256": "c3479f297d0f15f4fd7ef21302423f71bc7d3faecdf5d551a421f8696d5e4a45",
+    "rigSourceSha256": "e880929f850cc3e48374617d54f4fda234a8bc849d778a58148352cadbe28ef3",
+    "darkVideoSha256": "d50b92ca14ed02c4e57fd87a9acebc19376b0d876ee0bc3ca88a175f90cfbfaf",
+    "reviewedAt": "2026-11-13T02:07:13.614Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "donkey-kick front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손을 어깨 아래, 무릎을 골반 아래에 둔 네발 자세를 만든다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Left support knee and lower leg fixed; right bent leg moves",
+      "movement": "오른쪽 무릎을 굽힌 채 허벅지를 뒤로 들어 올렸다가 천천히 내린다."
+    },
+    "note": "Procedural animation with simplified skin and clothing; no full mesh collision certification. No rendered floor; palm and support-knee skin heights agree within 0.004 model units. Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor. Right-side demonstration; repeat on the other side.",
+    "id": "donkey-kick",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.rehabhero.ca/exercise/donkey-kick"
+    ],
+    "sourceSha256": "7d6d0201dc51399a11d207f2cb10b7be62e82329b6f04f16a5cc823d184da14b",
+    "videoSha256": "f17c32734e369e0243a5b393a04ed3b1944fc29b987e273e282a970b1053ad9d",
+    "rigSourceSha256": "4381001b71003418f940cad8f289fd6580372412551c97455d6296415342e858",
+    "darkVideoSha256": "1146ed1dbb9f8abdacef0cde3e0590066ca1cf6ebcf3f1a767af6b4901ac1c21",
+    "reviewedAt": "2026-11-13T02:19:49.234Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "fire-hydrant front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손을 어깨 아래에 놓고 무릎을 굽힌 네발 자세로 몸통을 고정한다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Left support knee and lower leg fixed; right bent leg moves",
+      "movement": "오른쪽 무릎을 굽힌 채 옆으로 벌렸다가 골반 아래로 천천히 되돌린다."
+    },
+    "note": "Procedural animation with simplified skin and clothing; no full mesh collision certification. No rendered floor; palm and support-knee skin heights agree within 0.004 model units. Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor. Right-side demonstration; repeat on the other side.",
+    "id": "fire-hydrant",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.rehabhero.ca/exercise/fire-hydrant"
+    ],
+    "sourceSha256": "d17df3e33eb3c1b4b505ff39b18da4bf3bc5f8b7bca2ed40eb5c0fc0c075bb87",
+    "videoSha256": "210fbccbdee0e10c37aa5298f1459f5e9cb8fd70a2e8d26f7bde4f8c01d20395",
+    "rigSourceSha256": "924f8f2074c471618f5fc408d20864cd329138c3bf0ff24801836837cfb9bb5a",
+    "darkVideoSha256": "5e2da2f3467879472e79f0c751677ff0cbafe62b28233fb7c307657a72a77435",
+    "reviewedAt": "2026-11-13T02:19:56.133Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "cat-cow front and side eight-frame sheets inspected",
+      "equipment": "Bodyweight; no external apparatus",
+      "setup": "양손과 무릎으로 지지하고 손을 어깨 아래, 무릎을 골반 아래에 놓는다.",
+      "hands": "Forward-facing open palms remain fixed during the cycle",
+      "feet": "Both knees fixed; lower legs remain still",
+      "movement": "손과 무릎을 고정한 채 등을 천천히 둥글게 말고 다시 부드럽게 펴 준다."
+    },
+    "note": "Procedural animation with simplified skin and clothing; no full mesh collision certification. No rendered floor; palm and support-knee skin heights agree within 0.004 model units. Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor. Small-range spinal flexion/extension; eight-second loop does not reproduce the source hold duration.",
+    "id": "cat-cow",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/15/cat-cow/"
+    ],
+    "sourceSha256": "cd9a171bde3e1968411a8c992d13fa9a34805a34161d028bd9ba995340f3e598",
+    "videoSha256": "83b49e0b7fb2ebd41583bab00560bb089ee9567b07c35697ecf8bd28c0262edf",
+    "rigSourceSha256": "f6a31a3610df13306cd2b40ed7b5da3a73522dda0fdbeaf68db2045659631d3c",
+    "darkVideoSha256": "bc0e27113e1043f1983269ef6e0fde0bc7c9e1bbfc86c57e99c8aa3a156e5cc6",
+    "reviewedAt": "2026-11-13T02:20:02.397Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct full-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points up at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 위를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "note": "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification. Arm elevation limited below shoulder height; small fixed elbow bend. Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification.",
+    "id": "full-can-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/"
+    ],
+    "sourceSha256": "67529212d2df62a7569cdb370fc7ee30f3b9ff2aae6cde8f15d190065d609403",
+    "videoSha256": "d774933f50cb55cb6bb0a78fca50abfcfe945e1768f18db97b7a3f8e4798feff",
+    "rigSourceSha256": "6661b230bb574100e0797f8cbf32d0f1bbbfb384676534a0cc9900dbf9ee5f50",
+    "darkVideoSha256": "af4ad7ff5851e3b7e5d183ff6340406e2ce59790cd29cdf135a8b38fb2596571",
+    "reviewedAt": "2026-11-13T02:29:11.508Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct empty-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points down at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 아래를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "note": "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification. Arm elevation limited below shoulder height; small fixed elbow bend. Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification.",
+    "id": "empty-can-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/"
+    ],
+    "sourceSha256": "72568106acdfb39b1d0afe385e5bf4a85fa06dcb07a18fe92987a4f69e298790",
+    "videoSha256": "7f050e5d0db76d244962d174660e4bc6eebaab0015f509c89b7923371f514014",
+    "rigSourceSha256": "64de504c9b6b353757ca552f369e094c40cce8a623f770a4aaaefbc90d218224",
+    "darkVideoSha256": "159644d8929075bdaefe995447cec1256d5bd2577d2eb323cd616b15a889cff3",
+    "reviewedAt": "2026-11-13T02:29:18.094Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct incline-rear-delt-raise path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "팔꿈치를 살짝 굽힌 채 양팔을 옆으로 벌려 어깨 높이까지 올렸다가 천천히 내린다."
+    },
+    "note": "Slow procedural demonstration, not motion capture or clinical certification. Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance. Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification.",
+    "id": "incline-rear-delt-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/34/incline-reverse-fly/"
+    ],
+    "sourceSha256": "ae4c9b4238a8b50eb2282f783bac3475dc65af3654521f13e4d9c155bb92c6a8",
+    "videoSha256": "54024054c210c19e4cf968b0beac43480a1bd1bc70bf2aca82f16f8d3768c3ce",
+    "rigSourceSha256": "8b2c25eb196906b8d231d2f01b81876620aab15bb366644fa7d616a068fb6725",
+    "darkVideoSha256": "fccb9c119f595b238b1ed5fad78fbd219139ada655a4e746ec3a399b0ee286ea",
+    "reviewedAt": "2026-11-13T02:37:33.172Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct incline-bench-dumbbell-row path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "팔꿈치를 뒤로 당겨 덤벨을 몸 옆으로 끌어올렸다가 천천히 팔을 편다."
+    },
+    "note": "Slow procedural demonstration, not motion capture or clinical certification. Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance. Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification.",
+    "id": "incline-bench-dumbbell-row",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://contentcdn.eacefitness.com/certifiednews/images/article/pdfs/ACEShoulderStudy.pdf"
+    ],
+    "sourceSha256": "298a7cc349d6796d4ce1bf46991ffadb55837dcd354a89f7bc415097a10f94ac",
+    "videoSha256": "6bfd2df5589f25b5831d256cda9d421590bb6d3bc54ab8e6db76b2f0eb6a1578",
+    "rigSourceSha256": "375434b2d5c477662c13d5be4ebe511f613f592733926fb45cd674e2165992dc",
+    "darkVideoSha256": "f6c4810a73a7734e7766f43e26bc8fa50a86802a94b34b488cb1d4c426e95f75",
+    "reviewedAt": "2026-11-13T02:37:39.129Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct prone-y-raise path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "양팔을 머리 앞 대각선으로 올려 Y자를 만든 뒤 천천히 내린다."
+    },
+    "note": "Slow procedural demonstration, not motion capture or clinical certification. Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance. Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification.",
+    "id": "prone-y-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.rehabhero.ca/exercise/incline-bench-y-raise"
+    ],
+    "sourceSha256": "352dac5eb11359466ee4aaeed80e93a24a9141e60ba14d80611d30041094851d",
+    "videoSha256": "7ee60f0f720b8fb3dfaba46811f1c047f21f53cafff5a29c439a0b8609cb54ac",
+    "rigSourceSha256": "b38e3f94e0160191ca93b936e46b8197afc27d8ea550eb04ca2dd11aec1e77db",
+    "darkVideoSha256": "c99970d080b3f30281742247b01d75dd5853a86c9818f3a5439bcf02597ab980",
+    "reviewedAt": "2026-11-13T02:37:45.190Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct squeeze-press path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and flat bench with head support",
+      "setup": "평벤치에 등과 머리를 받치고 양발을 바닥에 둔 채 덤벨을 잡는다.",
+      "hands": "Neutral close grip with constant dumbbell spacing",
+      "feet": "Both feet, head and trunk fixed",
+      "movement": "손바닥이 서로 마주 보게 잡고 덤벨을 모은 채 가슴 위로 밀어 올렸다가 내린다."
+    },
+    "note": "Slow procedural demonstration; not captured human movement or full collision certification. Small elbow bend retained at top; the bottom deliberately stops above the chest. Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded.",
+    "id": "squeeze-press",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/node/4096"
+    ],
+    "sourceSha256": "5aaa6b7603ae84aa548ced27314576e360cc1cc0d004dd3c54db37c041e573da",
+    "videoSha256": "61162ef6d9ef4676cfe0256610536f5f64e8b19a9e4d8965a1ce510345968441",
+    "rigSourceSha256": "5251c3bf704d0c9eaf03e1a03e401c33161af7a558ece6630cdde07e560786c5",
+    "darkVideoSha256": "63a0b37337f1e1669ad9b4fcb08599ec1e9b710b2e562b3c0698e0eefa9c4022",
+    "reviewedAt": "2026-11-13T02:47:31.660Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct tate-press path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and flat bench with head support",
+      "setup": "평벤치에 등과 머리를 받치고 양발을 바닥에 둔 채 덤벨을 잡는다.",
+      "hands": "Outward elbows and inward folding forearms; dumbbells separated after correction",
+      "feet": "Both feet, head and trunk fixed",
+      "movement": "팔꿈치를 옆으로 벌리며 덤벨을 가슴 쪽으로 접어 내린 뒤 팔꿈치를 펴서 들어 올린다."
+    },
+    "note": "Slow procedural demonstration; not captured human movement or full collision certification. Small elbow bend retained at top; the bottom deliberately stops above the chest. Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded.",
+    "id": "tate-press",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/tate-press/"
+    ],
+    "sourceSha256": "3312339da8eefd151f4853c3e059e82744bf57186c914af37945c1a78d5c0258",
+    "videoSha256": "0a94a1e205d0b12f2fda424ce8ce1f38c68966b3e77482092d4be6384d2bdf1e",
+    "rigSourceSha256": "4313d37b49b162c705104a36a5216f92086fc62753e9b6bcf0d944ac60e78347",
+    "darkVideoSha256": "c6863dd39b2599d6cea48edfa35005b1c7f0f8b81a9f7653b03160d8e4f92b5a",
+    "reviewedAt": "2026-11-13T02:47:37.812Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct band-squat sequence inspected in full and side sheets",
+      "equipment": "Two bands fixed at outer soles with shoulder-height handles",
+      "setup": "밴드를 양발로 고정하고 양손 손잡이를 어깨 높이에서 잡는다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손 높이를 몸통에 맞춰 유지한다."
+    },
+    "note": "Slow procedural demonstration; not ballistic force simulation or human motion capture. Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance. Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification. Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue.",
+    "id": "band-squat",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/135/bodyweight-squat/"
+    ],
+    "sourceSha256": "79e2254ec5a4f9f8af5fdc9d1c964b79caaf471ab76e2421079f5d29533c20f3",
+    "videoSha256": "e1d571454c1c12eb29085691153801b4713f87a78a10339d0ff9200bf48162d0",
+    "rigSourceSha256": "dc4509e0bff8ce5be1690fb98bc3d7bf9563e1f40aa1e31b04285d30725f88b3",
+    "darkVideoSha256": "71bf5906eedcbe4cab161ea97414731d77ad259b0c6195718ac54a0fbdc2854a",
+    "reviewedAt": "2026-11-13T02:57:35.475Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct overhead-squat sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 넓게 잡아 머리 위로 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "팔을 편 상태로 바벨을 머리 위에 유지하며 앉았다가 일어난다."
+    },
+    "note": "Slow procedural demonstration; not ballistic force simulation or human motion capture. Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance. Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification. Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue.",
+    "id": "overhead-squat",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.crossfit.com/essentials/the-overhead-squat"
+    ],
+    "sourceSha256": "928463255854852aeda3eabae9d1c9d19a4a8a5b5e38cdf665bdc69252ad7aeb",
+    "videoSha256": "979c3846f439c390810d6e30a51970633db298053f81f9e615b14c871cdd01d5",
+    "rigSourceSha256": "c5d58dcb5d15d0f26ac95dddd912c32afe621969af116f60ea72de1fee64255a",
+    "darkVideoSha256": "dc51736031c5a5052b1f65e40fbe607d171c64674ad2f6d1bfe962f5fa930b51",
+    "reviewedAt": "2026-11-13T02:57:41.468Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Distinct thruster sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 어깨 앞에 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "스쿼트로 앉았다가 일어나면서 바벨을 머리 위로 밀어 올린다. 바벨을 어깨 앞으로 되돌린다."
+    },
+    "note": "Slow procedural demonstration; not ballistic force simulation or human motion capture. Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance. Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification. Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue.",
+    "id": "thruster",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.crossfit.com/essentials/the-thruster"
+    ],
+    "sourceSha256": "9af2fb73d9d6bb7ca3547b4a02804cc0d4f56325715cd6808ab0b4efbc3c5e50",
+    "videoSha256": "536829d9b3c7d5de12e80e34462a5aa8d1ecd6b6382765e8631cdc9ec4fe2f6a",
+    "rigSourceSha256": "636531338ac2a183b0fc46e874911aa229ae28fbf788f1d743d30bd4922e9fc7",
+    "darkVideoSha256": "82e1dfeffa878a374543e8639b85d59c4af497774673a70ed4e88fce206c3572",
+    "reviewedAt": "2026-11-13T02:57:48.162Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Smith bent-over row; elbows move posteriorly in reviewed full and side sheets",
+      "equipment": "Two vertical guide rails, bar and paired plates",
+      "setup": "스미스 바를 오버핸드로 잡고 무릎을 조금 굽힌 채 상체를 앞으로 기울인다.",
+      "hands": "Closed overhand grips follow vertical bar with gradual wrist rotation",
+      "feet": "Fixed feet, toes and hinged trunk",
+      "movement": "몸통과 발을 고정하고 팔꿈치를 뒤로 보내 바를 복부 가까이 당긴다. 레일을 따라 천천히 내린다."
+    },
+    "note": "Slow procedural demonstration, not captured human motion. Limited range with the bar stopping short of abdominal contact; virtual floor clearance 0.0325 model units. 17 sampled body/plate and central-body/shaft clearances; not exhaustive mesh collision certification. Rack release and safety catches omitted from the repeated exercise cycle.",
+    "id": "smith-machine-bent-over-row",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/smith-machine-bent-over-row.html"
+    ],
+    "sourceSha256": "08c579b8a40050be8d2d43ed076be68af6ce68ca38df59079fa5cc2664c19c99",
+    "videoSha256": "1ee983498c611e98d3da5eeb16f1f65432ebfef02b605cab2a5ecb328c77c4ae",
+    "rigSourceSha256": "7274db665921506ceb127bee24871213fbf99f92d4e16736f4f4816f91a84b4a",
+    "darkVideoSha256": "5f3919a39bfec2c2d05f018de1ed12063157e77dace352b7307d810a77330e39",
+    "reviewedAt": "2026-11-13T03:09:03.054Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Prone cobra back extension, distinct from hand-supported cobra stretch",
+      "equipment": "No added equipment",
+      "setup": "엎드려 다리를 뻗고 양팔을 몸 옆에 둔다.",
+      "hands": "Open hands with thumbs oriented upward, reaching toward feet",
+      "feet": "Pelvis, legs and toes remain stationary",
+      "movement": "엄지가 위를 향하도록 손바닥을 바깥으로 돌리고 팔을 발 쪽으로 뻗으며 가슴을 조금 든다. 잠시 유지한 뒤 천천히 내린다."
+    },
+    "note": "Procedural spinal extension of 2–20 degrees, not motion capture. Three-second illustrated hold within the eight-second loop; not a prescribed training duration. Virtual floor clearances and sampled geometry; no tissue compression or complete collision certification.",
+    "id": "prone-cobra",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.lesmills.com/articles/prone-cobra"
+    ],
+    "sourceSha256": "36cac498eecaef439139355eeed0928c52ee9722c1fd35f7afeccade52d0d49f",
+    "videoSha256": "810e80a286c7e5bf68c573ced0b57f3d01239d88231e567f79011ae9d8c652a2",
+    "rigSourceSha256": "845b1ca71a7e2290957ecf51fd029790699b4a52f8d548eb67d03ffafd180a37",
+    "darkVideoSha256": "77dc2b62dc7f62034db8daf3d841aadf100f6ba22094834c2fd309ab457ef5f6",
+    "reviewedAt": "2026-11-13T03:18:29.088Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral seated ankle dorsiflexion, distinct from heel raises",
+      "equipment": "Bilateral plate-loaded levers, footboards, forefoot rollers, heel pivots and stable seat",
+      "setup": "토 레이즈 머신 앞 의자에 앉아 뒤꿈치를 지지대에 두고 앞꿈치를 발등 패드 아래에 넣는다.",
+      "hands": "Relaxed open hands held above thighs; no simulated support force",
+      "feet": "Fixed bilateral virtual heel pivots; toes rise together",
+      "movement": "뒤꿈치를 고정한 채 발끝을 당겨 저항 레버를 들어 올렸다가 천천히 내린다."
+    },
+    "note": "Generic simplified tibialis machine, not an exact manufacturer model; 25-degree procedural ankle rotation. Heel pivots are rig landmarks; forefoot rollers and support boards use approximate contact; no tissue compression. Sampled geometry and lever movement, not complete collision certification.",
+    "id": "seated-toe-raise",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://atlantisstrength.com/gym-equipment/m126"
+    ],
+    "sourceSha256": "e3501208ae76321ed6b7eeae07d5f5a5e5a69bd8980a7f5edd35468c57b27f37",
+    "videoSha256": "8354c048603565655df08786f90a20bc5cd3ac4c92d51891d2537149e6347ef7",
+    "rigSourceSha256": "1f8084c4d48aafbbf32692fbbb57896f4b74a1899ecf871fbecf3a2e8ca74c9f",
+    "darkVideoSha256": "a2e5b8a94b0627a228a2ecf220ad886770274115ef6d20cdb31c4962a75cdfc7",
+    "reviewedAt": "2026-11-13T03:22:36.474Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Scapular pull-up with small shoulder-girdle driven torso elevation",
+      "equipment": "Fixed overhead pull-up bar and support frame",
+      "setup": "철봉을 어깨너비 정도의 오버핸드로 잡고 팔을 편 채 매달린다.",
+      "hands": "Closed fixed overhand grips; elbows remain at 175 degrees",
+      "feet": "Feet suspended throughout; no horizontal swing",
+      "movement": "팔꿈치를 굽히지 않고 어깨를 귀에서 멀어지게 내려 몸통을 조금 들어 올린다. 천천히 매달린 자세로 돌아온다."
+    },
+    "note": "Shoulder-girdle glide approximated by clavicle translation; not anatomical scapular simulation or motion capture. Five degrees retained elbow bend; 0.45 model-unit torso rise. Sampled bar/body clearance, not exhaustive mesh collision certification.",
+    "id": "scapular-pull-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://yogiathletics.com/library/scapular-pull-up"
+    ],
+    "sourceSha256": "d5d1594482269c3211d4ca1bf7653f6674ccd125f3f337d20b7d4bdfbce752f1",
+    "videoSha256": "290dc9b707b59fcaf8677208f0dafea724897c08876b0f52f2410639c60accee",
+    "rigSourceSha256": "b44e889c795a2c657190702946b5d7d6dc452142039aadb7a1184ea349211762",
+    "darkVideoSha256": "00eb479262db4e031139ecb46135c0ae5937b40fb0fbe455a9b881fad1e398d5",
+    "reviewedAt": "2026-11-13T03:27:38.957Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Front-loaded landmine squat with distinct anchored arc",
+      "equipment": "Fixed base, constant-length bar, plate and compact transverse handle",
+      "setup": "한쪽 끝이 고정된 랜드마인 바의 앞쪽 손잡이를 양손으로 잡고 가슴 앞에 둔다.",
+      "hands": "Closed bilateral grips remain on the handle",
+      "feet": "Both feet and toes remain planted",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손잡이는 바의 원호를 따라 움직인다."
+    },
+    "note": "Generic compact transverse handle rather than bare-sleeve cup grip. Slow procedural motion with fixed 20-unit bar; no force or tissue simulation. Sampled plate and central-body/shaft clearance; not exhaustive collision certification.",
+    "id": "landmine-squat",
+    "equipmentIds": [
+      "landmine"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/quad-exercises/squats/landmine-squat/"
+    ],
+    "sourceSha256": "72edaef9b924802e6c29ef88ffffbf8f4138f5b77dc4b7985687cb09953ade0a",
+    "videoSha256": "1464932b7ee0a0beb982d4ab659893a0d886040301cfaf3a21f22c0f4bd057fd",
+    "rigSourceSha256": "03b3d28c23f067fcb1126d0513519247cf312c461af18154de81eaff3d1cf158",
+    "darkVideoSha256": "acbeba13f4a4b9bf7c3c2e24e81319f455b3e4fb0c3a4fe2c472704efe382102",
+    "reviewedAt": "2026-11-13T03:32:23.410Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Smith split squat with grounded staggered stance",
+      "equipment": "Vertical Smith rails and upper-back bar",
+      "setup": "스미스 바를 등 위쪽에 받치고 한 발을 앞으로, 반대 발을 뒤로 둔다. 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Closed symmetric back-bar grips; fixed x/z throughout vertical travel",
+      "feet": "Front foot flat; rear forefoot planted with raised heel; both feet fixed",
+      "movement": "상체를 세우고 두 무릎을 굽혀 아래로 내려간다. 앞발로 바닥을 밀며 올라온다."
+    },
+    "note": "Left-leg-leading demonstration; repeat on the opposite side. Procedural animation with sampled clearance checks; not motion capture or exhaustive mesh collision certification. Bar-to-back clearance approximately 0.025 model units; rack unlocking omitted.",
+    "id": "smith-machine-split-squat",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://vimeo.com/223935814"
+    ],
+    "sourceSha256": "bd893013aec5bf49ac333b4141d77776c178be816fba59cde5383ea269a6ab75",
+    "videoSha256": "ecba41cc3887f2a90d0b4f001f6a00b58389a97767e48a8adcf3bc77ccb29d09",
+    "rigSourceSha256": "5798f9606fc2d91357ee2593b7e7195a8e55364131b494defe90526dfb112606",
+    "darkVideoSha256": "52e2d21c14245aad7772c6697a034168c72888b29509f326accbd7f7983859db",
+    "reviewedAt": "2026-11-13T03:38:13.069Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Decline dumbbell fly with fixed 20-degree elbow bend",
+      "equipment": "Thirty-degree decline bench, head pad, elevated foot platform and two dumbbells",
+      "setup": "머리가 낮아지는 디클라인 벤치에 등과 머리를 대고 눕는다. 양발을 지지대에 단단히 올리고 덤벨을 가슴 위로 든다.",
+      "hands": "Neutral closed grips and symmetric fly arc",
+      "feet": "Fixed flat feet on supported elevated platform",
+      "movement": "손바닥을 마주 보게 하고 팔꿈치를 살짝 굽힌 각도를 유지한다. 덤벨을 옆으로 벌렸다가 가슴 위로 모은다."
+    },
+    "note": "Procedural demonstration; not captured human motion. Elevated foot platform represents one supported setup; no bench entry or exit. Sampled equipment/body and support checks; not exhaustive mesh collision certification.",
+    "id": "decline-dumbbell-fly",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/chest/chest-fly/decline-dumbbell-fly/"
+    ],
+    "sourceSha256": "7b763ce52a447dd3b0432881a00f2e8949be4063ec3b0dc21f54e1b6ed26a2b4",
+    "videoSha256": "426a2ab3777fce3f984b26e42493ec09fa252abc9e9ffb39d16d6505131da61c",
+    "rigSourceSha256": "c98d21f204f76393a9c98eebeb2a7535728128c0d0804149870f1346d98baca7",
+    "darkVideoSha256": "6478eaf89a1763824ab7ed51c779c6beb37a556188f46e5e3ce8923699139f21",
+    "reviewedAt": "2026-11-13T03:45:34.206Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Smith decline chest press with elbow extension and vertical guided bar",
+      "equipment": "Thirty-degree decline bench, foot platform and Smith rails",
+      "setup": "스미스 머신 안에 디클라인 벤치를 놓고 머리가 낮아지도록 눕는다. 등과 머리를 받치고 양발을 지지대에 고정한 뒤 바를 어깨보다 넓게 잡는다.",
+      "hands": "Closed symmetric overhand grip fixed to bar",
+      "feet": "Fixed flat feet on elevated supported platform",
+      "movement": "바를 가슴 아래쪽 앞으로 천천히 내린다. 팔꿈치를 펴며 수직으로 밀어 올린다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Bar stops approximately 0.11 model units above sampled torso surface; no chest bounce. Bench entry/exit and rack unlocking omitted; sampled clearance, not exhaustive collision certification.",
+    "id": "smith-machine-decline-press",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/decline-smith-machine-bench-press.html"
+    ],
+    "sourceSha256": "774f07b71adec44c74837a5cf1e07e4d8563413aa09d561fa1b8d5e2d0b1ea37",
+    "videoSha256": "1dab9a2ae83495bb388315c59a4048d68e70f0bdad0b0bba57f0c4df2dbadccc",
+    "rigSourceSha256": "7dff6e9593a2f733f4a1ebf40d816c41ac712117106a4bafe63e3daef172b012",
+    "darkVideoSha256": "c045a38fc522651583a1c07d9ebe14458f5578e4bc1d5e4475865700217891cf",
+    "reviewedAt": "2026-11-13T03:52:52.654Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Incline machine chest press with upward-forward extension",
+      "equipment": "Reclined seated plate-loaded machine with fixed pivots and equal-length independent levers",
+      "setup": "기울어진 등받이에 등과 머리를 대고 앉아 양발을 바닥에 고정한다. 손잡이가 가슴 높이에 오도록 좌석을 맞추고 잡는다.",
+      "hands": "Closed horizontal handles with symmetric press arc",
+      "feet": "Flat planted feet and static seated pelvis",
+      "movement": "가슴을 편 채 손잡이를 앞쪽 위로 밀어 올린다. 팔꿈치를 굽히며 천천히 시작 위치로 돌아온다."
+    },
+    "note": "Generic simplified machine; not an exact manufacturer model. Procedural animation and sampled geometry checks; not captured human motion or exhaustive mesh collision certification. Seat adjustments and loading omitted; elbows stop short of lockout.",
+    "id": "incline-machine-chest-press",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://resources.lifefitness.com/hub/life-fitness/en-US/1000419-0001-xd_32ce9968be620066-6b5ac64-1817a3e5ec1--7f3d.ditamap?onepage=true"
+    ],
+    "sourceSha256": "c545f1bb3731fd0000f677377de3461a2ab98464ab915f7f0d2c1769da1e87aa",
+    "videoSha256": "cdb0348c216ef89df6ac0e1bf602cec9fa92597d045e8c2ddafca0491c30eca8",
+    "rigSourceSha256": "ae860cf459a4bd5ca69e995c852bfeb8d5ea664fc5e760ae9d19d2e0290f7cce",
+    "darkVideoSha256": "cadf58b96da795d05ab3336709f5be01f963d4b76b50459c1c0be93dd9e86cb0",
+    "reviewedAt": "2026-11-13T03:58:57.303Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "TRX assisted two-foot squat",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 양발을 어깨너비로 벌리고 바닥에 고정한다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Both feet flat and fixed",
+      "movement": "손잡이로 균형을 보조하면서 엉덩이를 뒤로 보내고 무릎을 굽힌다. 양발로 바닥을 밀어 일어난다."
+    },
+    "note": "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification. Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation.",
+    "id": "trx-squat",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/trx-is-functional-fitness"
+    ],
+    "sourceSha256": "2a5e1ccba1c1cfe67fb263b6759e92f0ef0d37f1a38fc2b3780c70e94aa11a71",
+    "videoSha256": "f9bfcf3e4aebdd3db7a565cf761fa4486e5f4b5e93ab2a6de2ed5f5f5d990480",
+    "rigSourceSha256": "4bcf08e532783f18c95b0fc8ee3624043967c209fdd67b598aea59d374c42be4",
+    "darkVideoSha256": "b69763d54258e4864cee59a93f8e08d1c027a8938d116c85c6133a4a0443cfe6",
+    "reviewedAt": "2026-11-13T04:06:05.718Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Grounded TRX assisted split-stance lunge",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 한 발은 앞에, 반대 발은 뒤에 두고 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Front foot flat and rear forefoot fixed",
+      "movement": "상체를 세운 채 양 무릎을 굽혀 내려갔다가 앞발로 바닥을 밀며 올라온다. 손잡이로 균형을 보조한다."
+    },
+    "note": "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification. Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation. Grounded assisted lunge variation, not suspended-foot lunge; left-leg-leading example.",
+    "id": "trx-lunge",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/trx-is-functional-fitness"
+    ],
+    "sourceSha256": "d4563f82bd2dbfe079d81152dc07fbfd5b5961aa1a885cc95bdbb9e9044c49f4",
+    "videoSha256": "493086b933dcbd8cf99fc7feeba0ce069211f0f48f5dc949c8e6c0de2c2a23d3",
+    "rigSourceSha256": "8ef0ef6e3a27e2ddb3602b342d2ce8687b332c2bb426d99af5d00f083b762915",
+    "darkVideoSha256": "4ebe55561cb42de0e3b45fb5f30881ddfe7947396caff58e2f707d87156946d0",
+    "reviewedAt": "2026-11-13T04:06:22.667Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral TRX row with rigid torso and elbow flexion",
+      "equipment": "Fixed overhead anchor and constant-length suspension straps",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 발을 바닥에 고정하고 몸을 뒤로 기울여 머리부터 다리까지 길게 유지한다.",
+      "hands": "Fixed closed neutral grips",
+      "feet": "Both feet planted; straight legs rock around ankles",
+      "movement": "팔꿈치를 뒤로 보내며 가슴을 손잡이 쪽으로 당긴다. 몸통을 곧게 유지하면서 팔을 펴 천천히 돌아간다."
+    },
+    "note": "Procedural motion, not motion capture; small ankle-pivot whole-body lean. Rigid straps and simplified anchor; no load or elasticity simulation. Sampled clearance checks, not exhaustive collision certification.",
+    "id": "trx-row",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/7-basic-movements"
+    ],
+    "sourceSha256": "b2219e545ec6c6a6234f442af46dc7b0f4a36019b8bb3953033f59fedca6c86a",
+    "videoSha256": "72a52c30e4167f1f5cf8782dbcd3b973c33bfec228f0954c6b49fa44d1148ac1",
+    "rigSourceSha256": "933aea74502fe0ffaf4ff2fc2c6c392b75bdb7eb408e6f02b027583f259c6188",
+    "darkVideoSha256": "0f720dbe8093520a6b1e4931abb594869c9ad6bf305069f51c350eaea9ba2b46",
+    "reviewedAt": "2026-11-13T11:59:57.562Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "TRX chest press facing away from anchor",
+      "equipment": "Fixed rear overhead anchor, constant-length straps and horizontal handles",
+      "setup": "고정점을 등지고 손잡이를 가슴 앞에 잡는다. 발을 고정하고 복부에 힘을 주어 머리부터 발목까지 곧게 유지한다.",
+      "hands": "Closed overhand grips, fixed hands while body moves",
+      "feet": "Both feet fixed, rigid legs rock around ankles",
+      "movement": "팔꿈치를 굽혀 가슴을 손잡이 쪽으로 천천히 내린다. 손잡이를 밀며 팔을 펴 시작 자세로 돌아간다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Rigid straps and simplified anchor; no loading simulation. Sampled body clearance; no exhaustive collision certification.",
+    "id": "trx-chest-press",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/7-basic-movements"
+    ],
+    "sourceSha256": "4c3785495be9aa08780b67d39e668d030ec95ee0e09a07ade24e1b205c967f69",
+    "videoSha256": "468faad678b250109d8eb1bf66182e7dea4bf0cb8593a891bf4360561af63cc7",
+    "rigSourceSha256": "4a0ff4c3d93dafba31b2e10f36f96b1745962319ebd873be36133f09940b48ce",
+    "darkVideoSha256": "9fff1d0a9a3af8ba7db17d6aad8f5c371289520ee1c975337689b884cccbc238",
+    "reviewedAt": "2026-11-13T12:06:29.334Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Suspension biceps curl with elevated elbows",
+      "equipment": "Fixed overhead anchor and horizontal handles; constant-length straps",
+      "setup": "고정점을 바라보고 손바닥이 위를 향하도록 손잡이를 잡는다. 발을 고정한 채 몸을 뒤로 기울이고 복부에 힘을 준다.",
+      "hands": "Closed supinated grips rotate with the curl",
+      "feet": "Both feet fixed; rigid body rocks around ankles",
+      "movement": "팔꿈치를 어깨보다 높게 유지하며 손잡이를 이마 쪽으로 당긴다. 몸을 곧게 유지하고 팔꿈치를 천천히 펴 돌아간다."
+    },
+    "note": "Procedural demonstration, not motion capture. Rigid straps and simplified anchor; no load simulation. Sampled clearances, not exhaustive collision certification.",
+    "id": "trx-biceps-curl",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/5-trx-bicep-workouts-you-should-be-doing-daily"
+    ],
+    "sourceSha256": "168ded243cf465cd14b414dc49f39b0a791543184ac51023bb4ee3b0ea02af2a",
+    "videoSha256": "9bd1fde43b5ffcff465d377d0d0e28c7bdb63ebf7734f8c92617b4d944d46b71",
+    "rigSourceSha256": "5274b5f3ac1768d4bb9ad528a396656865274078bf50d7bcd531cb045a409ad1",
+    "darkVideoSha256": "1f6712a1cadd860abc819e026a816bd349fef7b237e541309ce970a9853b65b1",
+    "reviewedAt": "2026-11-13T12:15:15.567Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Forward-leaning suspension triceps extension",
+      "equipment": "Rear overhead anchor, horizontal handles and constant-length straps",
+      "setup": "고정점을 등지고 양손으로 손잡이를 잡는다. 발을 고정하고 몸통을 곧게 유지한 채 팔을 앞으로 편다.",
+      "hands": "Closed overhand grips rotate through elbow flexion",
+      "feet": "Parallel planted feet; ankles pivot with the rigid body",
+      "movement": "팔꿈치를 앞으로 향하게 유지하며 굽혀 이마를 손잡이 쪽으로 가져간다. 팔 뒤쪽에 힘을 주어 팔꿈치를 펴고 몸을 밀어 돌아간다."
+    },
+    "note": "Procedural parallel-stance variation; source also demonstrates split stance. Rigid straps and simplified frame; no load simulation. Sampled body clearance, not exhaustive collision certification.",
+    "id": "trx-triceps-extension",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/80/trx-reg-overhead-triceps-extension/"
+    ],
+    "sourceSha256": "ef9e5a4f894ef2fc185409e40ea9aa7642e6eff55656e9f9cb75722b274358ab",
+    "videoSha256": "a165c3009c91a7b86f02acf076c23de01a1acf3329fb068d9c67654cbf6908a4",
+    "rigSourceSha256": "2a75dd55a826409653371311e93a97b17a57e78b219591ff38d518013bde8a84",
+    "darkVideoSha256": "8892efa8c0f75631c295d634d73c45da8c41b4c535ab36d5587bfc4bd3bbf727",
+    "reviewedAt": "2026-11-13T12:21:50.477Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Single-leg glute bridge, bent raised-knee variation",
+      "equipment": "Bodyweight only",
+      "setup": "바로 누워 왼발을 바닥에 놓고 오른쪽 무릎을 굽혀 든다. 양손은 몸 옆 바닥에 두고 골반을 수평으로 유지한다.",
+      "hands": "Both open palms fixed beside body",
+      "feet": "Left sole planted, right foot lifted throughout",
+      "movement": "왼발로 바닥을 누르며 엉덩이를 들어 올린다. 허리를 과하게 젖히지 않고 천천히 내린다. 반대쪽도 같은 방법으로 실시한다."
+    },
+    "note": "Procedural left-leg example; repeat on opposite side. Small floor clearances are sampled; no exhaustive collision certification. Bent raised-knee variation with a controlled partial hip-extension range.",
+    "id": "single-leg-glute-bridge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/glutes/glute-bridge/single-leg-glute-bridges/"
+    ],
+    "sourceSha256": "16444372c4deb6ba499b58113cca2348b98d14609d9441fad606659383b94ed0",
+    "videoSha256": "172a28ce86681549c36770bb9935ac6352549d524e3bce5809725af3e6612840",
+    "rigSourceSha256": "6de85c2e5d17bcacea693bbfcbdb463a0798dde4b22e044ac15a61b670412840",
+    "darkVideoSha256": "5afa7d19d6f8534630b54721389d0134f54f29dd768ff13d16aacbe753fb8057",
+    "reviewedAt": "2026-11-13T12:29:38.072Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral suspended hamstring curl",
+      "equipment": "Heel cradles and constant-length TRX straps, simplified fixed anchor",
+      "setup": "바로 누워 양쪽 뒤꿈치를 TRX 발걸이에 넣고 발끝을 정강이 쪽으로 당긴다. 양손을 몸 옆 바닥에 두고 엉덩이를 들어 올린다.",
+      "hands": "Open palms fixed at floor level",
+      "feet": "Both heels in cradles, dorsiflexed feet move together",
+      "movement": "엉덩이를 바닥에서 띄운 채 양쪽 무릎을 굽혀 뒤꿈치를 몸 쪽으로 당긴다. 두 다리를 함께 천천히 펴 돌아간다."
+    },
+    "note": "Procedural demonstration, not motion capture. Simplified rigid cradles and straps; no load or fabric simulation. Near-extension start with knees slightly bent; sampled clearances are not exhaustive collision certification.",
+    "id": "trx-hamstring-curl",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/trx-hamstring-circuit"
+    ],
+    "sourceSha256": "934d586f79ae433df335063303a64a64d7ca0f79762ce856dfc71b799377504a",
+    "videoSha256": "54206311e6ec3eaa04dfcf91576d48f3f1c78d14bca64bbf5c17b49c130bea9a",
+    "rigSourceSha256": "c81d640ff99865d0cb0be99a110b55cbbdb80656669dd9b950c09644b67b5d6b",
+    "darkVideoSha256": "adb8a2ac4113756f38ee6753e8159d2d1ceabdb78ac562c51d42b25c3606d6cb",
+    "reviewedAt": "2026-11-13T12:36:44.181Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral stability-ball hamstring curl",
+      "equipment": "Rolling stability ball beneath both heels",
+      "setup": "바로 누워 양쪽 뒤꿈치를 짐볼 위에 놓고 손바닥을 몸 옆 바닥에 댄다. 복부와 엉덩이에 힘을 주어 골반을 들어 올린다.",
+      "hands": "Both palms fixed at floor level",
+      "feet": "Dorsiflexed feet with heels remaining on ball",
+      "movement": "양쪽 무릎을 굽혀 짐볼을 몸 쪽으로 굴린다. 엉덩이를 바닥에서 띄운 채 다리를 천천히 펴 돌아간다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Rigid ball with rolling rotation; no compression or friction simulation. Sampled heel contact and body clearances, not exhaustive collision certification.",
+    "id": "stability-ball-hamstring-curl",
+    "equipmentIds": [
+      "ball"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/hamstring-exercises/hamstring-curls/swiss-ball-hamstring-curls/"
+    ],
+    "sourceSha256": "47d0a2bb47eaa96495dd49df8ac7b4e4fa8aab2b3c9e5ebf163eca5b4ce328c6",
+    "videoSha256": "4cc3ab4399192e417d28148b65875de1aeccd68353e2c2c5ab9543f1c3d7cbee",
+    "rigSourceSha256": "394a486640fd98f953523f4c009730c937f870e5c5b1bb8283a84731c05271da",
+    "darkVideoSha256": "8db27548fb23a676cc00be9d5fae1d6eafc07df80967c49ef540caaa8b4c6aa7",
+    "reviewedAt": "2026-11-13T12:41:38.022Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Downward-facing dog supported hold with small controlled shoulder movement",
+      "equipment": "Bodyweight, no apparatus",
+      "setup": "손바닥을 어깨너비로, 발을 골반너비로 바닥에 댄다. 엉덩이를 뒤쪽 위로 들어 몸을 거꾸로 된 V자 모양으로 만든다.",
+      "hands": "Both palms fixed with forward fingers; elbow angles 158–164 degrees",
+      "feet": "Both feet fixed on floor; knees softly extended at 163 degrees",
+      "movement": "손으로 바닥을 밀며 등을 길게 유지한다. 무릎과 팔꿈치는 잠그지 않고 뒤꿈치를 바닥 쪽으로 내리며 편하게 호흡한다."
+    },
+    "note": "Procedural pose demonstration, not captured human motion. Shows supported hold and small weight adjustment, not full plank-to-dog transition. Clothing is a skinned surface without fabric simulation. Sampled floor clearances are not exhaustive collision certification.",
+    "id": "downward-dog",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/18/downward-facing-dog/"
+    ],
+    "sourceSha256": "9081fa539d6b83520ed3015c0c020ff400faa69c760af9a9482d97958de71971",
+    "videoSha256": "3e53c5ea1c436b52fafc87bb3584d4b4adb519f3480d0b2d4111af8dfc9555c0",
+    "rigSourceSha256": "f4bfa492ac2b289a572c8d09095b449a7540933cf9a68f5b40c161c6d25ab1d4",
+    "darkVideoSha256": "0888c9b384ff5eb6d7b4720dee754ee12189844c4ea696eee370864accdb2e8d",
+    "reviewedAt": "2026-11-13T12:51:16.183Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "One-arm leaning cable lateral raise",
+      "equipment": "Low pulley and moving stack; opposite hand holds frame attachment",
+      "setup": "낮은 풀리 옆에 서서 먼 쪽 손으로 손잡이를 잡고 반대손은 프레임을 잡는다. 두 발을 바닥에 둔 채 몸 전체를 기구 반대쪽으로 조금 기울인다.",
+      "hands": "Closed working grip; opposite grip fixed on vertical support",
+      "feet": "Both feet grounded throughout",
+      "movement": "몸의 기울기를 유지하며 작업 팔을 옆으로 들어 올린다. 팔꿈치를 살짝 굽힌 채 어깨 높이 부근에서 멈추고 천천히 내린다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Fixed 12-degree lean and left-arm example; opposite side is not shown. Cable lower-body clearance checked at sampled vertices; not exhaustive collision certification. Idealized single-ratio cable system without friction.",
+    "id": "leaning-cable-lateral-raise",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.majorfitness.com/blogs/training-tips/cable-lateral-raise"
+    ],
+    "sourceSha256": "d125fe5d847f641f6302f32b61ee15342b61b9f6beff59a23a8844c128b315dd",
+    "videoSha256": "15634eeb98fa7b72f50efc5c92b6cc7fff3d816e7556aae9979d61354aa378cc",
+    "rigSourceSha256": "1179c6ef3b36fa0cb597f4f589f6266419da806a1f6cd64ec76f114364b395e8",
+    "darkVideoSha256": "057f92d665974c93151c00a2695d7c84aee6216c8f509f9066e7e3438bc5c328",
+    "reviewedAt": "2026-11-13T12:59:01.631Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Side-lying dumbbell lateral raise, floor variation",
+      "equipment": "Single dumbbell with plates clear of hand and body",
+      "setup": "바닥에 옆으로 누워 아래쪽 팔로 머리를 받치고 다리를 포갠다. 위쪽 손으로 가벼운 덤벨을 잡아 허벅지 옆에 둔다.",
+      "hands": "Lower hand supports head; upper hand closes around dumbbell handle",
+      "feet": "Stacked legs remain still",
+      "movement": "몸통과 골반을 고정한 채 위쪽 팔을 천장 쪽으로 들어 올린다. 팔꿈치를 살짝 굽힌 상태로 어깨 위에서 멈춘 뒤 천천히 내린다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Floor variation; reference illustrates inclined bench setup. Left-arm example only; opposite side not shown. Sampled mesh vertices and plate clearances, not exhaustive collision certification.",
+    "id": "lying-side-lateral-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/side-lying-lateral-raise/"
+    ],
+    "sourceSha256": "1c87699c9a16dc0128f05af8f4e4dcbcd958137da968a2f8bd0a298ae4c6ef64",
+    "videoSha256": "55436994d143c94a1ab95fba5cfa721b0d15c8d34ba419bf6da434fa0aee6931",
+    "rigSourceSha256": "45ca8e650ad1573c1db5316e140db3606087695a0501d3a006e0c833a2e60833",
+    "darkVideoSha256": "5e036591ec6709d6b34a564da4f972a0a60350011a626c800c33af343b4b1fb8",
+    "reviewedAt": "2026-11-13T13:09:38.931Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Banded side-lying clamshell",
+      "equipment": "Loop band above both knees, follows garment cross section",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 옆으로 눕는다. 아래쪽 팔로 머리를 받치고 두 무릎을 굽혀 발을 포갠다.",
+      "hands": "Lower arm supports head, upper hand monitors hip",
+      "feet": "Both feet and toes fixed with stacked-foot spacing",
+      "movement": "골반을 뒤로 돌리지 않고 발을 붙인 채 위쪽 무릎을 천천히 연다. 엉덩이 옆쪽에 힘을 느끼며 무릎을 조절해서 닫는다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Upper hand placed at hip rather than on floor as in source. Band path follows sampled garment/body outline with a small visual offset; no elastic-force simulation. Sampled vertex clearances are not exhaustive collision certification.",
+    "id": "clamshell",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/blog/training/the-banded-clamshell-a-simple-move-for-stronger-glutes"
+    ],
+    "sourceSha256": "620a5d5e413d8d314831faf5d2e15b56f0adcb6b3ae0b7b5a6f866b8a01dc226",
+    "videoSha256": "fd62d4eaae94a1d8c25815f3a60f7a0a2ce65841815d5a0ee5c346f1bdefb1b1",
+    "rigSourceSha256": "2df1c56e91cfb8fb86409a58963180ee633c695d6bd3b87dc36cc58daadc55af",
+    "darkVideoSha256": "98a6b4cae9bc47f647e1645f507e6f6601e3f269e19f1f4e1ec53f00527cab0a",
+    "reviewedAt": "2026-11-13T13:15:55.927Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Forward/backward band monster walk",
+      "equipment": "Loop band above knees",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 발을 골반보다 넓게 벌린다. 엉덩이를 조금 뒤로 빼고 무릎을 굽혀 낮은 자세를 만든다.",
+      "hands": "Hands held separately in front of torso",
+      "feet": "Alternating swing feet lift clear; stance feet and toes remain fixed",
+      "movement": "무릎 사이 간격과 몸의 높이를 유지하며 한 발씩 앞 대각선으로 작게 걷는다. 같은 자세로 한 발씩 뒤로 걸어 돌아온다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Two forward and two backward steps; band above knees instead of below-knee source setup. Band follows sampled surface outline with small offset; no elastic-force simulation. Sampled vertex clearances, not exhaustive collision certification.",
+    "id": "band-monster-walk",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/500/Monster-Walk/"
+    ],
+    "sourceSha256": "3673dd7f1e5a4615b5e988822cf8a839fff00157d74de5cbddd0067f9b8a0226",
+    "videoSha256": "dad9b519115b57426183d8d74e0de7fc316b8d01e9ef5d07b7629be4424aa36f",
+    "rigSourceSha256": "f573eed7b5591a64f860ff6d535d919bdc232d7b5886a7449058a1e7626bf843",
+    "darkVideoSha256": "cc526e4a2421271909ec1e403cd99fe73a9ea669c12b59d62beaa44b1f590817",
+    "reviewedAt": "2026-11-13T13:24:52.545Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated medicine-ball Russian twist",
+      "equipment": "Medicine ball",
+      "setup": "무릎을 굽혀 앉고 두 발을 바닥에 둔다. 메디신볼을 양손으로 잡고 등을 길게 유지한 채 몸통을 조금 뒤로 기울인다.",
+      "hands": "Both hands track opposite sides of ball; sampled skin vertices remain outside sphere",
+      "feet": "Feet and pelvis fixed; seat and soles near the common ground level",
+      "movement": "골반과 발을 고정하고 가슴과 공을 함께 한쪽으로 돌린다. 중앙을 지나 반대쪽으로 천천히 돌린다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Feet-down variation with modest torso rotation; ball does not touch floor. Small skin/equipment separation prevents rendering intersections; no contact-force simulation. Sampled vertex clearances, not exhaustive collision certification.",
+    "id": "medicine-ball-russian-twist",
+    "equipmentIds": [
+      "medicineball"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/russian-twist"
+    ],
+    "sourceSha256": "a14698c0beb1de0f41e0bbcec5f439ad2e30f8f4677d57e947bcc03a91c028b3",
+    "videoSha256": "fe26bd94b261d9c6f94bf82113d7e65c4112c5465d688cd9b94ef5d51995d04f",
+    "rigSourceSha256": "4e88d0c76ee3d686584f83f2c3896605955cd397c7e002e1f4504de1367e880f",
+    "darkVideoSha256": "bacfefbfa760534c8f39596d75b9bfa4328bd24b56ba646ef79902bbe0ee6ccb",
+    "reviewedAt": "2026-11-13T13:33:27.914Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating jump lunge",
+      "equipment": "Bodyweight",
+      "setup": "한 발을 앞으로 내밀고 양 무릎을 굽혀 런지 자세를 만든다. 앞발은 바닥에 두고 뒷발은 뒤꿈치를 들어 발가락으로 지지한다.",
+      "hands": "Bent elbows with reciprocal small arm motion",
+      "feet": "Front sole and rear toes remain fixed on ground; legs exchange only during flight",
+      "movement": "양다리로 밀어 위로 뛰면서 공중에서 앞뒤 다리를 바꾼다. 반대쪽 런지 자세로 착지하며 무릎과 엉덩이를 굽힌다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Two slowed jumps in eight seconds; timing illustrates technique rather than real-time athletic speed. No impact force simulation or exhaustive collision certification.",
+    "id": "jump-lunge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.ucd.ie/healthyucd/t4media/HEAL%20Exercise%20Bank%20Advance.pdf"
+    ],
+    "sourceSha256": "2316dca7f47e56ff74ed78ab7e6f8e728c239924d35d2190c3049b782088fbf3",
+    "videoSha256": "390ef3793f08800f99619d55521ee6d729450b12af39900d685aba83b094ae0b",
+    "rigSourceSha256": "01bd6f090a8e5b5100646bea78beb7e4ade4cde58ec66d7279c8100c3de6ba12",
+    "darkVideoSha256": "c0d041d20267792825ee962e6222ca811b23fad3d99931704896931949c4c580",
+    "reviewedAt": "2026-11-13T13:39:28.808Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating lateral skater bounds",
+      "equipment": "Bodyweight",
+      "setup": "상체를 조금 앞으로 기울이고 한쪽 무릎을 굽혀 체중을 싣는다. 반대발은 몸 뒤쪽으로 들어 둔다.",
+      "hands": "Reciprocal bent-arm swing assists balance",
+      "feet": "One foot supports each landing; free foot stays behind and above floor",
+      "movement": "지지 다리로 바닥을 밀어 옆으로 뛰고 반대발로 부드럽게 착지한다. 착지한 무릎과 엉덩이를 굽혀 균형을 잡은 뒤 반대 방향으로 반복한다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Two slowed lateral bounds in eight seconds with balance pauses. No impact force simulation or exhaustive collision certification.",
+    "id": "skater-jump",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://us.physitrack.com/home-exercise-video/skate-jumps"
+    ],
+    "sourceSha256": "39e34a3ff629476413c0fd31c821e4b74bad2dcbaaa1506ac478bf36ba2cff2d",
+    "videoSha256": "8c460bdd215f7eefacadd887683bcebaad3a996ec189f4e002e6805b433476cb",
+    "rigSourceSha256": "2a1c9c8942be452c94b9fdc3bddc2c4a04031ecddd73526e758f4f537723f9a7",
+    "darkVideoSha256": "d7b56ee09a32f27f8ead3a6cbbd5cfae56556e230a73c4dcd8935838dbf06d2d",
+    "reviewedAt": "2026-11-13T13:44:17.408Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing broad jump with walking reset",
+      "equipment": "Bodyweight",
+      "setup": "두 발을 골반 너비 정도로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing into countermovement and forward arm swing during flight",
+      "feet": "Both feet leave and land together; four alternating backward steps reset the loop",
+      "movement": "팔을 앞으로 휘두르며 양발로 바닥을 밀어 앞으로 뛴다. 두 발로 함께 착지하고 무릎과 엉덩이를 굽혀 충격을 받는다. 균형을 잡고 걸어서 시작 위치로 돌아온다."
+    },
+    "note": "Procedural demonstration, not captured human motion. One moderate-distance jump and four reset steps in eight seconds. No impact-force simulation or exhaustive collision certification.",
+    "id": "broad-jump",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/549/Broad-Jump/"
+    ],
+    "sourceSha256": "db69b15b12ddf0e4c66385ba759c6e9dbdb597d9d6966ab260f86eae3eddf82f",
+    "videoSha256": "935a2a66df202f05bb822aa26e458062fa2627ebb63bfd759735a31a8feb4196",
+    "rigSourceSha256": "2623793132dfbd6b2102f91c646943ee70557ac12abd96f76d6bdff5390f7b20",
+    "darkVideoSha256": "ac6dfa83c484f9253ec158c409677ef7238120e9481cd7762568638b5a1d1421",
+    "reviewedAt": "2026-11-13T13:49:13.873Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Two-foot box jump with step-down",
+      "equipment": "Bodyweight and low plyometric box",
+      "setup": "흔들리지 않는 낮은 박스 앞에 두 발을 골반 너비로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing and forward arm swing during flight",
+      "feet": "Symmetric raised landing; one support foot remains fixed during each step-down",
+      "movement": "팔을 앞으로 올리며 두 다리로 밀어 박스 위로 뛴다. 양발로 착지하면서 무릎과 엉덩이를 굽히고, 균형을 잡아 선다. 한 발씩 뒤로 내려와 시작 위치로 돌아온다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Low box with controlled backward step-down and two additional reset steps. Sampled body/box vertex separation, not exhaustive collision or impact-force certification.",
+    "id": "box-jump",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/box-jumps"
+    ],
+    "sourceSha256": "16247c744a66df69cb7fad2f19638849a91b6810eafd4c123ccd55e7230e92c8",
+    "videoSha256": "ef127dd1064b6446503f3a3697248241d1631dfbee835a0237d951299bc4c127",
+    "rigSourceSha256": "e6363d4db34d12aa355c6ca0f8db4556f081dbb0770f2da8b9ceab2f26bf6995",
+    "darkVideoSha256": "1cfafdbdf487262b088d316be2f0bbaa9294aa79aabf213998eb1bf95aa3c0c8",
+    "reviewedAt": "2026-11-13T13:55:31.171Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Basic two-foot jump rope",
+      "equipment": "Jump rope with two handles; catalog equipment other",
+      "setup": "줄넘기 손잡이를 양손으로 잡고 두 발을 가깝게 둔다. 상체를 세우고 어깨에 힘을 빼며 무릎을 조금 굽힌다.",
+      "hands": "Closed grips follow handles with small wrist circles and elbows near torso",
+      "feet": "Synchronized low hops timed to each underfoot rope pass",
+      "movement": "손목을 작게 돌려 줄을 머리 위에서 앞으로 넘긴다. 줄이 발밑을 지날 때 양발로 낮게 뛰고 발 앞쪽으로 부드럽게 착지한다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Four slowed rope revolutions in eight seconds. Rope is a driven arc without full flexible-rope or impact physics. 25 angular samples supplement 17 cycle samples; not exhaustive collision certification.",
+    "id": "jump-rope",
+    "equipmentIds": [
+      "other"
+    ],
+    "sources": [
+      "https://contentcdn.eacefitness.com/assets/education-resources/lifestyle/fitfacts/pdfs/fitfacts/itemid_2688.pdf"
+    ],
+    "sourceSha256": "a2c7e3a14c6feb785144782c05ffd5f96c17fb050e285c1ce765b9ca3a275aa9",
+    "videoSha256": "4e2d247ccec6b07824b9224eae4753d1cb1a8e9262bc3aa67d60ffe1fa65f19b",
+    "rigSourceSha256": "18f8372820ed1bad19fdceba819df6658374dad10f9d8f88d0aba9091d4c708d",
+    "darkVideoSha256": "e2386415b23761efde01ae3e70e332683ecc680604ecdfa73cf64632e992a10c",
+    "reviewedAt": "2026-11-13T14:00:43.477Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Alternating battle rope waves",
+      "equipment": "Two rope ends with fixed floor anchor",
+      "setup": "배틀로프 양 끝을 잡고 발을 골반보다 조금 넓게 벌린다. 무릎과 엉덩이를 가볍게 굽히고 상체를 안정적으로 유지한다.",
+      "hands": "Opposite vertical motions with attached closed grips",
+      "feet": "Feet, toes and pelvis remain fixed in a shallow squat",
+      "movement": "한 손을 올릴 때 다른 손을 내리며 두 팔을 번갈아 움직인다. 로프의 파동이 앞쪽 고정점으로 이어지도록 일정한 리듬을 유지한다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Small-wave variation below shoulder height; four slowed cycles in eight seconds. Driven traveling curves with slack; rope length and tension are not physically simulated. Sampled vertex checks, not exhaustive collision certification.",
+    "id": "battle-rope-wave",
+    "equipmentIds": [
+      "battlerope"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/research/7470/muscle-activation-during-battle-rope-exercises/"
+    ],
+    "sourceSha256": "715a42660a40ecea2d90919a14bb588ccc265b11effa3337b37d119b88e13506",
+    "videoSha256": "7ea8e536e42e46d093ee02a16c5e40ef2f75e459e24abba40d558cfd313f2f74",
+    "rigSourceSha256": "4048f59d349a170fc8bf99c0f7692c5fb3e9c1ffa322ccf26e5bfc81fed16ad1",
+    "darkVideoSha256": "34639f05f0b2640067833d3f47e540d7fab7e79d1d954a463bf733e5193ddb01",
+    "reviewedAt": "2026-11-13T14:09:19.024Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Forward sled push",
+      "equipment": "Plate-loaded sled with two upright handles",
+      "setup": "슬레드의 양쪽 기둥을 잡고 상체를 앞으로 기울인다. 복부에 힘을 주고 허리를 길게 유지한다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "양발로 바닥을 번갈아 밀며 슬레드를 앞으로 이동시킨다. 손잡이를 계속 잡고 몸통의 기울기를 유지한다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Camera follows the athlete and sled; no floor is rendered. Two slowed gait cycles in eight seconds. Sampled base-platform clearance; not exhaustive equipment collision or force simulation.",
+    "id": "sled-push",
+    "equipmentIds": [
+      "sled"
+    ],
+    "sources": [
+      "https://ceu-quizzes-cdn.ncsf.org/training-programming/Push_or_Pull_Using_Sleds_for_Sports_Performance.pdf"
+    ],
+    "sourceSha256": "6aaff4e6d4b59824e34737b20632513ebf809f370c27b83ae2f3883717c83acd",
+    "videoSha256": "63cf66516121299a86435dd4d9ef0e956cc96f5f393cf7c09a4c29f2f1ea17e3",
+    "rigSourceSha256": "62309df670539924563487877a3f5afdefdfb71b730cd0c338589097ff7ffd4d",
+    "darkVideoSha256": "cb3131a0678ca6f33243f589ea880dbf5a46b107153a17d004a9510011559841",
+    "reviewedAt": "2026-11-13T14:14:55.936Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Backward sled drag",
+      "equipment": "Plate-loaded sled and two strap handles",
+      "setup": "슬레드를 바라보고 양손으로 스트랩 손잡이를 잡는다. 무릎을 살짝 굽히고 몸통을 안정적으로 세운다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "짧은 보폭으로 뒤로 걸으며 슬레드를 당긴다. 양발을 번갈아 딛고 스트랩의 장력을 유지한다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Camera follows the athlete and sled; no floor is rendered. Two slowed gait cycles in eight seconds. Sampled base-platform clearance; not exhaustive equipment collision or force simulation.",
+    "id": "sled-pull",
+    "equipmentIds": [
+      "sled"
+    ],
+    "sources": [
+      "https://www.army.mil/article-amp/215757/sprint_drag_carry"
+    ],
+    "sourceSha256": "f2cb635be9b222f5eac32b12ddde60188163f89bfec1cc809514bcf02a9b2a1f",
+    "videoSha256": "cae90063b1b485b8902b0edefe19c19f9dcfd3d9a77e99a556ec1bffc2cd88c5",
+    "rigSourceSha256": "c43f6b4edd0642e0f9270578f38959eef36d2ad4618cc2e5aaaae0bac1da64e1",
+    "darkVideoSha256": "21477da9e969c61c9c36617e756626ecc753125934dd222618c62d27edc6dc79",
+    "reviewedAt": "2026-11-13T14:15:06.686Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Push jerk with planted feet",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 어깨 앞쪽에 두고 양발을 어깨너비로 벌린다. 몸통을 세우고 팔꿈치를 바보다 약간 앞으로 둔다.",
+      "hands": "Closed grips attached throughout rack to overhead",
+      "feet": "Feet and toes remain planted during both knee bends",
+      "movement": "무릎을 짧게 굽혔다가 다리로 바닥을 밀며 바를 올린다. 바 아래로 몸을 낮추며 팔을 머리 위로 펴서 받은 뒤 무릎을 펴고 일어선다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Slowed eight-second technique sequence; not a prescription of explosive lifting speed. Sampled geometry checks, not exhaustive collision or biomechanical validation.",
+    "id": "push-jerk",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/405/Push-Jerk/"
+    ],
+    "sourceSha256": "790ba2c0bfe4df5a4b110a2de310dc75cdf79dc681858777971382639fedfb7c",
+    "videoSha256": "c36fe705ca2e10ff8426a9e8fc4fc242f10cfce9efa2d2e63a1631b36f6da4d9",
+    "rigSourceSha256": "f78134b158748564e84f762e6cf1735eb0f9631e8ff871ec2b0b59145843ca48",
+    "darkVideoSha256": "353280b5c3afbcc3f8aa73df7a22ac651233de14b57c202d6561c2a9d4ee5cc4",
+    "reviewedAt": "2026-11-13T14:20:45.267Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "High-to-low cable woodchopper",
+      "equipment": "High pulley, short two-hand bar and moving weight stack",
+      "setup": "케이블을 높은 위치에 맞추고 기구 옆에 선다. 손잡이를 양손으로 잡고 무릎을 가볍게 굽힌다.",
+      "hands": "Both grips remain on the shared short handle",
+      "feet": "Feet and pelvis stay stable",
+      "movement": "팔꿈치를 편안하게 굽힌 채 손잡이를 반대쪽 아래로 대각선으로 당긴다. 몸통을 작게 회전하고 천천히 시작 위치로 돌아온다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Bent-elbow short-handle variation with modest torso rotation; one side shown. Sampled floor checks and cable-length consistency, not exhaustive collision or force simulation.",
+    "id": "cable-woodchopper",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.bodycraft.com/pdfs/exercise/PFTBook.pdf"
+    ],
+    "sourceSha256": "3f23694bdc2fc2107278bb245cac0807a9dc1c5bfbe94e11a7316eb4bf118d00",
+    "videoSha256": "b93f7cc34249c75cc1f301ebafa26b554b598e27da3128125387f0b05f92dcd3",
+    "rigSourceSha256": "3040a7b1acd5a57e685fd515ad398d0fd7ddcdc253dffbb7bdcc9fb7fb2623ad",
+    "darkVideoSha256": "2f6af4a68b39c50996efc8b8a5ea78bb5ba47b46c9a401c70b005bb59787e9db",
+    "reviewedAt": "2026-11-13T14:25:28.344Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Decline bench sit-up",
+      "equipment": "Thirty-degree decline bench, ankle roller and foot platform",
+      "setup": "경사 벤치에 누워 발목을 고정대에 걸고 양손을 가슴 앞에 둔다. 복부에 힘을 주고 목을 편안하게 유지한다.",
+      "hands": "Hands held near chest without pulling neck",
+      "feet": "Lower legs and feet remain fixed at the support",
+      "movement": "하체를 고정한 채 상체를 천천히 들어 올린다. 복부의 긴장을 유지하며 등과 머리를 벤치 쪽으로 천천히 되돌린다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Hands-near-chest variation, one slowed repetition. Sampled support planes, not exhaustive collision or biomechanical validation.",
+    "id": "decline-sit-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/431/Decline-Sit-Up/"
+    ],
+    "sourceSha256": "c9c86b1600b2012d9a444ec3bf35824f057c94919055a807a971888ce82222f9",
+    "videoSha256": "d73bfc01d368578155fa52fb339f77a08ff43b0c839972680c65d2adc35a0dcf",
+    "rigSourceSha256": "7168aa461543b3a74a2df7d71e16a36949cacfc3037cda3994a31a94523d232f",
+    "darkVideoSha256": "dc33fee21417aca2450a0c9083b64921cbc1538be6327c25119cbbf0cf18a8d0",
+    "reviewedAt": "2026-11-13T14:30:34.903Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Power clean with partial squat catch",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 정강이 앞에 두고 어깨너비보다 약간 넓게 잡는다. 팔을 길게 펴고 엉덩이를 낮춘다.",
+      "hands": "Closed grips, long initial arms and front-rack turnover",
+      "feet": "Planted-foot teaching variation; stable stance during catch",
+      "movement": "바닥을 밀며 바를 올리고 다리와 엉덩이를 편다. 팔꿈치를 앞으로 돌리며 무릎을 가볍게 굽혀 어깨 앞에서 바를 받은 뒤 일어선다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Slowed planted-foot teaching sequence without flight or foot repositioning. Sampled clearance checks, not exhaustive collision or biomechanical validation.",
+    "id": "power-clean",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nsca.com/education/articles/kinetic-select/power-clean/"
+    ],
+    "sourceSha256": "426dacfc961ea6b70e1774aa7796e7517aeaea9eb73b528d5a7e8c9945a6ed89",
+    "videoSha256": "ea72096c1f75a32b268e21870cfc18cbc0192f2a9f9b6ca51f8893f46f28f203",
+    "rigSourceSha256": "018e82048cc8d870594a55982b6c5b73b31ee55ae849a9f37d83cd0a00d7e48f",
+    "darkVideoSha256": "a327c38dfc436c64928f15e498e34c77d53e7b52f25c3ed378ffe6e779e72c85",
+    "reviewedAt": "2026-11-13T14:38:25.153Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Hang clean with squat catch",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 잡고 무릎 위에 둔다. 엉덩이를 뒤로 보내고 팔을 길게 편 채 등을 안정적으로 유지한다.",
+      "hands": "Closed grips, long initial arms and front-rack turnover",
+      "feet": "Planted-foot teaching variation; stable stance during catch",
+      "movement": "다리와 엉덩이를 펴며 바를 끌어 올린다. 팔꿈치를 앞으로 돌리고 스쿼트 자세로 내려가 어깨 앞에서 바를 받은 뒤 일어선다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Slowed planted-foot teaching sequence without flight or foot repositioning. Sampled clearance checks, not exhaustive collision or biomechanical validation.",
+    "id": "hang-clean",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.benning.army.mil/TENANT/75THRANGER/content/PDF/RAW%20Handbook%20Final%20v4.pdf"
+    ],
+    "sourceSha256": "1e6caaba6477029dcd19076bb6c92065d9c608aa9e341c14282f47b3adfb14ee",
+    "videoSha256": "548d42189665143558dc6fb2c0a3ee697495526a995a3a71dae64e295ec8b573",
+    "rigSourceSha256": "f945746c1ca77da2e92dbfc0524923d668d7664a99a7e6d62aeb561236ea258a",
+    "darkVideoSha256": "c9674659b53b474c0227f98f8115be8ca37050128e81a4681ff11888907ca1cc",
+    "reviewedAt": "2026-11-13T14:38:41.060Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Single-arm kettlebell clean",
+      "equipment": "One kettlebell",
+      "setup": "발을 안정적으로 벌리고 케틀벨을 한 손으로 잡는다. 엉덩이를 뒤로 보내고 무릎을 굽혀 준비한다.",
+      "hands": "Closed grip, low elbow rack",
+      "feet": "Stable planted stance",
+      "movement": "다리와 엉덩이를 펴며 케틀벨을 몸 가까이 끌어 올린다. 손을 손잡이 안으로 넣고 팔꿈치를 낮춰 가슴 앞에서 받는다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Slowed hang-start teaching variation; no full ballistic backswing. Sampled clearance checks, not exhaustive collision or biomechanical validation.",
+    "id": "kettlebell-clean",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.strongfirst.com/an-olympic-weightlifting-approach-to-coaching-the-kettlebell-clean/"
+    ],
+    "sourceSha256": "e5ab2aa6f099af37a174557dbb63f82fb883e0e3551df233e0914c819d725729",
+    "videoSha256": "eb7f425380066b43d5d5159061a49241a64bb23bb0cab5e604938a19a472d486",
+    "rigSourceSha256": "15944372718c318810b747c392ad179bf250593dc906bfd6af7c049dc35e4070",
+    "darkVideoSha256": "c0c9892481b2e4eba8e9129a88600251d957bc8a39937d62dd07b280f0e13508",
+    "reviewedAt": "2026-11-13T14:48:06.060Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Single-arm kettlebell snatch",
+      "equipment": "One kettlebell",
+      "setup": "발을 안정적으로 벌리고 케틀벨을 한 손으로 잡는다. 엉덩이를 뒤로 보내고 무릎을 굽혀 준비한다.",
+      "hands": "Closed grip, overhead extended elbow, controlled return",
+      "feet": "Stable planted stance",
+      "movement": "다리와 엉덩이를 펴며 케틀벨을 끌어 올리고 손을 손잡이 안으로 넣어 머리 위에서 팔을 편다. 안정적으로 멈춘 뒤 부드럽게 내린다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Slowed hang-start teaching variation; no full ballistic backswing. Sampled clearance checks, not exhaustive collision or biomechanical validation.",
+    "id": "kettlebell-snatch",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.strongfirst.com/mind-the-drop-tame-the-arc-for-better-snatches/"
+    ],
+    "sourceSha256": "793deffcc33be9a2fad10c824eebb5e2e9515e9b9fad097b820ff00e4fb5fb74",
+    "videoSha256": "8217f6f6bebcae85822f8c7fa3c1f258a78c9ace73f3c32249a5dd71458af82a",
+    "rigSourceSha256": "1d4efa57d33f39cf8ecd8f146e9938eb5a0ba344e36224b9c9d617e361a18170",
+    "darkVideoSha256": "8a2fe303733c8f2d011c58f06de22e20ec65410352e20ad26009c2b01f62ad14",
+    "reviewedAt": "2026-11-13T14:48:16.167Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Kettlebell windmill, moderate depth",
+      "equipment": "One overhead kettlebell",
+      "setup": "케틀벨을 한 손으로 머리 위에 들고 팔을 편다. 양발은 반대쪽으로 비스듬히 향하게 둔다.",
+      "hands": "Closed overhead grip; free hand lowers beside front leg",
+      "feet": "Fixed feet angled away from loaded arm",
+      "movement": "케틀벨 아래쪽 엉덩이를 뒤로 보내며 몸통을 곧게 유지한 채 기울인다. 반대 손을 앞쪽 다리 안쪽으로 내리고 천천히 일어선다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Moderate-depth hip hinge; ground touch is not required. Sampled clearance checks, not exhaustive collision or biomechanical validation.",
+    "id": "kettlebell-windmill",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.strongfirst.com/kettlebell-windmill-101/"
+    ],
+    "sourceSha256": "2d6d3a2b267dd92be9367773c57420e0412f094bbe92b39a53218328d98af0ef",
+    "videoSha256": "b52fec376f055177e4b2745619bcf634298bdf8956a1f36fa26c4db4fcf9e05b",
+    "rigSourceSha256": "d4f570d615ed1090fd01727b843bb26af17696234edaedf55a86f4f681185aef",
+    "darkVideoSha256": "385f20e9a2e38a28cc6d820088ceb42dc48decc910fbdc56bfc51d164de601e8",
+    "reviewedAt": "2026-11-13T14:53:32.828Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Burpee without push-up",
+      "equipment": "Bodyweight only",
+      "setup": "발을 골반 너비로 벌리고 선다. 앞뒤와 머리 위 공간을 확보한다.",
+      "hands": "Planted throughout feet-back and feet-in phases",
+      "feet": "Paired backward/forward hop, vertical jump and soft landing",
+      "movement": "앉아서 양손을 바닥에 짚고 두 발을 뒤로 보내 플랭크 자세를 만든다. 발을 다시 손 쪽으로 당기고 일어서며 가볍게 점프한다."
+    },
+    "note": "Procedural demonstration, not captured human motion. No-push-up teaching variation, slowed eight-second cycle. Sampled clearance checks, not exhaustive collision or biomechanical validation.",
+    "id": "burpee",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/squat-thrust-burpees"
+    ],
+    "sourceSha256": "4d4df6bdec03379ad233fefb0fd92146a2908dcdfe0c11515c00696077c298b8",
+    "videoSha256": "75205b89b212543088aec4b60e5652243660e34d54c67f182d60f7bd15547875",
+    "rigSourceSha256": "8cb200e469f04974bf46a88e604426ec0626362975fcc66452f7d08c79857fb0",
+    "darkVideoSha256": "40885859085f35a2ae0ab49be0cd2ede7346eabe9ebf06834128e75fb9395e6c",
+    "reviewedAt": "2026-11-13T15:02:27.624Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Turkish get-up with return",
+      "equipment": "One kettlebell",
+      "setup": "누워서 케틀벨을 한 손으로 가슴 위에 들고 팔을 편다. 같은 쪽 무릎을 굽혀 발을 바닥에 두고 반대쪽 다리를 길게 뻗는다.",
+      "hands": "Closed vertical loaded grip; opposite elbow then hand support",
+      "feet": "Loaded-side foot remains fixed; opposite leg sweeps to kneeling and steps in",
+      "movement": "반대 팔꿈치와 손으로 차례로 바닥을 지지하며 상체를 세운다. 엉덩이를 들고 뻗은 다리를 뒤로 옮겨 반무릎 자세를 만든 뒤 일어선다. 역순으로 누운 자세까지 돌아온다."
+    },
+    "note": "Procedural demonstration, not captured human motion. Eight-second illustrated sequence; real practice should pause at each stable position. Floor-aware joint placement and 49 sampled clearance checks; not exhaustive collision or biomechanical validation.",
+    "id": "turkish-get-up",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/prosource/november-2015/5686/ace-technique-series-turkish-get-up/"
+    ],
+    "sourceSha256": "f1e53352598811db05f73099b62a410baa5360a68e2f08adae542eb57affe435",
+    "videoSha256": "384bbc4d0f2748c665fc8fb7a935a9122bb114f97d57ba1a0d03990f3de8d929",
+    "rigSourceSha256": "f25fe3b208b4197de4ad273daed9684b67d75bc5da568be65ce1fb47c810b4dc",
+    "darkVideoSha256": "dcc4d5ef5a145166696dcede8215dd730a94f0bb45330ac7079f1847a062cd34",
+    "reviewedAt": "2026-11-13T15:14:33.097Z"
   }
 ]

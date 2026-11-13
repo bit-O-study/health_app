@@ -1,12 +1,15 @@
 {
-  "prompt": "Eight-pose TRX low row, overhead wall anchor and two taut straps, fixed planted heels, rigid inclined body, bend elbows to ribs, reverse",
-  "equipment": "trx",
-  "sources": [
-    "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
-  ],
-  "panels": 8,
-  "cycle": "reverse",
   "id": "trx-row",
-  "registeredAt": "2026-09-13T12:56:49.525Z",
-  "cutout": false
+  "equipment": "trx",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "trx-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.trxtraining.com/blogs/news/7-basic-movements"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T11:59:57.527Z"
 }

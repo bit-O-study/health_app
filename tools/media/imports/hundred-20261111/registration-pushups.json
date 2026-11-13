@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-12T09:37:13.474Z",
+  "ids": [
+    "decline-push-up",
+    "close-grip-push-up",
+    "wide-push-up"
+  ],
+  "files": 9,
+  "batchCompleted": 18,
+  "batchRemaining": 82,
+  "counts": {
+    "reviewed-both-themes": 419,
+    "needs-motion-review": 22,
+    "needs-cutout-review": 15,
+    "needs-new-video": 893,
+    "legacy-needs-remake": 2
+  },
+  "tests": 91,
+  "testFiles": 23,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

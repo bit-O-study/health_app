@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-13T12:30:52.737Z",
+  "report": [
+    {
+      "id": "single-leg-glute-bridge",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

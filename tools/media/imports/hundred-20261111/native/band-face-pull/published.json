@@ -1,0 +1,18 @@
+{
+  "id": "band-face-pull",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "eed54c84efe8beb20f3952b3a14b519b2edce8eae9ff6aa338e9039739c2add4",
+  "rigSourceSha256": "a18db2f2bb2ad414bd1e4d16ed10d99a0b023b6d185fbc5ddfbebd7108e0432a",
+  "videoSha256": "e7ee6f43524a29945046d43260479a88b15d59a410f47075c576df096ce216b1",
+  "darkVideoSha256": "171d66a95badf8907d7df9067d37632d5929ac4b27563d58d2c0e1a33f819943",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79561,
+  "darkBytes": 83360,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:07.185Z"
+}

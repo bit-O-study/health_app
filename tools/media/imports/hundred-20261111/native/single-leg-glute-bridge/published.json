@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-glute-bridge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "16444372c4deb6ba499b58113cca2348b98d14609d9441fad606659383b94ed0",
+  "rigSourceSha256": "6de85c2e5d17bcacea693bbfcbdb463a0798dde4b22e044ac15a61b670412840",
+  "videoSha256": "172a28ce86681549c36770bb9935ac6352549d524e3bce5809725af3e6612840",
+  "darkVideoSha256": "5afa7d19d6f8534630b54721389d0134f54f29dd768ff13d16aacbe753fb8057",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 92516,
+  "darkBytes": 89632,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:29:38.050Z"
+}

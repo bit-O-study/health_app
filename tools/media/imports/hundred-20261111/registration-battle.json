@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T14:11:57.534Z",
+  "ids": [
+    "battle-rope-wave"
+  ],
+  "files": 3,
+  "batchCompleted": 88,
+  "batchRemaining": 12,
+  "counts": {
+    "reviewed-both-themes": 489,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 827,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

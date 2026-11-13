@@ -1,0 +1,3 @@
+const fs=require('node:fs'),base='tools/media/imports/hundred-20261111';
+for(const id of ['squeeze-press','tate-press']){const f=base+'/'+id+'-studio.mjs';let s=fs.readFileSync(f,'utf8');s=s.replace("scene.background = new THREE.Color(dark ? '#09090b' : '#fafafa');","scene.background=dark==='alpha'?null:new THREE.Color(dark?'#09090b':'#fafafa');renderer.setClearAlpha(dark==='alpha'?0:1);");fs.writeFileSync(f,s);}
+const b=JSON.parse(fs.readFileSync(base+'/batch.json'));for(const e of b.entries)if(['squeeze-press','tate-press'].includes(e.id))e.status='motion-preview';fs.writeFileSync(base+'/batch.json',JSON.stringify(b,null,2)+'\n');

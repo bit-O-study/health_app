@@ -1,0 +1,18 @@
+{
+  "id": "stability-ball-hamstring-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "47d0a2bb47eaa96495dd49df8ac7b4e4fa8aab2b3c9e5ebf163eca5b4ce328c6",
+  "rigSourceSha256": "394a486640fd98f953523f4c009730c937f870e5c5b1bb8283a84731c05271da",
+  "videoSha256": "4cc3ab4399192e417d28148b65875de1aeccd68353e2c2c5ab9543f1c3d7cbee",
+  "darkVideoSha256": "8db27548fb23a676cc00be9d5fae1d6eafc07df80967c49ef540caaa8b4c6aa7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 159145,
+  "darkBytes": 147059,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:41:38.000Z"
+}

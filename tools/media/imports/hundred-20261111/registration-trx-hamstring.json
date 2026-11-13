@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T12:40:27.072Z",
+  "ids": [
+    "trx-hamstring-curl"
+  ],
+  "files": 3,
+  "batchCompleted": 75,
+  "batchRemaining": 25,
+  "counts": {
+    "reviewed-both-themes": 476,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 840,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

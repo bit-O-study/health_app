@@ -1,0 +1,17 @@
+{
+  "stability-ball-hamstring-curl": {
+    "checks": {
+      "exercise": "Bilateral stability-ball hamstring curl",
+      "equipment": "Rolling stability ball beneath both heels",
+      "setup": "바로 누워 양쪽 뒤꿈치를 짐볼 위에 놓고 손바닥을 몸 옆 바닥에 댄다. 복부와 엉덩이에 힘을 주어 골반을 들어 올린다.",
+      "hands": "Both palms fixed at floor level",
+      "feet": "Dorsiflexed feet with heels remaining on ball",
+      "movement": "양쪽 무릎을 굽혀 짐볼을 몸 쪽으로 굴린다. 엉덩이를 바닥에서 띄운 채 다리를 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Rigid ball with rolling rotation; no compression or friction simulation.",
+      "Sampled heel contact and body clearances, not exhaustive collision certification."
+    ]
+  }
+}

@@ -1,0 +1,330 @@
+{
+  "id": "tate-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/tate-press-studio.mjs",
+      "sha256": "d0d37f561036f1fb25d822b0e8080c05573c22a9853accac9e25ad63e1fa339e"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/tate-press-motion.mjs",
+      "sha256": "85c2ebab988abbe1de631c67b38a6f5f16a0cebfe727ad1e7da4fef0b0a15286"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "close-dumbbell-press",
+    "sourceUrls": [
+      "https://www.strengthlog.com/tate-press/"
+    ],
+    "criteria": "Elbows flare outward as dumbbells fold toward chest, then extend elbows; supported head and back.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Slow procedural demonstration; not captured human movement or full collision certification.",
+      "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+      "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "equipmentPairClearance": 0.3864757814517213,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.00005051932548338911,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 0.15291381587509123,
+      "equipmentPadClearance": 2.3682941341553843,
+      "equipmentHeadPadClearance": 2.005770315092513,
+      "equipmentBenchClearance": 2.5522161481864805
+    },
+    {
+      "frame": 30,
+      "equipmentPairClearance": 0.38646582030834925,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.00005000981296543472,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 0.15400925841255236,
+      "equipmentPadClearance": 2.3694738077467403,
+      "equipmentHeadPadClearance": 2.006941050725324,
+      "equipmentBenchClearance": 2.5533280527192286
+    },
+    {
+      "frame": 60,
+      "equipmentPairClearance": 0.38615524728471196,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 6.760139354966554e-7,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 0.33883238745509586,
+      "equipmentPadClearance": 2.5726857551392333,
+      "equipmentHeadPadClearance": 2.2082853095453614,
+      "equipmentBenchClearance": 2.745643122831316
+    },
+    {
+      "frame": 90,
+      "equipmentPairClearance": 0.41063084157336993,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.0006319684340829745,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 1.103831750855635,
+      "equipmentPadClearance": 3.3850549028095553,
+      "equipmentHeadPadClearance": 3.00868860774061,
+      "equipmentBenchClearance": 3.5255910857307717
+    },
+    {
+      "frame": 120,
+      "equipmentPairClearance": 0.54528518233091,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.0054623377035083465,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 2.3840677759380866,
+      "equipmentPadClearance": 4.736025428655326,
+      "equipmentHeadPadClearance": 4.340141935882543,
+      "equipmentBenchClearance": 4.85150189652157
+    },
+    {
+      "frame": 150,
+      "equipmentPairClearance": 0.8570411083126427,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.015799304167420036,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 3.4917748630056895,
+      "equipmentPadClearance": 5.879161751935074,
+      "equipmentHeadPadClearance": 5.465457685153446,
+      "equipmentBenchClearance": 5.9912607503539
+    },
+    {
+      "frame": 180,
+      "equipmentPairClearance": 1.2237270140434737,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.024538583438032724,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 3.9838438975655825,
+      "equipmentPadClearance": 6.376196050917365,
+      "equipmentHeadPadClearance": 5.953009343056731,
+      "equipmentBenchClearance": 6.490057141901568
+    },
+    {
+      "frame": 210,
+      "equipmentPairClearance": 1.400801164313663,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.027890513270016903,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 4.111598472670562,
+      "equipmentPadClearance": 6.502039340554088,
+      "equipmentHeadPadClearance": 6.075940966437083,
+      "equipmentBenchClearance": 6.616469915191826
+    },
+    {
+      "frame": 240,
+      "equipmentPairClearance": 1.4139881026774561,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.0281080229677797,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 4.119375827720544,
+      "equipmentPadClearance": 6.509613115376766,
+      "equipmentHeadPadClearance": 6.083323406984257,
+      "equipmentBenchClearance": 6.624076285117359
+    },
+    {
+      "frame": 270,
+      "equipmentPairClearance": 1.4008011643136609,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.027890513270016903,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 4.111598472670562,
+      "equipmentPadClearance": 6.502039340554091,
+      "equipmentHeadPadClearance": 6.075940966437082,
+      "equipmentBenchClearance": 6.616469915191824
+    },
+    {
+      "frame": 300,
+      "equipmentPairClearance": 1.2237270140434764,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.024538583438032724,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 3.9838438975655817,
+      "equipmentPadClearance": 6.376196050917366,
+      "equipmentHeadPadClearance": 5.953009343056731,
+      "equipmentBenchClearance": 6.49005714190157
+    },
+    {
+      "frame": 330,
+      "equipmentPairClearance": 0.8570411083126428,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.015799304167420036,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 3.4917748630056895,
+      "equipmentPadClearance": 5.879161751935073,
+      "equipmentHeadPadClearance": 5.465457685153445,
+      "equipmentBenchClearance": 5.991260750353902
+    },
+    {
+      "frame": 360,
+      "equipmentPairClearance": 0.5452851823309106,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.0054623377035083465,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 2.384067775938087,
+      "equipmentPadClearance": 4.736025428655328,
+      "equipmentHeadPadClearance": 4.340141935882545,
+      "equipmentBenchClearance": 4.851501896521572
+    },
+    {
+      "frame": 390,
+      "equipmentPairClearance": 0.4106308415733724,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.0006319684340829745,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 1.1038317508556355,
+      "equipmentPadClearance": 3.3850549028095567,
+      "equipmentHeadPadClearance": 3.0086886077406105,
+      "equipmentBenchClearance": 3.525591085730773
+    },
+    {
+      "frame": 420,
+      "equipmentPairClearance": 0.3861552472847087,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 6.760139354966554e-7,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 0.3388323874550915,
+      "equipmentPadClearance": 2.57268575513923,
+      "equipmentHeadPadClearance": 2.2082853095453587,
+      "equipmentBenchClearance": 2.745643122831313
+    },
+    {
+      "frame": 450,
+      "equipmentPairClearance": 0.3864658203083503,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.00005000981296543472,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 0.15400925841255278,
+      "equipmentPadClearance": 2.369473807746739,
+      "equipmentHeadPadClearance": 2.0069410507253234,
+      "equipmentBenchClearance": 2.5533280527192277
+    },
+    {
+      "frame": 480,
+      "equipmentPairClearance": 0.3864757814517213,
+      "floorClearance": 2.616719170234205e-7,
+      "backGap": 0.00005051932548338911,
+      "headSupportError": 0,
+      "equipmentBodyClearance": 0.15291381587509123,
+      "equipmentPadClearance": 2.3682941341553843,
+      "equipmentHeadPadClearance": 2.005770315092513,
+      "equipmentBenchClearance": 2.5522161481864805
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "maxStep": 0.037964728812413945,
+    "gripSeparationError": 0,
+    "bottomElbowDegrees": 47.21858206215158,
+    "topElbowDegrees": 171.94937302998426,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      47.21858206215158,
+      171.94937302998423
+    ],
+    "alpha": {
+      "transparent": 38561266,
+      "opaque": 4837359,
+      "partial": 838175,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/tate-press/source.jpg",
+    "sha256": "3312339da8eefd151f4853c3e059e82744bf57186c914af37945c1a78d5c0258",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Slow procedural demonstration; not captured human movement or full collision certification. Small elbow bend retained at top; the bottom deliberately stops above the chest. Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+}

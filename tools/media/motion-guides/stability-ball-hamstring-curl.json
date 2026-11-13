@@ -1,0 +1,15 @@
+{
+  "id": "stability-ball-hamstring-curl",
+  "equipment": "ball",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "stability-ball-hamstring-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/legs/hamstring-exercises/hamstring-curls/swiss-ball-hamstring-curls/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T12:41:37.993Z"
+}

@@ -1,0 +1,28 @@
+{
+  "leaning-cable-lateral-raise": [
+    {
+      "file": "tools/media/motion-guides/leaning-cable-lateral-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/leaning-cable-lateral-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/leaning-cable-lateral-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leaning-cable-lateral-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leaning-cable-lateral-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leaning-cable-lateral-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

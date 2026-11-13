@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "gripError": 1.8444410139024814e-15,
+  "cableTotalDrift": 3.552713678800501e-15,
+  "maxStep": 0.048089739445079764,
+  "rise": 4.035143207667027,
+  "stackTravel": 7.68328604646851,
+  "leanRange": [
+    11.999999999999998,
+    11.999999999999998
+  ],
+  "loopError": 0
+}

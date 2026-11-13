@@ -1,0 +1,189 @@
+[
+  {
+    "frame": 0,
+    "equipmentPairClearance": 0.004213277893048817,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.005845227225194982,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 0.35842511627984874,
+    "equipmentPadClearance": 2.8568528212457776,
+    "equipmentHeadPadClearance": 2.781402928764773,
+    "equipmentBenchClearance": 2.964535827627407
+  },
+  {
+    "frame": 30,
+    "equipmentPairClearance": 0.00421327789304593,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.005835107045494947,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 0.3592683138516838,
+    "equipmentPadClearance": 2.857711322246466,
+    "equipmentHeadPadClearance": 2.7822468665304956,
+    "equipmentBenchClearance": 2.965347152803373
+  },
+  {
+    "frame": 60,
+    "equipmentPairClearance": 0.004213277893046596,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.004285644561552893,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 0.5020316160192749,
+    "equipmentPadClearance": 3.00304473248257,
+    "equipmentHeadPadClearance": 2.9251141061401533,
+    "equipmentBenchClearance": 3.103000646455369
+  },
+  {
+    "frame": 90,
+    "equipmentPairClearance": 0.004213277893052592,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.0008410151698008406,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 1.0366610025304466,
+    "equipmentPadClearance": 3.5468966465714193,
+    "equipmentHeadPadClearance": 3.45978353796277,
+    "equipmentBenchClearance": 3.622677620548897
+  },
+  {
+    "frame": 120,
+    "equipmentPairClearance": 0.004213277893048151,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.0004269305024013903,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 1.9076085045281783,
+    "equipmentPadClearance": 4.427042297308936,
+    "equipmentHeadPadClearance": 4.328723378983405,
+    "equipmentBenchClearance": 4.474431819435638
+  },
+  {
+    "frame": 150,
+    "equipmentPairClearance": 0.004213277893048817,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.005086461598592162,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 2.846409823964027,
+    "equipmentPadClearance": 5.371471236305518,
+    "equipmentHeadPadClearance": 5.26527494308941,
+    "equipmentBenchClearance": 5.397507595286876
+  },
+  {
+    "frame": 180,
+    "equipmentPairClearance": 0.004213277893045153,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.013818538680506975,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 3.5446084901567265,
+    "equipmentPadClearance": 6.073123264448048,
+    "equipmentHeadPadClearance": 5.962685536401403,
+    "equipmentBenchClearance": 6.087151336771895
+  },
+  {
+    "frame": 210,
+    "equipmentPairClearance": 0.004213277893051259,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.022665882505943813,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 3.834270634679649,
+    "equipmentPadClearance": 6.364748421512383,
+    "equipmentHeadPadClearance": 6.252827354652562,
+    "equipmentBenchClearance": 6.374489088754202
+  },
+  {
+    "frame": 240,
+    "equipmentPairClearance": 0.004213277893040268,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.02404776956092558,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 3.855290276371209,
+    "equipmentPadClearance": 6.385898816370046,
+    "equipmentHeadPadClearance": 6.27387552482487,
+    "equipmentBenchClearance": 6.395342312331038
+  },
+  {
+    "frame": 270,
+    "equipmentPairClearance": 0.004213277893049705,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.022665882505944257,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 3.8342706346796516,
+    "equipmentPadClearance": 6.364748421512386,
+    "equipmentHeadPadClearance": 6.252827354652565,
+    "equipmentBenchClearance": 6.3744890887542045
+  },
+  {
+    "frame": 300,
+    "equipmentPairClearance": 0.004213277893049261,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.013818538680506975,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 3.544608490156724,
+    "equipmentPadClearance": 6.0731232644480455,
+    "equipmentHeadPadClearance": 5.962685536401401,
+    "equipmentBenchClearance": 6.087151336771894
+  },
+  {
+    "frame": 330,
+    "equipmentPairClearance": 0.00421327789305137,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.005086461598592162,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 2.8464098239640263,
+    "equipmentPadClearance": 5.371471236305517,
+    "equipmentHeadPadClearance": 5.265274943089409,
+    "equipmentBenchClearance": 5.397507595286873
+  },
+  {
+    "frame": 360,
+    "equipmentPairClearance": 0.0042132778930471515,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.0004269305024013903,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 1.9076085045281788,
+    "equipmentPadClearance": 4.427042297308937,
+    "equipmentHeadPadClearance": 4.328723378983403,
+    "equipmentBenchClearance": 4.474431819435635
+  },
+  {
+    "frame": 390,
+    "equipmentPairClearance": 0.004213277893052592,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.0008410151698008406,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 1.0366610025304466,
+    "equipmentPadClearance": 3.5468966465714193,
+    "equipmentHeadPadClearance": 3.45978353796277,
+    "equipmentBenchClearance": 3.622677620548897
+  },
+  {
+    "frame": 420,
+    "equipmentPairClearance": 0.004213277893046374,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.004285644561552893,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 0.5020316160192734,
+    "equipmentPadClearance": 3.0030447324825675,
+    "equipmentHeadPadClearance": 2.9251141061401515,
+    "equipmentBenchClearance": 3.1030006464553668
+  },
+  {
+    "frame": 450,
+    "equipmentPairClearance": 0.004213277893043155,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.005835107045494947,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 0.3592683138516828,
+    "equipmentPadClearance": 2.857711322246464,
+    "equipmentHeadPadClearance": 2.7822468665304925,
+    "equipmentBenchClearance": 2.9653471528033717
+  },
+  {
+    "frame": 480,
+    "equipmentPairClearance": 0.004213277893048817,
+    "floorClearance": 2.616719170234205e-7,
+    "backGap": 0.005845227225194982,
+    "headSupportError": 0,
+    "equipmentBodyClearance": 0.35842511627984874,
+    "equipmentPadClearance": 2.8568528212457776,
+    "equipmentHeadPadClearance": 2.781402928764773,
+    "equipmentBenchClearance": 2.964535827627407
+  }
+]

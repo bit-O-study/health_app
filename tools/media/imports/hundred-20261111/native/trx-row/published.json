@@ -1,0 +1,18 @@
+{
+  "id": "trx-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b2219e545ec6c6a6234f442af46dc7b0f4a36019b8bb3953033f59fedca6c86a",
+  "rigSourceSha256": "933aea74502fe0ffaf4ff2fc2c6c392b75bdb7eb408e6f02b027583f259c6188",
+  "videoSha256": "72a52c30e4167f1f5cf8782dbcd3b973c33bfec228f0954c6b49fa44d1148ac1",
+  "darkVideoSha256": "0f720dbe8093520a6b1e4931abb594869c9ad6bf305069f51c350eaea9ba2b46",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 91564,
+  "darkBytes": 90736,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T11:59:57.535Z"
+}

@@ -1,0 +1,28 @@
+{
+  "trx-biceps-curl": [
+    {
+      "file": "tools/media/motion-guides/trx-biceps-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-biceps-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-biceps-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-biceps-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-biceps-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-biceps-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

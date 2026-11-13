@@ -1,0 +1,28 @@
+{
+  "smith-machine-bent-over-row": [
+    {
+      "file": "tools/media/motion-guides/smith-machine-bent-over-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-bent-over-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-bent-over-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bent-over-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bent-over-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bent-over-row-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

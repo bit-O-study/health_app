@@ -1,0 +1,328 @@
+{
+  "id": "prone-y-raise",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/prone-y-raise-studio.mjs",
+      "sha256": "5b171791ecc572d7a631883503f046ccd85e9f766a3df0faf3033cf03aeaae1d"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/prone-y-raise-motion.mjs",
+      "sha256": "05e2307a3a3e7cda654f76b3f3fa5b2b0b0734789f53d18a2da570fd6099c3e4"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "chest-supported-pull",
+    "sourceUrls": [
+      "https://www.rehabhero.ca/exercise/incline-bench-y-raise"
+    ],
+    "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; prone-y-raise arm path with bilateral dumbbells.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 3.0257105988606177,
+      "equipmentPadClearance": 2.116684562601088,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 3.1260706624355388,
+      "equipmentPadClearance": 2.205082983309224,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 3.6866952077914643,
+      "equipmentPadClearance": 2.7753547819371422,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.837905226433748,
+      "equipmentPadClearance": 4.2250996383412165,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 5.405882599906137,
+      "equipmentPadClearance": 5.369289707849985,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.655231873257151,
+      "equipmentPadClearance": 5.974340999707096,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.40250126525416,
+      "equipmentPadClearance": 6.129756582608683,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.364970310139238,
+      "equipmentPadClearance": 6.15323293260289,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.364970310139238,
+      "equipmentPadClearance": 6.15323293260289,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.364970310139238,
+      "equipmentPadClearance": 6.15323293260289,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.402501265254161,
+      "equipmentPadClearance": 6.129756582608681,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.655231873257151,
+      "equipmentPadClearance": 5.974340999707096,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 5.405882599906137,
+      "equipmentPadClearance": 5.369289707849985,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 4.8379052264337465,
+      "equipmentPadClearance": 4.2250996383412165,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 3.6866952077914665,
+      "equipmentPadClearance": 2.775354781937145,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 3.1260706624355357,
+      "equipmentPadClearance": 2.2050829833092216,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 3.0257105988606177,
+      "equipmentPadClearance": 2.116684562601088,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "maxStep": 0.1425903332894313,
+    "topElbowDegrees": 174.70640928973623,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      173.20650470843532,
+      175.20316887767856
+    ],
+    "alpha": {
+      "transparent": 39722339,
+      "opaque": 3679943,
+      "partial": 834518,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/prone-y-raise/source.jpg",
+    "sha256": "352dac5eb11359466ee4aaeed80e93a24a9141e60ba14d80611d30041094851d",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Slow procedural demonstration, not motion capture or clinical certification. Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance. Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+}

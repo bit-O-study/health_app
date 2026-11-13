@@ -1,0 +1,28 @@
+{
+  "landmine-squat": [
+    {
+      "file": "tools/media/motion-guides/landmine-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/landmine-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/landmine-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/landmine-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/landmine-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/landmine-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

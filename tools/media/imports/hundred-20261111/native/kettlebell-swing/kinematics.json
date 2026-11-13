@@ -1,0 +1,18 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 4.562732988774191e-15,
+  "footDrift": 6.205342290003078e-15,
+  "maxStep": 0.10812992734359503,
+  "elbowDegrees": [
+    160.12476610462977,
+    160.12476610463025
+  ],
+  "kneeDegrees": [
+    150.00000000000003,
+    173.99999999999991
+  ],
+  "minimumBellBodyGap": 0.36790038576745376,
+  "minimumBellClothGap": 0.7349623183371766
+}

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T12:43:51.356Z",
+  "ids": [
+    "stability-ball-hamstring-curl"
+  ],
+  "files": 3,
+  "batchCompleted": 76,
+  "batchRemaining": 24,
+  "counts": {
+    "reviewed-both-themes": 477,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 839,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

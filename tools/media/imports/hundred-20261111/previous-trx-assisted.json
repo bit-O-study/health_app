@@ -1,0 +1,54 @@
+{
+  "trx-squat": [
+    {
+      "file": "tools/media/motion-guides/trx-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-squat-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "trx-lunge": [
+    {
+      "file": "tools/media/motion-guides/trx-lunge.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-lunge.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-lunge-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-lunge.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-lunge-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-lunge-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

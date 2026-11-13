@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kettlebell-sumo-squat-alpha.webm",
+      "sha256": "c025646a9eea14d0314ee6b7e74586d9f06eba9528086f0756111525704ae568",
+      "bytes": 312444,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kettlebell-sumo-squat.mp4",
+      "sha256": "314fc2fe1b586a2fc9a6a010e022b5f2ef7b4b2281cf373c64442b3b316f172b",
+      "bytes": 130368,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kettlebell-sumo-squat-dark.mp4",
+      "sha256": "b928fd5c0bd4fd3a8a264a57175695a4d84e7d9f8e6cf2a6c519f6dfec5c1329",
+      "bytes": 126247,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/kettlebell-sumo-squat-studio.mjs",
+      "sha256": "601aa024d0f32366dca33735b1d035e66fcddb93bf6fe7dd704581dc3072e93a"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/kettlebell-sumo-squat-motion.mjs",
+      "sha256": "9485c0f21ec5de0a971ab842c4fe4bf67150264714bbfdd49d2594af57c811d8"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

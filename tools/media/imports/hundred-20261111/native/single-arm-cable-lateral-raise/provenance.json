@@ -1,0 +1,252 @@
+{
+  "id": "single-arm-cable-lateral-raise",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/single-arm-cable-lateral-raise-studio.mjs",
+      "sha256": "d080d1b8cf1e87c5879b54dc69bbf0f1dd6d728efecc6c0f98b5ac994e334467"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/single-arm-cable-lateral-raise-motion.mjs",
+      "sha256": "bcdabed3b23e995fcd6c614b37c84952e444db9bd1b54f1cc1ee826182aeab1b"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "lateral",
+    "sourceUrls": [
+      "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+    ],
+    "criteria": "Standing lateral with cable and one working arm; fixed feet, gripped handles and visible anchors.",
+    "sourcesCheckedAt": "2026-11-12",
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 왼팔 시범이며 어깨를 으쓱하지 않는다"
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 2.220446049250313e-16
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 0
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.0175362097255202e-15
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 3.1401849173675503e-16
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 4.440892098500626e-16
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 4.965068306494546e-16
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.1102230246251565e-16
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 0
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.807312143953211e-15
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.1102230246251565e-16
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.1102230246251565e-16
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.1102230246251565e-16
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 4.440892098500626e-16
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 1.1102230246251565e-16
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 3.1401849173675503e-16
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 6.661338147750939e-16
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.044769020080567046,
+      "clothFloorClearance": 5.569999835193155,
+      "gripError": 2.220446049250313e-16
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 0,
+    "inactiveDrift": 0,
+    "gripError": 1.807312143953211e-15,
+    "cableLengthError": 7.105427357601002e-15,
+    "maxStep": 0.04808973944507998,
+    "loopError": 0,
+    "elbowDegrees": [
+      172.07720451352316,
+      179.20461032889872
+    ],
+    "lengthChange": 8.018938429693476,
+    "minFloorClearance": 0.044769020080567046
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      172.07720451352316,
+      179.20461032889872
+    ],
+    "alpha": {
+      "transparent": 41357465,
+      "opaque": 2048562,
+      "partial": 830773,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/source.jpg",
+    "sha256": "27d6cef97ef0209f8ec52f940c11f1f52ce13f34273ec905416e3ff9913c32bc",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural slow demonstration; not human capture or resistance dynamics. Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units. Seventeen sampled geometry checks do not certify full mesh collision or biomechanics. 영상은 왼팔 시범이며 어깨를 으쓱하지 않는다"
+}

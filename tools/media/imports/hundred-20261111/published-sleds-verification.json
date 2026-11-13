@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-13T14:15:46.570Z",
+  "report": [
+    {
+      "id": "sled-push",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "sled-pull",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

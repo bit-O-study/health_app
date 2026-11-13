@@ -1,0 +1,8 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),dir='tools/media/imports/hundred-20261111/native/farmer-s-carry';
+const p=JSON.parse(fs.readFileSync(dir+'/poses.json')),g=JSON.parse(fs.readFileSync(dir+'/geometry.json')),dist=(a,b)=>Math.hypot(...a.map((x,i)=>x-b[i]));
+assert.equal(p.length,481);assert.deepEqual(p[0].joints,p.at(-1).joints);
+let gripError=0,stanceWorldDrift=0,maxStep=0,airborneSamples=0;
+for(let i=0;i<p.length;i++){const j=p[i].joints;assert.ok(Object.values(j).flat(Infinity).every(Number.isFinite));let support=0;for(const [n,s]of ['L','R'].entries()){const phase=(i/480+n*.5)%1,f=j['foot.'+s];gripError=Math.max(gripError,dist(j.grips[n],j.targets[n]));if(phase<=.6){support++;assert.ok(Math.abs(f[1]+7.15)<1e-5);if(i&&((i-1)/480+n*.5)%1<=.6&&phase>0){const prev=p[i-1].joints['foot.'+s];stanceWorldDrift=Math.max(stanceWorldDrift,Math.hypot(f[0]-prev[0],f[1]-prev[1],f[2]-prev[2]+8/480));}}else if(f[1]>-6.8)airborneSamples++;}assert.ok(support>=1,'Both feet airborne');if(i)for(const name of ['root','head','foot.L','foot.R','wrist.L','wrist.R'])maxStep=Math.max(maxStep,dist(j[name],p[i-1].joints[name]));}
+assert.ok(gripError<1e-5&&stanceWorldDrift<1e-5&&maxStep<.15&&airborneSamples>100);
+assert.ok(g.every(x=>x.floorClearance>=0&&x.plateBodyGap>0&&x.plateClothGap>0));
+const report={status:'numeric-checks-passed',poseSamples:481,loopError:0,gripError,stanceWorldDrift,maxStep,airborneSamples,worldTravelPerCycle:8,minimumPlateBodyGap:Math.min(...g.map(x=>x.plateBodyGap)),minimumPlateClothGap:Math.min(...g.map(x=>x.plateClothGap))};fs.writeFileSync(dir+'/kinematics.json',JSON.stringify(report,null,2)+'\n');console.log(report);

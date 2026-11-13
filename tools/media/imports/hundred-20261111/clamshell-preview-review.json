@@ -1,0 +1,42 @@
+{
+  "clamshell": {
+    "checks": {
+      "exercise": "Banded side-lying clamshell",
+      "equipment": "Loop band above both knees, follows garment cross section",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 옆으로 눕는다. 아래쪽 팔로 머리를 받치고 두 무릎을 굽혀 발을 포갠다.",
+      "hands": "Lower arm supports head, upper hand monitors hip",
+      "feet": "Both feet and toes fixed with stacked-foot spacing",
+      "movement": "골반을 뒤로 돌리지 않고 발을 붙인 채 위쪽 무릎을 천천히 연다. 엉덩이 옆쪽에 힘을 느끼며 무릎을 조절해서 닫는다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Upper hand placed at hip rather than on floor as in source.",
+      "Band path follows sampled garment/body outline with a small visual offset; no elastic-force simulation.",
+      "Sampled vertex clearances are not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:12:07.768Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/full-sheet.png",
+        "sha256": "3b7fac3a98a8a711b82900e9d87e7194b2c233d344e621dbfb9d463b9b18815d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/side-sheet.png",
+        "sha256": "769697296739b90cb71f21fb07fcefa2e124101ac4bea74103b497fc4f968562"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/poses.json",
+        "sha256": "0ed0452743cea55d2373854e3e80049b0fade36a81c8827cb858be8de54c0166"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/geometry.json",
+        "sha256": "118f6ae45367caf330bd8ceaa162d752f57868c993cf4124529534eca385afa6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/kinematics.json",
+        "sha256": "24b595822c1ac141da8eb5ffd74298bc97826db9ebdbecd2592a252c6fc4be73"
+      }
+    ]
+  }
+}

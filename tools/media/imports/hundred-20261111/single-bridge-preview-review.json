@@ -1,0 +1,41 @@
+{
+  "single-leg-glute-bridge": {
+    "checks": {
+      "exercise": "Single-leg glute bridge, bent raised-knee variation",
+      "equipment": "Bodyweight only",
+      "setup": "바로 누워 왼발을 바닥에 놓고 오른쪽 무릎을 굽혀 든다. 양손은 몸 옆 바닥에 두고 골반을 수평으로 유지한다.",
+      "hands": "Both open palms fixed beside body",
+      "feet": "Left sole planted, right foot lifted throughout",
+      "movement": "왼발로 바닥을 누르며 엉덩이를 들어 올린다. 허리를 과하게 젖히지 않고 천천히 내린다. 반대쪽도 같은 방법으로 실시한다."
+    },
+    "limitations": [
+      "Procedural left-leg example; repeat on opposite side.",
+      "Small floor clearances are sampled; no exhaustive collision certification.",
+      "Bent raised-knee variation with a controlled partial hip-extension range."
+    ],
+    "reviewedAt": "2026-11-13T12:26:01.405Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/full-sheet.png",
+        "sha256": "fbb0b7398a7be0410ca243656562b014102601131909ed54ff0b1dc9d887a875"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/side-sheet.png",
+        "sha256": "7af3626fce638c81ee6606619ce4475106ea1c1991c35ab40fddab014160056e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/poses.json",
+        "sha256": "5c17525aead97eaed25e5486a0f24c7f5cad1bed95a6c5516fe04e20dd6c6292"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/geometry.json",
+        "sha256": "03d6f577ccd79d820751916c822c7baf088c1ac730d991cdd979f9864094adb3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/kinematics.json",
+        "sha256": "1319a9eb28168883aee2f32bcffca3facef5375ff0c054c8775c5542616f9d35"
+      }
+    ]
+  }
+}

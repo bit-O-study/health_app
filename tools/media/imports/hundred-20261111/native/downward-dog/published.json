@@ -1,0 +1,18 @@
+{
+  "id": "downward-dog",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9081fa539d6b83520ed3015c0c020ff400faa69c760af9a9482d97958de71971",
+  "rigSourceSha256": "f4bfa492ac2b289a572c8d09095b449a7540933cf9a68f5b40c161c6d25ab1d4",
+  "videoSha256": "3e53c5ea1c436b52fafc87bb3584d4b4adb519f3480d0b2d4111af8dfc9555c0",
+  "darkVideoSha256": "0888c9b384ff5eb6d7b4720dee754ee12189844c4ea696eee370864accdb2e8d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 35274,
+  "darkBytes": 36112,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:51:16.165Z"
+}

@@ -1,0 +1,76 @@
+{
+  "seated-toe-raise": {
+    "checks": {
+      "exercise": "Bilateral seated ankle dorsiflexion, distinct from heel raises",
+      "equipment": "Bilateral plate-loaded levers, footboards, forefoot rollers, heel pivots and stable seat",
+      "setup": "토 레이즈 머신 앞 의자에 앉아 뒤꿈치를 지지대에 두고 앞꿈치를 발등 패드 아래에 넣는다.",
+      "hands": "Relaxed open hands held above thighs; no simulated support force",
+      "feet": "Fixed bilateral virtual heel pivots; toes rise together",
+      "movement": "뒤꿈치를 고정한 채 발끝을 당겨 저항 레버를 들어 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Generic simplified tibialis machine, not an exact manufacturer model; 25-degree procedural ankle rotation.",
+      "Heel pivots are rig landmarks; forefoot rollers and support boards use approximate contact; no tissue compression.",
+      "Sampled geometry and lever movement, not complete collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:22:32.575Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/final.jpg",
+        "sha256": "adde32ffa03e5bec004d5395e508d47b0b64e88ef60e79455a8722084b21d094"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/final-dark.jpg",
+        "sha256": "fe3fcbd5dbb93610f7e10e619cf46b64a3ccb40d8cda4ad0c183dbf926f1c0c1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/full-sheet.png",
+        "sha256": "70a1dc9a6ba98845f24cb023b6ee8f34383a6966110d37f549899c93f7b6af42"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/side-sheet.png",
+        "sha256": "690d2b83bad3d12a2adb632ee399d221b2b5fe8763a5ee6748c86b5f5f3483a3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/verification.json",
+        "sha256": "cf3e3ed23e6b8a894a2f7ee51a89ed42a628c6fefbc08b2beb14c5c3db5240a6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/geometry.json",
+        "sha256": "8a737f28a5c3008b646cc7a26978a4cb546ee363298e3a383a7ea00df53b420e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/kinematics.json",
+        "sha256": "8bb4ce0eac41ca228c3960de2dd51c43c958f74b2c1be7cae00e06f71072ec00"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/provenance.json",
+        "sha256": "1f8084c4d48aafbbf32692fbbb57896f4b74a1899ecf871fbecf3a2e8ca74c9f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/seated-toe-raise-alpha.webm",
+        "sha256": "392e02726546e4274e5b71fc200e9ed1747f0436808b7f27e2b29bb169c983e3",
+        "bytes": 156698,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/seated-toe-raise.mp4",
+        "sha256": "8354c048603565655df08786f90a20bc5cd3ac4c92d51891d2537149e6347ef7",
+        "bytes": 74389,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/seated-toe-raise-dark.mp4",
+        "sha256": "a2e5b8a94b0627a228a2ecf220ad886770274115ef6d20cdb31c4962a75cdfc7",
+        "bytes": 60494,
+        "decode": "passed"
+      }
+    ]
+  }
+}

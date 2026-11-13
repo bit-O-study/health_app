@@ -1,0 +1,15 @@
+{
+  "id": "scapular-pull-up",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "scapular-pull-up-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://yogiathletics.com/library/scapular-pull-up"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:27:38.936Z"
+}

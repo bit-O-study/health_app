@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-straight-arm-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f35c3ad885d6e4120e39bdfb1d463f047f143a89824704bfc40368a23cf1a002",
+  "rigSourceSha256": "9a7efa680651e028b6e8cc357f6360484e1a226aba3d1dd8bcc8deca73bc18da",
+  "videoSha256": "02cb4b80cc8a3af2c242dc3d32f486e1c7434896675048777ff17047c4800012",
+  "darkVideoSha256": "b5a9a591e83c1992ac30a2700d096ec5ab5d706f8261f0683232ee4183d20c26",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 70811,
+  "darkBytes": 65684,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:20.150Z"
+}

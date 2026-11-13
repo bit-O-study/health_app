@@ -1,0 +1,41 @@
+{
+  "skater-jump": {
+    "checks": {
+      "exercise": "Alternating lateral skater bounds",
+      "equipment": "Bodyweight",
+      "setup": "상체를 조금 앞으로 기울이고 한쪽 무릎을 굽혀 체중을 싣는다. 반대발은 몸 뒤쪽으로 들어 둔다.",
+      "hands": "Reciprocal bent-arm swing assists balance",
+      "feet": "One foot supports each landing; free foot stays behind and above floor",
+      "movement": "지지 다리로 바닥을 밀어 옆으로 뛰고 반대발로 부드럽게 착지한다. 착지한 무릎과 엉덩이를 굽혀 균형을 잡은 뒤 반대 방향으로 반복한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Two slowed lateral bounds in eight seconds with balance pauses.",
+      "No impact force simulation or exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:38:31.173Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/full-sheet.png",
+        "sha256": "1474b8fa5584debf0e25707d4653aed6340fb2df71fd688982e95658231b01c7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/side-sheet.png",
+        "sha256": "c34617e11cf14d099b78da6ddebe1b33d31231014c0185586c2420e00b534b6e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/poses.json",
+        "sha256": "0cde15c73c64298bde60659f8e4c5c314f1d8033ddf3eea62f403c9f12590cd3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/geometry.json",
+        "sha256": "8e1b74531a8af669ba4b3fe314d450e13825fbf1b9f63cd1c7b4b671c3be0208"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/skater-jump/kinematics.json",
+        "sha256": "2c08272f94bc38a05472477538de3b80f19e7fac136ec005e13cdcfc0e4fea8f"
+      }
+    ]
+  }
+}

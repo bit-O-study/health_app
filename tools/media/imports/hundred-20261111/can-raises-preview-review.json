@@ -1,0 +1,80 @@
+{
+  "full-can-raise": {
+    "checks": {
+      "exercise": "Distinct full-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points up at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 위를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ],
+    "reviewedAt": "2026-11-13T02:25:00.742Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/full-sheet.png",
+        "sha256": "13ec3766b89eedc59319e462846a568876535d5147ba4fb1bd685380f9d8e09b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/side-sheet.png",
+        "sha256": "3e676e11d528269fbb7598b94027d054ef6428e5f686ae2e662e2637c4a65201"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/poses.json",
+        "sha256": "f1c21555adc350062c4e214862053b2c30d9a0bb30ef3f4ee023039d89a0b5ff"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/geometry.json",
+        "sha256": "f4428d7c7cb1714014a00758c11e656c802dae3773b52b59cbda3664347f81b0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/full-can-raise/kinematics.json",
+        "sha256": "042731867a0e2efd4d21d41b9a03b42402d956ccd48b107186391663980fda2b"
+      }
+    ]
+  },
+  "empty-can-raise": {
+    "checks": {
+      "exercise": "Distinct empty-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points down at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 아래를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ],
+    "reviewedAt": "2026-11-13T02:25:00.746Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/full-sheet.png",
+        "sha256": "09e09292e7f316fe73b0694806383e94f46dee8597459638c2392aee41a83d2b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/side-sheet.png",
+        "sha256": "ec321702115ef6cfadcc803e92e67c3a1ee10ffcbb79d20d2fe7a2ec6cde7011"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/poses.json",
+        "sha256": "4b3ddf24dd660146a2af05927166642022eb531c98c5005e51648c664fe251b4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/geometry.json",
+        "sha256": "f4428d7c7cb1714014a00758c11e656c802dae3773b52b59cbda3664347f81b0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/empty-can-raise/kinematics.json",
+        "sha256": "578c965bac7a317b106acb212a0019b59aa00160fb81f6b6c0f4c40a99e49f97"
+      }
+    ]
+  }
+}

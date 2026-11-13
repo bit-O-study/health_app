@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-13T02:09:09.132Z",
+  "ids": [
+    "wide-grip-cable-row",
+    "single-arm-cable-row",
+    "band-row"
+  ],
+  "files": 9,
+  "batchCompleted": 45,
+  "batchRemaining": 55,
+  "counts": {
+    "reviewed-both-themes": 446,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 869,
+    "legacy-needs-remake": 2
+  },
+  "tests": 11,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "squeeze-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5aaa6b7603ae84aa548ced27314576e360cc1cc0d004dd3c54db37c041e573da",
+  "rigSourceSha256": "5251c3bf704d0c9eaf03e1a03e401c33161af7a558ece6630cdde07e560786c5",
+  "videoSha256": "61162ef6d9ef4676cfe0256610536f5f64e8b19a9e4d8965a1ce510345968441",
+  "darkVideoSha256": "63a0b37337f1e1669ad9b4fcb08599ec1e9b710b2e562b3c0698e0eefa9c4022",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 66094,
+  "darkBytes": 59170,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:47:31.644Z"
+}

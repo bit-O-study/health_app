@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/trx-biceps-curl-alpha.webm",
+      "sha256": "87d36af640661ae8471ab44e89c253fb7e2b725614ef21bf631ac877243df52d",
+      "bytes": 272801,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/trx-biceps-curl.mp4",
+      "sha256": "9bd1fde43b5ffcff465d377d0d0e28c7bdb63ebf7734f8c92617b4d944d46b71",
+      "bytes": 90940,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/trx-biceps-curl-dark.mp4",
+      "sha256": "1f6712a1cadd860abc819e026a816bd349fef7b237e541309ce970a9853b65b1",
+      "bytes": 94690,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/trx-biceps-curl-studio.mjs",
+      "sha256": "9a3a9d6817b3c9aa5d8d473d0379b75fdb95f3513b85e1116eb64ae173855dbe"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/trx-biceps-curl-motion.mjs",
+      "sha256": "3aef22c5557c6ecdeff19149edc0d2a23e97b33f8acc14a08ca05f92d58a8702"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

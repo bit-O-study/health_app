@@ -1,0 +1,18 @@
+{
+  "id": "standing-cable-reverse-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8333bf838f1ad083df7deb27f339d423e37c889fa954f5bd43e39a53d5d2ce5a",
+  "rigSourceSha256": "e7bfa0794bf0bf156ac460be90136a2bc8f1963dbcf087bdea87d43835787c2d",
+  "videoSha256": "849f16fb795b53b77e5639933629012c1adfaaa4539fbc94ca7401282f65aaf4",
+  "darkVideoSha256": "43034f491d02712c3eda5e6e4b300c5c025f25d71130cd0d9b633b02ad64f938",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 80260,
+  "darkBytes": 75814,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T00:30:52.389Z"
+}

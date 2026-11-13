@@ -1,0 +1,42 @@
+{
+  "downward-dog": {
+    "checks": {
+      "exercise": "Downward-facing dog supported hold with small controlled shoulder movement",
+      "equipment": "Bodyweight, no apparatus",
+      "setup": "손바닥을 어깨너비로, 발을 골반너비로 바닥에 댄다. 엉덩이를 뒤쪽 위로 들어 몸을 거꾸로 된 V자 모양으로 만든다.",
+      "hands": "Both palms fixed with forward fingers; elbow angles 158–164 degrees",
+      "feet": "Both feet fixed on floor; knees softly extended at 163 degrees",
+      "movement": "손으로 바닥을 밀며 등을 길게 유지한다. 무릎과 팔꿈치는 잠그지 않고 뒤꿈치를 바닥 쪽으로 내리며 편하게 호흡한다."
+    },
+    "limitations": [
+      "Procedural pose demonstration, not captured human motion.",
+      "Shows supported hold and small weight adjustment, not full plank-to-dog transition.",
+      "Clothing is a skinned surface without fabric simulation.",
+      "Sampled floor clearances are not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:49:08.357Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/downward-dog/full-sheet.png",
+        "sha256": "f8cee7d67184c7ffaddef4fd5bd59a604a9a36f81e6a6410f9dd30ac8d55ff93"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/downward-dog/side-sheet.png",
+        "sha256": "1fbc853d37bf81001802def601a563685bb2bdc20d91403e1729054c9a32d03c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/downward-dog/poses.json",
+        "sha256": "f09cfd35ca185b84aad4422f18c2b30944b4b8cc34e884358c489c80e660ef29"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/downward-dog/geometry.json",
+        "sha256": "cc74abc9db1349e2187e5a94724ad329a7abb0b246dd45f1192df53a4e0e89e1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/downward-dog/kinematics.json",
+        "sha256": "e80766b7401704849daed09b056490eae924b60087466f5d12f2833183b39d84"
+      }
+    ]
+  }
+}

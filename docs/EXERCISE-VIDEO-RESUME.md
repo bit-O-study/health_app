@@ -1,5 +1,390 @@
 # 운동별 연속 동작 영상 — 재개 기록
 
+## 2026-11-14 100종 묶음 로컬 완료
+
+- [완료] 요청한 100종 모두 제작·운동별 검수·로컬 앱 등록 완료. 밝은 배경 MP4, 어두운 배경 MP4, 투명 배경 WebM 총 300파일의 검수본 SHA-256 일치 및 양테마 manifest 등록을 재확인했다.
+- [완료] 100종 관련 54파일 113tests 통과. 최종 변경 파일 lint 및 전체 TypeScript 검사 통과. 전체 양테마 검수 범위는 401 → 501/1351이다.
+- 근거: tools/media/imports/hundred-20261111/completion.json, complete-tests.json, registration-getup.json 및 각 종목의 provenance·visual-review 기록.
+- [대기] 커밋·운영 배포·Android 실기기 검증. 이 기록의 완료는 로컬 제작·검수·등록 범위이며 운영 반영 완료를 의미하지 않는다.
+- 재개 시: 이 100종은 다시 생성하거나 prepare/publish를 재실행하지 않는다. 추가 제작은 새로운 범위를 지정한 뒤 진행한다. 이전 날짜의 진행률은 당시 이력이다.
+
+## 2026-11-14 100종 묶음 진행 — 100/100
+
+- [완료] turkish-get-up: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-getup.json 및 visual-review-getup.json.
+- [완료] 100종 묶음 제작·검수·로컬 등록 완료. 미검수 초안 없이 100/100.
+- 전체 양테마 501/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-14 100종 묶음 진행 — 99/100
+
+- [완료] burpee: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-burpee.json 및 visual-review-burpee.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 1종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 500/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 98/100
+
+- [완료] kettlebell-windmill: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-windmill.json 및 visual-review-windmill.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 2종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 499/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 97/100
+
+- [완료] kettlebell-clean, kettlebell-snatch: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 6파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 10tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-kb-lifts.json 및 visual-review-kb-lifts.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 3종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 498/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 95/100
+
+- [완료] power-clean, hang-clean: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 6파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 10tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-cleans.json 및 visual-review-cleans.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 5종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 496/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 93/100
+
+- [완료] decline-sit-up: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-decline-sit.json 및 visual-review-decline-sit.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 7종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 494/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 92/100
+
+- [완료] cable-woodchopper: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-chop.json 및 visual-review-chop.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 8종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 493/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 91/100
+
+- [완료] push-jerk: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-jerk.json 및 visual-review-jerk.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 9종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 492/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 90/100
+
+- [완료] sled-push, sled-pull: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 6파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 10tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-sleds.json 및 visual-review-sleds.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 10종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 491/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 88/100
+
+- [완료] battle-rope-wave: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-battle.json 및 visual-review-battle.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 12종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 489/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 87/100
+
+- [완료] jump-rope: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-jump-rope.json 및 visual-review-jump-rope.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 13종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 488/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 86/100
+
+- [완료] box-jump: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-box.json 및 visual-review-box.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 14종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 487/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 85/100
+
+- [완료] broad-jump: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-broad.json 및 visual-review-broad.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 15종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 486/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 84/100
+
+- [완료] skater-jump: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-skater.json 및 visual-review-skater.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 16종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 485/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 83/100
+
+- [완료] jump-lunge: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-jump-lunge.json 및 visual-review-jump-lunge.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 17종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 484/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 82/100
+
+- [완료] medicine-ball-russian-twist: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-ball-twist.json 및 visual-review-ball-twist.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 18종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 483/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 81/100
+
+- [완료] band-monster-walk: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-monster-walk.json 및 visual-review-monster-walk.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 19종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 482/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 80/100
+
+- [완료] clamshell: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-clamshell.json 및 visual-review-clamshell.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 20종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 481/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 79/100
+
+- [완료] lying-side-lateral-raise: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-lying-raise.json 및 visual-review-lying-raise.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 21종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 480/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 78/100
+
+- [완료] leaning-cable-lateral-raise: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-leaning-cable.json 및 visual-review-leaning-cable.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 22종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 479/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 77/100
+
+- [완료] downward-dog: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-downward-dog.json 및 visual-review-downward-dog.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 23종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 478/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 76/100
+
+- [완료] stability-ball-hamstring-curl: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-ball-curl.json 및 visual-review-ball-curl.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 24종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 477/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 75/100
+
+- [완료] trx-hamstring-curl: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-trx-hamstring.json 및 visual-review-trx-hamstring.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 25종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 476/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 74/100
+
+- [완료] single-leg-glute-bridge: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-single-bridge.json 및 visual-review-single-bridge.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 26종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 475/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 73/100
+
+- [완료] trx-triceps-extension: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-trx-triceps.json 및 visual-review-trx-triceps.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 27종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 474/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 72/100
+
+- [완료] trx-biceps-curl: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-trx-biceps.json 및 visual-review-trx-biceps.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 28종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 473/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 71/100
+
+- [완료] trx-chest-press: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-trx-chest.json 및 visual-review-trx-chest.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 29종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 472/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 70/100
+
+- [완료] trx-row: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-trx-row.json 및 visual-review-trx-row.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 30종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 471/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 69/100
+
+- [완료] trx-squat, trx-lunge: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 6파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 10tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-trx-assisted.json 및 visual-review-trx-assisted.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 31종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 470/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 67/100
+
+- [완료] incline-machine-chest-press: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-incline-machine.json 및 visual-review-incline-machine.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 33종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 468/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 66/100
+
+- [완료] smith-machine-decline-press: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-smith-decline.json 및 visual-review-smith-decline.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 34종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 467/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 65/100
+
+- [완료] decline-dumbbell-fly: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-decline-fly.json 및 visual-review-decline-fly.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 35종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 466/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 64/100
+
+- [완료] smith-machine-split-squat: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-smith-split.json 및 visual-review-smith-split.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 36종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 465/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 63/100
+
+- [완료] landmine-squat: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-landmine.json 및 visual-review-landmine.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 37종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 464/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 62/100
+
+- [완료] scapular-pull-up: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-scapular-pull.json 및 visual-review-scapular-pull.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 38종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 463/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 61/100
+
+- [완료] seated-toe-raise: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-seated-toe-machine.json 및 visual-review-seated-toe-machine.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 39종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 462/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 60/100
+
+- [완료] prone-cobra: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-prone-cobra.json 및 visual-review-prone-cobra.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 40종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 462/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 59/100
+
+- [완료] smith-machine-bent-over-row: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 9tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-smith-row.json 및 visual-review-smith-row.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 41종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 460/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 58/100
+
+- [완료] band-squat, overhead-squat, thruster: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 9파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 11tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-loaded-squats.json 및 visual-review-loaded-squats.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 42종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 459/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 55/100
+
+- [완료] squeeze-press, tate-press: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 6파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 10tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-close-presses.json 및 visual-review-close-presses.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 45종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 456/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 53/100
+
+- [완료] incline-rear-delt-raise, incline-bench-dumbbell-row, prone-y-raise: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 9파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 11tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-supported-pulls.json 및 visual-review-supported-pulls.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 47종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 454/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 50/100
+
+- [완료] full-can-raise, empty-can-raise: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 6파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 10tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-can-raises.json 및 visual-review-can-raises.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 50종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 451/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 48/100
+
+- [완료] donkey-kick, fire-hydrant, cat-cow: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 9파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 11tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-quadruped.json 및 visual-review-quadruped.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 52종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 449/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-13 100종 묶음 진행 — 45/100
+
+- [완료] wide-grip-cable-row, single-arm-cable-row, band-row: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 9파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 11tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-seated-rows.json 및 visual-review-seated-rows.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 55종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 446/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-12 100종 묶음 진행 — 42/100
+
+- [완료] cable-external-rotation, band-external-rotation, high-cable-fly, standing-cable-reverse-fly, cable-y-raise, cable-shrug: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 18파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 17tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-cable-accessories.json 및 visual-review-cable-accessories.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 58종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 443/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-12 100종 묶음 진행 — 36/100
+
+- [완료] single-arm-machine-chest-press, single-arm-machine-shoulder-press, single-arm-pec-deck-fly: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 9파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 5tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-unilateral-machines.json 및 visual-review-unilateral-machines.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 64종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 437/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-12 100종 묶음 진행 — 33/100
+
+- [완료] standing-band-row, band-chest-press, band-shoulder-press, band-pulldown, band-face-pull, standing-cable-chest-press, single-arm-lat-pulldown, single-arm-straight-arm-pulldown, single-arm-cable-front-raise, single-arm-cable-lateral-raise: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 30파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 2파일 13tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-resistance.json 및 visual-review-resistance.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 67종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 437/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 2026-11-12 100종 묶음 진행 — 23/100
+
+- [완료] nordic-hamstring-curl: 481자세·17기하표본, 정면/측면 및 최종 양테마 시각 검수, 3파일 해시/전체decode/재생/탐색/반복/알파 검사, 앱 연결 확인.
+- [완료] 관련 5파일 12tests, 변경파일 lint 및 전체 typecheck 통과. 근거: tools/media/imports/hundred-20261111/registration-nordic.json 및 visual-review-nordic.json.
+- [진행중] 사용자 지시에 따라 100종 묶음 완료까지 남은 77종 제작·검수·로컬 등록. 미검수 초안은 완료 수에서 제외.
+- 전체 양테마 424/1351. 커밋·운영배포·Android 검증 대기. 완료한 prepare/publish는 재실행하지 않는다.
+
+## 최신 사용자 지시 — 100종 묶음 끝까지 연속 진행
+
+- 2026-11-12 사용자가 “왜 자꾸 3개씩 만들고 끝내”, “묶음 만들때까지 채워”라고 명시했다. 22/100에서 재개하며, 소량 제작 후 최종 답변으로 종료하지 않는다. 100/100 제작·검수·로컬 등록 완료까지 진행하고 중간에는 진행 상황만 알린다.
+- 기존 22종은 유지. 노르딕 컬과 밴드/케이블10종 구현·검수 진행중. 미검수 후보를 완료 수에 포함하지 않는다.
+
+## 2026-11-12 파머스 캐리 로컬 등록 완료
+
+- [완료] farmer-s-carry 밝음·어두움·투명3파일(480×480/24fps/8초). 양손덤벨 중립그립·직립몸통·좌우 교대보행. 인물추적 좌표계로 1주기 전진8모델단위를 재구성해 지지발 미끄러짐 <1e-5 확인. 단순 평발보행이며 뒤꿈치→발끝 구름은 구현하지 않음.
+- [완료] 481자세/17기하표본, 정면측면8프레임과 최종양테마32프레임 검토. 손잡이 오차 <1e-5, 한발이상 지지, 루프0, 덤벨원판/몸·의복 표본간격 양수. 3파일 전체decode·재생/탐색/반복·알파192프레임·입출력SHA 통과.
+- [완료] 보행 안내 및 느린 추적시범 설명 반영. 관련6파일 22tests, 변경파일lint, 전체typecheck 통과. 공개3파일 해시/전체decode/양테마manifest 통과.
+- 양테마423/1351, 이번100종22/100 완료·78종 남음. 이번 추가1종은 커밋·푸시·운영배포 전.
+- [진행중] 100종 묶음의 다음 미완료 nordic-hamstring-curl: 동작/기구 조사→구현→자세/기하/시각 검수→렌더→앱 안내 및 연결 검사.
+- [대기] 운영배포 및 Android실기기 확인. 팔꿈치약20도굽힘·보행단순화·가상바닥·표본검사 한계는 provenance에 기록.
+- 근거: tools/media/imports/hundred-20261111/registration-carry.json, visual-review-carry.json. 완료된 prepare/publish는 재실행 금지.
+
+## 2026-11-12 케틀벨 스윙·스모 스쿼트 로컬 등록 완료
+
+- [완료] kettlebell-swing / kettlebell-sumo-squat 밝음·어두움·투명6파일(480×480/24fps/8초). 스윙은 힙힌지→어깨높이, 스모는 넓은발·발끝외회전·다리사이 하강으로 구분. 스모 초기 기구/의복 겹침 수정, 상단무릎156.7→170.2도 보정.
+- [완료] 각481자세,17기하표본,정면/측면8프레임 및 최종양테마32프레임 직접 검토. 손잡이 오차·발이동 <1e-5, 루프0, 검사표본에서 벨/몸·의복·바닥 관통 없음. 6파일 전체decode·재생/탐색/반복·알파192프레임·SHA 통과.
+- [완료] 기구별 안내·스윙과 스쿼트 차이 반영. 관련5파일 20tests, 변경TS/검사도구lint, 전체typecheck 통과. 공개6파일 해시/전체decode/양테마manifest 통과.
+- 전체 양테마422/1351, 이번100종21/100 완료·79종 남음. 이 턴 신규2종이며 앞선4종과 함께 커밋·푸시·운영배포 전.
+- [진행중] 100종 묶음 남은 제작: 다음 farmer-s-carry 이동·보행 및 덤벨그립 구현, 정면측면/접지 검사, 최종 렌더와 앱 연결 검사.
+- [대기] 운영 배포 및 Android실기기 확인. 느린 절차애니메이션·팔꿈치약20도굽힘·가상바닥간격·표본기하검사 한계 기록.
+- 근거: tools/media/imports/hundred-20261111/registration-kettlebells.json, visual-review-swing.json, visual-review-sumo.json. 완료된 prepare/publish 재실행 금지.
+
+## 2026-11-12 점프 스쿼트 검수·로컬 등록 완료
+
+- [완료] jump-squat 밝음·어두움·투명 3파일(480×480/24fps/8초), 준비 스쿼트→수직 점프→무릎 굽힌 착지→회복. 착지 직전 무릎각 136.8도로 보정. 481자세에서 접지 발끝 이동 <1e-5, 양발 높이차 0, 루프 오차 0. 17기하표본에서 바닥 관통 없음.
+- [완료] 정면/측면 8프레임과 밝음/어두움 각각32프레임 직접 검토. 3파일 전체decode·재생/탐색/반복·192프레임 알파 경계·입출력 SHA 통과. 앱 안내에 수직 점프·착지·느린 시범 속도를 명시. 관련 4파일 17tests, 변경파일 lint, 전체 typecheck 통과.
+- 전체 양테마 420/1351, 이번100종 19/100 로컬 등록·81종 남음. 추가4종(푸시업3+점프1) 12파일은 아직 커밋/배포 전.
+- [진행중] 남은100종 묶음 제작: 다음 kettlebell-swing 동작 구현·기구접촉/관절/정면측면 검수·양테마 및 투명 렌더·앱 안내 일치 검사.
+- [대기] 신규 영상 운영배포 및 Android 실기기 확인. 실제 점프역학이 아닌 느린 절차 애니메이션, 가상바닥 소량간격, 표본 기하검사 한계는 provenance에 기록.
+- 근거: tools/media/imports/hundred-20261111/registration-jump.json, visual-review-jump.json. 이전 publish 및 prepare 스크립트는 완료분에 재실행하지 않는다.
+
+## 2026-11-12 푸시업 3종 검수·로컬 등록 완료
+
+- decline-push-up / close-grip-push-up / wide-push-up 밝음·어두움·투명9파일. 8초/480×480/24fps. 상단 팔펴짐을170.9–172.4도로 보정, 하단84.6–85.9도. 발판/좁은손/넓은손을 구분. 손·발 고정,481자세·17기하표본·정면/측면 및 최종 양테마32프레임 검토. 전체decode·재생/탐색/loop·192프레임알파·해시 통과.
+- 안내문을 실제 세팅에 맞춰 구분. 등록전회귀3실패→관련23파일91tests통과, 변경TS/검사도구lint 및 전체type통과. 공개9파일 해시/전체decode/양테마manifest확인.
+- 양테마419/1351, 이번100종배치18/100완료·82종남음. 기존15종은 유지. 실제 상단팔꿈치 소량굽힘·가슴바닥비접촉 및 표본검사 한계는 provenance에 기록.
+- 근거: tools/media/imports/hundred-20261111/registration-pushups.json, visual-review-pushups.json. 신규3종의 운영배포/Android대기. 이전15종용prepare/publish와 푸시업publisher 재실행금지.
+
 ## 2026-11-12 커밋·푸시 준비 검증
 
 - 사용자 요청: 현재까지의 영상 제작 작업을 작업 브랜치 video/release-20261103에 커밋·푸시. 운영 배포 요청은 아님.

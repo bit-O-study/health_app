@@ -1,0 +1,18 @@
+{
+  "id": "trx-chest-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4c3785495be9aa08780b67d39e668d030ec95ee0e09a07ade24e1b205c967f69",
+  "rigSourceSha256": "4a0ff4c3d93dafba31b2e10f36f96b1745962319ebd873be36133f09940b48ce",
+  "videoSha256": "468faad678b250109d8eb1bf66182e7dea4bf0cb8593a891bf4360561af63cc7",
+  "darkVideoSha256": "9fff1d0a9a3af8ba7db17d6aad8f5c371289520ee1c975337689b884cccbc238",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99102,
+  "darkBytes": 100228,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:06:29.306Z"
+}

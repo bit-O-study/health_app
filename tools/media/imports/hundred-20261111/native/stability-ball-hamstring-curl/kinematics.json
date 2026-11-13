@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 3.9968028886505635e-15,
+  "pelvisTilt": 0,
+  "symmetry": 0,
+  "rollingError": 1.3322676295501878e-15,
+  "heelTravel": 3.200000000000003,
+  "maxStep": 0.020943352914157387,
+  "kneeRange": [
+    75.72308957331595,
+    141.71212917038886
+  ],
+  "loopError": 0
+}

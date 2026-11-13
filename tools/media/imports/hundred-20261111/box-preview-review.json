@@ -1,0 +1,41 @@
+{
+  "box-jump": {
+    "checks": {
+      "exercise": "Two-foot box jump with step-down",
+      "equipment": "Bodyweight and low plyometric box",
+      "setup": "흔들리지 않는 낮은 박스 앞에 두 발을 골반 너비로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing and forward arm swing during flight",
+      "feet": "Symmetric raised landing; one support foot remains fixed during each step-down",
+      "movement": "팔을 앞으로 올리며 두 다리로 밀어 박스 위로 뛴다. 양발로 착지하면서 무릎과 엉덩이를 굽히고, 균형을 잡아 선다. 한 발씩 뒤로 내려와 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Low box with controlled backward step-down and two additional reset steps.",
+      "Sampled body/box vertex separation, not exhaustive collision or impact-force certification."
+    ],
+    "reviewedAt": "2026-11-13T13:50:33.828Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/full-sheet.png",
+        "sha256": "32abf3afc42d3e35e973725d9ff1772c4811902c624ef9160f9a00ea27fee7e2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/side-sheet.png",
+        "sha256": "1a23cbb54a2638e09272b455be91d5e91f11474df41f807e9de6a63c565c6160"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/poses.json",
+        "sha256": "3c23be94dc7b4dbf778bebf12acb6fc3117fb906615345eeb9a3b6604469d102"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/geometry.json",
+        "sha256": "8f2bb07c6b22bc7491d5b2500464f2644acc02ccce8828b38bbbe6bcd2126140"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/box-jump/kinematics.json",
+        "sha256": "735e329009fd012cf1fe80181d158a08145a01a8311c266ee7884a5833971e55"
+      }
+    ]
+  }
+}

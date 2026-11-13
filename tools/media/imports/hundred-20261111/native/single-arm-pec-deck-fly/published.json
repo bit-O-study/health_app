@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-pec-deck-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e4741686f79fd8dbc61273ab8aef4412c81563f9bd1acb1ac1d1291f7ef39aed",
+  "rigSourceSha256": "fbbfbf4165765db1067b08cb5ebb998259a7c14490421b71c199e51f88b07ca9",
+  "videoSha256": "e1c47ece2b8918a837c71c2204cadf47ef13f4e1353ee4d8010a3e4197a41269",
+  "darkVideoSha256": "b424bd20971a1266653d5014ad567143c06fc4689915205373721f2372c39a17",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 64884,
+  "darkBytes": 60465,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T23:57:09.874Z"
+}

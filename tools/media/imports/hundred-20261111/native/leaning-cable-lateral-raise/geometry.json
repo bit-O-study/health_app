@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.220446049250313e-16,
+    "cableLowerBody": 0.5261021565223968
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.220446049250313e-16,
+    "cableLowerBody": 0.7006239857618137
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.220446049250313e-16,
+    "cableLowerBody": 1.088755559298865
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 9.155133597044475e-16,
+    "cableLowerBody": 1.5473984129711338
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.482534153247273e-16,
+    "cableLowerBody": 1.8715327612997579
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.482534153247273e-16,
+    "cableLowerBody": 2.019095982504314
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 4.965068306494546e-16,
+    "cableLowerBody": 2.0537322264912286
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 5.551115123125783e-16,
+    "cableLowerBody": 2.0549665235947336
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.220446049250313e-16,
+    "cableLowerBody": 2.052895592273546
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 4.965068306494546e-16,
+    "cableLowerBody": 2.0549665235947336
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 1.1102230246251565e-16,
+    "cableLowerBody": 2.0537322264912286
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.482534153247273e-16,
+    "cableLowerBody": 2.019095982504314
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 1.5700924586837752e-16,
+    "cableLowerBody": 1.8715327612997583
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 4.440892098500626e-16,
+    "cableLowerBody": 1.5473984129711325
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 3.1401849173675503e-16,
+    "cableLowerBody": 1.0887555592988645
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 0,
+    "cableLowerBody": 0.7006239857618123
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.03249402008056368,
+    "clothFloorClearance": 5.051371200327935,
+    "gripError": 2.220446049250313e-16,
+    "cableLowerBody": 0.5261021565223968
+  }
+]

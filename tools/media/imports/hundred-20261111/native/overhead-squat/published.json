@@ -1,0 +1,18 @@
+{
+  "id": "overhead-squat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "928463255854852aeda3eabae9d1c9d19a4a8a5b5e38cdf665bdc69252ad7aeb",
+  "rigSourceSha256": "c5d58dcb5d15d0f26ac95dddd912c32afe621969af116f60ea72de1fee64255a",
+  "videoSha256": "979c3846f439c390810d6e30a51970633db298053f81f9e615b14c871cdd01d5",
+  "darkVideoSha256": "dc51736031c5a5052b1f65e40fbe607d171c64674ad2f6d1bfe962f5fa930b51",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 142714,
+  "darkBytes": 127602,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:57:41.457Z"
+}

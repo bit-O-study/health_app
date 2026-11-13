@@ -1,0 +1,18 @@
+{
+  "id": "sled-pull",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f2cb635be9b222f5eac32b12ddde60188163f89bfec1cc809514bcf02a9b2a1f",
+  "rigSourceSha256": "c43f6b4edd0642e0f9270578f38959eef36d2ad4618cc2e5aaaae0bac1da64e1",
+  "videoSha256": "cae90063b1b485b8902b0edefe19c19f9dcfd3d9a77e99a556ec1bffc2cd88c5",
+  "darkVideoSha256": "21477da9e969c61c9c36617e756626ecc753125934dd222618c62d27edc6dc79",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 86700,
+  "darkBytes": 84091,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:15:06.671Z"
+}

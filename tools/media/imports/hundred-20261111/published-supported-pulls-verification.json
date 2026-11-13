@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-13T02:38:02.024Z",
+  "report": [
+    {
+      "id": "incline-rear-delt-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "incline-bench-dumbbell-row",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "prone-y-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

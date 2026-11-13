@@ -1,0 +1,17 @@
+{
+  "trx-chest-press": {
+    "checks": {
+      "exercise": "TRX chest press facing away from anchor",
+      "equipment": "Fixed rear overhead anchor, constant-length straps and horizontal handles",
+      "setup": "고정점을 등지고 손잡이를 가슴 앞에 잡는다. 발을 고정하고 복부에 힘을 주어 머리부터 발목까지 곧게 유지한다.",
+      "hands": "Closed overhand grips, fixed hands while body moves",
+      "feet": "Both feet fixed, rigid legs rock around ankles",
+      "movement": "팔꿈치를 굽혀 가슴을 손잡이 쪽으로 천천히 내린다. 손잡이를 밀며 팔을 펴 시작 자세로 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Rigid straps and simplified anchor; no loading simulation.",
+      "Sampled body clearance; no exhaustive collision certification."
+    ]
+  }
+}

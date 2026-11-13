@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stanceDrift": 8.308823487640388e-15,
+  "gripError": 9.930136612989092e-16,
+  "maxStep": 0.09215757553432988,
+  "footLift": 0.8000000000000007,
+  "supportFrames": 481,
+  "cycles": 2,
+  "loopError": 0,
+  "cameraFollow": true
+}

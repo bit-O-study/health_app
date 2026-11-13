@@ -1,0 +1,18 @@
+{
+  "id": "smith-machine-bent-over-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "08c579b8a40050be8d2d43ed076be68af6ce68ca38df59079fa5cc2664c19c99",
+  "rigSourceSha256": "7274db665921506ceb127bee24871213fbf99f92d4e16736f4f4816f91a84b4a",
+  "videoSha256": "1ee983498c611e98d3da5eeb16f1f65432ebfef02b605cab2a5ecb328c77c4ae",
+  "darkVideoSha256": "5f3919a39bfec2c2d05f018de1ed12063157e77dace352b7307d810a77330e39",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78725,
+  "darkBytes": 62548,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:09:03.040Z"
+}

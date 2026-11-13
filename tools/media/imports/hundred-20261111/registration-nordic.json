@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-12T10:47:58.701Z",
+  "ids": [
+    "nordic-hamstring-curl"
+  ],
+  "files": 3,
+  "batchCompleted": 23,
+  "batchRemaining": 77,
+  "counts": {
+    "reviewed-both-themes": 424,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 891,
+    "legacy-needs-remake": 2
+  },
+  "tests": 12,
+  "testFiles": 5,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

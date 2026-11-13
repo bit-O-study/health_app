@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "gripError": 2.2644195468014707e-15,
+  "anchorDrift": 0,
+  "maxStep": 0.057569551867238555,
+  "oppositionError": 2.6645352591003757e-15,
+  "amplitude": 2.199999999999999,
+  "waveTravel": -1.5331120039532644,
+  "cycles": 4,
+  "loopError": 0
+}

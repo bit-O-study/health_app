@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/cable-shrug/cable-shrug-alpha.webm",
+      "sha256": "41c005ff567784c477339dba2d59bd9d4f02c3d139097b0115cccefe3037bfc2",
+      "bytes": 146591,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/cable-shrug/cable-shrug.mp4",
+      "sha256": "6fe6c5aa485e6ee4d7016e36cac208478341581633f75f0044dbfcb02c0943dc",
+      "bytes": 58619,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/cable-shrug/cable-shrug-dark.mp4",
+      "sha256": "cc22d9fef6decac460a88f630a3b01de2d2b4db52573c3949b2d93f8ed8b5507",
+      "bytes": 53711,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/cable-shrug-studio.mjs",
+      "sha256": "7c1ac551b47b89ba483120c1d5e81067c9a79364ac8f7db8df53d953ae20c193"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/cable-shrug-motion.mjs",
+      "sha256": "416cfb51dfbda6195b4498264767ccc1b92b75995e40461e782933d4caff5148"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

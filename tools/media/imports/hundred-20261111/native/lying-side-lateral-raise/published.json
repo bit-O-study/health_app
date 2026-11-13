@@ -1,0 +1,18 @@
+{
+  "id": "lying-side-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1c87699c9a16dc0128f05af8f4e4dcbcd958137da968a2f8bd0a298ae4c6ef64",
+  "rigSourceSha256": "45ca8e650ad1573c1db5316e140db3606087695a0501d3a006e0c833a2e60833",
+  "videoSha256": "55436994d143c94a1ab95fba5cfa721b0d15c8d34ba419bf6da434fa0aee6931",
+  "darkVideoSha256": "5e036591ec6709d6b34a564da4f972a0a60350011a626c800c33af343b4b1fb8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 54031,
+  "darkBytes": 46781,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:09:38.911Z"
+}

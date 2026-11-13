@@ -1,0 +1,18 @@
+{
+  "id": "cable-woodchopper",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3f23694bdc2fc2107278bb245cac0807a9dc1c5bfbe94e11a7316eb4bf118d00",
+  "rigSourceSha256": "3040a7b1acd5a57e685fd515ad398d0fd7ddcdc253dffbb7bdcc9fb7fb2623ad",
+  "videoSha256": "b93f7cc34249c75cc1f301ebafa26b554b598e27da3128125387f0b05f92dcd3",
+  "darkVideoSha256": "2f6af4a68b39c50996efc8b8a5ea78bb5ba47b46c9a401c70b005bb59787e9db",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81380,
+  "darkBytes": 78041,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:25:28.311Z"
+}

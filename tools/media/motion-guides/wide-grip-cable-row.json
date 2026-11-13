@@ -1,0 +1,15 @@
+{
+  "id": "wide-grip-cable-row",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-grip-cable-row-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T02:07:00.998Z"
+}

@@ -1,0 +1,752 @@
+{
+  "standing-band-row": {
+    "checks": {
+      "exercise": "standing-band-row identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "앞쪽의 안정된 지지대에 밴드를 고정하고 양손으로 손잡이를 잡아 선다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치를 굽혀 손잡이를 몸통 가까이 당긴 뒤 천천히 앞으로 보낸다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "몸통을 뒤로 젖히지 않고 양발을 고정한다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.456Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/final.jpg",
+        "sha256": "14e4be37ea420a0af5b1238f987b14adf82ba4a6fcbd23c1da059c8e1fa23496"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/final-dark.jpg",
+        "sha256": "25f5075bd1ad03194baf05cbb3bdc6e50912e1ac72308529d02beee3592d7828"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/full-sheet.png",
+        "sha256": "d4881ce0128cf2bf894175be38c9c6c4aae7537fdddce693645b24ffb1b07330"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/side-sheet.png",
+        "sha256": "e2e047a72cd49ddf596b38b4479d9172c7bef5e35b4e3cfeaf92a2aa9528fd59"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/verification.json",
+        "sha256": "712e1ecde340b3ecafcde32d5c02609afb914afcfba7f7e3ed89ecb9741913df"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/geometry.json",
+        "sha256": "fee3041f67a6851a20663d9df2a96a977a2c55d9b862bb31ee7660b366a08dd7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/kinematics.json",
+        "sha256": "a4a10fe874c0933a5836b1f3b4f6dad7f23d87825e63cb3b9b03550067f075be"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/provenance.json",
+        "sha256": "f02c523302607e34a46455adc23f484b8b93338b44d5efdc8a4f954a6f21a30d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/standing-band-row-alpha.webm",
+        "sha256": "3c4ddef91690b5a6434c74cf250e32a176ca337b96500a59b58d3f429232ba38",
+        "bytes": 181910,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/standing-band-row.mp4",
+        "sha256": "de4fdbf9bbff9754d8b4fca8fbdcf7a270368fb9438e46e74f8cdb983559f4b7",
+        "bytes": 71458,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/standing-band-row/standing-band-row-dark.mp4",
+        "sha256": "aa85be1fc6ea663d2609217e3c9e06fee647799f552561fdf1b7a55e871c9eb6",
+        "bytes": 75240,
+        "decode": "passed"
+      }
+    ]
+  },
+  "band-chest-press": {
+    "checks": {
+      "exercise": "band-chest-press identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "뒤쪽의 안정된 지지대에 밴드를 고정하고 양손 손잡이를 가슴 옆에 둔다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "손잡이를 가슴 앞쪽으로 밀어 팔을 편 뒤 천천히 돌아온다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "팔꿈치를 몸통 가까이에 두고 허리를 젖히지 않는다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.471Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/final.jpg",
+        "sha256": "641f25a4364fe67d3123d1a04785b38f5785606d336e6c30e261b19a6796add9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/final-dark.jpg",
+        "sha256": "8902b15cea9485c31852efb701d5bae658cf1df0625912f263fe5c991fd64c70"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/full-sheet.png",
+        "sha256": "931a54da52accc60ebebb2362d7c7f4d3c22ba1d686e21a211010eceeffa5394"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/side-sheet.png",
+        "sha256": "b518c55c812be0b1840d84fc540a3a7e71e0b1f1bf2de3c81cfe15c8b52d2a75"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/verification.json",
+        "sha256": "7fd843646a9c9c9c5530604c8665d77ca108e6a9c1a5ab85c62d7b8b8e7d0c5e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/geometry.json",
+        "sha256": "9d84b404ee19691fe0810fa76ce003c7cbc18685c89ab0dcb77b86003e8405c5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/kinematics.json",
+        "sha256": "1aa4185d69a25a59d86164bd1bbf6296f9dc2b09f34efe533af7d65c3f0d7bd6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/provenance.json",
+        "sha256": "0951e9ecf99a84a17bd440d4f6069520b15b2e2a514e25de17b8d0dda834e61f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/band-chest-press-alpha.webm",
+        "sha256": "6486449f900f4beaf334e3a44f38137092cfac5394a73facb62e997546ed1351",
+        "bytes": 170711,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/band-chest-press.mp4",
+        "sha256": "7c60dfb4d3746c4a9048feb326191639a2e19e1186e6e5e654d6a00fa805253c",
+        "bytes": 69255,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-chest-press/band-chest-press-dark.mp4",
+        "sha256": "694d48502d9f3172f11307fc044c32d296dbe2698a464d7befb5e219a1d13adb",
+        "bytes": 68947,
+        "decode": "passed"
+      }
+    ]
+  },
+  "band-shoulder-press": {
+    "checks": {
+      "exercise": "band-shoulder-press identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "발 옆의 낮고 안정된 지지점에 밴드를 고정하고 양손 손잡이를 어깨 위쪽에 둔다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "양손을 머리 위로 밀어 올린 뒤 팔꿈치를 굽혀 돌아온다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 바닥 지지점에 고정한 밴드를 사용한다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.486Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/final.jpg",
+        "sha256": "70003e203cd394181391cf9492d81beaa8f45230ed34d49e40a1f233e31cf5f6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/final-dark.jpg",
+        "sha256": "171a7268f481b386de1c6c566961aa8068b12994effee75cb0316b3a707e402b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/full-sheet.png",
+        "sha256": "a5d1b44affedd0fccee6dd983ddb2994ef699d6e4a68ff6fd9f6868e288fe0c6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/side-sheet.png",
+        "sha256": "11dc784200b3bc52d2ff7ddbc0b4ed6f90783c19c660e1b2b4d34fd8d12c1fd5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/verification.json",
+        "sha256": "414bcd8a6a3a0566f5852b1976da181e6ec8573ab303d5dbddcb4486372408a2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/geometry.json",
+        "sha256": "da4c61e61527bec598357d0492eb894edcdbd1f83a6be1f5a3c237134f14b085"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/kinematics.json",
+        "sha256": "afd32c7b113d13d9c33c253fe9f02f01d47b5e6be2496da64e5a482269e0c9c1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/provenance.json",
+        "sha256": "ec886e91f1cf7c9936d1c14b68bdb29ca13844b832c1d09b76ca3e46020f83ec"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/band-shoulder-press-alpha.webm",
+        "sha256": "186022b10ea76d4faa3fd698aae17e17c26809dbf1764ff0f05598b64d2ebb1b",
+        "bytes": 280040,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/band-shoulder-press.mp4",
+        "sha256": "ec7243cb02d57c29d4a0fb3a795dcd7a9a9991bdff7b038cc7bc35bab1ffa7cc",
+        "bytes": 104304,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-shoulder-press/band-shoulder-press-dark.mp4",
+        "sha256": "f51ba7530084ba021c2a49a942bd193fabc20bbc64726040b408652b66c7a0c1",
+        "bytes": 107932,
+        "decode": "passed"
+      }
+    ]
+  },
+  "band-pulldown": {
+    "checks": {
+      "exercise": "band-pulldown identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "머리 위의 안정된 지지점에 밴드를 고정하고 양손으로 손잡이를 잡아 선다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치를 아래로 굽혀 손잡이를 얼굴 양옆으로 당긴 뒤 천천히 올린다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 서서 하는 풀다운이며 무릎을 굽혀 반동을 주지 않는다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.501Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/final.jpg",
+        "sha256": "24c5a33084a732959eb37c21ed8c0f0f0af3781766a227e12811c5a87de226cd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/final-dark.jpg",
+        "sha256": "d15d8f20b656cef77234c48a325ea6b5e191e1775ccca60231a09535142a802d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/full-sheet.png",
+        "sha256": "f167f6786b395518ebebd1ffffa5f972ec3a496a3b6a2b9a32af12d7ac58de48"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/side-sheet.png",
+        "sha256": "38bd86db77a534172df68f5fca3df94619c659aa4c24b3d4ec47e51562eb719d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/verification.json",
+        "sha256": "11bed8a4022f8a31989ff0b872f7661df7535ee9e6d6301da139558eccfcbe09"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/geometry.json",
+        "sha256": "98bf301122eba890304ea88f4d1709204d97a580817016c82780e910823ab583"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/kinematics.json",
+        "sha256": "abbc0b06dba79c7a9bc518b70170ebe8fde32c450444255b225d610e0c6ac922"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/provenance.json",
+        "sha256": "16f6a3e141417f75dcf1ad5275e487b971144686da64fd1f0c53362668749ce8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/band-pulldown-alpha.webm",
+        "sha256": "7cbe6c1a61095de1fd5632f492bdba0d3db92c894617130276e55c44040b9f06",
+        "bytes": 197229,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/band-pulldown.mp4",
+        "sha256": "a5bcad4cf031ccfefff5cd2853b8e497f4dcb20fb690eb7c0eb2ec99706b9af5",
+        "bytes": 66250,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-pulldown/band-pulldown-dark.mp4",
+        "sha256": "8ff3deb0fa56d0341e6ad0277b99210e59a66b0ccbbef2487ba80176f7c36367",
+        "bytes": 68407,
+        "decode": "passed"
+      }
+    ]
+  },
+  "band-face-pull": {
+    "checks": {
+      "exercise": "band-face-pull identified in front and side eight-frame sheets",
+      "equipment": "Orange elastic line and fixed anchors visible",
+      "setup": "얼굴 높이 앞쪽 지지점에 밴드를 고정하고 양손 손잡이를 잡는다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치를 옆으로 벌리며 손잡이를 얼굴 양옆으로 당긴 뒤 돌아온다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "손이 얼굴에 부딪히지 않도록 양옆으로 벌린다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.514Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/final.jpg",
+        "sha256": "f34c990787fe8863337a8cfd5fe1a52c5bbe9f658bec7b9efdde8ca0cd12d5a8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/final-dark.jpg",
+        "sha256": "51153c0294c7c0a1462dba515cea7e3f14ad29068a2833934e1a10c4f0624129"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/full-sheet.png",
+        "sha256": "397ab4487169d959fcd692f7ca55cb93142d0ccea529df9353e68101a9c5049e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/side-sheet.png",
+        "sha256": "374c4683f687ae7263f93e3620149ef290d2251331cf1f1b9d9b2c68a3234c9b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/verification.json",
+        "sha256": "b84fad45cdf489617aeeac8415e46de2ceaed672051ccb4df047715e816ed854"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/geometry.json",
+        "sha256": "52a0fa9989b4667e06010d4d4d9cd81195d9b8b99af9d47f1657cf2de197aa89"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/kinematics.json",
+        "sha256": "cea9b6e093f1794d4d6c0fd8b779fa30c71d80d30ad63e92e102c432cff96c56"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/provenance.json",
+        "sha256": "a18db2f2bb2ad414bd1e4d16ed10d99a0b023b6d185fbc5ddfbebd7108e0432a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/band-face-pull-alpha.webm",
+        "sha256": "b64948434479688e8a35e7392b22c5a07f74df92062417621441d67d4baa754f",
+        "bytes": 205780,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/band-face-pull.mp4",
+        "sha256": "e7ee6f43524a29945046d43260479a88b15d59a410f47075c576df096ce216b1",
+        "bytes": 79561,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-face-pull/band-face-pull-dark.mp4",
+        "sha256": "171d66a95badf8907d7df9067d37632d5929ac4b27563d58d2c0e1a33f819943",
+        "bytes": 83360,
+        "decode": "passed"
+      }
+    ]
+  },
+  "standing-cable-chest-press": {
+    "checks": {
+      "exercise": "standing-cable-chest-press identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "뒤쪽 가슴 높이의 두 케이블 손잡이를 잡고 양발을 벌려 선다",
+      "hands": "Both hands remain aligned with handles",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "양손을 가슴 앞쪽으로 밀어 팔을 편 뒤 천천히 돌아온다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "기구를 등지고 서며 몸통을 흔들지 않는다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.527Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/final.jpg",
+        "sha256": "7d413812d3ee7b3d7a2767562dc128a8a520d916d0d30c1f2e13f932a811bd2d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/final-dark.jpg",
+        "sha256": "6324784aee7aacb7d07ca9b431f4d24f0ab1eaa3363242765d729e28ac0a03d3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/full-sheet.png",
+        "sha256": "2bdf6986bd8956f5721a08f6a0b9cabd1989ad0fd1866305a99170ed30ccaa93"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/side-sheet.png",
+        "sha256": "4e08844b05ea7191307ad8c9f85881b6117967920a314980990135035d3c1676"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/verification.json",
+        "sha256": "0566bc28639c6fc973478d868bc59588b19cde5d15f1824a13615a40895656d4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/geometry.json",
+        "sha256": "9d84b404ee19691fe0810fa76ce003c7cbc18685c89ab0dcb77b86003e8405c5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/kinematics.json",
+        "sha256": "4ed55b4bac548bb5e1d47632debbdca37471e124cc3e134b656e5c7b62f8da53"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/provenance.json",
+        "sha256": "a78c135d534fadd69dc0d92043d92e3819d0d7ba2fbe180d5de8cbbe4f92dccd"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/standing-cable-chest-press-alpha.webm",
+        "sha256": "b6180a6795c2910d04431b9d795e9edfa7174ae59f3a8a42f4ddae1ee171a018",
+        "bytes": 183746,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/standing-cable-chest-press.mp4",
+        "sha256": "1308de1774f54da305930fa4d4d08e0839c2bb12c7b4bdcec352b2b60568c0c0",
+        "bytes": 77743,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-chest-press/standing-cable-chest-press-dark.mp4",
+        "sha256": "94c19d2e5e88aee11397b2dd28361bbd101593442ad823046e4493ffedb6a426",
+        "bytes": 72065,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-arm-lat-pulldown": {
+    "checks": {
+      "exercise": "single-arm-lat-pulldown identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "높은 도르래의 손잡이를 한 손으로 잡고 반대팔은 몸 옆에 내린다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "작업 팔꿈치를 아래로 굽혀 손잡이를 얼굴 옆으로 당긴 뒤 천천히 올린다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 왼팔을 움직이는 서서 하는 변형이며 반대쪽도 같은 방식으로 수행한다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.540Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/final.jpg",
+        "sha256": "6bf57507c4ba78417cc199c44b5ef3e98db07eada0b2fa85bce5da9059453084"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/final-dark.jpg",
+        "sha256": "14b74162a2f8f0429058225784e9f90f80da9bce9a51236319b7ec3bd2925167"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/full-sheet.png",
+        "sha256": "75a86ef1dbde6f9aa738fb78a4f494ecf678421206c476b5341bb00f5ee762f6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/side-sheet.png",
+        "sha256": "0eaf8532784327930091222a88047bd08b69d5885494a7d0bd32e7bdd71954c8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/verification.json",
+        "sha256": "4b399e75dfcfd6f8698d1b2d8e390aa1ccb114be107e286ee9d301cef75d2b2d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/geometry.json",
+        "sha256": "98bf301122eba890304ea88f4d1709204d97a580817016c82780e910823ab583"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/kinematics.json",
+        "sha256": "1b0ae332903d0d41f3a7a3070ea1a957b94177c23efefc20d9693637823923a2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/provenance.json",
+        "sha256": "883fa5c4e6ded812216a097e34fe077417611a862b89855d8db9a760f8f94e4b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/single-arm-lat-pulldown-alpha.webm",
+        "sha256": "46185f7616b94ade1b784cbb7adbbc6d586687c58cee4d5c56e7b1c47961ebbc",
+        "bytes": 137350,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/single-arm-lat-pulldown.mp4",
+        "sha256": "f8d640009001357923aaad9cbbab2da9aa88c8959fdb8258c3754d06518b23d8",
+        "bytes": 51381,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-lat-pulldown/single-arm-lat-pulldown-dark.mp4",
+        "sha256": "1d12ed95a078b73e6e64e6aebc8aa4e0320063efd5c4366afd26b5761b663f53",
+        "bytes": 50065,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-arm-straight-arm-pulldown": {
+    "checks": {
+      "exercise": "single-arm-straight-arm-pulldown identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "높은 도르래의 손잡이를 한 손으로 잡고 팔을 앞위로 뻗어 선다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 손잡이를 허벅지 앞까지 내린 뒤 돌아온다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 왼팔 시범이며 팔꿈치를 굽혀 당기는 풀다운과 구분한다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.554Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/final.jpg",
+        "sha256": "6fe774f9a11925f738af94791a7f51198bc364b3b49d1a24dc4f206162602afb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/final-dark.jpg",
+        "sha256": "c4581e4cde44ca05dcd8b67505b44bcc3105e258f1cdf4d87a32085684f01bec"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/full-sheet.png",
+        "sha256": "74c660f3668d56bbd4eea73eb6c798286767f0215631e1d1a04d93346170ce9a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/side-sheet.png",
+        "sha256": "f8c8a8974d76483f2aed47bf88e72952d845a1bba8698f5eb08435b683c41726"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/verification.json",
+        "sha256": "f09dd0c7af0d93ff9a8d465056b27dce1e2fe11e1b4e5e0cdad3e6b83c9ef5a5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/geometry.json",
+        "sha256": "3ed571c5b877de4ceaa239bae9f9138acfb035066398b6f8fbf3975a7e349d23"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/kinematics.json",
+        "sha256": "a773d7686572b4f9c3a20b30750560d98fa7abef4de20779985d19f047b6e37a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/provenance.json",
+        "sha256": "9a7efa680651e028b6e8cc357f6360484e1a226aba3d1dd8bcc8deca73bc18da"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/single-arm-straight-arm-pulldown-alpha.webm",
+        "sha256": "839c6abdefa64df8c7f4c030fe8d63dd8e6a71aa4eca96d8ec7139119c5167c5",
+        "bytes": 140290,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/single-arm-straight-arm-pulldown.mp4",
+        "sha256": "02cb4b80cc8a3af2c242dc3d32f486e1c7434896675048777ff17047c4800012",
+        "bytes": 70811,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-straight-arm-pulldown/single-arm-straight-arm-pulldown-dark.mp4",
+        "sha256": "b5a9a591e83c1992ac30a2700d096ec5ab5d706f8261f0683232ee4183d20c26",
+        "bytes": 65684,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-arm-cable-front-raise": {
+    "checks": {
+      "exercise": "single-arm-cable-front-raise identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "앞쪽 낮은 도르래의 손잡이를 한 손으로 잡고 팔을 몸보다 조금 앞에 둔다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "팔을 앞쪽으로 어깨 높이까지 올린 뒤 천천히 내린다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 왼팔 시범이며 몸통을 뒤로 젖히지 않는다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.568Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/final.jpg",
+        "sha256": "6ce07818b7692bee14cd51e6db622f7f4acef18e9a2eeab7142baf60a7019e24"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/final-dark.jpg",
+        "sha256": "83438e8a2d90f923b3a82d0d22e6ccefc9e47ea420518a0a50fa274c511466e2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/full-sheet.png",
+        "sha256": "ab8f11cc804cbf15cffeb5965ebe5aae8a03bda072dc9cda1b4a79cf3c66bbed"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/side-sheet.png",
+        "sha256": "da96b284b9af9b1f4cb68ff1fcb4795959ed0a11f7c360fafec9b6947c808640"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/verification.json",
+        "sha256": "be9871ff487201f81628c68d43572b056719b1033d9dc7f5099d1238cafd812e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/geometry.json",
+        "sha256": "74fd027324bba01603a8eec99ff384daab7fb33ef4c510b59cd78ec5ab84ea17"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/kinematics.json",
+        "sha256": "be13408cbce50eaab38245de60afe252f69737e339033266cf8891775fa305a6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/provenance.json",
+        "sha256": "1dc89bf4d1bff339f44879eb4b297a2a6c5f619ef8278e5562575113e8653098"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/single-arm-cable-front-raise-alpha.webm",
+        "sha256": "40da3921335b765bacd7e7364587f8f15407498c371d6a0ca96dac54d424a5b9",
+        "bytes": 120936,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/single-arm-cable-front-raise.mp4",
+        "sha256": "faffb15a1f83a092cc228c454bee9c6058f2923ae6864c22edeed4cbbd267ce8",
+        "bytes": 66183,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-front-raise/single-arm-cable-front-raise-dark.mp4",
+        "sha256": "99926fce52b0b69da066f06cc3c0c3c6205209cb3632ca8fcaa752a4e666bf9f",
+        "bytes": 67155,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-arm-cable-lateral-raise": {
+    "checks": {
+      "exercise": "single-arm-cable-lateral-raise identified in front and side eight-frame sheets",
+      "equipment": "Gray cable, pulleys and moving weight stack visible",
+      "setup": "반대편 낮은 도르래의 손잡이를 한 손으로 잡고 줄이 다리 앞을 지나게 선다",
+      "hands": "Left hand remains on the handle; right arm stays still",
+      "feet": "Standing feet and trunk fixed through cycle",
+      "movement": "작업 팔을 옆으로 어깨 높이까지 올린 뒤 천천히 내린다"
+    },
+    "limitations": [
+      "Procedural slow demonstration; not human capture or resistance dynamics.",
+      "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+      "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+      "영상은 왼팔 시범이며 어깨를 으쓱하지 않는다"
+    ],
+    "reviewedAt": "2026-11-12T11:24:31.580Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/final.jpg",
+        "sha256": "7568fc4052a53105d5ac956738790077c0616d8c6b1d61c12d00a4f92aaeb734"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/final-dark.jpg",
+        "sha256": "692d19eb471204f9f24cf985433697eda238e74659c2954150465c710b581c55"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/full-sheet.png",
+        "sha256": "3c69deb475fa9bf9159227210f4b10d77102b7b979615e3a8946af947ce58962"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/side-sheet.png",
+        "sha256": "571afb0eace8be7b68b6a85ba18350cc49a8c7bd0e047affd6768e59403bc182"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/verification.json",
+        "sha256": "d29dc052deb250c2a950d3f029a77e1ab3f4df13649ead8f9f1557a376aa57a5"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/geometry.json",
+        "sha256": "9c980393ce2b2e17f535317857781088ad24e5439e87d364ec37aab141d40320"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/kinematics.json",
+        "sha256": "47c5fddcff66c7b0c3bf5a6b6bcd73170dd43f9f169ea6f91dccec763afc6078"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/provenance.json",
+        "sha256": "4ce32f5b21b440e4feabbef9f152aa8aadf0839a144e4f685c0685378401b5d9"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/single-arm-cable-lateral-raise-alpha.webm",
+        "sha256": "487f0b043076a11972f5fe2bb416eb31df7189a047e6fa6431da922a27bef27e",
+        "bytes": 189437,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/single-arm-cable-lateral-raise.mp4",
+        "sha256": "d9dce75cedd7cf1eddc751fa70773833261f9043eb71afcb558949f1af85a54c",
+        "bytes": 78410,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/single-arm-cable-lateral-raise/single-arm-cable-lateral-raise-dark.mp4",
+        "sha256": "d06cfbc376fbe8da77623107725be7b85c8b5c6f6b9a5137405fa7d2f8b2e898",
+        "bytes": 74138,
+        "decode": "passed"
+      }
+    ]
+  }
+}

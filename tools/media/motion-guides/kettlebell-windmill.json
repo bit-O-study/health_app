@@ -1,0 +1,15 @@
+{
+  "id": "kettlebell-windmill",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-windmill-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strongfirst.com/kettlebell-windmill-101/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:53:32.799Z"
+}

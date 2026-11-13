@@ -1,0 +1,50 @@
+{
+  "band-squat": {
+    "checks": {
+      "exercise": "Distinct band-squat sequence inspected in full and side sheets",
+      "equipment": "Two bands fixed at outer soles with shoulder-height handles",
+      "setup": "밴드를 양발로 고정하고 양손 손잡이를 어깨 높이에서 잡는다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손 높이를 몸통에 맞춰 유지한다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ]
+  },
+  "overhead-squat": {
+    "checks": {
+      "exercise": "Distinct overhead-squat sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 넓게 잡아 머리 위로 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "팔을 편 상태로 바벨을 머리 위에 유지하며 앉았다가 일어난다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ]
+  },
+  "thruster": {
+    "checks": {
+      "exercise": "Distinct thruster sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 어깨 앞에 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "스쿼트로 앉았다가 일어나면서 바벨을 머리 위로 밀어 올린다. 바벨을 어깨 앞으로 되돌린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ]
+  }
+}

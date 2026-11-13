@@ -1,0 +1,41 @@
+{
+  "kettlebell-swing": {
+    "reviewedAt": "2026-11-12T09:59:50.915Z",
+    "status": "preview-approved",
+    "checks": {
+      "exercise": "Two-handed kettlebell swing: hip hinge backswing to shoulder-height extension.",
+      "equipment": "One kettlebell with horizontal two-handed handle; sphere and handle follow swing direction.",
+      "setup": "Front and side eight-frame sheets inspected; spine held with torso, feet apart.",
+      "hands": "Both curled hands retain the same handle sockets through the full cycle.",
+      "feet": "Both feet and toes stay planted without drift.",
+      "movement": "Hips move back during hinge and extend on upswing; arms remain long with slight elbow flexion; no overhead lift."
+    },
+    "limitations": [
+      "Procedural slow demonstration, not a ballistic dynamics simulation.",
+      "Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units.",
+      "Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-swing/full-sheet.png",
+        "sha256": "ba46b3753d013698030ac4b24796bc3145ddd137a50e6f71f141aa8f02ed90ad"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-swing/side-sheet.png",
+        "sha256": "eb460226d788a353757c7a483be83b138341f244c5b66fb957108be7869bc70b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-swing/poses.json",
+        "sha256": "1d236b72b9b780924f6257236a98a7fba2491968473d072e20c3a4fe963503f0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-swing/geometry.json",
+        "sha256": "6bb07dc49f2128f868e00213fd2e2fe5cec6e311f2e44dfc3da9168981bf0890"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-swing/kinematics.json",
+        "sha256": "066dedc8e9eb1f7ebcdbba9b04d1a22e7b227c3347712664f503311e29253d94"
+      }
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "leaning-cable-lateral-raise": {
+    "checks": {
+      "exercise": "One-arm leaning cable lateral raise",
+      "equipment": "Low pulley and moving stack; opposite hand holds frame attachment",
+      "setup": "낮은 풀리 옆에 서서 먼 쪽 손으로 손잡이를 잡고 반대손은 프레임을 잡는다. 두 발을 바닥에 둔 채 몸 전체를 기구 반대쪽으로 조금 기울인다.",
+      "hands": "Closed working grip; opposite grip fixed on vertical support",
+      "feet": "Both feet grounded throughout",
+      "movement": "몸의 기울기를 유지하며 작업 팔을 옆으로 들어 올린다. 팔꿈치를 살짝 굽힌 채 어깨 높이 부근에서 멈추고 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Fixed 12-degree lean and left-arm example; opposite side is not shown.",
+      "Cable lower-body clearance checked at sampled vertices; not exhaustive collision certification.",
+      "Idealized single-ratio cable system without friction."
+    ],
+    "reviewedAt": "2026-11-13T12:58:51.507Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/final.jpg",
+        "sha256": "5603002ff2d515c6d12fe735310574511413bbcc54afeebaac132e0cddddd69a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/final-dark.jpg",
+        "sha256": "c89abff7c63ef783da8cd99c407df5e6b14c8fed07a47a56b85b698354ca1c1d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/full-sheet.png",
+        "sha256": "ff4459a5d4cba68ba8e2cdbdd37c8a3ccb6c500da3cce5aa7823eaf390aa65b8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/side-sheet.png",
+        "sha256": "603d2ec1e45cad4ce61b3178f2134460eb6f367a674cdb25c63f200e4ff0f168"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/verification.json",
+        "sha256": "4ae866e788d3f94b5a8bd712e04d6ba394f9875d5c26f7608f5ee8e15bfdb906"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/geometry.json",
+        "sha256": "64277021d36e8448fa7647150af8e1b843efbaffaf58d5672a65126309376a64"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/kinematics.json",
+        "sha256": "b3a65a7bf07832c4f1d3be12487039fe7238bf1df6d9ee8d9347482fe9246202"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/provenance.json",
+        "sha256": "1179c6ef3b36fa0cb597f4f589f6266419da806a1f6cd64ec76f114364b395e8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/leaning-cable-lateral-raise-alpha.webm",
+        "sha256": "05d150d7b6fb4ed86cb336d4bd73dd9daecb78ec516d7a7e081e4582a45db973",
+        "bytes": 201105,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/leaning-cable-lateral-raise.mp4",
+        "sha256": "15634eeb98fa7b72f50efc5c92b6cc7fff3d816e7556aae9979d61354aa378cc",
+        "bytes": 79825,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/leaning-cable-lateral-raise/leaning-cable-lateral-raise-dark.mp4",
+        "sha256": "057f92d665974c93151c00a2695d7c84aee6216c8f509f9066e7e3438bc5c328",
+        "bytes": 75774,
+        "decode": "passed"
+      }
+    ]
+  }
+}

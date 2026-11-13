@@ -1,0 +1,18 @@
+{
+  "id": "burpee",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4d4df6bdec03379ad233fefb0fd92146a2908dcdfe0c11515c00696077c298b8",
+  "rigSourceSha256": "8cb200e469f04974bf46a88e604426ec0626362975fcc66452f7d08c79857fb0",
+  "videoSha256": "75205b89b212543088aec4b60e5652243660e34d54c67f182d60f7bd15547875",
+  "darkVideoSha256": "40885859085f35a2ae0ab49be0cd2ede7346eabe9ebf06834128e75fb9395e6c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 131089,
+  "darkBytes": 133491,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T15:02:27.604Z"
+}

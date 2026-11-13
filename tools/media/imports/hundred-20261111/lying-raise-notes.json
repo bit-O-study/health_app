@@ -1,0 +1,18 @@
+{
+  "lying-side-lateral-raise": {
+    "checks": {
+      "exercise": "Side-lying dumbbell lateral raise, floor variation",
+      "equipment": "Single dumbbell with plates clear of hand and body",
+      "setup": "바닥에 옆으로 누워 아래쪽 팔로 머리를 받치고 다리를 포갠다. 위쪽 손으로 가벼운 덤벨을 잡아 허벅지 옆에 둔다.",
+      "hands": "Lower hand supports head; upper hand closes around dumbbell handle",
+      "feet": "Stacked legs remain still",
+      "movement": "몸통과 골반을 고정한 채 위쪽 팔을 천장 쪽으로 들어 올린다. 팔꿈치를 살짝 굽힌 상태로 어깨 위에서 멈춘 뒤 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Floor variation; reference illustrates inclined bench setup.",
+      "Left-arm example only; opposite side not shown.",
+      "Sampled mesh vertices and plate clearances, not exhaustive collision certification."
+    ]
+  }
+}

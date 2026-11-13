@@ -1,0 +1,28 @@
+{
+  "battle-rope-wave": [
+    {
+      "file": "tools/media/motion-guides/battle-rope-wave.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/battle-rope-wave.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/battle-rope-wave-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/battle-rope-wave.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/battle-rope-wave-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/battle-rope-wave-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

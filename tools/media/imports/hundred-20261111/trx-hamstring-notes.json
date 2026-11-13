@@ -1,0 +1,17 @@
+{
+  "trx-hamstring-curl": {
+    "checks": {
+      "exercise": "Bilateral suspended hamstring curl",
+      "equipment": "Heel cradles and constant-length TRX straps, simplified fixed anchor",
+      "setup": "바로 누워 양쪽 뒤꿈치를 TRX 발걸이에 넣고 발끝을 정강이 쪽으로 당긴다. 양손을 몸 옆 바닥에 두고 엉덩이를 들어 올린다.",
+      "hands": "Open palms fixed at floor level",
+      "feet": "Both heels in cradles, dorsiflexed feet move together",
+      "movement": "엉덩이를 바닥에서 띄운 채 양쪽 무릎을 굽혀 뒤꿈치를 몸 쪽으로 당긴다. 두 다리를 함께 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not motion capture.",
+      "Simplified rigid cradles and straps; no load or fabric simulation.",
+      "Near-extension start with knees slightly bent; sampled clearances are not exhaustive collision certification."
+    ]
+  }
+}

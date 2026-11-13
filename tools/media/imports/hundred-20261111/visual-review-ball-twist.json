@@ -1,0 +1,77 @@
+{
+  "medicine-ball-russian-twist": {
+    "checks": {
+      "exercise": "Seated medicine-ball Russian twist",
+      "equipment": "Medicine ball",
+      "setup": "무릎을 굽혀 앉고 두 발을 바닥에 둔다. 메디신볼을 양손으로 잡고 등을 길게 유지한 채 몸통을 조금 뒤로 기울인다.",
+      "hands": "Both hands track opposite sides of ball; sampled skin vertices remain outside sphere",
+      "feet": "Feet and pelvis fixed; seat and soles near the common ground level",
+      "movement": "골반과 발을 고정하고 가슴과 공을 함께 한쪽으로 돌린다. 중앙을 지나 반대쪽으로 천천히 돌린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Feet-down variation with modest torso rotation; ball does not touch floor.",
+      "Small skin/equipment separation prevents rendering intersections; no contact-force simulation.",
+      "Sampled vertex clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:32:59.629Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/final.jpg",
+        "sha256": "52801e956e06ada9fbb512a882ed135d40fe9ef9c845135f8fc31b5271d5e8c8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/final-dark.jpg",
+        "sha256": "8a72bfd321456e241e9b5a047b7880acac2be2ee19e5f914d1ed70544c95f785"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/full-sheet.png",
+        "sha256": "729bf8bc6c19a214d47dffe4ac824edcb612749d88661753f9691a900e09110e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/side-sheet.png",
+        "sha256": "31c47bfad4a623f43852e6fb1ccd9df59d8095ea7a69bf1712628234343a828c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/verification.json",
+        "sha256": "42ff60a50fd030bb5665955193439856de1a11d0b4782c46492cac7026d372ab"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/geometry.json",
+        "sha256": "720b27f3ca6389253147c520d71a8ed2a08b26b8ff22a7a7d2c385d43e818c08"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/kinematics.json",
+        "sha256": "dec0ceaa5e8f50276c149dbef44c83c516f8d50bbcccc16e7d6559112bdb4828"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/provenance.json",
+        "sha256": "4e88d0c76ee3d686584f83f2c3896605955cd397c7e002e1f4504de1367e880f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/medicine-ball-russian-twist-alpha.webm",
+        "sha256": "68452647d1bcdc9692d16628786be00bc8b235811a7dcce1868bdbf409715291",
+        "bytes": 224649,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/medicine-ball-russian-twist.mp4",
+        "sha256": "fe26bd94b261d9c6f94bf82113d7e65c4112c5465d688cd9b94ef5d51995d04f",
+        "bytes": 91658,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/medicine-ball-russian-twist/medicine-ball-russian-twist-dark.mp4",
+        "sha256": "bacfefbfa760534c8f39596d75b9bfa4328bd24b56ba646ef79902bbe0ee6ccb",
+        "bytes": 94528,
+        "decode": "passed"
+      }
+    ]
+  }
+}

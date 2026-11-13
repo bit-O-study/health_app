@@ -1,0 +1,18 @@
+{
+  "id": "decline-dumbbell-fly",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7b763ce52a447dd3b0432881a00f2e8949be4063ec3b0dc21f54e1b6ed26a2b4",
+  "rigSourceSha256": "c98d21f204f76393a9c98eebeb2a7535728128c0d0804149870f1346d98baca7",
+  "videoSha256": "426a2ab3777fce3f984b26e42493ec09fa252abc9e9ffb39d16d6505131da61c",
+  "darkVideoSha256": "6478eaf89a1763824ab7ed51c779c6beb37a556188f46e5e3ce8923699139f21",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99274,
+  "darkBytes": 78348,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:45:34.191Z"
+}

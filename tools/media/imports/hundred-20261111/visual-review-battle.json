@@ -1,0 +1,77 @@
+{
+  "battle-rope-wave": {
+    "checks": {
+      "exercise": "Alternating battle rope waves",
+      "equipment": "Two rope ends with fixed floor anchor",
+      "setup": "배틀로프 양 끝을 잡고 발을 골반보다 조금 넓게 벌린다. 무릎과 엉덩이를 가볍게 굽히고 상체를 안정적으로 유지한다.",
+      "hands": "Opposite vertical motions with attached closed grips",
+      "feet": "Feet, toes and pelvis remain fixed in a shallow squat",
+      "movement": "한 손을 올릴 때 다른 손을 내리며 두 팔을 번갈아 움직인다. 로프의 파동이 앞쪽 고정점으로 이어지도록 일정한 리듬을 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Small-wave variation below shoulder height; four slowed cycles in eight seconds.",
+      "Driven traveling curves with slack; rope length and tension are not physically simulated.",
+      "Sampled vertex checks, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T14:09:17.059Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/final.jpg",
+        "sha256": "9beb93aed1efcaf3a9b4beec2cd5daf54e89c843081e2494058248fbd7e8917e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/final-dark.jpg",
+        "sha256": "be392a1cc4a3e83d49011786d420f5f86c4b3e252f127366c8af0c5305dd0c99"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/full-sheet.png",
+        "sha256": "4d4c4de79e7ac3db055291baae5744c2b0c06c4f66bef9f1f40381b24b0a22d7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/side-sheet.png",
+        "sha256": "5eefc0d690d956c7b7f1500bb3f73891649ec1615f6f91d1864eb353fd88706f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/verification.json",
+        "sha256": "1a283a90a982e876aa3b7fa72af6f69092973760110af68eedbbcc9f613e864f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/geometry.json",
+        "sha256": "12e7c9a09d955fa9cce0b9fa62603162ca04194baf963ba0dacccbd701de971c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/kinematics.json",
+        "sha256": "2c7256efd002977b33d167ccfc8beeb56e195cfbf5276ab0dd14492cb3624d42"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/provenance.json",
+        "sha256": "4048f59d349a170fc8bf99c0f7692c5fb3e9c1ffa322ccf26e5bfc81fed16ad1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/battle-rope-wave-alpha.webm",
+        "sha256": "8ffb28827685d51edf9ad3f1c3f0e1c796153edb4a4f5ce44d94425c7579db56",
+        "bytes": 350661,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/battle-rope-wave.mp4",
+        "sha256": "7ea8e536e42e46d093ee02a16c5e40ef2f75e459e24abba40d558cfd313f2f74",
+        "bytes": 137971,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/battle-rope-wave/battle-rope-wave-dark.mp4",
+        "sha256": "34639f05f0b2640067833d3f47e540d7fab7e79d1d954a463bf733e5193ddb01",
+        "bytes": 138131,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "kettlebell-windmill": {
+    "checks": {
+      "exercise": "Kettlebell windmill, moderate depth",
+      "equipment": "One overhead kettlebell",
+      "setup": "케틀벨을 한 손으로 머리 위에 들고 팔을 편다. 양발은 반대쪽으로 비스듬히 향하게 둔다.",
+      "hands": "Closed overhead grip; free hand lowers beside front leg",
+      "feet": "Fixed feet angled away from loaded arm",
+      "movement": "케틀벨 아래쪽 엉덩이를 뒤로 보내며 몸통을 곧게 유지한 채 기울인다. 반대 손을 앞쪽 다리 안쪽으로 내리고 천천히 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Moderate-depth hip hinge; ground touch is not required.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:50:35.844Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/full-sheet.png",
+        "sha256": "dbb33f2439b43851e32a0bcaabce25001c112fca15cb1a3e0aff84aabd2d83e4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/side-sheet.png",
+        "sha256": "59823bfa87327c270b9c4060264506bc6af93bac018fc990581f19fe43053bb0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/poses.json",
+        "sha256": "826838c2703d5398c1015ae63c2254bf249ac735dde7a308bc4112a4d5380c2c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/geometry.json",
+        "sha256": "d380424111405016a1f9534efb085b840b2c86a58ceb18a28a70520640f102d8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/kinematics.json",
+        "sha256": "5eacaa30e6f44ad8b7e1df8789ff53e75d3822b3acf20b5844c18fce356c1879"
+      }
+    ]
+  }
+}

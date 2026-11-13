@@ -1,0 +1,236 @@
+{
+  "cable-external-rotation": {
+    "checks": {
+      "exercise": "cable-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "도르래를 팔꿈치 높이에 두고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:21:35.331Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/full-sheet.png",
+        "sha256": "64e187ef839430bb3dd8d115b572499f863fad4725f7fa8b6f6a14be75e0b29c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/side-sheet.png",
+        "sha256": "548fc0c9c8ed00e00ce84174e207b13d34cc46d55b33698cb126205a34e140b7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/poses.json",
+        "sha256": "0e17de99a2cb8d7385e5669feb72c63053b26ae8d7231c5fb5194ab9a29b72f3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/geometry.json",
+        "sha256": "ef72def507a3a5261d25529c85816c5144495b5a34c87ad088ef52fc2fb4b6f9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-external-rotation/kinematics.json",
+        "sha256": "a94e4fd3b667ab5683d4d3d919b0d43e22970b63d0e1233b936366dda595f2a1"
+      }
+    ]
+  },
+  "band-external-rotation": {
+    "checks": {
+      "exercise": "band-external-rotation front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "밴드를 팔꿈치 높이에 고정하고 옆으로 서서 먼 쪽 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 몸 옆에서 약 90도로 굽힌 채 손을 바깥쪽으로 돌리고 천천히 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:21:35.337Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/full-sheet.png",
+        "sha256": "0e49e43a8ba20d355f3d6242fe444682d6609d434cf20fca6e4f6dd0f3102229"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/side-sheet.png",
+        "sha256": "06dce001bf12ce565cc1a217468d7209dadd9649e285b2eb869119b5d2344e7a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/poses.json",
+        "sha256": "d6e6977a45ebe39a55f39711dcce76ba265ea31298a10daaa6759a96d605803d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/geometry.json",
+        "sha256": "ef72def507a3a5261d25529c85816c5144495b5a34c87ad088ef52fc2fb4b6f9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-external-rotation/kinematics.json",
+        "sha256": "a94e4fd3b667ab5683d4d3d919b0d43e22970b63d0e1233b936366dda595f2a1"
+      }
+    ]
+  },
+  "high-cable-fly": {
+    "checks": {
+      "exercise": "high-cable-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "양쪽 높은 도르래의 손잡이를 잡고 기구보다 앞에 안정적으로 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 두 손을 앞쪽 아래로 모으고 천천히 벌린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:21:35.341Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/full-sheet.png",
+        "sha256": "4180586824fadadb79a629af536218ad8edff6e6900b0a9f10d4bd6ecc83a739"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/side-sheet.png",
+        "sha256": "1a93c75daffa02657a08a7bff4dc3ad1380b43de0c7cc6828e27eebc86810e29"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/poses.json",
+        "sha256": "b0355512611348137cf8fa621bc5b07580528080e42c28eafbcd208af4be19da"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/geometry.json",
+        "sha256": "61a688676f1ceb0b4416235cc8f13a634e62f380c3d521556550374b77280bc2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/high-cable-fly/kinematics.json",
+        "sha256": "cfb73e4e6f8bcb6a808441130d96814d23538e2048260644303599192106dd1f"
+      }
+    ]
+  },
+  "standing-cable-reverse-fly": {
+    "checks": {
+      "exercise": "standing-cable-reverse-fly front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "가슴 높이의 도르래를 마주 보고 양손으로 반대편 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 옆으로 벌리고 천천히 앞으로 모은다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:21:35.344Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/full-sheet.png",
+        "sha256": "56354c3f0f3e2e407fee593a3178ba48e8552ede681c625d3cac3d88723e482e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/side-sheet.png",
+        "sha256": "50d0d6657ce74340031c4c71f55cf77fd385e3b12d6774de46fc8ac8c3a4dfde"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/poses.json",
+        "sha256": "78beba8d9b3e3f627e6deece070a47e7c4e7ce4dcf3a8b845d87b61e1c6aa7bf"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/geometry.json",
+        "sha256": "c3698a18094e834b01d391d3107f23ddb7acc82df95b8c9f66b064d1085d7ac6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/standing-cable-reverse-fly/kinematics.json",
+        "sha256": "b53f180f5f40faf92ba2930508413a156f44bad6c16fd5e48c37ce915432f277"
+      }
+    ]
+  },
+  "cable-y-raise": {
+    "checks": {
+      "exercise": "cable-y-raise front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 잡고 발을 고정해 선다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치의 작은 굽힘을 유지하며 양팔을 앞쪽 대각선 위로 올려 Y 모양을 만들고 내린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:21:35.348Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/full-sheet.png",
+        "sha256": "1d44bd01e0234cf05a5f8627c4d1b8c800d2cbc623e1a0586b12b7fdda3cc4f3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/side-sheet.png",
+        "sha256": "5fd16fc3186bd93800c4f71a06c5c32b6f387d2d11c6f2154ecb8d384ab51788"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/poses.json",
+        "sha256": "0bb953496f23a47ff94e5cecbf973c8a5d630b89c1c26ff6749658821bafd010"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/geometry.json",
+        "sha256": "a18fd0ecf6023fb867629343189e1c82bc918aceafdde77fb3a37c39d64cae4e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-y-raise/kinematics.json",
+        "sha256": "951502138a35b066fb5584da7d534002e5ae440d64138645a386be25c822e6bc"
+      }
+    ]
+  },
+  "cable-shrug": {
+    "checks": {
+      "exercise": "cable-shrug front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "낮은 도르래의 손잡이를 양옆에서 잡고 팔을 길게 늘어뜨린다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet and trunk stay fixed",
+      "movement": "팔꿈치를 굽히지 않고 양어깨를 위로 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "External rotation demonstrates left arm only.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ],
+    "reviewedAt": "2026-11-13T00:21:35.352Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/full-sheet.png",
+        "sha256": "0210e20197d9bb117f2aa4ff61d487c3e62061d6fd8cacb792f04d61bc0d4516"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/side-sheet.png",
+        "sha256": "858486cea1769e657fa3d82c92b3d67d4893155ddef80613ef04b0e700795932"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/poses.json",
+        "sha256": "8253fbf33c85162924f2f94eda61212d3e9f82a72d7954511cfd8e0b35f1c2f8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/geometry.json",
+        "sha256": "72a8048db19e10cb3aa8a6a680ea4ae027a986cb09c090046965ef3007406d76"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-shrug/kinematics.json",
+        "sha256": "c4884f921ca97ea842f635930e48fdf8e9b7139fc08fe409f3940b8ea03901b3"
+      }
+    ]
+  }
+}

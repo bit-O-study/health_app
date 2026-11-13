@@ -1,0 +1,52 @@
+{
+  "standing-band-row": {
+    "equipment": "band",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing row with band and both arms; fixed feet, gripped handles and visible anchors."
+  },
+  "band-chest-press": {
+    "equipment": "band",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing press with band and both arms; fixed feet, gripped handles and visible anchors."
+  },
+  "band-shoulder-press": {
+    "equipment": "band",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing overhead with band and both arms; fixed feet, gripped handles and visible anchors."
+  },
+  "band-pulldown": {
+    "equipment": "band",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing pulldown with band and both arms; fixed feet, gripped handles and visible anchors."
+  },
+  "band-face-pull": {
+    "equipment": "band",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing face with band and both arms; fixed feet, gripped handles and visible anchors."
+  },
+  "standing-cable-chest-press": {
+    "equipment": "cable",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing press with cable and both arms; fixed feet, gripped handles and visible anchors."
+  },
+  "single-arm-lat-pulldown": {
+    "equipment": "cable",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing pulldown with cable and one working arm; fixed feet, gripped handles and visible anchors."
+  },
+  "single-arm-straight-arm-pulldown": {
+    "equipment": "cable",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing straight with cable and one working arm; fixed feet, gripped handles and visible anchors."
+  },
+  "single-arm-cable-front-raise": {
+    "equipment": "cable",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing front with cable and one working arm; fixed feet, gripped handles and visible anchors."
+  },
+  "single-arm-cable-lateral-raise": {
+    "equipment": "cable",
+    "url": "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/",
+    "criteria": "Standing lateral with cable and one working arm; fixed feet, gripped handles and visible anchors."
+  }
+}

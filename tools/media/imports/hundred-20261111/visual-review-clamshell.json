@@ -1,0 +1,77 @@
+{
+  "clamshell": {
+    "checks": {
+      "exercise": "Banded side-lying clamshell",
+      "equipment": "Loop band above both knees, follows garment cross section",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 옆으로 눕는다. 아래쪽 팔로 머리를 받치고 두 무릎을 굽혀 발을 포갠다.",
+      "hands": "Lower arm supports head, upper hand monitors hip",
+      "feet": "Both feet and toes fixed with stacked-foot spacing",
+      "movement": "골반을 뒤로 돌리지 않고 발을 붙인 채 위쪽 무릎을 천천히 연다. 엉덩이 옆쪽에 힘을 느끼며 무릎을 조절해서 닫는다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Upper hand placed at hip rather than on floor as in source.",
+      "Band path follows sampled garment/body outline with a small visual offset; no elastic-force simulation.",
+      "Sampled vertex clearances are not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:15:50.336Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/final.jpg",
+        "sha256": "672f691208a34d97f61d6ac875cb3bd07ab25c8b4bfc2c59b472aab75dab6352"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/final-dark.jpg",
+        "sha256": "2dc2eadfc3e153ddf3a8d13af4142fb773a32f4d5fa46d70093ea0ca9e573903"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/full-sheet.png",
+        "sha256": "3b7fac3a98a8a711b82900e9d87e7194b2c233d344e621dbfb9d463b9b18815d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/side-sheet.png",
+        "sha256": "769697296739b90cb71f21fb07fcefa2e124101ac4bea74103b497fc4f968562"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/verification.json",
+        "sha256": "3eb80d96fd04479cf9ca2e7dbbed9bedc821e4641059bbaf90bbd61c23b9c88c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/geometry.json",
+        "sha256": "118f6ae45367caf330bd8ceaa162d752f57868c993cf4124529534eca385afa6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/kinematics.json",
+        "sha256": "24b595822c1ac141da8eb5ffd74298bc97826db9ebdbecd2592a252c6fc4be73"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/provenance.json",
+        "sha256": "2df1c56e91cfb8fb86409a58963180ee633c695d6bd3b87dc36cc58daadc55af"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/clamshell-alpha.webm",
+        "sha256": "7dc67b518c6968ffb9c607b0aaafe938b0d977b18f5b3bce1d87051123397c7f",
+        "bytes": 149460,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/clamshell.mp4",
+        "sha256": "fd62d4eaae94a1d8c25815f3a60f7a0a2ce65841815d5a0ee5c346f1bdefb1b1",
+        "bytes": 62222,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/clamshell/clamshell-dark.mp4",
+        "sha256": "98a6b4cae9bc47f647e1645f507e6f6601e3f269e19f1f4e1ec53f00527cab0a",
+        "bytes": 62559,
+        "decode": "passed"
+      }
+    ]
+  }
+}

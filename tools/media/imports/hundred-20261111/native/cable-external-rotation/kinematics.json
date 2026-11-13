@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "inactiveDrift": 0,
+  "gripError": 1.0877919644084146e-15,
+  "cableLengthError": 0,
+  "maxStep": 0.019484101815387893,
+  "loopError": 0,
+  "elbowDegrees": [
+    90,
+    173.70741336864873
+  ],
+  "lengthChange": 3.5067014341241993,
+  "minFloorClearance": 0.044769020080567046
+}

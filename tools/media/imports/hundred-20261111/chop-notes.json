@@ -1,0 +1,17 @@
+{
+  "cable-woodchopper": {
+    "checks": {
+      "exercise": "High-to-low cable woodchopper",
+      "equipment": "High pulley, short two-hand bar and moving weight stack",
+      "setup": "케이블을 높은 위치에 맞추고 기구 옆에 선다. 손잡이를 양손으로 잡고 무릎을 가볍게 굽힌다.",
+      "hands": "Both grips remain on the shared short handle",
+      "feet": "Feet and pelvis stay stable",
+      "movement": "팔꿈치를 편안하게 굽힌 채 손잡이를 반대쪽 아래로 대각선으로 당긴다. 몸통을 작게 회전하고 천천히 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Bent-elbow short-handle variation with modest torso rotation; one side shown.",
+      "Sampled floor checks and cable-length consistency, not exhaustive collision or force simulation."
+    ]
+  }
+}

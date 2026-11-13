@@ -1,0 +1,18 @@
+import * as THREE from './three.module.js';
+export const exercises=["burpee"];
+const v=a=>new THREE.Vector3(...a),q=()=>new THREE.Quaternion(),rad=THREE.MathUtils.degToRad;
+function orientation(forward,across){const x=forward.clone().normalize(),y=across.clone().addScaledVector(x,-across.dot(x)).normalize();return new THREE.Matrix4().makeBasis(x,y,new THREE.Vector3().crossVectors(x,y));}
+export function applyMotion(id,lift,{byName,dataByName,mesh},frame){
+ const t=((frame%480)+480)%480/480,ease=x=>{x=THREE.MathUtils.clamp(x,0,1);return x*x*x*(x*(x*6-15)+10);},squat=t<.2?ease(t/.2):t<.65?1:t<.8?1-ease((t-.65)/.15):0,plank=t<.2?0:t<.35?ease((t-.2)/.15):t<.5?1:t<.65?1-ease((t-.5)/.15):0,hop=t>.8&&t<.94?1.2*Math.sin(Math.PI*(t-.8)/.14)**2:0;
+ const rest=(a,b)=>v(dataByName[b].head).sub(v(dataByName[a].head));
+ const pos=n=>{mesh.updateMatrixWorld(true);return byName[n].getWorldPosition(v([0,0,0]));};
+ const aim=(name,r,d)=>{mesh.updateMatrixWorld(true);byName[name].quaternion.copy(byName[name].parent.getWorldQuaternion(q()).invert().multiply(q().setFromUnitVectors(r.clone().normalize(),d.clone().normalize())));};
+ function ik(a,b,c,target,pole){const start=pos(a),u=rest(a,b),l=rest(b,c),axis=target.clone().sub(start),d=axis.length();if(d>=u.length()+l.length()||d<=Math.abs(u.length()-l.length()))throw Error('Unreachable '+a+' '+frame+' '+d);axis.normalize();const along=(u.lengthSq()-l.lengthSq()+d*d)/(2*d);pole.addScaledVector(axis,-pole.dot(axis)).normalize();const middle=start.clone().addScaledVector(axis,along).addScaledVector(pole,Math.sqrt(u.lengthSq()-along*along));aim(a,u,middle.clone().sub(start));aim(b,l,target.clone().sub(middle));}
+
+
+ byName.root.quaternion.setFromAxisAngle(v([1,0,0]),rad(90*squat-10*plank));mesh.updateMatrixWorld(true);byName.root.position.add(v([1.09765,1.35-4.85*squat+.4*plank+hop-(t>.94?.6*Math.sin(Math.PI*(t-.94)/.06)**2:0),-.038-1.462*squat]).sub(pos('upperleg01.L')));
+ for(const side of ['L','R']){const sign=side==='L'?1:-1,tilt=rad(70)*plank,rotation=q().setFromAxisAngle(v([1,0,0]),tilt),offset=rest('foot.'+side,'toe2-1.'+side),foot=v([sign*1.7,-7.15+hop,.2-11.1*plank]).add(offset.clone().sub(offset.clone().applyQuaternion(rotation)));if(t>.2&&t<.35)foot.y+=.7*Math.sin(Math.PI*(t-.2)/.15)**2;if(t>.5&&t<.65)foot.y+=.7*Math.sin(Math.PI*(t-.5)/.15)**2;
+ ik('upperleg01.'+side,'lowerleg01.'+side,'foot.'+side,foot,v([sign*.3,0,1]));mesh.updateMatrixWorld(true);byName['foot.'+side].quaternion.copy(byName['foot.'+side].parent.getWorldQuaternion(q()).invert().multiply(rotation));for(let n=1;n<=5;n++)byName[`toe${n}-1.${side}`].rotation.x=-tilt;
+ const wrist='wrist.'+side;const shoulder=pos('upperarm01.'+side),swing=t<.65?0:t<.83?ease((t-.65)/.18):1-ease((t-.9)/.1);const target=shoulder.clone().add(v([sign*.4,-4.8*Math.cos(Math.PI*swing),4.8*Math.sin(Math.PI*swing)])).lerp(v([sign*2.3,-7.22,4.5]),squat);const reach=target.clone().sub(shoulder);if(reach.length()>5)target.copy(shoulder).add(reach.setLength(5));ik('upperarm01.'+side,'lowerarm01.'+side,wrist,target,v([sign*.4,0,-1]));const index=v(dataByName['finger2-1.'+side].head),little=v(dataByName['finger5-1.'+side].head),palm=index.clone().add(little).multiplyScalar(.5).sub(v(dataByName[wrist].head)),across=index.clone().sub(little),handBlend=ease((squat-.5)/.3),world=q().setFromRotationMatrix(orientation(v([0,-(1-handBlend)*Math.cos(Math.PI*swing),handBlend+(1-handBlend)*Math.sin(Math.PI*swing)]),v([-sign,0,0])).multiply(orientation(palm,across).invert()));mesh.updateMatrixWorld(true);byName[wrist].quaternion.copy(byName[wrist].parent.getWorldQuaternion(q()).invert().multiply(world));
+ }
+}

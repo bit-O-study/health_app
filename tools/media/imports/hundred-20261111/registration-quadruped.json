@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-13T02:21:26.638Z",
+  "ids": [
+    "donkey-kick",
+    "fire-hydrant",
+    "cat-cow"
+  ],
+  "files": 9,
+  "batchCompleted": 48,
+  "batchRemaining": 52,
+  "counts": {
+    "reviewed-both-themes": 449,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 866,
+    "legacy-needs-remake": 2
+  },
+  "tests": 11,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

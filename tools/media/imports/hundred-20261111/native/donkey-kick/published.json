@@ -1,0 +1,18 @@
+{
+  "id": "donkey-kick",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7d6d0201dc51399a11d207f2cb10b7be62e82329b6f04f16a5cc823d184da14b",
+  "rigSourceSha256": "4381001b71003418f940cad8f289fd6580372412551c97455d6296415342e858",
+  "videoSha256": "f17c32734e369e0243a5b393a04ed3b1944fc29b987e273e282a970b1053ad9d",
+  "darkVideoSha256": "1146ed1dbb9f8abdacef0cde3e0590066ca1cf6ebcf3f1a767af6b4901ac1c21",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65397,
+  "darkBytes": 63827,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:19:49.220Z"
+}

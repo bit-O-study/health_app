@@ -1,0 +1,18 @@
+{
+  "medicine-ball-russian-twist": {
+    "checks": {
+      "exercise": "Seated medicine-ball Russian twist",
+      "equipment": "Medicine ball",
+      "setup": "무릎을 굽혀 앉고 두 발을 바닥에 둔다. 메디신볼을 양손으로 잡고 등을 길게 유지한 채 몸통을 조금 뒤로 기울인다.",
+      "hands": "Both hands track opposite sides of ball; sampled skin vertices remain outside sphere",
+      "feet": "Feet and pelvis fixed; seat and soles near the common ground level",
+      "movement": "골반과 발을 고정하고 가슴과 공을 함께 한쪽으로 돌린다. 중앙을 지나 반대쪽으로 천천히 돌린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Feet-down variation with modest torso rotation; ball does not touch floor.",
+      "Small skin/equipment separation prevents rendering intersections; no contact-force simulation.",
+      "Sampled vertex clearances, not exhaustive collision certification."
+    ]
+  }
+}

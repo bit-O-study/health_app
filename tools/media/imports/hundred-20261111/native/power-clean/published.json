@@ -1,0 +1,18 @@
+{
+  "id": "power-clean",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "426dacfc961ea6b70e1774aa7796e7517aeaea9eb73b528d5a7e8c9945a6ed89",
+  "rigSourceSha256": "018e82048cc8d870594a55982b6c5b73b31ee55ae849a9f37d83cd0a00d7e48f",
+  "videoSha256": "ea72096c1f75a32b268e21870cfc18cbc0192f2a9f9b6ca51f8893f46f28f203",
+  "darkVideoSha256": "a327c38dfc436c64928f15e498e34c77d53e7b52f25c3ed378ffe6e779e72c85",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 161936,
+  "darkBytes": 136711,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:38:25.105Z"
+}

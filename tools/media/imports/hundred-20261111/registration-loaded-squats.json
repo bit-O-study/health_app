@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-13T03:00:29.128Z",
+  "ids": [
+    "band-squat",
+    "overhead-squat",
+    "thruster"
+  ],
+  "files": 9,
+  "batchCompleted": 58,
+  "batchRemaining": 42,
+  "counts": {
+    "reviewed-both-themes": 459,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 856,
+    "legacy-needs-remake": 2
+  },
+  "tests": 11,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "trx-triceps-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ef9e5a4f894ef2fc185409e40ea9aa7642e6eff55656e9f9cb75722b274358ab",
+  "rigSourceSha256": "2a75dd55a826409653371311e93a97b17a57e78b219591ff38d518013bde8a84",
+  "videoSha256": "a165c3009c91a7b86f02acf076c23de01a1acf3329fb068d9c67654cbf6908a4",
+  "darkVideoSha256": "8892efa8c0f75631c295d634d73c45da8c41b4c535ab36d5587bfc4bd3bbf727",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 112126,
+  "darkBytes": 115563,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:21:50.442Z"
+}

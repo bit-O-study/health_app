@@ -1,0 +1,31 @@
+{
+  "trx-squat": {
+    "checks": {
+      "exercise": "TRX assisted two-foot squat",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 양발을 어깨너비로 벌리고 바닥에 고정한다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Both feet flat and fixed",
+      "movement": "손잡이로 균형을 보조하면서 엉덩이를 뒤로 보내고 무릎을 굽힌다. 양발로 바닥을 밀어 일어난다."
+    },
+    "limitations": [
+      "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+      "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation."
+    ]
+  },
+  "trx-lunge": {
+    "checks": {
+      "exercise": "Grounded TRX assisted split-stance lunge",
+      "equipment": "Fixed overhead suspension anchor, equal nonstretch straps and closed handles",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 한 발은 앞에, 반대 발은 뒤에 두고 앞발 전체와 뒷발 앞꿈치를 바닥에 둔다.",
+      "hands": "Fixed closed neutral grips with constant strap length",
+      "feet": "Front foot flat and rear forefoot fixed",
+      "movement": "상체를 세운 채 양 무릎을 굽혀 내려갔다가 앞발로 바닥을 밀며 올라온다. 손잡이로 균형을 보조한다."
+    },
+    "limitations": [
+      "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+      "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation.",
+      "Grounded assisted lunge variation, not suspended-foot lunge; left-leg-leading example."
+    ]
+  }
+}

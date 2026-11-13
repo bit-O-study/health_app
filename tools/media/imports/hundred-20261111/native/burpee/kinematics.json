@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "handSupportDrift": 6.466036496704424e-15,
+  "plankToeDrift": 0,
+  "maxStep": 0.718907144697158,
+  "plankKnee": 164.83120567434688,
+  "plankHip": 160.60256395126027,
+  "jumpHeight": 1.199580422873039,
+  "landingDip": 0.5989633128798757,
+  "loopError": 0
+}

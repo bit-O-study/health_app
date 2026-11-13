@@ -1,0 +1,42 @@
+{
+  "band-monster-walk": {
+    "checks": {
+      "exercise": "Forward/backward band monster walk",
+      "equipment": "Loop band above knees",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 발을 골반보다 넓게 벌린다. 엉덩이를 조금 뒤로 빼고 무릎을 굽혀 낮은 자세를 만든다.",
+      "hands": "Hands held separately in front of torso",
+      "feet": "Alternating swing feet lift clear; stance feet and toes remain fixed",
+      "movement": "무릎 사이 간격과 몸의 높이를 유지하며 한 발씩 앞 대각선으로 작게 걷는다. 같은 자세로 한 발씩 뒤로 걸어 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Two forward and two backward steps; band above knees instead of below-knee source setup.",
+      "Band follows sampled surface outline with small offset; no elastic-force simulation.",
+      "Sampled vertex clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:18:21.077Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/full-sheet.png",
+        "sha256": "1a8586a3bc3d48a4131be0f5527cba8839e90fa1cdcad1ad93ce06d9c1f35eda"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/side-sheet.png",
+        "sha256": "63e3438d0947f0badf1531416fe502d01608611718c92c7546fa9178eb8a5628"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/poses.json",
+        "sha256": "d1dc6bdcf8f72c3dece8c57c1142a3ec3118f1f0cbadc9567cf9dcb8fdc35330"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/geometry.json",
+        "sha256": "5f2a412a4b93cbe7ca101edb4faeec02612b27143a007d2dc35d00adf303c35f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/kinematics.json",
+        "sha256": "a2b6eb51f77b02628a2d1a52b2a71557fb3a1a4fcbf5049b212c0a45a3a4ea10"
+      }
+    ]
+  }
+}

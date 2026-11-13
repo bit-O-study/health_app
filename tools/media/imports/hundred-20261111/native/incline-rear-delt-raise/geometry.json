@@ -1,0 +1,189 @@
+[
+  {
+    "frame": 0,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 3.0257105988606177,
+    "equipmentPadClearance": 2.116684562601088,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 30,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 3.062579442881654,
+    "equipmentPadClearance": 2.1648021563294146,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 60,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 3.327402926692282,
+    "equipmentPadClearance": 2.5135027380617214,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 90,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 4.180261936374855,
+    "equipmentPadClearance": 3.6080307748083067,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 120,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.272868074723152,
+    "equipmentPadClearance": 5.166437488321322,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 150,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.437418445608235,
+    "equipmentPadClearance": 5.9921286952403845,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 180,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.474929289317222,
+    "equipmentPadClearance": 6.236553556007374,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 210,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.4810372883276735,
+    "equipmentPadClearance": 6.272172627062609,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 240,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.4810372883276735,
+    "equipmentPadClearance": 6.272172627062609,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 270,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.4810372883276735,
+    "equipmentPadClearance": 6.272172627062609,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 300,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.47492928931722,
+    "equipmentPadClearance": 6.236553556007373,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 330,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.437418445608235,
+    "equipmentPadClearance": 5.992128695240385,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 360,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 5.272868074723152,
+    "equipmentPadClearance": 5.166437488321322,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 390,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 4.180261936374856,
+    "equipmentPadClearance": 3.6080307748083067,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 420,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 3.3274029266922835,
+    "equipmentPadClearance": 2.513502738061723,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 450,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 3.062579442881655,
+    "equipmentPadClearance": 2.1648021563294146,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  },
+  {
+    "frame": 480,
+    "floorClearance": 0.007092029057626625,
+    "clothFloorClearance": 4.948040253863542,
+    "chestGap": 0,
+    "equipmentBodyClearance": 3.0257105988606177,
+    "equipmentPadClearance": 2.116684562601088,
+    "padPlane": -1.072102106069184,
+    "padLow": -0.8406155704017934,
+    "padHigh": 5.1512113409578575
+  }
+]

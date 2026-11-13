@@ -1,0 +1,41 @@
+{
+  "kettlebell-sumo-squat": {
+    "reviewedAt": "2026-11-12T10:05:39.566Z",
+    "status": "preview-approved",
+    "checks": {
+      "exercise": "Wide-stance kettlebell sumo squat with knees tracking outward and controlled descent.",
+      "equipment": "One kettlebell with horizontal two-handed handle; sphere hangs below the handle.",
+      "setup": "Front and side eight-frame sheets inspected; spine held with torso, feet apart.",
+      "hands": "Both curled hands retain the same handle sockets through the full cycle.",
+      "feet": "Both feet and toes stay planted without drift.",
+      "movement": "Knees and hips flex for squat; bell lowers between legs and stays below waist; torso remains mostly upright."
+    },
+    "limitations": [
+      "Procedural demonstration; kettlebell does not touch the floor.",
+      "Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units.",
+      "Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/full-sheet.png",
+        "sha256": "0f5a8da0bd2b24519519bc9b74e8c7add95a3a2ad88383fa4f93aa41c3ea8ff9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/side-sheet.png",
+        "sha256": "1ae1bf07a82d1444c93890b846aff897abd9e3fb0aac952c923e669929a948db"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/poses.json",
+        "sha256": "e25ef6fdf8f01a7fbd709a7331b28208deea54289d15e0f20b249d165eb4d14f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/geometry.json",
+        "sha256": "9df9b64f4b2a98c2140acb53781f1b03cc466c72bd97f7af076aa6ae80db1b10"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kinematics.json",
+        "sha256": "7933554e41e411c999033f97f764ec471caa063ddf5a81f26b321239aa039974"
+      }
+    ]
+  }
+}

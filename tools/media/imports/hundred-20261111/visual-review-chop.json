@@ -1,0 +1,76 @@
+{
+  "cable-woodchopper": {
+    "checks": {
+      "exercise": "High-to-low cable woodchopper",
+      "equipment": "High pulley, short two-hand bar and moving weight stack",
+      "setup": "케이블을 높은 위치에 맞추고 기구 옆에 선다. 손잡이를 양손으로 잡고 무릎을 가볍게 굽힌다.",
+      "hands": "Both grips remain on the shared short handle",
+      "feet": "Feet and pelvis stay stable",
+      "movement": "팔꿈치를 편안하게 굽힌 채 손잡이를 반대쪽 아래로 대각선으로 당긴다. 몸통을 작게 회전하고 천천히 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Bent-elbow short-handle variation with modest torso rotation; one side shown.",
+      "Sampled floor checks and cable-length consistency, not exhaustive collision or force simulation."
+    ],
+    "reviewedAt": "2026-11-13T14:25:25.170Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/final.jpg",
+        "sha256": "313d6b2f29376e288281a676404fee3349aac7c568ca69e93b63f18dc4ef2609"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/final-dark.jpg",
+        "sha256": "270a703c10722842b15ee4b4af383f717a40e9dde8c7ba4ac920f3beac1a1654"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/full-sheet.png",
+        "sha256": "4276d0c678f9828f714ae5cd9ce4cdfc26a4df731d21abec25916cae627ae741"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/side-sheet.png",
+        "sha256": "5b0545b074795751de6903e423a18c2869bd5d25eba6b2e4e8b5955142092c66"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/verification.json",
+        "sha256": "00d30688bad28f78a0911bbc4fc8394b2b1b2577c455cf47c70ab129dc05d747"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/geometry.json",
+        "sha256": "68a8fc2b9eb663075fcc23ace6825dfa86f8d016ea3c7bb5775ddb5a10cd3802"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/kinematics.json",
+        "sha256": "e83b36882249ed0479cce0e28df6bcb542e0e346ba394d36f25559003d0cfc8d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/provenance.json",
+        "sha256": "3040a7b1acd5a57e685fd515ad398d0fd7ddcdc253dffbb7bdcc9fb7fb2623ad"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/cable-woodchopper-alpha.webm",
+        "sha256": "ac9f92c88fd24e369a3271efa72ba35a75a6a024c223246c7e671cd9b55cdf12",
+        "bytes": 197774,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/cable-woodchopper.mp4",
+        "sha256": "b93f7cc34249c75cc1f301ebafa26b554b598e27da3128125387f0b05f92dcd3",
+        "bytes": 81380,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/cable-woodchopper/cable-woodchopper-dark.mp4",
+        "sha256": "2f6af4a68b39c50996efc8b8a5ea78bb5ba47b46c9a401c70b005bb59787e9db",
+        "bytes": 78041,
+        "decode": "passed"
+      }
+    ]
+  }
+}

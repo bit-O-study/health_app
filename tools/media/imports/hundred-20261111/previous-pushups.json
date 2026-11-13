@@ -1,0 +1,84 @@
+{
+  "decline-push-up": [
+    {
+      "file": "tools/media/motion-guides/decline-push-up.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-pushups/decline-push-up-0.json",
+      "sha256": "518ac95088258fabb437a8866f4d3cdbf6eecb7991fac9e8c3c8dbc594eea9fb"
+    },
+    {
+      "file": "tools/media/motion-guides/decline-push-up.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-pushups/decline-push-up-1.jpg",
+      "sha256": "fe5d96da65edbd6e00c633e6fb0f1dde23cff6d2c9326a3829fa19a33a05fd5e"
+    },
+    {
+      "file": "tools/media/motion-guides/decline-push-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-push-up.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-pushups/decline-push-up-3.mp4",
+      "sha256": "f38a25130c84ef0c3c7437a92a6bd69c1ed42fc88c81d4642e7f796f15e1a432"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-push-up-dark.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-pushups/decline-push-up-4.mp4",
+      "sha256": "a502b35e75760cc1ca8cc9a2940cea14e488ca41432dde905a40fca999a50471"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-push-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "close-grip-push-up": [
+    {
+      "file": "tools/media/motion-guides/close-grip-push-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-push-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-push-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-push-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-push-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-push-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "wide-push-up": [
+    {
+      "file": "tools/media/motion-guides/wide-push-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-push-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-push-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-push-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-push-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-push-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

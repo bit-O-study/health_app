@@ -1,0 +1,80 @@
+{
+  "incline-rear-delt-raise": [
+    {
+      "file": "tools/media/motion-guides/incline-rear-delt-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-rear-delt-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-rear-delt-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-rear-delt-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-rear-delt-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-rear-delt-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "incline-bench-dumbbell-row": [
+    {
+      "file": "tools/media/motion-guides/incline-bench-dumbbell-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-bench-dumbbell-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-bench-dumbbell-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-bench-dumbbell-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-bench-dumbbell-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-bench-dumbbell-row-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "prone-y-raise": [
+    {
+      "file": "tools/media/motion-guides/prone-y-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-y-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-y-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-y-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-y-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-y-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

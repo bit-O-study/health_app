@@ -1,0 +1,206 @@
+[
+  {
+    "frame": 0,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 7.108895957933346e-16,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 30,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.01893927764011849,
+    "handleError": 3.052608629176561e-15,
+    "linkLengthError": 1.7763568394002505e-15,
+    "links": [
+      9.999999999999998,
+      10
+    ]
+  },
+  {
+    "frame": 60,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.014510529115735915,
+    "handleError": 1.3732700395566711e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 90,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.01083196992208213,
+    "handleError": 1.2755491433176288e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 120,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.013372506567243092,
+    "handleError": 1.2755491433176288e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 150,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 9.930136612989092e-16,
+    "linkLengthError": 1.7763568394002505e-15,
+    "links": [
+      9.999999999999998,
+      10
+    ]
+  },
+  {
+    "frame": 180,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 2.2644195468014703e-15,
+    "linkLengthError": 1.7763568394002505e-15,
+    "links": [
+      10.000000000000002,
+      10
+    ]
+  },
+  {
+    "frame": 210,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 7.108895957933346e-16,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 240,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 7.108895957933346e-16,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 270,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 7.108895957933346e-16,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 300,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 2.2644195468014703e-15,
+    "linkLengthError": 1.7763568394002505e-15,
+    "links": [
+      10.000000000000002,
+      10
+    ]
+  },
+  {
+    "frame": 330,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 9.930136612989092e-16,
+    "linkLengthError": 1.7763568394002505e-15,
+    "links": [
+      9.999999999999998,
+      10
+    ]
+  },
+  {
+    "frame": 360,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.013372506567243092,
+    "handleError": 1.2755491433176288e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 390,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.01083196992208213,
+    "handleError": 1.2755491433176288e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 420,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.014510529115735915,
+    "handleError": 1.0877919644084146e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 450,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.01893927764011849,
+    "handleError": 2.0350724194510405e-15,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  },
+  {
+    "frame": 480,
+    "seatVertices": 2002,
+    "seatGap": 0.019999999999999907,
+    "backGap": 0.02000000000000013,
+    "handleError": 7.108895957933346e-16,
+    "linkLengthError": 0,
+    "links": [
+      10,
+      10
+    ]
+  }
+]

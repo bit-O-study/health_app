@@ -1,0 +1,12 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),base='tools/media/imports/hundred-20261111',id='smith-machine-split-squat',b=JSON.parse(fs.readFileSync(base+'/batch.json')),e=b.entries.find(x=>x.id===id);assert.equal(e.status,'awaiting-motion-implementation');
+let m=fs.readFileSync(base+'/kettlebell-sumo-squat-motion.mjs','utf8');m=m.replace("['kettlebell-sumo-squat']",JSON.stringify([id]));
+const a=m.indexOf(' byName.root.position.y'),z=m.indexOf(' const direction=',a);m=m.slice(0,a)+` byName.root.position.y-=.8+3.3*phase;byName.root.position.z-=2.6;
+`+m.slice(z);m=m.replace('const direction=v([0,-1,0]);','const direction=v([0,1,0]);');
+const l=m.indexOf("  ik('upperleg01.'"),le=m.indexOf('  const index=',l);m=m.slice(0,l)+`  const rear=side==='R',footRotation=q().setFromAxisAngle(v([1,0,0]),rad(rear?60:0)),toeOffset=rest('foot.'+side,'toe2-1.'+side),ankle=rear?v([-1.3,-7.57105,-5.2]).sub(toeOffset.clone().applyQuaternion(footRotation)):v([1.3,-7.15,1.4]);
+  ik('upperleg01.'+side,'lowerleg01.'+side,'foot.'+side,ankle,v([0,0,1]));mesh.updateMatrixWorld(true);byName['foot.'+side].quaternion.copy(byName['foot.'+side].parent.getWorldQuaternion(q()).invert().multiply(footRotation));if(rear)for(let n=1;n<=5;n++)byName['toe'+n+'-1.'+side].rotation.x=rad(-60);
+`+m.slice(le);
+const start=m.indexOf('  const offset='),end=m.indexOf('  for(let f=2;',start);m=m.slice(0,start)+`  const offset=socket.clone().applyQuaternion(world),shoulder=pos(upper),grip=v([sign*3.5,shoulder.y+.15,shoulder.z-.95]);
+  ik(upper,elbow,wrist,grip.clone().sub(offset),v([sign*.3,-1,-.1]));mesh.updateMatrixWorld(true);byName[wrist].quaternion.copy(byName[wrist].parent.getWorldQuaternion(q()).invert().multiply(world));
+`+m.slice(end);
+let s=fs.readFileSync(base+'/smith-machine-bent-over-row-studio.mjs','utf8').replaceAll('3.4','grips[0].grip.z').replaceAll('8,grips[0].grip.z','9,grips[0].grip.z');
+fs.writeFileSync(base+'/'+id+'-motion.mjs',m);fs.writeFileSync(base+'/'+id+'-studio.mjs',s);e.status='motion-preview';e.recipe={family:'smith-split',sourceUrls:['https://www.strengthlog.com/smith-machine-split-squat/'],criteria:'Fixed split stance with rear forefoot on floor, upright trunk, upper-back bar and vertical guided path.',sourcesCheckedAt:'2026-11-13'};fs.writeFileSync(base+'/batch.json',JSON.stringify(b,null,2)+'\n');

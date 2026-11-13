@@ -1,0 +1,80 @@
+{
+  "kettlebell-clean": {
+    "checks": {
+      "exercise": "Single-arm kettlebell clean",
+      "equipment": "One kettlebell",
+      "setup": "발을 안정적으로 벌리고 케틀벨을 한 손으로 잡는다. 엉덩이를 뒤로 보내고 무릎을 굽혀 준비한다.",
+      "hands": "Closed grip, low elbow rack",
+      "feet": "Stable planted stance",
+      "movement": "다리와 엉덩이를 펴며 케틀벨을 몸 가까이 끌어 올린다. 손을 손잡이 안으로 넣고 팔꿈치를 낮춰 가슴 앞에서 받는다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed hang-start teaching variation; no full ballistic backswing.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:45:15.647Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-clean/full-sheet.png",
+        "sha256": "11d899dac529f0e3e2186e4e1f20c2f7b5277d6e83d457ec6dbc776d9afe24bc"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-clean/side-sheet.png",
+        "sha256": "c12903ca996092a91ec1b2ef9bb55f63e2d457b27c8ad4fc76a2803efd84d96f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-clean/poses.json",
+        "sha256": "6f1ae140d2f1b6b57ce8304a6907c0e64c3c0a8d298981c97bd668c83db3fdd9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-clean/geometry.json",
+        "sha256": "5d710529f550f75ed7aabf96e3c2e3325ce3964bd6135d3082c593a3aee5319f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-clean/kinematics.json",
+        "sha256": "5cb2ce0629b4cf1144c3d56d05bc5c3040b25f40b2f241b0a6e6392f12804009"
+      }
+    ]
+  },
+  "kettlebell-snatch": {
+    "checks": {
+      "exercise": "Single-arm kettlebell snatch",
+      "equipment": "One kettlebell",
+      "setup": "발을 안정적으로 벌리고 케틀벨을 한 손으로 잡는다. 엉덩이를 뒤로 보내고 무릎을 굽혀 준비한다.",
+      "hands": "Closed grip, overhead extended elbow, controlled return",
+      "feet": "Stable planted stance",
+      "movement": "다리와 엉덩이를 펴며 케틀벨을 끌어 올리고 손을 손잡이 안으로 넣어 머리 위에서 팔을 편다. 안정적으로 멈춘 뒤 부드럽게 내린다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed hang-start teaching variation; no full ballistic backswing.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:45:15.660Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-snatch/full-sheet.png",
+        "sha256": "ca2c39c999b2df75cdd9f8051f499e14b5b0f0cd91400659f4309c5f741e7b25"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-snatch/side-sheet.png",
+        "sha256": "c5db5ce7be75e9d9cab4447e35148734304d0385a8ed7b2862a0ee3c6d9aaa34"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-snatch/poses.json",
+        "sha256": "9e1435f4081561245c67d8e90b7fb2ab1ce8fe8caad7ea7685d248892b4bb47b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-snatch/geometry.json",
+        "sha256": "d134927b09d0c64ba97e0fb4e9796a05452972e969610f61df022e5162ac33ac"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-snatch/kinematics.json",
+        "sha256": "8cc26b5e1f4b5e01477de5a5b77c1a4e77be398324a72fd37b2a42764e446349"
+      }
+    ]
+  }
+}

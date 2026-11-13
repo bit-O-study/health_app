@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stanceDrift": 5.832634613762132e-15,
+  "maxStep": 0.4862321202260849,
+  "symmetry": 0,
+  "travel": 6.000000000000001,
+  "boxRise": 2.999999999999999,
+  "stepDownGap": 3.0000000000000018,
+  "loopError": 0
+}

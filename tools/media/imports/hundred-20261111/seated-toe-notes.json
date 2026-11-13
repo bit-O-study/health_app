@@ -1,0 +1,17 @@
+{
+  "seated-toe-raise": {
+    "checks": {
+      "exercise": "Bilateral seated ankle dorsiflexion, distinct from heel raises",
+      "equipment": "Stable four-leg seat, no added load",
+      "setup": "움직이지 않는 의자에 앉아 무릎을 굽히고 양발을 바닥에 둔다.",
+      "hands": "Relaxed open hands held above thighs; no simulated support force",
+      "feet": "Fixed bilateral virtual heel pivots; toes rise together",
+      "movement": "뒤꿈치를 고정한 채 양쪽 발끝과 앞꿈치를 들어 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration with 25-degree ankle rotation.",
+      "Heel pivots are rig landmarks; rendered skin has 0.02–0.044 model-unit floor clearance.",
+      "Seat contact is approximate and sampled; no tissue compression or complete collision simulation."
+    ]
+  }
+}

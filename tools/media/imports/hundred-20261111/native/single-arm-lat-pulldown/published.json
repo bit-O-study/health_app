@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-lat-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "815b7909780eb0443730681c868b7de3fa80e151c1046bfc64c0a44b24e00067",
+  "rigSourceSha256": "883fa5c4e6ded812216a097e34fe077417611a862b89855d8db9a760f8f94e4b",
+  "videoSha256": "f8d640009001357923aaad9cbbab2da9aa88c8959fdb8258c3754d06518b23d8",
+  "darkVideoSha256": "1d12ed95a078b73e6e64e6aebc8aa4e0320063efd5c4366afd26b5761b663f53",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 51381,
+  "darkBytes": 50065,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:15.781Z"
+}

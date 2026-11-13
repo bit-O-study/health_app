@@ -1,0 +1,17 @@
+{
+  "kettlebell-windmill": {
+    "checks": {
+      "exercise": "Kettlebell windmill, moderate depth",
+      "equipment": "One overhead kettlebell",
+      "setup": "케틀벨을 한 손으로 머리 위에 들고 팔을 편다. 양발은 반대쪽으로 비스듬히 향하게 둔다.",
+      "hands": "Closed overhead grip; free hand lowers beside front leg",
+      "feet": "Fixed feet angled away from loaded arm",
+      "movement": "케틀벨 아래쪽 엉덩이를 뒤로 보내며 몸통을 곧게 유지한 채 기울인다. 반대 손을 앞쪽 다리 안쪽으로 내리고 천천히 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Moderate-depth hip hinge; ground touch is not required.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ]
+  }
+}

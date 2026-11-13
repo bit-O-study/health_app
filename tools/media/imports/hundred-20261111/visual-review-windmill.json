@@ -1,0 +1,76 @@
+{
+  "kettlebell-windmill": {
+    "checks": {
+      "exercise": "Kettlebell windmill, moderate depth",
+      "equipment": "One overhead kettlebell",
+      "setup": "케틀벨을 한 손으로 머리 위에 들고 팔을 편다. 양발은 반대쪽으로 비스듬히 향하게 둔다.",
+      "hands": "Closed overhead grip; free hand lowers beside front leg",
+      "feet": "Fixed feet angled away from loaded arm",
+      "movement": "케틀벨 아래쪽 엉덩이를 뒤로 보내며 몸통을 곧게 유지한 채 기울인다. 반대 손을 앞쪽 다리 안쪽으로 내리고 천천히 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Moderate-depth hip hinge; ground touch is not required.",
+      "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+    ],
+    "reviewedAt": "2026-11-13T14:53:27.316Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/final.jpg",
+        "sha256": "94eaccfcbb403c8728c49a0aa1a1d17f521b69af46234c09e72c2884dcfa95bf"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/final-dark.jpg",
+        "sha256": "7630f27c6ed91adc8faae3179f72fc7e9d4e95a1cd3df56725b970f241377f5b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/full-sheet.png",
+        "sha256": "dbb33f2439b43851e32a0bcaabce25001c112fca15cb1a3e0aff84aabd2d83e4"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/side-sheet.png",
+        "sha256": "59823bfa87327c270b9c4060264506bc6af93bac018fc990581f19fe43053bb0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/verification.json",
+        "sha256": "155dd3974e1b081a2a4096bd41db9cc23cf1ec418a435053d40a3effe74023b9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/geometry.json",
+        "sha256": "d380424111405016a1f9534efb085b840b2c86a58ceb18a28a70520640f102d8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/kinematics.json",
+        "sha256": "5eacaa30e6f44ad8b7e1df8789ff53e75d3822b3acf20b5844c18fce356c1879"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/provenance.json",
+        "sha256": "d4f570d615ed1090fd01727b843bb26af17696234edaedf55a86f4f681185aef"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/kettlebell-windmill-alpha.webm",
+        "sha256": "732ec2230a10a013c48415d1a419d30dc4378710bcc20d77408d8bfd4def27c9",
+        "bytes": 372268,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/kettlebell-windmill.mp4",
+        "sha256": "b52fec376f055177e4b2745619bcf634298bdf8956a1f36fa26c4db4fcf9e05b",
+        "bytes": 133943,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-windmill/kettlebell-windmill-dark.mp4",
+        "sha256": "385f20e9a2e38a28cc6d820088ceb42dc48decc910fbdc56bfc51d164de601e8",
+        "bytes": 127817,
+        "decode": "passed"
+      }
+    ]
+  }
+}

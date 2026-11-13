@@ -1,0 +1,28 @@
+{
+  "push-jerk": [
+    {
+      "file": "tools/media/motion-guides/push-jerk.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/push-jerk.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/push-jerk-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/push-jerk.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/push-jerk-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/push-jerk-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

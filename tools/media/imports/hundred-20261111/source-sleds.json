@@ -1,0 +1,12 @@
+{
+  "sled-push": {
+    "equipment": "sled",
+    "url": "https://ceu-quizzes-cdn.ncsf.org/training-programming/Push_or_Pull_Using_Sleds_for_Sports_Performance.pdf",
+    "criteria": "Forward sled push with fixed hands on uprights and camera-follow walking cycle."
+  },
+  "sled-pull": {
+    "equipment": "sled",
+    "url": "https://www.army.mil/article-amp/215757/sprint_drag_carry",
+    "criteria": "Backward sled drag with strap handles and camera-follow walking cycle."
+  }
+}

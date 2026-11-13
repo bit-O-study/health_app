@@ -1,0 +1,10 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 3.978256139440565e-15,
+  "maxStep": 0.05645881560535978,
+  "loopError": 0,
+  "leanDegrees": 45,
+  "kneeGap": 0.06471051602998212,
+  "ankleGap": 0.022918634033204377
+}

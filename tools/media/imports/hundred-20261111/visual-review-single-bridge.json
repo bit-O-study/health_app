@@ -1,0 +1,76 @@
+{
+  "single-leg-glute-bridge": {
+    "checks": {
+      "exercise": "Single-leg glute bridge, bent raised-knee variation",
+      "equipment": "Bodyweight only",
+      "setup": "바로 누워 왼발을 바닥에 놓고 오른쪽 무릎을 굽혀 든다. 양손은 몸 옆 바닥에 두고 골반을 수평으로 유지한다.",
+      "hands": "Both open palms fixed beside body",
+      "feet": "Left sole planted, right foot lifted throughout",
+      "movement": "왼발로 바닥을 누르며 엉덩이를 들어 올린다. 허리를 과하게 젖히지 않고 천천히 내린다. 반대쪽도 같은 방법으로 실시한다."
+    },
+    "limitations": [
+      "Procedural left-leg example; repeat on opposite side.",
+      "Small floor clearances are sampled; no exhaustive collision certification.",
+      "Bent raised-knee variation with a controlled partial hip-extension range."
+    ],
+    "reviewedAt": "2026-11-13T12:29:32.577Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/final.jpg",
+        "sha256": "a01adffbda16cae4d39d12f03eddb99cf1be4661eae474d5d2a0210ca2094a80"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/final-dark.jpg",
+        "sha256": "96303a3f506d954c5d841cdfe4e01740d1dcc5985cacc2e3e5d044d8a4698bd1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/full-sheet.png",
+        "sha256": "fbb0b7398a7be0410ca243656562b014102601131909ed54ff0b1dc9d887a875"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/side-sheet.png",
+        "sha256": "7af3626fce638c81ee6606619ce4475106ea1c1991c35ab40fddab014160056e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/verification.json",
+        "sha256": "3eab5e4386b54a486c16bc7a4f65b0bdca8cc05c7de3befafb16fcf5afc03f90"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/geometry.json",
+        "sha256": "03d6f577ccd79d820751916c822c7baf088c1ac730d991cdd979f9864094adb3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/kinematics.json",
+        "sha256": "1319a9eb28168883aee2f32bcffca3facef5375ff0c054c8775c5542616f9d35"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/provenance.json",
+        "sha256": "6de85c2e5d17bcacea693bbfcbdb463a0798dde4b22e044ac15a61b670412840"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/single-leg-glute-bridge-alpha.webm",
+        "sha256": "00b7320a437da0326a1f51fdaf37dd68491689e232539e536d593bbb6d6833b8",
+        "bytes": 234493,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/single-leg-glute-bridge.mp4",
+        "sha256": "172a28ce86681549c36770bb9935ac6352549d524e3bce5809725af3e6612840",
+        "bytes": 92516,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/single-leg-glute-bridge/single-leg-glute-bridge-dark.mp4",
+        "sha256": "5afa7d19d6f8534630b54721389d0134f54f29dd768ff13d16aacbe753fb8057",
+        "bytes": 89632,
+        "decode": "passed"
+      }
+    ]
+  }
+}

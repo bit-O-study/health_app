@@ -1,0 +1,18 @@
+{
+  "id": "thruster",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9af2fb73d9d6bb7ca3547b4a02804cc0d4f56325715cd6808ab0b4efbc3c5e50",
+  "rigSourceSha256": "636531338ac2a183b0fc46e874911aa229ae28fbf788f1d743d30bd4922e9fc7",
+  "videoSha256": "536829d9b3c7d5de12e80e34462a5aa8d1ecd6b6382765e8631cdc9ec4fe2f6a",
+  "darkVideoSha256": "82e1dfeffa878a374543e8639b85d59c4af497774673a70ed4e88fce206c3572",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 137259,
+  "darkBytes": 115481,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:57:48.152Z"
+}

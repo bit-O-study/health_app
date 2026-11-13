@@ -1,0 +1,1 @@
+const fs=require('node:fs'),f='tools/media/imports/hundred-20261111/decline-dumbbell-fly-motion.mjs';let s=fs.readFileSync(f,'utf8');const a=s.indexOf('    const q=byName'),b=s.indexOf('    const index=',a);if(a<0||b<0)throw Error('Expected twist block');s=s.slice(0,a)+"    aim('lowerarm01.'+side,lowerRest,lowerDirection);\n"+s.slice(b);fs.writeFileSync(f,s);

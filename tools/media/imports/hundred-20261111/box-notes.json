@@ -1,0 +1,17 @@
+{
+  "box-jump": {
+    "checks": {
+      "exercise": "Two-foot box jump with step-down",
+      "equipment": "Bodyweight and low plyometric box",
+      "setup": "흔들리지 않는 낮은 박스 앞에 두 발을 골반 너비로 벌리고 선다. 무릎과 엉덩이를 굽히며 팔을 뒤로 보낸다.",
+      "hands": "Backswing and forward arm swing during flight",
+      "feet": "Symmetric raised landing; one support foot remains fixed during each step-down",
+      "movement": "팔을 앞으로 올리며 두 다리로 밀어 박스 위로 뛴다. 양발로 착지하면서 무릎과 엉덩이를 굽히고, 균형을 잡아 선다. 한 발씩 뒤로 내려와 시작 위치로 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Low box with controlled backward step-down and two additional reset steps.",
+      "Sampled body/box vertex separation, not exhaustive collision or impact-force certification."
+    ]
+  }
+}

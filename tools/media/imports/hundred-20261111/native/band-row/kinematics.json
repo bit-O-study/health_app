@@ -1,0 +1,21 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "inactiveDrift": 0,
+  "gripError": 1.0175362097255202e-15,
+  "cableLengthError": 0,
+  "maxStep": 0.045858735281925515,
+  "loopError": 0,
+  "elbowDegrees": [
+    67.27689880425288,
+    174.60586391384575
+  ],
+  "lengthChange": 3.6746840610977216,
+  "minFloorClearance": 2.157718491728904,
+  "seatGap": 0.020000000000000184,
+  "footGaps": [
+    0.020000596540300536,
+    0.020000596540300536
+  ]
+}

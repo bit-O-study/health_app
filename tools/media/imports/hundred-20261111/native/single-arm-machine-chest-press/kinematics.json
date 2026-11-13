@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "inactiveDrift": 0,
+  "maxStep": 0.029606462960764437,
+  "workingTravel": 3.300952117213553,
+  "loopError": 0,
+  "maxSeatGap": 0.019999999999999907,
+  "maxBackGap": 0.02000000000000013,
+  "maxHandleError": 3.052608629176561e-15,
+  "maxLinkError": 1.7763568394002505e-15
+}

@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-11-12T23:59:01.507Z",
+  "ids": [
+    "standing-band-row",
+    "band-chest-press",
+    "band-shoulder-press",
+    "band-pulldown",
+    "band-face-pull",
+    "standing-cable-chest-press",
+    "single-arm-lat-pulldown",
+    "single-arm-straight-arm-pulldown",
+    "single-arm-cable-front-raise",
+    "single-arm-cable-lateral-raise"
+  ],
+  "files": 30,
+  "batchCompleted": 33,
+  "batchRemaining": 67,
+  "counts": {
+    "reviewed-both-themes": 437,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 878,
+    "legacy-needs-remake": 2
+  },
+  "tests": 13,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

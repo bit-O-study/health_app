@@ -1,0 +1,10 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),base='tools/media/imports/hundred-20261111',id='prone-cobra',b=JSON.parse(fs.readFileSync(base+'/batch.json')),e=b.entries.find(x=>x.id===id);assert.equal(e.status,'awaiting-motion-implementation');
+let m=fs.readFileSync('tools/media/imports/all-exercises-20261007/skinned-cobra-20261014/motion.mjs','utf8');m=m.slice(0,m.indexOf("for(const side of ['L','R']){mesh.updateMatrixWorld(true);const sign="))+`
+for(const side of ['L','R']){const sign=side==='L'?1:-1,upper='upperarm01.'+side,elbow='lowerarm01.'+side,wrist='wrist.'+side,direction=v([sign*.24,.04+.12*up,-1]).normalize();aim(upper,rest('upperarm01','lowerarm01',side),direction);aim(elbow,rest('lowerarm01','wrist',side),direction.clone().add(v([0,.08,0])));
+const index=v(dataByName['finger2-1.'+side].head),little=v(dataByName['finger5-1.'+side].head),palm=index.clone().add(little).multiplyScalar(.5).sub(v(dataByName[wrist].head)),across=index.clone().sub(little),basis=(a,b)=>{const x=a.clone().normalize(),y=b.clone().addScaledVector(x,-b.dot(x)).normalize();return new THREE.Matrix4().makeBasis(x,y,new THREE.Vector3().crossVectors(x,y));};
+const world=q().setFromRotationMatrix(basis(direction,v([0,1,0])).multiply(basis(palm,across).invert()));mesh.updateMatrixWorld(true);byName[wrist].quaternion.copy(byName[wrist].parent.getWorldQuaternion(q()).invert().multiply(world));
+}
+}
+`;m=m.replace("['cobra-stretch']",JSON.stringify([id])).replace('(10+45*up)','(2+18*up)');
+let s=fs.readFileSync(base+'/donkey-kick-studio.mjs','utf8').replace('camera.zoom=1.05','camera.zoom=.93').replace('camera.lookAt(0,-4,1)','camera.lookAt(0,-5,0)');
+fs.writeFileSync(base+'/'+id+'-motion.mjs',m);fs.writeFileSync(base+'/'+id+'-studio.mjs',s);e.status='motion-preview';e.recipe={family:'prone-cobra',sourceUrls:['https://www.nasm.org/resource-center/exercise-library/floor-prone-cobra'],criteria:'Prone thoracic extension with arms reaching toward feet, thumbs up, pelvis and legs supported.',sourcesCheckedAt:'2026-11-13'};fs.writeFileSync(base+'/batch.json',JSON.stringify(b,null,2)+'\n');

@@ -1,0 +1,18 @@
+{
+  "downward-dog": {
+    "checks": {
+      "exercise": "Downward-facing dog supported hold with small controlled shoulder movement",
+      "equipment": "Bodyweight, no apparatus",
+      "setup": "손바닥을 어깨너비로, 발을 골반너비로 바닥에 댄다. 엉덩이를 뒤쪽 위로 들어 몸을 거꾸로 된 V자 모양으로 만든다.",
+      "hands": "Both palms fixed with forward fingers; elbow angles 158–164 degrees",
+      "feet": "Both feet fixed on floor; knees softly extended at 163 degrees",
+      "movement": "손으로 바닥을 밀며 등을 길게 유지한다. 무릎과 팔꿈치는 잠그지 않고 뒤꿈치를 바닥 쪽으로 내리며 편하게 호흡한다."
+    },
+    "limitations": [
+      "Procedural pose demonstration, not captured human motion.",
+      "Shows supported hold and small weight adjustment, not full plank-to-dog transition.",
+      "Clothing is a skinned surface without fabric simulation.",
+      "Sampled floor clearances are not exhaustive collision certification."
+    ]
+  }
+}

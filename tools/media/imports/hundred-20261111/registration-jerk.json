@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T14:22:57.777Z",
+  "ids": [
+    "push-jerk"
+  ],
+  "files": 3,
+  "batchCompleted": 91,
+  "batchRemaining": 9,
+  "counts": {
+    "reviewed-both-themes": 492,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 824,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "turkish-get-up",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "turkish-get-up-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.acefitness.org/continuing-education/prosource/november-2015/5686/ace-technique-series-turkish-get-up/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T15:14:33.069Z"
+}

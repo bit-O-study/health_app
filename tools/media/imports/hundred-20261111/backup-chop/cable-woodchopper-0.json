@@ -1,0 +1,13 @@
+{
+  "prompt": "Edit this 16-frame exercise sprite sheet to fix LOW-TO-HIGH CABLE WOODCHOP biomechanics. Keep exactly 4x4 equal cells, same pearl-gray anatomical man, teal shorts, shoes, gray studio, tower on left, full body framing and unbroken cable/rope. CHANGE THE MOTION: in cell1 both hands are OUTSIDE THE HIP NEAREST THE MACHINE (viewer left), not centered between legs, sternum and head visibly turned 35 degrees toward the machine. In cell16 both hands end above opposite shoulder (viewer right) and sternum and head turned 35 degrees AWAY from machine. Across all 16 row-major cells, hands follow one gradual diagonal sweeping arc from low left to high right, shoulders and hips turn together from -35 to +35 degrees, equal small increments without any reset between rows. Midpoint cells8 and9 face camera with hands passing diagonally across chest. Arms remain nearly straight with soft elbows, no elbow curl, no back arch, body upright. Feet stay wide at stable floor positions with natural gentle pivot to permit hip rotation. Both hands stay closed around ends of rope. Entire continuous taut cable extends from low pulley to rope connector in EVERY frame, including cell16. Fixed identical camera, body scale and equipment geometry. Every frame distinct, no repeated end poses. 2048x2048 PNG, no labels no arrows no text.",
+  "equipment": "cable",
+  "sources": [
+    "https://www.strengthlog.com/cable-machine-wood-chop-low-to-high/",
+    "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "cutout": false,
+  "id": "cable-woodchopper",
+  "registeredAt": "2026-09-20T14:24:49.163Z"
+}

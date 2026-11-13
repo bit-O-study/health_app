@@ -1,0 +1,41 @@
+{
+  "prone-cobra": {
+    "checks": {
+      "exercise": "Prone cobra back extension, distinct from hand-supported cobra stretch",
+      "equipment": "No added equipment",
+      "setup": "엎드려 다리를 뻗고 양팔을 몸 옆에 둔다.",
+      "hands": "Open hands with thumbs oriented upward, reaching toward feet",
+      "feet": "Pelvis, legs and toes remain stationary",
+      "movement": "엄지가 위를 향하도록 손바닥을 바깥으로 돌리고 팔을 발 쪽으로 뻗으며 가슴을 조금 든다. 잠시 유지한 뒤 천천히 내린다."
+    },
+    "limitations": [
+      "Procedural spinal extension of 2–20 degrees, not motion capture.",
+      "Three-second illustrated hold within the eight-second loop; not a prescribed training duration.",
+      "Virtual floor clearances and sampled geometry; no tissue compression or complete collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:15:50.681Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/full-sheet.png",
+        "sha256": "24116a78ce6c6bb6873e1de192d72520c5b30f0e0fe3b2c193a287ab32ca6622"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/side-sheet.png",
+        "sha256": "2fb8effb4853e6d48d5b69211499f92be4f8819ba59f4bd37d0fa53dd41f503c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/poses.json",
+        "sha256": "aeed50e08ac2f7623ab9fa322c461bd8935b8417ef8b32f1fe266069c67f2435"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/geometry.json",
+        "sha256": "edf51b2544a81f4f4f151e14b1ad7e278ee628dec152591f6543b16f95f3c43f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/prone-cobra/kinematics.json",
+        "sha256": "83cc36101d416aebba77c07796b0a00d7fa62d6208d303ee9302ff012e0470d8"
+      }
+    ]
+  }
+}

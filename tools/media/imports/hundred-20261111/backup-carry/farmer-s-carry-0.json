@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose dumbbell farmer carry walking step, both dumbbells fixed at sides, tall trunk, controlled gait",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://cdn.muscleandstrength.com/exercises/farmers-walk"
+  ],
+  "panels": 8,
+  "cycle": "full",
+  "id": "farmer-s-carry",
+  "registeredAt": "2026-09-13T12:52:50.225Z"
+}

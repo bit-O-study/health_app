@@ -1,0 +1,345 @@
+[
+  {
+    "frame": 0,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220669088,
+    "bellBody": 0.9508180014093816,
+    "bellFloor": 5.702475000000001
+  },
+  {
+    "frame": 10,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.02542897222066376,
+    "bellBody": 0.9508179937750255,
+    "bellFloor": 6.003021595774382
+  },
+  {
+    "frame": 20,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220666424,
+    "bellBody": 0.9508179714384694,
+    "bellFloor": 6.861164548717272
+  },
+  {
+    "frame": 30,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.0254289722206682,
+    "bellBody": 0.950817962020779,
+    "bellFloor": 7.201775250898425
+  },
+  {
+    "frame": 40,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.02542897222066376,
+    "bellBody": 0.9508179597375371,
+    "bellFloor": 7.710566587975579
+  },
+  {
+    "frame": 50,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220669088,
+    "bellBody": 0.9508179511854772,
+    "bellFloor": 9.291699159737282
+  },
+  {
+    "frame": 60,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220665536,
+    "bellBody": 0.9508179465380037,
+    "bellFloor": 9.923265424370577
+  },
+  {
+    "frame": 70,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220667312,
+    "bellBody": 0.9508179442225376,
+    "bellFloor": 10.002074764099294
+  },
+  {
+    "frame": 80,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220664647,
+    "bellBody": 0.9508179343311095,
+    "bellFloor": 10.311772023271544
+  },
+  {
+    "frame": 90,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.0254289722206682,
+    "bellBody": 0.9508179286125836,
+    "bellFloor": 10.482791584883724
+  },
+  {
+    "frame": 100,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220665536,
+    "bellBody": 0.9508179254909411,
+    "bellFloor": 10.714139972873003
+  },
+  {
+    "frame": 110,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.0254289722206682,
+    "bellBody": 0.9508179088317955,
+    "bellFloor": 11.552208883342951
+  },
+  {
+    "frame": 120,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220667312,
+    "bellBody": 0.9508178978358884,
+    "bellFloor": 11.704422467991199
+  },
+  {
+    "frame": 130,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508179039140706,
+    "bellFloor": 11.96858916541092
+  },
+  {
+    "frame": 140,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508179608967829,
+    "bellFloor": 13.331370418197565
+  },
+  {
+    "frame": 150,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180126583722,
+    "bellFloor": 13.527196115795622
+  },
+  {
+    "frame": 160,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180155545706,
+    "bellFloor": 13.630831456382008
+  },
+  {
+    "frame": 170,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180179861688,
+    "bellFloor": 14.806292855895641
+  },
+  {
+    "frame": 180,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180202986375,
+    "bellFloor": 15.924165432098764
+  },
+  {
+    "frame": 190,
+    "lowestBone": "toe1-2.R",
+    "floorClearance": 0.025463304986708124,
+    "bellBody": 0.9508180205828897,
+    "bellFloor": 16.06908859264556
+  },
+  {
+    "frame": 200,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180220248362,
+    "bellFloor": 16.87372260830041
+  },
+  {
+    "frame": 210,
+    "lowestBone": "toe1-2.R",
+    "floorClearance": 0.030920316080765176,
+    "bellBody": 0.9508180236193248,
+    "bellFloor": 17.76347703169455
+  },
+  {
+    "frame": 220,
+    "lowestBone": "foot.R",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508180237974962,
+    "bellFloor": 17.862900000000003
+  },
+  {
+    "frame": 230,
+    "lowestBone": "foot.R",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508180237974962,
+    "bellFloor": 17.862900000000003
+  },
+  {
+    "frame": 240,
+    "lowestBone": "foot.R",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508180237974962,
+    "bellFloor": 17.862900000000003
+  },
+  {
+    "frame": 250,
+    "lowestBone": "foot.R",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508180237974962,
+    "bellFloor": 17.862900000000003
+  },
+  {
+    "frame": 260,
+    "lowestBone": "foot.R",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508180237974962,
+    "bellFloor": 17.862900000000003
+  },
+  {
+    "frame": 270,
+    "lowestBone": "toe1-2.R",
+    "floorClearance": 0.030920316080765176,
+    "bellBody": 0.9508180236193248,
+    "bellFloor": 17.76347703169455
+  },
+  {
+    "frame": 280,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.03249402008056368,
+    "bellBody": 0.9508180220248384,
+    "bellFloor": 16.873722608300405
+  },
+  {
+    "frame": 290,
+    "lowestBone": "toe1-2.R",
+    "floorClearance": 0.025463304986708124,
+    "bellBody": 0.9508180205828897,
+    "bellFloor": 16.06908859264556
+  },
+  {
+    "frame": 300,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180202986375,
+    "bellFloor": 15.924165432098764
+  },
+  {
+    "frame": 310,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.03249402008056457,
+    "bellBody": 0.9508180179861697,
+    "bellFloor": 14.806292855895636
+  },
+  {
+    "frame": 320,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.03249402008056723,
+    "bellBody": 0.9508180155545706,
+    "bellFloor": 13.63083145638201
+  },
+  {
+    "frame": 330,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508180126583722,
+    "bellFloor": 13.527196115795622
+  },
+  {
+    "frame": 340,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.032494020080565456,
+    "bellBody": 0.9508179608967814,
+    "bellFloor": 13.331370418197562
+  },
+  {
+    "frame": 350,
+    "lowestBone": "foot.L",
+    "floorClearance": 0.03249402008056723,
+    "bellBody": 0.9508179039140693,
+    "bellFloor": 11.968589165410924
+  },
+  {
+    "frame": 360,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220667312,
+    "bellBody": 0.9508178978358884,
+    "bellFloor": 11.704422467991199
+  },
+  {
+    "frame": 370,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.0254289722206682,
+    "bellBody": 0.9508179088317955,
+    "bellFloor": 11.552208883342951
+  },
+  {
+    "frame": 380,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220665536,
+    "bellBody": 0.9508179254909418,
+    "bellFloor": 10.714139972873003
+  },
+  {
+    "frame": 390,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.0254289722206682,
+    "bellBody": 0.9508179286125836,
+    "bellFloor": 10.482791584883724
+  },
+  {
+    "frame": 400,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220667312,
+    "bellBody": 0.9508179343311088,
+    "bellFloor": 10.311772023271544
+  },
+  {
+    "frame": 410,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220666424,
+    "bellBody": 0.950817944222537,
+    "bellFloor": 10.002074764099296
+  },
+  {
+    "frame": 420,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220665536,
+    "bellBody": 0.9508179465380037,
+    "bellFloor": 9.923265424370577
+  },
+  {
+    "frame": 430,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220666424,
+    "bellBody": 0.9508179511854774,
+    "bellFloor": 9.291699159737279
+  },
+  {
+    "frame": 440,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.02542897222066376,
+    "bellBody": 0.9508179597375365,
+    "bellFloor": 7.710566587975582
+  },
+  {
+    "frame": 450,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.0254289722206682,
+    "bellBody": 0.950817962020779,
+    "bellFloor": 7.201775250898425
+  },
+  {
+    "frame": 460,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220667312,
+    "bellBody": 0.9508179714384687,
+    "bellFloor": 6.8611645487172686
+  },
+  {
+    "frame": 470,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220667312,
+    "bellBody": 0.9508179937750251,
+    "bellFloor": 6.003021595774384
+  },
+  {
+    "frame": 480,
+    "lowestBone": "finger1-3.R",
+    "floorClearance": 0.025428972220669088,
+    "bellBody": 0.9508180014093816,
+    "bellFloor": 5.702475000000001
+  }
+]

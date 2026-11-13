@@ -1,0 +1,18 @@
+{
+  "id": "push-jerk",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "790ba2c0bfe4df5a4b110a2de310dc75cdf79dc681858777971382639fedfb7c",
+  "rigSourceSha256": "f78134b158748564e84f762e6cf1735eb0f9631e8ff871ec2b0b59145843ca48",
+  "videoSha256": "c36fe705ca2e10ff8426a9e8fc4fc242f10cfce9efa2d2e63a1631b36f6da4d9",
+  "darkVideoSha256": "353280b5c3afbcc3f8aa73df7a22ac651233de14b57c202d6561c2a9d4ee5cc4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 130443,
+  "darkBytes": 112426,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:20:45.247Z"
+}

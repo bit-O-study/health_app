@@ -1,0 +1,28 @@
+{
+  "trx-triceps-extension": [
+    {
+      "file": "tools/media/motion-guides/trx-triceps-extension.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-triceps-extension.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/trx-triceps-extension-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-triceps-extension.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-triceps-extension-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-triceps-extension-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

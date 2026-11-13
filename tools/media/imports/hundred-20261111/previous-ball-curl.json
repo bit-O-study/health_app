@@ -1,0 +1,28 @@
+{
+  "stability-ball-hamstring-curl": [
+    {
+      "file": "tools/media/motion-guides/stability-ball-hamstring-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/stability-ball-hamstring-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/stability-ball-hamstring-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/stability-ball-hamstring-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/stability-ball-hamstring-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/stability-ball-hamstring-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

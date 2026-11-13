@@ -1,0 +1,18 @@
+{
+  "id": "band-monster-walk",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3673dd7f1e5a4615b5e988822cf8a839fff00157d74de5cbddd0067f9b8a0226",
+  "rigSourceSha256": "f573eed7b5591a64f860ff6d535d919bdc232d7b5886a7449058a1e7626bf843",
+  "videoSha256": "dad9b519115b57426183d8d74e0de7fc316b8d01e9ef5d07b7629be4424aa36f",
+  "darkVideoSha256": "cc526e4a2421271909ec1e403cd99fe73a9ea669c12b59d62beaa44b1f590817",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 139409,
+  "darkBytes": 136619,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:24:52.502Z"
+}

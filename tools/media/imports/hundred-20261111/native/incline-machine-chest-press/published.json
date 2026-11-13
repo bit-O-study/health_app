@@ -1,0 +1,18 @@
+{
+  "id": "incline-machine-chest-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c545f1bb3731fd0000f677377de3461a2ab98464ab915f7f0d2c1769da1e87aa",
+  "rigSourceSha256": "ae860cf459a4bd5ca69e995c852bfeb8d5ea664fc5e760ae9d19d2e0290f7cce",
+  "videoSha256": "cdb0348c216ef89df6ac0e1bf602cec9fa92597d045e8c2ddafca0491c30eca8",
+  "darkVideoSha256": "cadf58b96da795d05ab3336709f5be01f963d4b76b50459c1c0be93dd9e86cb0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 113194,
+  "darkBytes": 84800,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:58:57.288Z"
+}

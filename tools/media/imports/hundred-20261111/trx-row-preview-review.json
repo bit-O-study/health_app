@@ -1,0 +1,41 @@
+{
+  "trx-row": {
+    "checks": {
+      "exercise": "Bilateral TRX row with rigid torso and elbow flexion",
+      "equipment": "Fixed overhead anchor and constant-length suspension straps",
+      "setup": "고정점을 바라보고 TRX 손잡이를 잡는다. 발을 바닥에 고정하고 몸을 뒤로 기울여 머리부터 다리까지 길게 유지한다.",
+      "hands": "Fixed closed neutral grips",
+      "feet": "Both feet planted; straight legs rock around ankles",
+      "movement": "팔꿈치를 뒤로 보내며 가슴을 손잡이 쪽으로 당긴다. 몸통을 곧게 유지하면서 팔을 펴 천천히 돌아간다."
+    },
+    "limitations": [
+      "Procedural motion, not motion capture; small ankle-pivot whole-body lean.",
+      "Rigid straps and simplified anchor; no load or elasticity simulation.",
+      "Sampled clearance checks, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T11:56:56.347Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/full-sheet.png",
+        "sha256": "e7661edf819a243a9fe858740c643fa004d1d5e438e8a412f393d98ca910ef31"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/side-sheet.png",
+        "sha256": "bb8ca63afb96ebcf72093d61275e55ad543363aeb1921a115bcba6b12832fadd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/poses.json",
+        "sha256": "e894c2c11aed5fe559ff3ddffdabdc17580757e3848dbc008529edb93d8ff7c2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/geometry.json",
+        "sha256": "d2d7a57a41f9e47960532b3442ea9e8807d2bce19ffe81fb65600f104a85af2d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-row/kinematics.json",
+        "sha256": "b43f1f76975328ebfdc15319499bcf5a28b5324916b60be95ca43f5657dbe722"
+      }
+    ]
+  }
+}

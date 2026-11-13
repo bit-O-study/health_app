@@ -1,0 +1,10 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "maxStep": 0.032442774002475305,
+  "gripSeparationError": 9.325873406851315e-15,
+  "bottomElbowDegrees": 44.746485902756305,
+  "topElbowDegrees": 167.69502230751533,
+  "loopError": 0
+}

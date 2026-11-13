@@ -1,0 +1,18 @@
+{
+  "id": "band-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6067d2025a42056285e53791d12422e2bc3e83a18ec94e0d4e9b49b4af49f228",
+  "rigSourceSha256": "16f6a3e141417f75dcf1ad5275e487b971144686da64fd1f0c53362668749ce8",
+  "videoSha256": "a5bcad4cf031ccfefff5cd2853b8e497f4dcb20fb690eb7c0eb2ec99706b9af5",
+  "darkVideoSha256": "8ff3deb0fa56d0341e6ad0277b99210e59a66b0ccbbef2487ba80176f7c36367",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 66250,
+  "darkBytes": 68407,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:02.757Z"
+}

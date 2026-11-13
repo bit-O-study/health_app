@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T13:12:49.438Z",
+  "ids": [
+    "lying-side-lateral-raise"
+  ],
+  "files": 3,
+  "batchCompleted": 79,
+  "batchRemaining": 21,
+  "counts": {
+    "reviewed-both-themes": 480,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 836,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

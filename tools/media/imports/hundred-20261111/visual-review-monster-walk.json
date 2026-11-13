@@ -1,0 +1,77 @@
+{
+  "band-monster-walk": {
+    "checks": {
+      "exercise": "Forward/backward band monster walk",
+      "equipment": "Loop band above knees",
+      "setup": "무릎 바로 위에 루프 밴드를 걸고 발을 골반보다 넓게 벌린다. 엉덩이를 조금 뒤로 빼고 무릎을 굽혀 낮은 자세를 만든다.",
+      "hands": "Hands held separately in front of torso",
+      "feet": "Alternating swing feet lift clear; stance feet and toes remain fixed",
+      "movement": "무릎 사이 간격과 몸의 높이를 유지하며 한 발씩 앞 대각선으로 작게 걷는다. 같은 자세로 한 발씩 뒤로 걸어 돌아온다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Two forward and two backward steps; band above knees instead of below-knee source setup.",
+      "Band follows sampled surface outline with small offset; no elastic-force simulation.",
+      "Sampled vertex clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T13:23:44.794Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/final.jpg",
+        "sha256": "d2d46e6995278e63d9fe61e82b2993085ecf31587f2b7e03e33c3e51b1c8bb0b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/final-dark.jpg",
+        "sha256": "88bab3deb8030166de2437f7fb758c3693032b5677c88ef1ee98470e3601ffac"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/full-sheet.png",
+        "sha256": "1a8586a3bc3d48a4131be0f5527cba8839e90fa1cdcad1ad93ce06d9c1f35eda"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/side-sheet.png",
+        "sha256": "63e3438d0947f0badf1531416fe502d01608611718c92c7546fa9178eb8a5628"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/verification.json",
+        "sha256": "f3f5382ad8ca2c122aa91a82ae65b3d0635648a618ee292bcf7124d14546ba66"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/geometry.json",
+        "sha256": "5f2a412a4b93cbe7ca101edb4faeec02612b27143a007d2dc35d00adf303c35f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/kinematics.json",
+        "sha256": "a2b6eb51f77b02628a2d1a52b2a71557fb3a1a4fcbf5049b212c0a45a3a4ea10"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/provenance.json",
+        "sha256": "f573eed7b5591a64f860ff6d535d919bdc232d7b5886a7449058a1e7626bf843"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/band-monster-walk-alpha.webm",
+        "sha256": "bda13d407ba2e1de97d8bf64f7e90d98f52a6e9028d30ca943ca32f68d9aa322",
+        "bytes": 362965,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/band-monster-walk.mp4",
+        "sha256": "dad9b519115b57426183d8d74e0de7fc316b8d01e9ef5d07b7629be4424aa36f",
+        "bytes": 139409,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/band-monster-walk/band-monster-walk-dark.mp4",
+        "sha256": "cc526e4a2421271909ec1e403cd99fe73a9ea669c12b59d62beaa44b1f590817",
+        "bytes": 136619,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T03:46:52.998Z",
+  "ids": [
+    "decline-dumbbell-fly"
+  ],
+  "files": 3,
+  "batchCompleted": 65,
+  "batchRemaining": 35,
+  "counts": {
+    "reviewed-both-themes": 466,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 849,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

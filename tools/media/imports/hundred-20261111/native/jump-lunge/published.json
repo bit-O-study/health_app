@@ -1,0 +1,18 @@
+{
+  "id": "jump-lunge",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2316dca7f47e56ff74ed78ab7e6f8e728c239924d35d2190c3049b782088fbf3",
+  "rigSourceSha256": "01bd6f090a8e5b5100646bea78beb7e4ade4cde58ec66d7279c8100c3de6ba12",
+  "videoSha256": "390ef3793f08800f99619d55521ee6d729450b12af39900d685aba83b094ae0b",
+  "darkVideoSha256": "c0d041d20267792825ee962e6222ca811b23fad3d99931704896931949c4c580",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 133679,
+  "darkBytes": 133891,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:39:28.787Z"
+}

@@ -1,0 +1,17 @@
+{
+  "incline-rear-delt-raise": {
+    "equipment": "dumbbell",
+    "url": "https://www.acefitness.org/resources/everyone/exercise-library/34/incline-reverse-fly/",
+    "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; incline-rear-delt-raise arm path with bilateral dumbbells."
+  },
+  "incline-bench-dumbbell-row": {
+    "equipment": "dumbbell",
+    "url": "https://contentcdn.eacefitness.com/certifiednews/images/article/pdfs/ACEShoulderStudy.pdf",
+    "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; incline-bench-dumbbell-row arm path with bilateral dumbbells."
+  },
+  "prone-y-raise": {
+    "equipment": "dumbbell",
+    "url": "https://www.rehabhero.ca/exercise/incline-bench-y-raise",
+    "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; prone-y-raise arm path with bilateral dumbbells."
+  }
+}

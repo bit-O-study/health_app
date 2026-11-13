@@ -1,0 +1,10 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),base='tools/media/imports/hundred-20261111';
+const distance=(a,b)=>Math.hypot(...a.map((x,i)=>x-b[i]));
+const angle=(a,b,c)=>{const u=a.map((x,i)=>x-b[i]),v=c.map((x,i)=>x-b[i]);return Math.acos(Math.max(-1,Math.min(1,u.reduce((s,x,i)=>s+x*v[i],0)/Math.hypot(...u)/Math.hypot(...v))))*180/Math.PI;};
+for(const id of ['band-squat','overhead-squat','thruster']){
+ const dir=base+'/native/'+id,p=JSON.parse(fs.readFileSync(dir+'/poses.json')),g=JSON.parse(fs.readFileSync(dir+'/geometry.json'));assert.equal(p.length,481);assert.deepEqual(p[0].joints,p.at(-1).joints);let supportDrift=0,maxStep=0,gripError=0,elbows=[],knees=[];
+ for(let i=0;i<p.length;i++){const j=p[i].joints;assert.ok(Object.values(j).flat(Infinity).every(Number.isFinite));for(const n of ['foot.L','foot.R','toe2-1.L','toe2-1.R'])supportDrift=Math.max(supportDrift,distance(j[n],p[0].joints[n]));for(let k=0;k<2;k++)gripError=Math.max(gripError,distance(j.grips[k],j.targets[k]));for(const side of ['L','R']){if(i)maxStep=Math.max(maxStep,distance(j['wrist.'+side],p[i-1].joints['wrist.'+side]));elbows.push(angle(j['upperarm01.'+side],j['lowerarm01.'+side],j['wrist.'+side]));knees.push(angle(j['upperleg01.'+side],j['lowerleg01.'+side],j['foot.'+side]));}}
+ assert.ok(supportDrift<1e-5&&maxStep<.2&&gripError<1e-5);assert.equal(g.length,17);for(const x of g){assert.ok(x.floorClearance>=0&&x.floorClearance<.08);assert.ok(x.plateBody>0&&x.shaftBody>0);if(id==='band-squat')assert.ok(x.bandBody>0);}
+ assert.ok(Math.min(...knees)<70&&Math.max(...knees)>170);if(id==='overhead-squat')assert.ok(Math.min(...elbows)>165);if(id==='thruster'){const low=p[168].joints,high=p[360].joints;assert.ok(high.grips[0][1]>high.head[1]+1);assert.ok(low.root[1]<high.root[1]-4);assert.ok(Math.max(...elbows)>165);}
+ const r={status:'numeric-checks-passed',poseSamples:481,supportDrift,maxStep,gripError,elbowRange:[Math.min(...elbows),Math.max(...elbows)],kneeRange:[Math.min(...knees),Math.max(...knees)],loopError:0};fs.writeFileSync(dir+'/kinematics.json',JSON.stringify(r,null,2)+'\n');console.log(id,r);
+}

@@ -1,0 +1,18 @@
+{
+  "id": "band-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "38244e68f4d88b497e42133d37e979c602adea6604574aff5b145bbb19fbc8ef",
+  "rigSourceSha256": "e880929f850cc3e48374617d54f4fda234a8bc849d778a58148352cadbe28ef3",
+  "videoSha256": "c3479f297d0f15f4fd7ef21302423f71bc7d3faecdf5d551a421f8696d5e4a45",
+  "darkVideoSha256": "d50b92ca14ed02c4e57fd87a9acebc19376b0d876ee0bc3ca88a175f90cfbfaf",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78154,
+  "darkBytes": 79591,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:07:13.605Z"
+}

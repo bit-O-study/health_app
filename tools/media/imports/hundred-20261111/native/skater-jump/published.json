@@ -1,0 +1,18 @@
+{
+  "id": "skater-jump",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "39e34a3ff629476413c0fd31c821e4b74bad2dcbaaa1506ac478bf36ba2cff2d",
+  "rigSourceSha256": "2a1c9c8942be452c94b9fdc3bddc2c4a04031ecddd73526e758f4f537723f9a7",
+  "videoSha256": "8c460bdd215f7eefacadd887683bcebaad3a996ec189f4e002e6805b433476cb",
+  "darkVideoSha256": "d7b56ee09a32f27f8ead3a6cbbd5cfae56556e230a73c4dcd8935838dbf06d2d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121836,
+  "darkBytes": 119880,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T13:44:17.388Z"
+}

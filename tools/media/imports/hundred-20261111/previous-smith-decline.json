@@ -1,0 +1,28 @@
+{
+  "smith-machine-decline-press": [
+    {
+      "file": "tools/media/motion-guides/smith-machine-decline-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-decline-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-decline-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-decline-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-decline-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-decline-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

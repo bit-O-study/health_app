@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-clean",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e5ab2aa6f099af37a174557dbb63f82fb883e0e3551df233e0914c819d725729",
+  "rigSourceSha256": "15944372718c318810b747c392ad179bf250593dc906bfd6af7c049dc35e4070",
+  "videoSha256": "eb7f425380066b43d5d5159061a49241a64bb23bb0cab5e604938a19a472d486",
+  "darkVideoSha256": "c0c9892481b2e4eba8e9129a88600251d957bc8a39937d62dd07b280f0e13508",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 107830,
+  "darkBytes": 102213,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:48:06.041Z"
+}

@@ -1,0 +1,224 @@
+{
+  "decline-push-up": {
+    "reviewedAt": "2026-11-12T09:32:58.433Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Push-up: rigid torso and legs lower together and return.",
+      "equipment": "Feet on raised platform; both hands below.",
+      "setup": "Front oblique and side 8-frame sheets inspected; head, waist and leg alignment retained.",
+      "hands": "Separate fixed palms; wide version visibly wider than shoulders.",
+      "feet": "Both toe supports remain fixed; elevated only for decline.",
+      "movement": "Upper elbows 170.9–172.4 degrees; lower elbows 84.6–85.9 degrees, continuous cycle with no jump."
+    },
+    "limitations": [
+      "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor.",
+      "No rendered floor; support measured against virtual floor at -7.9.",
+      "Sampled geometry checks are not complete mesh collision or human motion certification."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/final.jpg",
+        "sha256": "250475d09e7f3886d9f311927bd7f6c69a170c197be5d21724ce9eb7b5132440"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/final-dark.jpg",
+        "sha256": "df725bbf88a0423e9528ed09586dfd8bb34b073a19cd063864cfd3d9ce67f685"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/full-sheet.png",
+        "sha256": "31c3ac58ba61bd2d3fec1c1521f84b4fc073f5bc6918ae88f4313a47d31f8d5e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/side-sheet.png",
+        "sha256": "8fc59cdf337e40f872a183e3e39d866d0a16a1e8049c4fbf24eddd87a0479f5a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/verification.json",
+        "sha256": "09dcc2a7d89422433eccca8e48f867bbe19fd1aed467faeb5a4da3eac709d001"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/geometry.json",
+        "sha256": "5a61df0cb3778935500fa87c7edf1f73ac7b840bbfc8cb81bb4071e638d9b328"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/kinematics.json",
+        "sha256": "509c2b0b7d0ea49c9fac988a3f59e9c2e490547303c689336cb1822813c5e418"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/provenance.json",
+        "sha256": "849ff1c1bddaf7072fb19599697a014eaa570ca64b26b4b54506b91393c13683"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/decline-push-up-alpha.webm",
+        "sha256": "8ac5708676a9d222e91e7c3267c688073ce204c4b56661359a103bf1a4e70b86",
+        "bytes": 238637,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/decline-push-up.mp4",
+        "sha256": "84b97acd62bc75369ee793185831871434a370511d26ee524bdf7b17f04d0d52",
+        "bytes": 98078,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/decline-push-up/decline-push-up-dark.mp4",
+        "sha256": "598f8358f1607e719d7120db3aebf7eb6c97c62b3db4439ebe1197e287c8a9cb",
+        "bytes": 99309,
+        "decode": "passed"
+      }
+    ]
+  },
+  "close-grip-push-up": {
+    "reviewedAt": "2026-11-12T09:32:58.448Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Push-up: rigid torso and legs lower together and return.",
+      "equipment": "Bodyweight with no equipment.",
+      "setup": "Front oblique and side 8-frame sheets inspected; head, waist and leg alignment retained.",
+      "hands": "Palms narrower than shoulders; tucked elbows.",
+      "feet": "Both toe supports remain fixed; elevated only for decline.",
+      "movement": "Upper elbows 170.9–172.4 degrees; lower elbows 84.6–85.9 degrees, continuous cycle with no jump."
+    },
+    "limitations": [
+      "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor.",
+      "No rendered floor; support measured against virtual floor at -7.9.",
+      "Sampled geometry checks are not complete mesh collision or human motion certification."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/final.jpg",
+        "sha256": "8b1cb7213264e60b30f81f0302e9ddd489d7b9f2c675fbc0e71a86e17b85655a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/final-dark.jpg",
+        "sha256": "d224699958c2f731a5c50774c87afbc05b25a0632704ec0820c644098d347931"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/full-sheet.png",
+        "sha256": "f104d09ad4426ccde6b7a26be1fe9e05506205c05ed529a30b795269db4e4f3d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/side-sheet.png",
+        "sha256": "2e2af8648a0440bcd96cc6b3b3e94e7df9a8fc891953ab5eb8b5028eb9340ab1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/verification.json",
+        "sha256": "11f35ccbd5444d96d0b159a73af0e4c8e4646ccef11c5426884f49ab4d13aa57"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/geometry.json",
+        "sha256": "52bced450c1cb11a61b68c701a29b3f35a892524eaa09da71ac926d61ab011a7"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/kinematics.json",
+        "sha256": "47e44b843cd0d6637827637657ce1f0a1ebd9926e0b18fb7cd15a650e325b2b1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/provenance.json",
+        "sha256": "7ad46fc3766dc7a3a8bcea4fb937b8ec33a90546f7df90369ffd947edaeb0895"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/close-grip-push-up-alpha.webm",
+        "sha256": "d8a8a5ac552d2e42032e5cb6e7c94eaea1bfb3214c1988e177fb30baf924059e",
+        "bytes": 218003,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/close-grip-push-up.mp4",
+        "sha256": "e69bbcdcf4c843c58c1ea94a443f3ed8e0bb7d8b81748f7b2e2af7db18e4f756",
+        "bytes": 87704,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/close-grip-push-up/close-grip-push-up-dark.mp4",
+        "sha256": "6b375342ef60a5fe2b7eb65803b1cdd12cdab852044e9d1fec3856a57ae40bf2",
+        "bytes": 88831,
+        "decode": "passed"
+      }
+    ]
+  },
+  "wide-push-up": {
+    "reviewedAt": "2026-11-12T09:32:58.460Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Push-up: rigid torso and legs lower together and return.",
+      "equipment": "Bodyweight with no equipment.",
+      "setup": "Front oblique and side 8-frame sheets inspected; head, waist and leg alignment retained.",
+      "hands": "Separate fixed palms; wide version visibly wider than shoulders.",
+      "feet": "Both toe supports remain fixed; elevated only for decline.",
+      "movement": "Upper elbows 170.9–172.4 degrees; lower elbows 84.6–85.9 degrees, continuous cycle with no jump."
+    },
+    "limitations": [
+      "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor.",
+      "No rendered floor; support measured against virtual floor at -7.9.",
+      "Sampled geometry checks are not complete mesh collision or human motion certification."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/final.jpg",
+        "sha256": "0aae2938aab0108baf295cc1d0b8f8857f19ecb95223f18b2820689fa03b8718"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/final-dark.jpg",
+        "sha256": "5db9946df865423d2ef3f70d0bd7d7657e4965eae106abe3091732c57416724d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/full-sheet.png",
+        "sha256": "d5c87b6a47bdfeee0112a6d3f522eedbe02d59a1f5b802bfb1612d0af33e9195"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/side-sheet.png",
+        "sha256": "e4b7f3a8c05b84809ddc1ac3a35dedfd1eac35ef9a5aef0985eaf41e4f25b376"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/verification.json",
+        "sha256": "8094b62c243b34afe931c585bfa0a8d3c272e695741e142ac81a686e38e72ea0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/geometry.json",
+        "sha256": "5b702a30d811105f7d4af1c804d78cd86a561c22f74a5288bd766938206f2262"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/kinematics.json",
+        "sha256": "b9db51987ad4f4f69f41d6f73352f7beb1076acaa0ca846cd52c04ee4f874b41"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/provenance.json",
+        "sha256": "fe7bc74e5fc589ac4d66fb0746548d8eca898eb28afd0d709533712b2919cbda"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/wide-push-up-alpha.webm",
+        "sha256": "099255cc85fc1b32577f4fbf7faaaca2ee0cb3fba4632b3af469701aecbebed6",
+        "bytes": 209953,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/wide-push-up.mp4",
+        "sha256": "8b45890fe3219e5157ea301bee641e161cb55bece93eb342de979ad7f49f8004",
+        "bytes": 87050,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/wide-push-up/wide-push-up-dark.mp4",
+        "sha256": "9e790020818f50d6390b4cbc1211f8e0cae2c24ac9673eff98e959efc85f0bab",
+        "bytes": 86249,
+        "decode": "passed"
+      }
+    ]
+  }
+}

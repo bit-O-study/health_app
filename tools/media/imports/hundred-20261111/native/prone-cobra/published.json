@@ -1,0 +1,18 @@
+{
+  "id": "prone-cobra",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "36cac498eecaef439139355eeed0928c52ee9722c1fd35f7afeccade52d0d49f",
+  "rigSourceSha256": "845b1ca71a7e2290957ecf51fd029790699b4a52f8d548eb67d03ffafd180a37",
+  "videoSha256": "810e80a286c7e5bf68c573ced0b57f3d01239d88231e567f79011ae9d8c652a2",
+  "darkVideoSha256": "77dc2b62dc7f62034db8daf3d841aadf100f6ba22094834c2fd309ab457ef5f6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 50107,
+  "darkBytes": 50128,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T03:18:29.075Z"
+}

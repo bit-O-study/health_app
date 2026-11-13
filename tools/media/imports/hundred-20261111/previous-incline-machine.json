@@ -1,0 +1,28 @@
+{
+  "incline-machine-chest-press": [
+    {
+      "file": "tools/media/motion-guides/incline-machine-chest-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-machine-chest-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-machine-chest-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-machine-chest-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-machine-chest-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-machine-chest-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

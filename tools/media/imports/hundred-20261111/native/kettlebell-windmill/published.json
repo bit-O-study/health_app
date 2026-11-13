@@ -1,0 +1,18 @@
+{
+  "id": "kettlebell-windmill",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2d6d3a2b267dd92be9367773c57420e0412f094bbe92b39a53218328d98af0ef",
+  "rigSourceSha256": "d4f570d615ed1090fd01727b843bb26af17696234edaedf55a86f4f681185aef",
+  "videoSha256": "b52fec376f055177e4b2745619bcf634298bdf8956a1f36fa26c4db4fcf9e05b",
+  "darkVideoSha256": "385f20e9a2e38a28cc6d820088ceb42dc48decc910fbdc56bfc51d164de601e8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 133943,
+  "darkBytes": 127817,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:53:32.806Z"
+}

@@ -1,0 +1,41 @@
+{
+  "seated-toe-raise": {
+    "checks": {
+      "exercise": "Bilateral seated ankle dorsiflexion, distinct from heel raises",
+      "equipment": "Bilateral plate-loaded levers, footboards, forefoot rollers, heel pivots and stable seat",
+      "setup": "토 레이즈 머신 앞 의자에 앉아 뒤꿈치를 지지대에 두고 앞꿈치를 발등 패드 아래에 넣는다.",
+      "hands": "Relaxed open hands held above thighs; no simulated support force",
+      "feet": "Fixed bilateral virtual heel pivots; toes rise together",
+      "movement": "뒤꿈치를 고정한 채 발끝을 당겨 저항 레버를 들어 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Generic simplified tibialis machine, not an exact manufacturer model; 25-degree procedural ankle rotation.",
+      "Heel pivots are rig landmarks; forefoot rollers and support boards use approximate contact; no tissue compression.",
+      "Sampled geometry and lever movement, not complete collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:20:20.524Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/full-sheet.png",
+        "sha256": "70a1dc9a6ba98845f24cb023b6ee8f34383a6966110d37f549899c93f7b6af42"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/side-sheet.png",
+        "sha256": "690d2b83bad3d12a2adb632ee399d221b2b5fe8763a5ee6748c86b5f5f3483a3"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/poses.json",
+        "sha256": "ac64a50e0feb968efab02871d64c50d7c9c606b0789a3289fec8d8e83e8f15bd"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/geometry.json",
+        "sha256": "8a737f28a5c3008b646cc7a26978a4cb546ee363298e3a383a7ea00df53b420e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/seated-toe-raise/kinematics.json",
+        "sha256": "8bb4ce0eac41ca228c3960de2dd51c43c958f74b2c1be7cae00e06f71072ec00"
+      }
+    ]
+  }
+}

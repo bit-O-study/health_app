@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-12T10:20:07.082Z",
+  "ids": [
+    "farmer-s-carry"
+  ],
+  "files": 3,
+  "batchCompleted": 22,
+  "batchRemaining": 78,
+  "counts": {
+    "reviewed-both-themes": 423,
+    "needs-motion-review": 20,
+    "needs-cutout-review": 15,
+    "needs-new-video": 891,
+    "legacy-needs-remake": 2
+  },
+  "tests": 22,
+  "testFiles": 6,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

@@ -1,0 +1,32 @@
+{
+  "farmer-s-carry": [
+    {
+      "file": "tools/media/motion-guides/farmer-s-carry.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-carry/farmer-s-carry-0.json",
+      "sha256": "12ac8493402fd9ef7f4135dd31ca0d1e67ebba0bfc8f1b8d1fff1a50a861a6b1"
+    },
+    {
+      "file": "tools/media/motion-guides/farmer-s-carry.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-carry/farmer-s-carry-1.jpg",
+      "sha256": "877f35734cc06951edfd2b960e528a525fbcdfe4537d66f6dbac12f6eadd24e2"
+    },
+    {
+      "file": "tools/media/motion-guides/farmer-s-carry-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/farmer-s-carry.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-carry/farmer-s-carry-3.mp4",
+      "sha256": "17a7ddea0145b8f55b5538a4cc2bc5b9e1f3c01c44d9a3454984d3724a67d657"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/farmer-s-carry-dark.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-carry/farmer-s-carry-4.mp4",
+      "sha256": "ea1f27345f64ef262e8ed30f7b10d13f7cccb97f25a674ec900eb99f7ef9827e"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/farmer-s-carry-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

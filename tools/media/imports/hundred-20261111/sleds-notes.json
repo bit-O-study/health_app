@@ -1,0 +1,34 @@
+{
+  "sled-push": {
+    "checks": {
+      "exercise": "Forward sled push",
+      "equipment": "Plate-loaded sled with two upright handles",
+      "setup": "슬레드의 양쪽 기둥을 잡고 상체를 앞으로 기울인다. 복부에 힘을 주고 허리를 길게 유지한다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "양발로 바닥을 번갈아 밀며 슬레드를 앞으로 이동시킨다. 손잡이를 계속 잡고 몸통의 기울기를 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Camera follows the athlete and sled; no floor is rendered.",
+      "Two slowed gait cycles in eight seconds.",
+      "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+    ]
+  },
+  "sled-pull": {
+    "checks": {
+      "exercise": "Backward sled drag",
+      "equipment": "Plate-loaded sled and two strap handles",
+      "setup": "슬레드를 바라보고 양손으로 스트랩 손잡이를 잡는다. 무릎을 살짝 굽히고 몸통을 안정적으로 세운다.",
+      "hands": "Closed grips remain attached to handles",
+      "feet": "Alternating steps, continuous support, stance fixed after camera travel correction",
+      "movement": "짧은 보폭으로 뒤로 걸으며 슬레드를 당긴다. 양발을 번갈아 딛고 스트랩의 장력을 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Camera follows the athlete and sled; no floor is rendered.",
+      "Two slowed gait cycles in eight seconds.",
+      "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-13T14:39:00.436Z",
+  "report": [
+    {
+      "id": "power-clean",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "hang-clean",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

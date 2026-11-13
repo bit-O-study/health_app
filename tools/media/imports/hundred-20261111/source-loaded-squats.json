@@ -1,0 +1,17 @@
+{
+  "band-squat": {
+    "equipment": "band",
+    "url": "https://www.acefitness.org/resources/everyone/exercise-library/135/bodyweight-squat/",
+    "criteria": "Planted feet and controlled squat with bands under feet and shoulder-height handles."
+  },
+  "overhead-squat": {
+    "equipment": "barbell",
+    "url": "https://www.crossfit.com/essentials/the-overhead-squat",
+    "criteria": "Planted feet and controlled squat with wide overhead bar hold."
+  },
+  "thruster": {
+    "equipment": "barbell",
+    "url": "https://www.crossfit.com/essentials/the-thruster",
+    "criteria": "Planted feet and controlled squat with front rack, squat then overhead extension."
+  }
+}

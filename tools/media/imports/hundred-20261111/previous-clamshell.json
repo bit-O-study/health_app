@@ -1,0 +1,28 @@
+{
+  "clamshell": [
+    {
+      "file": "tools/media/motion-guides/clamshell.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/clamshell.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/clamshell-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/clamshell.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/clamshell-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/clamshell-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

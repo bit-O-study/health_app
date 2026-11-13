@@ -1,11 +1,15 @@
 {
-  "prompt": "Eight-pose unweighted decline bench sit-up, feet secured under top rollers, arms crossed, torso curls from supine to upright, controlled reverse",
-  "equipment": "bodyweight",
-  "sources": [
-    "https://www.muscleandstrength.com/node/3617"
-  ],
-  "panels": 8,
-  "cycle": "reverse",
   "id": "decline-sit-up",
-  "registeredAt": "2026-09-13T01:58:44.858Z"
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "decline-sit-up-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/431/Decline-Sit-Up/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:30:34.877Z"
 }

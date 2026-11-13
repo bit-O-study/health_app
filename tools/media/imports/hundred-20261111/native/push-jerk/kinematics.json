@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 4.440978833827408e-15,
+  "gripError": 4.782987168225453e-15,
+  "maxStep": 0.16012149565673142,
+  "dip": 1.5,
+  "catchDip": 1.9499959241232983,
+  "overhead": 4.047349999999995,
+  "recovery": 1.9500000000000002,
+  "loopError": 0
+}

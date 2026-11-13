@@ -1,0 +1,28 @@
+{
+  "jump-lunge": [
+    {
+      "file": "tools/media/motion-guides/jump-lunge.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/jump-lunge.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/jump-lunge-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-lunge.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-lunge-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-lunge-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

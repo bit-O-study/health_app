@@ -1,0 +1,507 @@
+{
+  "id": "band-squat",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/band-squat-studio.mjs",
+      "sha256": "5529b0ea151c6d14343514aa5f26390a2c75394244406da7120a50c0b96cde6c"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/band-squat-motion.mjs",
+      "sha256": "edf9b4a6c6b363ebc321292a71554058ec474f750db9396cc7f415a0228beff7"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "loaded-squat",
+    "sourceUrls": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/135/bodyweight-squat/"
+    ],
+    "criteria": "Planted feet and controlled squat with bands under feet and shoulder-height handles.",
+    "sourcesCheckedAt": "2026-11-13",
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "bandBody": 0.8388371318570274,
+      "bandClosest": {
+        "rest": [
+          -2.159865625,
+          -6.471884375,
+          0.40309218750000003
+        ],
+        "world": [
+          -2.0376443191185145,
+          -6.172047120943581,
+          0.4077704186313501
+        ],
+        "frame": 0
+      },
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 100,
+      "shaftBody": 0.5584416710771706,
+      "gripError": 1.1102230246251565e-15
+    },
+    {
+      "frame": 30,
+      "bandBody": 0.7266706611999416,
+      "bandClosest": {
+        "rest": [
+          -2.159865625,
+          -6.471884375,
+          0.40309218750000003
+        ],
+        "world": [
+          -2.090472948960914,
+          -6.217504681850339,
+          0.5143180870900704
+        ],
+        "frame": 30
+      },
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 100,
+      "shaftBody": 0.5469515292091202,
+      "gripError": 1.2560739669470201e-15
+    },
+    {
+      "frame": 60,
+      "bandBody": 0.3587172094311878,
+      "bandClosest": {
+        "rest": [
+          -2.243075,
+          -4.456525,
+          0.20645000000000002
+        ],
+        "world": [
+          -2.5973604044116696,
+          -4.361332323645471,
+          1.016657548434449
+        ],
+        "frame": 60
+      },
+      "floorClearance": 0.03249402008056723,
+      "plateBody": 100,
+      "shaftBody": 0.5141939609515096,
+      "gripError": 2.673771110915334e-15
+    },
+    {
+      "frame": 90,
+      "bandBody": 0.1428731894971717,
+      "bandClosest": {
+        "rest": [
+          -2.3112062499999997,
+          -4.702356249999999,
+          0.008706250000000013
+        ],
+        "world": [
+          -2.7832899019517012,
+          -4.697916550261127,
+          1.0657689461480158
+        ],
+        "frame": 90
+      },
+      "floorClearance": 0.03249402008056457,
+      "plateBody": 100,
+      "shaftBody": 0.46507483119230153,
+      "gripError": 9.155133597044475e-16
+    },
+    {
+      "frame": 120,
+      "bandBody": 0.07555105469257284,
+      "bandClosest": {
+        "rest": [
+          -2.3163624999999994,
+          -5.00286875,
+          -0.06264375
+        ],
+        "world": [
+          -2.8274782496902815,
+          -5.059088350705318,
+          1.0716737088734223
+        ],
+        "frame": 120
+      },
+      "floorClearance": 0.03249402008056368,
+      "plateBody": 100,
+      "shaftBody": 0.40700661496229096,
+      "gripError": 1.4217791915866692e-15
+    },
+    {
+      "frame": 150,
+      "bandBody": 0.06663683683631205,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.876998091514086,
+          -5.0747753371798305,
+          1.082700897817962
+        ],
+        "frame": 150
+      },
+      "floorClearance": 0.03249402008056723,
+      "plateBody": 100,
+      "shaftBody": 0.34882323262655734,
+      "gripError": 1.790180836524724e-15
+    },
+    {
+      "frame": 180,
+      "bandBody": 0.07422252359779427,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.9168596609399002,
+          -5.107066470218191,
+          1.1069678296053072
+        ],
+        "frame": 180
+      },
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 100,
+      "shaftBody": 0.29942942952968743,
+      "gripError": 0
+    },
+    {
+      "frame": 210,
+      "bandBody": 0.0790109769082025,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.932090221265118,
+          -5.106226216383485,
+          1.086166267166499
+        ],
+        "frame": 210
+      },
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 100,
+      "shaftBody": 0.2664023060342861,
+      "gripError": 1.9860273225978185e-15
+    },
+    {
+      "frame": 240,
+      "bandBody": 0.08164259793074707,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.9352809895440886,
+          -5.101172109390183,
+          1.0705709545422393
+        ],
+        "frame": 240
+      },
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 100,
+      "shaftBody": 0.25480212583204176,
+      "gripError": 1.3322676295501878e-15
+    },
+    {
+      "frame": 270,
+      "bandBody": 0.0790109769082025,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.932090221265118,
+          -5.106226216383485,
+          1.086166267166499
+        ],
+        "frame": 270
+      },
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 100,
+      "shaftBody": 0.2664023060342861,
+      "gripError": 1.9860273225978185e-15
+    },
+    {
+      "frame": 300,
+      "bandBody": 0.07422252359779352,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.916859660939901,
+          -5.107066470218191,
+          1.1069678296053067
+        ],
+        "frame": 300
+      },
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 100,
+      "shaftBody": 0.2994294295296875,
+      "gripError": 0
+    },
+    {
+      "frame": 330,
+      "bandBody": 0.06663683683631169,
+      "bandClosest": {
+        "rest": [
+          -2.2876749999999997,
+          -4.999725,
+          -0.1748
+        ],
+        "world": [
+          -2.8769980915140856,
+          -5.074775337179831,
+          1.0827008978179613
+        ],
+        "frame": 330
+      },
+      "floorClearance": 0.032494020080565456,
+      "plateBody": 100,
+      "shaftBody": 0.34882323262655685,
+      "gripError": 6.280369834735101e-16
+    },
+    {
+      "frame": 360,
+      "bandBody": 0.07555105469257326,
+      "bandClosest": {
+        "rest": [
+          -2.3163624999999994,
+          -5.00286875,
+          -0.06264375
+        ],
+        "world": [
+          -2.827478249690281,
+          -5.059088350705319,
+          1.071673708873422
+        ],
+        "frame": 360
+      },
+      "floorClearance": 0.03249402008056279,
+      "plateBody": 100,
+      "shaftBody": 0.40700661496229174,
+      "gripError": 1.3322676295501878e-15
+    },
+    {
+      "frame": 390,
+      "bandBody": 0.14287318949717176,
+      "bandClosest": {
+        "rest": [
+          -2.3112062499999997,
+          -4.702356249999999,
+          0.008706250000000013
+        ],
+        "world": [
+          -2.7832899019517012,
+          -4.697916550261127,
+          1.0657689461480149
+        ],
+        "frame": 390
+      },
+      "floorClearance": 0.03249402008056368,
+      "plateBody": 100,
+      "shaftBody": 0.46507483119230153,
+      "gripError": 1.2560739669470201e-15
+    },
+    {
+      "frame": 420,
+      "bandBody": 0.35871720943118796,
+      "bandClosest": {
+        "rest": [
+          -2.243075,
+          -4.456525,
+          0.20645000000000002
+        ],
+        "world": [
+          -2.597360404411669,
+          -4.361332323645471,
+          1.0166575484344502
+        ],
+        "frame": 420
+      },
+      "floorClearance": 0.03249402008056723,
+      "plateBody": 100,
+      "shaftBody": 0.5141939609515099,
+      "gripError": 2.808666774861361e-15
+    },
+    {
+      "frame": 450,
+      "bandBody": 0.7266706611999398,
+      "bandClosest": {
+        "rest": [
+          -2.159865625,
+          -6.471884375,
+          0.40309218750000003
+        ],
+        "world": [
+          -2.0904729489609153,
+          -6.217504681850339,
+          0.5143180870900718
+        ],
+        "frame": 450
+      },
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 100,
+      "shaftBody": 0.546951529209118,
+      "gripError": 0
+    },
+    {
+      "frame": 480,
+      "bandBody": 0.8388371318570274,
+      "bandClosest": {
+        "rest": [
+          -2.159865625,
+          -6.471884375,
+          0.40309218750000003
+        ],
+        "world": [
+          -2.0376443191185145,
+          -6.172047120943581,
+          0.4077704186313501
+        ],
+        "frame": 480
+      },
+      "floorClearance": 0.032494020080566344,
+      "plateBody": 100,
+      "shaftBody": 0.5584416710771706,
+      "gripError": 1.1102230246251565e-15
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "supportDrift": 5.296590029624931e-15,
+    "maxStep": 0.031572298129119866,
+    "gripError": 3.233018248352212e-15,
+    "elbowRange": [
+      71.90155162558877,
+      71.90155162558885
+    ],
+    "kneeRange": [
+      59.178148966391205,
+      173.28908387209728
+    ],
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      71.90155162558877,
+      71.90155162558885
+    ],
+    "alpha": {
+      "transparent": 41379425,
+      "opaque": 2055815,
+      "partial": 801560,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/band-squat/source.jpg",
+    "sha256": "79e2254ec5a4f9f8af5fdc9d1c964b79caaf471ab76e2421079f5d29533c20f3",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Slow procedural demonstration; not ballistic force simulation or human motion capture. Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance. Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification. Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+}

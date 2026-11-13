@@ -1,0 +1,18 @@
+{
+  "id": "battle-rope-wave",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "715a42660a40ecea2d90919a14bb588ccc265b11effa3337b37d119b88e13506",
+  "rigSourceSha256": "4048f59d349a170fc8bf99c0f7692c5fb3e9c1ffa322ccf26e5bfc81fed16ad1",
+  "videoSha256": "7ea8e536e42e46d093ee02a16c5e40ef2f75e459e24abba40d558cfd313f2f74",
+  "darkVideoSha256": "34639f05f0b2640067833d3f47e540d7fab7e79d1d954a463bf733e5193ddb01",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 137971,
+  "darkBytes": 138131,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T14:09:19.007Z"
+}

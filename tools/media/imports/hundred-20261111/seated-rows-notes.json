@@ -1,0 +1,47 @@
+{
+  "wide-grip-cable-row": {
+    "checks": {
+      "exercise": "wide-grip-cable-row front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "벤치에 앉아 발판에 발을 대고 양쪽 손잡이를 어깨보다 넓게 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "몸통을 세운 채 팔꿈치를 옆으로 벌리며 손잡이를 몸 쪽으로 당기고 천천히 편다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "single-arm-cable-row": {
+    "checks": {
+      "exercise": "single-arm-cable-row front and side eight-frame sheets inspected",
+      "equipment": "Cable pulleys, handles and moving weight stacks",
+      "setup": "벤치에 앉아 발판에 발을 대고 한 손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "몸통과 반대팔을 고정한 채 팔꿈치를 뒤로 당겼다가 천천히 편다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  },
+  "band-row": {
+    "checks": {
+      "exercise": "band-row front and side eight-frame sheets inspected",
+      "equipment": "Orange anchored band",
+      "setup": "앞쪽 고정점에 밴드를 연결하고 벤치에 앉아 양손으로 손잡이를 잡는다.",
+      "hands": "Closed hands stay aligned with handles throughout",
+      "feet": "Feet on footplates; pelvis on seat and trunk fixed",
+      "movement": "발판에 발을 고정한 채 팔꿈치를 뒤로 당기고 밴드 저항을 조절하며 돌아온다."
+    },
+    "limitations": [
+      "Procedural slow demonstration with simplified equipment, not human motion capture.",
+      "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+      "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+    ]
+  }
+}

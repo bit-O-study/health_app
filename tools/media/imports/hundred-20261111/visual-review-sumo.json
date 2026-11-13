@@ -1,0 +1,76 @@
+{
+  "kettlebell-sumo-squat": {
+    "reviewedAt": "2026-11-12T10:06:35.455Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Wide-stance kettlebell sumo squat with knees tracking outward and controlled descent.",
+      "equipment": "One kettlebell with horizontal two-handed handle; sphere hangs below the handle.",
+      "setup": "Front and side eight-frame sheets inspected; spine held with torso, feet apart.",
+      "hands": "Both curled hands retain the same handle sockets through the full cycle.",
+      "feet": "Both feet and toes stay planted without drift.",
+      "movement": "Knees and hips flex for squat; bell lowers between legs and stays below waist; torso remains mostly upright."
+    },
+    "limitations": [
+      "Procedural demonstration; kettlebell does not touch the floor.",
+      "Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units.",
+      "Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/final.jpg",
+        "sha256": "0b4197055b8af1bc4ff7d2539d94142adb08acd7afe216cbc5fe9fd6c295947d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/final-dark.jpg",
+        "sha256": "aad2bf13aa626a7a01268ab6393191d0679c3f527d70e13b9a14b312f41f4f5f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/full-sheet.png",
+        "sha256": "0f5a8da0bd2b24519519bc9b74e8c7add95a3a2ad88383fa4f93aa41c3ea8ff9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/side-sheet.png",
+        "sha256": "1ae1bf07a82d1444c93890b846aff897abd9e3fb0aac952c923e669929a948db"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/verification.json",
+        "sha256": "7249c9c2347d320ab327d439e34a0d9bcd0a0b76f889390caead9748941759de"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/geometry.json",
+        "sha256": "9df9b64f4b2a98c2140acb53781f1b03cc466c72bd97f7af076aa6ae80db1b10"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kinematics.json",
+        "sha256": "7933554e41e411c999033f97f764ec471caa063ddf5a81f26b321239aa039974"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/provenance.json",
+        "sha256": "2cc877d6a5b1196413e044b92a9b242ecda0ce78338e5171ef05c109e9ddb240"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kettlebell-sumo-squat-alpha.webm",
+        "sha256": "c025646a9eea14d0314ee6b7e74586d9f06eba9528086f0756111525704ae568",
+        "bytes": 312444,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kettlebell-sumo-squat.mp4",
+        "sha256": "314fc2fe1b586a2fc9a6a010e022b5f2ef7b4b2281cf373c64442b3b316f172b",
+        "bytes": 130368,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/kettlebell-sumo-squat/kettlebell-sumo-squat-dark.mp4",
+        "sha256": "b928fd5c0bd4fd3a8a264a57175695a4d84e7d9f8e6cf2a6c519f6dfec5c1329",
+        "bytes": 126247,
+        "decode": "passed"
+      }
+    ]
+  }
+}

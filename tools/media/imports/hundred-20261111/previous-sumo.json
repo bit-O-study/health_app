@@ -1,0 +1,28 @@
+{
+  "kettlebell-sumo-squat": [
+    {
+      "file": "tools/media/motion-guides/kettlebell-sumo-squat.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-sumo-squat.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kettlebell-sumo-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-sumo-squat.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-sumo-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kettlebell-sumo-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T14:32:24.697Z",
+  "ids": [
+    "decline-sit-up"
+  ],
+  "files": 3,
+  "batchCompleted": 93,
+  "batchRemaining": 7,
+  "counts": {
+    "reviewed-both-themes": 494,
+    "needs-motion-review": 17,
+    "needs-cutout-review": 14,
+    "needs-new-video": 824,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

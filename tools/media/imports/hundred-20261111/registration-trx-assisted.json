@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-13T11:56:41.893Z",
+  "ids": [
+    "trx-squat",
+    "trx-lunge"
+  ],
+  "files": 6,
+  "batchCompleted": 69,
+  "batchRemaining": 31,
+  "counts": {
+    "reviewed-both-themes": 470,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 845,
+    "legacy-needs-remake": 2
+  },
+  "tests": 10,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

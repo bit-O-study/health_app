@@ -1,0 +1,267 @@
+{
+  "id": "turkish-get-up",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/hundred-20261111/turkish-get-up-studio.mjs",
+      "sha256": "1cba0f7f944dbcade5cc4ede88c009a5808aeb4cdadee133594e003ba90c803a"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/turkish-get-up-motion.mjs",
+      "sha256": "cda7eb1b14f1410effb54a1dbf0a3186cbaf46bf7aecddc244e5665f48e1f5ba"
+    },
+    {
+      "path": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "getup",
+    "sourceUrls": [
+      "https://www.acefitness.org/continuing-education/prosource/november-2015/5686/ace-technique-series-turkish-get-up/"
+    ],
+    "criteria": "Supine to elbow/hand support, hip lift, leg sweep, half kneel, stand and reverse, bell vertical.",
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Eight-second illustrated sequence; real practice should pause at each stable position.",
+      "Floor-aware joint placement and 49 sampled clearance checks; not exhaustive collision or biomechanical validation."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.025428972220669088,
+      "bellBody": 0.9508180014093816,
+      "bellFloor": 5.702475000000001
+    },
+    {
+      "frame": 30,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.0254289722206682,
+      "bellBody": 0.950817962020779,
+      "bellFloor": 7.201775250898425
+    },
+    {
+      "frame": 60,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.025428972220665536,
+      "bellBody": 0.9508179465380037,
+      "bellFloor": 9.923265424370577
+    },
+    {
+      "frame": 90,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.0254289722206682,
+      "bellBody": 0.9508179286125836,
+      "bellFloor": 10.482791584883724
+    },
+    {
+      "frame": 120,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.025428972220667312,
+      "bellBody": 0.9508178978358884,
+      "bellFloor": 11.704422467991199
+    },
+    {
+      "frame": 150,
+      "lowestBone": "foot.L",
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.9508180126583722,
+      "bellFloor": 13.527196115795622
+    },
+    {
+      "frame": 180,
+      "lowestBone": "foot.L",
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.9508180202986375,
+      "bellFloor": 15.924165432098764
+    },
+    {
+      "frame": 210,
+      "lowestBone": "toe1-2.R",
+      "floorClearance": 0.030920316080765176,
+      "bellBody": 0.9508180236193248,
+      "bellFloor": 17.76347703169455
+    },
+    {
+      "frame": 240,
+      "lowestBone": "foot.R",
+      "floorClearance": 0.03249402008056368,
+      "bellBody": 0.9508180237974962,
+      "bellFloor": 17.862900000000003
+    },
+    {
+      "frame": 270,
+      "lowestBone": "toe1-2.R",
+      "floorClearance": 0.030920316080765176,
+      "bellBody": 0.9508180236193248,
+      "bellFloor": 17.76347703169455
+    },
+    {
+      "frame": 300,
+      "lowestBone": "foot.L",
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.9508180202986375,
+      "bellFloor": 15.924165432098764
+    },
+    {
+      "frame": 330,
+      "lowestBone": "foot.L",
+      "floorClearance": 0.032494020080565456,
+      "bellBody": 0.9508180126583722,
+      "bellFloor": 13.527196115795622
+    },
+    {
+      "frame": 360,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.025428972220667312,
+      "bellBody": 0.9508178978358884,
+      "bellFloor": 11.704422467991199
+    },
+    {
+      "frame": 390,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.0254289722206682,
+      "bellBody": 0.9508179286125836,
+      "bellFloor": 10.482791584883724
+    },
+    {
+      "frame": 420,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.025428972220665536,
+      "bellBody": 0.9508179465380037,
+      "bellFloor": 9.923265424370577
+    },
+    {
+      "frame": 450,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.0254289722206682,
+      "bellBody": 0.950817962020779,
+      "bellFloor": 7.201775250898425
+    },
+    {
+      "frame": 480,
+      "lowestBone": "finger1-3.R",
+      "floorClearance": 0.025428972220669088,
+      "bellBody": 0.9508180014093816,
+      "bellFloor": 5.702475000000001
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "geometrySamples": 49,
+    "frontFootDrift": 1.013652469562605e-14,
+    "handSupportDrift": 6.466036496704424e-15,
+    "gripError": 6.734946328680592e-15,
+    "verticalError": 2.7755575615628914e-15,
+    "minElbow": 161.09319572071516,
+    "maxStep": 0.9460364839300466,
+    "headRise": 13.91725,
+    "sweepDistance": 11.499698277078902,
+    "kneelingKneeY": -7.15,
+    "elbowSupportY": -7.306091960416096,
+    "loopError": 0
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      65.08946246361278,
+      166.49330644492005
+    ],
+    "alpha": {
+      "transparent": 42251599,
+      "opaque": 1392057,
+      "partial": 593144,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/hundred-20261111/native/turkish-get-up/source.jpg",
+    "sha256": "f1e53352598811db05f73099b62a410baa5360a68e2f08adae542eb57affe435",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration, not captured human motion. Eight-second illustrated sequence; real practice should pause at each stable position. Floor-aware joint placement and 49 sampled clearance checks; not exhaustive collision or biomechanical validation."
+}

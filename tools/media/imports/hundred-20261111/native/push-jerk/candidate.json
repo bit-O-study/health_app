@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/hundred-20261111/native/push-jerk/push-jerk-alpha.webm",
+      "sha256": "f04e000a5bb94c7abc6770b4808a4e93df6b383135138443863d0a24d5cd7dea",
+      "bytes": 297348,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/hundred-20261111/native/push-jerk/push-jerk.mp4",
+      "sha256": "c36fe705ca2e10ff8426a9e8fc4fc242f10cfce9efa2d2e63a1631b36f6da4d9",
+      "bytes": 130443,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/hundred-20261111/native/push-jerk/push-jerk-dark.mp4",
+      "sha256": "353280b5c3afbcc3f8aa73df7a22ac651233de14b57c202d6561c2a9d4ee5cc4",
+      "bytes": 112426,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/hundred-20261111/push-jerk-studio.mjs",
+      "sha256": "87f09767ca24231e393bddf3c8a59ba57a7447def3c8a2c76e8fa793cfaff723"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/push-jerk-motion.mjs",
+      "sha256": "6512649ee1c1c3b0a8d17cd60287ab27bbdc7719eea71c1b8e3cf5e0055b20a7"
+    },
+    {
+      "file": "tools/media/imports/hundred-20261111/render.mjs",
+      "sha256": "9850cedfbdb7e6befbbc7e66985a79c1141992cef818db9351bb182721722320"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

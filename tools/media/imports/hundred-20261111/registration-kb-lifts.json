@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-13T14:49:54.067Z",
+  "ids": [
+    "kettlebell-clean",
+    "kettlebell-snatch"
+  ],
+  "files": 6,
+  "batchCompleted": 97,
+  "batchRemaining": 3,
+  "counts": {
+    "reviewed-both-themes": 498,
+    "needs-motion-review": 17,
+    "needs-cutout-review": 14,
+    "needs-new-video": 820,
+    "legacy-needs-remake": 2
+  },
+  "tests": 10,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

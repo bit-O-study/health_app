@@ -1,0 +1,76 @@
+{
+  "trx-hamstring-curl": {
+    "checks": {
+      "exercise": "Bilateral suspended hamstring curl",
+      "equipment": "Heel cradles and constant-length TRX straps, simplified fixed anchor",
+      "setup": "바로 누워 양쪽 뒤꿈치를 TRX 발걸이에 넣고 발끝을 정강이 쪽으로 당긴다. 양손을 몸 옆 바닥에 두고 엉덩이를 들어 올린다.",
+      "hands": "Open palms fixed at floor level",
+      "feet": "Both heels in cradles, dorsiflexed feet move together",
+      "movement": "엉덩이를 바닥에서 띄운 채 양쪽 무릎을 굽혀 뒤꿈치를 몸 쪽으로 당긴다. 두 다리를 함께 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not motion capture.",
+      "Simplified rigid cradles and straps; no load or fabric simulation.",
+      "Near-extension start with knees slightly bent; sampled clearances are not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:36:33.932Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/final.jpg",
+        "sha256": "125759e124976cf9832a45ca27643aad348087403888649f7f336a11acfeb989"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/final-dark.jpg",
+        "sha256": "0f3d14d10651ad15c2886f22ed2e5de6aa91ed5c13763b47f90cb9ecc56c17ad"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/full-sheet.png",
+        "sha256": "39f0655ee98edca5207c83a9070fd8dad46edba5cdfa39b31af28d377f82f460"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/side-sheet.png",
+        "sha256": "44b3538b5cc550665d87e71753cfe42a4b63bbac7a60db7d94f073a72f841d17"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/verification.json",
+        "sha256": "a0e89505cebd3d9b85dfbd80a1be01a092c2dff9b9e2007637dc21d7650ca3a2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/geometry.json",
+        "sha256": "4ccf277f74eabf53ebcbafcad1861272089b744c6caa27c6113cf3b2a3b330f1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/kinematics.json",
+        "sha256": "fe260c66dd7b1e3279b82fc3b2c67316c9edbcb5aa4421ae0d76a97ea9745afb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/provenance.json",
+        "sha256": "c81d640ff99865d0cb0be99a110b55cbbdb80656669dd9b950c09644b67b5d6b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/trx-hamstring-curl-alpha.webm",
+        "sha256": "2dc7a5cffcc515997971d2a82e3763f1ac9670b6975828bd7588c1fcfa47523b",
+        "bytes": 385372,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/trx-hamstring-curl.mp4",
+        "sha256": "54206311e6ec3eaa04dfcf91576d48f3f1c78d14bca64bbf5c17b49c130bea9a",
+        "bytes": 130438,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/trx-hamstring-curl/trx-hamstring-curl-dark.mp4",
+        "sha256": "adb8a2ac4113756f38ee6753e8159d2d1ceabdb78ac562c51d42b25c3606d6cb",
+        "bytes": 135886,
+        "decode": "passed"
+      }
+    ]
+  }
+}

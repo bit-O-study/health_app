@@ -1,0 +1,15 @@
+{
+  "id": "prone-y-raise",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "prone-y-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.rehabhero.ca/exercise/incline-bench-y-raise"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T02:37:45.176Z"
+}

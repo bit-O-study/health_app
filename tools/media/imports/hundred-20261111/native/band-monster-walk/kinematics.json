@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stanceDrift": 6.473657049138937e-15,
+  "rootHeightDrift": 0,
+  "maxStep": 0.049403767679823005,
+  "minWidth": 4,
+  "travel": 3,
+  "swingLift": 0.7000000000000037,
+  "loopError": 0
+}

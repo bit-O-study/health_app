@@ -1,0 +1,18 @@
+{
+  "id": "prone-y-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "352dac5eb11359466ee4aaeed80e93a24a9141e60ba14d80611d30041094851d",
+  "rigSourceSha256": "b38e3f94e0160191ca93b936e46b8197afc27d8ea550eb04ca2dd11aec1e77db",
+  "videoSha256": "7ee60f0f720b8fb3dfaba46811f1c047f21f53cafff5a29c439a0b8609cb54ac",
+  "darkVideoSha256": "c99970d080b3f30281742247b01d75dd5853a86c9818f3a5439bcf02597ab980",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104748,
+  "darkBytes": 86958,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:37:45.180Z"
+}

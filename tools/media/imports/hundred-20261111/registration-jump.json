@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-12T09:48:37.490Z",
+  "ids": [
+    "jump-squat"
+  ],
+  "files": 3,
+  "batchCompleted": 19,
+  "batchRemaining": 81,
+  "counts": {
+    "reviewed-both-themes": 420,
+    "needs-motion-review": 21,
+    "needs-cutout-review": 15,
+    "needs-new-video": 893,
+    "legacy-needs-remake": 2
+  },
+  "tests": 17,
+  "testFiles": 4,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

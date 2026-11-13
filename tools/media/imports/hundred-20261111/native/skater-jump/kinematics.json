@@ -1,0 +1,10 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stanceDrift": 7.122753468078643e-15,
+  "maxStep": 0.1217237949401615,
+  "airFrames": 166,
+  "freeFootClearance": 1.4499999999999948,
+  "lateralTravel": 5.4,
+  "loopError": 0
+}

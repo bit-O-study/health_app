@@ -1,0 +1,15 @@
+{
+  "id": "donkey-kick",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "donkey-kick-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.rehabhero.ca/exercise/donkey-kick"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T02:19:49.216Z"
+}

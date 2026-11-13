@@ -1,0 +1,22 @@
+import { expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
+vi.mock("server-only", () => ({}));
+vi.mock("@/lib/supabase/server", () => ({ createSupabaseServerClient: () => { throw new Error("Expected built-in media"); } }));
+import { getExerciseMedia } from "@/features/exercises/exercise-media";
+import { methodSteps } from "@/features/routine/exercise-methods";
+it("get-up retains vertical grip, grounded support and leg sweep", async () => {
+  const id = "turkish-get-up";
+  expect(await getExerciseMedia(id, "kettlebell")).toMatchObject({kind: "video", equipmentIds: ["kettlebell"], url: expect.stringContaining(id + ".mp4"), darkUrl: expect.stringContaining(id + "-dark.mp4")});
+  expect(await getExerciseMedia(id, "barbell")).toBeNull();
+  expect(methodSteps(id, "kettlebell").join(" ")).toContain("역순");
+  const p = JSON.parse(readFileSync(`tools/media/motion-guides/${id}-provenance.json`, "utf8"));
+  expect(p.kinematics.frontFootDrift).toBeLessThan(1e-5);
+  expect(p.kinematics.handSupportDrift).toBeLessThan(1e-5);
+  expect(p.kinematics.gripError).toBeLessThan(1e-5);
+  expect(p.kinematics.verticalError).toBeLessThan(1e-5);
+  expect(p.kinematics.sweepDistance).toBeGreaterThan(10);
+  expect(p.kinematics.headRise).toBeGreaterThan(12);
+  expect(p.kinematics.kneelingKneeY).toBeLessThan(-7);
+  expect(p.kinematics.maxStep).toBeLessThan(1.1);
+  expect(p.kinematics.loopError).toBe(0);
+});

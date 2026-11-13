@@ -2,9 +2,15 @@
   "id": "decline-push-up",
   "equipment": "bodyweight",
   "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "decline-push-up-provenance.json",
+  "cutout": true,
   "sources": [
-    "https://www.nasm.org/resource-center/exercise-library/decline-push-up"
+    "https://theprehabguys.com/vimeo-video/decline-push-up/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
   ],
-  "prompt": "Original pearl-gray anatomical3D mannequin with teal shorts gray shoes, uniform gray studio. 16 equal square animationkeyframes in4columns4rows2048x2048. Fixed three-quarter sidecamera, same scale and coordinates, scene occupies central70percent each square so all apparatus/head/feet/weights fit. Sequential half-repetition in16small stages row-major, no row reset. No text arrows labels logos. DECLINE PUSH-UP. BOTH HANDS ON FLOOR slightly wider than shoulders, FEET elevated on low30cm sturdy bench BEHIND body. Head pointsleft and feetright. Start armsnearlystraight and rigidbody plank. Slowlylower chest toward FLOOR in16successive increments by bending elbows backwards45degrees fromribs. Feet remain onbench, hands onfloor. Head shoulders hips heels formstraightline, no hip sag/pike or knee bend. Lastframe chest just abovefloor, then video will reverse. Whole body/bench fullyvisible.",
-  "registeredAt": "2026-09-09T07:19:24.050Z"
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-12T09:33:00.721Z"
 }

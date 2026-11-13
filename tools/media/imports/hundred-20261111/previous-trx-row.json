@@ -1,0 +1,31 @@
+{
+  "trx-row": [
+    {
+      "file": "tools/media/motion-guides/trx-row.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-trx-row/trx-row-0.json",
+      "sha256": "16b0a2650afc105dea48e9a710145b69f76d881b1791f26b537eeb8734963bae"
+    },
+    {
+      "file": "tools/media/motion-guides/trx-row.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-trx-row/trx-row-1.jpg",
+      "sha256": "fc673ea2390adc917588c891bc06aea2477097a748157b09c35b610c388fd2a9"
+    },
+    {
+      "file": "tools/media/motion-guides/trx-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-row.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-trx-row/trx-row-3.mp4",
+      "sha256": "66a189e8e2e0f3a70a7be6358c3bce0168bb95b07a16e91c58b4e49c809b1f95"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/trx-row-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

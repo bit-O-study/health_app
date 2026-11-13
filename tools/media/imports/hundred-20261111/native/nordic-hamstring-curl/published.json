@@ -1,0 +1,18 @@
+{
+  "id": "nordic-hamstring-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "951e5f184ed9ec84b9a15883c30846efccd1439d4c16d7ef817cf0e9dae21ce0",
+  "rigSourceSha256": "406dfbf001b02a031652ae78e9584d842082c64772234af8b9963c86a4d297b0",
+  "videoSha256": "860c55af0f96cf5e706e1ee8b993a51dbcd682e42a65d74f0db167f93a691bda",
+  "darkVideoSha256": "83d329e6bc92cef02293183fefd7ee9e4dba2ab9795b10ebc89efa69ded08179",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 138364,
+  "darkBytes": 137551,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T10:31:44.346Z"
+}

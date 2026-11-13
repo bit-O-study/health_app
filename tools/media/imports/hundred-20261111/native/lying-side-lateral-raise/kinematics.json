@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 0,
+  "gripError": 1.3506446028928517e-15,
+  "maxStep": 0.04808973944507976,
+  "rise": 4.425679913759112,
+  "topArmHorizontal": 0.036340345173526245,
+  "plateBody": 0.09421427648750444,
+  "loopError": 0
+}

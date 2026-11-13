@@ -1,0 +1,80 @@
+{
+  "donkey-kick": [
+    {
+      "file": "tools/media/motion-guides/donkey-kick.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/donkey-kick.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/donkey-kick-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/donkey-kick.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/donkey-kick-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/donkey-kick-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "fire-hydrant": [
+    {
+      "file": "tools/media/motion-guides/fire-hydrant.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/fire-hydrant.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/fire-hydrant-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/fire-hydrant.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/fire-hydrant-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/fire-hydrant-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cat-cow": [
+    {
+      "file": "tools/media/motion-guides/cat-cow.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cat-cow.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cat-cow-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cat-cow.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cat-cow-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cat-cow-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

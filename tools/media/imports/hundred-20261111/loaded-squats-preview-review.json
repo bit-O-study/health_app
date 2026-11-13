@@ -1,0 +1,122 @@
+{
+  "band-squat": {
+    "checks": {
+      "exercise": "Distinct band-squat sequence inspected in full and side sheets",
+      "equipment": "Two bands fixed at outer soles with shoulder-height handles",
+      "setup": "밴드를 양발로 고정하고 양손 손잡이를 어깨 높이에서 잡는다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손 높이를 몸통에 맞춰 유지한다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ],
+    "reviewedAt": "2026-11-13T02:55:51.861Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/full-sheet.png",
+        "sha256": "67be5907c47aece0df0ef9bea37a881affbabe5b796d0e75e4087cc0b20e64a1"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/side-sheet.png",
+        "sha256": "52b05f31719666346d854563cdeda5a6d59e8634895ac358062155320607ec9e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/poses.json",
+        "sha256": "a1d5feedda53f24d4a3c4400873864f0284a19641c7942cf7ef91e80bd740700"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/geometry.json",
+        "sha256": "70114b40adb174aebbfd97b0b9ca1dc8aa8ba72ed917c0abdb3397fbb5985e75"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/band-squat/kinematics.json",
+        "sha256": "3d4df4b119e85db37e738a3c628d006087ff3753fdd79e94b670c7cfff877302"
+      }
+    ]
+  },
+  "overhead-squat": {
+    "checks": {
+      "exercise": "Distinct overhead-squat sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 넓게 잡아 머리 위로 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "팔을 편 상태로 바벨을 머리 위에 유지하며 앉았다가 일어난다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ],
+    "reviewedAt": "2026-11-13T02:55:51.865Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/full-sheet.png",
+        "sha256": "e0cc66f9ab79bf8d80124dda84d47026ea21b1582f2639baa459aa9e01f0bee6"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/side-sheet.png",
+        "sha256": "2553d5e9ad605ea3d17f44fc40a85b8d84f4f04e6afd26a455ff98c7d5946d6b"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/poses.json",
+        "sha256": "61c86a786f5b3ed5a63bca4e4687154faec44aa39e67a4a37a933eb6ea3a10d8"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/geometry.json",
+        "sha256": "2c8b2a6f5fed4843eca5b0c339c45cce951511c85043f45a22b39555f3cfa531"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/overhead-squat/kinematics.json",
+        "sha256": "4bb0a87104ddf656bdb7087a1ba8e6a41bf035a7aeda30213892a25413be3c15"
+      }
+    ]
+  },
+  "thruster": {
+    "checks": {
+      "exercise": "Distinct thruster sequence inspected in full and side sheets",
+      "equipment": "Barbell with two plates; grip targets exactly aligned with shaft",
+      "setup": "바벨을 어깨 앞에 들고 양발을 어깨너비 정도로 벌린다.",
+      "hands": "Closed grips; fixed bilateral width and controlled wrists",
+      "feet": "Both feet and toes stationary through knee flexion",
+      "movement": "스쿼트로 앉았다가 일어나면서 바벨을 머리 위로 밀어 올린다. 바벨을 어깨 앞으로 되돌린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+      "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+      "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+      "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+    ],
+    "reviewedAt": "2026-11-13T02:55:51.867Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/full-sheet.png",
+        "sha256": "1ae5f3366acacf258b09e4eddb10dc5bd90d87d088ea7e2585814b6a5075c885"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/side-sheet.png",
+        "sha256": "7befe87729b2e256f62101350e504efdd06713c799dd2cbe7af045604c7ee252"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/poses.json",
+        "sha256": "8c004736f98dad47e5040a0f911a5ea367fb7b35bf9f189aac100883e4801411"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/geometry.json",
+        "sha256": "09b906ac77e4d57b15236d53bb6a47d2d2f6ca78f267d7d899dec08b4c8d5e53"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/thruster/kinematics.json",
+        "sha256": "5d41e09339a6564c02792ca4c90c65404c430665a889aed9d47c586ded69b3ad"
+      }
+    ]
+  }
+}

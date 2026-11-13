@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T12:24:04.715Z",
+  "ids": [
+    "trx-triceps-extension"
+  ],
+  "files": 3,
+  "batchCompleted": 73,
+  "batchRemaining": 27,
+  "counts": {
+    "reviewed-both-themes": 474,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 842,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

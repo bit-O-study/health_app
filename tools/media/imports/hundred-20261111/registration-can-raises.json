@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-13T02:30:05.733Z",
+  "ids": [
+    "full-can-raise",
+    "empty-can-raise"
+  ],
+  "files": 6,
+  "batchCompleted": 50,
+  "batchRemaining": 50,
+  "counts": {
+    "reviewed-both-themes": 451,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 864,
+    "legacy-needs-remake": 2
+  },
+  "tests": 10,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

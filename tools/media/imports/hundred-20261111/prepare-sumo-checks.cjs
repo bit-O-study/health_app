@@ -1,0 +1,8 @@
+const fs=require('node:fs');
+const base='tools/media/imports/hundred-20261111';
+let check=fs.readFileSync(base+'/check-swing.cjs','utf8').replaceAll('kettlebell-swing','kettlebell-sumo-squat');
+check=check.replace('minKnee>145&&maxKnee>170','minKnee>55&&minKnee<95&&maxKnee>150').replace("assert.ok(p[0].joints.bell[2]<0);assert.ok(Math.abs(p[240].joints.bell[1]-p[240].joints['upperarm01.L'][1])<.2);","assert.ok(p[0].joints.bell[1]-p[240].joints.bell[1]>4);assert.ok(Math.abs(p[0].joints['foot.L'][0]-p[0].joints['foot.R'][0])>5);");
+fs.writeFileSync(base+'/check-kettlebell-sumo.cjs',check);
+let review=fs.readFileSync(base+'/review-swing.cjs','utf8').replaceAll('kettlebell-swing','kettlebell-sumo-squat').replaceAll('swing-preview-review','sumo-preview-review').replace("replaceAll('pushups','swing')","replaceAll('pushups','sumo')").replace('prepare-swing-publication','prepare-sumo-publication');
+review=review.replace('Procedural slow demonstration, not a ballistic dynamics simulation.','Procedural demonstration; kettlebell does not touch the floor.').replace('Two-handed kettlebell swing: hip hinge backswing to shoulder-height extension.','Wide-stance kettlebell sumo squat with knees tracking outward and controlled descent.').replace('sphere and handle follow swing direction','sphere hangs below the handle').replace('Hips move back during hinge and extend on upswing; arms remain long with slight elbow flexion; no overhead lift.','Knees and hips flex for squat; bell lowers between legs and stays below waist; torso remains mostly upright.');
+fs.writeFileSync(base+'/review-kettlebell-sumo.cjs',review);

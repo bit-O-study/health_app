@@ -1,0 +1,32 @@
+{
+  "full-can-raise": {
+    "checks": {
+      "exercise": "Distinct full-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points up at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 위를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ]
+  },
+  "empty-can-raise": {
+    "checks": {
+      "exercise": "Distinct empty-can-raise scaption motion inspected in front and side sheets",
+      "equipment": "Two dumbbells with closed grips",
+      "setup": "양발을 고정하고 덤벨을 든 채 팔을 몸 옆보다 약간 앞쪽에 둔다.",
+      "hands": "Thumb-side grip axis points down at raised position; wrists aligned with forearms",
+      "feet": "Both feet and trunk remain fixed",
+      "movement": "엄지가 아래를 향하도록 잡고 팔을 앞쪽 대각선으로 어깨 높이 아래까지 올렸다가 내린다."
+    },
+    "limitations": [
+      "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+      "Arm elevation limited below shoulder height; small fixed elbow bend.",
+      "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+    ]
+  }
+}

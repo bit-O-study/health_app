@@ -4,8 +4,8 @@
   "expectedFiles": 300,
   "baselineReviewed": 401,
   "targetReviewed": 501,
-  "status": "in-progress",
-  "completed": 15,
+  "status": "completed-local",
+  "completed": 100,
   "entries": [
     {
       "id": "decline-push-up",
@@ -15,18 +15,25 @@
       ],
       "priority": 1,
       "baselineStatus": "needs-motion-review",
-      "status": "awaiting-preview-review",
+      "status": "registered-local",
       "recipe": {
         "family": "push-up",
         "sourceUrls": [
           "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/",
           "https://theprehabguys.com/vimeo-video/decline-push-up/"
         ],
-        "criteria": "Rigid trunk and straight legs; fixed palms and toes; controlled descent and return. Feet supported on elevated bench."
+        "criteria": "Rigid trunk and straight legs; fixed palms and toes; controlled descent and return. Feet supported on elevated bench.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor.",
+          "No rendered floor; support measured against virtual floor at -7.9.",
+          "Sampled geometry checks are not complete mesh collision or human motion certification."
+        ]
       },
       "startedAt": "2026-11-11T02:34:43.954Z",
-      "error": "render.mjs exit 1",
-      "finishedAt": "2026-11-11T02:35:07.527Z"
+      "finishedAt": "2026-11-11T02:35:07.527Z",
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T09:37:13.468Z"
     },
     {
       "id": "kettlebell-swing",
@@ -36,7 +43,22 @@
       ],
       "priority": 2,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "kettlebell-swing",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/january-2025/8788/the-ace-do-it-better-series-the-two-handed-kettlebell-swing/"
+        ],
+        "criteria": "Two-handed swing: hip hinge with bell between thighs, hip extension and long arms to chest/shoulder height; fixed feet and neutral trunk.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration, not a ballistic dynamics simulation.",
+          "Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units.",
+          "Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T10:08:09.468Z"
     },
     {
       "id": "jump-squat",
@@ -46,7 +68,22 @@
       ],
       "priority": 3,
       "baselineStatus": "needs-motion-review",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "jump-squat",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/222/squat-jump/"
+        ],
+        "criteria": "Unloaded squat dip, simultaneous vertical takeoff, airborne extension and bent-knee landing; feet return to the same stance.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slowed demonstration, not real-time jump dynamics.",
+          "Virtual floor support has 0.032–0.058 model-unit clearance; no visible floor.",
+          "Seventeen geometry samples do not certify full mesh collisions or human biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T09:48:37.488Z"
     },
     {
       "id": "farmer-s-carry",
@@ -56,7 +93,22 @@
       ],
       "priority": 4,
       "baselineStatus": "needs-motion-review",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "loaded-carry",
+        "sourceUrls": [
+          "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf"
+        ],
+        "criteria": "Two dumbbells at sides, upright trunk, alternating short steps. Camera-relative loop represents constant forward travel of eight model units per cycle; stance feet fixed in reconstructed world coordinates.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Slow procedural camera-relative walking loop; no visible ground or traveled distance.",
+          "Simplified flat-foot gait without heel-to-toe roll; elbows retain about 20 degrees flexion.",
+          "Seventeen sampled vertex-to-plate clearances do not certify all mesh/handle collisions or human gait biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T10:20:07.066Z"
     },
     {
       "id": "nordic-hamstring-curl",
@@ -66,7 +118,22 @@
       ],
       "priority": 5,
       "baselineStatus": "needs-motion-review",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "nordic-hamstring-curl",
+        "sourceUrls": [
+          "https://theprehabguys.com/vimeo-video/nordic-curl/"
+        ],
+        "criteria": "Kneeling with ankles secured under a padded restraint, hips extended; controlled 45-degree forward lean and return, limited-range variation.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Limited 45-degree unassisted range; not full eccentric-to-floor or hand-assisted return.",
+          "Knee skin support gap up to 0.065 model units; ankle gap about 0.023; padded supports are rigid.",
+          "Sampled geometry is not complete mesh collision or biomechanics certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T10:47:58.692Z"
     },
     {
       "id": "decline-sit-up",
@@ -76,7 +143,21 @@
       ],
       "priority": 6,
       "baselineStatus": "needs-motion-review",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "decline-sit",
+        "sourceUrls": [
+          "https://www.catalystathletics.com/exercise/431/Decline-Sit-Up/"
+        ],
+        "criteria": "Decline bench sit-up, fixed lower body and controlled torso rise.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Hands-near-chest variation, one slowed repetition.",
+          "Sampled support planes, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:32:24.693Z"
     },
     {
       "id": "cable-woodchopper",
@@ -86,7 +167,21 @@
       ],
       "priority": 7,
       "baselineStatus": "needs-motion-review",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "chop",
+        "sourceUrls": [
+          "https://www.bodycraft.com/pdfs/exercise/PFTBook.pdf"
+        ],
+        "criteria": "Two-hand high-to-low diagonal cable chop with modest torso rotation and controlled return.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Bent-elbow short-handle variation with modest torso rotation; one side shown.",
+          "Sampled floor checks and cable-length consistency, not exhaustive collision or force simulation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:29:12.390Z"
     },
     {
       "id": "trx-row",
@@ -96,7 +191,22 @@
       ],
       "priority": 8,
       "baselineStatus": "needs-cutout-review",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-row",
+        "sourceUrls": [
+          "https://www.trxtraining.com/blogs/news/7-basic-movements"
+        ],
+        "criteria": "Bilateral neutral-grip suspension row with straight body, fixed feet and constant-length straps.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural motion, not motion capture; small ankle-pivot whole-body lean.",
+          "Rigid straps and simplified anchor; no load or elasticity simulation.",
+          "Sampled clearance checks, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:02:33.468Z"
     },
     {
       "id": "band-face-pull",
@@ -106,7 +216,23 @@
       ],
       "priority": 9,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "face",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing face with band and both arms; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "손이 얼굴에 부딪히지 않도록 양옆으로 벌린다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "box-jump",
@@ -116,7 +242,22 @@
       ],
       "priority": 10,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "box",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/box-jumps"
+        ],
+        "sourcesCheckedAt": "2026-11-13",
+        "criteria": "Two-foot box jump and controlled alternating backward step-down, then reset.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Low box with controlled backward step-down and two additional reset steps.",
+          "Sampled body/box vertex separation, not exhaustive collision or impact-force certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:58:55.182Z"
     },
     {
       "id": "burpee",
@@ -126,7 +267,21 @@
       ],
       "priority": 11,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "burpee",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/squat-thrust-burpees"
+        ],
+        "criteria": "No-push-up burpee: squat, hands plant, feet jump to plank and back, jump and controlled landing.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "No-push-up teaching variation, slowed eight-second cycle.",
+          "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T15:03:36.561Z"
     },
     {
       "id": "close-grip-push-up",
@@ -136,18 +291,24 @@
       ],
       "priority": 12,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-preview-review",
+      "status": "registered-local",
       "recipe": {
         "family": "push-up",
         "sourceUrls": [
-          "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/",
-          "https://www.puregym.com/exercises/chest/press-up/wide-grip-push-ups/"
+          "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
         ],
-        "criteria": "Rigid trunk and straight legs; fixed palms and toes; controlled descent and return. Hands inside shoulder width; elbows track backward."
+        "criteria": "Rigid trunk and straight legs; fixed palms and toes; controlled descent and return. Hands inside shoulder width; elbows track backward.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor.",
+          "No rendered floor; support measured against virtual floor at -7.9.",
+          "Sampled geometry checks are not complete mesh collision or human motion certification."
+        ]
       },
       "startedAt": "2026-11-11T02:35:07.536Z",
-      "error": "render.mjs exit 1",
-      "finishedAt": "2026-11-11T02:35:36.951Z"
+      "finishedAt": "2026-11-11T02:35:36.951Z",
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T09:37:13.473Z"
     },
     {
       "id": "wide-push-up",
@@ -157,18 +318,25 @@
       ],
       "priority": 13,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-preview-review",
+      "status": "registered-local",
       "recipe": {
         "family": "push-up",
         "sourceUrls": [
           "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/",
           "https://www.puregym.com/exercises/chest/press-up/wide-grip-push-ups/"
         ],
-        "criteria": "Rigid trunk and straight legs; fixed palms and toes; controlled descent and return. Hands wider than shoulders."
+        "criteria": "Rigid trunk and straight legs; fixed palms and toes; controlled descent and return. Hands wider than shoulders.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Elbows retain 7.6–9.1 degrees of flexion at top; chest does not contact the floor.",
+          "No rendered floor; support measured against virtual floor at -7.9.",
+          "Sampled geometry checks are not complete mesh collision or human motion certification."
+        ]
       },
       "startedAt": "2026-11-11T02:35:36.955Z",
-      "error": "render.mjs exit 1",
-      "finishedAt": "2026-11-11T02:36:56.395Z"
+      "finishedAt": "2026-11-11T02:36:56.395Z",
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T09:37:13.473Z"
     },
     {
       "id": "high-cable-fly",
@@ -178,7 +346,22 @@
       ],
       "priority": 14,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "highfly",
+        "sourceUrls": [
+          "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+        ],
+        "criteria": "Standing highfly with cable; fixed feet, controlled movement and aligned handles.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "External rotation demonstrates left arm only.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T00:31:53.547Z"
     },
     {
       "id": "wide-grip-cable-row",
@@ -188,7 +371,22 @@
       ],
       "priority": 15,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-row",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+        ],
+        "criteria": "Seated upright row with stable seat and footplates; wide handles and wider elbows",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:09:09.130Z"
     },
     {
       "id": "single-arm-cable-row",
@@ -198,7 +396,22 @@
       ],
       "priority": 16,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-row",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+        ],
+        "criteria": "Seated upright row with stable seat and footplates; left arm only",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:09:09.132Z"
     },
     {
       "id": "single-arm-lat-pulldown",
@@ -208,7 +421,23 @@
       ],
       "priority": 17,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "pulldown",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing pulldown with cable and one working arm; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "영상은 왼팔을 움직이는 서서 하는 변형이며 반대쪽도 같은 방식으로 수행한다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "cable-shrug",
@@ -218,7 +447,22 @@
       ],
       "priority": 18,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "shrug",
+        "sourceUrls": [
+          "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+        ],
+        "criteria": "Standing shrug with cable; fixed feet, controlled movement and aligned handles.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "External rotation demonstrates left arm only.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T00:31:53.547Z"
     },
     {
       "id": "incline-rear-delt-raise",
@@ -228,7 +472,22 @@
       ],
       "priority": 19,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "chest-supported-pull",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/34/incline-reverse-fly/"
+        ],
+        "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; incline-rear-delt-raise arm path with bilateral dumbbells.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration, not motion capture or clinical certification.",
+          "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+          "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:38:28.537Z"
     },
     {
       "id": "pause-squat",
@@ -760,7 +1019,23 @@
       ],
       "priority": 33,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "row",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing row with band and both arms; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "몸통을 뒤로 젖히지 않고 양발을 고정한다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.081Z"
     },
     {
       "id": "band-chest-press",
@@ -770,7 +1045,23 @@
       ],
       "priority": 34,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "press",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing press with band and both arms; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "팔꿈치를 몸통 가까이에 두고 허리를 젖히지 않는다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "band-row",
@@ -780,7 +1071,22 @@
       ],
       "priority": 35,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-row",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/48/seated-row/"
+        ],
+        "criteria": "Seated upright row with stable seat and footplates; bilateral band anchored ahead",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "Single-arm row demonstrates left arm only; wide row uses two independent handles.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:09:09.132Z"
     },
     {
       "id": "band-pulldown",
@@ -790,7 +1096,23 @@
       ],
       "priority": 36,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "pulldown",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing pulldown with band and both arms; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "영상은 서서 하는 풀다운이며 무릎을 굽혀 반동을 주지 않는다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "band-shoulder-press",
@@ -800,7 +1122,23 @@
       ],
       "priority": 37,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "overhead",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing overhead with band and both arms; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "영상은 바닥 지지점에 고정한 밴드를 사용한다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "band-squat",
@@ -810,7 +1148,23 @@
       ],
       "priority": 38,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "loaded-squat",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/135/bodyweight-squat/"
+        ],
+        "criteria": "Planted feet and controlled squat with bands under feet and shoulder-height handles.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+          "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+          "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+          "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:00:29.124Z"
     },
     {
       "id": "double-kettlebell-press",
@@ -838,7 +1192,22 @@
       ],
       "priority": 40,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "kettlebell-sumo-squat",
+        "sourceUrls": [
+          "https://www.nuffieldhealth.com/article/how-to-kettlebell-squat"
+        ],
+        "criteria": "Wide stance, toes outward, single kettlebell held between legs with long arms; knees track toes, controlled squat and stand.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural demonstration; kettlebell does not touch the floor.",
+          "Elbows retain approximately 20 degrees of flexion; no visible floor; sole clearance about 0.0325 model units.",
+          "Seventeen sampled vertex-to-bell checks do not certify full mesh collision, handle clearance or human biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T10:08:09.471Z"
     },
     {
       "id": "dumbbell-front-squat",
@@ -867,7 +1236,23 @@
       ],
       "priority": 42,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "front",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing front with cable and one working arm; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "영상은 왼팔 시범이며 몸통을 뒤로 젖히지 않는다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "single-arm-cable-lateral-raise",
@@ -877,7 +1262,23 @@
       ],
       "priority": 43,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "lateral",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing lateral with cable and one working arm; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "영상은 왼팔 시범이며 어깨를 으쓱하지 않는다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "standing-cable-chest-press",
@@ -887,7 +1288,23 @@
       ],
       "priority": 44,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "press",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing press with cable and both arms; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "기구를 등지고 서며 몸통을 흔들지 않는다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "standing-cable-reverse-fly",
@@ -897,7 +1314,22 @@
       ],
       "priority": 45,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "reversefly",
+        "sourceUrls": [
+          "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+        ],
+        "criteria": "Standing reversefly with cable; fixed feet, controlled movement and aligned handles.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "External rotation demonstrates left arm only.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T00:31:53.547Z"
     },
     {
       "id": "single-arm-machine-chest-press",
@@ -907,7 +1339,22 @@
       ],
       "priority": 46,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "machine-chest-press",
+        "sourceUrls": [
+          "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html"
+        ],
+        "criteria": "Seated independent left-arm machine-chest-press with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Slow procedural left-arm demonstration; right side is not animated.",
+          "Simplified lever and stack geometry, not a specific commercial machine.",
+          "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:22.832Z"
     },
     {
       "id": "single-arm-machine-shoulder-press",
@@ -917,7 +1364,22 @@
       ],
       "priority": 47,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "machine-shoulder-press",
+        "sourceUrls": [
+          "https://www.technogym.com/en-GB/product/artis-shoulder-press_MK69EH.html"
+        ],
+        "criteria": "Seated independent left-arm machine-shoulder-press with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Slow procedural left-arm demonstration; right side is not animated.",
+          "Simplified lever and stack geometry, not a specific commercial machine.",
+          "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:22.834Z"
     },
     {
       "id": "single-arm-pec-deck-fly",
@@ -927,7 +1389,22 @@
       ],
       "priority": 48,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "pec-deck",
+        "sourceUrls": [
+          "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html"
+        ],
+        "criteria": "Seated independent left-arm pec-deck with right arm and lever stationary; fixed seat/back/feet, closed grip and constant lever length.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Slow procedural left-arm demonstration; right side is not animated.",
+          "Simplified lever and stack geometry, not a specific commercial machine.",
+          "Support gaps approximately 0.02 model units; sampled geometry is not full mesh collision or biomechanical certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:22.834Z"
     },
     {
       "id": "single-arm-straight-arm-pulldown",
@@ -937,7 +1414,23 @@
       ],
       "priority": 49,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "straight",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/july-2025/8897/the-ace-workout-builder-for-resistance-band-workouts/"
+        ],
+        "criteria": "Standing straight with cable and one working arm; fixed feet, gripped handles and visible anchors.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration; not human capture or resistance dynamics.",
+          "Simplified anchors/machine and handles; no rendered floor; sole gap approximately 0.045 model units.",
+          "Seventeen sampled geometry checks do not certify full mesh collision or biomechanics.",
+          "영상은 왼팔 시범이며 팔꿈치를 굽혀 당기는 풀다운과 구분한다"
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-12T23:59:01.083Z"
     },
     {
       "id": "full-can-raise",
@@ -947,7 +1440,22 @@
       ],
       "priority": 50,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "scaption",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/"
+        ],
+        "criteria": "Bilateral dumbbell elevation in plane 30 degrees anterior to frontal plane; thumbs up; fixed feet and trunk, shoulder-height range.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+          "Arm elevation limited below shoulder height; small fixed elbow bend.",
+          "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:30:05.731Z"
     },
     {
       "id": "empty-can-raise",
@@ -957,7 +1465,22 @@
       ],
       "priority": 51,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "scaption",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4732390/"
+        ],
+        "criteria": "Bilateral dumbbell elevation in plane 30 degrees anterior to frontal plane; thumbs down; fixed feet and trunk, shoulder-height range.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural shoulder/forearm rotations; no physiological muscle simulation or full mesh collision certification.",
+          "Arm elevation limited below shoulder height; small fixed elbow bend.",
+          "Virtual floor at -7.9; no floor visible. Source study is a motion reference, not clinical suitability certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:30:05.732Z"
     },
     {
       "id": "cable-external-rotation",
@@ -967,7 +1490,22 @@
       ],
       "priority": 52,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "external",
+        "sourceUrls": [
+          "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation"
+        ],
+        "criteria": "Standing external with cable; fixed feet, controlled movement and aligned handles.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "External rotation demonstrates left arm only.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T00:31:53.543Z"
     },
     {
       "id": "band-external-rotation",
@@ -977,7 +1515,22 @@
       ],
       "priority": 53,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "external",
+        "sourceUrls": [
+          "https://www.merckmanuals.com/professional/multimedia/video/standing-resisted-shoulder-external-rotation"
+        ],
+        "criteria": "Standing external with band; fixed feet, controlled movement and aligned handles.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "External rotation demonstrates left arm only.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T00:31:53.547Z"
     },
     {
       "id": "clamshell",
@@ -987,7 +1540,23 @@
       ],
       "priority": 54,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "clamshell",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/blog/training/the-banded-clamshell-a-simple-move-for-stronger-glutes"
+        ],
+        "criteria": "Side-lying banded clamshell with fixed pelvis and stacked feet; controlled upper-knee opening.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Upper hand placed at hip rather than on floor as in source.",
+          "Band path follows sampled garment/body outline with a small visual offset; no elastic-force simulation.",
+          "Sampled vertex clearances are not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:19:12.421Z"
     },
     {
       "id": "fire-hydrant",
@@ -997,7 +1566,23 @@
       ],
       "priority": 55,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "quadruped",
+        "sourceUrls": [
+          "https://www.rehabhero.ca/exercise/fire-hydrant"
+        ],
+        "criteria": "Bent-knee hip abduction, pelvis level and palms fixed",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+          "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+          "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+          "Right-side demonstration; repeat on the other side."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:21:26.638Z"
     },
     {
       "id": "single-leg-glute-bridge",
@@ -1007,7 +1592,22 @@
       ],
       "priority": 56,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "single-bridge",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/glutes/glute-bridge/single-leg-glute-bridges/"
+        ],
+        "criteria": "Supine unilateral bridge with left foot planted, right knee held bent and lifted, pelvis level and controlled hip extension.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural left-leg example; repeat on opposite side.",
+          "Small floor clearances are sampled; no exhaustive collision certification.",
+          "Bent raised-knee variation with a controlled partial hip-extension range."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:31:59.317Z"
     },
     {
       "id": "donkey-kick",
@@ -1017,7 +1617,23 @@
       ],
       "priority": 57,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "quadruped",
+        "sourceUrls": [
+          "https://www.rehabhero.ca/exercise/donkey-kick"
+        ],
+        "criteria": "Bent-knee hip extension, pelvis level and palms fixed",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+          "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+          "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+          "Right-side demonstration; repeat on the other side."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:21:26.636Z"
     },
     {
       "id": "cat-cow",
@@ -1027,7 +1643,23 @@
       ],
       "priority": 58,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "quadruped",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/15/cat-cow/"
+        ],
+        "criteria": "Controlled spinal flexion and extension with fixed hands and knees",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural animation with simplified skin and clothing; no full mesh collision certification.",
+          "No rendered floor; palm and support-knee skin heights agree within 0.004 model units.",
+          "Support knee flexion is approximately 76 degrees; toes are relaxed above the virtual floor.",
+          "Small-range spinal flexion/extension; eight-second loop does not reproduce the source hold duration."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:21:26.638Z"
     },
     {
       "id": "downward-dog",
@@ -1037,7 +1669,23 @@
       ],
       "priority": 59,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "downward-dog",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/18/downward-facing-dog/"
+        ],
+        "criteria": "Fixed palms and feet, controlled inverted V with neutral trunk and relaxed knees.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural pose demonstration, not captured human motion.",
+          "Shows supported hold and small weight adjustment, not full plank-to-dog transition.",
+          "Clothing is a skinned surface without fabric simulation.",
+          "Sampled floor clearances are not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:52:45.545Z"
     },
     {
       "id": "prone-cobra",
@@ -1047,7 +1695,22 @@
       ],
       "priority": 60,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "prone-cobra",
+        "sourceUrls": [
+          "https://www.lesmills.com/articles/prone-cobra"
+        ],
+        "criteria": "Prone thoracic extension with arms reaching toward feet, thumbs up, pelvis and legs supported.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural spinal extension of 2–20 degrees, not motion capture.",
+          "Three-second illustrated hold within the eight-second loop; not a prescribed training duration.",
+          "Virtual floor clearances and sampled geometry; no tissue compression or complete collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:20:15.881Z"
     },
     {
       "id": "scapular-pull-up",
@@ -1057,7 +1720,22 @@
       ],
       "priority": 61,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "scapular-pull",
+        "sourceUrls": [
+          "https://yogiathletics.com/library/scapular-pull-up"
+        ],
+        "criteria": "Fixed overhand grips and near-straight elbows; small torso rise via shoulder-girdle depression without kicking.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Shoulder-girdle glide approximated by clavicle translation; not anatomical scapular simulation or motion capture.",
+          "Five degrees retained elbow bend; 0.45 model-unit torso rise.",
+          "Sampled bar/body clearance, not exhaustive mesh collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:30:24.983Z"
     },
     {
       "id": "band-monster-walk",
@@ -1067,7 +1745,23 @@
       ],
       "priority": 62,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "monster-walk",
+        "sourceUrls": [
+          "https://www.catalystathletics.com/exercise/500/Monster-Walk/"
+        ],
+        "criteria": "Banded quarter-squat diagonal steps forward and backward with lifted swing foot and stable stance foot.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Two forward and two backward steps; band above knees instead of below-knee source setup.",
+          "Band follows sampled surface outline with small offset; no elastic-force simulation.",
+          "Sampled vertex clearances, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:27:05.172Z"
     },
     {
       "id": "medicine-ball-russian-twist",
@@ -1077,7 +1771,23 @@
       ],
       "priority": 63,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "ball-twist",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/russian-twist"
+        ],
+        "criteria": "Seated medicine-ball Russian twist with grounded feet, fixed pelvis and controlled torso rotation.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Feet-down variation with modest torso rotation; ball does not touch floor.",
+          "Small skin/equipment separation prevents rendering intersections; no contact-force simulation.",
+          "Sampled vertex clearances, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:36:39.127Z"
     },
     {
       "id": "stability-ball-hamstring-curl",
@@ -1087,7 +1797,22 @@
       ],
       "priority": 64,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "ball-curl",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/legs/hamstring-exercises/hamstring-curls/swiss-ball-hamstring-curls/"
+        ],
+        "criteria": "Supine bilateral hamstring curl with heels on a rolling stability ball, raised hips and fixed palms/head.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Rigid ball with rolling rotation; no compression or friction simulation.",
+          "Sampled heel contact and body clearances, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:43:51.352Z"
     },
     {
       "id": "trx-chest-press",
@@ -1097,7 +1822,22 @@
       ],
       "priority": 65,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-chest",
+        "sourceUrls": [
+          "https://www.trxtraining.com/blogs/news/7-basic-movements"
+        ],
+        "criteria": "Facing away from anchor, rigid plank and fixed feet, elbow flexion while lowering chest and extension while pressing away; constant strap length.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Rigid straps and simplified anchor; no loading simulation.",
+          "Sampled body clearance; no exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:08:11.827Z"
     },
     {
       "id": "trx-lunge",
@@ -1107,7 +1847,22 @@
       ],
       "priority": 66,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-assisted",
+        "sourceUrls": [
+          "https://www.trxtraining.com/blogs/news/trx-is-functional-fitness"
+        ],
+        "criteria": "Assisted grounded split-stance lunge facing fixed suspension anchor.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+          "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation.",
+          "Grounded assisted lunge variation, not suspended-foot lunge; left-leg-leading example."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T11:56:41.891Z"
     },
     {
       "id": "trx-biceps-curl",
@@ -1117,7 +1872,22 @@
       ],
       "priority": 67,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-biceps",
+        "sourceUrls": [
+          "https://www.trxtraining.com/blogs/news/5-trx-bicep-workouts-you-should-be-doing-daily"
+        ],
+        "criteria": "Supinated suspension biceps curl, elbows elevated, hands approach forehead, rigid body and fixed feet.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not motion capture.",
+          "Rigid straps and simplified anchor; no load simulation.",
+          "Sampled clearances, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:17:27.784Z"
     },
     {
       "id": "trx-triceps-extension",
@@ -1127,7 +1897,22 @@
       ],
       "priority": 68,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-triceps",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/80/trx-reg-overhead-triceps-extension/"
+        ],
+        "criteria": "Facing away from anchor, elbows forward and overhead, flex and extend elbows with rigid body; fixed feet and strap lengths.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural parallel-stance variation; source also demonstrates split stance.",
+          "Rigid straps and simplified frame; no load simulation.",
+          "Sampled body clearance, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:24:04.712Z"
     },
     {
       "id": "trx-hamstring-curl",
@@ -1137,7 +1922,22 @@
       ],
       "priority": 69,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-hamstring",
+        "sourceUrls": [
+          "https://www.trxtraining.com/blogs/news/trx-hamstring-circuit"
+        ],
+        "criteria": "Supine bilateral suspension hamstring curl with heels in cradles, dorsiflexed feet, hips elevated and fixed palms/head.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not motion capture.",
+          "Simplified rigid cradles and straps; no load or fabric simulation.",
+          "Near-extension start with knees slightly bent; sampled clearances are not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T12:40:27.067Z"
     },
     {
       "id": "trx-squat",
@@ -1147,7 +1947,21 @@
       ],
       "priority": 70,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "trx-assisted",
+        "sourceUrls": [
+          "https://www.trxtraining.com/blogs/news/trx-is-functional-fitness"
+        ],
+        "criteria": "Two-foot planted squat facing fixed suspension anchor.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration; sampled clearance, not exhaustive mesh collision certification.",
+          "Rigid tensioned straps with simplified anchor support; no strap elasticity or load simulation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T11:56:41.889Z"
     },
     {
       "id": "overhead-squat",
@@ -1157,7 +1971,23 @@
       ],
       "priority": 71,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "loaded-squat",
+        "sourceUrls": [
+          "https://www.crossfit.com/essentials/the-overhead-squat"
+        ],
+        "criteria": "Planted feet and controlled squat with wide overhead bar hold.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+          "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+          "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+          "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:00:29.127Z"
     },
     {
       "id": "thruster",
@@ -1167,7 +1997,23 @@
       ],
       "priority": 72,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "loaded-squat",
+        "sourceUrls": [
+          "https://www.crossfit.com/essentials/the-thruster"
+        ],
+        "criteria": "Planted feet and controlled squat with front rack, squat then overhead extension.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration; not ballistic force simulation or human motion capture.",
+          "Small retained top elbow bend; virtual floor with 0.0325 model-unit sole clearance.",
+          "Sampled bar/central-body and plate clearances; band checks cover torso and legs excluding grasp/contact areas, not complete mesh collision certification.",
+          "Thruster shows a full-hand front hold and forward arc around face; it does not simulate bar pressure on shoulder tissue."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:00:29.127Z"
     },
     {
       "id": "push-jerk",
@@ -1177,7 +2023,21 @@
       ],
       "priority": 73,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "jerk",
+        "sourceUrls": [
+          "https://www.catalystathletics.com/exercise/405/Push-Jerk/"
+        ],
+        "criteria": "Vertical dip, leg drive, second knee bend while receiving overhead, stand and controlled rack return; feet remain planted.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Slowed eight-second technique sequence; not a prescription of explosive lifting speed.",
+          "Sampled geometry checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:22:57.772Z"
     },
     {
       "id": "power-clean",
@@ -1187,7 +2047,21 @@
       ],
       "priority": 74,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "cleans",
+        "sourceUrls": [
+          "https://www.nsca.com/education/articles/kinetic-select/power-clean/"
+        ],
+        "criteria": "Floor pull, leg drive, front-rack partial-squat catch and stand.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Slowed planted-foot teaching sequence without flight or foot repositioning.",
+          "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:42:17.119Z"
     },
     {
       "id": "hang-clean",
@@ -1197,7 +2071,21 @@
       ],
       "priority": 75,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "cleans",
+        "sourceUrls": [
+          "https://www.benning.army.mil/TENANT/75THRANGER/content/PDF/RAW%20Handbook%20Final%20v4.pdf"
+        ],
+        "criteria": "Above-knee hang, leg drive, front-rack squat catch and stand.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Slowed planted-foot teaching sequence without flight or foot repositioning.",
+          "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:42:17.122Z"
     },
     {
       "id": "kettlebell-clean",
@@ -1207,7 +2095,21 @@
       ],
       "priority": 76,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "kb-lifts",
+        "sourceUrls": [
+          "https://www.strongfirst.com/an-olympic-weightlifting-approach-to-coaching-the-kettlebell-clean/"
+        ],
+        "criteria": "One-arm hip-driven clean to front rack.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Slowed hang-start teaching variation; no full ballistic backswing.",
+          "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:49:54.062Z"
     },
     {
       "id": "kettlebell-snatch",
@@ -1217,7 +2119,21 @@
       ],
       "priority": 77,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "kb-lifts",
+        "sourceUrls": [
+          "https://www.strongfirst.com/mind-the-drop-tame-the-arc-for-better-snatches/"
+        ],
+        "criteria": "One-arm hip-driven snatch to overhead lockout.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Slowed hang-start teaching variation; no full ballistic backswing.",
+          "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:49:54.065Z"
     },
     {
       "id": "kettlebell-windmill",
@@ -1227,7 +2143,21 @@
       ],
       "priority": 78,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "windmill",
+        "sourceUrls": [
+          "https://www.strongfirst.com/kettlebell-windmill-101/"
+        ],
+        "criteria": "Angled stable feet, hip hinge with straight trunk, overhead arm vertical, free hand lowering along front leg.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Moderate-depth hip hinge; ground touch is not required.",
+          "Sampled clearance checks, not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:55:20.907Z"
     },
     {
       "id": "turkish-get-up",
@@ -1237,7 +2167,21 @@
       ],
       "priority": 79,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "getup",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/prosource/november-2015/5686/ace-technique-series-turkish-get-up/"
+        ],
+        "criteria": "Supine to elbow/hand support, hip lift, leg sweep, half kneel, stand and reverse, bell vertical.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Eight-second illustrated sequence; real practice should pause at each stable position.",
+          "Floor-aware joint placement and 49 sampled clearance checks; not exhaustive collision or biomechanical validation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T15:16:02.732Z"
     },
     {
       "id": "battle-rope-wave",
@@ -1247,7 +2191,23 @@
       ],
       "priority": 80,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "battle",
+        "sourceUrls": [
+          "https://www.acefitness.org/continuing-education/certified/research/7470/muscle-activation-during-battle-rope-exercises/"
+        ],
+        "criteria": "Alternating rope waves from a stable shallow squat, with fixed floor anchor and opposing hand motion.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Small-wave variation below shoulder height; four slowed cycles in eight seconds.",
+          "Driven traveling curves with slack; rope length and tension are not physically simulated.",
+          "Sampled vertex checks, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:11:57.529Z"
     },
     {
       "id": "sled-push",
@@ -1257,7 +2217,23 @@
       ],
       "priority": 81,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "sleds",
+        "sourceUrls": [
+          "https://ceu-quizzes-cdn.ncsf.org/training-programming/Push_or_Pull_Using_Sleds_for_Sports_Performance.pdf"
+        ],
+        "criteria": "Forward sled push with fixed hands on uprights and camera-follow walking cycle.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Camera follows the athlete and sled; no floor is rendered.",
+          "Two slowed gait cycles in eight seconds.",
+          "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:17:45.991Z"
     },
     {
       "id": "sled-pull",
@@ -1267,7 +2243,23 @@
       ],
       "priority": 82,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "sleds",
+        "sourceUrls": [
+          "https://www.army.mil/article-amp/215757/sprint_drag_carry"
+        ],
+        "criteria": "Backward sled drag with strap handles and camera-follow walking cycle.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Camera follows the athlete and sled; no floor is rendered.",
+          "Two slowed gait cycles in eight seconds.",
+          "Sampled base-platform clearance; not exhaustive equipment collision or force simulation."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:17:45.993Z"
     },
     {
       "id": "jump-lunge",
@@ -1277,7 +2269,22 @@
       ],
       "priority": 83,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "jump-lunge",
+        "sourceUrls": [
+          "https://www.ucd.ie/healthyucd/t4media/HEAL%20Exercise%20Bank%20Advance.pdf"
+        ],
+        "sourcesCheckedAt": "2026-11-13",
+        "criteria": "Split-squat jump with legs switching only in flight, soft bent-knee landings and a continuous two-jump loop.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Two slowed jumps in eight seconds; timing illustrates technique rather than real-time athletic speed.",
+          "No impact force simulation or exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:41:29.536Z"
     },
     {
       "id": "broad-jump",
@@ -1287,7 +2294,22 @@
       ],
       "priority": 84,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "broad",
+        "sourceUrls": [
+          "https://www.catalystathletics.com/exercise/549/Broad-Jump/"
+        ],
+        "criteria": "Standing broad jump with simultaneous takeoff and landing, followed by four backward reset steps.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "One moderate-distance jump and four reset steps in eight seconds.",
+          "No impact-force simulation or exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:51:50.682Z"
     },
     {
       "id": "skater-jump",
@@ -1297,7 +2319,22 @@
       ],
       "priority": 85,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "skater",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/skate-jumps"
+        ],
+        "sourcesCheckedAt": "2026-11-13",
+        "criteria": "Lateral bounds with alternating single-foot landings, free leg behind and balanced reciprocal arm action.",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Two slowed lateral bounds in eight seconds with balance pauses.",
+          "No impact force simulation or exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:47:46.121Z"
     },
     {
       "id": "jump-rope",
@@ -1307,7 +2344,23 @@
       ],
       "priority": 86,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "jump-rope",
+        "sourceUrls": [
+          "https://contentcdn.eacefitness.com/assets/education-resources/lifestyle/fitfacts/pdfs/fitfacts/itemid_2688.pdf"
+        ],
+        "criteria": "Four two-foot rope jumps with wrist-led rotation and clearance beneath airborne feet.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Four slowed rope revolutions in eight seconds.",
+          "Rope is a driven arc without full flexible-rope or impact physics.",
+          "25 angular samples supplement 17 cycle samples; not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T14:04:38.379Z"
     },
     {
       "id": "squeeze-press",
@@ -1317,7 +2370,22 @@
       ],
       "priority": 87,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-dumbbell-press",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/node/4096"
+        ],
+        "criteria": "Neutral dumbbells together through vertical press, tucked elbows and bench support.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration; not captured human movement or full collision certification.",
+          "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+          "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:48:21.481Z"
     },
     {
       "id": "decline-dumbbell-fly",
@@ -1327,7 +2395,22 @@
       ],
       "priority": 88,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "decline-fly",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/chest/chest-fly/decline-dumbbell-fly/"
+        ],
+        "criteria": "Thirty-degree head-down supported bench, planted feet on elevated platform, fixed elbow bend and chest-level fly arc.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration; not captured human motion.",
+          "Elevated foot platform represents one supported setup; no bench entry or exit.",
+          "Sampled equipment/body and support checks; not exhaustive mesh collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:46:52.993Z"
     },
     {
       "id": "smith-machine-decline-press",
@@ -1337,7 +2420,22 @@
       ],
       "priority": 89,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "smith-decline",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/decline-smith-machine-bench-press.html"
+        ],
+        "criteria": "Supported head-down bench press with fixed feet, closed overhand grip, elbow extension and vertical guided bar.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Bar stops approximately 0.11 model units above sampled torso surface; no chest bounce.",
+          "Bench entry/exit and rack unlocking omitted; sampled clearance, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:54:04.832Z"
     },
     {
       "id": "incline-machine-chest-press",
@@ -1347,7 +2445,22 @@
       ],
       "priority": 90,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "incline-machine",
+        "sourceUrls": [
+          "https://resources.lifefitness.com/hub/life-fitness/en-US/1000419-0001-xd_32ce9968be620066-6b5ac64-1817a3e5ec1--7f3d.ditamap?onepage=true"
+        ],
+        "criteria": "Supported reclined seated torso with planted feet, closed horizontal handles and upward-forward fixed-length machine lever arc.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Generic simplified machine; not an exact manufacturer model.",
+          "Procedural animation and sampled geometry checks; not captured human motion or exhaustive mesh collision certification.",
+          "Seat adjustments and loading omitted; elbows stop short of lockout."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T04:00:51.464Z"
     },
     {
       "id": "incline-bench-dumbbell-row",
@@ -1357,7 +2470,22 @@
       ],
       "priority": 91,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "chest-supported-pull",
+        "sourceUrls": [
+          "https://contentcdn.eacefitness.com/certifiednews/images/article/pdfs/ACEShoulderStudy.pdf"
+        ],
+        "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; incline-bench-dumbbell-row arm path with bilateral dumbbells.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration, not motion capture or clinical certification.",
+          "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+          "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:38:28.540Z"
     },
     {
       "id": "smith-machine-bent-over-row",
@@ -1367,7 +2495,23 @@
       ],
       "priority": 92,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "smith-row",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/smith-machine-bent-over-row.html"
+        ],
+        "criteria": "Fixed hinged torso and feet; overhand row with a vertical bar path on two rails.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration, not captured human motion.",
+          "Limited range with the bar stopping short of abdominal contact; virtual floor clearance 0.0325 model units.",
+          "17 sampled body/plate and central-body/shaft clearances; not exhaustive mesh collision certification.",
+          "Rack release and safety catches omitted from the repeated exercise cycle."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:10:07.213Z"
     },
     {
       "id": "leaning-cable-lateral-raise",
@@ -1377,7 +2521,24 @@
       ],
       "priority": 93,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "leaning-cable",
+        "sourceUrls": [
+          "https://www.majorfitness.com/blogs/training-tips/cable-lateral-raise",
+          "https://legionathletics.com/cable-lateral-raise/"
+        ],
+        "criteria": "Supported fixed lateral lean with one-arm lateral raise, grounded feet and cable stack travel.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Fixed 12-degree lean and left-arm example; opposite side is not shown.",
+          "Cable lower-body clearance checked at sampled vertices; not exhaustive collision certification.",
+          "Idealized single-ratio cable system without friction."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T13:01:25.766Z"
     },
     {
       "id": "lying-side-lateral-raise",
@@ -1387,7 +2548,24 @@
       ],
       "priority": 94,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "lying-raise",
+        "sourceUrls": [
+          "https://www.muscleandfitness.com/exercise/workouts/shoulder-exercises/side-lying-lateral-raise/"
+        ],
+        "criteria": "Side-lying single dumbbell lateral raise with lower arm supporting head, stable torso and controlled shoulder abduction.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Procedural demonstration, not captured human motion.",
+          "Floor variation; reference illustrates inclined bench setup.",
+          "Left-arm example only; opposite side not shown.",
+          "Sampled mesh vertices and plate clearances, not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "previewRefreshReason": "Final render regenerated side-sheet PNG; re-inspected current sheet and reran numeric checks. Source and pose hashes unchanged.",
+      "registeredAt": "2026-11-13T13:12:49.434Z"
     },
     {
       "id": "cable-y-raise",
@@ -1397,7 +2575,22 @@
       ],
       "priority": 95,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "yraise",
+        "sourceUrls": [
+          "https://www.puregym.com/blog/a-beginner-s-guide-to-cable-machines/?pp=1"
+        ],
+        "criteria": "Standing yraise with cable; fixed feet, controlled movement and aligned handles.",
+        "sourcesCheckedAt": "2026-11-12",
+        "limitations": [
+          "Procedural slow demonstration with simplified equipment, not human motion capture.",
+          "External rotation demonstrates left arm only.",
+          "Seventeen geometry samples do not certify full mesh collision or biomechanics."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T00:31:53.547Z"
     },
     {
       "id": "tate-press",
@@ -1407,7 +2600,22 @@
       ],
       "priority": 96,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-dumbbell-press",
+        "sourceUrls": [
+          "https://www.strengthlog.com/tate-press/"
+        ],
+        "criteria": "Elbows flare outward as dumbbells fold toward chest, then extend elbows; supported head and back.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration; not captured human movement or full collision certification.",
+          "Small elbow bend retained at top; the bottom deliberately stops above the chest.",
+          "Squeeze dumbbells maintain a small geometric gap rather than simulating compression force. Sampled plate/body/pad and inter-dumbbell clearances are recorded."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:48:21.482Z"
     },
     {
       "id": "landmine-squat",
@@ -1417,7 +2625,22 @@
       ],
       "priority": 97,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "landmine-squat",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/legs/quad-exercises/squats/landmine-squat/"
+        ],
+        "criteria": "Planted squat holding a compact landmine handle; constant bar length and fixed floor anchor.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Generic compact transverse handle rather than bare-sleeve cup grip.",
+          "Slow procedural motion with fixed 20-unit bar; no force or tissue simulation.",
+          "Sampled plate and central-body/shaft clearance; not exhaustive collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:35:28.765Z"
     },
     {
       "id": "smith-machine-split-squat",
@@ -1427,7 +2650,22 @@
       ],
       "priority": 98,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "smith-split",
+        "sourceUrls": [
+          "https://vimeo.com/223935814"
+        ],
+        "criteria": "Fixed split stance with rear forefoot on floor, upright trunk, upper-back bar and vertical guided path.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Left-leg-leading demonstration; repeat on the opposite side.",
+          "Procedural animation with sampled clearance checks; not motion capture or exhaustive mesh collision certification.",
+          "Bar-to-back clearance approximately 0.025 model units; rack unlocking omitted."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:39:09.878Z"
     },
     {
       "id": "seated-toe-raise",
@@ -1437,7 +2675,22 @@
       ],
       "priority": 99,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-toe",
+        "sourceUrls": [
+          "https://atlantisstrength.com/gym-equipment/m126"
+        ],
+        "criteria": "Seated bilateral tibialis machine dorsiflexion; heel pivots fixed on supported levers with forefoot pads and moving plate load.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Generic simplified tibialis machine, not an exact manufacturer model; 25-degree procedural ankle rotation.",
+          "Heel pivots are rig landmarks; forefoot rollers and support boards use approximate contact; no tissue compression.",
+          "Sampled geometry and lever movement, not complete collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T03:23:36.673Z"
     },
     {
       "id": "prone-y-raise",
@@ -1447,8 +2700,23 @@
       ],
       "priority": 100,
       "baselineStatus": "needs-new-video",
-      "status": "awaiting-motion-implementation"
+      "status": "registered-local",
+      "recipe": {
+        "family": "chest-supported-pull",
+        "sourceUrls": [
+          "https://www.rehabhero.ca/exercise/incline-bench-y-raise"
+        ],
+        "criteria": "Chest supported on 45-degree incline bench, fixed feet and trunk; prone-y-raise arm path with bilateral dumbbells.",
+        "sourcesCheckedAt": "2026-11-13",
+        "limitations": [
+          "Slow procedural demonstration, not motion capture or clinical certification.",
+          "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+          "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+        ]
+      },
+      "numericChecks": "passed",
+      "registeredAt": "2026-11-13T02:38:28.540Z"
     }
   ],
-  "updatedAt": "2026-11-11T02:36:56.398Z"
+  "updatedAt": "2026-11-13T15:16:02.735Z"
 }

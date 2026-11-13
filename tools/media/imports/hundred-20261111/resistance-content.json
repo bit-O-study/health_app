@@ -1,0 +1,12 @@
+{
+ "standing-band-row": {"equipment":"band","setup":"앞쪽의 안정된 지지대에 밴드를 고정하고 양손으로 손잡이를 잡아 선다","movement":"팔꿈치를 굽혀 손잡이를 몸통 가까이 당긴 뒤 천천히 앞으로 보낸다","target":"등·이두근","tip":"몸통을 뒤로 젖히지 않고 양발을 고정한다"},
+ "band-chest-press": {"equipment":"band","setup":"뒤쪽의 안정된 지지대에 밴드를 고정하고 양손 손잡이를 가슴 옆에 둔다","movement":"손잡이를 가슴 앞쪽으로 밀어 팔을 편 뒤 천천히 돌아온다","target":"가슴·삼두근","tip":"팔꿈치를 몸통 가까이에 두고 허리를 젖히지 않는다"},
+ "band-shoulder-press": {"equipment":"band","setup":"발 옆의 낮고 안정된 지지점에 밴드를 고정하고 양손 손잡이를 어깨 위쪽에 둔다","movement":"양손을 머리 위로 밀어 올린 뒤 팔꿈치를 굽혀 돌아온다","target":"어깨·삼두근","tip":"영상은 바닥 지지점에 고정한 밴드를 사용한다"},
+ "band-pulldown": {"equipment":"band","setup":"머리 위의 안정된 지지점에 밴드를 고정하고 양손으로 손잡이를 잡아 선다","movement":"팔꿈치를 아래로 굽혀 손잡이를 얼굴 양옆으로 당긴 뒤 천천히 올린다","target":"광배근·이두근","tip":"영상은 서서 하는 풀다운이며 무릎을 굽혀 반동을 주지 않는다"},
+ "band-face-pull": {"equipment":"band","setup":"얼굴 높이 앞쪽 지지점에 밴드를 고정하고 양손 손잡이를 잡는다","movement":"팔꿈치를 옆으로 벌리며 손잡이를 얼굴 양옆으로 당긴 뒤 돌아온다","target":"어깨 뒤쪽·등","tip":"손이 얼굴에 부딪히지 않도록 양옆으로 벌린다"},
+ "standing-cable-chest-press": {"equipment":"cable","setup":"뒤쪽 가슴 높이의 두 케이블 손잡이를 잡고 양발을 벌려 선다","movement":"양손을 가슴 앞쪽으로 밀어 팔을 편 뒤 천천히 돌아온다","target":"가슴·삼두근","tip":"기구를 등지고 서며 몸통을 흔들지 않는다"},
+ "single-arm-lat-pulldown": {"equipment":"cable","setup":"높은 도르래의 손잡이를 한 손으로 잡고 반대팔은 몸 옆에 내린다","movement":"작업 팔꿈치를 아래로 굽혀 손잡이를 얼굴 옆으로 당긴 뒤 천천히 올린다","target":"광배근·이두근","tip":"영상은 왼팔을 움직이는 서서 하는 변형이며 반대쪽도 같은 방식으로 수행한다"},
+ "single-arm-straight-arm-pulldown": {"equipment":"cable","setup":"높은 도르래의 손잡이를 한 손으로 잡고 팔을 앞위로 뻗어 선다","movement":"팔꿈치의 작은 굽힘을 유지하며 손잡이를 허벅지 앞까지 내린 뒤 돌아온다","target":"광배근","tip":"영상은 왼팔 시범이며 팔꿈치를 굽혀 당기는 풀다운과 구분한다"},
+ "single-arm-cable-front-raise": {"equipment":"cable","setup":"앞쪽 낮은 도르래의 손잡이를 한 손으로 잡고 팔을 몸보다 조금 앞에 둔다","movement":"팔을 앞쪽으로 어깨 높이까지 올린 뒤 천천히 내린다","target":"어깨 앞쪽","tip":"영상은 왼팔 시범이며 몸통을 뒤로 젖히지 않는다"},
+ "single-arm-cable-lateral-raise": {"equipment":"cable","setup":"반대편 낮은 도르래의 손잡이를 한 손으로 잡고 줄이 다리 앞을 지나게 선다","movement":"작업 팔을 옆으로 어깨 높이까지 올린 뒤 천천히 내린다","target":"어깨 옆쪽","tip":"영상은 왼팔 시범이며 어깨를 으쓱하지 않는다"}
+}

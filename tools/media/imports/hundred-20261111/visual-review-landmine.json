@@ -1,0 +1,76 @@
+{
+  "landmine-squat": {
+    "checks": {
+      "exercise": "Front-loaded landmine squat with distinct anchored arc",
+      "equipment": "Fixed base, constant-length bar, plate and compact transverse handle",
+      "setup": "한쪽 끝이 고정된 랜드마인 바의 앞쪽 손잡이를 양손으로 잡고 가슴 앞에 둔다.",
+      "hands": "Closed bilateral grips remain on the handle",
+      "feet": "Both feet and toes remain planted",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손잡이는 바의 원호를 따라 움직인다."
+    },
+    "limitations": [
+      "Generic compact transverse handle rather than bare-sleeve cup grip.",
+      "Slow procedural motion with fixed 20-unit bar; no force or tissue simulation.",
+      "Sampled plate and central-body/shaft clearance; not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T03:32:19.487Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/final.jpg",
+        "sha256": "e666b54dbd60c931c785869a3d162fd7898ba06563d8f061eca3017fb1070253"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/final-dark.jpg",
+        "sha256": "f264ca8c56d2cbc168418bd1e73f5295447f1d788067a5d1d45a29ee99b20807"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/full-sheet.png",
+        "sha256": "8381d7fd049ddf21af9ae01d87e985567f3a1347f8f32b3876c116c0392251ce"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/side-sheet.png",
+        "sha256": "7caf1ad9b639fbf1458cce993b63ba8bc67ba845b8afc81225b0d8b9d5c1056a"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/verification.json",
+        "sha256": "a64c7bb1ab2620a2271e18f258165b1e440addf5ad1869c91e1a8d80c075a4b2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/geometry.json",
+        "sha256": "9871944a63d76cbe1a8b19a99f459fa8c7c8246d9a0f0824194297db7661bf03"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/kinematics.json",
+        "sha256": "3b5c89ff25e7ea2f34c2e3861d9affcae2eef0ff1677a6fbde9b6f0496de1360"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/provenance.json",
+        "sha256": "03b3d28c23f067fcb1126d0513519247cf312c461af18154de81eaff3d1cf158"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/landmine-squat-alpha.webm",
+        "sha256": "9a005f26375023b1f1ef322710530a3523585ed99412caebd5e82efd0a752031",
+        "bytes": 308985,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/landmine-squat.mp4",
+        "sha256": "1464932b7ee0a0beb982d4ab659893a0d886040301cfaf3a21f22c0f4bd057fd",
+        "bytes": 130559,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/landmine-squat/landmine-squat-dark.mp4",
+        "sha256": "acbeba13f4a4b9bf7c3c2e24e81319f455b3e4fb0c3a4fe2c472704efe382102",
+        "bytes": 109410,
+        "decode": "passed"
+      }
+    ]
+  }
+}

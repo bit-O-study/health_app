@@ -1,0 +1,28 @@
+{
+  "scapular-pull-up": [
+    {
+      "file": "tools/media/motion-guides/scapular-pull-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/scapular-pull-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/scapular-pull-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-pull-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-pull-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-pull-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

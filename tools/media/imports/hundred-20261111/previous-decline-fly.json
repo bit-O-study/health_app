@@ -1,0 +1,28 @@
+{
+  "decline-dumbbell-fly": [
+    {
+      "file": "tools/media/motion-guides/decline-dumbbell-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/decline-dumbbell-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/decline-dumbbell-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-dumbbell-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-dumbbell-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/decline-dumbbell-fly-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

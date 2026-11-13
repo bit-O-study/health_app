@@ -1,0 +1,158 @@
+{
+  "cable-external-rotation": [
+    {
+      "file": "tools/media/motion-guides/cable-external-rotation.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-external-rotation.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-external-rotation-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-external-rotation.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-external-rotation-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-external-rotation-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "band-external-rotation": [
+    {
+      "file": "tools/media/motion-guides/band-external-rotation.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-external-rotation.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-external-rotation-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-external-rotation.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-external-rotation-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-external-rotation-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "high-cable-fly": [
+    {
+      "file": "tools/media/motion-guides/high-cable-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/high-cable-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/high-cable-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-cable-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-cable-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-cable-fly-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "standing-cable-reverse-fly": [
+    {
+      "file": "tools/media/motion-guides/standing-cable-reverse-fly.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-cable-reverse-fly.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-cable-reverse-fly-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-cable-reverse-fly.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-cable-reverse-fly-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-cable-reverse-fly-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-y-raise": [
+    {
+      "file": "tools/media/motion-guides/cable-y-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-y-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-y-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-y-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-y-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-y-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-shrug": [
+    {
+      "file": "tools/media/motion-guides/cable-shrug.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-shrug.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-shrug-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-shrug.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-shrug-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-shrug-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

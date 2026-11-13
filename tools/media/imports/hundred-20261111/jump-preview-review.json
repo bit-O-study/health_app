@@ -1,0 +1,41 @@
+{
+  "jump-squat": {
+    "reviewedAt": "2026-11-12T09:45:05.076Z",
+    "status": "preview-approved",
+    "checks": {
+      "exercise": "Bodyweight squat jump with dip, vertical takeoff and flexed-knee landing.",
+      "equipment": "No weights or equipment; fingers relaxed.",
+      "setup": "Front and side eight-frame sheets inspected; balanced symmetric stance.",
+      "hands": "Unloaded arms move for balance, no rigid weight grip.",
+      "feet": "Simultaneous takeoff; fixed toe support before takeoff and after landing; no forward drift.",
+      "movement": "Landing knee 136.8 degrees before compression; dip knee 76.6 degrees; loop continuous."
+    },
+    "limitations": [
+      "Procedural slowed demonstration, not real-time jump dynamics.",
+      "Virtual floor support has 0.032–0.058 model-unit clearance; no visible floor.",
+      "Seventeen geometry samples do not certify full mesh collisions or human biomechanics."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-squat/full-sheet.png",
+        "sha256": "a3e2edc7e6c180079dcdb2e60e25049fc7864176c30cd9ab45ff78cdc7b49d77"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-squat/side-sheet.png",
+        "sha256": "5704961f9f40b2cdd9ecd245153a674391da2ef3e73a4e810446fce7293592b0"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-squat/poses.json",
+        "sha256": "3d491571d31901c3f1e018533575f4cbeeee83442de16731077e501a0079267d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-squat/geometry.json",
+        "sha256": "ee91859e022fcac159383d9a55355621646d537bf5fa6c2de3c4b5e4b654832d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/jump-squat/kinematics.json",
+        "sha256": "0a4e9263b103835635ab9c64d56e61d980df671d53ff97d668e9127cb4fbbc29"
+      }
+    ]
+  }
+}

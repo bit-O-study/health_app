@@ -1,0 +1,15 @@
+{
+  "id": "seated-toe-raise",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-toe-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://atlantisstrength.com/gym-equipment/m126"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T03:22:36.454Z"
+}

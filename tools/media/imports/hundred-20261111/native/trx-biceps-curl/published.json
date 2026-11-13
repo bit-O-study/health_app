@@ -1,0 +1,18 @@
+{
+  "id": "trx-biceps-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "168ded243cf465cd14b414dc49f39b0a791543184ac51023bb4ee3b0ea02af2a",
+  "rigSourceSha256": "5274b5f3ac1768d4bb9ad528a396656865274078bf50d7bcd531cb045a409ad1",
+  "videoSha256": "9bd1fde43b5ffcff465d377d0d0e28c7bdb63ebf7734f8c92617b4d944d46b71",
+  "darkVideoSha256": "1f6712a1cadd860abc819e026a816bd349fef7b237e541309ce970a9853b65b1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90940,
+  "darkBytes": 94690,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T12:15:15.547Z"
+}

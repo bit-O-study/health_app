@@ -1,0 +1,31 @@
+{
+  "jump-squat": [
+    {
+      "file": "tools/media/motion-guides/jump-squat.json",
+      "backup": "tools/media/imports/hundred-20261111/backup-jump/jump-squat-0.json",
+      "sha256": "baec479e15d71ebb9d4fde89c87717af941909aecd55545bd80c5cf15e290142"
+    },
+    {
+      "file": "tools/media/motion-guides/jump-squat.jpg",
+      "backup": "tools/media/imports/hundred-20261111/backup-jump/jump-squat-1.jpg",
+      "sha256": "d9bc12f6fa32e9f3709c6b5e00de4ff58ab61598901cf0a78b38568c7d7bdb83"
+    },
+    {
+      "file": "tools/media/motion-guides/jump-squat-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-squat.mp4",
+      "backup": "tools/media/imports/hundred-20261111/backup-jump/jump-squat-3.mp4",
+      "sha256": "da0db5106db680208127eb17b0516cff9fa4fcf18bdb91d238e95a28462c640e"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-squat-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jump-squat-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T03:35:28.768Z",
+  "ids": [
+    "landmine-squat"
+  ],
+  "files": 3,
+  "batchCompleted": 63,
+  "batchRemaining": 37,
+  "counts": {
+    "reviewed-both-themes": 464,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 15,
+    "needs-new-video": 851,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

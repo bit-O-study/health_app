@@ -1,0 +1,76 @@
+{
+  "trx-biceps-curl": {
+    "checks": {
+      "exercise": "Suspension biceps curl with elevated elbows",
+      "equipment": "Fixed overhead anchor and horizontal handles; constant-length straps",
+      "setup": "고정점을 바라보고 손바닥이 위를 향하도록 손잡이를 잡는다. 발을 고정한 채 몸을 뒤로 기울이고 복부에 힘을 준다.",
+      "hands": "Closed supinated grips rotate with the curl",
+      "feet": "Both feet fixed; rigid body rocks around ankles",
+      "movement": "팔꿈치를 어깨보다 높게 유지하며 손잡이를 이마 쪽으로 당긴다. 몸을 곧게 유지하고 팔꿈치를 천천히 펴 돌아간다."
+    },
+    "limitations": [
+      "Procedural demonstration, not motion capture.",
+      "Rigid straps and simplified anchor; no load simulation.",
+      "Sampled clearances, not exhaustive collision certification."
+    ],
+    "reviewedAt": "2026-11-13T12:15:07.845Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/final.jpg",
+        "sha256": "5bc402cf0a8fdac89b54d60b7c9ba621fa37d7afcf55c4f884156b3f2bd143da"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/final-dark.jpg",
+        "sha256": "221ad77b0f0302e2f913a36185f4122b9a71fdcdaa16cd0a8cc064b20a782b0e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/full-sheet.png",
+        "sha256": "c9406f669ffb1d15af955117f66633a54e1405746d6bff0f013bc4e2090edf7c"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/side-sheet.png",
+        "sha256": "9ac7e60a95a2ca4eae22b4567d650bb5aacaa7fc36e61f0549b79922b6f227c9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/verification.json",
+        "sha256": "fa8e77ebd196ed3cfc631a81c752c8eba4ca9fbf25c2647404217e4d2d7c7a4e"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/geometry.json",
+        "sha256": "023990bbe91447eb8d1caf1ea4f4ec1186b3682c087ee8ec9171302a461aa5e2"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/kinematics.json",
+        "sha256": "58f0d70b96b2eef16b306677cb2cf42e812fee1d00cb7fafb1ebaa542bfb3ca9"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/provenance.json",
+        "sha256": "5274b5f3ac1768d4bb9ad528a396656865274078bf50d7bcd531cb045a409ad1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/trx-biceps-curl-alpha.webm",
+        "sha256": "87d36af640661ae8471ab44e89c253fb7e2b725614ef21bf631ac877243df52d",
+        "bytes": 272801,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/trx-biceps-curl.mp4",
+        "sha256": "9bd1fde43b5ffcff465d377d0d0e28c7bdb63ebf7734f8c92617b4d944d46b71",
+        "bytes": 90940,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/trx-biceps-curl/trx-biceps-curl-dark.mp4",
+        "sha256": "1f6712a1cadd860abc819e026a816bd349fef7b237e541309ce970a9853b65b1",
+        "bytes": 94690,
+        "decode": "passed"
+      }
+    ]
+  }
+}

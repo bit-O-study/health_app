@@ -1,0 +1,15 @@
+{
+  "id": "single-arm-machine-chest-press",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-arm-machine-chest-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.technogym.com/en-US/product/selection-700-chest-press_MNFC.html"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-12T11:26:11.529Z"
+}

@@ -1,0 +1,17 @@
+{
+  "donkey-kick": {
+    "equipment": "bodyweight",
+    "url": "https://www.rehabhero.ca/exercise/donkey-kick",
+    "criteria": "Bent-knee hip extension, pelvis level and palms fixed"
+  },
+  "fire-hydrant": {
+    "equipment": "bodyweight",
+    "url": "https://www.rehabhero.ca/exercise/fire-hydrant",
+    "criteria": "Bent-knee hip abduction, pelvis level and palms fixed"
+  },
+  "cat-cow": {
+    "equipment": "bodyweight",
+    "url": "https://www.acefitness.org/resources/everyone/exercise-library/15/cat-cow/",
+    "criteria": "Controlled spinal flexion and extension with fixed hands and knees"
+  }
+}

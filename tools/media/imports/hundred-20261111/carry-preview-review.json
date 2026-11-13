@@ -1,0 +1,41 @@
+{
+  "farmer-s-carry": {
+    "reviewedAt": "2026-11-12T10:16:19.898Z",
+    "status": "preview-approved",
+    "checks": {
+      "exercise": "Farmer carry with two dumbbells and alternating short walking steps.",
+      "equipment": "One dumbbell on each side, parallel handles in neutral grip.",
+      "setup": "Front and side eight-frame sheets inspected; upright torso, head forward.",
+      "hands": "Both curled hands retain handle sockets; weights stay beside hips.",
+      "feet": "Alternating swing and stance, at least one support foot, no reconstructed world stance drift.",
+      "movement": "Body-relative gait loop represents forward camera tracking; limbs return continuously."
+    },
+    "limitations": [
+      "Slow procedural camera-relative walking loop; no visible ground or traveled distance.",
+      "Simplified flat-foot gait without heel-to-toe roll; elbows retain about 20 degrees flexion.",
+      "Seventeen sampled vertex-to-plate clearances do not certify all mesh/handle collisions or human gait biomechanics."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/full-sheet.png",
+        "sha256": "e80879a300c960c0494024bfa5321e37a91e34dfeeaf3c5a121566e032fb4315"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/side-sheet.png",
+        "sha256": "1f20cdb24053c5ec97d2a7f966399945c449603a8829e1ea79c68611b403e643"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/poses.json",
+        "sha256": "d772e7ce22a97d8731d32e09dce4e1eea3c6c3a8f9faeb7314dd178894798d11"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/geometry.json",
+        "sha256": "fbcc1b1a4241ca2c9d0076ce24446f6f1ec70a4e43c9e46191b58d087bcdf841"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/farmer-s-carry/kinematics.json",
+        "sha256": "9a90333894def0c7ae5fdf7fef3512f49fe1753530b1809934056d7ef6ff0872"
+      }
+    ]
+  }
+}

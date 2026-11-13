@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-13T13:19:12.426Z",
+  "ids": [
+    "clamshell"
+  ],
+  "files": 3,
+  "batchCompleted": 80,
+  "batchRemaining": 20,
+  "counts": {
+    "reviewed-both-themes": 481,
+    "needs-motion-review": 19,
+    "needs-cutout-review": 14,
+    "needs-new-video": 835,
+    "legacy-needs-remake": 2
+  },
+  "tests": 9,
+  "testFiles": 2,
+  "lint": "passed",
+  "typecheck": "passed",
+  "deployment": "pending",
+  "device": "pending"
+}

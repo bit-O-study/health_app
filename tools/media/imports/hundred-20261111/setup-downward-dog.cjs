@@ -1,0 +1,10 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),base='tools/media/imports/hundred-20261111',id='downward-dog',b=JSON.parse(fs.readFileSync(base+'/batch.json')),e=b.entries.find(x=>x.id===id);assert.equal(e.status,'awaiting-motion-implementation');
+let m=fs.readFileSync(base+'/single-leg-glute-bridge-motion.mjs','utf8');m=m.slice(0,m.indexOf(' const neckRest='))+`
+ byName.root.quaternion.setFromAxisAngle(v([1,0,0]),rad(120+15*phase));mesh.updateMatrixWorld(true);byName.root.position.add(v([1.09765,-.2+.7*phase,-2]).sub(pos('upperleg01.L')));
+ for(const side of ['L','R']){const sign=side==='L'?1:-1;
+ ik('upperleg01.'+side,'lowerleg01.'+side,'foot.'+side,v([sign*1.1,-7.15,-5]),v([0,0,1]));mesh.updateMatrixWorld(true);byName['foot.'+side].quaternion.copy(byName['foot.'+side].parent.getWorldQuaternion(q()).invert());
+ const wrist='wrist.'+side;ik('upperarm01.'+side,'lowerarm01.'+side,wrist,v([sign*2.3,-7.22,6]),v([sign*.3,0,-1]));const index=v(dataByName['finger2-1.'+side].head),little=v(dataByName['finger5-1.'+side].head),palm=index.clone().add(little).multiplyScalar(.5).sub(v(dataByName[wrist].head)),across=index.clone().sub(little),world=q().setFromRotationMatrix(orientation(v([0,0,1]),v([-sign,0,0])).multiply(orientation(palm,across).invert()));mesh.updateMatrixWorld(true);byName[wrist].quaternion.copy(byName[wrist].parent.getWorldQuaternion(q()).invert().multiply(world));
+ }
+}
+`;m=m.replaceAll('single-leg-glute-bridge',id);fs.writeFileSync(base+'/'+id+'-motion.mjs',m);
+let s=fs.readFileSync(base+'/single-leg-glute-bridge-studio.mjs','utf8').replace('camera.zoom=.93','camera.zoom=.85').replace('camera.lookAt(0,-5,0)','camera.lookAt(0,-3,0)');fs.writeFileSync(base+'/'+id+'-studio.mjs',s);e.status='motion-preview';e.recipe={family:'downward-dog',sourceUrls:['https://www.acefitness.org/resources/everyone/exercise-library/18/downward-facing-dog/'],criteria:'Fixed palms and feet, controlled inverted V with neutral trunk and relaxed knees.',sourcesCheckedAt:'2026-11-13'};fs.writeFileSync(base+'/batch.json',JSON.stringify(b,null,2)+'\n');

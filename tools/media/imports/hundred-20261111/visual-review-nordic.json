@@ -1,0 +1,76 @@
+{
+  "nordic-hamstring-curl": {
+    "checks": {
+      "exercise": "Limited-range Nordic curl with a 45-degree forward lean from the knees.",
+      "equipment": "Padded knee support and anchored ankle roller visible.",
+      "setup": "Front and side eight-frame sheets inspected; hips remain extended and trunk aligned.",
+      "hands": "Hands held forward ready for support; no hand push-off in this limited-range version.",
+      "feet": "Both knees and ankles fixed; feet extend behind the ankle restraint.",
+      "movement": "Controlled lean and return as one aligned trunk/thigh segment, continuous loop."
+    },
+    "limitations": [
+      "Limited 45-degree unassisted range; not full eccentric-to-floor or hand-assisted return.",
+      "Knee skin support gap up to 0.065 model units; ankle gap about 0.023; padded supports are rigid.",
+      "Sampled geometry is not complete mesh collision or biomechanics certification."
+    ],
+    "reviewedAt": "2026-11-12T10:31:41.051Z",
+    "status": "passed-isolated-candidate",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/final.jpg",
+        "sha256": "2b5744e9625e56660ae3bad75f97b201d10ebe4e02891355e1d1a1c7fd296e5f"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/final-dark.jpg",
+        "sha256": "8493411c701a1be263b453058375b1357425a4fb6a5c782154e6647f10dfb199"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/full-sheet.png",
+        "sha256": "9334d9ba5ca3544d6d025789458fdf4a3355feefbd98ca1991c5c1231b70f822"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/side-sheet.png",
+        "sha256": "c3f10ce3bd59e28b92f69ddfed15868373f94050453bfdb97ec4d0b1b3cf9e3d"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/verification.json",
+        "sha256": "c3956fd16942a33a1fa37e5f0e4f0b0f3cb1e80e5df92b4652bcd041e565cb63"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/geometry.json",
+        "sha256": "0777a08d870b74ae3225a3c4bbc5b737b54b0d0882c62197c57fa0bf0ee03cad"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/kinematics.json",
+        "sha256": "4f858024da10544785945b63942adaebc2ab9a645cef3699d8e2bef3e3084c73"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/provenance.json",
+        "sha256": "406dfbf001b02a031652ae78e9584d842082c64772234af8b9963c86a4d297b0"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/nordic-hamstring-curl-alpha.webm",
+        "sha256": "78c92058d891d1b228f5bd9dea41df9233588a918122b3df22f492c077d02397",
+        "bytes": 315792,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/nordic-hamstring-curl.mp4",
+        "sha256": "860c55af0f96cf5e706e1ee8b993a51dbcd682e42a65d74f0db167f93a691bda",
+        "bytes": 138364,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/hundred-20261111/native/nordic-hamstring-curl/nordic-hamstring-curl-dark.mp4",
+        "sha256": "83d329e6bc92cef02293183fefd7ee9e4dba2ab9795b10ebc89efa69ded08179",
+        "bytes": 137551,
+        "decode": "passed"
+      }
+    ]
+  }
+}

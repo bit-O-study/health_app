@@ -1,0 +1,18 @@
+{
+  "id": "single-arm-cable-lateral-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "27d6cef97ef0209f8ec52f940c11f1f52ce13f34273ec905416e3ff9913c32bc",
+  "rigSourceSha256": "4ce32f5b21b440e4feabbef9f152aa8aadf0839a144e4f685c0685378401b5d9",
+  "videoSha256": "d9dce75cedd7cf1eddc751fa70773833261f9043eb71afcb558949f1af85a54c",
+  "darkVideoSha256": "d06cfbc376fbe8da77623107725be7b85c8b5c6f6b9a5137405fa7d2f8b2e898",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78410,
+  "darkBytes": 74138,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T11:25:48.922Z"
+}

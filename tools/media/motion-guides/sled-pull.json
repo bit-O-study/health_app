@@ -1,0 +1,15 @@
+{
+  "id": "sled-pull",
+  "equipment": "sled",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "sled-pull-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.army.mil/article-amp/215757/sprint_drag_carry"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-13T14:15:06.666Z"
+}

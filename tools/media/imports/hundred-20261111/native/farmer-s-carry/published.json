@@ -1,0 +1,18 @@
+{
+  "id": "farmer-s-carry",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "79361ac8b3d4beefdf4f496cba31143d32f0bd4e6440a2c2b2fb9256e9a0e3d9",
+  "rigSourceSha256": "c06e71589d49d24981066e171033ec6962b37917d3e5f94475643a459c9b685c",
+  "videoSha256": "2e4bd484f6f740a961629a306e0a563aba717965f8e76686ab3818475f6696f8",
+  "darkVideoSha256": "0b609431e5962e7a817342f58ba2bc0823f66670ead2b34ceb81d978db7c425e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 131295,
+  "darkBytes": 118888,
+  "decode": "passed",
+  "verifiedAt": "2026-11-12T10:18:18.598Z"
+}

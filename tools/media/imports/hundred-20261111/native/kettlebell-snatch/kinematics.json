@@ -1,0 +1,10 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "supportDrift": 5.639506780706364e-15,
+  "gripError": 7.535012591929472e-15,
+  "maxStep": 0.4583683843145436,
+  "topElbow": 164.5037056935319,
+  "handAboveShoulder": 6.199999999999999,
+  "loopError": 0
+}

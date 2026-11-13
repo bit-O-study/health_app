@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stanceDrift": 0,
+  "gripError": 2.5727487310015434e-15,
+  "maxStep": 0.052264231633826874,
+  "repeatError": 1.790180836524724e-14,
+  "jumpHeight": 0.6999999999999993,
+  "ropeBelowToes": 0.9636274173636492,
+  "cycles": 4,
+  "ropeAngleSamples": 25,
+  "minimumRopeBody": 0.2024344136547105,
+  "loopError": 0
+}

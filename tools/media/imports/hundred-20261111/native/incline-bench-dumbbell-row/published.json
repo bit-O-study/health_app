@@ -1,0 +1,18 @@
+{
+  "id": "incline-bench-dumbbell-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "298a7cc349d6796d4ce1bf46991ffadb55837dcd354a89f7bc415097a10f94ac",
+  "rigSourceSha256": "375434b2d5c477662c13d5be4ebe511f613f592733926fb45cd674e2165992dc",
+  "videoSha256": "6bfd2df5589f25b5831d256cda9d421590bb6d3bc54ab8e6db76b2f0eb6a1578",
+  "darkVideoSha256": "f6c4810a73a7734e7766f43e26bc8fa50a86802a94b34b488cb1d4c426e95f75",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65447,
+  "darkBytes": 56499,
+  "decode": "passed",
+  "verifiedAt": "2026-11-13T02:37:39.119Z"
+}

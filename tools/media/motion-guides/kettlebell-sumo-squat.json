@@ -1,0 +1,16 @@
+{
+  "id": "kettlebell-sumo-squat",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "kettlebell-sumo-squat-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.nuffieldhealth.com/article/how-to-kettlebell-squat",
+    "https://www.nuffieldhealth.com/article/how-to-kettlebell-squat"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-12T10:06:37.316Z"
+}

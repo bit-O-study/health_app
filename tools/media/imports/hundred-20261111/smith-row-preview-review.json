@@ -1,0 +1,42 @@
+{
+  "smith-machine-bent-over-row": {
+    "checks": {
+      "exercise": "Smith bent-over row; elbows move posteriorly in reviewed full and side sheets",
+      "equipment": "Two vertical guide rails, bar and paired plates",
+      "setup": "스미스 바를 오버핸드로 잡고 무릎을 조금 굽힌 채 상체를 앞으로 기울인다.",
+      "hands": "Closed overhand grips follow vertical bar with gradual wrist rotation",
+      "feet": "Fixed feet, toes and hinged trunk",
+      "movement": "몸통과 발을 고정하고 팔꿈치를 뒤로 보내 바를 복부 가까이 당긴다. 레일을 따라 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not captured human motion.",
+      "Limited range with the bar stopping short of abdominal contact; virtual floor clearance 0.0325 model units.",
+      "17 sampled body/plate and central-body/shaft clearances; not exhaustive mesh collision certification.",
+      "Rack release and safety catches omitted from the repeated exercise cycle."
+    ],
+    "reviewedAt": "2026-11-13T03:06:52.142Z",
+    "status": "preview-approved",
+    "artifacts": [
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-bent-over-row/full-sheet.png",
+        "sha256": "af9bda185db5361ee6b4d78fbd60d1fe9916683d85a25bed6ef548e12b620f34"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-bent-over-row/side-sheet.png",
+        "sha256": "a2ef215ec9175488bbc1c1f4ca9238d541164f3454ce2a7759ae787d474136ce"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-bent-over-row/poses.json",
+        "sha256": "f29d379bd8967899b295f755e63691aa5d9535b0c530fa795034b6eef1c749bb"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-bent-over-row/geometry.json",
+        "sha256": "91f2d53dc764c9e1c76be5ad79244f26da4ba326fdfd2738977827b79f1e9676"
+      },
+      {
+        "file": "tools/media/imports/hundred-20261111/native/smith-machine-bent-over-row/kinematics.json",
+        "sha256": "e81d9d8366560e9f16b21acfe1cc0b405747447823a0e32117cb5a619fd79019"
+      }
+    ]
+  }
+}

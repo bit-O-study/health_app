@@ -1,0 +1,17 @@
+{
+  "landmine-squat": {
+    "checks": {
+      "exercise": "Front-loaded landmine squat with distinct anchored arc",
+      "equipment": "Fixed base, constant-length bar, plate and compact transverse handle",
+      "setup": "한쪽 끝이 고정된 랜드마인 바의 앞쪽 손잡이를 양손으로 잡고 가슴 앞에 둔다.",
+      "hands": "Closed bilateral grips remain on the handle",
+      "feet": "Both feet and toes remain planted",
+      "movement": "발을 고정한 채 엉덩이와 무릎을 굽혀 앉았다가 일어난다. 손잡이는 바의 원호를 따라 움직인다."
+    },
+    "limitations": [
+      "Generic compact transverse handle rather than bare-sleeve cup grip.",
+      "Slow procedural motion with fixed 20-unit bar; no force or tissue simulation.",
+      "Sampled plate and central-body/shaft clearance; not exhaustive collision certification."
+    ]
+  }
+}

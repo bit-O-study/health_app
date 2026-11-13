@@ -1,0 +1,18 @@
+{
+  "battle-rope-wave": {
+    "checks": {
+      "exercise": "Alternating battle rope waves",
+      "equipment": "Two rope ends with fixed floor anchor",
+      "setup": "배틀로프 양 끝을 잡고 발을 골반보다 조금 넓게 벌린다. 무릎과 엉덩이를 가볍게 굽히고 상체를 안정적으로 유지한다.",
+      "hands": "Opposite vertical motions with attached closed grips",
+      "feet": "Feet, toes and pelvis remain fixed in a shallow squat",
+      "movement": "한 손을 올릴 때 다른 손을 내리며 두 팔을 번갈아 움직인다. 로프의 파동이 앞쪽 고정점으로 이어지도록 일정한 리듬을 유지한다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Small-wave variation below shoulder height; four slowed cycles in eight seconds.",
+      "Driven traveling curves with slack; rope length and tension are not physically simulated.",
+      "Sampled vertex checks, not exhaustive collision certification."
+    ]
+  }
+}

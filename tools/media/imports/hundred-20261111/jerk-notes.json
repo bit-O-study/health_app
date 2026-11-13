@@ -1,0 +1,17 @@
+{
+  "push-jerk": {
+    "checks": {
+      "exercise": "Push jerk with planted feet",
+      "equipment": "Barbell with paired plates",
+      "setup": "바벨을 어깨 앞쪽에 두고 양발을 어깨너비로 벌린다. 몸통을 세우고 팔꿈치를 바보다 약간 앞으로 둔다.",
+      "hands": "Closed grips attached throughout rack to overhead",
+      "feet": "Feet and toes remain planted during both knee bends",
+      "movement": "무릎을 짧게 굽혔다가 다리로 바닥을 밀며 바를 올린다. 바 아래로 몸을 낮추며 팔을 머리 위로 펴서 받은 뒤 무릎을 펴고 일어선다."
+    },
+    "limitations": [
+      "Procedural demonstration, not captured human motion.",
+      "Slowed eight-second technique sequence; not a prescription of explosive lifting speed.",
+      "Sampled geometry checks, not exhaustive collision or biomechanical validation."
+    ]
+  }
+}

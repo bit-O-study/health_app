@@ -1,0 +1,47 @@
+{
+  "incline-rear-delt-raise": {
+    "checks": {
+      "exercise": "Distinct incline-rear-delt-raise path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "팔꿈치를 살짝 굽힌 채 양팔을 옆으로 벌려 어깨 높이까지 올렸다가 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ]
+  },
+  "incline-bench-dumbbell-row": {
+    "checks": {
+      "exercise": "Distinct incline-bench-dumbbell-row path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "팔꿈치를 뒤로 당겨 덤벨을 몸 옆으로 끌어올렸다가 천천히 팔을 편다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ]
+  },
+  "prone-y-raise": {
+    "checks": {
+      "exercise": "Distinct prone-y-raise path inspected in full and side preview sheets",
+      "equipment": "Two dumbbells and inclined chest support",
+      "setup": "45도 벤치에 가슴을 대고 양발을 바닥에 고정한 채 덤벨을 잡는다.",
+      "hands": "Closed grips with wrists aligned to forearms",
+      "feet": "Both planted feet and trunk stationary",
+      "movement": "양팔을 머리 앞 대각선으로 올려 Y자를 만든 뒤 천천히 내린다."
+    },
+    "limitations": [
+      "Slow procedural demonstration, not motion capture or clinical certification.",
+      "Simplified narrow chest bench; virtual floor at -7.9, soles have 0.0071 model-unit clearance.",
+      "Seventeen geometry samples cover chest contact and dumbbell plate clearance against central body and pad; not full mesh collision certification."
+    ]
+  }
+}

@@ -1,5 +1,11 @@
 # 운동별 연속 동작 영상 — 재개 기록
 
+## 2026-11-14 100종 운영 반영 완료
+
+- 영상 커밋 `710da421`, 최신 main 통합 `ad17ea48` 푸시 완료. GitHub Actions 43457717008 build/deploy 성공.
+- https://health.helthssu.co.kr 의 100종·300파일이 검수본 SHA-256과 일치하고 양테마 manifest에 등록된 것을 확인. 로그인 HTTP 200. 근거: `tools/media/imports/hundred-20261111/production-verification.json`.
+- 통합본 단위 3,761tests·TypeScript 통과. E2E는 앱/테스트 DB 설정 불일치로 미통과, Android 실기기 미검증. 해당 한계를 보고하고 사용자의 예외 승인 후 반영했다. 이전 대기 기록은 당시 이력이다.
+
 ## 2026-11-14 100종 묶음 로컬 완료
 
 - [완료] 요청한 100종 모두 제작·운동별 검수·로컬 앱 등록 완료. 밝은 배경 MP4, 어두운 배경 MP4, 투명 배경 WebM 총 300파일의 검수본 SHA-256 일치 및 양테마 manifest 등록을 재확인했다.

@@ -2,12 +2,13 @@
 
 ## 2026-11-14 100종 커밋·운영 반영 검증
 
-- [진행중] 사용자 요청에 따라 100종 영상 작업을 커밋·푸시하고 최신 main에 통합하여 운영에 반영한다.
+- [완료] 사용자 요청에 따라 100종 영상 작업을 커밋·푸시하고 최신 main에 통합하여 운영에 반영했다. 영상 `710da421`, 운영 통합 `ad17ea48`.
+- [완료] GitHub Actions 43457717008 build/deploy 성공. https://health.helthssu.co.kr 에서 100종·300파일 SHA-256 검수본 일치, 양테마 manifest 등록 및 로그인 HTTP 200 확인. 근거: `tools/media/imports/hundred-20261111/production-verification.json`. 아래 E2E·실기기 검증 한계는 유지한다.
 - [완료] 전체 단위 검사에서 발견한 신규 57종 타임라인 사양 누락을 `build-motion-specs.mjs`로 보완. 재검사 401파일 3,709tests 통과, 선택 검사 1개 제외.
 - [완료] 설정된 테스트 DB 스키마 113tests, 전체 ESLint 오류 0(경고 1,242), TypeScript 및 Next.js 운영 빌드 통과. Node 24로 각 검사 진입점을 직접 실행했다(Corepack은 시스템 Node 20과 pnpm 11 호환 오류). 테스트 DB와 앱 DB는 서로 다른 프로젝트이므로 이 스키마 검사는 앱 대상 DB 검증 근거가 아니다.
 - [미통과] `playwright test --max-failures=3`, mobile-chromium, localhost:3196: 1개 통과·3개 실패·474개 미실행. 기존 관리자 키는 Invalid API key, 일반 가입 경로에서는 account-fixture가 앱/테스트 DB 불일치로 계정 2개 대신 0개를 조회. add-appends-bottom 및 add-part-limits-choices도 실패. 해당 실행의 테스트 계정 정리 완료는 보장할 수 없다. 개발 서버 환경 설정·외부 폰트 접근 제한은 해결했다.
 - [승인] 2026-11-14 사용자 "엉 커밋 푸쉬해줘"로 위 E2E·실기기 검증 한계를 기록한 커밋·푸시·운영 반영 예외 승인. 상세 로그는 로컬 `.commit-*.log`(Git 제외).
-- [완료] 영상 커밋 `710da421`을 `video/release-20261103`에 푸시. 최신 운영 main 통합 후 단위 404파일 3,761tests 및 TypeScript 통과(선택 검사 1개 제외). 운영 배포 및 공개 영상 해시 검증은 진행 중.
+- [완료] 영상 커밋 `710da421`을 `video/release-20261103`에 푸시. 최신 운영 main 통합 후 단위 404파일 3,761tests 및 TypeScript 통과(선택 검사 1개 제외). 운영 배포 및 공개 영상 해시 검증 완료.
 
 ## 2026-11-14 100종 묶음 로컬 완료
 

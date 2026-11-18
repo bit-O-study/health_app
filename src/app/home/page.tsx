@@ -1,7 +1,7 @@
 import { HomeBriefingCard, loadHomeBriefing } from "@/features/lite/components/home-briefing-card";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, Check, Settings, Target } from "lucide-react";
+import { Settings } from "lucide-react";
 import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
 import { redirect } from "next/navigation";
@@ -19,6 +19,8 @@ import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
 import { Logo } from "@/features/brand/logo";
+import { HomeCommitments, HomeHero, HomeWeekStrip } from "@/features/home/components/home-hero";
+import { heroStats } from "@/features/home/hero-stats";
 
 export const dynamic = "force-dynamic";
 
@@ -51,10 +53,12 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
   const { todayCommitments } = dashboard;
   const doneCount = todayCommitments.filter(c => c.done).length;
+  const stats = heroStats(dashboard.contributions);
+  const dateLabel = new Intl.DateTimeFormat("ko-KR", { timeZone: "Asia/Seoul", month: "long", day: "numeric", weekday: "long" }).format(new Date());
 
   return (
     <div className="app-page overflow-x-clip">
-      <main className="app-container space-y-4">
+      <main className="app-container space-y-6">
         <header className="flex items-center justify-between gap-3 py-2">
           <Link href="/home" aria-label="헬쑤 홈"><Logo size={40} wordClassName="text-2xl" /></Link>
           <div className="flex items-center gap-1 pb-0.5">
@@ -65,58 +69,28 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           </div>
         </header>
 
-        {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
-        {/* 라이트(990원) 혜택 — 홈 홍보 배너 없음(2026-10-02). fitAccess.full = 라이트 이상. */}
-        {fitAccess.full ? null : <PromoBanner />}
         <PermissionNudge />
 
-        {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
-        {/* 라이트 · 오늘 한 줄(2026-10-08) — 내 기록에서 지금 제일 쓸모 있는 말 하나. 늦게 와도 홈을 막지 않게. */}
+        {/* 주인공 — 오늘 할 일 한 가지(2026-11-18 리디자인). 링·행동 버튼·숫자 3칸. */}
+        <HomeHero dateLabel={dateLabel} stats={stats} commitDone={doneCount} commitTotal={todayCommitments.length} workoutCount={dashboard.workoutCount} />
+
+        {/* 라이트 · 오늘 한 줄(2026-10-08) — 내 기록에서 지금 제일 쓸모 있는 말 하나. */}
         {fitAccess.full && briefing ? <HomeBriefingCard briefing={briefing} /> : null}
 
-        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
+        <HomeWeekStrip stats={stats} />
+        <HomeCommitments commitments={todayCommitments} />
 
-            <Link
-              href="/commitments"
-              className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-brand/20 sm:p-5"
-            >
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-2">
-                  <Target aria-hidden="true" size={15} className="shrink-0 text-brand" />
-                  <span className="truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">오늘의 다짐</span>
-                  {todayCommitments.length > 0 ? (
-                    <span className="shrink-0 text-xs font-bold tabular-nums text-brand">
-                      {doneCount}/{todayCommitments.length}
-                    </span>
-                  ) : null}
-                </div>
-                <ArrowUpRight aria-hidden="true" size={16} className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:text-zinc-600" />
-              </div>
-
-              {todayCommitments.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
-                  오늘 진행 중인 다짐이 없어요. 작은 목표부터 만들어 보세요.
-                </p>
-              ) : (
-                <ul className="space-y-2.5">
-                  {todayCommitments.map((c) => (
-                    <li key={c.id} className="flex min-w-0 items-center gap-3">
-                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${c.done ? "border-brand bg-brand text-white dark:text-zinc-950" : "border-zinc-300 dark:border-zinc-600"}`}>
-                        {c.done ? <Check aria-hidden="true" size={12} strokeWidth={3} /> : null}
-                      </span>
-                      <span className={`text-safe min-w-0 flex-1 text-sm leading-5 ${c.done ? "font-medium text-zinc-400 line-through dark:text-zinc-600" : "font-semibold text-zinc-800 dark:text-zinc-200"}`}>
-                        {c.title}
-                      </span>
-                      <span className="max-w-24 shrink-0 truncate text-xs font-medium tabular-nums text-zinc-400 dark:text-zinc-500">{c.valueText}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Link>
+        {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
+        <section aria-label="내 앱">
+          <div className="app-section-head"><h2>내 앱</h2></div>
+          <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
+        </section>
 
         <WeeklyReportCard report={weekly} />
         {training && <WeeklyTrainingSummary regions={training.regions} weekSets={training.weekSets} />}
         <ContributionGraph days={dashboard.contributions} totalWorkoutDays={dashboard.workoutCount} />
+        {/* 라이트(990원) 혜택 — 홈 홍보 배너 없음(2026-10-02). fitAccess.full = 라이트 이상. */}
+        {fitAccess.full ? null : <PromoBanner />}
       </main>
     </div>
   );

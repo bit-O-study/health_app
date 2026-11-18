@@ -4,10 +4,10 @@ import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 2026-09-20 런처 전환 — 홈은 카드를 세로로 쌓지 않는다.
-// 2026-09-28 현재: 광고 배너(맨 위) → 앱 아이콘 판 → 오늘의 다짐 카드 → 운동 잔디.
+// 2026-11-18 리디자인: 주인공(오늘) → 이번 주 → 오늘의 다짐 → 내 앱 아이콘 판 → 주간 리포트 → 운동 잔디(광고 배너는 맨 아래).
 // (예전 '오늘 요약' 위젯 3개는 다짐 카드 + 잔디로 바뀜. 펫은 기본 숨김 디버그 기능이라 격자에 없다.)
 
-test("홈: 광고 배너 → 앱 격자 → 요약 위젯 순서이고, 권한 줄은 하나뿐이다", async ({ page }) => {
+test("홈: 주인공 → 앱 격자 → 요약 위젯 순서이고, 권한 줄은 하나뿐이다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
   await page.goto("/home", { waitUntil: "networkidle" });
@@ -28,13 +28,13 @@ test("홈: 광고 배너 → 앱 격자 → 요약 위젯 순서이고, 권한 �
     const all = Array.from(main?.querySelectorAll("*") ?? []);
     const at = (el: Element | null) => (el ? all.indexOf(el) : -1);
     return {
-      promo: at(document.querySelector('section[aria-label="함께하는 서비스"]')),
+      hero: at(document.querySelector('section[aria-label="오늘"]')),
       grid: at(document.querySelector('nav[aria-label="앱"]')),
       widgets: at(document.querySelector('section[aria-label="운동 잔디"]')),
     };
   });
-  expect(order.promo).toBeGreaterThanOrEqual(0);
-  expect(order.grid).toBeGreaterThan(order.promo);
+  expect(order.hero).toBeGreaterThanOrEqual(0);
+  expect(order.grid).toBeGreaterThan(order.hero);
   expect(order.widgets).toBeGreaterThan(order.grid);
 
   // 알림·걸음수 배너가 두 장 겹쳐 뜨지 않는다.

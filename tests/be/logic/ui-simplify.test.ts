@@ -108,11 +108,12 @@ describe("한글 폰트", () => {
 describe("홈 구성", () => {
   const home = read("src/app/home/page.tsx");
 
-  // 2026-09-20 런처 전환 — 홈은 카드를 세로로 쌓지 않는다. 큰 제목 → 광고 배너 →
+  // 2026-11-18 리디자인 — 주인공(오늘 할 일 한 가지) → 이번 주 → 다짐 → 앱 아이콘 판 → 요약. 광고는 맨 아래.
+  // (2026-09-20 런처 전환 — 홈은 카드를 세로로 쌓지 않는다. 큰 제목 → 광고 배너 →
   // 앱 아이콘 판 → 앱별 요약 위젯 3개. 자세한 내용은 각 앱 안으로 옮겨 갔다.
-  it("로고 → 광고 → 앱 → 주간 요약 → 잔디 순서", () => {
+  it("로고 → 주인공 → 이번 주 → 다짐 → 앱 → 주간 요약 → 잔디 → 광고 순서", () => {
     expect(home).not.toContain("ActivityRings");
-    const order = ["<Logo", "<PromoBanner", "<AppGrid", "<WeeklyReportCard", "<ContributionGraph"].map((tag) =>
+    const order = ["<Logo", "<HomeHero", "<HomeWeekStrip", "<HomeCommitments", "<AppGrid", "<WeeklyReportCard", "<ContributionGraph", "<PromoBanner"].map((tag) =>
       home.indexOf(tag),
     );
     expect(order.every((i) => i >= 0), order.join(",")).toBe(true);
@@ -121,7 +122,7 @@ describe("홈 구성", () => {
 
   it("요약 위젯 3개 대신 다짐·주간 요약·훈련을 복원한다", () => {
     expect(home).not.toContain("<AppWidget");
-    for (const text of ["오늘의 다짐", "<WeeklyReportCard", "<WeeklyTrainingSummary"]) expect(home).toContain(text);
+    for (const text of ["<HomeCommitments", "<WeeklyReportCard", "<WeeklyTrainingSummary"]) expect(home).toContain(text);
     expect(home).toContain('href="/settings"');
   });
 

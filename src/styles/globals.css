@@ -251,6 +251,32 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: inset 3.25rem 1px 0 var(--surface-strong), inset 0 1px 0 var(--line);
   }
 
+  /* 리디자인 — 화면의 주인공 한 장. 카드 한 겹, 안은 구분선으로 나눈다(2026-11-18 시안). */
+  .app-focus {
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    background: var(--surface-strong);
+    padding: 1.125rem;
+  }
+  /* 큰 숫자 — 자릿수가 흔들리지 않게 tabular, 굵게, 자간 좁게. */
+  .app-num {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  /* 섹션 제목 줄 — 왼쪽 제목, 오른쪽 작은 링크. */
+  .app-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-inline: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
   /* 반투명 블러 막대(하단 탭·머리글). */
   .app-glass {
     background: color-mix(in srgb, var(--background) 94%, transparent);

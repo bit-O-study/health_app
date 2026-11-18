@@ -1,5 +1,6 @@
 "use client";
 
+import { GameIcon } from "@/components/icons/game-icon";
 import { useEffect, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { Ban, Loader2, Play, X } from "lucide-react";
 
 import { useBackClose } from "@/lib/platform/use-back-close";
-import { characterEmoji, pastelClass } from "@/features/groups/avatar";
+import { characterIcon, pastelClass } from "@/features/groups/avatar";
 import type { AuthorProfile, FeedPost } from "../data-access";
 import type { ReportTargetKind } from "../report";
 import { getAuthorProfileAction } from "../community-actions";
@@ -146,7 +147,7 @@ function AuthorSheet({
       >
         <div className="flex items-center gap-3">
           <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl ${pastelClass(name)}`}>
-            {characterEmoji(name)}
+            <GameIcon name={characterIcon(name)} />
           </span>
           <div className="min-w-0 flex-1">
             <h3 className="truncate text-lg font-bold">{name}</h3>

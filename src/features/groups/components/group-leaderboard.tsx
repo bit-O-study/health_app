@@ -1,9 +1,10 @@
+import { GameIcon } from "@/components/icons/game-icon";
 import { BadgeIcon } from "./badge-icon";
 import { Crown, Sparkles, Trophy } from "lucide-react";
 
 import type { RankedMember } from "@/features/groups/ranking";
 import type { CheerView } from "@/features/groups/data-access";
-import { characterEmoji, pastelClass } from "@/features/groups/avatar";
+import { characterIcon, pastelClass } from "@/features/groups/avatar";
 import { topBadge } from "@/features/groups/streak";
 import { MemberCheers } from "@/features/groups/components/member-cheers";
 
@@ -98,7 +99,7 @@ export function GroupLeaderboard({
                     className={isFirst ? "g-bob-big inline-block" : "g-bob inline-block"}
                     style={{ animationDelay: `${(i % 6) * 0.18}s` }}
                   >
-                    {characterEmoji(m.name)}
+                    <GameIcon name={characterIcon(m.name)} />
                   </span>
                 </span>
               </div>

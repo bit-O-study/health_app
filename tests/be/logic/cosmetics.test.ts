@@ -12,11 +12,11 @@ describe("cosmetics catalog", () => {
     const ids = COSMETICS.map((c) => c.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
-  it("all items have a valid slot + positive price + emoji", () => {
+  it("all items have a valid slot + positive price + icon", () => {
     for (const c of COSMETICS) {
       expect(isCosmeticSlot(c.slot)).toBe(true);
       expect(c.price).toBeGreaterThan(0);
-      expect(c.emoji.length).toBeGreaterThan(0);
+      expect(c.icon).toBe(c.id);
     }
   });
   it("lookups work", () => {

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   avatarColorClass,
-  characterEmoji,
+  characterIcon,
   memberInitial,
   pastelClass,
   relativeBarPct,
@@ -29,13 +29,13 @@ describe("avatarColorClass", () => {
   });
 });
 
-describe("characterEmoji", () => {
+describe("characterIcon", () => {
   it("is deterministic per name", () => {
-    expect(characterEmoji("철수")).toBe(characterEmoji("철수"));
+    expect(characterIcon("철수")).toBe(characterIcon("철수"));
   });
   it("returns one of the cute animal set", () => {
-    const set = ["🐰", "🐻", "🐱", "🐶", "🐥", "🐸", "🐼", "🦊", "🐯", "🐨", "🐹", "🐷"];
-    expect(set).toContain(characterEmoji("영희"));
+    const set = ["avatar-rabbit", "avatar-bear", "avatar-cat", "avatar-dog", "avatar-chick", "avatar-frog", "avatar-panda", "avatar-fox", "avatar-tiger", "avatar-koala", "avatar-hamster", "avatar-pig"];
+    expect(set).toContain(characterIcon("영희"));
   });
 });
 

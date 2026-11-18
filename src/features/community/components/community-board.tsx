@@ -1,5 +1,6 @@
 "use client";
 
+import { GameIcon } from "@/components/icons/game-icon";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
@@ -62,7 +63,7 @@ import type {
   ApplyTarget,
   RoutineShareItem,
 } from "@/features/routine-share/share";
-import { characterEmoji, pastelClass } from "@/features/groups/avatar";
+import { characterIcon, pastelClass } from "@/features/groups/avatar";
 
 type Group = { id: string; name: string };
 
@@ -523,7 +524,7 @@ function PostCard({
             post.authorName,
           )}`}
         >
-          {characterEmoji(post.authorName)}
+          <GameIcon name={characterIcon(post.authorName)} />
         </span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold leading-5 text-zinc-900 dark:text-zinc-100">

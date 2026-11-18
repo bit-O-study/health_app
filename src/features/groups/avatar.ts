@@ -31,23 +31,23 @@ export function relativeBarPct(kcal: number, topKcal: number): number {
   return Math.max(4, Math.min(100, Math.round((kcal / topKcal) * 100)));
 }
 
-// 아기자기 귀여운 동물 캐릭터 — 이름 기반으로 고정 배정(같은 이름 → 늘 같은 캐릭터).
+// 아기자기 귀여운 동물 캐릭터(직접 그린 선 아이콘 이름, components/icons/game/avatar-icons.tsx) — 이름 기반으로 고정 배정(같은 이름 → 늘 같은 캐릭터).
 const CHARACTERS = [
-  "🐰",
-  "🐻",
-  "🐱",
-  "🐶",
-  "🐥",
-  "🐸",
-  "🐼",
-  "🦊",
-  "🐯",
-  "🐨",
-  "🐹",
-  "🐷",
+  "avatar-rabbit",
+  "avatar-bear",
+  "avatar-cat",
+  "avatar-dog",
+  "avatar-chick",
+  "avatar-frog",
+  "avatar-panda",
+  "avatar-fox",
+  "avatar-tiger",
+  "avatar-koala",
+  "avatar-hamster",
+  "avatar-pig",
 ] as const;
 
-export function characterEmoji(seed: string): string {
+export function characterIcon(seed: string): string {
   let h = 0;
   for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
   return CHARACTERS[h % CHARACTERS.length];

@@ -1,3 +1,4 @@
+import { GameIcon } from "@/components/icons/game-icon";
 import { floorClass, roomItem, wallClass } from "@/features/pet/catalog";
 import { petStage } from "@/features/pet/level";
 
@@ -34,17 +35,17 @@ export function PetRoom({
     const it = roomItem(id);
     return it ? (
       <span key={id} className={s.decor}>
-        {it.emoji}
+        {it.icon ? <GameIcon name={it.icon} /> : null}
       </span>
     ) : null;
   };
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-xl">
+    <div className={`relative h-full w-full overflow-hidden rounded-xl ${night ? "text-white/90" : "text-zinc-700 dark:text-zinc-200"}`}>
       {/* 벽 */}
       <div className={`absolute inset-x-0 top-0 h-[58%] ${wall}`}>
         {night ? (
-          <span className="absolute right-1.5 top-1 text-xs">✨🌙⭐</span>
+          <span className="absolute right-1.5 top-1 flex items-center gap-0.5 text-xs text-white/90"><GameIcon name="scene-moon" /><GameIcon name="scene-stars" /></span>
         ) : null}
       </div>
       {/* 바닥 */}
@@ -62,7 +63,7 @@ export function PetRoom({
             lineHeight: 1,
           }}
         >
-          🐺
+          <GameIcon name="wolf" />
         </span>
         {right.map(emoji)}
       </div>

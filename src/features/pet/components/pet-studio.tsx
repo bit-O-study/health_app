@@ -1,5 +1,6 @@
 "use client";
 
+import { GameIcon } from "@/components/icons/game-icon";
 import { CoinIcon } from "@/components/icons/app-icons";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -157,7 +158,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
                   : "app-surface"
               }`}
             >
-              <span className="text-2xl">{it.emoji}</span>
+              {it.icon ? <GameIcon name={it.icon} size={28} /> : <span aria-hidden="true" className={`inline-block h-7 w-7 rounded-md border border-line ${it.className ?? ""}`} />}
               <span className="truncate text-xs font-bold text-zinc-800 dark:text-zinc-100">
                 {it.name}
               </span>

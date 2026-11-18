@@ -1,5 +1,6 @@
 "use client";
 
+import { GameIcon } from "@/components/icons/game-icon";
 import { useEffect, useRef, useState, useTransition } from "react";
 import {
   Bookmark,
@@ -16,7 +17,7 @@ import {
   X,
 } from "lucide-react";
 
-import { characterEmoji, pastelClass } from "@/features/groups/avatar";
+import { characterIcon, pastelClass } from "@/features/groups/avatar";
 import { relativeTime } from "../community";
 import type { FeedPost } from "../data-access";
 import { ReportButton } from "./report-button";
@@ -260,7 +261,7 @@ function ReelSlide({
               post.authorName,
             )}`}
           >
-            {characterEmoji(post.authorName)}
+            <GameIcon name={characterIcon(post.authorName)} />
           </span>
           <span className="truncate text-sm font-bold">{post.authorName}</span>
           <span className="text-xs text-white/70">{when}</span>
@@ -478,7 +479,7 @@ function CommentSheet({
                       c.authorName,
                     )}`}
                   >
-                    {characterEmoji(c.authorName)}
+                    <GameIcon name={characterIcon(c.authorName)} />
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs">

@@ -18,39 +18,39 @@ export type RoomItem = {
   name: string;
   cat: RoomCat;
   price: number;
-  /** decor: 이모지 소품. wall/floor: 미리보기 이모지. */
-  emoji: string;
+  /** decor: 직접 그린 소품 아이콘 이름(components/icons/game/decor-icons.tsx). wall/floor 는 className 색 견본으로 보여 준다. */
+  icon?: string;
   /** wall/floor: 방에 칠할 배경 클래스. */
   className?: string;
 };
 
 export const ROOM_ITEMS: RoomItem[] = [
   // 벽지(기본=크림). className 이 벽 밴드 배경.
-  { id: "wall-cream", name: "크림", cat: "wall", price: 0, emoji: "🟡", className: "bg-amber-50 dark:bg-amber-950/30" },
-  { id: "wall-sky", name: "하늘", cat: "wall", price: 40, emoji: "🔵", className: "bg-sky-100 dark:bg-sky-950/40" },
-  { id: "wall-pink", name: "핑크", cat: "wall", price: 40, emoji: "🌸", className: "bg-rose-100 dark:bg-rose-950/40" },
-  { id: "wall-mint", name: "민트", cat: "wall", price: 40, emoji: "🌿", className: "bg-emerald-100 dark:bg-emerald-950/40" },
-  { id: "wall-night", name: "밤하늘", cat: "wall", price: 90, emoji: "🌙", className: "bg-indigo-900" },
+  { id: "wall-cream", name: "크림", cat: "wall", price: 0, className: "bg-amber-50 dark:bg-amber-950/30" },
+  { id: "wall-sky", name: "하늘", cat: "wall", price: 40, className: "bg-sky-100 dark:bg-sky-950/40" },
+  { id: "wall-pink", name: "핑크", cat: "wall", price: 40, className: "bg-rose-100 dark:bg-rose-950/40" },
+  { id: "wall-mint", name: "민트", cat: "wall", price: 40, className: "bg-emerald-100 dark:bg-emerald-950/40" },
+  { id: "wall-night", name: "밤하늘", cat: "wall", price: 90, className: "bg-indigo-900" },
   // 바닥(기본=원목).
-  { id: "floor-wood", name: "원목", cat: "floor", price: 0, emoji: "🪵", className: "bg-amber-200 dark:bg-amber-900/60" },
-  { id: "floor-grass", name: "잔디", cat: "floor", price: 40, emoji: "🌱", className: "bg-emerald-300 dark:bg-emerald-800/60" },
-  { id: "floor-tile", name: "타일", cat: "floor", price: 40, emoji: "⬜", className: "bg-zinc-200 dark:bg-zinc-700" },
-  { id: "floor-carpet", name: "카펫", cat: "floor", price: 60, emoji: "🟥", className: "bg-rose-300 dark:bg-rose-900/60" },
+  { id: "floor-wood", name: "원목", cat: "floor", price: 0, className: "bg-amber-200 dark:bg-amber-900/60" },
+  { id: "floor-grass", name: "잔디", cat: "floor", price: 40, className: "bg-emerald-300 dark:bg-emerald-800/60" },
+  { id: "floor-tile", name: "타일", cat: "floor", price: 40, className: "bg-zinc-200 dark:bg-zinc-700" },
+  { id: "floor-carpet", name: "카펫", cat: "floor", price: 60, className: "bg-rose-300 dark:bg-rose-900/60" },
   // 소품(여러 개 배치 가능).
-  { id: "decor-bed", name: "늑대 침대", cat: "decor", price: 80, emoji: "🛏️" },
-  { id: "decor-sofa", name: "소파", cat: "decor", price: 60, emoji: "🛋️" },
-  { id: "decor-chair", name: "의자", cat: "decor", price: 30, emoji: "🪑" },
-  { id: "decor-plant", name: "화분", cat: "decor", price: 30, emoji: "🪴" },
-  { id: "decor-tree", name: "야자수", cat: "decor", price: 50, emoji: "🌴" },
-  { id: "decor-picture", name: "그림", cat: "decor", price: 40, emoji: "🖼️" },
-  { id: "decor-teddy", name: "곰인형", cat: "decor", price: 45, emoji: "🧸" },
-  { id: "decor-bone", name: "뼈다귀", cat: "decor", price: 20, emoji: "🦴" },
-  { id: "decor-ball", name: "공", cat: "decor", price: 25, emoji: "🏀" },
-  { id: "decor-balloon", name: "풍선", cat: "decor", price: 20, emoji: "🎈" },
-  { id: "decor-tv", name: "TV", cat: "decor", price: 120, emoji: "📺" },
-  { id: "decor-lamp", name: "조명", cat: "decor", price: 35, emoji: "💡" },
-  { id: "decor-window", name: "창문", cat: "decor", price: 60, emoji: "🪟" },
-  { id: "decor-star", name: "별조명", cat: "decor", price: 35, emoji: "⭐" },
+  { id: "decor-bed", name: "늑대 침대", cat: "decor", price: 80, icon: "decor-bed" },
+  { id: "decor-sofa", name: "소파", cat: "decor", price: 60, icon: "decor-sofa" },
+  { id: "decor-chair", name: "의자", cat: "decor", price: 30, icon: "decor-chair" },
+  { id: "decor-plant", name: "화분", cat: "decor", price: 30, icon: "decor-plant" },
+  { id: "decor-tree", name: "야자수", cat: "decor", price: 50, icon: "decor-tree" },
+  { id: "decor-picture", name: "그림", cat: "decor", price: 40, icon: "decor-picture" },
+  { id: "decor-teddy", name: "곰인형", cat: "decor", price: 45, icon: "decor-teddy" },
+  { id: "decor-bone", name: "뼈다귀", cat: "decor", price: 20, icon: "decor-bone" },
+  { id: "decor-ball", name: "공", cat: "decor", price: 25, icon: "decor-ball" },
+  { id: "decor-balloon", name: "풍선", cat: "decor", price: 20, icon: "decor-balloon" },
+  { id: "decor-tv", name: "TV", cat: "decor", price: 120, icon: "decor-tv" },
+  { id: "decor-lamp", name: "조명", cat: "decor", price: 35, icon: "decor-lamp" },
+  { id: "decor-window", name: "창문", cat: "decor", price: 60, icon: "decor-window" },
+  { id: "decor-star", name: "별조명", cat: "decor", price: 35, icon: "decor-star" },
 ];
 
 export function roomItem(id: string): RoomItem | undefined {

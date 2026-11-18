@@ -13,7 +13,8 @@ export type PetStage = {
   /** 화면 표시 이름 */
   title: string;
   /** 짧은 이모지(뱃지용) */
-  emoji: string;
+  /** 직접 그린 아이콘 이름(components/icons/game/pet-icons.tsx). */
+  icon: string;
   /** 이 단계 최소 레벨(포함) */
   minLevel: number;
   /** 이 단계 최대 레벨(포함). null = 무제한(마지막 단계). */
@@ -29,11 +30,11 @@ export type PetStage = {
  *  알 1~9(=0~9) → 아기 10~29 → 청소년 30~69 → 어른 70~199 → 할아버지 200~무제한.
  */
 export const PET_STAGES: PetStage[] = [
-  { id: "egg", title: "알", emoji: "🥚", minLevel: 0, maxLevel: 9, minScale: 0.7, maxScale: 0.95 },
-  { id: "baby", title: "아기 강아지", emoji: "🐶", minLevel: 10, maxLevel: 29, minScale: 0.85, maxScale: 1.1 },
-  { id: "teen", title: "청소년 강아지", emoji: "🐕", minLevel: 30, maxLevel: 69, minScale: 1.05, maxScale: 1.3 },
-  { id: "adult", title: "어른 강아지", emoji: "🦮", minLevel: 70, maxLevel: 199, minScale: 1.25, maxScale: 1.55 },
-  { id: "elder", title: "할아버지 강아지", emoji: "🐕‍🦺", minLevel: 200, maxLevel: null, minScale: 1.5, maxScale: 1.7 },
+  { id: "egg", title: "알", icon: "stage-egg", minLevel: 0, maxLevel: 9, minScale: 0.7, maxScale: 0.95 },
+  { id: "baby", title: "아기 강아지", icon: "stage-baby", minLevel: 10, maxLevel: 29, minScale: 0.85, maxScale: 1.1 },
+  { id: "teen", title: "청소년 강아지", icon: "stage-teen", minLevel: 30, maxLevel: 69, minScale: 1.05, maxScale: 1.3 },
+  { id: "adult", title: "어른 강아지", icon: "stage-adult", minLevel: 70, maxLevel: 199, minScale: 1.25, maxScale: 1.55 },
+  { id: "elder", title: "할아버지 강아지", icon: "stage-elder", minLevel: 200, maxLevel: null, minScale: 1.5, maxScale: 1.7 },
 ];
 
 /** 레벨 → 현재 진화 단계. */

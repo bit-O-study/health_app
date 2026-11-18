@@ -1,5 +1,6 @@
 "use client";
 
+import { GameIcon } from "@/components/icons/game-icon";
 import { WorkoutShareCard } from "./workout-share-card";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -17,7 +18,7 @@ import {
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
-import { characterEmoji, pastelClass } from "@/features/groups/avatar";
+import { characterIcon, pastelClass } from "@/features/groups/avatar";
 import { relativeTime, captionLimit, MAX_QUESTION_TITLE, answerOrder, threadComments } from "../community";
 import { AuthorName } from "./author-sheet";
 import type { CommunityComment, CommunityPost } from "../data-access";
@@ -335,7 +336,7 @@ export function PostDetail({
             post.authorName,
           )}`}
         >
-          {characterEmoji(post.authorName)}
+          <GameIcon name={characterIcon(post.authorName)} />
         </span>
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold leading-5">
@@ -527,7 +528,7 @@ export function PostDetail({
                   c.authorName,
                 )}`}
               >
-                {characterEmoji(c.authorName)}
+                <GameIcon name={characterIcon(c.authorName)} />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">

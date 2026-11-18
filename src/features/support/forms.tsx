@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { CATEGORIES } from "./model";
 import { retrySupportNotification, createTicket, replyTicket, readTicket, supportNotificationAction } from "./actions";
 
-const field = "mt-2 block w-full rounded-xl border border-zinc-300 bg-transparent p-3 dark:border-zinc-700";
-const button = "rounded-xl bg-brand px-4 py-3 font-semibold text-white dark:text-zinc-950 disabled:opacity-50";
+const field = "mt-2 block min-h-11 w-full rounded-xl border border-line bg-[var(--surface-strong)] p-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand/30";
+const button = "inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 py-3 font-semibold text-white transition active:opacity-90 dark:text-zinc-950 disabled:opacity-50";
 export function RefreshSupport() {
   const router = useRouter();
   useEffect(() => { const id = setInterval(() => { if (document.visibilityState === "visible") router.refresh(); },60000); return () => clearInterval(id); },[router]);

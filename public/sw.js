@@ -170,6 +170,8 @@ self.addEventListener("message", (event) => {
       await self.registration.showNotification(title, {
         body,
         tag: "rest-timer",
+        icon: "/icon-192.png",
+        badge: "/icon-192.png",
         renotify: true,
         data: { type: "rest", url: "/routine" },
         vibrate: [180, 80, 180],
@@ -209,6 +211,8 @@ self.addEventListener("push", (event) => {
       self.registration.showNotification(title, {
         body,
         tag: "workout-end",
+        icon: "/icon-192.png",
+        badge: "/icon-192.png",
         requireInteraction: true,
         data: { type },
         actions: [
@@ -225,6 +229,8 @@ self.addEventListener("push", (event) => {
     self.registration.showNotification(title, {
       body,
       tag: type,
+      icon: "/icon-192.png",
+      badge: "/icon-192.png",
       data: { type, url: data.url || "/" },
     }),
   );

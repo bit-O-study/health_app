@@ -48,4 +48,11 @@ describe("알림 로고 아이콘 — 이름·파일·색이 서로 맞는다", 
     expect(local).toContain("smallIcon: NOTIF_SMALL_ICON");
     expect(local).not.toContain("ic_stat_icon_config_sample");
   });
+  it("웹 알림(서비스워커)도 로고 아이콘을 단다 — 없으면 브라우저 기본 아이콘이 나온다", () => {
+    const sw = read("public/sw.js");
+    const calls = sw.match(/registration\.showNotification\(/g) ?? [];
+    const icons = sw.match(/icon: "\/icon-192\.png"/g) ?? [];
+    expect(calls.length).toBeGreaterThan(0);
+    expect(icons.length).toBe(calls.length);
+  });
 });

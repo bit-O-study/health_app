@@ -26,7 +26,7 @@ export function MemberPrescription({ connectionId, memberId, memberName, exercis
       <p className="text-sm font-semibold">{memberName} 님 · {exercises.length}개 운동</p></div></div>
     <label className="flex min-h-12 items-center gap-3 rounded-xl border border-line bg-zinc-50 px-4 dark:bg-zinc-900"><Search size={18} className="shrink-0 text-muted" aria-hidden="true" /><input aria-label="처방 운동 찾기" placeholder="운동 이름, 부위, 일차로 찾기" value={query} onChange={event => setQuery(event.target.value)} className="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none" /></label>
     {query && <p role="status" className="text-sm text-muted">{matching.length ? `${matching.length}개 운동을 찾았어요.` : "일치하는 운동이 없어요. 다른 이름이나 부위로 찾아보세요."}</p>}
-    {exercises.length === 0 ? <p className="app-card p-5 text-sm text-muted">회원이 운동을 등록하면 여기서 처방할 수 있어요.</p> : days.map((day, index) => {
+    {exercises.length === 0 ? <p className="py-10 text-center text-sm text-muted">회원이 운동을 등록하면 여기서 처방할 수 있어요.</p> : days.map((day, index) => {
       const rows = matching.filter(row => row.day_index === day);
       const focuses = [...new Set(rows.map(row => isDayBlockId(row.focus) ? DAY_BLOCKS[row.focus].label : row.focus))];
       return <details key={day ?? "common"} open={!!query || index === 0} className="group app-card p-4">
@@ -79,7 +79,7 @@ function PrescriptionFields({ input, setInput, name, setName, equipments, setEqu
       <button type="button" className="shrink-0 rounded-lg border px-3" onClick={() => start(async () => {
         try { setHits(await searchPrescriptionExercises(query)); setSearched(true); } catch { setMessage("검색하지 못했어요. 다시 시도해 주세요."); }
       })}>검색</button></div>
-    {searched && hits.length === 0 && <p className="text-sm">검색 결과가 없어요.</p>}
+    {searched && hits.length === 0 && <p className="py-6 text-center text-sm text-muted">검색 결과가 없어요.</p>}
     <ul className="max-h-48 overflow-auto">{hits.map(hit => <li key={hit.id}><button type="button" className="w-full p-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800" onClick={() => {
       setInput({ ...input, exerciseId: hit.id, equipment: hit.equipments[0], weightKg: null }); setName(hit.name); setEquipments(hit.equipments as EquipmentId[]); setHits([]); setSearched(false);
     }}>{hit.name}</button></li>)}</ul>
@@ -127,7 +127,7 @@ function PrescriptionCard({ contextLabel, rowName, summary, memberName, initial,
       } catch { setMessage("연결을 확인한 뒤 다시 시도해 주세요."); setConfirm(null); }
     });
   }
-  return <article className="self-start space-y-3 rounded-xl border border-line bg-white p-4 dark:bg-zinc-950">
+  return <article className="self-start space-y-3 rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900">
     <p className="text-xs text-muted">{contextLabel}</p>
     <h3 className="text-lg font-bold">{rowName}</h3>
     <div className="flex flex-wrap gap-2">{summary.split(" · ").map(part => <span key={part} className="rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium tabular-nums dark:bg-zinc-800">{part}</span>)}</div>

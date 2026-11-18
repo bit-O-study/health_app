@@ -7,6 +7,7 @@ import {
   Check,
   ChevronRight,
   Coins,
+  Flame,
   Loader2,
   Pencil,
   Users,
@@ -146,8 +147,8 @@ export function GymRoom({
               >
                 {m.name}
               </span>
-              <span className="shrink-0 font-bold text-orange-600 dark:text-orange-400">
-                🔥{m.kcal.toLocaleString()}
+              <span className="inline-flex shrink-0 items-center gap-0.5 font-bold text-orange-600 dark:text-orange-400">
+                <Flame size={14} aria-hidden="true" />{m.kcal.toLocaleString()}
               </span>
             </div>
           ))}
@@ -186,8 +187,8 @@ export function GymRoom({
             <span className="text-zinc-700 dark:text-zinc-200">
               Lv.{pet.level} → Lv.{pet.level + 1}
             </span>
-            <span className="tabular-nums text-amber-600 dark:text-amber-400">
-              🪙 {pet.progress.toLocaleString()} / {pet.nextCost.toLocaleString()}
+            <span className="inline-flex items-center gap-1 tabular-nums text-amber-600 dark:text-amber-400">
+              <Coins size={14} aria-hidden="true" /> {pet.progress.toLocaleString()} / {pet.nextCost.toLocaleString()}
             </span>
           </div>
           <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
@@ -249,7 +250,7 @@ export function GymRoom({
               disabled={pet.coins <= 0}
               className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-bold text-white shadow transition hover:brightness-110 disabled:opacity-60"
             >
-              🪙 코인 넣기 (보유 {pet.coins.toLocaleString()})
+              <Coins size={16} aria-hidden="true" /> 코인 넣기 (보유 {pet.coins.toLocaleString()})
             </button>
           )}
         </div>
@@ -294,8 +295,8 @@ export function GymRoom({
                         <span className="ml-1 text-xs font-bold text-emerald-600">나</span>
                       ) : null}
                     </span>
-                    <span className="shrink-0 text-xs font-bold text-orange-600 dark:text-orange-400">
-                      🔥{m.kcal.toLocaleString()}
+                    <span className="inline-flex shrink-0 items-center gap-0.5 text-xs font-bold text-orange-600 dark:text-orange-400">
+                      <Flame size={12} aria-hidden="true" />{m.kcal.toLocaleString()}
                     </span>
                     <ChevronRight size={15} className="shrink-0 text-muted" />
                   </Link>

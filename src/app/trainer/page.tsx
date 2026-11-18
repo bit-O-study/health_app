@@ -42,8 +42,8 @@ export default async function TrainerPage({ searchParams }: { searchParams: Prom
         {period === "week" ? "이번 주 vs 지난주" : "이번 달 vs 지난달"} 같은 날짜까지 · 회원이 허용한 정보만 표시해요.
         {dropped > 0 ? <span className="rounded-full bg-danger/10 px-2 py-0.5 font-semibold text-danger" data-testid="dropped-count">줄어든 회원 {dropped}명</span> : null}
       </p>
-      {!links.length ? <p className="app-card p-5 text-sm">아직 초대를 수락한 회원이 없어요.</p>
-        : <div className="app-card divide-y divide-line p-5">{cards.map(({ link, trend }) => <MemberTrendCard key={link.id} linkId={link.id} name={link.member_name} trend={trend} period={period} prescription={link.allow_prescription} />)}</div>}
+      {!links.length ? <p className="py-10 text-center text-sm text-muted">아직 초대를 수락한 회원이 없어요.<br />위에서 회원을 초대해 보세요.</p>
+        : <div className="space-y-4">{cards.map(({ link, trend }) => <MemberTrendCard key={link.id} linkId={link.id} name={link.member_name} trend={trend} period={period} prescription={link.allow_prescription} />)}</div>}
     </section>
   </main>;
 }

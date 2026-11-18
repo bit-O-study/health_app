@@ -26,7 +26,7 @@ export async function TrainerSectionPage({ section, query = "" }: {section:"memb
       {!messagingReady ? <p role="status" className="app-card p-4 text-sm">초대는 회원 관리에서 카카오톡으로 직접 보내요.<br />여기에는 알림톡·문자로 자동 발송한 내역만 나와요.</p>:null}
       {!admin || notifications?.error || disconnected?.error ? <p role="alert">알림 내역을 불러오지 못했어요.<br />잠시 후 다시 확인해 주세요.</p>:null}
       <div className="app-card divide-y divide-line">{notifications?.data?.map(note=><article key={note.id} className="space-y-2 p-4"><h3 className="font-semibold">{note.kind==="invite"?"회원 초대":"회원 연결 해제"}{note.payload?.member ? ` · ${note.payload.member}`:""}</h3><p className="text-sm text-brand">{note.channel==="ATA"?"알림톡":"문자"} · {status[note.status]??note.status}</p><time className="text-xs text-muted">{new Date(note.created_at).toLocaleString("ko-KR",{timeZone:"Asia/Seoul"})}</time></article>)}</div>
-      {notifications?.data?.length===0 && <p className="text-sm text-muted">아직 관리 알림이 없어요.</p>}
+      {notifications?.data?.length===0 && <p className="py-8 text-center text-sm text-muted">아직 관리 알림이 없어요.</p>}
       {!!disconnected?.data?.length && <section className="app-card p-4"><h3 className="font-semibold">관리 연결이 해제된 회원</h3>{disconnected.data.map(row=><p key={row.id} className="mt-2 text-sm">{row.member_name} · {row.revoked_at?.slice(0,10)}</p>)}</section>}
     </> : <>
       {section==="members" && <section className="app-card space-y-3 p-5"><h3 className="font-semibold">회원 초대</h3><TrainerForm intent="invite" label="초대 보내기">{/* 카카오톡 공유(무료)가 기본 — 알림톡·문자는 발송 업체 설정이 있을 때만 고를 수 있다. */}
@@ -34,7 +34,7 @@ export async function TrainerSectionPage({ section, query = "" }: {section:"memb
       <form className="flex gap-2"><input type="search" name="q" defaultValue={query} aria-label="회원 검색" placeholder="회원 이름 검색" className="min-h-11 min-w-0 flex-1 rounded-xl border border-line px-3"/><button className="rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950">검색</button></form>
       <p className="text-sm text-muted">{section==="prescriptions"?"운동 처방을 허용한 회원에게만 처방할 수 있어요.":"회원이 동의한 정보만 조회할 수 있어요."}</p>
       <div className="app-card divide-y divide-line">{links.filter(link=>link.member_name.includes(query.trim())).map(link=><article key={link.id} className="space-y-2 p-4"><h3 className="font-semibold">{link.member_name}</h3><p className="text-xs text-muted">운동 {link.share_workout?"공유":"비공개"} · 식단 {link.share_diet?"공유":"비공개"} · 체형 {link.share_body?"공유":"비공개"}</p>{section==="prescriptions"&&!link.allow_prescription?<p className="text-sm text-muted">회원의 처방 허용을 기다리고 있어요.</p>:<Link href={`/trainer/members/${link.id}?view=${section==="prescriptions"?"prescription":"stats"}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-brand">{section==="prescriptions"?"처방 작성·수정":"회원 상세 보기"} →</Link>}</article>)}</div>
-      {!links.filter(link=>link.member_name.includes(query.trim())).length && <p className="text-sm text-muted">표시할 회원이 없어요.</p>}
+      {!links.filter(link=>link.member_name.includes(query.trim())).length && <p className="py-8 text-center text-sm text-muted">표시할 회원이 없어요.</p>}
     </>}
   </main></div>;
 }

@@ -244,7 +244,7 @@ export function BodyPhotosPanel({ view, today }: { view: BodyPhotosView; today: 
             </p>
           </>
         ) : (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="py-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
             {POSE_LABEL[cmpPose]} 사진이 2장 이상 쌓이면 나란히 비교할 수 있어요.
           </p>
         )}

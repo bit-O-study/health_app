@@ -60,9 +60,9 @@ export default async function GroupPledgesPage() {
                 {list.length === 0 ? (
                   <p className="py-4 text-center text-xs text-muted">아직 공유된 다짐이 없어요</p>
                 ) : (
-                  <ul className="space-y-2">
+                  <ul className="app-card divide-y divide-line">
                     {list.map((s) => (
-                      <li key={s.id} className="app-card p-3" data-testid="group-pledge">
+                      <li key={s.id} className="p-3" data-testid="group-pledge">
                         <div className="flex items-center justify-between gap-2">
                           <p className="min-w-0 truncate text-sm font-semibold">
                             <span className="text-muted">{s.name}</span> · {s.title}

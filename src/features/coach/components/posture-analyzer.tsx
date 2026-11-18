@@ -176,9 +176,9 @@ export function PostureAnalyzer({
           <p className="rounded-xl bg-brand-soft p-3 text-sm leading-6 text-brand">
             {analysis.summary}
           </p>
-          <ul className="space-y-2">
+          <ul className="divide-y divide-line">
             {analysis.points.map((p, i) => (
-              <li key={i} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
+              <li key={i} className="py-3">
                 <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                   {p.title}
                 </p>

@@ -454,7 +454,7 @@ function TodayWorkout({
     <div className="space-y-5">
       {/* 아이폰 큰 제목 — 날짜·루틴 한 줄이 위, 제목이 아래 */}
       <div className="px-1">
-        <p className="truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <p className="truncate text-xs font-semibold text-muted">
           {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
         </p>
         <h1 className="app-title">
@@ -465,20 +465,20 @@ function TodayWorkout({
       <PermissionNudge />
 
       {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
-      <section className="app-card border-t-4 border-t-brand p-4">
+      <section className="app-focus">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {isRest ? (
               <Moon
                 aria-hidden="true"
-                className="text-zinc-400 dark:text-zinc-500"
-                size={20}
+                className="text-muted"
+                size={22}
               />
             ) : (
               <Dumbbell
                 aria-hidden="true"
-                className="text-zinc-600 dark:text-zinc-400"
-                size={20}
+                className="text-muted"
+                size={22}
               />
             )}
             <TodayFocusMenu
@@ -491,7 +491,7 @@ function TodayWorkout({
         </div>
 
         {isRest ? (
-          <p className="mt-1.5 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-sm leading-6 text-muted">
             {restedToday
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
@@ -506,18 +506,18 @@ function TodayWorkout({
                 )
               : planToday.muscles;
             return (
-              <div className="mt-1.5">
+              <div className="mt-3">
                 {/* 촘촘하게 — 작은 인체 그림 + 라벨·부위 이름을 한 덩어리로(자극 부위 글자는 유지). */}
                 <div className="flex items-center gap-3">
-                  <DayMuscleMap names={dayMuscles} width={30} />
+                  <DayMuscleMap names={dayMuscles} width={40} />
                   <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
-                    <span className="mr-0.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <span className="mr-0.5 text-xs font-semibold text-muted">
                       자극 부위
                     </span>
                     {dayMuscles.map((muscle) => (
                       <span
                         key={muscle}
-                        className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300"
+                        className="rounded-full bg-black/[0.05] px-2.5 py-1 text-xs font-medium dark:bg-white/[0.08]"
                       >
                         {muscle}
                       </span>

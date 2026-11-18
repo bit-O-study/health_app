@@ -24,7 +24,7 @@ export default function AccountDeletionPage() {
     <div className="app-page">
       <PageHeader title="계정 및 데이터 삭제 안내" />
       <main className="app-container space-y-4 text-sm leading-6 text-zinc-800 dark:text-zinc-200">
-        <p className="-mt-1 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="-mt-1 px-1 text-xs text-muted">
           서비스명: {siteConfig.name}
         </p>
 

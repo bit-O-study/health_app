@@ -126,7 +126,7 @@ export function GymRoom({
         ) : null}
 
         <div className="max-h-[40vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/40 p-1.5 backdrop-blur-sm dark:bg-zinc-900/40">
-          <p className="mb-0.5 text-center text-xs font-bold text-zinc-500">
+          <p className="mb-0.5 text-center text-xs font-bold text-muted">
             이번주 소모 kcal
           </p>
           {members.map((m, i) => (
@@ -134,7 +134,7 @@ export function GymRoom({
               key={m.userId}
               className="flex items-center gap-1 text-sm leading-tight"
             >
-              <span className="w-3.5 shrink-0 text-center font-bold text-zinc-500">
+              <span className="w-3.5 shrink-0 text-center font-bold text-muted">
                 {i + 1}
               </span>
               <span
@@ -208,13 +208,13 @@ export function GymRoom({
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder={`최대 ${pet.coins}`}
-                className="h-10 min-w-0 flex-1 rounded-lg border border-zinc-300 px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
+                className="h-11 min-w-0 flex-1 rounded-lg border border-zinc-300 px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
               />
               <button
                 type="button"
                 onClick={() => deposit(Number(amount))}
                 disabled={pending || !amount}
-                className="inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white shadow disabled:opacity-60"
+                className="inline-flex h-11 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white shadow disabled:opacity-60"
               >
                 {pending ? <Loader2 size={15} className="animate-spin" /> : null}
                 넣기
@@ -273,7 +273,7 @@ export function GymRoom({
                 type="button"
                 onClick={() => setShowMembers(false)}
                 aria-label="닫기"
-                className="text-zinc-400"
+                className="text-muted"
               >
                 <X size={18} />
               </button>
@@ -285,7 +285,7 @@ export function GymRoom({
                     href={`/groups/${groupId}/member/${m.userId}`}
                     className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-2.5 transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
                   >
-                    <span className="w-4 text-center text-sm font-bold text-zinc-400">
+                    <span className="w-4 text-center text-sm font-bold text-muted">
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
@@ -297,7 +297,7 @@ export function GymRoom({
                     <span className="shrink-0 text-xs font-bold text-orange-600 dark:text-orange-400">
                       🔥{m.kcal.toLocaleString()}
                     </span>
-                    <ChevronRight size={15} className="shrink-0 text-zinc-400" />
+                    <ChevronRight size={15} className="shrink-0 text-muted" />
                   </Link>
                 </li>
               ))}

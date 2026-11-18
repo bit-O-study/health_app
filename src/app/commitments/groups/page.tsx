@@ -34,7 +34,7 @@ export default async function GroupPledgesPage() {
       <main className="app-container space-y-5">
         {groups.length === 0 ? (
           <div className="app-card space-y-2 p-4 text-center">
-            <p className="text-sm text-zinc-500">속한 그룹이 없어요</p>
+            <p className="text-sm text-muted">속한 그룹이 없어요</p>
             <Link href="/groups/find" className="inline-flex h-10 items-center rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950">
               그룹 찾기
             </Link>
@@ -47,14 +47,14 @@ export default async function GroupPledgesPage() {
             return (
               <section key={g.id} className="space-y-2" data-testid="group-pledges">
                 <h2 className="text-sm font-bold">
-                  {g.name} <span className="text-xs font-normal text-zinc-500">· 멤버 {g.memberCount}명</span>
+                  {g.name} <span className="text-xs font-normal text-muted">· 멤버 {g.memberCount}명</span>
                 </h2>
                 <div className="app-card space-y-2 p-3" data-testid="group-failure-list">
                   <h3 className="text-sm font-bold">실패 명단 · {failures.length}명</h3>
-                  {failures.length ? <ul className="space-y-1 text-sm">{failures.map((m) => <li key={m.userId} className="break-words"><span className="font-semibold text-danger">{m.name}</span><span className="text-zinc-500"> · {m.titles.join(", ")}</span></li>)}</ul> : <p className="text-xs text-zinc-500">아직 실패로 판정된 멤버가 없어요.</p>}
+                  {failures.length ? <ul className="space-y-1 text-sm">{failures.map((m) => <li key={m.userId} className="break-words"><span className="font-semibold text-danger">{m.name}</span><span className="text-muted"> · {m.titles.join(", ")}</span></li>)}</ul> : <p className="text-xs text-muted">아직 실패로 판정된 멤버가 없어요.</p>}
                 </div>
                 {shared.error ? <p role="alert" className="text-sm text-danger">그룹 전체 다짐을 불러오지 못했어요. 잠시 후 새로고침해 주세요.</p> : null}
-                {g.isOwner ? <GroupPledgeForm groupId={g.id} today={seoulYmd()} memberCount={g.memberCount} /> : <p className="text-xs text-zinc-500">그룹장이 전체 다짐을 만들 수 있어요.</p>}
+                {g.isOwner ? <GroupPledgeForm groupId={g.id} today={seoulYmd()} memberCount={g.memberCount} /> : <p className="text-xs text-muted">그룹장이 전체 다짐을 만들 수 있어요.</p>}
                 {common.map((p) => <GroupWidePledgeCard key={p.id} pledge={p} />)}
                 <h3 className="text-sm font-semibold">멤버가 공유한 개인 다짐</h3>
                 {list.length === 0 ? (
@@ -65,14 +65,14 @@ export default async function GroupPledgesPage() {
                       <li key={s.id} className="app-card p-3" data-testid="group-pledge">
                         <div className="flex items-center justify-between gap-2">
                           <p className="min-w-0 truncate text-sm font-semibold">
-                            <span className="text-zinc-500">{s.name}</span> · {s.title}
+                            <span className="text-muted">{s.name}</span> · {s.title}
                           </p>
                           <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-bold ${STATUS_TONE[s.status]}`}>
                             {STATUS_LABEL[s.status]}
                             {s.status === "active" ? ` ${s.week}주차` : ""}
                           </span>
                         </div>
-                        <p className="mt-0.5 text-xs text-zinc-500">
+                        <p className="mt-0.5 text-xs text-muted">
                           {s.startDate} ~ {s.endDate}
                         </p>
                         <ul className="mt-1.5 flex flex-wrap gap-1">

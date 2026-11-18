@@ -117,7 +117,7 @@ export default async function ProgressPage() {
             </p>
             <Link
               href="/routine"
-              className="app-press mt-3 inline-flex h-9 items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950"
+              className="app-press mt-3 inline-flex h-11 items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950"
             >
               오늘 운동하러 가기
             </Link>

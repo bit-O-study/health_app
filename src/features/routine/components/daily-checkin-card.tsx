@@ -128,7 +128,7 @@ export function DailyCheckinCard({
 
       {editing ? (
         <div className="space-y-4">
-          <ol className="flex gap-2 text-xs text-zinc-500" aria-label="컨디션 체크 진행">
+          <ol className="flex gap-2 text-xs text-muted" aria-label="컨디션 체크 진행">
             {['수면', '근육통', '기운', '확인'].map((label, index) => (
               <li key={label} aria-current={step === index ? 'step' : undefined} className={`flex-1 border-t-2 pt-2 ${step >= index ? 'border-brand text-brand' : 'border-zinc-200 dark:border-zinc-700'}`}>{index + 1}. {label}</li>
             ))}
@@ -154,7 +154,7 @@ export function DailyCheckinCard({
           )) : isCheckin(picked) ? (
             <div className="space-y-3" data-testid="checkin-review">
               <h3 className="text-lg font-semibold">오늘은 이렇게 느끼고 있어요</h3>
-              <dl className="space-y-2 text-sm">{CHECKIN_QUESTIONS.map(q => <div key={q.key} className="flex items-center justify-between gap-3"><dt className="text-zinc-500">{q.label}</dt><dd className="font-semibold">{q.options[picked[q.key]! - 1]}</dd></div>)}</dl>
+              <dl className="space-y-2 text-sm">{CHECKIN_QUESTIONS.map(q => <div key={q.key} className="flex items-center justify-between gap-3"><dt className="text-muted">{q.label}</dt><dd className="font-semibold">{q.options[picked[q.key]! - 1]}</dd></div>)}</dl>
               <p className="rounded-xl bg-brand/10 p-3 text-sm text-zinc-800 dark:text-zinc-100">{adviceFor(picked).text}</p>
               <p className="text-xs text-zinc-500 dark:text-zinc-400">저장만으로 운동량이 바뀌지는 않아요. 저장 후 오늘 운동만 조절할 수 있어요.</p>
             </div>
@@ -177,7 +177,7 @@ export function DailyCheckinCard({
           data-testid="daily-checkin-lighten"
           onClick={lighten}
           disabled={pending}
-          className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
+          className="app-press inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
         >
           {pending ? <Loader2 aria-hidden="true" size={14} className="animate-spin" /> : null}
           오늘만 세트 하나씩 줄이기
@@ -204,7 +204,7 @@ export function DailyCheckinCard({
               <ul className="space-y-1 text-sm text-zinc-800 dark:text-zinc-100">
                 {painSwap.pairs.map((p) => (
                   <li key={p.fromId}>
-                    <span className="text-zinc-500 line-through">{p.fromName}</span> → <b>{p.toName}</b>
+                    <span className="text-muted line-through">{p.fromName}</span> → <b>{p.toName}</b>
                   </li>
                 ))}
               </ul>
@@ -218,7 +218,7 @@ export function DailyCheckinCard({
                     if (r.ok) router.refresh();
                   })
                 }
-                className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
+                className="app-press inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
               >
                 {pending ? <Loader2 aria-hidden="true" size={14} className="animate-spin" /> : null}
                 오늘만 다른 운동으로 바꾸기

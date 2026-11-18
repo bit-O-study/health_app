@@ -144,9 +144,9 @@ export function AiTrainerPanel({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">아직 기록이 거의 없어요.<br />운동·체중을 기록할수록 정확해져요.</p>
+          <p className="text-sm text-muted">아직 기록이 거의 없어요.<br />운동·체중을 기록할수록 정확해져요.</p>
         )}
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           AI에는 이 숫자 요약만 보내요. 이름·이메일·연락처는 보내지 않아요.
         </p>
       </section>
@@ -165,7 +165,7 @@ export function AiTrainerPanel({
             type="button"
             onClick={agree}
             disabled={pending}
-            className="app-press h-10 w-full rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+            className="app-press h-11 w-full rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
           >
             동의하고 시작하기
           </button>
@@ -199,12 +199,12 @@ export function AiTrainerPanel({
             {pending ? <Loader2 aria-hidden="true" size={16} className="animate-spin" /> : <Sparkles aria-hidden="true" size={16} />}
             {plan ? "오늘 운동 다시 짜 줘" : "오늘 운동 짜 줘"}
           </button>
-          <p className="text-center text-xs text-zinc-500 dark:text-zinc-400" data-testid="ai-trainer-remaining">
+          <p className="text-center text-xs text-muted" data-testid="ai-trainer-remaining">
             이번 달 {remaining}회 남았어요 (월 {limit}회)
           </p>
           {outOfQuota && tier === "free" ? (
             // 베이직(AI)은 아직 판매 전(2026-10-01) — 사라고 하지 않고 준비 중이라고만.
-            <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-center text-xs text-muted">
               매일 쓰는 AI 요금제는 아직 준비 중이에요.
             </p>
           ) : null}
@@ -252,7 +252,7 @@ export function AiTrainerPanel({
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                         {it.name}
-                        <span className="ml-1.5 text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                        <span className="ml-1.5 text-xs font-normal text-muted">
                           {BODY_PART_LABEL[it.part]}
                         </span>
                       </span>
@@ -282,12 +282,12 @@ export function AiTrainerPanel({
               data-testid="ai-trainer-apply"
               onClick={() => apply("add")}
               disabled={pending || picked.size === 0}
-              className="app-press inline-flex h-10 w-full items-center justify-center rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
+              className="app-press inline-flex h-11 w-full items-center justify-center rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
             >
               오늘 운동에 {picked.size}개 더하기
             </button>
           </div>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-muted">
             <b>오늘만</b> 바뀌고 내 루틴은 그대로예요. 바꾸기를 고르면 오늘 원래 운동은 내일로 미뤄져요.
             무게·세트는 내 기록에 맞춰 정해져요.
           </p>

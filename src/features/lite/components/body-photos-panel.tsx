@@ -43,7 +43,7 @@ function Chips<T extends string>({
           type="button"
           aria-pressed={value === o.id}
           onClick={() => onChange(o.id)}
-          className={`h-9 flex-1 rounded-full text-sm font-semibold ${
+          className={`min-h-11 flex-1 rounded-full text-sm font-semibold ${
             value === o.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           }`}
         >

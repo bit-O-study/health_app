@@ -54,9 +54,9 @@ export function MemberTodayPrescription({ connectionId, memberId, memberName, da
   const groups = groupTodayRowsByFocus(rows);
   return <section className="space-y-3" aria-labelledby="today-prescription-title">
     <h2 id="today-prescription-title" className="text-lg font-bold">운동 처방 · 오늘만</h2>
-    <p className="text-sm text-zinc-500">{memberName} 님의 <b>{dateLabel} 하루치</b>만 바꿉니다.<br />영구 루틴은 그대로라 내일부터는 원래 루틴으로 돌아갑니다.<br />변경 내역은 회원에게 코멘트로 남습니다.</p>
+    <p className="text-sm text-muted">{memberName} 님의 <b>{dateLabel} 하루치</b>만 바꿉니다.<br />영구 루틴은 그대로라 내일부터는 원래 루틴으로 돌아갑니다.<br />변경 내역은 회원에게 코멘트로 남습니다.</p>
     {notice ? <p className="py-4 text-sm">{notice}</p> : groups.map(group => <div key={group.focus} className="space-y-3">
-      <h3 className="text-sm font-bold text-zinc-500">{group.rows[0]?.focusLabel ?? group.focus}{group.rows.some(r => r.source === "routine") ? " · 아직 루틴 그대로" : " · 오늘만 계획 적용 중"}</h3>
+      <h3 className="text-sm font-bold text-muted">{group.rows[0]?.focusLabel ?? group.focus}{group.rows.some(r => r.source === "routine") ? " · 아직 루틴 그대로" : " · 오늘만 계획 적용 중"}</h3>
       {group.rows.map(row => <TodayPrescriptionEditor key={`${row.focus}:${row.position}:${row.exercise_id}`}
         connectionId={connectionId} memberId={memberId} memberName={memberName} dateLabel={dateLabel} row={row} />)}
     </div>)}
@@ -128,7 +128,7 @@ function PrescriptionCard({ contextLabel, rowName, summary, memberName, initial,
     });
   }
   return <article className="self-start space-y-3 rounded-xl border border-line bg-white p-4 dark:bg-zinc-950">
-    <p className="text-xs text-zinc-500">{contextLabel}</p>
+    <p className="text-xs text-muted">{contextLabel}</p>
     <h3 className="text-lg font-bold">{rowName}</h3>
     <div className="flex flex-wrap gap-2">{summary.split(" · ").map(part => <span key={part} className="rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium tabular-nums dark:bg-zinc-800">{part}</span>)}</div>
     {editing && <fieldset disabled={pending || confirm !== null} className="space-y-3">

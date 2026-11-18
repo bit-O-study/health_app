@@ -41,7 +41,7 @@ export function CompetitionBoard({ initial }: { initial: CompetitionSnapshot }) 
     <ol ref={list} className="relative space-y-3" aria-label="그룹 운동 점수 순위">
       {snapshot?.members.map(m => <li key={m.userId} data-user-id={m.userId} className={`app-card overflow-hidden border p-4 transition-colors motion-reduce:transition-none ${m.isMe ? "border-brand" : "border-line"}`}>
         <div className="flex min-w-0 items-center gap-3"><span className="shrink-0 text-xl font-bold text-brand">{m.week.total ? `${m.rank}위` : "—"}</span><div className="min-w-0 flex-1"><h2 className="truncate font-bold">{m.name}{m.isMe ? " · 나" : ""}</h2><p className="text-sm text-muted">{m.league?.icon} {m.league?.name} · {({ promotion: "승급권", demotion: "강등권", stay: "잔류권", placement: "보호" })[leagueZone(m, snapshot.members, snapshot.weekFrom)]}</p></div><strong className="shrink-0 tabular-nums">{m.week.total.toLocaleString()}점</strong></div>
-        <details className="mt-3 border-t border-line pt-2"><summary className="min-h-9 cursor-pointer text-sm text-brand">운동 점수 상세</summary>
+        <details className="mt-3 border-t border-line pt-2"><summary className="min-h-11 cursor-pointer text-sm text-brand">운동 점수 상세</summary>
           <dl className="grid grid-cols-2 gap-2 text-sm"><dt>완료 세트</dt><dd className="text-right">{m.week.sets}점</dd><dt>반복 수행</dt><dd className="text-right">{m.week.reps}점</dd><dt>컨디셔닝 시간</dt><dd className="text-right">{m.week.conditioning}점</dd><dt>운동일 보너스</dt><dd className="text-right">{m.week.attendance}점</dd><dt>누적 경험치</dt><dd className="text-right">{m.lifetime.total.toLocaleString()} XP</dd></dl>
         </details>
       </li>)}

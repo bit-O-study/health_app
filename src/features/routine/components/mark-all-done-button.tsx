@@ -64,7 +64,7 @@ export function MarkAllDoneButton({
         disabled={busy || total === 0}
         onClick={run}
         title={total === 0 ? "완료 처리할 운동이 없습니다" : undefined}
-        className="app-press inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-200"
+        className="app-press inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-200"
       >
         {busy ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={14} />

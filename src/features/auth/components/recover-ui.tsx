@@ -11,7 +11,7 @@ export const inputCls =
   "h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none transition placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
 /** 입력칸 위 작은 라벨. */
-export const labelCls = "block px-1 pb-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400";
+export const labelCls = "block px-1 pb-1 text-xs font-semibold text-muted";
 
 /** 전체 폭 주 버튼(알약). */
 export const primaryBtnCls =

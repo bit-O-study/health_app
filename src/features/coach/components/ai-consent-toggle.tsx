@@ -29,7 +29,7 @@ export function AiConsentToggle({ initial }: { initial: boolean }) {
         type="button"
         onClick={toggle}
         disabled={pending}
-        className={`app-press h-10 w-full rounded-full text-sm font-semibold disabled:opacity-50 ${
+        className={`app-press h-11 w-full rounded-full text-sm font-semibold disabled:opacity-50 ${
           consent
             ? "border border-line text-zinc-700 dark:text-zinc-200"
             : "bg-brand text-white dark:text-zinc-950"

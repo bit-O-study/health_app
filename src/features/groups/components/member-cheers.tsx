@@ -72,7 +72,7 @@ export function MemberCheers({
             onKeyDown={(e) => {
               if (e.key === "Enter") submit();
             }}
-            className="h-8 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-xs dark:border-zinc-600 dark:bg-zinc-800"
+            className="h-11 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-xs dark:border-zinc-600 dark:bg-zinc-800"
           />
           <button
             type="button"

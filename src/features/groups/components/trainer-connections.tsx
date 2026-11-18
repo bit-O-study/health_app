@@ -96,7 +96,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
               <h2 className="truncate text-base font-bold text-zinc-950 dark:text-zinc-100">
                 {c.trainerName}
               </h2>
-              <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="truncate text-xs text-muted">
                 {c.groupName} · {shareSummary(c.prefs)}
               </p>
             </div>
@@ -118,7 +118,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
                   <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                     {SHARE_LABEL[k]}
                   </p>
-                  <p className="text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs leading-4 text-muted">
                     {SHARE_HINT[k]}
                   </p>
                 </div>

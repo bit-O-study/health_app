@@ -101,7 +101,7 @@ export function TrainerCommentForm({
       ) : null}
 
       {items.length === 0 ? (
-        <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card p-3 text-sm text-muted">
           아직 남긴 코멘트가 없어요.
         </p>
       ) : (
@@ -120,7 +120,7 @@ export function TrainerCommentForm({
                   aria-label="코멘트 삭제"
                   disabled={pending}
                   onClick={() => remove(c.id)}
-                  className="shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-100 hover:text-danger disabled:opacity-50 dark:hover:bg-white/[0.06]"
+                  className="shrink-0 rounded-lg p-1.5 text-muted transition hover:bg-zinc-100 hover:text-danger disabled:opacity-50 dark:hover:bg-white/[0.06]"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>

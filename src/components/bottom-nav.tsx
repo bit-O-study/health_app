@@ -46,7 +46,7 @@ function TabInner({
   const highlight = active || pending;
   const inactive = groupTheme
     ? "text-amber-950/55 dark:text-zinc-400"
-    : "text-zinc-500 dark:text-zinc-400";
+    : "text-muted";
   return (
     <span
       // 라벨은 11px 고정 — 앱 전체 최소 글자(12px)의 유일한 예외. 예전엔 좁은 폰에서 9px 까지 줄었다.

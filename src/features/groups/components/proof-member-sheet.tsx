@@ -62,7 +62,7 @@ export function ProofMemberSheet({
             </span>
             <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
               {member.name}
-              <span className="ml-1.5 text-sm font-semibold text-zinc-400">
+              <span className="ml-1.5 text-sm font-semibold text-muted">
                 오늘
               </span>
             </h2>
@@ -78,11 +78,11 @@ export function ProofMemberSheet({
         </div>
 
         {loading ? (
-          <div className="flex flex-1 items-center justify-center py-16 text-zinc-400">
+          <div className="flex flex-1 items-center justify-center py-16 text-muted">
             <Loader2 aria-hidden="true" size={24} className="animate-spin" />
           </div>
         ) : !day ? (
-          <p className="px-5 py-16 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="px-5 py-16 text-center text-sm text-muted">
             기록을 볼 수 없어요 (같은 그룹원만 열람 가능).
           </p>
         ) : (
@@ -95,7 +95,7 @@ export function ProofMemberSheet({
                 </span>
                 <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {day.intake.toLocaleString()}
-                  <span className="ml-0.5 text-xs font-semibold text-zinc-400">
+                  <span className="ml-0.5 text-xs font-semibold text-muted">
                     kcal
                   </span>
                 </p>
@@ -106,7 +106,7 @@ export function ProofMemberSheet({
                 </span>
                 <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {day.burned.toLocaleString()}
-                  <span className="ml-0.5 text-xs font-semibold text-zinc-400">
+                  <span className="ml-0.5 text-xs font-semibold text-muted">
                     kcal
                   </span>
                 </p>
@@ -115,11 +115,11 @@ export function ProofMemberSheet({
 
             {/* 오늘 운동 */}
             <section className="mb-5">
-              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-muted">
                 <Dumbbell size={14} /> 오늘 운동
               </h3>
               {day.workouts.length === 0 ? (
-                <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700">
+                <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-muted dark:border-zinc-700">
                   오늘 완료한 운동이 없어요.
                 </p>
               ) : (
@@ -132,7 +132,7 @@ export function ProofMemberSheet({
                       <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                         {w.name}
                         {w.detail ? (
-                          <span className="ml-1.5 text-xs font-normal text-zinc-400">
+                          <span className="ml-1.5 text-xs font-normal text-muted">
                             {w.detail}
                           </span>
                         ) : null}
@@ -148,7 +148,7 @@ export function ProofMemberSheet({
 
             {/* 오늘 식단 */}
             <section className="pb-2">
-              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-muted">
                 <Utensils size={14} /> 오늘 식단
               </h3>
               {day.mealPhotos.length > 0 ? (
@@ -161,7 +161,7 @@ export function ProofMemberSheet({
                         alt={`${p.meal} 사진`}
                         className="h-20 w-20 rounded-xl object-cover"
                       />
-                      <figcaption className="mt-0.5 text-xs font-semibold text-zinc-500">
+                      <figcaption className="mt-0.5 text-xs font-semibold text-muted">
                         {p.meal}
                       </figcaption>
                     </figure>
@@ -170,7 +170,7 @@ export function ProofMemberSheet({
               ) : null}
 
               {day.foods.length === 0 ? (
-                <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700">
+                <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-muted dark:border-zinc-700">
                   오늘 기록한 식단이 없어요.
                 </p>
               ) : (

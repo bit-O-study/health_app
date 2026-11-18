@@ -54,14 +54,14 @@ export function NicknameEditor({ initial }: { initial: string }) {
           onChange={(e) => setValue(e.target.value)}
           placeholder="닉네임 (미설정 시 이름)"
           aria-label="닉네임"
-          className="h-9 w-44 rounded-[10px] bg-zinc-100 px-2.5 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="h-11 w-44 rounded-[10px] bg-zinc-100 px-2.5 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
         <button
           type="button"
           aria-label="저장"
           onClick={save}
           disabled={pending}
-          className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-brand text-white dark:text-zinc-950 transition active:opacity-80 disabled:opacity-50"
+          className="flex h-11 w-11 items-center justify-center rounded-[10px] bg-brand text-white dark:text-zinc-950 transition active:opacity-80 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -73,7 +73,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           type="button"
           aria-label="취소"
           onClick={() => setEditing(false)}
-          className="flex h-9 w-9 items-center justify-center rounded-[10px] text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          className="flex h-11 w-11 items-center justify-center rounded-[10px] text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <X aria-hidden="true" size={15} />
         </button>

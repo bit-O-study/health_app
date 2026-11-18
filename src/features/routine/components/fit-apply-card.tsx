@@ -123,7 +123,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
               data-testid="fit-replace-yes"
               onClick={() => apply("replace")}
               disabled={pending || n === 0}
-              className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-danger text-sm font-semibold text-white disabled:opacity-50"
+              className="app-press inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-danger text-sm font-semibold text-white disabled:opacity-50"
             >
               {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
               바꾸기
@@ -133,7 +133,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
               data-testid="fit-replace-no"
               onClick={() => setConfirming(false)}
               disabled={pending}
-              className="h-10 flex-1 rounded-full border border-[var(--line)] text-sm font-semibold text-zinc-700 dark:text-zinc-200"
+              className="min-h-11 flex-1 rounded-full border border-[var(--line)] text-sm font-semibold text-zinc-700 dark:text-zinc-200"
             >
               취소
             </button>

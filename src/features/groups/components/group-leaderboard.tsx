@@ -32,7 +32,7 @@ export function GroupLeaderboard({
 }) {
   if (ranking.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-2 rounded-3xl border border-dashed border-zinc-300 py-12 text-center text-sm text-zinc-400 dark:border-zinc-700">
+      <div className="flex flex-col items-center gap-2 rounded-3xl border border-dashed border-zinc-300 py-12 text-center text-sm text-muted dark:border-zinc-700">
         <Trophy aria-hidden="true" size={30} className="text-zinc-300" />
         아직 랭킹이 없어요. 운동을 완료하면 귀여운 친구들이 등장해요!
       </div>
@@ -58,7 +58,7 @@ export function GroupLeaderboard({
           >
             <div className="flex items-center gap-2">
               {/* 순위 */}
-              <span className="flex w-5 shrink-0 justify-center text-sm font-bold tabular-nums text-zinc-400">
+              <span className="flex w-5 shrink-0 justify-center text-sm font-bold tabular-nums text-muted">
                 {MEDAL[m.rank] ? (
                   <span
                     className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold ${MEDAL[m.rank]}`}
@@ -118,7 +118,7 @@ export function GroupLeaderboard({
                     </span>
                   ) : null}
                 </p>
-                <span className="text-xs text-zinc-400">
+                <span className="text-xs text-muted">
                   운동 {m.workouts}회 · {m.days}일
                 </span>
               </div>

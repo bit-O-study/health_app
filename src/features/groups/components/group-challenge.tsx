@@ -90,7 +90,7 @@ export function GroupChallenge({
       {challenge ? (
         <div className="mt-3">
           <div className="mb-1 flex items-end justify-between">
-            <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-muted">
               {metricLabel(challenge.metric)}
               {challenge.done ? (
                 <span className="ml-1 inline-flex items-center gap-0.5 text-brand">
@@ -113,7 +113,7 @@ export function GroupChallenge({
           </div>
         </div>
       ) : (
-        <p className="mt-2 text-xs text-zinc-500">
+        <p className="mt-2 text-xs text-muted">
           아직 이번 주 목표가 없습니다.
           {isOwner ? " '목표 설정'으로 정해보세요." : ""}
         </p>
@@ -127,7 +127,7 @@ export function GroupChallenge({
               value={metric}
               onChange={(e) => setMetric(e.target.value as ChallengeMetric)}
               disabled={pending}
-              className="h-9 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
+              className="h-11 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
             >
               {CHALLENGE_METRICS.map((m) => (
                 <option key={m.id} value={m.id}>
@@ -144,7 +144,7 @@ export function GroupChallenge({
               value={target}
               onChange={(e) => setTarget(e.target.value)}
               disabled={pending}
-              className="h-9 w-24 rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
+              className="h-11 w-24 rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
             />
           </div>
           {error ? (

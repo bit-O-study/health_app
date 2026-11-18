@@ -53,7 +53,7 @@ export function PainAreaPicker({ initial }: { initial: BodyPart[] }) {
         type="button"
         onClick={save}
         disabled={pending}
-        className="app-press h-10 w-full rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+        className="app-press min-h-11 w-full rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         저장
       </button>

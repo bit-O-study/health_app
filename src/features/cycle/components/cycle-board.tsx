@@ -296,14 +296,14 @@ function DayEditor({
 
         {isPeriod ? (
           <div className="mt-3">
-            <p className="mb-1 text-xs font-semibold text-zinc-500">출혈량</p>
+            <p className="mb-1 text-xs font-semibold text-muted">출혈량</p>
             <div className="flex gap-1.5">
               {FLOWS.map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => setFlow(flow === f ? null : f)}
-                  className={`h-9 flex-1 rounded-lg text-xs font-semibold transition ${
+                  className={`min-h-11 flex-1 rounded-lg text-xs font-semibold transition ${
                     flow === f
                       ? "bg-rose-500 text-white"
                       : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
@@ -317,7 +317,7 @@ function DayEditor({
         ) : null}
 
         <div className="mt-3">
-          <p className="mb-1 text-xs font-semibold text-zinc-500">증상</p>
+          <p className="mb-1 text-xs font-semibold text-muted">증상</p>
           <div className="flex flex-wrap gap-1.5">
             {SYMPTOMS.map((s) => (
               <button

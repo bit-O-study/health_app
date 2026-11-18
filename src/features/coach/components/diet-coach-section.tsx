@@ -95,7 +95,7 @@ export function DietCoachSection({
         <Bar label="단백질" value={intake.proteinG} target={targets.proteinG} unit="g" />
         <Bar label="수분" value={intake.waterMl} target={targets.waterMl} unit="ml" />
       </div>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">목표는 내 몸무게·키·운동 목표로 정한 하루 기준이에요.</p>
+      <p className="text-xs text-muted">목표는 내 몸무게·키·운동 목표로 정한 하루 기준이에요.</p>
 
       {consent ? (
         <>
@@ -104,12 +104,12 @@ export function DietCoachSection({
             data-testid="ai-diet-review"
             onClick={review}
             disabled={pending || remaining <= 0}
-            className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
+            className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={16} className="animate-spin" /> : null}
             {fb ? "오늘 식단 다시 봐 줘" : "오늘 식단 봐 줘"}
           </button>
-          <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-center text-xs text-muted">
             이번 달 {remaining}회 남았어요 (월 {limit}회)
           </p>
         </>
@@ -142,7 +142,7 @@ export function DietCoachSection({
           ) : null}
           {fb.tomorrow.length ? (
             <div>
-              <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">내일 이렇게 드셔 보세요</p>
+              <p className="text-xs font-semibold text-muted">내일 이렇게 드셔 보세요</p>
               <ul className="list-disc pl-5 text-sm text-zinc-700 dark:text-zinc-200">
                 {fb.tomorrow.map((t) => <li key={t}>{t}</li>)}
               </ul>

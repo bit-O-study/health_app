@@ -616,7 +616,7 @@ export function TodayConditioningList({
                         e.stopPropagation();
                         setEditingId(item.rowId);
                       }}
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
                     >
                       <Pencil aria-hidden="true" size={16} />
                     </button>
@@ -633,7 +633,7 @@ export function TodayConditioningList({
                           e.stopPropagation();
                           setMemoTarget(item);
                         }}
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
                           item.memo
                             ? "text-zinc-700 dark:text-zinc-200"
                             : "text-zinc-300 dark:text-zinc-600"
@@ -735,7 +735,7 @@ function CondMemoDialog({
             setError(null);
           }}
           disabled={pending}
-          className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
+          className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-muted"
         />
         {error ? (
           <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
@@ -755,7 +755,7 @@ function CondMemoDialog({
             type="button"
             onClick={save}
             disabled={pending}
-            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -871,7 +871,7 @@ function ConditioningEditForm({
           type="button"
           onClick={save}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="inline-flex min-h-11 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -884,7 +884,7 @@ function ConditioningEditForm({
           type="button"
           onClick={onCancel}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="inline-flex min-h-11 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
@@ -989,7 +989,7 @@ function AddConditioningSlot({
           type="button"
           onClick={submit}
           disabled={pending || !itemId}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="inline-flex min-h-11 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1005,7 +1005,7 @@ function AddConditioningSlot({
             setError(null);
           }}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="inline-flex min-h-11 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>

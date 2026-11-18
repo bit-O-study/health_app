@@ -53,7 +53,7 @@ export default async function GroupMemberPage({
       <div className="app-list">
         <div className="grid grid-cols-2 divide-x divide-[var(--line)] py-2.5 text-center">
           <div className="min-w-0 px-2">
-            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">오늘 섭취</p>
+            <p className="truncate text-xs text-muted">오늘 섭취</p>
             <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
               {hideDiet ? (
                 <span className="text-sm font-medium text-muted">비공개</span>
@@ -66,7 +66,7 @@ export default async function GroupMemberPage({
             </p>
           </div>
           <div className="min-w-0 px-2">
-            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">오늘 운동 소비</p>
+            <p className="truncate text-xs text-muted">오늘 운동 소비</p>
             <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-brand">
               {hideWorkout ? (
                 <span className="text-sm font-medium text-muted">비공개</span>
@@ -148,7 +148,7 @@ export default async function GroupMemberPage({
                   alt={`${p.meal} 사진`}
                   className="h-20 w-20 rounded-xl object-cover"
                 />
-                <figcaption className="mt-0.5 text-xs text-zinc-500">
+                <figcaption className="mt-0.5 text-xs text-muted">
                   {p.meal}
                 </figcaption>
               </figure>
@@ -173,12 +173,12 @@ export default async function GroupMemberPage({
             {day.foods.map((f, i) => (
               <li key={i} className="app-row min-h-[2.75rem] justify-between">
                 <span className="min-w-0 flex-1 truncate text-sm text-zinc-900 dark:text-zinc-100">
-                  <span className="mr-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="mr-1.5 text-xs text-muted">
                     {f.meal}
                   </span>
                   {f.name}
                 </span>
-                <span className="shrink-0 text-sm tabular-nums text-zinc-500 dark:text-zinc-400">
+                <span className="shrink-0 text-sm tabular-nums text-muted">
                   {f.kcal}kcal
                 </span>
               </li>

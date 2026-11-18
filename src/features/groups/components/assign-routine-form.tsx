@@ -40,14 +40,14 @@ export function AssignRoutineForm({
 
   if (mine.length === 0) {
     return (
-      <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="app-card p-3 text-sm text-muted">
         먼저 내 루틴을 만들어야 회원에게 배정할 수 있어요.
       </p>
     );
   }
   if (theirs.length === 0) {
     return (
-      <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="app-card p-3 text-sm text-muted">
         {memberName} 님이 아직 루틴을 만들지 않았어요. 회원이 루틴을 만든 뒤에 배정할 수
         있어요.
       </p>
@@ -70,7 +70,7 @@ export function AssignRoutineForm({
     <div className="space-y-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-2">
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold text-zinc-500">내 루틴</span>
+          <span className="mb-1 block text-xs font-semibold text-muted">내 루틴</span>
           <select
             aria-label="내 일차"
             value={from ?? ""}
@@ -86,7 +86,7 @@ export function AssignRoutineForm({
         </label>
         <ArrowRight aria-hidden="true" size={16} className="mb-3 text-muted" />
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold text-zinc-500">
+          <span className="mb-1 block text-xs font-semibold text-muted">
             {memberName} 님
           </span>
           <select

@@ -27,7 +27,7 @@ export default async function TrainerCommentPage({
       <div className="app-page">
         <PageHeader title="코멘트" back="회원 관리" backHref={`/groups/${id}/trainer`} />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             이 회원에게는 코멘트를 남길 수 없어요.
           </p>
         </main>
@@ -42,7 +42,7 @@ export default async function TrainerCommentPage({
       <PageHeader title="코멘트" back="회원 관리" backHref={`/groups/${id}/trainer`} />
       <main className="app-container space-y-3">
       {/* 누가 보는지는 실수를 막는 안내라 한 줄로 남긴다. */}
-      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="-mt-1 truncate px-1 text-sm text-muted">
         {who.memberName} 님만 볼 수 있어요
       </p>
 

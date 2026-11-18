@@ -124,7 +124,7 @@ export function PostureAnalyzer({
           <h2 className="text-base font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
             자세 분석
           </h2>
-          <p className="truncate text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+          <p className="truncate text-xs leading-4 text-muted">
             10~30초 운동 영상을 촬영/업로드하면 자세를 분석해 교정점을 알려드려요.
           </p>
         </div>
@@ -137,7 +137,7 @@ export function PostureAnalyzer({
         value={exerciseName}
         onChange={(e) => setExerciseName(e.target.value)}
         disabled={busy}
-        className="mt-3 h-9 w-full rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
+        className="mt-3 h-11 w-full rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
       />
       <input
         ref={inputRef}
@@ -151,7 +151,7 @@ export function PostureAnalyzer({
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={busy}
-        className="app-press mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+        className="app-press mt-2 inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {busy ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />

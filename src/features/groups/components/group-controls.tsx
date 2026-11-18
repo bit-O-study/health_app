@@ -142,7 +142,7 @@ export function GroupControls({
           disabled={pending}
           onClick={isOwner ? remove : leave}
           aria-label={isOwner ? "그룹 삭제" : "그룹 나가기"}
-          className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
+          className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-muted transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
         >
           {isOwner ? (
             <Trash2 aria-hidden="true" size={14} />
@@ -195,7 +195,7 @@ export function GroupControls({
           type="button"
           disabled={pending}
           onClick={remove}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-red-300 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:hover:bg-red-950/40"
+          className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-red-300 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:hover:bg-red-950/40"
         >
           <Trash2 aria-hidden="true" size={16} /> 그룹 삭제
         </button>
@@ -211,7 +211,7 @@ export function GroupControls({
       )}
       {confirmDialog}
       {copyFallback ? (
-        <label className="block w-full text-xs text-zinc-500">
+        <label className="block w-full text-xs text-muted">
           복사가 안 돼요. 링크를 길게 눌러 복사해 주세요.
           <input readOnly aria-label="초대 링크" value={copyFallback} onFocus={(e) => e.target.select()} className="mt-1 w-full rounded-md border border-line px-2 py-1 text-xs text-zinc-800 dark:text-zinc-100" />
         </label>

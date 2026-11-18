@@ -91,7 +91,7 @@ export function CommitmentSuggestions({
         type="button"
         onClick={suggest}
         disabled={pending && addingIdx === null}
-        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         {pending && addingIdx === null ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />

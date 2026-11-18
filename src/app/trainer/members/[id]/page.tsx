@@ -67,7 +67,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
   }));
   return <main className="app-page app-container space-y-6">
     <Link href={`/trainer`} className="text-sm text-brand">← 회원 관리</Link>
-    <header><h1 className="text-xl font-bold">{data.name} 님 관리</h1><p className="mt-1 text-sm text-zinc-500">운동 통계와 운동 처방을 한곳에서 확인하세요.</p></header>
+    <header><h1 className="text-xl font-bold">{data.name} 님 관리</h1><p className="mt-1 text-sm text-muted">운동 통계와 운동 처방을 한곳에서 확인하세요.</p></header>
     <nav aria-label="회원 관리 화면" className="grid grid-cols-2 gap-1 rounded-2xl bg-zinc-100 p-1 dark:bg-zinc-800">{[{id:"prescription",label:"운동 처방"},{id:"stats",label:"운동 통계"}].map(item => <Link key={item.id} scroll={false} href={`${url}?view=${item.id}`} aria-current={view === item.id ? "page" : undefined} className={`rounded-xl px-4 py-3 text-center text-sm font-semibold ${view === item.id ? "bg-white text-foreground shadow-sm dark:bg-zinc-950" : "text-muted"}`}>{item.label}</Link>)}</nav>
     {view === "stats" ? <div className="space-y-5">
     <nav aria-label="통계 기간" className="flex gap-2">{periods.map(p => <Link key={p.id} href={`${url}?view=stats&period=${p.id}&date=${date}`} aria-current={period === p.id ? "page" : undefined} className={`rounded-lg px-4 py-2 text-sm font-semibold ${period === p.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 dark:bg-zinc-800"}`}>{p.label}</Link>)}</nav>

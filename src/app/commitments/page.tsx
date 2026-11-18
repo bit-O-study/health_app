@@ -39,7 +39,7 @@ export default async function CommitmentsPage() {
         <PledgeList pledges={pledges} groupNames={groupNames} />
         {legacy.length > 0 || todayItems.length > 0 ? (
           <section className="space-y-3">
-            <h2 className="text-xs font-semibold text-zinc-500">예전 다짐</h2>
+            <h2 className="text-xs font-semibold text-muted">예전 다짐</h2>
             <TodayChecklist items={todayItems} today={seoulYmd()} />
             <CommitmentManager commitments={legacy} />
           </section>

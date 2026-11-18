@@ -25,11 +25,11 @@ export function BlockedUserList({ initial }: { initial: BlockedUser[] }) {
     <div className="app-page">
       <PageHeader title="차단한 사용자" backHref="/community/mine" back="내 글" />
       <main className="mx-auto w-full max-w-3xl px-4 pb-24 sm:px-6">
-        <p className="mb-3 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <p className="mb-3 text-xs leading-relaxed text-muted">
           차단한 사람과는 서로의 글·댓글이 보이지 않고, 서로의 글에 댓글을 달 수 없어요. 차단은 신고 창의 ‘이 사람 차단하기’로 할 수 있어요.
         </p>
         {list.length === 0 ? (
-          <p className="py-16 text-center text-sm text-zinc-500 dark:text-zinc-400">차단한 사용자가 없어요</p>
+          <p className="py-16 text-center text-sm text-muted">차단한 사용자가 없어요</p>
         ) : (
           <ul className="flex flex-col divide-y divide-zinc-100 dark:divide-white/[0.06]" data-testid="blocked-users">
             {list.map((u) => (

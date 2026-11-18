@@ -31,7 +31,7 @@ function Row({ label, value, sub }: { label: string; value: string; sub?: string
       <span>{label}</span>
       <span className="tabular-nums">
         {value}
-        {sub ? <span className="ml-1 text-xs text-zinc-500">{sub}</span> : null}
+        {sub ? <span className="ml-1 text-xs text-muted">{sub}</span> : null}
       </span>
     </div>
   );
@@ -88,13 +88,13 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
                   {anyWeight ? (
                     <td className="py-1.5 text-right">
                       {m.weightKg != null ? `${m.weightKg}kg` : "―"}
-                      {m.weightDelta ? <span className="ml-1 text-zinc-500">{signed(m.weightDelta)}</span> : null}
+                      {m.weightDelta ? <span className="ml-1 text-muted">{signed(m.weightDelta)}</span> : null}
                     </td>
                   ) : null}
                   {anyMuscle ? (
                     <td className="py-1.5 text-right">
                       {m.muscleKg != null ? `${m.muscleKg}kg` : "―"}
-                      {m.muscleDelta ? <span className={`ml-1 ${m.muscleDelta > 0 ? "text-brand" : "text-zinc-500"}`}>{signed(m.muscleDelta)}</span> : null}
+                      {m.muscleDelta ? <span className={`ml-1 ${m.muscleDelta > 0 ? "text-brand" : "text-muted"}`}>{signed(m.muscleDelta)}</span> : null}
                     </td>
                   ) : null}
                 </tr>
@@ -128,7 +128,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
                       {l.sincePrev != null ? (
                         <span
                           className={`ml-1.5 text-xs font-semibold ${
-                            l.better === null ? "text-zinc-500" : l.better ? "text-brand" : "text-danger"
+                            l.better === null ? "text-muted" : l.better ? "text-brand" : "text-danger"
                           }`}
                         >
                           지난번 {signed(l.sincePrev)}

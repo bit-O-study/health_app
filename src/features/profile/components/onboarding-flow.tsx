@@ -486,14 +486,14 @@ export function OnboardingFlow({
               <button
                 type="button"
                 onClick={() => setStep("experience")}
-                className={cn(SECONDARY_BTN_CLS, "h-9 px-4 text-sm")}
+                className={cn(SECONDARY_BTN_CLS, "h-11 px-4 text-sm")}
               >
                 경력 다시 선택
               </button>
               <button
                 type="button"
                 onClick={() => setStep("gym")}
-                className={cn(SECONDARY_BTN_CLS, "h-9 px-4 text-sm")}
+                className={cn(SECONDARY_BTN_CLS, "h-11 px-4 text-sm")}
               >
                 헬스장 다시 입력
               </button>

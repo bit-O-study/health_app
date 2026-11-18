@@ -58,7 +58,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
   }));
   return <main className="app-page app-container space-y-6">
     <Link href={`/groups/${id}/trainer`} className="text-sm text-brand">← 회원 관리</Link>
-    <header><h1 className="text-xl font-bold">{data.name} 님 관리</h1><p className="mt-1 text-sm text-zinc-500">운동 통계와 운동 처방을 한곳에서 확인하세요.</p></header>
+    <header><h1 className="text-xl font-bold">{data.name} 님 관리</h1><p className="mt-1 text-sm text-muted">운동 통계와 운동 처방을 한곳에서 확인하세요.</p></header>
     <nav aria-label="통계 기간" className="flex gap-2">{periods.map(p => <Link key={p.id} href={`${url}?period=${p.id}&date=${date}`} aria-current={period === p.id ? "page" : undefined} className={`rounded-lg px-4 py-2 text-sm font-semibold ${period === p.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 dark:bg-zinc-800"}`}>{p.label}</Link>)}</nav>
     <form className="flex flex-wrap items-end gap-2">
       <input type="hidden" name="period" value={period} />
@@ -76,15 +76,15 @@ export default async function MemberManagementPage({ params, searchParams }: {
       <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">{[
         ["운동한 날", sharing.workout ? `${stats.workoutDays}일` : "비공개"], ["운동 시간", sharing.workout ? `${n(stats.minutes)}분` : "비공개"], ["완료 세트", sharing.workout ? `${n(stats.sets)}세트` : "비공개"],
         ["총 볼륨", sharing.workout ? `${n(stats.volume)}kg` : "비공개"], ["식단 기록", sharing.diet ? `${stats.dietDays}일` : "비공개"], ["체중 변화", !sharing.body ? "비공개" : stats.weightDelta === null ? "기록 부족" : `${stats.weightDelta > 0 ? "+" : ""}${stats.weightDelta}kg`],
-      ].map(([label,value]) => <div key={label} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700"><dt className="text-xs text-zinc-500">{label}</dt><dd className="mt-1 text-lg font-bold">{value}</dd></div>)}</dl>
-      <p className="text-xs text-zinc-500">한국 시간 기준. 완료한 근력·준비·마무리 운동의 날짜를 중복 없이 집계합니다.<br />시간은 저장된 운동 시간, 볼륨은 완료 시점의 세트별 중량 기록 기준이며 맨몸 운동은 0kg입니다.</p>
+      ].map(([label,value]) => <div key={label} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-700"><dt className="text-xs text-muted">{label}</dt><dd className="mt-1 text-lg font-bold">{value}</dd></div>)}</dl>
+      <p className="text-xs text-muted">한국 시간 기준. 완료한 근력·준비·마무리 운동의 날짜를 중복 없이 집계합니다.<br />시간은 저장된 운동 시간, 볼륨은 완료 시점의 세트별 중량 기록 기준이며 맨몸 운동은 0kg입니다.</p>
     </section>
     {sharing.workout && <section aria-labelledby="trend-title" className="space-y-3">
       <h2 id="trend-title" className="text-lg font-bold">{period === "year" ? "월별" : "일별"} 운동 추이</h2>
       <div className="overflow-x-auto"><table className="w-full text-right text-xs"><caption className="sr-only">선택 기간의 운동일, 완료 세트, 운동 시간과 총 볼륨</caption><thead><tr className="border-b"><th className="p-2 text-left" scope="col">기간</th><th scope="col">운동일</th><th scope="col">세트</th><th scope="col">분</th><th className="min-w-24" scope="col">볼륨(kg)</th></tr></thead><tbody>{stats.series.map(s => <tr key={s.label} className="border-b border-zinc-100 dark:border-zinc-800"><th scope="row" className="p-2 text-left font-normal">{s.label.slice(5)}</th><td>{s.workoutDays}</td><td>{s.sets}</td><td>{s.minutes}</td><td className="py-2 pl-3">{n(s.volume)}<div aria-hidden="true" className="mt-1 h-1 bg-brand" style={{ width: `${s.volume / maxVolume * 100}%` }} /></td></tr>)}</tbody></table></div>
     </section>}
     {/* 트레이너 바로가기 — 같은 모양·짧은 이름(2026-10-05 화면 정리). */}
-    <div className="flex flex-wrap gap-2">{sharing.prescription && <Link className="app-press inline-flex h-9 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand" href={`/groups/${id}/trainer/assign/${memberId}`}>루틴 배정</Link>}<Link className="app-press inline-flex h-9 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand" aria-label="코멘트와 처방 변경 내역" href={`/groups/${id}/trainer/comment/${memberId}`}>코멘트</Link><Link className="app-press inline-flex h-9 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand" href={`/groups/${id}/member/${memberId}`}>일별 기록</Link></div>
+    <div className="flex flex-wrap gap-2">{sharing.prescription && <Link className="app-press inline-flex h-11 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand" href={`/groups/${id}/trainer/assign/${memberId}`}>루틴 배정</Link>}<Link className="app-press inline-flex h-11 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand" aria-label="코멘트와 처방 변경 내역" href={`/groups/${id}/trainer/comment/${memberId}`}>코멘트</Link><Link className="app-press inline-flex h-11 items-center rounded-full bg-brand-soft px-4 text-sm font-semibold text-brand" href={`/groups/${id}/member/${memberId}`}>일별 기록</Link></div>
     {sharing.prescription ? <>
       <MemberTodayPrescription connectionId={id} memberId={memberId} memberName={data.name} dateLabel={todayLabel} rows={todayRows} notice={today.notice} />
       <MemberPrescription connectionId={id} memberId={memberId} memberName={data.name} exercises={rows} />

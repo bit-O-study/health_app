@@ -25,19 +25,19 @@ export default function NotFound() {
         <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
           페이지를 찾을 수 없어요
         </h1>
-        <p className="max-w-sm text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        <p className="max-w-sm text-sm leading-6 text-muted">
           주소가 바뀌었거나 사라진 화면이에요. 앱에 문제가 생긴 건 아니니
           아래로 돌아가 주세요.
         </p>
       </div>
 
       <div className="flex items-center gap-2">
-        <BackLink className="rounded-xl border border-zinc-300 px-4 py-2.5 text-sm font-semibold text-zinc-700 dark:border-zinc-600 dark:text-zinc-200">
+        <BackLink className="inline-flex min-h-11 items-center rounded-xl border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 dark:border-zinc-600 dark:text-zinc-200">
           뒤로
         </BackLink>
         <Link
           href="/"
-          className="flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white dark:text-zinc-950"
+          className="flex min-h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950"
         >
           <House size={16} aria-hidden="true" />
           홈으로

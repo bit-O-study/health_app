@@ -1,5 +1,6 @@
 "use client";
 
+import { CoinIcon } from "@/components/icons/app-icons";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Loader2, Pencil } from "lucide-react";
@@ -113,7 +114,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
           다음 Lv까지 운동 {pet.level.need - pet.level.intoLevel}회 · 총 {pet.totalWorkouts}회
         </p>
         <p className="mt-2 inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-          🪙 {pet.points.toLocaleString()} P
+          <CoinIcon size={14} className="mr-1 inline-block align-[-2px]" />{pet.points.toLocaleString()} P
         </p>
       </div>
 
@@ -167,7 +168,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
                   disabled={pending}
                   className="w-full rounded-lg bg-amber-500 py-1 text-xs font-bold text-white transition hover:bg-amber-400 disabled:opacity-50"
                 >
-                  🪙 {it.price}P
+                  <CoinIcon size={14} className="mr-1 inline-block align-[-2px]" />{it.price}P
                 </button>
               ) : cat === "decor" ? (
                 <button

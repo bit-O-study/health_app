@@ -135,7 +135,7 @@ async function notifyCheerRecipient(
     // 웹푸시 + FCM(네이티브 앱) 양쪽으로 전송.
     await notifyUser(admin, toUser, {
       type: "group-cheer",
-      title: "응원이 도착했어요 💪",
+      title: "응원이 도착했어요",
       body: `${fromName}님이 응원을 남겼습니다`,
       url: `/groups/${groupId}`,
     });

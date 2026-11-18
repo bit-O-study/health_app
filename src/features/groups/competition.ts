@@ -8,9 +8,9 @@ export type ScoreRecord = {
 };
 export type PointBreakdown = { sets: number; reps: number; conditioning: number; attendance: number; total: number };
 export const TIERS = [
-  { name: "루키", icon: "🌱" }, { name: "브론즈", icon: "🥉" },
-  { name: "실버", icon: "🥈" }, { name: "골드", icon: "🥇" },
-  { name: "플래티넘", icon: "💠" }, { name: "다이아몬드", icon: "💎" },
+  { name: "루키" }, { name: "브론즈" },
+  { name: "실버" }, { name: "골드" },
+  { name: "플래티넘" }, { name: "다이아몬드" },
 ] as const;
 const bounded = (v: unknown, max: number) => typeof v === "number" && Number.isFinite(v) ? Math.min(max, Math.max(0, Math.floor(v))) : 0;
 const empty = (): PointBreakdown => ({ sets: 0, reps: 0, conditioning: 0, attendance: 0, total: 0 });
@@ -59,7 +59,7 @@ export function activityPoints(strength: ScoreRecord[], conditioning: ScoreRecor
   }
   return { week, lifetime, today: currentDay };
 }
-export type League = { index: number; name: string; icon: string; eligibleFrom: string; lastResult: string | null; lastWeek: string | null };
+export type League = { index: number; name: string; eligibleFrom: string; lastResult: string | null; lastWeek: string | null };
 export type Competitor = ReturnType<typeof activityPoints> & { userId: string; name: string; isMe: boolean; rank: number; league?: League; leagueGroupName?: string };
 export function leagueZone(member: Competitor, members: Competitor[], weekFrom: string): "promotion" | "demotion" | "stay" | "placement" {
   if (!member.league || member.league.eligibleFrom > weekFrom) return "placement";

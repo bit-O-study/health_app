@@ -34,7 +34,7 @@ export function useCompetition(groupId: string | null, initial: CompetitionSnaps
           const demoted = !!(me?.league && oldMe?.league && me.league.index < oldMe.league.index);
           const passes = overtakes(before, next);
           const parts = [
-            promoted ? `${me!.league!.icon} ${me!.league!.name} 리그 승급!` : "",
+            promoted ? `${me!.league!.name} 리그 승급!` : "",
             demoted ? `${me!.league!.name} 리그로 변경됐어요. 이번 주 다시 도전해요!` : "",
             gain > 0 ? `운동 점수 +${gain}점!` : "",
             ...passes.slice(0, 3).map(p => `${p.winner.name} 님이 ${p.passed.map(m => m.name).join(", ")} 님을 추월해 ${p.winner.rank}위!`),

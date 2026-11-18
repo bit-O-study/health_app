@@ -11,15 +11,15 @@ export const DEBUG_FEATURES = [
   { id: "pet", label: "펫(늑대 키우기 — 관리자 공개 후 이용)" },
   {
     id: "steps",
-    label: "걸음수 진단칩(🩺 앱UA·브릿지·플러그인·권한·레코드…)",
+    label: "걸음수 진단칩(앱UA·브릿지·플러그인·권한·레코드…)",
   },
   {
     id: "equipment-scan",
-    label: "기구 사진 분석(📷 기구 식별 + 가능한 운동, Claude 비전)",
+    label: "기구 사진 분석(기구 식별 + 가능한 운동, Claude 비전)",
   },
   {
     id: "helssu-coach",
-    label: "헬쑤쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
+    label: "헬쑤쌤 탭(AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
   },
   {
     id: "ai-trainer",
@@ -27,7 +27,7 @@ export const DEBUG_FEATURES = [
   },
   {
     id: "fit",
-    label: "맞춤 운동 앱(💪 세부 부위 추천·부위·균형 — 라이트 이상은 스위치와 상관없이 보임)",
+    label: "맞춤 운동 앱(세부 부위 추천·부위·균형 — 라이트 이상은 스위치와 상관없이 보임)",
   },
   {
     id: "diet-photo-ai",

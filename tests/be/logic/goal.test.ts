@@ -72,7 +72,7 @@ describe("goalProgress", () => {
     const p = goalProgress("weight_loss", cur(69, null, null), tgt(70, null, null));
     expect(p!.remaining).toBe(0);
     expect(p!.reached).toBe(true);
-    expect(p!.label).toBe("체중 목표 달성 🎉");
+    expect(p!.label).toBe("체중 목표 달성");
   });
 
   it("체지방감소 — 남은 % + 지표 라벨", () => {

@@ -1,3 +1,4 @@
+import { BadgeIcon } from "./badge-icon";
 import { Crown, Sparkles, Trophy } from "lucide-react";
 
 import type { RankedMember } from "@/features/groups/ranking";
@@ -112,8 +113,8 @@ export function GroupLeaderboard({
                     </span>
                   ) : null}
                   {m.streak > 0 ? (
-                    <span className="text-xs font-bold text-orange-500 dark:text-orange-400">
-                      {badge?.emoji ?? "🔥"}
+                    <span className="inline-flex items-center gap-0.5 text-xs font-bold">
+                      <BadgeIcon icon={badge?.icon} />
                       {m.streak}
                     </span>
                   ) : null}

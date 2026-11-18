@@ -141,7 +141,7 @@ export function goalProgress(
   const direction: "up" | "down" = goal === "muscle_gain" ? "up" : "down";
   const targetText = `목표 ${metricLabel} ${round1(tgt)}${unit}`;
   const label = reached
-    ? `${metricLabel} 목표 달성 🎉`
+    ? `${metricLabel} 목표 달성`
     : `${metricLabel} ${remainingText} 남음`;
 
   return {

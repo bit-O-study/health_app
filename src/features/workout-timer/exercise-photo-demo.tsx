@@ -135,7 +135,7 @@ export function ExerciseTutorial({
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/45 to-transparent" />
 
         {/* 단계 자막 장면 — 화면마다 종류 구분: 🧭=준비 셋업(파랑) / 🔑=꿀팁(보라) /
-            💡=초보 팁(노랑) / 숫자=핵심 동작(초록). 한 장면씩 자동 전환되며 보여준다. */}
+            노란 줄=초보 팁 / 초록 숫자=핵심 동작. 한 장면씩 자동 전환되며 보여준다. */}
         {steps.length > 0
           ? (() => {
               const raw = steps[active] ?? "";

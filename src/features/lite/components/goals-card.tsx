@@ -94,7 +94,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
                 <span data-testid={`goal-line-${g.exerciseId}`}>
                   <b className="text-zinc-700 dark:text-zinc-200">{p.pct}%</b>
                   {p.achieved
-                    ? " · 목표 달성! 🎉"
+                    ? " · 목표 달성!"
                     : !view.full
                       ? ` · ${md(g.targetDate)}까지`
                       : p.etaDate

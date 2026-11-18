@@ -1,13 +1,12 @@
 "use client";
 
+import { CoinIcon, KcalIcon } from "@/components/icons/app-icons";
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Check,
   ChevronRight,
-  Coins,
-  Flame,
   Loader2,
   Pencil,
   Users,
@@ -78,8 +77,8 @@ export function GymRoom({
 
       {/* ── 상단: 코인 / 인원 ── */}
       <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between p-2">
-        <span className="flex items-center gap-1 rounded-full bg-amber-400 px-3 py-1 text-sm font-bold text-amber-950 shadow">
-          <Coins size={15} /> {pet.coins.toLocaleString()}
+        <span className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-zinc-900 shadow dark:bg-zinc-900/90 dark:text-zinc-100">
+          <CoinIcon size={15} /> {pet.coins.toLocaleString()}
         </span>
         <button
           type="button"
@@ -147,8 +146,8 @@ export function GymRoom({
               >
                 {m.name}
               </span>
-              <span className="inline-flex shrink-0 items-center gap-0.5 font-bold text-orange-600 dark:text-orange-400">
-                <Flame size={14} aria-hidden="true" />{m.kcal.toLocaleString()}
+              <span className="inline-flex shrink-0 items-center gap-0.5 font-bold">
+                <KcalIcon size={14} />{m.kcal.toLocaleString()}
               </span>
             </div>
           ))}
@@ -187,13 +186,13 @@ export function GymRoom({
             <span className="text-zinc-700 dark:text-zinc-200">
               Lv.{pet.level} → Lv.{pet.level + 1}
             </span>
-            <span className="inline-flex items-center gap-1 tabular-nums text-amber-600 dark:text-amber-400">
-              <Coins size={14} aria-hidden="true" /> {pet.progress.toLocaleString()} / {pet.nextCost.toLocaleString()}
+            <span className="inline-flex items-center gap-1 tabular-nums text-muted">
+              <CoinIcon size={14} /> {pet.progress.toLocaleString()} / {pet.nextCost.toLocaleString()}
             </span>
           </div>
           <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-amber-400 to-emerald-500 transition-all"
+              className="h-full rounded-full bg-brand transition-all"
               style={{ width: `${pct}%` }}
             />
           </div>
@@ -250,7 +249,7 @@ export function GymRoom({
               disabled={pet.coins <= 0}
               className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-bold text-white shadow transition hover:brightness-110 disabled:opacity-60"
             >
-              <Coins size={16} aria-hidden="true" /> 코인 넣기 (보유 {pet.coins.toLocaleString()})
+              <CoinIcon size={16} /> 코인 넣기 (보유 {pet.coins.toLocaleString()})
             </button>
           )}
         </div>
@@ -295,8 +294,8 @@ export function GymRoom({
                         <span className="ml-1 text-xs font-bold text-emerald-600">나</span>
                       ) : null}
                     </span>
-                    <span className="inline-flex shrink-0 items-center gap-0.5 text-xs font-bold text-orange-600 dark:text-orange-400">
-                      <Flame size={12} aria-hidden="true" />{m.kcal.toLocaleString()}
+                    <span className="inline-flex shrink-0 items-center gap-0.5 text-xs font-bold">
+                      <KcalIcon size={12} />{m.kcal.toLocaleString()}
                     </span>
                     <ChevronRight size={15} className="shrink-0 text-muted" />
                   </Link>

@@ -17,15 +17,15 @@ export function computeWorkoutStreak(
   return countStreak((k) => set.has(addDaysYmd(today, -k)), set.size);
 }
 
-export type Badge = { id: string; label: string; emoji: string };
+export type Badge = { id: string; label: string; icon: "kcal" | "bolt" | "gem" | "trophy" };
 
 /** 연속일 임계값별 뱃지(가장 높은 것 순으로 정렬해 반환). */
 export function streakBadges(streak: number): Badge[] {
   const out: Badge[] = [];
-  if (streak >= 3) out.push({ id: "streak3", label: "3일 연속", emoji: "🔥" });
-  if (streak >= 7) out.push({ id: "streak7", label: "일주일 연속", emoji: "⚡" });
-  if (streak >= 14) out.push({ id: "streak14", label: "2주 연속", emoji: "💎" });
-  if (streak >= 30) out.push({ id: "streak30", label: "30일 연속", emoji: "🏆" });
+  if (streak >= 3) out.push({ id: "streak3", label: "3일 연속", icon: "kcal" });
+  if (streak >= 7) out.push({ id: "streak7", label: "일주일 연속", icon: "bolt" });
+  if (streak >= 14) out.push({ id: "streak14", label: "2주 연속", icon: "gem" });
+  if (streak >= 30) out.push({ id: "streak30", label: "30일 연속", icon: "trophy" });
   return out.reverse();
 }
 

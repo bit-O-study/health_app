@@ -34,13 +34,13 @@ export const REMINDER_PAYLOADS: Record<
 > = {
   diet: {
     type: "reminder-diet",
-    title: "오늘 식단을 기록해볼까요? 🥗",
+    title: "오늘 식단을 기록해볼까요?",
     body: "휴식일이에요. 먹은 걸 남겨두면 다음 주 관리가 쉬워져요.",
     url: "/diet",
   },
   workout: {
     type: "reminder-workout",
-    title: "오늘 운동, 아직이에요 💪",
+    title: "오늘 운동, 아직이에요",
     body: "오늘은 운동일이에요. 가볍게라도 시작해볼까요?",
     url: "/routine",
   },

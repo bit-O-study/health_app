@@ -9,7 +9,7 @@ function member(id: string, score: number): Competitor {
 const snapshot = (members: Competitor[], weekFrom = "2026-10-19"): CompetitionSnapshot => ({ groupId: "g", today, weekFrom, members: rankCompetitors(members) });
 describe("competition points", () => {
   it("uses weekly promotion/relegation zones and protects small/new cohorts", () => {
-    const league = { index: 2, name: "실버", icon: "🥈", eligibleFrom: "2026-10-19", lastResult: null, lastWeek: null };
+    const league = { index: 2, name: "실버", eligibleFrom: "2026-10-19", lastResult: null, lastWeek: null };
     const members = [member("a", 100), member("b", 50), member("c", 0)].map(m => ({ ...m, league }));
     expect(members.map(m => leagueZone(m, members, "2026-10-19"))).toEqual(["promotion", "stay", "demotion"]);
     expect(leagueZone(members[0], members.slice(0, 2), "2026-10-19")).toBe("stay");

@@ -56,7 +56,7 @@ export function BodyLogButton({
           </span>
           {goal.reached ? (
             <span className="text-brand">
-              목표 달성 🎉
+              목표 달성
             </span>
           ) : (
             <span>

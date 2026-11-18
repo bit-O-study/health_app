@@ -1,5 +1,6 @@
 "use client";
 
+import { HeartIcon } from "@/components/icons/app-icons";
 import { useMemo, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
@@ -152,7 +153,7 @@ export function RoutineShareBoard({
                     {it.preview}
                   </p>
                   <p className="mt-1 text-xs font-semibold text-zinc-400 dark:text-zinc-500">
-                    ♥ {it.likeCount} · 담기 {it.saveCount}
+                    <HeartIcon size={12} className="mr-0.5 inline-block align-[-1px]" />{it.likeCount} · 담기 {it.saveCount}
                   </p>
                 </div>
                 <ChevronRight

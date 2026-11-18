@@ -61,7 +61,7 @@ export function weeklySummaryPayload(n: WeekNumbers): SummaryPayload {
 다음 주엔 ${n.nextFocus.label}부터(${n.nextFocus.days}일째 쉬는 중)` : "";
   return {
     type: "weekly-summary",
-    title: n.prs > 0 ? "이번 주 정리 · 신기록이 나왔어요 🎉" : "이번 주 정리",
+    title: n.prs > 0 ? "이번 주 정리 · 신기록이 나왔어요" : "이번 주 정리",
     body: parts.join(" · ") + next,
     url,
   };

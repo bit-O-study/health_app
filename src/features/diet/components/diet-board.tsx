@@ -1726,7 +1726,7 @@ function AddFoodDialog({
                 : "border-transparent text-muted"
             }`}
           >
-            {m === "search" ? "검색" : m === "manual" ? "직접 입력" : "✨ AI 사진"}
+            {m === "search" ? "검색" : m === "manual" ? "직접 입력" : "AI 사진"}
           </button>
         ))}
       </div>

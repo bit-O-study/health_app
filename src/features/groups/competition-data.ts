@@ -49,6 +49,6 @@ export async function loadCompetition(groupId: string | null): Promise<Competiti
     if (!score) throw new Error("그룹 구성이 변경됐어요. 다시 확인해 주세요.");
     return { userId: m.user_id, name: resolveMemberName(p?.nickname, p?.name, m.display_name), isMe: m.user_id === user.id, rank: 0,
       week: score.week, today: score.today, lifetime: score.lifetime, leagueGroupName,
-      league: league ? { index: league.tier, name: TIERS[league.tier].name, icon: TIERS[league.tier].icon, eligibleFrom: league.eligible_from, lastResult: league.last_result, lastWeek: league.last_week } : undefined };
+      league: league ? { index: league.tier, name: TIERS[league.tier].name, eligibleFrom: league.eligible_from, lastResult: league.last_result, lastWeek: league.last_week } : undefined };
   })) };
 }

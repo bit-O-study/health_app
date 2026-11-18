@@ -109,7 +109,7 @@ export function ExerciseFinder() {
               {/* 첫 인사 */}
               <div className="flex justify-start">
                 <span className="max-w-[88%] rounded-2xl rounded-bl-sm bg-zinc-100 px-3 py-2 text-sm text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
-                  안녕하세요? 궁금한 내용을 물어봐주세요 🙂
+                  안녕하세요? 궁금한 내용을 물어봐주세요
                 </span>
               </div>
 

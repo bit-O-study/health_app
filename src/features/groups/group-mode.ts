@@ -26,8 +26,8 @@ export const GROUP_MODE_LABEL: Record<GroupMode, string> = {
  * 인증 모드인데 "랭킹대전"이라고 초대하면, 들어와서 보는 화면과 말이 안 맞는다.
  */
 export const GROUP_INVITE_DESCRIPTION: Record<GroupMode, string> = {
-  gym: "운동 랭킹대전에 함께 참여해요 💪 눌러서 그룹에 가입하세요.",
-  proof: "오늘 운동 인증을 서로 남겨요 💪 눌러서 그룹에 가입하세요.",
+  gym: "운동 랭킹대전에 함께 참여해요 눌러서 그룹에 가입하세요.",
+  proof: "오늘 운동 인증을 서로 남겨요 눌러서 그룹에 가입하세요.",
 };
 
 export const GROUP_MODE_HINT: Record<GroupMode, string> = {

@@ -168,7 +168,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
           data-open={diagOpen}
           className="data-[open=false]:line-clamp-2 max-w-[280px] break-all rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-right text-xs font-semibold leading-tight text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
         >
-          🩺 {diag} (탭하면 전체보기)
+          {diag} (탭하면 전체보기)
         </button>
       ) : null}
     </div>

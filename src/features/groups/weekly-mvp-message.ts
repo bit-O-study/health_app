@@ -13,15 +13,15 @@ export function buildWeeklyMvpMessage(
   myRank: number,
   memberCount: number,
 ): PushMessage {
-  const title = `🏆 지난주 '${groupName}' 랭킹 결과`;
+  const title = `지난주 '${groupName}' 랭킹 결과`;
   if (memberCount <= 1) {
-    return { title, body: "혼자서도 꾸준히! 이번 주도 화이팅 💪" };
+    return { title, body: "혼자서도 꾸준히! 이번 주도 화이팅" };
   }
   if (myRank === 1) {
-    return { title, body: `축하해요! 지난주 그룹 1위 달성 🏆 이번 주도 지켜봐요.` };
+    return { title, body: `축하해요! 지난주 그룹 1위 달성 이번 주도 지켜봐요.` };
   }
   return {
     title,
-    body: `1위는 ${winnerName}님! 내 순위는 ${memberCount}명 중 ${myRank}위예요. 이번 주 역전 노려봐요 🔥`,
+    body: `1위는 ${winnerName}님! 내 순위는 ${memberCount}명 중 ${myRank}위예요. 이번 주 역전 노려봐요`,
   };
 }

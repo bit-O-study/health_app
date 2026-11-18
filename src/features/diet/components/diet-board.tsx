@@ -480,7 +480,7 @@ export function DietBoard({
         {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="mr-2 rounded-xl border border-brand/40 px-4 py-3 text-sm font-semibold text-brand">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
       </section>}
       {view === "nutrition" && <h2 className="text-lg font-bold">하루 영양 현황</h2>}
-      <section aria-label="섭취 영양 요약" className="app-card p-5">
+      <section aria-label="섭취 영양 요약" className="app-focus">
         <EnergySummary consumed={totals.kcal} target={target.kcal} />
         <div className="mt-5 grid grid-cols-3 gap-4 border-t border-line pt-4">
           <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
@@ -664,8 +664,8 @@ function EnergySummary({ consumed, target }: { consumed: number; target: number 
           {over ? `${consumed - target} kcal 초과` : `${Math.max(0, target - consumed)} kcal 남음`}
         </p>
       </div>
-      <p className="mt-2 flex flex-wrap items-baseline gap-2 tabular-nums">
-        <span className="text-4xl font-bold tracking-tight">{consumed.toLocaleString()}</span>
+      <p className="mt-3 flex flex-wrap items-baseline gap-2 tabular-nums">
+        <span className="app-num text-5xl">{consumed.toLocaleString()}</span>
         <span className="text-sm text-muted">/ {target.toLocaleString()} kcal</span>
       </p>
       <div role="progressbar" aria-label="섭취 칼로리" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}

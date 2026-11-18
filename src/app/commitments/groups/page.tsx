@@ -58,7 +58,7 @@ export default async function GroupPledgesPage() {
                 {common.map((p) => <GroupWidePledgeCard key={p.id} pledge={p} />)}
                 <h3 className="text-sm font-semibold">멤버가 공유한 개인 다짐</h3>
                 {list.length === 0 ? (
-                  <p className="app-card p-3 text-center text-xs text-zinc-500">아직 공유된 다짐이 없어요</p>
+                  <p className="py-4 text-center text-xs text-muted">아직 공유된 다짐이 없어요</p>
                 ) : (
                   <ul className="space-y-2">
                     {list.map((s) => (

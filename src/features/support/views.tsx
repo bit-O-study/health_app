@@ -160,7 +160,7 @@ export async function SupportDetail({ id, created = false }: { id: string; creat
                 <span>{date(m.created_at)}</span>
               </div>
               <p
-                className={`max-w-[88%] whitespace-pre-wrap break-words rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
+                className={`max-w-[88%] whitespace-pre-wrap break-words rounded-2xl px-4 py-3 text-base leading-relaxed ${
                   m.is_admin ? "rounded-tl-md bg-brand-soft" : "rounded-tr-md bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)]"
                 }`}
               >

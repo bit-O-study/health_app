@@ -193,7 +193,7 @@ export default async function ProgressPage() {
                 추천은 기록 기반 제안이에요 — 그대로 따르지 않아도 됩니다.
               </p>
               {exerciseCharts.length === 0 ? (
-                <p className="app-card p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+                <p className="py-6 text-center text-sm text-muted">
                   중량 기록이 더 쌓이면 표시됩니다
                 </p>
               ) : (

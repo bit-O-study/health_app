@@ -33,7 +33,7 @@ export default async function GroupMemberPage({
       <div className="app-page">
         <PageHeader title="그룹원 기록" back="그룹으로" backHref={`/groups/${id}`} />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="py-4 text-center text-sm text-muted">
             기록을 볼 수 없어요(같은 그룹원만 열람 가능).
           </p>
         </main>
@@ -112,7 +112,7 @@ export default async function GroupMemberPage({
             회원이 운동 기록 제공을 꺼 뒀어요.
           </p>
         ) : day.workouts.length === 0 ? (
-          <p className="app-card p-3 text-center text-sm text-muted">
+          <p className="py-4 text-center text-sm text-muted">
             오늘 완료한 운동이 없어요.
           </p>
         ) : (
@@ -165,7 +165,7 @@ export default async function GroupMemberPage({
             회원이 식단 기록 제공을 꺼 뒀어요.
           </p>
         ) : day.foods.length === 0 ? (
-          <p className="app-card p-3 text-center text-sm text-muted">
+          <p className="py-4 text-center text-sm text-muted">
             오늘 기록한 식단이 없어요.
           </p>
         ) : (

@@ -16,24 +16,34 @@ export function RefreshSupport() {
 export function ReadSupport({id}:{id:string}) {
   useEffect(()=>{ void readTicket(id); },[id]); return null;
 }
-export function NewTicket() {
+export function NewTicket({ initialCategory }: { initialCategory: keyof typeof CATEGORIES }) {
+  const [category,setCategory]=useState(initialCategory);
+  const isIdea=category==="idea";
   const router=useRouter(); const requestId=useRef<string>("");
   const [pending,start]=useTransition(); const [error,setError]=useState("");
   return <form className="space-y-5" onSubmit={event=>{ event.preventDefault(); const form=new FormData(event.currentTarget); start(async()=>{
     setError(""); requestId.current ||= crypto.randomUUID();
     try {
       const diagnostic=form.get("diagnostic") ? {platform:/Android/i.test(navigator.userAgent)?"Android":/iPhone|iPad/i.test(navigator.userAgent)?"iOS":"Web",version:process.env.NEXT_PUBLIC_BUILD_ID??"dev",viewport:`${window.innerWidth}x${window.innerHeight}`} : {};
-      const result=await createTicket({requestId:requestId.current,category:String(form.get("category")),title:String(form.get("title")),body:String(form.get("body")),diagnostic});
+      const result=await createTicket({requestId:requestId.current,category,body:String(form.get("body")),diagnostic});
       if(result.error) setError(result.error); else router.push(`/support/${result.id}?created=1`);
     }catch{setError("접수 결과를 확인하지 못했어요. 다시 보내면 중복 접수를 방지해요.");}
   }); }}>
-    <label className="block">문의 종류<select name="category" className={field}>{Object.entries(CATEGORIES).map(([key,value])=><option key={key} value={key}>{value}</option>)}</select></label>
-    <label className="block">제목<input name="title" required maxLength={100} className={field} placeholder="어떤 문제가 있었나요?"/></label>
-    <label className="block">내용<textarea name="body" required maxLength={5000} rows={7} className={field} placeholder="어느 화면에서 무엇을 했는지, 어떤 결과가 나왔는지 알려 주세요."/></label>
-    <label className="flex items-start gap-3 text-sm"><input className="mt-1" type="checkbox" name="diagnostic"/>기기 종류·앱 버전·화면 크기를 함께 보내기 (선택)</label>
-    <p className="text-sm text-muted">사진은 접수 후 문의 화면에서 최대 3장 첨부할 수 있어요.<br />비밀번호나 인증번호는 적지 마세요.</p>
+    <fieldset disabled={pending}><legend className="mb-3 text-base font-bold">문의 종류</legend>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">{(Object.keys(CATEGORIES) as (keyof typeof CATEGORIES)[]).map(key=>
+        <label key={key} className="app-field flex min-h-12 cursor-pointer items-center gap-2 rounded-xl border px-3 py-2 text-base has-checked:border-brand has-checked:bg-brand-soft has-checked:font-bold has-focus-visible:outline">
+          <input type="radio" className="size-4 shrink-0 accent-brand" name="category" value={key} checked={category===key} onChange={()=>setCategory(key)}/>{CATEGORIES[key]}
+        </label>)}</div>
+    </fieldset>
+    <label className="block text-lg font-bold">{isIdea?"어떤 기능이 어떻게 바뀌면 좋을까요?":"어떤 점이 불편했나요?"}
+      <textarea name="body" required maxLength={5000} rows={4} disabled={pending} className="app-field mt-3 block w-full rounded-xl border border-zinc-400 p-4 text-base font-normal leading-7 placeholder:text-muted focus-visible:outline-brand" placeholder={isIdea?"예) 지난 세트의 무게를 바로 보고 싶어요.":"예) 식단 사진을 저장해도 반응이 없어요."}/>
+    </label>
+    <div className="space-y-2">
+      <p className="text-sm leading-6 text-muted">비밀번호와 인증번호는 적지 마세요. 사진은 접수 후 최대 3장까지 첨부할 수 있어요.</p>
+      <label className="flex min-h-11 items-center gap-3 text-sm leading-6"><input className="size-4 shrink-0 accent-brand" type="checkbox" name="diagnostic"/>기기 종류·앱 버전·화면 크기 함께 보내기 (선택)</label>
+    </div>
     {error&&<p role="alert" className="text-sm text-red-600">{error}</p>}
-    <button disabled={pending} className={`${button} w-full`}>{pending?"접수 중…":"문의 접수"}</button>
+    <button disabled={pending} className={`${button} w-full`}>{pending?"접수 중…":isIdea?"개선 제안 보내기":"문의 접수"}</button>
   </form>;
 }
 export function ReplyForm({id}:{id:string}) {

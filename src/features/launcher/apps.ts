@@ -239,6 +239,15 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     ],
   },
   {
+    id: "support",
+    label: "고객센터",
+    icon: MessageCircle,
+    tone: "bg-gradient-to-br from-blue-500 to-indigo-600",
+    home: "/support",
+    owns: ["/support"],
+    tabs: [],
+  },
+  {
     id: "pet",
     debugFlag: "pet",
     label: "펫",

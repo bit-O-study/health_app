@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readHiddenApps } from "@/features/launcher/home-preferences";
 
 import {
   BOTTOM_SLOT_COUNTS,
@@ -203,6 +204,13 @@ describe("탭 활성 판정", () => {
 });
 
 describe("런처 격자", () => {
+  it("고객센터는 기존 홈 구성을 유지하며 선택해서 추가한다", () => {
+    expect(visibleApps().find(app => app.id === "support")).toMatchObject({ label: "고객센터", home: "/support" });
+    expect(readHiddenApps("")).toEqual(["support"]);
+    expect(readHiddenApps('["diet"]')).toEqual(["diet", "support"]);
+    expect(readHiddenApps('{"hidden":["diet"]}')).toEqual(["diet"]);
+    expect(readHiddenApps('{"hidden":["diet","support"]}')).toEqual(["diet", "support"]);
+  });
   it("펫은 관리자가 공개해야 나타나며 다짐은 펫에 속하지 않는다", () => {
     expect(visibleApps().some((a) => a.id === "pet")).toBe(false);
     expect(visibleApps(["pet"]).some((a) => a.id === "pet")).toBe(true);

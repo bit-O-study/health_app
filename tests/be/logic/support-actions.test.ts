@@ -14,6 +14,18 @@ afterEach(()=>vi.restoreAllMocks());
 it('returns stored ticket without awaiting provider, and isolates after failures',async()=>{const result=await createTicket(input);expect(result.id).toBe(input.requestId);expect(mocks.dispatch).not.toHaveBeenCalled();await expect(mocks.after.mock.calls[0][0]()).resolves.toBeUndefined();expect(mocks.rpc.mock.calls[0][1].p_diagnostics).toEqual({platform:'Android'});});
 it('never schedules notification after DB failure',async()=>{mocks.rpc.mockResolvedValue({error:{message:'private internals'}});const r=await createTicket(input);expect(r.error).toBeTruthy();expect(r.error).not.toContain('private');expect(mocks.after).not.toHaveBeenCalled();});
 it('requires auth and valid input before RPC',async()=>{mocks.user.mockResolvedValue(null);expect((await createTicket(input)).error).toBeTruthy();expect(mocks.rpc).not.toHaveBeenCalled();});
+it('accepts a body-only feature suggestion and keeps the full description', async () => {
+  const firstLine = '🏋️'.repeat(40);
+  const body = firstLine + '\n지난 기록을 함께 보고 싶어요.';
+  await createTicket({ ...input, category: 'idea', title: undefined, body });
+  expect(mocks.rpc).toHaveBeenCalledWith('support_create', expect.objectContaining({
+    p_category: 'idea', p_title: Array.from(firstLine).slice(0,50).join(''), p_body: body,
+  }));
+});
+it('requires a description even when a category is preselected', async () => {
+  expect((await createTicket({ ...input, category: 'idea', title: undefined, body: '  ' })).error).toBeTruthy();
+  expect(mocks.rpc).not.toHaveBeenCalled();
+});
 it('admin ticket management is not exposed in the app (moved to the admin console)',()=>{expect('manageTicket' in actions).toBe(false);});
 it('member reply is never an internal note',async()=>{mocks.rpc.mockResolvedValue({error:null});await replyTicket(input.requestId,input.requestId,'추가 문의');expect(mocks.rpc).toHaveBeenCalledWith('support_reply',expect.objectContaining({p_internal:false}));});
 it('rejects oversized reply before RPC',async()=>{expect((await replyTicket(input.requestId,input.requestId,'x'.repeat(5001))).error).toBeTruthy();expect(mocks.rpc).not.toHaveBeenCalled();});

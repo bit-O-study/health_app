@@ -1,3 +1,17 @@
+/** 예전 설정은 숨긴 앱 배열이다. 그때 없던 고객센터는 직접 추가할 때까지 숨긴다. */
+export function readHiddenApps(stored: string): string[] {
+  try {
+    const saved = JSON.parse(stored);
+    const legacy = Array.isArray(saved);
+    const ids: unknown = legacy ? saved : saved?.hidden;
+    if (Array.isArray(ids)) {
+      const hidden = ids.filter((id): id is string => typeof id === "string");
+      return legacy ? [...new Set([...hidden, "support"])] : hidden;
+    }
+  } catch { /* 처음 방문했거나 저장값이 손상된 경우 */ }
+  return ["support"];
+}
+
 /** 가운데 홈을 제외한 왼쪽 두 칸, 오른쪽 두 칸. */
 export const DEFAULT_DOCK_IDS = ["workout", "diet", "calendar", "groups"] as const;
 export function normalizeDock(value: unknown): (string | null)[] {

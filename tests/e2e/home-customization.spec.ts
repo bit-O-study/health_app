@@ -41,6 +41,8 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
   const picker = page.getByRole("dialog", { name: "앱 추가", exact: true });
   const plus = grid.getByRole("button", { name: "앱 추가", exact: true });
   await expect(plus).toHaveCount(0);
+  const support = grid.getByRole("link", { name: "고객센터", exact: true });
+  await expect(support).toHaveCount(0);
   await grid.getByRole("button", { name: "편집", exact: true }).click();
   await expect(picker).toHaveCount(0);
   await grid.getByRole("button", { name: "식단 숨기기", exact: true }).click();
@@ -63,6 +65,15 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
   await picker.getByRole("button", { name: "식단 추가", exact: true }).click();
   await expect(picker).toHaveCount(0);
   await expect(grid.getByRole("button", { name: "식단 숨기기", exact: true })).toBeVisible();
+  await plus.click();
+  await picker.getByRole("button", { name: "고객센터 추가", exact: true }).click();
+  await grid.getByRole("button", { name: "완료", exact: true }).click();
+  await page.reload();
+  await expect(support).toHaveAttribute("href", "/support");
+  await support.click();
+  await expect(page).toHaveURL(/\/support$/);
+  await page.goto("/home");
+  await grid.getByRole("button", { name: "편집", exact: true }).click();
   await plus.click();
   await expect(picker.getByText("추가할 수 있는 앱이 모두 홈에 있어요.")).toBeVisible();
   await picker.getByRole("button", { name: "앱 추가 닫기", exact: true }).click();

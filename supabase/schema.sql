@@ -5153,7 +5153,7 @@ create table public.support_tickets (
  user_id uuid not null references auth.users(id) on delete cascade,
  request_id uuid not null, category text not null check(category in ('bug','feedback','idea','other')),
  title text not null check(length(trim(title)) between 1 and 100),
- status text not null default 'new' check(status in ('new','in_progress','waiting_user','resolved','closed')),
+ status text not null default 'new' check(status in ('new','acknowledged','development_review','development_done','in_progress','waiting_user','resolved','closed')),
  priority text not null default 'normal' check(priority in ('normal','high','urgent')),
  assignee uuid references auth.users(id) on delete set null,
  diagnostics jsonb not null default '{}', created_at timestamptz not null default now(),

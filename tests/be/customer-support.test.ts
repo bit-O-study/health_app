@@ -8,7 +8,11 @@ test.skipIf(!hasDbCreds)('support: owner isolation, atomic/idempotent submission
  async function as(id:string,mail:string){await db.query('reset role');await db.query("select set_config('request.jwt.claims',$1,true)",[JSON.stringify({sub:id,email:mail,role:'authenticated'})]);await db.query('set local role authenticated');}
  async function denied(sql:string,params:unknown[]=[]){await db.query('savepoint denied');await expect(db.query(sql,params)).rejects.toThrow();await db.query('rollback to savepoint denied');}
  try{
-  await db.query('begin');if (!(await db.query("select to_regclass('public.support_tickets') as t")).rows[0].t) await db.query(readFileSync('supabase/migrations/202609250004_customer_support.sql','utf8'));
+  await db.query('begin');
+  if (!(await db.query("select to_regclass('public.support_tickets') as t")).rows[0].t) {
+    await db.query(readFileSync('supabase/migrations/202609250004_customer_support.sql','utf8'));
+    await db.query(readFileSync('supabase/migrations/20261120054537_support_development_statuses.sql','utf8'));
+  }
   await db.query('insert into auth.users(id,email) values($1,$2),($3,$4),($5,$6)',[member,`support-${member}@example.com`,other,`support-${other}@example.com`,admin,email]);
   await db.query('insert into admins(email) values($1)',[email]);
   await as(member,`support-${member}@example.com`);
@@ -18,6 +22,7 @@ test.skipIf(!hasDbCreds)('support: owner isolation, atomic/idempotent submission
   expect((await db.query('select * from support_messages where ticket_id=$1',[ticket])).rowCount).toBe(1);
   await denied("update support_tickets set status='closed' where id=$1",[ticket]);
   await denied("select support_manage($1,'closed','urgent')",[ticket]);
+  await denied("select support_manage($1,'development_done','normal')",[ticket]);
   await denied('select * from support_kakao_connections');
   await denied('select support_claim($1)',[admin]);
   await denied("select support_reply($1,$2,'private',true)",[ticket,randomUUID()]);
@@ -26,6 +31,10 @@ test.skipIf(!hasDbCreds)('support: owner isolation, atomic/idempotent submission
   expect((await db.query('select * from support_messages where ticket_id=$1',[ticket])).rows).toEqual([]);
   await denied("select support_reply($1,$2,'attack')",[ticket,randomUUID()]);
   await as(admin,email);
+  for (const stage of ['acknowledged','development_review','development_done']) {
+    await db.query("select support_manage($1,$2,'normal')",[ticket,stage]);
+    expect((await db.query('select status from support_tickets where id=$1',[ticket])).rows[0].status).toBe(stage);
+  }
   await db.query("select support_reply($1,$2,'비공개 내부 메모',true)",[ticket,randomUUID()]);
   await db.query("select support_reply($1,$2,'문제를 확인했습니다.')",[ticket,randomUUID()]);
   await db.query("select support_manage($1,'resolved','high',true)",[ticket]);

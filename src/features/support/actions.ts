@@ -12,12 +12,15 @@ function refresh(id?: string) {
   revalidatePath("/support");
   if (id) revalidatePath(`/support/${id}`);
 }
-export async function createTicket(input: { requestId: string; category: string; title: string; body: string; diagnostic: unknown }) {
+export async function createTicket(input: { requestId: string; category: string; title?: string; body: string; diagnostic: unknown }) {
   if (!(await getCurrentUser())) return { error: "로그인이 필요해요." };
-  const error = validateTicket(input.category, input.title, input.body);
+  const body = input.body.trim();
+  if (!body) return { error: "내용을 입력해 주세요." };
+  const title = input.title?.trim() || Array.from(body.split(/\r?\n/, 1)[0]).slice(0, 50).join("");
+  const error = validateTicket(input.category, title, body);
   if (error || !uuid(input.requestId)) return { error: error ?? "접수 번호가 올바르지 않아요." };
   const db = await createSupabaseServerClient();
-  const result = await db.rpc("support_create", { p_request: input.requestId, p_category: input.category, p_title: input.title, p_body: input.body, p_diagnostics: diagnostics(input.diagnostic) });
+  const result = await db.rpc("support_create", { p_request: input.requestId, p_category: input.category, p_title: title, p_body: body, p_diagnostics: diagnostics(input.diagnostic) });
   if (result.error) return { error: "접수하지 못했어요. 잠시 후 다시 시도해 주세요. (짧은 시간에 여러 문의를 보내면 제한돼요.)" };
   after(async () => { await Promise.allSettled([dispatchSupport({ ticketId: result.data }), pushSupport(result.data)]); });
   refresh(); return { id: result.data as string };

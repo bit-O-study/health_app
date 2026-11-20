@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { Minus, Plus } from "lucide-react";
 import { visibleApps } from "@/features/launcher/apps";
+import { readHiddenApps } from "@/features/launcher/home-preferences";
 import { AppPickerDialog } from "@/features/launcher/app-picker-dialog";
 import { HomeDockEditor, useDockPlacement } from "@/features/launcher/home-dock-editor";
 import { useHydrated } from "@/lib/use-hydrated";
@@ -30,11 +31,7 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
   const stored = useSyncExternalStore(subscribe, () => {
     try { return localStorage.getItem(storageKey) ?? ""; } catch { return ""; }
   }, serverSnapshot);
-  let hidden: string[] = [];
-  try {
-    const value: unknown = JSON.parse(stored);
-    if (Array.isArray(value)) hidden = value.filter((id): id is string => typeof id === "string");
-  } catch { /* 저장값이 없거나 손상됐으면 기본 앱 목록을 보여준다. */ }
+  const hidden = readHiddenApps(stored);
   const available = visibleApps(enabledFlags);
   const apps = available.filter(app => !hidden.includes(app.id));
   // 트레이너 앱도 다른 앱과 같다 — 숨겼을 때만 '앱 추가'에 같은 이름으로 나온다.
@@ -46,7 +43,7 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
   function toggle(id: string, hide: boolean) {
     const next = hide ? [...new Set([...hidden, id])] : hidden.filter(value => value !== id);
     try {
-      localStorage.setItem(storageKey, JSON.stringify(next));
+      localStorage.setItem(storageKey, JSON.stringify({ hidden: next }));
       setError(null);
       window.dispatchEvent(new Event(CHANGE_EVENT));
       return true;

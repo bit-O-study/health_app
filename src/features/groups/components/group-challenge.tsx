@@ -67,7 +67,7 @@ export function GroupChallenge({
   if (!challenge && !isOwner) return null;
 
   return (
-    <section className="mb-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <section className="app-card mb-4 p-4">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
           <Target aria-hidden="true" size={16} className="text-brand" />

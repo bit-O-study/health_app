@@ -32,7 +32,7 @@ function MetricChart({ s }: { s: BodySeries }) {
   const lastPoint = pts[pts.length - 1];
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+    <div className="app-card p-3">
       <div className="mb-1 flex items-baseline justify-between">
         <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
           <span

@@ -73,7 +73,7 @@ export function MarkAllDoneButton({
         )}
         오늘 전부 완료
         {total > 0 ? (
-          <span className="tabular-nums text-zinc-500 dark:text-zinc-400">{total}</span>
+          <span className="tabular-nums text-muted">{total}</span>
         ) : null}
       </button>
       {failed ? (

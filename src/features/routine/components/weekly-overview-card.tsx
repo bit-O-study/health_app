@@ -67,7 +67,7 @@ function Stat({
 }) {
   return (
     <div className="min-w-0">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className="mt-1 break-words text-xl font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
         {value}
       </p>
@@ -102,7 +102,7 @@ export function WeeklyOverviewCard({
           <Link
             href="/settings/progress"
             aria-label="성장 그래프"
-            className="-mr-1 ml-auto inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+            className="-mr-1 ml-auto inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-full text-muted transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
           >
             <ChevronRight aria-hidden="true" size={18} />
           </Link>
@@ -148,7 +148,7 @@ export function WeeklyOverviewCard({
                 {untouched.map((r) => r.label).join("·")} 0세트
               </span>
             ) : null}
-            <ChevronRight aria-hidden="true" size={16} className="ml-auto shrink-0 text-zinc-400" />
+            <ChevronRight aria-hidden="true" size={16} className="ml-auto shrink-0 text-muted" />
           </span>
 
           {/* 부위 칸 — 진하기만으로도 "빈 곳"이 보인다. */}
@@ -162,7 +162,7 @@ export function WeeklyOverviewCard({
                 title={`${r.label} ${r.sets}세트 · ${VOLUME_LABEL[r.status]} (권장 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX})`}
               >
                 <span className={`block h-1.5 w-full rounded-full ${REGION_BAR[r.status]}`} />
-                <span className="mt-1 block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="mt-1 block truncate text-xs text-muted">
                   {r.label}
                 </span>
               </li>

@@ -52,7 +52,7 @@ export function SurveyExtraFields({
               className={`flex w-full flex-col items-start py-2 text-left ${chip(bodyStyle === o.id)}`}
             >
               <span>{o.label}</span>
-              <span className={`text-xs font-normal ${bodyStyle === o.id ? "opacity-90" : "text-zinc-500 dark:text-zinc-400"}`}>{o.description}</span>
+              <span className={`text-xs font-normal ${bodyStyle === o.id ? "opacity-90" : "text-muted"}`}>{o.description}</span>
             </button>
           ))}
         </div>

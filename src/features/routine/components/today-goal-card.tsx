@@ -67,7 +67,7 @@ export function TodayGoalCard({
         >
           {/* 촘촘한 한 줄 — 목표 이름 · 현재→목표 · 남은 양 · › */}
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="block truncate text-xs text-muted">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
             {goal.reached ? (
@@ -77,7 +77,7 @@ export function TodayGoalCard({
                 <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">
                   {goal.currentText}
                 </span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-muted">
                   → {goal.targetText}
                 </span>
               </span>
@@ -88,7 +88,7 @@ export function TodayGoalCard({
               {goal.remainingText} 남았어요
             </span>
           )}
-          <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
         </button>
       ) : null}
 
@@ -120,7 +120,7 @@ export function TodayGoalCard({
                     className={`shrink-0 text-xs font-bold ${
                       m.done
                         ? "text-brand"
-                        : "text-zinc-400"
+                        : "text-muted"
                     }`}
                   >
                     {m.statusText}
@@ -133,7 +133,7 @@ export function TodayGoalCard({
                       style={{ width: `${Math.min(100, Math.max(0, m.pct))}%` }}
                     />
                   </div>
-                  <span className="w-24 shrink-0 text-right text-xs font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="w-24 shrink-0 text-right text-xs font-semibold tabular-nums text-muted">
                     {m.valueText}
                   </span>
                 </div>

@@ -68,7 +68,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
     return <div className="app-page">
       <PageHeader branded title="루틴 워밍업 추가하기" back="운동" backHref="/routine" />
       <main className="app-container space-y-4">
-        <p className="text-sm text-zinc-500">{selected.label} 루틴에 저장됩니다. 다음에 같은 부위를 운동할 때도 적용됩니다.</p>
+        <p className="text-sm text-muted">{selected.label} 루틴에 저장됩니다. 다음에 같은 부위를 운동할 때도 적용됩니다.</p>
         <ConditioningEditor focus={selected.focus} kind="warmup" initial={condByFocus.get(selected.focus)!.warmup} lockWeightReps={profile.lockWeightReps} />
         <Link href="/plan" className="text-sm font-semibold text-brand">전체 루틴 편집</Link>
       </main>

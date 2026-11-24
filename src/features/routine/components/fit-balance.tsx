@@ -137,8 +137,8 @@ function BalanceSheet({
       >
         <div className="flex items-center gap-2">
           <h2 className="flex-1 text-base font-bold">몸 균형</h2>
-          <span className="text-xs text-zinc-500">지난 7일 · 세부 근육 25개</span>
-          <button type="button" aria-label="닫기" onClick={onClose} className="rounded-full p-1 text-zinc-400">
+          <span className="text-xs text-muted">지난 7일 · 세부 근육 25개</span>
+          <button type="button" aria-label="닫기" onClick={onClose} className="rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
@@ -158,7 +158,7 @@ function BalanceSheet({
             </button>
           ))}
         </div>
-        <p className="flex flex-wrap gap-x-3 text-xs text-zinc-500" data-testid="fit-legend">
+        <p className="flex flex-wrap gap-x-3 text-xs text-muted" data-testid="fit-legend">
           <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-danger" />부족</span>
           <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-brand/50" />조금</span>
           <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-brand" />적정</span>
@@ -231,18 +231,18 @@ function RatioBars({ row, alarm }: { row: BalanceRow; alarm: boolean }) {
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{row.label}</p>
         {row.hint && low ? (
-          <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${alarm ? "bg-danger/10 text-danger" : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08]"}`}>
+          <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${alarm ? "bg-danger/10 text-danger" : "bg-zinc-100 text-muted dark:bg-white/[0.08]"}`}>
             {low.label} 부족
           </span>
         ) : null}
       </div>
-      <div className="grid grid-cols-[2.5rem_1fr] items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
+      <div className="grid grid-cols-[2.5rem_1fr] items-center gap-x-2 gap-y-1 text-xs text-muted">
         <span>지금</span>
         {line("now")}
         <span>목표</span>
         {line("goal")}
       </div>
-      <p className="flex flex-wrap gap-x-2.5 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="flex flex-wrap gap-x-2.5 text-xs text-muted">
         {row.parts.map((p, i) => (
           <span key={p.label} className="inline-flex items-center gap-1">
             <i className={`h-2 w-2 rounded-full ${shades.at(i) ?? "bg-brand/25"}`} />

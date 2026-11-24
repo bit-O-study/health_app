@@ -555,7 +555,7 @@ export function DailyMainEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">운동 없음</p>
+        <p className="mt-2 text-xs text-muted">운동 없음</p>
       ) : (
         <div className="mt-2 space-y-1.5">
           {rows.map((row, idx) => {
@@ -753,7 +753,7 @@ export function DailyMainEditor({
           저장
         </button>
         {msg ? (
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">{msg}</span>
+          <span className="text-xs text-muted">{msg}</span>
         ) : null}
       </div>
 

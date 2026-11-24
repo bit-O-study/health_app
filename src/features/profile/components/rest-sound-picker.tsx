@@ -120,7 +120,7 @@ export function RestSoundPicker() {
                 className={`relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] rounded-lg text-xs font-semibold transition ${
                   active
                     ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
-                    : "text-zinc-500 dark:text-zinc-400"
+                    : "text-muted"
                 }`}
               >
                 {o.label}

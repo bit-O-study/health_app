@@ -157,7 +157,7 @@ export function CycleBoard({
             />
           </div>
         ) : (
-          <p className="px-3 py-2.5 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="px-3 py-2.5 text-center text-sm text-muted">
             생리한 날을 눌러 기록하면 예정일을 알려드려요
           </p>
         )}
@@ -242,7 +242,7 @@ export function CycleBoard({
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="min-w-0 px-1">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-rose-600 dark:text-rose-400">{value}</p>
       {sub ? <p className="truncate text-xs tabular-nums text-muted">{sub}</p> : null}
     </div>

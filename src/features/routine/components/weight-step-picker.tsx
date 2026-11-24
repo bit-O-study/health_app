@@ -64,7 +64,7 @@ export function WeightStepPicker({
 
   return (
     <div className="mt-2 rounded-[10px] bg-zinc-100 p-2 dark:bg-white/[0.06]">
-      <p className="mb-1.5 text-xs text-zinc-600 dark:text-zinc-300">
+      <p className="mb-1.5 text-xs text-muted">
         이 헬스장에서 이 운동은 몇 kg 씩 올라가나요?
       </p>
       <div className="flex flex-wrap gap-1.5">

@@ -86,7 +86,7 @@ export function PrefToggle({
             <Loader2
               aria-hidden="true"
               size={12}
-              className="animate-spin text-zinc-500"
+              className="animate-spin text-muted"
             />
           ) : null}
         </span>

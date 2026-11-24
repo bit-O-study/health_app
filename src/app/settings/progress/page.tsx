@@ -31,7 +31,7 @@ export const dynamic = "force-dynamic";
 function TrendBadge({ pct }: { pct: number | null }) {
   if (pct === null) {
     return (
-      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-white/[0.08]">
+      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-muted dark:bg-white/[0.08]">
         —
       </span>
     );
@@ -112,7 +112,7 @@ export default async function ProgressPage() {
         />
         {!hasData ? (
           <div className="app-card p-6 text-center">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-muted">
               아직 중량 운동 완료 기록이 없어요
             </p>
             <Link
@@ -134,7 +134,7 @@ export default async function ProgressPage() {
               </div>
               <div className="app-card p-3">
                 <LineChart points={volume} color="var(--brand)" unit="kg" />
-                <p className="mt-1.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                <p className="mt-1.5 text-xs tabular-nums text-muted">
                   누적 {Math.round(totalVolume).toLocaleString()}kg · {volume.length}일 기록
                 </p>
               </div>
@@ -151,7 +151,7 @@ export default async function ProgressPage() {
                 </div>
                 <div className="app-card p-3">
                   <LineChart points={weekly} color="var(--brand)" unit="kg" />
-                  <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-1.5 text-xs text-muted">
                     최근 {weekly.length}주 · 월요일 시작
                   </p>
                 </div>
@@ -172,7 +172,7 @@ export default async function ProgressPage() {
                         <Trophy aria-hidden="true" size={15} className="shrink-0 text-warn" />
                         <span className="truncate text-zinc-900 dark:text-zinc-100">{pr.name}</span>
                       </span>
-                      <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+                      <span className="shrink-0 tabular-nums text-muted">
                         {pr.kind === "oneRm" ? "추정 1RM" : "최고 중량"}{" "}
                         <strong className="font-semibold text-zinc-900 dark:text-zinc-100">
                           {pr.value}kg
@@ -189,7 +189,7 @@ export default async function ProgressPage() {
             <section>
               <h2 className="app-section-label">종목별 추정 1RM 추이</h2>
               {/* 추천이 명령처럼 읽히지 않게 — 한 줄만 남긴다(growth-record E2E 가 확인). */}
-              <p className="mb-2 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="mb-2 px-1 text-xs text-muted">
                 추천은 기록 기반 제안이에요 — 그대로 따르지 않아도 됩니다.
               </p>
               {exerciseCharts.length === 0 ? (
@@ -209,7 +209,7 @@ export default async function ProgressPage() {
                           <TrendBadge pct={trendPct(e.series)} />
                         </div>
                         <LineChart points={e.series} color="var(--brand)" unit="kg" height={120} />
-                        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                        <p className="mt-1.5 text-xs text-muted">
                           최고 추정 1RM{" "}
                           <strong className="font-semibold text-zinc-900 dark:text-zinc-100">{best}kg</strong>
                           {e.unilateral ? (
@@ -224,11 +224,11 @@ export default async function ProgressPage() {
                           </div>
                         ) : null}
                         {e.history.length > 0 ? (
-                          <ul className="mt-2 space-y-0.5 border-t border-[var(--line)] pt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                          <ul className="mt-2 space-y-0.5 border-t border-[var(--line)] pt-2 text-xs text-muted">
                             {e.history.map((h) => (
                               <li key={h.date} className="flex justify-between gap-2 tabular-nums">
                                 <span>{h.date.slice(5).replace("-", "/")}</span>
-                                <span className="text-zinc-600 dark:text-zinc-300">
+                                <span className="text-muted">
                                   {h.weightKg !== null && h.weightKg > 0
                                     ? `${h.weightKg}kg × ${h.reps} × ${h.sets}세트`
                                     : `맨몸 ${h.reps}회 × ${h.sets}세트`}

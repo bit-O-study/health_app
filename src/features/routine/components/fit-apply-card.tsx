@@ -98,7 +98,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
                 />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">{p.name}</span>
-                  <span className="block truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid="fit-pick-rx">
+                  <span className="block truncate text-xs tabular-nums text-muted" data-testid="fit-pick-rx">
                     {p.prescription ?? p.equipmentLabel}
                   </span>
                 </span>
@@ -116,7 +116,7 @@ export function FitApplyCard({ picks, canReplace }: { picks: FitPickView[]; canR
       {confirming ? (
         <div className="mt-2 space-y-2 rounded-xl bg-danger/5 p-3" data-testid="fit-replace-confirm">
           <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">이 {n}개로 바꿀까요?</p>
-          <p className="text-xs text-zinc-600 dark:text-zinc-300">원래 운동은 내일로 미뤄져요.</p>
+          <p className="text-xs text-muted">원래 운동은 내일로 미뤄져요.</p>
           <div className="flex gap-2">
             <button
               type="button"

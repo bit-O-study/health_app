@@ -71,7 +71,7 @@ export default async function SuspendedPage() {
                 ? "이용이 영구 정지된 계정입니다"
                 : "이용이 정지된 계정입니다"}
           </h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-muted">
             {withdrawn
               ? "회원탈퇴가 완료되었습니다. 데이터는 일정 기간 보관되며, 복구를 원하시면 운영팀에 문의해 주세요."
               : isBan

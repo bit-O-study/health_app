@@ -72,7 +72,7 @@ export function ThemePicker() {
               className={`min-w-14 rounded-[8px] px-3 py-1 text-sm transition ${
                 selected
                   ? "bg-white font-semibold text-zinc-900 shadow-sm dark:bg-zinc-600 dark:text-white"
-                  : "text-zinc-600 dark:text-zinc-400"
+                  : "text-muted"
               }`}
             >
               {opt.label}

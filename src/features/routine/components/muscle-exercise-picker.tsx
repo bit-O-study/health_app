@@ -48,7 +48,7 @@ const MuscleMannequin3D = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[360px] w-full items-center justify-center app-field rounded-xl border text-sm text-zinc-500 dark:text-zinc-400 sm:h-[440px]">
+      <div className="flex h-[360px] w-full items-center justify-center app-field rounded-xl border text-sm text-muted sm:h-[440px]">
         3D 마네킹 불러오는 중…
       </div>
     ),
@@ -67,7 +67,7 @@ class Mannequin3DBoundary extends Component<
   render() {
     if (this.state.failed) {
       return (
-        <div className="flex h-[120px] w-full items-center justify-center app-field rounded-xl border border-dashed px-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="flex h-[120px] w-full items-center justify-center app-field rounded-xl border border-dashed px-4 text-center text-sm text-muted">
           3D 마네킹을 표시할 수 없는 환경이에요. 아래 부위 버튼으로 선택하세요.
         </div>
       );
@@ -210,7 +210,7 @@ export function MuscleExercisePicker({
         {lightMode ? (
           <div
             data-testid="light-mode-mannequin-fallback"
-            className="flex h-24 w-full items-center justify-center app-field rounded-xl border px-6 text-center text-sm text-zinc-600 dark:text-zinc-300"
+            className="flex h-24 w-full items-center justify-center app-field rounded-xl border px-6 text-center text-sm text-muted"
           >
             경량 모드에서는 아래 부위 버튼으로 운동 부위를 선택하세요.
           </div>
@@ -284,7 +284,7 @@ export function MuscleExercisePicker({
             {muscleGroup(selectedMuscle).label}
             {selectedSub ? ` · ${subMuscle(selectedSub)?.label}` : ""} 운동
           </h2>
-          <span className="text-sm text-zinc-500 dark:text-zinc-400">
+          <span className="text-sm text-muted">
             {base === null ? "불러오는 중" : `${list.length}개`}
           </span>
         </div>
@@ -362,7 +362,7 @@ export function MuscleExercisePicker({
                   {on ? (
                     <Check size={15} />
                   ) : (
-                    <Plus size={15} className="text-zinc-400" />
+                    <Plus size={15} className="text-muted" />
                   )}
                 </button>
                 <div className="min-w-0 flex-1">
@@ -408,13 +408,13 @@ export function MuscleExercisePicker({
           {base === null ? (
             <li
               data-testid="muscle-exercises-loading"
-              className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+              className="flex items-center gap-2 text-sm text-muted"
             >
               <Loader2 size={14} className="animate-spin" />
               운동 목록을 불러오는 중…
             </li>
           ) : list.length === 0 ? (
-            <li className="text-sm text-zinc-500 dark:text-zinc-400">
+            <li className="text-sm text-muted">
               이 세부근육에 매핑된 운동이 없습니다. ‘전체’로 보세요.
             </li>
           ) : null}
@@ -453,7 +453,7 @@ export function MuscleExercisePicker({
                     />
                     {g.label}
                   </span>
-                  <span className="text-zinc-600 dark:text-zinc-400">
+                  <span className="text-muted">
                     {(picked[g.id] ?? [])
                       .map((id) => nameById[id] ?? id)
                       .join(", ")}
@@ -462,7 +462,7 @@ export function MuscleExercisePicker({
                     type="button"
                     onClick={() => removeMuscle(g.id)}
                     aria-label={`${g.label} 전체 비우기`}
-                    className="ml-auto inline-flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
+                    className="ml-auto inline-flex relative h-7 w-7 after:absolute after:-inset-2 after:content-[''] items-center justify-center rounded-full text-muted transition hover:bg-danger/10 hover:text-danger"
                   >
                     <Trash2 size={15} />
                   </button>
@@ -480,7 +480,7 @@ export function MuscleExercisePicker({
       ) : null}
 
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-muted">
           저장하면 담은 운동이 부위별 루틴에 등록되고 메인에 표시됩니다.
         </p>
         <button

@@ -120,7 +120,7 @@ export function NotificationBell() {
                   clearPrompt();
                   setOpen(false);
                 }}
-                className="text-xs font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
+                className="text-xs font-semibold text-muted transition hover:text-zinc-600 dark:hover:text-zinc-200"
               >
                 지우기
               </button>
@@ -132,7 +132,7 @@ export function NotificationBell() {
               <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
                 {prompt.title}
               </p>
-              <p className="mt-1 text-xs leading-5 text-zinc-600 dark:text-zinc-300">
+              <p className="mt-1 text-xs leading-5 text-muted">
                 {prompt.body}
               </p>
               <div className="mt-3 flex justify-end gap-2">
@@ -165,7 +165,7 @@ export function NotificationBell() {
                 size={16}
                 className="text-zinc-300 dark:text-zinc-600"
               />
-              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              <p className="text-xs text-muted">
                 새 알림이 없어요
               </p>
             </div>

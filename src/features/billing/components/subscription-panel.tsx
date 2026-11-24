@@ -93,14 +93,14 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         {!AI_OPEN ? (
           <p
             data-testid="plan-ai-soon"
-            className="flex items-center justify-between rounded-xl border border-dashed border-line px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400"
+            className="flex items-center justify-between rounded-xl border border-dashed border-line px-3 py-2.5 text-sm text-muted"
           >
             <span>AI 요금제</span>
             <span className="tabular-nums">월 {PLANS.basic.priceKrw.toLocaleString("ko-KR")}원 · 오픈 준비 중</span>
           </p>
         ) : null}
         {status.personalPlan !== "free" ? (
-          <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="px-1 text-xs text-muted">
             요금제를 바꾸려면 구글 플레이 구독 관리에서 지금 구독을 해지한 뒤 다시 골라 주세요.
           </p>
         ) : null}
@@ -111,12 +111,12 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       <section data-testid="premium-benefits">
         <div className="flex items-baseline justify-between">
           <h2 className="app-section-label">한 달에 쓸 수 있는 AI 횟수</h2>
-          <span className="mb-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="mb-1.5 px-1 text-xs text-muted">
             유료 요금제 공통 · 언제든 해지
           </span>
         </div>
         <ul className="app-list">
-          <li className="flex items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <li className="flex items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-muted">
             <span>기능</span>
             <span className="flex gap-6">
               <span className="w-10 text-right">무료</span>
@@ -130,7 +130,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             >
               <span className="min-w-0 truncate">{f.label}</span>
               <span className="flex shrink-0 gap-6 tabular-nums">
-                <span className="w-10 text-right text-zinc-500">{MONTHLY_LIMITS.free[f.id]}</span>
+                <span className="w-10 text-right text-muted">{MONTHLY_LIMITS.free[f.id]}</span>
                 <span className="w-12 text-right font-semibold text-brand">
                   {MONTHLY_LIMITS.premium[f.id]}
                 </span>
@@ -145,7 +145,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         // 설정이 안 된 걸 오류처럼 보여주면 사용자가 자기 잘못인 줄 안다.
         <p
           data-testid="subscription-not-ready"
-          className="app-card p-3 text-sm text-zinc-600 dark:text-zinc-300"
+          className="app-card p-3 text-sm text-muted"
         >
           구독은 아직 준비 중이에요.
         </p>
@@ -166,13 +166,13 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       {msg ? (
         <p
           data-testid="subscription-message"
-          className="px-1 text-xs text-zinc-600 dark:text-zinc-300"
+          className="px-1 text-xs text-muted"
         >
           {msg}
         </p>
       ) : null}
 
-      <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
+      <p className="px-1 text-xs text-muted">
         결제·해지·환불은 구글 플레이에서 관리해요.
       </p>
     </div>
@@ -221,15 +221,15 @@ function PlanCard({
           월 {plan.priceKrw.toLocaleString("ko-KR")}원
         </span>
       </div>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">{plan.tagline}</p>
+      <p className="text-xs text-muted">{plan.tagline}</p>
       {plan.note ? (
-        <p data-testid={`plan-${id}-note`} className="text-xs text-zinc-600 dark:text-zinc-300">
+        <p data-testid={`plan-${id}-note`} className="text-xs text-muted">
           {plan.note}
         </p>
       ) : null}
       <ul className="space-y-1">
         {PLAN_ORDER.indexOf(id) > 1 ? (
-          <li className="text-xs text-zinc-500 dark:text-zinc-400">
+          <li className="text-xs text-muted">
             {PLANS[PLAN_ORDER[PLAN_ORDER.indexOf(id) - 1]].label} 혜택 전부 +
           </li>
         ) : null}

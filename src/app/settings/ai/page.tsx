@@ -21,7 +21,7 @@ export default async function AiConsentPage() {
             AI 트레이너가 오늘의 운동·식단·다짐을 추천하려면 운동·체중·체성분·식단·수분 기록의
             <b> 숫자 요약</b>을 외부 AI(Google Gemini 등, 국외 서버)로 보내요. 이름·이메일·연락처는 보내지 않아요.
           </p>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-muted">
             철회하면 그때부터 보내지 않고, AI 맞춤 추천만 쓸 수 없어요. 기록과 다른 기능은 그대로예요.
           </p>
         </section>

@@ -201,7 +201,7 @@ export function RoutinePlanner({
     <section className="px-1">
       {/* 제목 한 줄만 — 영문 머리표·설명 문단은 뺐다(2026-09-16 촘촘하게). 버튼 이름이 스스로 설명한다. */}
       <div className="flex items-center gap-1.5">
-        <CalendarDays aria-hidden="true" size={16} className="text-zinc-500 dark:text-zinc-400" />
+        <CalendarDays aria-hidden="true" size={16} className="text-muted" />
         <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
           나의 루틴
         </h2>
@@ -209,7 +209,7 @@ export function RoutinePlanner({
 
       {/* 루틴 선택 */}
       <div className="mt-3">
-        <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <p className="mb-2 text-xs font-semibold text-muted">
           루틴 선택
         </p>
         <div className="flex flex-wrap gap-2">
@@ -245,7 +245,7 @@ export function RoutinePlanner({
             커스텀
           </button>
         </div>
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-muted">
           {isCustom
             ? "7일 주기를 직접 부위별로 채우는 나만의 루틴"
             : preset.tagline}
@@ -255,7 +255,7 @@ export function RoutinePlanner({
       {isCustom ? (
         /* 커스텀 빌더 — 주기 일자별 부위 (1개 이상) 지정. 멀티 부위 = "가슴 + 팔" 같은 묶음 */
         <div className="mt-3">
-          <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <p className="mb-2 text-xs font-semibold text-muted">
             일자별 부위 (하루 최대 3개)
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -274,7 +274,7 @@ export function RoutinePlanner({
       ) : (
         /* 변형 선택 */
         <div className="mt-3">
-          <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <p className="mb-2 text-xs font-semibold text-muted">
             나누는 방식
           </p>
           <div className="flex flex-wrap gap-2">
@@ -297,7 +297,7 @@ export function RoutinePlanner({
               );
             })}
           </div>
-          <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1.5 text-xs text-muted">
             {variant.description}
           </p>
         </div>
@@ -322,13 +322,13 @@ export function RoutinePlanner({
                 {isRest ? (
                   <Moon
                     aria-hidden="true"
-                    className="text-zinc-400 dark:text-zinc-500"
+                    className="text-muted"
                     size={16}
                   />
                 ) : (
                   <Dumbbell
                     aria-hidden="true"
-                    className="text-zinc-500 dark:text-zinc-400"
+                    className="text-muted"
                     size={16}
                   />
                 )}
@@ -350,13 +350,13 @@ export function RoutinePlanner({
               </span>
 
               {isRest ? (
-                <p className="mt-2 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                <p className="mt-2 text-xs leading-5 text-muted">
                   회복일
                 </p>
               ) : (
                 <div className="mt-2 space-y-1.5">
                   <div>
-                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-muted">
                       자극 부위
                     </p>
                     <p className="mt-0.5 break-keep text-xs leading-5 text-zinc-700 dark:text-zinc-300">
@@ -364,7 +364,7 @@ export function RoutinePlanner({
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-muted">
                       대표 운동
                     </p>
                     <ul className="mt-0.5 space-y-0.5">
@@ -385,7 +385,7 @@ export function RoutinePlanner({
         })}
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
         <span>
           주{" "}
           <strong className="text-zinc-900 dark:text-zinc-100">
@@ -400,7 +400,7 @@ export function RoutinePlanner({
           </strong>
           일
         </span>
-        <span className="text-zinc-400 dark:text-zinc-500">
+        <span className="text-muted">
           {isCustom
             ? "커스텀 루틴"
             : `${preset.label} · ${variant.name}`}
@@ -435,7 +435,7 @@ export function RoutinePlanner({
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
                     추천으로 운동선택
                   </span>
-                  <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                  <span className="mt-0.5 block text-xs leading-5 text-muted">
                     워밍업·본운동·마무리까지 한 번에
                   </span>
                 </span>
@@ -461,7 +461,7 @@ export function RoutinePlanner({
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
                     직접 운동선택
                   </span>
-                  <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                  <span className="mt-0.5 block text-xs leading-5 text-muted">
                     운동 등록 화면에서 직접 고르기
                   </span>
                 </span>
@@ -487,7 +487,7 @@ export function RoutinePlanner({
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
                     근육별로 운동선택
                   </span>
-                  <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                  <span className="mt-0.5 block text-xs leading-5 text-muted">
                     3D 마네킹에서 근육을 눌러 고르기
                   </span>
                 </span>
@@ -509,7 +509,7 @@ export function RoutinePlanner({
                   {saveStatus.message}
                 </p>
               ) : (
-                <p className="text-zinc-500 dark:text-zinc-400">
+                <p className="text-muted">
                   {fillMode === "recommend"
                     ? "저장 후 메인 화면에서 오늘 운동을 확인하세요."
                     : fillMode === "byMuscle"
@@ -668,7 +668,7 @@ function AddBlockMenu({
           setOpen((v) => !v);
           setGroupId(null);
         }}
-        className="inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:text-brand"
+        className="inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-muted transition hover:border-brand/40 hover:text-brand"
       >
         <Plus aria-hidden="true" size={11} />
         부위 추가
@@ -711,7 +711,7 @@ function AddBlockMenu({
                 <button
                   type="button"
                   onClick={() => setGroupId(null)}
-                  className="mb-0.5 flex items-center gap-1 rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                  className="mb-0.5 flex items-center gap-1 rounded px-2 py-1.5 text-left text-xs font-semibold text-muted transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
                 >
                   <ChevronLeft aria-hidden="true" size={13} />
                   {active.label}

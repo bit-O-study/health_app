@@ -663,10 +663,10 @@ export async function TodayExercises({
             <div className="min-w-0 flex-1">
               <p className="text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">{progress.label}</p>
               {progress.skippedLabel ? (
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">{progress.skippedLabel}</p>
+                <p className="text-xs text-muted">{progress.skippedLabel}</p>
               ) : null}
               {kcal.total > 0 ? (
-                <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid="today-kcal">
+                <p className="text-xs tabular-nums text-muted" data-testid="today-kcal">
                   {kcal.done.toLocaleString()} / 약 {kcal.total.toLocaleString()}kcal
                 </p>
               ) : null}
@@ -742,12 +742,12 @@ export async function TodayExercises({
 
         {/* 본운동 */}
         {/* 섹션 제목은 아이폰 그룹 목록처럼 작은 회색 글자 — 색 아이콘 칩은 뺐다. */}
-        <h3 className="mb-1.5 px-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+        <h3 className="mb-1.5 px-1 text-sm font-medium text-muted">
           본운동
         </h3>
         {plan.length === 0 ? (
           <div className="app-card p-3 text-center">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-muted">
               등록된 본운동이 없습니다
             </p>
             <Link
@@ -883,7 +883,7 @@ function ConditioningSection({
   return (
     <section>
       <div className="mb-1.5 flex items-center gap-2 px-1">
-        <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+        <h3 className="text-sm font-medium text-muted">
           {label}
         </h3>
         {isDailyOverride ? (
@@ -894,7 +894,7 @@ function ConditioningSection({
       </div>
 
       {rowsCount === 0 ? (
-        <p className="app-card flex items-center justify-between px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card flex items-center justify-between px-4 py-3 text-sm text-muted">
           비어 있어요
           <Link href={isWarm ? `/plan?section=warmup&focus=${encodeURIComponent(focus)}` : `/plan/today?section=${kind}`} className="font-semibold text-brand">
             {label} 추가하기

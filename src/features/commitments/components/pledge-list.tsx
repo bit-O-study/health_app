@@ -23,7 +23,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
   if (pledges.length === 0) {
     return (
       <div className="app-card space-y-2 p-4 text-center" data-testid="pledge-empty">
-        <p className="text-sm text-zinc-500">아직 다짐이 없어요</p>
+        <p className="text-sm text-muted">아직 다짐이 없어요</p>
         <Link href="/commitments/new" className="inline-flex h-10 items-center rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950">
           다짐 만들기
         </Link>
@@ -50,7 +50,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
     <div className="space-y-5" data-testid="pledge-list">
       {groups.map((g) => (
         <section key={g.title} className="space-y-2">
-          <h2 className="text-xs font-semibold text-zinc-500">{g.title}</h2>
+          <h2 className="text-xs font-semibold text-muted">{g.title}</h2>
           <ul className="space-y-2">
             {g.items.map((p) => {
               const st = p.eval.status;
@@ -66,7 +66,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                         {p.direction === "reverse" ? <span className="text-xs text-muted">목표로 만든 다짐</span> : null}
                       </p>
                       <p className="mt-1 text-base font-semibold leading-5">{p.title}</p>
-                      <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">
+                      <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
                         <CalendarClock aria-hidden="true" size={11} />
                         {p.startDate} ~ {p.endDate}
                         {st === "active" ? ` · ${p.week}/${p.totalWeeks}주차` : ""}
@@ -76,7 +76,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                       <Link
                         href={`/commitments/${p.id}/edit`}
                         aria-label="다짐 편집"
-                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08]"
+                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-muted hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/[0.08]"
                       >
                         <Pencil aria-hidden="true" size={14} />
                       </Link>
@@ -85,7 +85,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                         aria-label="다짐 삭제"
                         onClick={() => remove(p.id)}
                         disabled={pending}
-                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                        className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-muted hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                       >
                         <Trash2 aria-hidden="true" size={14} />
                       </button>
@@ -107,7 +107,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                   ) : null}
 
                   {p.predicted && (p.predicted.weightKg !== null || p.predicted.muscleKg !== null) ? (
-                    <p className="mt-2 text-xs text-zinc-500">
+                    <p className="mt-2 text-xs text-muted">
                       예상:{" "}
                       {[
                         p.predicted.weightKg !== null ? `체중 ${sign(p.predicted.weightKg)}kg` : null,
@@ -120,7 +120,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                   ) : null}
 
                   {p.sharedGroupIds.length > 0 ? (
-                    <p className="mt-1 flex items-center gap-1 text-xs text-zinc-500">
+                    <p className="mt-1 flex items-center gap-1 text-xs text-muted">
                       <UsersRound aria-hidden="true" size={11} />
                       {p.sharedGroupIds.map((g) => groupNames[g] ?? "그룹").join(", ")}에 공유 중
                     </p>

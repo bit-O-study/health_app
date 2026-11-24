@@ -97,7 +97,7 @@ export function BodyLogButton({
                 type="button"
                 aria-label="닫기"
                 onClick={() => setOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 dark:text-zinc-400 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
               >
                 <X aria-hidden="true" size={18} />
               </button>

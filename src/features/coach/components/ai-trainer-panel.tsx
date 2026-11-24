@@ -257,7 +257,7 @@ export function AiTrainerPanel({
                         </span>
                       </span>
                       {it.reason ? (
-                        <span className="block text-xs text-zinc-600 dark:text-zinc-300">{it.reason}</span>
+                        <span className="block text-xs text-muted">{it.reason}</span>
                       ) : null}
                     </span>
                   </button>
@@ -265,7 +265,7 @@ export function AiTrainerPanel({
               );
             })}
           </ul>
-          {plan.tip ? <p className="text-xs text-zinc-600 dark:text-zinc-300">팁: {plan.tip}</p> : null}
+          {plan.tip ? <p className="text-xs text-muted">팁: {plan.tip}</p> : null}
           <div className="flex flex-col gap-2">
             <button
               type="button"

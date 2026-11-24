@@ -40,7 +40,7 @@ export default async function YearReviewPage() {
       <PageHeader title="1년 돌아보기" back="맞춤 운동" backHref="/fit?tab=report" />
       <main className="app-container space-y-3" data-testid="year-review">
         <section className="app-card space-y-2 p-3">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-muted">
             {r.from.replaceAll("-", ".")} ~ {r.to.replaceAll("-", ".")} · 진할수록 많이 들었어요
           </p>
           {/* 휴대폰 폭엔 53주가 다 안 들어간다 — 오른쪽 끝(최근 주)부터 보이게 rtl 스크롤, 안쪽은 다시 ltr. */}
@@ -81,7 +81,7 @@ export default async function YearReviewPage() {
           </>
         ) : (
           <section className="app-card space-y-2 p-4 text-center" data-testid="year-locked">
-            <Lock aria-hidden="true" size={20} className="mx-auto text-zinc-400" />
+            <Lock aria-hidden="true" size={20} className="mx-auto text-muted" />
             <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">한 해 숫자와 공유 이미지는 라이트에서 볼 수 있어요</p>
             <Link href="/settings/subscription" className="inline-block text-sm font-semibold text-brand">
               라이트 알아보기 →

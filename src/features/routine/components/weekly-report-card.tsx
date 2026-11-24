@@ -24,7 +24,7 @@ import {
 function DeltaBadge({ delta, unit = "" }: { delta: Delta; unit?: string }) {
   if (delta.diff === 0) {
     return (
-      <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
+      <span className="text-xs font-medium text-muted">
         지난주와 같음
       </span>
     );
@@ -32,7 +32,7 @@ function DeltaBadge({ delta, unit = "" }: { delta: Delta; unit?: string }) {
   const up = delta.diff > 0;
   const tone = up
     ? "text-brand"
-    : "text-zinc-500 dark:text-zinc-400";
+    : "text-muted";
   const amount = `${up ? "+" : "−"}${Math.abs(delta.diff).toLocaleString()}${unit}`;
   return (
     <span className={`text-xs font-semibold ${tone}`}>
@@ -62,7 +62,7 @@ function Stat({
 }) {
   return (
     <div className="min-w-0">
-      <p className="truncate text-xs font-medium text-zinc-500 dark:text-zinc-400">
+      <p className="truncate text-xs font-medium text-muted">
         {label}
       </p>
       <p className="truncate text-base font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
@@ -100,13 +100,13 @@ export function WeeklyReportCard({
               <CalendarRange aria-hidden="true" size={15} />
             </span>
             이번 주
-            <span className="font-medium text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="font-medium text-xs text-muted">
               {partial ? `${current.days}일째` : "한 주 전체"}
             </span>
           </h2>
           <Link
             href="/settings/progress"
-            className="inline-flex items-center gap-0.5 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
+            className="inline-flex items-center gap-0.5 text-xs font-semibold text-muted transition hover:text-zinc-800 dark:hover:text-zinc-200"
           >
             성장 그래프
             <ArrowUpRight aria-hidden="true" size={13} />
@@ -147,13 +147,13 @@ export function WeeklyReportCard({
         </h2>
         <Link
           href="/settings/progress"
-          className="inline-flex items-center gap-0.5 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
+          className="inline-flex items-center gap-0.5 text-xs font-semibold text-muted transition hover:text-zinc-800 dark:hover:text-zinc-200"
         >
           성장 그래프
           <ArrowUpRight aria-hidden="true" size={13} />
         </Link>
       </div>
-      <p className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mb-4 text-xs text-muted">
         {partial
           ? `이번 주 ${current.days}일째 · 지난주 같은 요일까지와 비교`
           : "한 주 전체 · 지난주와 비교"}
@@ -204,7 +204,7 @@ export function WeeklyReportCard({
 
       {topParts.length > 0 ? (
         <div className="mt-4 border-t border-[var(--line)] pt-3">
-          <p className="mb-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+          <p className="mb-2 text-xs font-medium text-muted">
             부위 분포 (볼륨 기준)
           </p>
           <div className="flex h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-700">
@@ -220,7 +220,7 @@ export function WeeklyReportCard({
             {topParts.map((p) => (
               <li
                 key={p.part}
-                className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-300"
+                className="flex items-center gap-1 text-xs text-muted"
               >
                 <span
                   className={`h-2 w-2 rounded-full ${PART_BAR[p.part]}`}

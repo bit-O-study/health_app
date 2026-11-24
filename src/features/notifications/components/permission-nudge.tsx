@@ -167,7 +167,7 @@ export function PermissionNudge() {
         disabled={busy !== null}
         aria-label={dismissLabel}
         title={dismissLabel}
-        className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
+        className="inline-flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-muted transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
       >
         <X aria-hidden="true" size={16} />
       </button>

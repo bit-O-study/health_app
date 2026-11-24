@@ -64,7 +64,7 @@ export function VideoPrefToggle({ initialHide }: { initialHide: boolean }) {
           {pending ? (
             <Loader2
               aria-hidden="true"
-              className="animate-spin text-zinc-400"
+              className="animate-spin text-muted"
               size={12}
             />
           ) : null}

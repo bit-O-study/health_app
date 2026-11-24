@@ -40,7 +40,7 @@ export function FitHeader({
         </span>
       </PageHeader>
       {/* 본문과 같은 좌우 여백, 위아래 여백은 없이 — 머리글과 본문 사이가 벌어지지 않게. */}
-      <div className="app-container flex items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400" style={{ paddingTop: 0, paddingBottom: 0 }}>
+      <div className="app-container flex items-center justify-between gap-2 text-xs text-muted" style={{ paddingTop: 0, paddingBottom: 0 }}>
         <span>
           {styleText} · {experienceLabel}
           {daysThisWeek ? ` · 이번 주 ${daysThisWeek}일` : ""}{" "}
@@ -51,7 +51,7 @@ export function FitHeader({
         <details className="group relative" data-testid="fit-how">
           <summary
             aria-label="계산 방법"
-            className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] cursor-pointer list-none place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
+            className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] cursor-pointer list-none place-items-center rounded-full text-muted hover:bg-zinc-100 dark:hover:bg-white/[0.08]"
           >
             <Info aria-hidden="true" size={15} />
           </summary>
@@ -61,7 +61,7 @@ export function FitHeader({
         </details>
       </div>
       {cold ? (
-        <p className="app-container text-xs text-zinc-500 dark:text-zinc-400" style={{ paddingTop: 4, paddingBottom: 0 }} data-testid="fit-cold">
+        <p className="app-container text-xs text-muted" style={{ paddingTop: 4, paddingBottom: 0 }} data-testid="fit-cold">
           기록이 없어 가입 목표로 추천해요
         </p>
       ) : null}
@@ -74,7 +74,7 @@ export function FitHeadline({ children, sub, testId }: { children: ReactNode; su
   return (
     <section className="app-card p-4" data-testid={testId}>
       <p className="text-lg font-bold leading-6 text-zinc-900 dark:text-zinc-100">{children}</p>
-      {sub ? <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{sub}</p> : null}
+      {sub ? <p className="mt-1 text-xs text-muted">{sub}</p> : null}
     </section>
   );
 }
@@ -83,9 +83,9 @@ export function FitHeadline({ children, sub, testId }: { children: ReactNode; su
 export function FitLocked({ what }: { what: string }) {
   return (
     <section className="app-card space-y-2 p-4 text-center" data-testid="fit-locked">
-      <Lock aria-hidden="true" size={18} className="mx-auto text-zinc-400" />
+      <Lock aria-hidden="true" size={18} className="mx-auto text-muted" />
       <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{what}</p>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">라이트에서 볼 수 있어요 · 월 990원</p>
+      <p className="text-xs text-muted">라이트에서 볼 수 있어요 · 월 990원</p>
       <Link href="/settings/subscription" className="inline-block text-sm font-semibold text-brand">
         라이트 보기 →
       </Link>

@@ -18,7 +18,7 @@ export function PledgeTrendView({ trend }: { trend: PledgeTrend }) {
   return (
     <div className="space-y-3 border-t border-[var(--line)] pt-3" data-testid="pledge-trend" data-mode={mode}>
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">변화</h3>
+        <h3 className="text-xs font-semibold text-muted">변화</h3>
         {trend.monthly ? (
           <div role="tablist" aria-label="기간" className="inline-flex rounded-full bg-zinc-100 p-0.5 text-xs dark:bg-white/[0.08]">
             {(["week", "month"] as const).map((m) => (
@@ -84,7 +84,7 @@ function Table({ table }: { table: TrendTable }) {
           <tr>
             <th className="w-[1%]" />
             {table.cols.map((c) => (
-              <th key={c} scope="col" className="min-w-10 text-center font-normal text-zinc-500">
+              <th key={c} scope="col" className="min-w-10 text-center font-normal text-muted">
                 {c}
               </th>
             ))}
@@ -93,7 +93,7 @@ function Table({ table }: { table: TrendTable }) {
         <tbody>
           {table.rows.map((r) => (
             <tr key={r.key}>
-              <th scope="row" className="whitespace-nowrap pr-1 text-left font-normal text-zinc-600 dark:text-zinc-300">
+              <th scope="row" className="whitespace-nowrap pr-1 text-left font-normal text-muted">
                 {r.label}
               </th>
               {r.cells.map((c, i) => (
@@ -105,7 +105,7 @@ function Table({ table }: { table: TrendTable }) {
           ))}
         </tbody>
       </table>
-      <p className="mt-1 flex gap-3 text-xs text-zinc-500">
+      <p className="mt-1 flex gap-3 text-xs text-muted">
         <span className="text-brand">■ 지킴</span>
         <span className="text-danger">■ 못 지킴</span>
         <span>┆ 진행 중</span>
@@ -128,7 +128,7 @@ function BodyChart({
   const name = metric === "muscle" ? "골격근" : "체중";
   if (points.every((p) => p.actual === null)) {
     return (
-      <p className="rounded-lg bg-zinc-50 px-3 py-2 text-xs text-zinc-500 dark:bg-white/[0.04]" data-testid="trend-body-empty">
+      <p className="rounded-lg bg-zinc-50 px-3 py-2 text-xs text-muted dark:bg-white/[0.04]" data-testid="trend-body-empty">
         {name}을 기록하면 여기서 예상과 비교해요
       </p>
     );
@@ -180,7 +180,7 @@ function BodyChart({
           </text>
         ))}
       </svg>
-      <figcaption className="flex flex-wrap items-center gap-x-3 text-xs text-zinc-500">
+      <figcaption className="flex flex-wrap items-center gap-x-3 text-xs text-muted">
         <span>
           <b className="text-brand">―</b> 실제 {name}
         </span>

@@ -119,7 +119,7 @@ export function ReportButton({
         aria-label="신고"
         className={
           className ??
-          "inline-flex items-center gap-1 text-xs font-semibold text-zinc-400 hover:text-rose-500"
+          "inline-flex items-center gap-1 text-xs font-semibold text-muted hover:text-rose-500"
         }
       >
         <Flag size={iconSize} />
@@ -143,7 +143,7 @@ export function ReportButton({
                 type="button"
                 aria-label="닫기"
                 onClick={() => !pending && closeSheet()}
-                className="rounded-full p-1 text-zinc-400"
+                className="rounded-full p-1 text-muted"
               >
                 <X size={20} />
               </button>
@@ -158,7 +158,7 @@ export function ReportButton({
                 <p className="text-sm leading-relaxed">
                   <b>{targetAuthor?.trim() || "이 사람"}</b>님을 차단할까요? 서로의 글과 댓글이 보이지 않고, 내 글에 댓글을 달 수 없어요.
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">커뮤니티 › 내 글 › 차단한 사용자에서 풀 수 있어요.</p>
+                <p className="text-xs text-muted">커뮤니티 › 내 글 › 차단한 사용자에서 풀 수 있어요.</p>
                 {error ? (
                   <p role="alert" data-testid="report-error" className="rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-danger dark:bg-rose-950/30">
                     {error}
@@ -175,7 +175,7 @@ export function ReportButton({
               </div>
             ) : (
               <>
-                <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mb-3 text-xs text-muted">
                   신고 사유를 선택하면 관리자가 확인합니다.
                 </p>
                 {error ? (
@@ -194,7 +194,7 @@ export function ReportButton({
                     >
                       {reason}
                       {pending ? (
-                        <Loader2 size={15} className="animate-spin text-zinc-400" />
+                        <Loader2 size={15} className="animate-spin text-muted" />
                       ) : null}
                     </button>
                   ))}

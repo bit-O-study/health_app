@@ -49,13 +49,13 @@ export function TodayCard({
         <span className="min-w-0 flex-1">
           <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">오늘의 다짐</span>
           {nextTitle ? (
-            <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">{nextTitle}</span>
+            <span className="block truncate text-xs text-muted">{nextTitle}</span>
           ) : null}
         </span>
-        <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+        <span className="shrink-0 text-sm font-semibold tabular-nums text-muted">
           {commitments.length > 0 ? `${doneCount}/${commitments.length}` : "추가"}
         </span>
-        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
       </Link>
 
       <div className="ml-[4.25rem] border-t border-[var(--line)]" />
@@ -67,7 +67,7 @@ export function TodayCard({
         <span className="min-w-0 flex-1">
           <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">식단</span>
           {hasFoodLog ? (
-            <span className="flex flex-wrap gap-x-1.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+            <span className="flex flex-wrap gap-x-1.5 text-xs tabular-nums text-muted">
               {MACROS.map(({ key, label }) => (
                 <span key={key}>
                   {label} <span className="text-zinc-800 dark:text-zinc-200">{macroRemaining[key]}g</span>
@@ -76,10 +76,10 @@ export function TodayCard({
             </span>
           ) : null}
         </span>
-        <span className="shrink-0 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+        <span className="shrink-0 text-sm font-semibold text-muted">
           {!hasFoodLog ? "추가" : need.neededKcal === 0 ? "목표 이내" : `${need.remainingMinutes}분 더`}
         </span>
-        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
       </Link>
     </section>
   );

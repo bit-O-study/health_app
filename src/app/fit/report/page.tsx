@@ -20,9 +20,9 @@ export const metadata = { title: "기록" };
 
 function Delta({ now, prev, unit }: { now: number; prev: number; unit: string }) {
   const d = deltaMark(now, prev);
-  if (d.mark === "same") return <span className="text-xs text-zinc-400">―</span>;
+  if (d.mark === "same") return <span className="text-xs text-muted">―</span>;
   return (
-    <span className={`text-xs font-semibold ${d.mark === "up" ? "text-brand" : "text-zinc-500"}`}>
+    <span className={`text-xs font-semibold ${d.mark === "up" ? "text-brand" : "text-muted"}`}>
       {d.mark === "up" ? "▲" : "▼"} {d.diff.toLocaleString("ko-KR")}
       {unit}
     </span>
@@ -69,7 +69,7 @@ export default async function FitRecordPage() {
                 { label: "신기록", value: `${t.prs}개`, now: t.prs, prev: l.prs, unit: "개" },
               ].map((r) => (
                 <div key={r.label} className="min-w-0">
-                  <dt className="text-xs text-zinc-500 dark:text-zinc-400">{r.label}</dt>
+                  <dt className="text-xs text-muted">{r.label}</dt>
                   <dd className="text-base font-bold tabular-nums text-zinc-900 dark:text-zinc-100">{r.value}</dd>
                   <dd className="tabular-nums">
                     <Delta now={r.now} prev={r.prev} unit={r.unit} />
@@ -79,12 +79,12 @@ export default async function FitRecordPage() {
             </dl>
           ) : null}
           {full ? (
-            <p className="text-xs text-zinc-400" data-testid="fit-report-compare-range">
+            <p className="text-xs text-muted" data-testid="fit-report-compare-range">
               지난달 같은 기간({pm}/1~{pm}/{pmEnd})과 비교 · 러닝한 날 포함
             </p>
           ) : null}
           {full && growth.topPart && growth.lackingPart ? (
-            <p className="border-t border-[var(--line)] pt-2.5 text-xs text-zinc-600 dark:text-zinc-300" data-testid="fit-report-next">
+            <p className="border-t border-[var(--line)] pt-2.5 text-xs text-muted" data-testid="fit-report-next">
               가장 많이 <b>{BODY_PART_LABEL[growth.topPart as keyof typeof BODY_PART_LABEL]}</b> · 다음 달엔{" "}
               <b className="text-brand">{BODY_PART_LABEL[growth.lackingPart as keyof typeof BODY_PART_LABEL]}</b>
             </p>
@@ -97,7 +97,7 @@ export default async function FitRecordPage() {
           <section className="app-card p-4" data-testid="fit-growth">
             <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">종목 성장</h2>
             {growth.growth.length === 0 ? (
-              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">무게를 기록하면 종목별로 보여요</p>
+              <p className="mt-1 text-xs text-muted">무게를 기록하면 종목별로 보여요</p>
             ) : (
               <ul className="mt-1 divide-y divide-[var(--line)]">
                 {growth.growth.map((g) => {
@@ -106,7 +106,7 @@ export default async function FitRecordPage() {
                     <li key={g.exerciseId} className="flex items-center gap-3 py-2.5" data-testid={`fit-growth-${g.exerciseId}`}>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">{g.name}</span>
-                        <span className="block truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid="fit-growth-ends">
+                        <span className="block truncate text-xs tabular-nums text-muted" data-testid="fit-growth-ends">
                           {ends ? `${ends.from} → ${ends.to}` : "기록 1회 더 필요"}
                         </span>
                       </span>
@@ -115,7 +115,7 @@ export default async function FitRecordPage() {
                       </svg>
                       <span
                         className={`w-14 shrink-0 text-right text-xs font-semibold tabular-nums ${
-                          g.stalled ? "text-warn" : ends && ends.diffKg > 0 ? "text-brand" : "text-zinc-400"
+                          g.stalled ? "text-warn" : ends && ends.diffKg > 0 ? "text-brand" : "text-muted"
                         }`}
                       >
                         {g.stalled ? "정체" : ends ? `${ends.diffKg > 0 ? "+" : ""}${ends.diffKg}kg` : "―"}
@@ -144,7 +144,7 @@ export default async function FitRecordPage() {
               ))}
             </ul>
           ) : (
-            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">아직 없어요</p>
+            <p className="mt-1 text-xs text-muted">아직 없어요</p>
           )}
         </section>
 
@@ -159,7 +159,7 @@ export default async function FitRecordPage() {
           data-testid="fit-records-link"
         >
           종목별 기록 찾기
-          <ChevronRight aria-hidden="true" size={18} className="text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={18} className="text-muted" />
         </Link>
 
         <Link
@@ -168,7 +168,7 @@ export default async function FitRecordPage() {
           data-testid="fit-year-link"
         >
           올해 돌아보기
-          <ChevronRight aria-hidden="true" size={18} className="text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={18} className="text-muted" />
         </Link>
       </main>
     </div>

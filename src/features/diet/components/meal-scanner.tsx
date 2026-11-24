@@ -138,7 +138,7 @@ export function MealScanForm({
 
       {items ? (
         <div className="space-y-2">
-          <p className="text-xs font-bold text-zinc-500">
+          <p className="text-xs font-bold text-muted">
             인식된 음식 · 담을 것만 선택하세요 (값은 담은 뒤 수정 가능)
           </p>
           <ul className="space-y-1.5">
@@ -169,12 +169,12 @@ export function MealScanForm({
                     <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                       {it.name}
                       {it.amount ? (
-                        <span className="ml-1.5 text-xs font-normal text-zinc-400">
+                        <span className="ml-1.5 text-xs font-normal text-muted">
                           {it.amount}
                         </span>
                       ) : null}
                     </p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-muted">
                       {Math.round(it.kcal)}kcal
                       {it.protein != null ? ` · 단 ${it.protein}` : ""}
                       {it.carbs != null ? ` · 탄 ${it.carbs}` : ""}
@@ -193,7 +193,7 @@ export function MealScanForm({
           >
             선택한 음식 담기
           </button>
-          <p className="text-center text-xs text-zinc-400">
+          <p className="text-center text-xs text-muted">
             AI 추정값이라 정확하지 않을 수 있어요. 담은 뒤 수정할 수 있습니다.
           </p>
         </div>

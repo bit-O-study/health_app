@@ -91,7 +91,7 @@ export default async function MyPage() {
             <p className="truncate text-base font-semibold text-zinc-950 dark:text-zinc-100">
               {displayName}
             </p>
-            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
+            <p className="truncate text-xs text-muted">{user.email}</p>
             <div className="mt-1 flex flex-wrap gap-1">
               {genderLabel ? <Badge>{genderLabel}</Badge> : null}
               {expLabel ? <Badge>{expLabel}</Badge> : null}
@@ -129,16 +129,16 @@ export default async function MyPage() {
         <Section label="오늘 식단" action={{ href: "/diet", label: "식단" }}>
           <div className="app-card p-3">
             <div className="mb-1.5 flex items-baseline justify-between">
-              <span className="text-sm text-zinc-600 dark:text-zinc-300">섭취 칼로리</span>
+              <span className="text-sm text-muted">섭취 칼로리</span>
               <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                 {consumed}
-                <span className="text-xs font-medium text-zinc-400"> / {target.kcal} kcal</span>
+                <span className="text-xs font-medium text-muted"> / {target.kcal} kcal</span>
               </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
               <div className="h-full rounded-full bg-brand" style={{ width: `${kcalPct}%` }} />
             </div>
-            <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1.5 text-xs text-muted">
               {logs.length > 0
                 ? `${logs.length}개 기록 · ${Math.max(0, target.kcal - consumed)} kcal 남음`
                 : "기록 없음"}
@@ -189,10 +189,10 @@ function Badge({ children }: { children: React.ReactNode }) {
 function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
     <div className="min-w-0 px-2 text-center">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-100">
         {value}
-        {unit ? <span className="ml-0.5 text-xs font-medium text-zinc-400">{unit}</span> : null}
+        {unit ? <span className="ml-0.5 text-xs font-medium text-muted">{unit}</span> : null}
       </p>
     </div>
   );

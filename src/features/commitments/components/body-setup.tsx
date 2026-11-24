@@ -80,7 +80,7 @@ export function BodySetup({
           onChange={(e) => setV((s) => ({ ...s, [key]: e.target.value }))}
           className="h-10 w-24 rounded-md border border-zinc-300 bg-white px-2 text-sm tabular-nums dark:border-zinc-600 dark:bg-zinc-800"
         />
-        <span className="w-6 text-xs text-zinc-500">{unit}</span>
+        <span className="w-6 text-xs text-muted">{unit}</span>
       </span>
     </label>
   );
@@ -89,7 +89,7 @@ export function BodySetup({
     <div className="space-y-4" data-testid="body-setup">
       <section className="app-card space-y-2 p-4">
         <h2 className="text-sm font-bold">다짐을 만들려면 몸 정보가 필요해요</h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-muted">
           예상 체중·근육 변화가 내 몸으로 계산돼요. 비어 있는 값: {missing.map((m) => LABEL[m]).join(" · ")}
         </p>
         <InbodyTip />
@@ -107,7 +107,7 @@ export function BodySetup({
         {input("weightKg", "체중", "kg")}
         {input("bodyFatPct", "체지방률", "%")}
         {input("skeletalMuscleKg", "골격근량", "kg")}
-        <p className="text-xs text-zinc-500">헬스장·보건소 인바디 결과지나 체성분 체중계 값을 넣어 주세요.</p>
+        <p className="text-xs text-muted">헬스장·보건소 인바디 결과지나 체성분 체중계 값을 넣어 주세요.</p>
         {error ? <p className="text-sm font-semibold text-danger">{error}</p> : null}
         <button
           type="button"

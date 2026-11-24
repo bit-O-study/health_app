@@ -155,7 +155,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
         </span>
       ) : null}
       {msg ? (
-        <span className="max-w-[220px] text-right text-xs leading-tight text-zinc-500 dark:text-zinc-400">
+        <span className="max-w-[220px] text-right text-xs leading-tight text-muted">
           {msg}
         </span>
       ) : null}

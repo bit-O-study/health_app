@@ -53,7 +53,7 @@ export function DailyCheckinModal({ userId, ...props }: Props) {
     </div>
     <dialog ref={dialog} aria-labelledby={title} onCancel={event => { event.preventDefault(); close(); }} className="m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-4 text-zinc-900 shadow-xl backdrop:bg-black/60 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" data-testid="daily-checkin-modal">
       <header className="mb-3 flex items-start justify-between gap-3">
-        <div><h2 id={title} className="text-lg font-bold">운동 전, 몸 상태를 확인해요</h2><p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">수면 · 근육통 · 기운, 세 가지만 체크해요.</p></div>
+        <div><h2 id={title} className="text-lg font-bold">운동 전, 몸 상태를 확인해요</h2><p className="mt-1 text-xs text-muted">수면 · 근육통 · 기운, 세 가지만 체크해요.</p></div>
         <button type="button" aria-label="컨디션 모달 닫기" onClick={close} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full"><X size={20} aria-hidden="true" /></button>
       </header>
       <DailyCheckinCard {...props} onSaved={() => { setSaved(true); remember(); }} />

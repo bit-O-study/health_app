@@ -50,7 +50,7 @@ export function SwipeHint() {
 
   // 칩 3개 대신 회색 글자 한 줄(2026-09-15 "글씨가 너무 많아") — 닫으면 이 기기에선 다시 안 뜬다.
   return (
-    <div className="mb-2 flex items-center gap-1.5 px-1 text-xs text-zinc-400 dark:text-zinc-500">
+    <div className="mb-2 flex items-center gap-1.5 px-1 text-xs text-muted">
       <ArrowRight aria-hidden="true" size={12} className="shrink-0" />
       완료
       <ArrowLeft aria-hidden="true" size={12} className="ml-1.5 shrink-0" />
@@ -60,7 +60,7 @@ export function SwipeHint() {
         aria-label="안내 그만 보기"
         title="안내 그만 보기"
         onClick={dismiss}
-        className="ml-auto flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-200/70 dark:active:bg-white/[0.08]"
+        className="ml-auto flex h-6 w-6 items-center justify-center rounded-full text-muted transition active:bg-zinc-200/70 dark:active:bg-white/[0.08]"
       >
         <X aria-hidden="true" size={13} />
       </button>

@@ -25,7 +25,7 @@ export function GroupPledgeForm({ groupId, today, memberCount }: { groupId: stri
       });
     }}>
       <h3 className="text-sm font-bold">우리 그룹 전체 다짐</h3>
-      <p className="text-xs text-zinc-500">현재 멤버 {memberCount}명 모두 참여해요. 나중에 가입한 멤버는 다음 다짐부터 참여하고, 탈퇴한 멤버는 명단에서 제외해요.</p>
+      <p className="text-xs text-muted">현재 멤버 {memberCount}명 모두 참여해요. 나중에 가입한 멤버는 다음 다짐부터 참여하고, 탈퇴한 멤버는 명단에서 제외해요.</p>
       <fieldset disabled={pending} className="space-y-3 disabled:opacity-50">
         <label className="block space-y-1 text-sm">다짐 이름<input name="title" required maxLength={40} className={field} placeholder="예: 우리 모두 주 3일 운동" /></label>
         <div className="grid grid-cols-2 gap-2">
@@ -34,7 +34,7 @@ export function GroupPledgeForm({ groupId, today, memberCount }: { groupId: stri
         </div>
         <label className="block space-y-1 text-sm">주 운동 일수<select name="workout" defaultValue="3" className={field}><option value="0">설정 안 함</option>{[1, 2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>주 {n}일</option>)}</select></label>
         <label className="block space-y-1 text-sm">매일 식단 기록<select name="meals" defaultValue="0" className={field}><option value="0">설정 안 함</option>{[1, 2, 3].map((n) => <option key={n} value={n}>하루 {n}끼</option>)}</select></label>
-        <p className="text-xs text-zinc-500">목표를 하나 이상 선택해 주세요. 시작일부터 7일마다 기록으로 판정하며, 마지막 짧은 기간은 운동 목표를 비례해 줄여요. 실패한 멤버의 이름과 다짐은 그룹 상단에 표시돼요. 개인 식단·체성분은 공개하지 않아요. 생성 후 목표는 변경할 수 없어요.</p>
+        <p className="text-xs text-muted">목표를 하나 이상 선택해 주세요. 시작일부터 7일마다 기록으로 판정하며, 마지막 짧은 기간은 운동 목표를 비례해 줄여요. 실패한 멤버의 이름과 다짐은 그룹 상단에 표시돼요. 개인 식단·체성분은 공개하지 않아요. 생성 후 목표는 변경할 수 없어요.</p>
         {error ? <p role="alert" className="text-sm text-danger">{error}</p> : null}
         <div className="flex gap-2">
           <button type="button" onClick={() => setOpen(false)} className="min-h-11 flex-1 rounded-full border border-zinc-300 text-sm">취소</button>

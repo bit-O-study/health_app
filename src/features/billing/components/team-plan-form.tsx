@@ -91,12 +91,12 @@ export function TeamPlanForm({
           <p className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
             {TEAM_STATUS_LABEL[initial.status]}
             {active && left !== null ? (
-              <span className="ml-2 text-xs font-normal text-zinc-500">
+              <span className="ml-2 text-xs font-normal text-muted">
                 {initial.periodEnd}까지 · {left}일 남음
               </span>
             ) : null}
           </p>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-xs text-muted">
             {TEAM_PLAN_META[initial.plan].label} 요금제
             {initial.priceKrw > 0
               ? ` · 월 ${initial.priceKrw.toLocaleString("ko-KR")}원`
@@ -120,18 +120,18 @@ export function TeamPlanForm({
                   data-testid="deposit-info"
                   className="rounded-[10px] bg-zinc-100 p-3 dark:bg-white/[0.06]"
                 >
-                  <p className="text-xs font-semibold text-zinc-500">입금 계좌</p>
+                  <p className="text-xs font-semibold text-muted">입금 계좌</p>
                   <p className="mt-0.5 select-all text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     {depositLine(deposit)}
                   </p>
                   {deposit.note ? (
-                    <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                    <p className="mt-1 text-xs leading-5 text-muted">
                       {deposit.note}
                     </p>
                   ) : null}
                 </div>
               ) : (
-                <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs leading-5 text-muted">
                   확인되면 연락드릴게요.
                 </p>
               )}
@@ -181,7 +181,7 @@ export function TeamPlanForm({
                         월 {meta.monthlyKrw.toLocaleString("ko-KR")}원
                       </span>
                     </span>
-                    <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="mt-0.5 block text-xs text-muted">
                       {meta.seatsHint} · {meta.desc}
                     </span>
                   </span>
@@ -203,7 +203,7 @@ export function TeamPlanForm({
               { v: bizEmail, set: setBizEmail, label: "이메일", ph: "tax@example.com" },
             ].map((f) => (
               <label key={f.label} className="block">
-                <span className="mb-1 block text-xs font-semibold text-zinc-500">
+                <span className="mb-1 block text-xs font-semibold text-muted">
                   {f.label}
                 </span>
                 <input

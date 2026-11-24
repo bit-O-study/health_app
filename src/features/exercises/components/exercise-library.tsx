@@ -79,7 +79,7 @@ export function ExerciseLibrary({ sections, mobility = [] }: { sections: Section
           <section key={key}>
             <div className="flex items-baseline justify-between">
               <h2 className="app-section-label">{title}</h2>
-              <span className="mb-1.5 px-1 text-xs text-zinc-400">{items.length}개</span>
+              <span className="mb-1.5 px-1 text-xs text-muted">{items.length}개</span>
             </div>
 
             <ul className="app-list">
@@ -96,11 +96,11 @@ export function ExerciseLibrary({ sections, mobility = [] }: { sections: Section
                       <span className="block truncate text-base leading-5 text-zinc-900 dark:text-zinc-100">
                         {ex.name}
                       </span>
-                      <span className="block truncate text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                      <span className="block truncate text-xs leading-4 text-muted">
                         {ex.equipments.map((e) => EQUIPMENT_LABELS[e.equipment]).join(" · ")}
                       </span>
                     </span>
-                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
                   </Link>
                 </li>
               ))}
@@ -138,7 +138,7 @@ function FilterChip({
       <span
         className={cn(
           "text-xs font-medium tabular-nums",
-          active ? "text-white/80 dark:text-zinc-950/70" : "text-zinc-400 dark:text-zinc-500",
+          active ? "text-white/80 dark:text-zinc-950/70" : "text-muted",
         )}
       >
         {count}

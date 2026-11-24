@@ -208,7 +208,7 @@ export default async function HistoryPage({
             {WEEKDAYS.map((w) => (
               <div
                 key={w}
-                className="py-1 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400"
+                className="py-1 text-center text-xs font-semibold text-muted"
               >
                 {w}
               </div>
@@ -256,7 +256,7 @@ export default async function HistoryPage({
         <section>
           <h2 className="app-section-label">이 달 부위별 완료</h2>
           {focusStats.length === 0 ? (
-            <p className="app-card px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="app-card px-3 py-2.5 text-sm text-muted">
               아직 이 달 완료된 운동이 없습니다.
             </p>
           ) : (
@@ -279,28 +279,28 @@ export default async function HistoryPage({
           <div className="app-list">
             <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5 text-center">
               <div className="min-w-0 px-2">
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">횟수</p>
+                <p className="text-xs text-muted">횟수</p>
                 <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {weekSummary.sessions}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">회</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">회</span>
                 </p>
               </div>
               <div className="min-w-0 px-2">
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">거리</p>
+                <p className="text-xs text-muted">거리</p>
                 <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {(weekSummary.distanceM / 1_000).toFixed(2)}
-                  <span className="ml-0.5 text-xs font-medium text-zinc-400">km</span>
+                  <span className="ml-0.5 text-xs font-medium text-muted">km</span>
                 </p>
               </div>
               <div className="min-w-0 px-2">
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">총 시간</p>
+                <p className="text-xs text-muted">총 시간</p>
                 <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {shortDuration(weekSummary.durationSec)}
                 </p>
               </div>
             </div>
             <div>
-              <p className="px-3 py-2 text-center text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+              <p className="px-3 py-2 text-center text-xs tabular-nums text-muted">
                 {weekSummary.from.slice(5).replace("-", "/")}~{weekSummary.to.slice(5).replace("-", "/")}{weekSummary.caloriesKcal > 0 ? ` · ${weekSummary.caloriesKcal}kcal` : ""}
               </p>
             </div>
@@ -313,7 +313,7 @@ export default async function HistoryPage({
           className="app-card flex min-h-12 items-center justify-between px-4 text-sm font-semibold"
         >
           런닝 기록 전체 보기
-          <span aria-hidden="true" className="text-zinc-400">›</span>
+          <span aria-hidden="true" className="text-muted">›</span>
         </Link>
       </main>
     </div>

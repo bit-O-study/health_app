@@ -85,7 +85,7 @@ export function SetSchemePicker({
   return (
     <div className="basis-full rounded-[10px] bg-zinc-100 p-2 dark:bg-white/[0.06]">
       <div className="mb-1.5 flex items-center justify-between">
-        <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+        <span className="text-xs font-semibold text-muted">
           방식을 고르면 세트별 무게·횟수를 채웁니다
         </span>
         <button
@@ -116,11 +116,11 @@ export function SetSchemePicker({
         })}
       </div>
       {!hasWeight ? (
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-muted">
           무게를 먼저 넣으면 드롭·피라미드처럼 무게를 조절하는 방식도 쓸 수 있어요.
         </p>
       ) : (
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-muted">
           기준 {sets}세트 × {reps}회 · {weightKg}kg, {stepKg}kg 단위로 맞춥니다.
         </p>
       )}

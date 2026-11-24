@@ -44,18 +44,18 @@ function MetricChart({ s }: { s: BodySeries }) {
         <span className="flex items-baseline gap-1.5">
           <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">
             {s.latest}
-            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-medium text-muted">
               {s.unit}
             </span>
           </span>
-          <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-500">
+          <span className="text-xs font-semibold text-muted">
             {deltaText}
           </span>
         </span>
       </div>
 
       {/* 최근 값이 '언제' 잰 것인지 — 그래프만 보면 알 수 없어서 함께 표시. */}
-      <div className="mb-1 text-right text-xs text-zinc-400 dark:text-zinc-500">
+      <div className="mb-1 text-right text-xs text-muted">
         {shortDateLabel(lastPoint.createdAt)} 측정
       </div>
 
@@ -87,11 +87,11 @@ function MetricChart({ s }: { s: BodySeries }) {
           ))}
         </svg>
         {/* y축 범위(최소~최대) — 스케일이 명확하게 */}
-        <span className="pointer-events-none absolute right-1 top-0 text-xs text-zinc-400 dark:text-zinc-500">
+        <span className="pointer-events-none absolute right-1 top-0 text-xs text-muted">
           {s.max}
           {s.unit}
         </span>
-        <span className="pointer-events-none absolute bottom-0 right-1 text-xs text-zinc-400 dark:text-zinc-500">
+        <span className="pointer-events-none absolute bottom-0 right-1 text-xs text-muted">
           {s.min}
           {s.unit}
         </span>
@@ -111,7 +111,7 @@ function MetricChart({ s }: { s: BodySeries }) {
           return (
             <span
               key={p.i}
-              className="absolute top-0 whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500"
+              className="absolute top-0 whitespace-nowrap text-xs text-muted"
               style={{ left: `${left}%`, transform: align }}
             >
               {shortDateLabel(p.createdAt)}
@@ -131,7 +131,7 @@ export function BodyChart({ logs }: { logs: BodyLog[] }) {
   const series = buildBodySeries(logs);
   if (series.length === 0) {
     return (
-      <p className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 p-6 text-center text-sm text-muted">
         아직 기록이 없습니다. 체형을 등록하면 추이가 그려집니다.
       </p>
     );

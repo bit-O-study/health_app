@@ -527,7 +527,7 @@ export function TodayConditioningList({
                   className={`flex h-10 w-8 shrink-0 cursor-grab items-center justify-center transition-colors ${
                     isDragging
                       ? "text-brand"
-                      : "text-zinc-400 dark:text-zinc-500"
+                      : "text-muted"
                   } active:cursor-grabbing`}
                   style={{ touchAction: "none" }}
                   title="잡고 위·아래로 순서 변경"
@@ -587,14 +587,14 @@ export function TodayConditioningList({
                         </span>
                       ) : null}
                     </h4>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                    <p className="text-xs text-muted">
                       {lockWeightReps ? <>{item.detail} · </> : null}
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="text-xs text-muted">
                         약 {item.kcal}kcal
                       </span>
                     </p>
                     {item.memo ? (
-                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-muted">
                         <StickyNote
                           aria-hidden="true"
                           size={12}
@@ -862,7 +862,7 @@ function ConditioningEditForm({
               disabled={pending}
               className="h-9 w-16 rounded-md border app-field px-2 text-center text-sm"
             />
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-muted">
               {PARAM_UNIT[p]}
             </span>
           </span>
@@ -964,7 +964,7 @@ function AddConditioningSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-4 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
+        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-4 text-sm font-semibold text-muted transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
       >
         <Plus aria-hidden="true" size={16} />
         {label} 항목 추가
@@ -1010,7 +1010,7 @@ function AddConditioningSlot({
           취소
         </button>
       </div>
-      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-muted">
         시간·속도·경사는 카탈로그 기본값으로 자동 설정됩니다. 추가 후 수정에서
         조절하세요.
       </p>

@@ -390,7 +390,7 @@ export function OnboardingFlow({
         {step === "more" ? (
           <section className="mt-6" data-testid="onboarding-more">
             <h1 className="app-title px-1">조금만 더 알려 주세요</h1>
-            <p className="mt-1 px-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 px-1 text-sm text-muted">
               맞춤 운동 추천과 하루 칼로리 계산에 써요.
             </p>
             <div className="mt-4">
@@ -415,7 +415,7 @@ export function OnboardingFlow({
         {step === "gym" ? (
           <section className="mt-6">
             <h1 className="app-title px-1">헬스장 검색</h1>
-            <p className="mt-1 px-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 px-1 text-sm text-muted">
               선택 — 나중에 설정에서 입력해도 돼요.
             </p>
 
@@ -451,7 +451,7 @@ export function OnboardingFlow({
                   setGymEquipment(new Set());
                   setStep("recommend");
                 }}
-                className={cn(SECONDARY_BTN_CLS, "text-zinc-500 dark:text-zinc-400")}
+                className={cn(SECONDARY_BTN_CLS, "text-muted")}
               >
                 건너뛰기
               </button>
@@ -470,7 +470,7 @@ export function OnboardingFlow({
               <h1 className="mt-2 text-xl font-bold text-zinc-950 dark:text-zinc-50">
                 {recommendation.headline}
               </h1>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              <p className="mt-1 text-sm text-muted">
                 {recommendation.reason}
               </p>
             </div>
@@ -511,7 +511,7 @@ export function OnboardingFlow({
 const FIELD_CLS =
   "h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none transition placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
-const LABEL_CLS = "block px-1 pb-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400";
+const LABEL_CLS = "block px-1 pb-1 text-xs font-semibold text-muted";
 
 /**
  * 고르는 칸. 🔴 `w-full` 은 지우지 말 것 — E2E 가입 헬퍼가
@@ -538,7 +538,7 @@ function OptionButton({
   return (
     <button type="button" onClick={onClick} className={cn(OPTION_CLS, active && OPTION_ACTIVE)}>
       <span className="text-base font-semibold text-zinc-950 dark:text-zinc-50">{label}</span>
-      <span className="text-sm text-zinc-500 dark:text-zinc-400">{description}</span>
+      <span className="text-sm text-muted">{description}</span>
     </button>
   );
 }

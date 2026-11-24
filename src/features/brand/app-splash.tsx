@@ -41,7 +41,7 @@ export function AppSplash() {
           {BRAND_NAME}
         </span>
       </div>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">내가 쓸려고 만든 헬쓰앱</p>
+      <p className="text-sm text-muted">내가 쓸려고 만든 헬쓰앱</p>
       </div>
     </div>
   );

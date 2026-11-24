@@ -106,7 +106,7 @@ export function ContributionGraph({
             {monthLabels.map((label, i) => (
               <span
                 key={i}
-                className="whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500"
+                className="whitespace-nowrap text-xs text-muted"
               >
                 {label ?? ""}
               </span>

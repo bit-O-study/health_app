@@ -44,7 +44,7 @@ export function AppWidget({
       className="app-card block p-3.5 transition-transform active:scale-[0.98]"
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="flex items-center gap-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <span className="flex items-center gap-1.5 text-xs font-semibold text-muted">
           <span
             aria-hidden="true"
             className={`flex h-5 w-5 items-center justify-center rounded-md text-white ${app.tone}`}
@@ -53,7 +53,7 @@ export function AppWidget({
           </span>
           {app.label}
         </span>
-        <span className="flex items-center gap-0.5 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        <span className="flex items-center gap-0.5 text-xs font-medium text-muted">
           {meta}
           <ChevronRight aria-hidden="true" size={14} />
         </span>
@@ -70,7 +70,7 @@ export function AppWidget({
       ) : null}
 
       {detail ? (
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">{detail}</p>
+        <p className="mt-1.5 text-xs text-muted">{detail}</p>
       ) : null}
     </Link>
   );

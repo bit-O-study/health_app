@@ -441,7 +441,7 @@ export function DietBoard({
             aria-label="날짜 선택 — 과거 식단 등록·수정"
             className="flex min-w-[4.5rem] items-center justify-center gap-1 rounded-full px-2 py-1 text-sm font-bold text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
-            <Calendar aria-hidden="true" size={13} className="text-zinc-400" />
+            <Calendar aria-hidden="true" size={13} className="text-muted" />
             {isToday ? "오늘" : label}
           </button>
           {isToday ? (
@@ -476,7 +476,7 @@ export function DietBoard({
 
       {(view === "search" || view === "photos") && <section className="app-card space-y-3 p-4" aria-label={view === "search" ? "음식검색" : "사진기록"}>
         <h2 className="font-bold">{view === "search" ? "어느 끼니에 추가할까요?" : "끼니별 사진 기록"}</h2>
-        <p className="text-sm text-zinc-500">{view === "search" ? "끼니를 선택하면 음식 검색과 직접 입력을 할 수 있어요." : "사진을 올릴 끼니를 선택하세요. 기존 식단과 함께 저장됩니다."}</p>
+        <p className="text-sm text-muted">{view === "search" ? "끼니를 선택하면 음식 검색과 직접 입력을 할 수 있어요." : "사진을 올릴 끼니를 선택하세요. 기존 식단과 함께 저장됩니다."}</p>
         {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="mr-2 rounded-xl border border-brand/40 px-4 py-3 text-sm font-semibold text-brand">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
       </section>}
       {view === "nutrition" && <h2 className="text-lg font-bold">하루 영양 현황</h2>}
@@ -611,16 +611,16 @@ function DatePickerDialog({
           <h2 className="flex items-center gap-1.5 text-base font-bold">
             <Calendar size={18} className="text-brand" /> 날짜 선택
           </h2>
-          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
+          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
-        <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mb-3 text-xs text-muted">
           과거 날짜를 골라 그날의 식단을 등록·수정할 수 있어요.
         </p>
 
         {/* 달력에서 날짜 선택(미래 불가) */}
-        <label className="block text-xs font-bold text-zinc-500">날짜</label>
+        <label className="block text-xs font-bold text-muted">날짜</label>
         <input
           type="date"
           value={date}
@@ -641,7 +641,7 @@ function DatePickerDialog({
               className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
                 date === q.ymd
                   ? "border-brand/40 bg-brand-soft text-brand"
-                  : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+                  : "border-zinc-200 text-muted dark:border-zinc-700"
               }`}
             >
               {q.label}
@@ -711,7 +711,7 @@ function MacroChip({
 }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-2 py-2 text-center dark:border-zinc-800 dark:bg-zinc-900">
-      <p className="text-xs font-bold text-zinc-400">{label}</p>
+      <p className="text-xs font-bold text-muted">{label}</p>
       <p className="text-sm font-bold tabular-nums" style={{ color }}>
         {Math.round(value)}g
       </p>
@@ -735,7 +735,7 @@ function DefaultMealPhoto({
       <span className="text-5xl opacity-70" aria-hidden="true">
         {MEAL_ICON[meal]}
       </span>
-      <span className="text-xs font-semibold text-zinc-400">사진 없음</span>
+      <span className="text-xs font-semibold text-muted">사진 없음</span>
     </div>
   );
 }
@@ -791,10 +791,10 @@ function MealSection({
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline gap-2">
           <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{MEAL_LABEL[meal]}</h2>
-          {time ? <span className="text-xs text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span> : null}
+          {time ? <span className="text-xs text-muted">{fmtClock(time)}</span> : null}
         </span>
         {summary ? (
-          <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">{summary}</span>
+          <span className="block truncate text-xs text-muted">{summary}</span>
         ) : null}
       </span>
       {sub > 0 ? (
@@ -957,7 +957,7 @@ function MealDetailDialog({
             <button
               type="button"
               onClick={() => setConfirmDel(false)}
-              className="relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
+              className="relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] rounded-md px-3 text-sm font-semibold text-muted"
             >
               취소
             </button>
@@ -984,7 +984,7 @@ function MealDetailDialog({
               label={`${MEAL_LABEL[meal]} 사진 (먼저 등록한 게 대표)`}
             />
             <label className="block">
-              <span className="mb-1 block text-xs font-bold text-zinc-500">
+              <span className="mb-1 block text-xs font-bold text-muted">
                 먹은 시간
               </span>
               <input
@@ -1056,7 +1056,7 @@ function MealDetailDialog({
                   <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
                     {MEAL_LABEL[meal]}
                   </p>
-                  <p className="text-xs text-zinc-400">
+                  <p className="text-xs text-muted">
                     {time ? fmtClock(time) : "시간 미입력"}
                   </p>
                 </div>
@@ -1065,7 +1065,7 @@ function MealDetailDialog({
                 <p className="text-xl font-bold tabular-nums text-brand">
                   {Math.round(totals.kcal)}
                 </p>
-                <p className="text-xs font-semibold text-zinc-400">kcal</p>
+                <p className="text-xs font-semibold text-muted">kcal</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -1077,7 +1077,7 @@ function MealDetailDialog({
         )}
 
         {items.length === 0 ? (
-          <p className="py-6 text-center text-sm text-zinc-400 dark:text-zinc-500">
+          <p className="py-6 text-center text-sm text-muted">
             아직 담은 음식이 없어요
           </p>
         ) : (
@@ -1116,12 +1116,12 @@ function MealDetailDialog({
                           </span>
                         ) : null}
                         {it.amount ? (
-                          <span className="ml-1.5 text-xs font-normal text-zinc-400">
+                          <span className="ml-1.5 text-xs font-normal text-muted">
                             {it.amount}
                           </span>
                         ) : null}
                       </p>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <p className="text-xs text-muted">
                         {Math.round(it.kcal)}kcal
                         {it.protein != null ? ` · 단 ${Math.round(it.protein)}` : ""}
                         {it.carbs != null ? ` · 탄 ${Math.round(it.carbs)}` : ""}
@@ -1132,7 +1132,7 @@ function MealDetailDialog({
                       <Pencil
                         aria-hidden="true"
                         size={15}
-                        className="shrink-0 text-zinc-400"
+                        className="shrink-0 text-muted"
                       />
                     ) : null}
                   </button>
@@ -1197,21 +1197,21 @@ function EditFoodForm({
   return (
     <div className="space-y-3 rounded-xl border border-brand/40 bg-white p-3 dark:bg-zinc-900">
       <label className="block">
-        <span className="mb-1 block text-xs font-bold text-zinc-500">음식 이름</span>
+        <span className="mb-1 block text-xs font-bold text-muted">음식 이름</span>
         <input value={name} onChange={(e) => setName(e.target.value)} className={field} />
       </label>
       <div className="grid grid-cols-2 gap-3">
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">칼로리(kcal)</span>
+          <span className="mb-1 block text-xs font-bold text-muted">칼로리(kcal)</span>
           <input value={kcal} onChange={(e) => setKcal(e.target.value)} type="number" inputMode="numeric" className={field} />
         </label>
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">양(선택)</span>
+          <span className="mb-1 block text-xs font-bold text-muted">양(선택)</span>
           <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="예: 1인분" className={field} />
         </label>
       </div>
       <label className="block">
-        <span className="mb-1 block text-xs font-bold text-zinc-500">종류(선택)</span>
+        <span className="mb-1 block text-xs font-bold text-muted">종류(선택)</span>
         <select value={category} onChange={(e) => setCategory(e.target.value)} className={field}>
           <option value="">선택 안 함</option>
           {FOOD_CATEGORIES.map((c) => (
@@ -1223,15 +1223,15 @@ function EditFoodForm({
       </label>
       <div className="grid grid-cols-3 gap-3">
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">단백질</span>
+          <span className="mb-1 block text-xs font-bold text-muted">단백질</span>
           <input value={protein} onChange={(e) => setProtein(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
         </label>
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">탄수화물</span>
+          <span className="mb-1 block text-xs font-bold text-muted">탄수화물</span>
           <input value={carbs} onChange={(e) => setCarbs(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
         </label>
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">지방</span>
+          <span className="mb-1 block text-xs font-bold text-muted">지방</span>
           <input value={fat} onChange={(e) => setFat(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
         </label>
       </div>
@@ -1309,11 +1309,11 @@ function MultiPhotoPicker({
   }
 
   const tile =
-    "flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-zinc-300 text-zinc-400 dark:border-zinc-600";
+    "flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-zinc-300 text-muted dark:border-zinc-600";
 
   return (
     <div>
-      <span className="mb-1 block text-xs font-bold text-zinc-500">{label}</span>
+      <span className="mb-1 block text-xs font-bold text-muted">{label}</span>
       <div className="flex flex-wrap gap-2">
         {photos.map((url, i) => (
           <div key={url} className="relative">
@@ -1447,13 +1447,13 @@ function QuantityEditor({
       <button
         type="button"
         onClick={onBack}
-        className="text-sm font-semibold text-zinc-500 dark:text-zinc-400"
+        className="text-sm font-semibold text-muted"
       >
         ← 목록으로
       </button>
       <div>
         <p className="text-lg font-bold text-zinc-950 dark:text-zinc-50">{food.name}</p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           {eggServing
             ? eggUnit
               ? `기준 ${eggUnit.amount} · ${Math.round(food.kcal * eggUnit.factor)}kcal`
@@ -1511,7 +1511,7 @@ function QuantityEditor({
         </div>
       ) : baseG ? (
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">
+          <span className="mb-1 block text-xs font-bold text-muted">
             그램(g) 입력 — 양에 맞춰 칼로리 자동 계산
           </span>
           <div className="flex items-center gap-2">
@@ -1523,7 +1523,7 @@ function QuantityEditor({
               onChange={(e) => setGrams(e.target.value)}
               className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             />
-            <span className="text-sm font-semibold text-zinc-500">g</span>
+            <span className="text-sm font-semibold text-muted">g</span>
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {[50, 100, 150, 200, 300].map((g) => (
@@ -1540,7 +1540,7 @@ function QuantityEditor({
         </label>
       ) : (
         <div>
-          <span className="mb-1 block text-xs font-bold text-zinc-500">양(인분/개)</span>
+          <span className="mb-1 block text-xs font-bold text-muted">양(인분/개)</span>
           <div className="flex flex-wrap gap-1.5">
             {QTYS.map((n) => (
               <button
@@ -1680,7 +1680,7 @@ function AddFoodDialog({
 
       {/* 먹은 시간 — 등록 시 함께 기록 */}
       <div className="flex items-center gap-2 border-b border-zinc-100 px-4 py-2.5 dark:border-zinc-800">
-        <span className="text-xs font-bold text-zinc-500">먹은 시간</span>
+        <span className="text-xs font-bold text-muted">먹은 시간</span>
         <input
           type="time"
           value={time}
@@ -1693,13 +1693,13 @@ function AddFoodDialog({
       {/* 이미 담은 음식(읽기 전용) — 삭제·수정은 게시물 상세에서 */}
       {items.length > 0 ? (
         <div className="border-b border-zinc-100 px-4 py-2 dark:border-zinc-800">
-          <p className="mb-1 text-xs font-bold text-zinc-400">담은 음식</p>
+          <p className="mb-1 text-xs font-bold text-muted">담은 음식</p>
           <ul className="flex flex-col gap-1">
             {items.map((it) => (
               <li key={it.rowKey ?? it.id} className="flex items-center gap-2">
                 <span className="min-w-0 flex-1 truncate text-sm text-zinc-700 dark:text-zinc-200">
                   {it.name}
-                  <span className="ml-1 text-xs text-zinc-400">
+                  <span className="ml-1 text-xs text-muted">
                     {it.amount ? `${it.amount} · ` : ""}
                     {Math.round(it.kcal)}kcal
                   </span>
@@ -1759,7 +1759,7 @@ function AddFoodDialog({
       ) : (
         <>
           <div className="food-search-field mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
-            <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+            <Search aria-hidden="true" size={16} className="shrink-0 text-muted" />
             <input
               autoFocus
               value={q}
@@ -1776,7 +1776,7 @@ function AddFoodDialog({
               사람도 그 안에서 자기 음식을 다시 찾아내야 했다. */}
           {q.trim() === "" && mine.length > 0 ? (
             <div className="mx-4 mt-3">
-              <p className="mb-1.5 text-xs font-bold text-zinc-400">최근 먹은 것</p>
+              <p className="mb-1.5 text-xs font-bold text-muted">최근 먹은 것</p>
               <ul className="flex flex-wrap gap-1.5" data-testid="recent-foods">
                 {mine.map((f) => (
                   <li key={f.key}>
@@ -1789,9 +1789,9 @@ function AddFoodDialog({
                       aria-label={`${f.name} 담기`}
                       className="app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                     >
-                      <Plus aria-hidden="true" size={13} className="text-zinc-400" />
+                      <Plus aria-hidden="true" size={13} className="text-muted" />
                       <span className="truncate">{f.name}</span>
-                      <span className="text-zinc-400">{Math.round(f.kcal)}</span>
+                      <span className="text-muted">{Math.round(f.kcal)}</span>
                     </button>
                   </li>
                 ))}
@@ -1800,12 +1800,12 @@ function AddFoodDialog({
           ) : null}
           <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
             {foodSearchLoading && results.length === 0 ? (
-              <li className="flex items-center justify-center gap-2 py-10 text-sm text-zinc-400">
+              <li className="flex items-center justify-center gap-2 py-10 text-sm text-muted">
                 <Loader2 aria-hidden="true" size={16} className="animate-spin" />
                 음식 목록 불러오는 중…
               </li>
             ) : results.length === 0 ? (
-              <li className="py-10 text-center text-sm text-zinc-400">
+              <li className="py-10 text-center text-sm text-muted">
                 검색 결과가 없어요. ‘직접 입력’으로 추가하세요.
               </li>
             ) : (
@@ -1830,10 +1830,10 @@ function AddFoodDialog({
                         <p className="break-words text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                           {f.name}
                         </p>
-                        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                        <p className="mt-1 text-xs text-muted">
                           {shown.amount} · <span className="font-semibold text-foreground">{shown.kcal}kcal</span>
                         </p>
-                        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                        <p className="mt-0.5 text-xs text-muted">
                           단 {shown.protein}g · 탄 {shown.carbs}g · 지 {shown.fat}g
                         </p>
                       </div>
@@ -1873,11 +1873,11 @@ function ManualForm({
     return (
       <div className="flex-1 space-y-3 overflow-y-auto px-4 pt-3 pb-[calc(6rem+env(safe-area-inset-bottom,0px))]">
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">음식 이름</span>
+          <span className="mb-1 block text-xs font-bold text-muted">음식 이름</span>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 직접 만든 도시락" className={field} />
         </label>
         <label className="block">
-          <span className="mb-1 block text-xs font-bold text-zinc-500">종류(선택)</span>
+          <span className="mb-1 block text-xs font-bold text-muted">종류(선택)</span>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -1893,25 +1893,25 @@ function ManualForm({
         </label>
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
-            <span className="mb-1 block text-xs font-bold text-zinc-500">칼로리(kcal)</span>
+            <span className="mb-1 block text-xs font-bold text-muted">칼로리(kcal)</span>
             <input value={kcal} onChange={(e) => setKcal(e.target.value)} type="number" inputMode="numeric" placeholder="0" className={field} />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs font-bold text-zinc-500">양(선택)</span>
+            <span className="mb-1 block text-xs font-bold text-muted">양(선택)</span>
             <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="예: 1인분" className={field} />
           </label>
         </div>
         <div className="grid grid-cols-3 gap-3">
           <label className="block">
-            <span className="mb-1 block text-xs font-bold text-zinc-500">단백질</span>
+            <span className="mb-1 block text-xs font-bold text-muted">단백질</span>
             <input value={protein} onChange={(e) => setProtein(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs font-bold text-zinc-500">탄수화물</span>
+            <span className="mb-1 block text-xs font-bold text-muted">탄수화물</span>
             <input value={carbs} onChange={(e) => setCarbs(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs font-bold text-zinc-500">지방</span>
+            <span className="mb-1 block text-xs font-bold text-muted">지방</span>
             <input value={fat} onChange={(e) => setFat(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
           </label>
         </div>

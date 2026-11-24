@@ -124,7 +124,7 @@ export function TodayFocusMenu({
                 type="button"
                 aria-label="닫기"
                 onClick={() => !pending && setMenuOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -148,7 +148,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     운동 편집
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     루틴·부위·운동을 직접 편집합니다
                   </span>
                 </span>
@@ -170,7 +170,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     오늘만 운동 바꾸기
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     오늘 하루만 부위·운동을 바꾸거나 휴식 전환
                   </span>
                 </span>
@@ -193,7 +193,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     오늘부터 다시 시작하기
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     변경사항을 초기화하고 오늘을 루틴 1일차로
                   </span>
                 </span>
@@ -212,7 +212,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     실내 런닝
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     카메라로 제자리 달리기 (마무리운동에 자동 기록)
                   </span>
                 </span>
@@ -231,7 +231,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     야외 런닝
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     GPS로 거리와 페이스 기록 (마무리운동에 자동 기록)
                   </span>
                 </span>
@@ -259,7 +259,7 @@ export function TodayFocusMenu({
                 <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
                   오늘 {runMode === "indoor" ? "실내" : "야외"} 런닝으로 대체할까요?
                 </h3>
-                <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                <p className="mt-1 text-sm leading-6 text-muted">
                   {runMode === "indoor" ? "실내" : "야외"} 런닝을 시작합니다. 오늘
                   예정된 운동을 런닝으로 바꿀지 선택하세요.
                 </p>

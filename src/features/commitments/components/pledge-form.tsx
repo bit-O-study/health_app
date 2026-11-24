@@ -156,7 +156,7 @@ export function PledgeForm({
         ) : (
           <div className="app-card space-y-2 p-4 text-sm" data-testid="goal-locked">
             <p className="font-semibold">목표를 넣으면 다짐을 대신 짜 드려요</p>
-            <p className="text-zinc-500 dark:text-zinc-400">
+            <p className="text-muted">
               ‘20kg 빼고 싶어’처럼 결과를 넣으면 기간·소모·식단·근력 다짐을 계산해 만들어요. 라이트(990원)
               요금제부터 쓸 수 있어요.
             </p>
@@ -187,7 +187,7 @@ export function PledgeForm({
                   </button>
                 ))}
               </div>
-              <label className="mt-2 flex items-center gap-2 text-xs font-semibold text-zinc-500">
+              <label className="mt-2 flex items-center gap-2 text-xs font-semibold text-muted">
                 시작일
                 <input type="date" value={startDate} min={today} onChange={(e) => setStartDate(e.target.value)} className="h-10 rounded-md border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800" />
               </label>
@@ -198,7 +198,7 @@ export function PledgeForm({
               toggle={spec.workoutDays !== undefined}
               onToggle={(on) => set(on ? { workoutDays: 4 } : { workoutDays: undefined, burnKcal: undefined })}
             >
-              <p className="mb-1.5 text-xs text-zinc-500">주 며칠</p>
+              <p className="mb-1.5 text-xs text-muted">주 며칠</p>
               <div className="flex flex-wrap gap-1.5">
                 {[1, 2, 3, 4, 5, 6, 7].map((n) => (
                   <button key={n} type="button" className={chip(spec.workoutDays === n)} onClick={() => set({ workoutDays: n })}>
@@ -214,7 +214,7 @@ export function PledgeForm({
                 testId="burn-kcal"
               />
               {spec.burnKcal !== undefined ? (
-                <p className="text-xs text-zinc-500">칼로리 소모 다짐은 식단 칼로리 다짐과 같이 만들어야 해요.</p>
+                <p className="text-xs text-muted">칼로리 소모 다짐은 식단 칼로리 다짐과 같이 만들어야 해요.</p>
               ) : null}
             </Section>
 
@@ -257,7 +257,7 @@ export function PledgeForm({
                       type="button"
                       aria-label="부위 빼기"
                       onClick={() => set({ strength: spec.strength!.filter((_, j) => j !== i) })}
-                      className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-zinc-400 hover:text-danger"
+                      className="grid relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] place-items-center rounded-full text-muted hover:text-danger"
                     >
                       <Trash2 aria-hidden="true" size={14} />
                     </button>
@@ -271,7 +271,7 @@ export function PledgeForm({
               >
                 <Plus aria-hidden="true" size={12} /> 부위 추가
               </button>
-              <p className="mt-1 text-xs text-zinc-500">근력 다짐은 단백질 다짐(하루 {proteinNeed}g 이상)과 같이 만들어야 해요.</p>
+              <p className="mt-1 text-xs text-muted">근력 다짐은 단백질 다짐(하루 {proteinNeed}g 이상)과 같이 만들어야 해요.</p>
             </Section>
 
             <Section
@@ -302,7 +302,7 @@ export function PledgeForm({
                 set(on ? { mealsPerDay: 3 } : { mealsPerDay: undefined, intakeMax: undefined, intakeMin: undefined, proteinG: undefined })
               }
             >
-              <p className="mb-1.5 text-xs text-zinc-500">하루 몇 끼 기록할지 — 하루라도 모자라면 다짐 실패예요</p>
+              <p className="mb-1.5 text-xs text-muted">하루 몇 끼 기록할지 — 하루라도 모자라면 다짐 실패예요</p>
               <div className="flex gap-1.5">
                 {([1, 2, 3] as const).map((n) => (
                   <button key={n} type="button" className={chip(spec.mealsPerDay === n)} onClick={() => set({ mealsPerDay: n })} data-testid={`meals-${n}`}>
@@ -313,7 +313,7 @@ export function PledgeForm({
               <NumRow label="하루 섭취 상한(kcal 이하)" value={spec.intakeMax} placeholder="안 정함" onChange={(v) => set({ intakeMax: v })} testId="intake-max" />
               <NumRow label="하루 섭취 하한(kcal 이상)" value={spec.intakeMin} placeholder="안 정함" onChange={(v) => set({ intakeMin: v })} />
               <NumRow label={`단백질(g 이상) · 권장 ${proteinRec}g`} value={spec.proteinG} placeholder="안 정함" onChange={(v) => set({ proteinG: v })} testId="protein" />
-              <p className="text-xs text-zinc-500">칼로리·단백질은 7일 평균으로 판정해요.</p>
+              <p className="text-xs text-muted">칼로리·단백질은 7일 평균으로 판정해요.</p>
             </Section>
           </fieldset>
 
@@ -335,7 +335,7 @@ export function PledgeForm({
 
           <Section title="그룹에 공유">
             {groups.length === 0 ? (
-              <p className="text-xs text-zinc-500">속한 그룹이 없어요.</p>
+              <p className="text-xs text-muted">속한 그룹이 없어요.</p>
             ) : (
               <ul className="space-y-1.5" data-testid="share-groups">
                 {groups.map((g) => {
@@ -356,7 +356,7 @@ export function PledgeForm({
                 })}
               </ul>
             )}
-            <p className="mt-1 text-xs text-zinc-500">공유되는 것: 이름·항목·기간·성공/실패. 체중·체성분·식단은 공유되지 않아요.</p>
+            <p className="mt-1 text-xs text-muted">공유되는 것: 이름·항목·기간·성공/실패. 체중·체성분·식단은 공유되지 않아요.</p>
           </Section>
 
           {check.warnings.map((w) => (
@@ -455,7 +455,7 @@ function GoalPanel({
               약 {plan.totalDays}일 · 30일 다짐 {plan.stages}단계
             </p>
           ) : null}
-          <ul className="list-disc space-y-0.5 pl-5 text-xs text-zinc-500 dark:text-zinc-400">
+          <ul className="list-disc space-y-0.5 pl-5 text-xs text-muted">
             {plan.notes.map((n) => (
               <li key={n}>{n}</li>
             ))}
@@ -464,7 +464,7 @@ function GoalPanel({
             이 다짐으로 채우기
           </button>
           {plan.stages > 1 ? (
-            <p className="text-xs text-zinc-500">첫 30일부터 시작해요.<br />끝나면 실제 몸 변화로 다음 단계를 다시 계산해요.</p>
+            <p className="text-xs text-muted">첫 30일부터 시작해요.<br />끝나면 실제 몸 변화로 다음 단계를 다시 계산해요.</p>
           ) : null}
         </div>
       ) : null}

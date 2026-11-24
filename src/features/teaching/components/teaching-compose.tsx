@@ -107,7 +107,7 @@ export function TeachingComposeModal({
             type="button"
             onClick={onClose}
             aria-label="닫기"
-            className="rounded-full p-1 text-zinc-400"
+            className="rounded-full p-1 text-muted"
           >
             <X size={20} />
           </button>
@@ -133,7 +133,7 @@ export function TeachingComposeModal({
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-muted dark:border-zinc-700 dark:bg-zinc-800"
           >
             <Video size={32} />
             30초 이내 영상 찍기 / 올리기
@@ -143,14 +143,14 @@ export function TeachingComposeModal({
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="mt-2 w-full rounded-xl border border-zinc-200 py-2 text-xs font-bold text-zinc-500 dark:border-zinc-700"
+            className="mt-2 w-full rounded-xl border border-zinc-200 py-2 text-xs font-bold text-muted dark:border-zinc-700"
           >
             다시 찍기 / 다른 영상
           </button>
         ) : null}
 
         {/* 운동 태그 */}
-        <label className="mt-3 block text-xs font-bold text-zinc-500">
+        <label className="mt-3 block text-xs font-bold text-muted">
           어떤 운동인가요? (태그)
         </label>
         <input

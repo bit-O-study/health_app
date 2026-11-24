@@ -227,7 +227,7 @@ function LoggedOutHero() {
         <br />
         루틴이 매일 알려줍니다.
       </h1>
-      <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400 sm:text-lg">
+      <p className="max-w-xl text-base leading-7 text-muted sm:text-lg">
         로그인하고 분할 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에
         맞는 운동을 자동으로 안내합니다.
       </p>
@@ -260,7 +260,7 @@ function NoRoutinePrompt() {
         <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
           아직 설정한 루틴이 없습니다
         </h1>
-        <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        <p className="max-w-md text-sm leading-6 text-muted">
           몇 분할로 운동할지 한 번만 골라 두면, 매일 이 화면에서 오늘 해야 할
           운동을 바로 확인할 수 있습니다.
         </p>

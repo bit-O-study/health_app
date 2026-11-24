@@ -76,7 +76,7 @@ export function TodayAddPicker() {
       >
         <label className="relative min-w-0 flex-1">
           <span className="sr-only">더할 운동 찾기</span>
-          <Search aria-hidden="true" size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+          <Search aria-hidden="true" size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input
             type="search"
             value={query}
@@ -112,7 +112,7 @@ export function TodayAddPicker() {
           ))}
         </div>
       ) : results.length === 0 ? (
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">찾는 운동이 없어요. 다른 이름이나 부위로 찾아 보세요.</p>
+        <p className="text-sm text-muted">찾는 운동이 없어요. 다른 이름이나 부위로 찾아 보세요.</p>
       ) : (
         <ul className="space-y-1.5" data-testid="today-add-results">
           {results.map((c) => {
@@ -130,7 +130,7 @@ export function TodayAddPicker() {
                 >
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">{c.name}</span>
-                    <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="block truncate text-xs text-muted">
                       {c.target}
                       {c.equipmentLabel ? ` · ${c.equipmentLabel}` : ""}
                     </span>
@@ -150,7 +150,7 @@ export function TodayAddPicker() {
       )}
 
       {picked.length > 0 ? (
-        <p className="text-xs text-zinc-600 dark:text-zinc-300" data-testid="today-add-picked">
+        <p className="text-xs text-muted" data-testid="today-add-picked">
           담은 운동 {picked.length}개 · {picked.map((p) => p.name).join(", ")}
         </p>
       ) : null}
@@ -168,7 +168,7 @@ export function TodayAddPicker() {
         {saving ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
         {picked.length > 0 ? `${picked.length}개 오늘만 담기` : "담을 운동을 골라 주세요"}
       </button>
-      <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs leading-5 text-muted">
         지금 오늘 운동에 더해요. 세트·무게는 내 기록에 맞춰 넣고, 루틴은 그대로예요.
       </p>
     </div>

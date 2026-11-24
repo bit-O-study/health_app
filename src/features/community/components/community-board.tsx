@@ -226,7 +226,7 @@ export function CommunityBoard({
           <form onSubmit={e => { e.preventDefault(); navigate(tab, search); }} className="relative mb-2 mt-1.5 flex items-center gap-2">
             <Search
               size={15}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
             />
             <input
               type="search"
@@ -239,8 +239,8 @@ export function CommunityBoard({
             <button type="submit" className="min-h-11 shrink-0 px-2 text-sm">검색</button>
           </form>
         ) : null}
-        {tab === "workout" || tab === "popular" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "workout"} onClick={() => navigate("workout", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">최신순</button><button type="button" aria-pressed={tab === "popular"} onClick={() => navigate("popular", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">이번 주 인기</button></div> : null}
-        {mainTabOf(tab) === "question" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "question"} onClick={() => navigate("question", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">전체</button><button type="button" aria-pressed={tab === "question_open"} onClick={() => navigate("question_open", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">답변 기다리는</button></div> : null}
+        {tab === "workout" || tab === "popular" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "workout"} onClick={() => navigate("workout", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">최신순</button><button type="button" aria-pressed={tab === "popular"} onClick={() => navigate("popular", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">이번 주 인기</button></div> : null}
+        {mainTabOf(tab) === "question" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "question"} onClick={() => navigate("question", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">전체</button><button type="button" aria-pressed={tab === "question_open"} onClick={() => navigate("question_open", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">답변 기다리는</button></div> : null}
         {mainTabOf(tab) === "question" && questionTags.length > 0 ? (
           <div className="flex gap-1.5 overflow-x-auto pb-2 [scrollbar-width:none]" data-testid="question-tags">
             {questionTags.map((t) => {
@@ -262,7 +262,7 @@ export function CommunityBoard({
             })}
           </div>
         ) : null}
-        {mainTabOf(tab) === "mine" ? <div className="flex flex-wrap items-center gap-x-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "commented"} onClick={() => navigate("commented", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">댓글 단 글</button><button type="button" aria-pressed={tab === "saved" || tab === "saved_routines"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
+        {mainTabOf(tab) === "mine" ? <div className="flex flex-wrap items-center gap-x-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "commented"} onClick={() => navigate("commented", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">댓글 단 글</button><button type="button" aria-pressed={tab === "saved" || tab === "saved_routines"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-muted aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-muted">차단한 사용자</Link></div> : null}
         {tab === "saved" || tab === "saved_routines" ? (
           <div className="flex gap-1.5 pb-2" data-testid="saved-kinds">
             {([["saved", "글·영상"], ["saved_routines", "루틴"]] as const).map(([v, label]) => (
@@ -282,7 +282,7 @@ export function CommunityBoard({
         ) : null}
       </div>
 
-      {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">최근 7일 게시물을 좋아요 많은 순으로 보여드려요.</p>}
+      {tab === "popular" && <p className="px-4 pt-3 text-xs text-muted">최근 7일 게시물을 좋아요 많은 순으로 보여드려요.</p>}
       {/* 피드 */}
       {isRoutineList(tab) ? (
         // 루틴 소개 — 남의 하루치 루틴을 보고 내 루틴의 한 일차로 담는다.
@@ -299,7 +299,7 @@ export function CommunityBoard({
       ) : visible.length === 0 ? (
         <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">
           <Camera aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-muted">
             {initialSearch
               ? "검색 결과가 없어요"
               : tab === "mine"
@@ -331,7 +331,7 @@ export function CommunityBoard({
       )}
 
       {feedError ? <p role="alert" className="px-4 text-sm text-rose-500">{feedError}</p> : null}
-      {restoring ? <p role="status" className="px-4 text-sm text-zinc-500">보던 게시물을 불러오는 중…</p> : null}
+      {restoring ? <p role="status" className="px-4 text-sm text-muted">보던 게시물을 불러오는 중…</p> : null}
       {cursor ? <button type="button" onClick={more} disabled={loadingMore || restoring} className="mx-4 mb-4 min-h-11 shrink-0 rounded-lg border border-zinc-200 text-sm disabled:opacity-50">{loadingMore ? "불러오는 중…" : "더 보기"}</button> : null}
       {/* 글쓰기 FAB — 루틴 탭에서는 내 영구 루틴의 일차를 골라 추천글을 쓴다. */}
       {tab !== "teaching" ? (
@@ -353,9 +353,9 @@ export function CommunityBoard({
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 id="routine-compose-title" className="text-lg font-bold">내 루틴 추천글 쓰기</h2>
-                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">내가 설정한 루틴에서 소개할 일차를 골라보세요.</p>
+                <p className="mt-1 text-xs text-muted">내가 설정한 루틴에서 소개할 일차를 골라보세요.</p>
               </div>
-              <button type="button" aria-label="닫기" onClick={() => setRoutineCompose(false)} className="p-1 text-zinc-400"><X size={20} /></button>
+              <button type="button" aria-label="닫기" onClick={() => setRoutineCompose(false)} className="p-1 text-muted"><X size={20} /></button>
             </div>
             <div className="mt-4 flex flex-col gap-2">
               {applyTargets.map((target) => (
@@ -366,7 +366,7 @@ export function CommunityBoard({
                   label={`${target.label} 추천글 쓰기`}
                 />
               ))}
-              {applyTargets.length === 0 ? <p className="py-6 text-center text-sm text-zinc-500">먼저 내 루틴을 설정해주세요.</p> : null}
+              {applyTargets.length === 0 ? <p className="py-6 text-center text-sm text-muted">먼저 내 루틴을 설정해주세요.</p> : null}
             </div>
           </section>
         </div>
@@ -406,7 +406,7 @@ function Chip({
       className={`shrink-0 relative rounded-full after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] border px-3 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
         active
           ? "border-transparent bg-brand text-white dark:text-zinc-950"
-          : "border-zinc-200 text-zinc-500 hover:border-brand/40 hover:text-brand dark:border-zinc-700"
+          : "border-zinc-200 text-muted hover:border-brand/40 hover:text-brand dark:border-zinc-700"
       }`}
     >
       {label}
@@ -543,7 +543,7 @@ function PostCard({
               </span>
             ) : null}
           </p>
-          <p className="text-xs leading-4 text-zinc-400">{when} · {post.visibility === "public" ? "전체 공개" : post.visibility === "group" ? "그룹만 공개" : "그룹 제외 공개"}</p>
+          <p className="text-xs leading-4 text-muted">{when} · {post.visibility === "public" ? "전체 공개" : post.visibility === "group" ? "그룹만 공개" : "그룹 제외 공개"}</p>
         </div>
         {isTeaching ? (
           <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
@@ -653,7 +653,7 @@ function PostCard({
       {/* 액션 — 버튼 클릭은 카드 이동(상세)으로 전파되지 않게 막는다. */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex items-center gap-4 px-3 pt-2 text-zinc-500 dark:text-zinc-400"
+        className="flex items-center gap-4 px-3 pt-2 text-muted"
       >
         {!isTeaching ? (
           <>
@@ -665,7 +665,7 @@ function PostCard({
               aria-label="좋아요"
               aria-pressed={liked}
             >
-              <Heart size={20} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
+              <Heart size={20} className={liked ? "fill-rose-500 text-rose-500" : "text-muted"} />
               {likeCount}
             </button>
             <Link
@@ -674,7 +674,7 @@ function PostCard({
               onClick={onOpen}
               aria-label={`게시물 보기 (댓글 ${post.commentCount}개)`}
             >
-              <MessageCircle size={20} className="text-zinc-400" />
+              <MessageCircle size={20} className="text-muted" />
               {post.commentCount}
             </Link>
             <button
@@ -685,11 +685,11 @@ function PostCard({
               aria-pressed={saved}
               className="inline-flex items-center disabled:opacity-60"
             >
-              <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-zinc-400"} />
+              <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-muted"} />
             </button>
           </>
         ) : (
-          <span className="text-xs font-bold text-zinc-400">자세 티칭 영상</span>
+          <span className="text-xs font-bold text-muted">자세 티칭 영상</span>
         )}
         {!post.isMine ? (
           <ReportButton
@@ -902,13 +902,13 @@ function ComposeModal({
                   // 종류가 바뀌면 다른 글이다 — 같은 제출 번호를 다시 쓰지 않는다.
                   submissionId.current = null;
                 }}
-                className="min-h-9 rounded-full px-3 text-sm font-semibold text-zinc-500 aria-pressed:bg-white aria-pressed:text-zinc-900 dark:aria-pressed:bg-zinc-700 dark:aria-pressed:text-zinc-50"
+                className="min-h-9 rounded-full px-3 text-sm font-semibold text-muted aria-pressed:bg-white aria-pressed:text-zinc-900 dark:aria-pressed:bg-zinc-700 dark:aria-pressed:text-zinc-50"
               >
                 {m === "photo" ? "오운완 인증" : "질문"}
               </button>
             ))}
           </div>
-          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
+          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
@@ -918,7 +918,7 @@ function ComposeModal({
             <span className="min-w-0 flex-1 truncate">
               쓰던 {savedDraft.mode === "question" ? "질문" : "글"}이 있어요{savedDraft.title ? ` · ${savedDraft.title}` : ""}
             </span>
-            <button type="button" onClick={discardDraft} className="min-h-9 shrink-0 px-1 text-xs text-zinc-500">
+            <button type="button" onClick={discardDraft} className="min-h-9 shrink-0 px-1 text-xs text-muted">
               새로 쓰기
             </button>
             <button type="button" onClick={resumeDraft} className="min-h-9 shrink-0 px-1 font-semibold text-brand">
@@ -959,7 +959,7 @@ function ComposeModal({
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="flex min-h-24 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="flex min-h-24 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-muted dark:border-zinc-700 dark:bg-zinc-800"
         >
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -983,7 +983,7 @@ function ComposeModal({
         />
 
         {/* 공개범위 */}
-        <p className="mt-3 mb-1.5 text-xs font-bold text-zinc-500">공개 범위</p>
+        <p className="mt-3 mb-1.5 text-xs font-bold text-muted">공개 범위</p>
         <div className="flex flex-wrap gap-1.5">
           {VISIBILITY_OPTIONS.map((o) => (
             <Chip
@@ -1006,7 +1006,7 @@ function ComposeModal({
             </p>
           ) : (
             <div className="mt-2">
-              <p className="mb-1 text-xs font-bold text-zinc-400">
+              <p className="mb-1 text-xs font-bold text-muted">
                 {visibility === "group" ? "이 그룹에만 공개" : "이 그룹만 제외하고 공개"}
               </p>
               <div className="flex flex-wrap gap-1.5">

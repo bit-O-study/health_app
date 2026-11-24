@@ -30,7 +30,7 @@ export function BodyLogList({ logs }: { logs: BodyLog[] }) {
             <span className="text-xs font-bold tabular-nums text-zinc-700 dark:text-zinc-200">
               {fullDateLabel(r.createdAt)}
             </span>
-            <span className="text-xs tabular-nums text-zinc-400 dark:text-zinc-500">
+            <span className="text-xs tabular-nums text-muted">
               {timeLabel(r.createdAt)}
             </span>
           </span>
@@ -41,12 +41,12 @@ export function BodyLogList({ logs }: { logs: BodyLog[] }) {
                   className="inline-block h-1.5 w-1.5 shrink-0 translate-y-[-1px] rounded-full"
                   style={{ backgroundColor: m.color }}
                 />
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-muted">
                   {m.label}
                 </span>
                 <span className="text-xs font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                   {m.value}
-                  <span className="text-xs font-medium text-zinc-400">
+                  <span className="text-xs font-medium text-muted">
                     {m.unit}
                   </span>
                 </span>

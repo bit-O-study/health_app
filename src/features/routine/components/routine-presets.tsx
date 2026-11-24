@@ -68,7 +68,7 @@ export function RoutinePresets({
       <div className="mb-2 flex items-center gap-1.5">
         <Bookmark
           aria-hidden="true"
-          className="text-zinc-500 dark:text-zinc-400"
+          className="text-muted"
           size={16}
         />
         <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
@@ -123,7 +123,7 @@ export function RoutinePresets({
                 <p className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                   {p.name}
                 </p>
-                <p className="text-xs text-zinc-500">운동 {p.exerciseCount}개</p>
+                <p className="text-xs text-muted">운동 {p.exerciseCount}개</p>
               </div>
               <button
                 type="button"
@@ -139,7 +139,7 @@ export function RoutinePresets({
                 aria-label="삭제"
                 onClick={() => setDeleteTarget(p)}
                 disabled={pending}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-50"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-50"
               >
                 <Trash2 aria-hidden="true" size={15} />
               </button>
@@ -147,7 +147,7 @@ export function RoutinePresets({
           ))}
         </ul>
       ) : (
-        <p className="mt-2 text-xs text-zinc-500">아직 저장된 프리셋이 없습니다.</p>
+        <p className="mt-2 text-xs text-muted">아직 저장된 프리셋이 없습니다.</p>
       )}
 
       <ConfirmDialog

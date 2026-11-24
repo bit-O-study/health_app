@@ -25,14 +25,14 @@ export function BodyPhotosCard({ view }: { view: BodyPhotosView }) {
                   <img src={p.url} alt={`${md(p.takenOn)} ${POSE_LABEL[p.pose]} 몸 사진`} className="h-full w-full object-cover" />
                 ) : null}
               </div>
-              <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-center text-xs text-muted">
                 {md(p.takenOn)} {POSE_LABEL[p.pose]}
               </p>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-muted">
           한 달에 한 장 · 나만 봐요
         </p>
       )}

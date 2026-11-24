@@ -58,7 +58,7 @@ function GymSwapNote({ swap, equipment }: { swap?: GymSwap; equipment: string })
     );
   }
   return (
-    <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400" data-testid="gym-swap">
+    <p className="mt-1 text-xs leading-5 text-muted" data-testid="gym-swap">
       내 헬스장 기구로는 비슷한 운동을 찾지 못했어요.
     </p>
   );
@@ -99,7 +99,7 @@ export function RoutineShareBoard({
 
   return (
     <div className="flex flex-col gap-3 px-4 pb-6 pt-3">
-      <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs leading-5 text-muted">
         다른 사람의 <strong>하루치 루틴</strong>을 그대로 내 루틴에 담을 수 있어요.
         운동 순서와 메모까지 그대로 옵니다.
       </p>
@@ -146,20 +146,20 @@ export function RoutineShareBoard({
                       운동 {it.exerciseCount}개
                     </span>
                   </h3>
-                  <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-0.5 truncate text-xs text-muted">
                     {it.authorName} · {it.focusNames.join(" · ")}
                   </p>
-                  <p className="mt-1 truncate text-sm text-zinc-600 dark:text-zinc-300">
+                  <p className="mt-1 truncate text-sm text-muted">
                     {it.preview}
                   </p>
-                  <p className="mt-1 text-xs font-semibold text-zinc-400 dark:text-zinc-500">
+                  <p className="mt-1 text-xs font-semibold text-muted">
                     <HeartIcon size={12} className="mr-0.5 inline-block align-[-1px]" />{it.likeCount} · 담기 {it.saveCount}
                   </p>
                 </div>
                 <ChevronRight
                   aria-hidden="true"
                   size={18}
-                  className="shrink-0 text-zinc-400 dark:text-zinc-500"
+                  className="shrink-0 text-muted"
                 />
               </button>
             </li>
@@ -261,7 +261,7 @@ function ShareDetailSheet({
             <h3 className="truncate text-lg font-bold text-zinc-950 dark:text-zinc-50">
               {item.title}
             </h3>
-            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-xs text-muted">
               {item.authorName} · {item.focusNames.join(" · ")} · 운동{" "}
               {item.exerciseCount}개
               {item.includeWeight ? " · 무게는 작성자 기준" : ""}
@@ -271,7 +271,7 @@ function ShareDetailSheet({
             type="button"
             aria-label="닫기"
             onClick={onClose}
-            className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-muted transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             <X aria-hidden="true" size={18} />
           </button>
@@ -304,7 +304,7 @@ function ShareDetailSheet({
                   </span>
                   {e.name}
                 </p>
-                <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mt-0.5 text-xs text-muted">
                   {eqLabel(e.equipment)} · {e.sets}세트 × {e.reps}회
                   {e.weight_kg != null ? ` · ${e.weight_kg}kg` : ""}
                 </p>
@@ -494,12 +494,12 @@ function ApplyDaySheet({
         <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
           어느 일차에 담을까요?
         </h3>
-        <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-xs leading-5 text-muted">
           누르면 바로 담깁니다. <strong>오늘만이 아니라 루틴이 바뀝니다.</strong>
         </p>
 
         {sorted.length === 0 ? (
-          <p className="mt-4 text-sm font-semibold text-zinc-500">
+          <p className="mt-4 text-sm font-semibold text-muted">
             먼저 루틴을 만들어 주세요.
           </p>
         ) : (
@@ -522,7 +522,7 @@ function ApplyDaySheet({
                         className={`block text-xs font-semibold ${
                           overwrites
                             ? "text-red-600 dark:text-red-400"
-                            : "text-zinc-500 dark:text-zinc-400"
+                            : "text-muted"
                         }`}
                       >
                         {note}
@@ -531,7 +531,7 @@ function ApplyDaySheet({
                     <ChevronRight
                       aria-hidden="true"
                       size={18}
-                      className="shrink-0 text-zinc-400"
+                      className="shrink-0 text-muted"
                     />
                   </button>
                 </li>
@@ -568,7 +568,7 @@ function ApplyDaySheet({
             <h4 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
               {confirm.label} 을 덮어쓸까요?
             </h4>
-            <p className="mt-1.5 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+            <p className="mt-1.5 text-sm leading-6 text-muted">
               지금 등록된 운동 {confirm.exerciseCount}개가 지워지고 이 루틴으로 바뀝니다.
             </p>
             <div className="mt-4 flex gap-2">

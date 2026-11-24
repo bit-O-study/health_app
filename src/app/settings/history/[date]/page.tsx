@@ -200,17 +200,17 @@ export default async function HistoryDetailPage({
         <section className="app-list">
           <div className="grid grid-cols-2 divide-x divide-[var(--line)] py-2.5 text-center">
             <div className="min-w-0 px-2">
-              <p className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="flex items-center justify-center gap-1 text-xs text-muted">
                 <Zap aria-hidden="true" size={12} />
                 총 소모 칼로리
               </p>
               <p className="mt-0.5 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                 {totalKcal}
-                <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+                <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
               </p>
             </div>
             <div className="min-w-0 px-2">
-              <p className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="flex items-center justify-center gap-1 text-xs text-muted">
                 <Timer aria-hidden="true" size={12} />
                 총 운동 시간
               </p>
@@ -220,7 +220,7 @@ export default async function HistoryDetailPage({
             </div>
           </div>
           <div>
-            <p className="px-3 py-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="px-3 py-2 text-center text-xs text-muted">
               완료 {totalDone}건{focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
               {profile.weightKg === null ? ` · 체중 미입력(${DEFAULT_WEIGHT_KG}kg 가정)` : ""}
             </p>
@@ -234,15 +234,15 @@ export default async function HistoryDetailPage({
             <ul className="app-list">
               {mainItems.map((it, i) => (
                 <li key={i} className="flex min-h-12 items-center gap-3 px-3 py-2">
-                  <Dumbbell aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  <Dumbbell aria-hidden="true" size={16} className="shrink-0 text-muted" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm text-zinc-950 dark:text-zinc-100">
                       {it.name}
-                      <span className="ml-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="ml-1.5 text-xs text-muted">
                         {it.equipmentLabel} · {blockLabel(it.focus)}
                       </span>
                     </p>
-                    <p className="truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                    <p className="truncate text-xs tabular-nums text-muted">
                       {it.setDetails && it.setDetails.length > 0
                         ? `${it.setDetails.length}세트 · ${summarizeSetDetails(it.setDetails)}`
                         : `${it.sets}세트 × ${it.reps}회${
@@ -250,7 +250,7 @@ export default async function HistoryDetailPage({
                           }`}
                     </p>
                   </div>
-                  <span className="shrink-0 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="shrink-0 text-xs tabular-nums text-muted">
                     약 {it.kcal}kcal
                   </span>
                 </li>
@@ -303,7 +303,7 @@ function Section({
 
 function Empty({ text }: { text: string }) {
   return (
-    <p className="app-card px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+    <p className="app-card px-3 py-2.5 text-sm text-muted">
       {text}
     </p>
   );
@@ -320,9 +320,9 @@ function CondList({
         <li key={i} className="flex min-h-12 items-center gap-3 px-3 py-2">
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm text-zinc-950 dark:text-zinc-100">{it.name}</p>
-            <p className="truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400">{it.detail}</p>
+            <p className="truncate text-xs tabular-nums text-muted">{it.detail}</p>
           </div>
-          <span className="shrink-0 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+          <span className="shrink-0 text-xs tabular-nums text-muted">
             약 {it.kcal}kcal
           </span>
         </li>

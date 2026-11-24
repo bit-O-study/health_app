@@ -106,7 +106,7 @@ export function TodayChecklist({
                       {m.label}
                     </span>
                     {m.why ? (
-                      <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="block text-xs text-muted">
                         {m.why}
                       </span>
                     ) : null}
@@ -123,7 +123,7 @@ export function TodayChecklist({
                 </li>
               ))}
             </ul>
-            <p className="mt-2 border-t border-[var(--line)] pt-2 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-2 border-t border-[var(--line)] pt-2 text-xs text-muted">
               이번 주 <b>{c.weeklyTarget}일</b>이 목표예요 — 매일은 아무도 못 해요.
             </p>
           </div>

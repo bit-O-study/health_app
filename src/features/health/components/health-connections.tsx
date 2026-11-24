@@ -153,7 +153,7 @@ export function HealthConnections() {
       {avail?.kind === "web" ? (
         <p
           data-testid="health-web-notice"
-          className="app-card p-3 text-sm text-zinc-600 dark:text-zinc-300"
+          className="app-card p-3 text-sm text-muted"
         >
           건강 연동은 앱(안드로이드)에서만 동작해요.
         </p>
@@ -189,14 +189,14 @@ export function HealthConnections() {
                   ) : null}
                 </p>
                 {/* 동의를 구하려면 이유를 먼저 말해야 한다. */}
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">{f.why}</p>
+                <p className="text-xs text-muted">{f.why}</p>
                 {f.status === "ready" ? (
-                  <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                  <p className="text-xs text-muted">
                     마지막 동기화 · {formatLastSync(sync[f.id])}
                   </p>
                 ) : null}
                 {msg[f.id] ? (
-                  <p className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
+                  <p className="text-xs font-medium text-muted">
                     {msg[f.id]}
                   </p>
                 ) : null}
@@ -229,7 +229,7 @@ export function HealthConnections() {
         })}
       </ul>
 
-      <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
+      <p className="px-1 text-xs text-muted">
         동기화 시각은 이 기기 기준이에요. 연결은 Health Connect 앱에서 되돌릴 수 있어요.
       </p>
     </div>

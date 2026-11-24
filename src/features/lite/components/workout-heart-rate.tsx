@@ -26,7 +26,7 @@ export function WorkoutHeartRate({ start, end }: { start: string; end: string })
   }, [start, end]);
   if (!summary) return null;
   return (
-    <p className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-300" data-testid="session-report-heart">
+    <p className="flex items-center gap-1.5 text-xs text-muted" data-testid="session-report-heart">
       <HeartPulse aria-hidden="true" size={13} className="text-danger" />
       평균 심박 {summary.averageBpm} · 최고 {summary.maxBpm}
     </p>

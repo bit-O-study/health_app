@@ -137,7 +137,7 @@ export function DailyCheckinCard({
           {step < 3 ? CHECKIN_QUESTIONS.filter((_, index) => index === step).map(q => (
             <div key={q.key} role="group" aria-label={q.label} className="space-y-3">
               <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{q.label}</p>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">지금 몸 상태에 가장 가까운 답을 골라 주세요.</p>
+              <p className="text-sm text-muted">지금 몸 상태에 가장 가까운 답을 골라 주세요.</p>
               {q.key === "sleep" && sleepHint ? (
                 <p className="rounded-lg bg-brand/10 px-3 py-2 text-xs font-semibold text-brand" data-testid="checkin-sleep-hint">
                   {sleepHint}
@@ -156,7 +156,7 @@ export function DailyCheckinCard({
               <h3 className="text-lg font-semibold">오늘은 이렇게 느끼고 있어요</h3>
               <dl className="space-y-2 text-sm">{CHECKIN_QUESTIONS.map(q => <div key={q.key} className="flex items-center justify-between gap-3"><dt className="text-muted">{q.label}</dt><dd className="font-semibold">{q.options[picked[q.key]! - 1]}</dd></div>)}</dl>
               <p className="rounded-xl bg-brand/10 p-3 text-sm text-zinc-800 dark:text-zinc-100">{adviceFor(picked).text}</p>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">저장만으로 운동량이 바뀌지는 않아요. 저장 후 오늘 운동만 조절할 수 있어요.</p>
+              <p className="text-xs text-muted">저장만으로 운동량이 바뀌지는 않아요. 저장 후 오늘 운동만 조절할 수 있어요.</p>
             </div>
           ) : null}
           <div className="flex gap-2">
@@ -184,7 +184,7 @@ export function DailyCheckinCard({
         </button>
       ) : null}
       {lightened && advice?.kind === "light" ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">오늘은 세트를 줄였어요.<br />내일은 원래 루틴 그대로예요.</p>
+        <p className="text-xs text-muted">오늘은 세트를 줄였어요.<br />내일은 원래 루틴 그대로예요.</p>
       ) : null}
 
       {painConflicts.length ? (
@@ -226,7 +226,7 @@ export function DailyCheckinCard({
             </div>
           ) : null
         ) : (
-          <p className="text-xs text-zinc-500 dark:text-zinc-400" data-testid="pain-swap-locked">
+          <p className="text-xs text-muted" data-testid="pain-swap-locked">
             라이트에서는 아픈 부위 운동을 오늘만 다른 운동으로 바로 바꿀 수 있어요.{" "}
             <Link href="/settings/subscription" className="font-semibold text-brand">
               라이트 알아보기

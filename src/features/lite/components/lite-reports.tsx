@@ -22,7 +22,7 @@ function Card({ title, testId, empty = false, children }: { title: string; testI
 }
 
 function Empty({ children }: { children: React.ReactNode }) {
-  return <p className="text-sm text-zinc-500 dark:text-zinc-400">{children}</p>;
+  return <p className="text-sm text-muted">{children}</p>;
 }
 
 function Row({ label, value, sub }: { label: string; value: string; sub?: string }) {
@@ -61,7 +61,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
             {bodyTraining.headline}
           </p>
         ) : (
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-muted">
             체중이나 인바디를 두 번 이상 기록하면 운동량과 몸 변화를 이어서 보여 줘요.{" "}
             <Link href="/settings/body-composition" className="font-semibold text-brand">체성분 입력 →</Link>
           </p>
@@ -69,7 +69,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
         <div className="overflow-x-auto">
           <table className="w-full text-xs tabular-nums">
             <thead>
-              <tr className="text-left text-zinc-500 dark:text-zinc-400">
+              <tr className="text-left text-muted">
                 <th className="py-1 font-medium">달</th>
                 <th className="py-1 text-right font-medium">운동</th>
                 <th className="py-1 text-right font-medium">볼륨</th>
@@ -113,7 +113,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
           </Empty>
         ) : (
           <>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted">
               측정 {body.count}번 · 최근 {md(body.latestDate)}
               {body.prevDate ? ` · 지난 측정 ${md(body.prevDate)}` : ""}
             </p>
@@ -170,7 +170,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
                 />
               ))}
             </div>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted">
               좋음 {condition.counts.good}일 · 보통 {condition.counts.normal}일 · 안 좋음 {condition.counts.light}일
             </p>
             {condition.avgVolumeGood != null && condition.avgVolumeLight != null ? (
@@ -207,7 +207,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
               </p>
             ) : null}
             {diet.topFoods.length ? (
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-muted">
                 자주 먹은 것: {diet.topFoods.map((f) => `${f.name} ${f.count}번`).join(" · ")}
               </p>
             ) : null}
@@ -230,7 +230,7 @@ export function LiteReportCards({ r }: { r: LiteReports }) {
                   value={s.thisWeek.avg == null ? "기록 없음" : `${fmt(s.thisWeek.avg)}${unit}`}
                   sub={s.lastWeek.avg == null ? undefined : `지난주 ${fmt(s.lastWeek.avg)}`}
                 />
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-muted">
                   목표 {fmt(goal)}
                   {unit} 채운 날 {s.thisWeek.hitDays}일 / 기록 {s.thisWeek.days}일
                 </p>

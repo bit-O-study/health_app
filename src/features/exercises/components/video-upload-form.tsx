@@ -84,7 +84,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
     <section>
       <h2 className="app-section-label">자세 영상 업로드</h2>
       <form onSubmit={handleSubmit} className="app-card space-y-2.5 p-3">
-        <label className="grid gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <label className="grid gap-1 text-xs font-semibold text-muted">
           영상 제목
           <input
             value={title}
@@ -95,7 +95,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
           />
         </label>
 
-        <label className="grid gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <label className="grid gap-1 text-xs font-semibold text-muted">
           영상 파일
           <input
             ref={fileInputRef}
@@ -119,7 +119,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
             업로드
           </button>
           {status ? (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p>
+            <p className="text-sm text-muted">{status}</p>
           ) : null}
         </div>
       </form>

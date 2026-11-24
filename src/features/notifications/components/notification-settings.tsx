@@ -63,7 +63,7 @@ export function NotificationSettings({
                 <p className="truncate text-base text-zinc-900 dark:text-zinc-100">
                   {NOTIFICATION_LABEL[kind].title}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-muted">
                   {NOTIFICATION_LABEL[kind].desc}
                 </p>
               </div>
@@ -104,7 +104,7 @@ export function NotificationSettings({
                 disabled={pending}
                 onChange={(h) => save({ ...prefs, quietStartHour: h })}
               />
-              <span className="text-sm text-zinc-400">~</span>
+              <span className="text-sm text-muted">~</span>
               <HourSelect
                 label="종료"
                 value={prefs.quietEndHour}
@@ -116,7 +116,7 @@ export function NotificationSettings({
                   시작과 종료가 같아 방해 금지 시간이 없어요.
                 </p>
               ) : nowQuiet ? (
-                <p className="basis-full text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="basis-full text-xs text-muted">
                   지금은 방해 금지 시간이에요.
                 </p>
               ) : null}
@@ -127,7 +127,7 @@ export function NotificationSettings({
 
       <p
         aria-live="polite"
-        className="flex items-center gap-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400"
+        className="flex items-center gap-1.5 px-1 text-xs text-muted"
       >
         {pending ? (
           <>

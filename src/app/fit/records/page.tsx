@@ -54,15 +54,15 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
             </Link>
             <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{name(ex)}</h2>
             {best ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-300" data-testid="fit-records-best">
+              <p className="text-sm text-muted" data-testid="fit-records-best">
                 최고 <b className="text-zinc-900 dark:text-zinc-100">{best.kg}kg × {best.reps}회</b> · {md(best.date)}
               </p>
             ) : null}
             {summary ? (
               <div className="flex items-center gap-3" data-testid="fit-records-summary">
-                <p className="min-w-0 flex-1 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
+                <p className="min-w-0 flex-1 text-xs tabular-nums text-muted">
                   예상 최대 {summary.firstOneRmKg}kg → 최근 3번 평균 <b>{summary.recentOneRmKg}kg</b>
-                  <span className={summary.changeKg > 0 ? " text-brand" : " text-zinc-500"}>
+                  <span className={summary.changeKg > 0 ? " text-brand" : " text-muted"}>
                     {" "}({summary.changeKg > 0 ? "+" : summary.changeKg < 0 ? "−" : "±"}{Math.abs(summary.changeKg)})
                   </span>
                   {summary.everyDays ? ` · 평균 ${summary.everyDays}일마다` : ""}
@@ -75,7 +75,7 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
               </div>
             ) : null}
             {sessions.length === 0 ? (
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">최근 1년 기록이 없어요.</p>
+              <p className="text-sm text-muted">최근 1년 기록이 없어요.</p>
             ) : (
               <ul className="divide-y divide-[var(--line)]">
                 {sessions.map((s) => (
@@ -89,12 +89,12 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
                           </span>
                         ) : null}
                       </span>
-                      <span className="tabular-nums text-zinc-500 dark:text-zinc-400">
+                      <span className="tabular-nums text-muted">
                         {s.sets}세트{s.volumeKg > 0 ? ` · ${shortVolume(s.volumeKg)}` : ""}
                         {s.oneRmKg > 0 ? ` · 예상 최대 ${s.oneRmKg}kg` : ""}
                       </span>
                     </div>
-                    <p className="text-xs tabular-nums text-zinc-600 dark:text-zinc-300">{s.detail}</p>
+                    <p className="text-xs tabular-nums text-muted">{s.detail}</p>
                   </li>
                 ))}
               </ul>
@@ -103,7 +103,7 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
         ) : (
           <>
             <form action="/fit/records" className="app-card flex items-center gap-2 p-2" role="search">
-              <Search aria-hidden="true" size={16} className="ml-1.5 shrink-0 text-zinc-400" />
+              <Search aria-hidden="true" size={16} className="ml-1.5 shrink-0 text-muted" />
               <input
                 id="fit-records-q"
                 name="q"
@@ -118,7 +118,7 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
             </form>
             <section className="app-card px-4" data-testid="fit-records-index">
               {shown.length === 0 ? (
-                <p className="py-4 text-sm text-zinc-500 dark:text-zinc-400">{index.length === 0 ? "최근 1년 운동 기록이 없어요." : "찾는 종목이 없어요."}</p>
+                <p className="py-4 text-sm text-muted">{index.length === 0 ? "최근 1년 운동 기록이 없어요." : "찾는 종목이 없어요."}</p>
               ) : (
                 <ul className="divide-y divide-[var(--line)]">
                   {shown.map((r) => (
@@ -130,7 +130,7 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
                       >
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">{name(r.exerciseId)}</span>
-                          <span className="block text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                          <span className="block text-xs tabular-nums text-muted">
                             {r.sessions}번 · 마지막 {md(r.lastDate)}
                           </span>
                         </span>

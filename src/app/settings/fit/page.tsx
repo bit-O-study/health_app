@@ -22,7 +22,7 @@ export default async function FitSettingsPage() {
     <div className="app-page">
       <PageHeader title="맞춤 운동 설정" back="설정" />
       <main className="app-container space-y-3">
-        <p className="px-1 text-sm text-zinc-600 dark:text-zinc-300">
+        <p className="px-1 text-sm text-muted">
           맞춤 운동 추천(목표 비율·추천 개수)과 하루 칼로리 계산에 써요.
         </p>
         <SurveyExtraForm

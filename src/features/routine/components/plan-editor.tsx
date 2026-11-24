@@ -826,7 +826,7 @@ export function PlanEditor({
           <h2 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
             추천 운동들로 등록
           </h2>
-          <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="truncate text-xs text-muted">
             선호·목표·경력·최근 기록과 보유 기구를 반영해요
           </p>
           <Link href="/settings/routine" className="mt-1 inline-block text-xs font-semibold text-brand">추천 선호 조정</Link>
@@ -853,7 +853,7 @@ export function PlanEditor({
       ) : null}
 
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="px-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <p className="px-1 text-xs font-semibold text-muted">
           또는 직접 등록
         </p>
         <div className="flex flex-wrap items-center gap-2">
@@ -890,7 +890,7 @@ export function PlanEditor({
             aria-label="팔 루틴 교환 첫 번째 일차"
             className="flex flex-wrap items-center gap-2"
           >
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-muted">
               첫 번째 일차
             </span>
             {swapSourceDayIndexes.map((dayIndex) => {
@@ -925,7 +925,7 @@ export function PlanEditor({
               aria-label="팔 루틴 교환 두 번째 일차"
               className="flex flex-wrap items-center gap-2"
             >
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 두 번째 일차
               </span>
               {swapTargetsForDay(swapSourceDayIndex).map(
@@ -967,7 +967,7 @@ export function PlanEditor({
             <span className="inline-flex h-6 items-center rounded-full bg-brand-soft px-2.5 text-xs font-semibold text-brand">
               {day.dayIndex + 1}일차
             </span>
-            <span className="min-w-0 flex-1 truncate text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="min-w-0 flex-1 truncate text-sm text-muted">
               {day.focuses.map(focusName).join(" · ")}
             </span>
             {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
@@ -1028,7 +1028,7 @@ export function PlanEditor({
                     aria-label={`${day.dayIndex + 1}일차 추가할 부위`}
                     className="mt-2 flex flex-wrap items-center gap-2 rounded-[10px] bg-zinc-100 p-2 dark:bg-white/[0.06]"
                   >
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="text-xs text-muted">
                       추가할 부위
                     </span>
                     {day.focuses.map((focus) => {
@@ -1043,7 +1043,7 @@ export function PlanEditor({
                         >
                           {name}
                           {focus.isSide ? (
-                            <span className="ml-1 text-zinc-400">보조</span>
+                            <span className="ml-1 text-muted">보조</span>
                           ) : null}
                         </button>
                       );
@@ -1052,7 +1052,7 @@ export function PlanEditor({
                 ) : null}
 
                 {entries.length === 0 ? (
-                  <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-2 text-xs text-muted">
                     운동 없음
                   </p>
                 ) : (
@@ -1119,7 +1119,7 @@ export function PlanEditor({
                               if (!sub) return null;
                               return (
                                 // 세부근육은 색 알약 대신 회색 글자(운동탭 목록과 같은 모양).
-                                <span className="whitespace-nowrap px-1 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                                <span className="whitespace-nowrap px-1 py-0.5 text-xs text-muted">
                                   {sub.label}
                                 </span>
                               );
@@ -1257,7 +1257,7 @@ export function PlanEditor({
 
                 {primary ? (
                   <div className="mt-3 space-y-2 border-t border-[var(--line)] pt-3">
-                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-muted">
                       워밍업 / 마무리
                     </p>
                     <ConditioningEditor

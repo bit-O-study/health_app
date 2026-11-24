@@ -52,7 +52,7 @@ export function MembershipCard({ status }: { status: BillingStatus }) {
             <span className="block text-base font-bold text-zinc-950 dark:text-zinc-100">
               {member ? `${plan.label} 멤버십` : "무료 이용 중"}
             </span>
-            <span className="block text-xs text-zinc-600 dark:text-zinc-300">
+            <span className="block text-xs text-muted">
               {member ? sub : "라이트(월 990원)로 내 기록 리포트와 상담함을 써 보세요"}
             </span>
           </span>
@@ -85,7 +85,7 @@ export function MembershipCard({ status }: { status: BillingStatus }) {
                 type="button"
                 data-testid="membership-cancel"
                 onClick={() => setCancelOpen(true)}
-                className="inline-flex h-9 items-center justify-center px-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400"
+                className="inline-flex h-9 items-center justify-center px-3 text-sm font-semibold text-muted"
               >
                 해지하기
               </button>
@@ -145,7 +145,7 @@ function CancelSheet({ status, onClose }: { status: BillingStatus; onClose: () =
 
         {notice.lose.length ? (
           <div className="app-card space-y-1 p-3">
-            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">그 뒤로는 이런 걸 못 써요</p>
+            <p className="text-xs font-semibold text-muted">그 뒤로는 이런 걸 못 써요</p>
             <ul className="list-disc space-y-0.5 pl-5 text-sm text-zinc-800 dark:text-zinc-100">
               {notice.lose.map((t) => (
                 <li key={t}>{t}</li>
@@ -155,7 +155,7 @@ function CancelSheet({ status, onClose }: { status: BillingStatus; onClose: () =
         ) : null}
 
         {benefitsUsedLine(status.aiUsesThisMonth) ? (
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">{benefitsUsedLine(status.aiUsesThisMonth)}</p>
+          <p className="text-xs text-muted">{benefitsUsedLine(status.aiUsesThisMonth)}</p>
         ) : null}
 
         {down ? (
@@ -178,7 +178,7 @@ function CancelSheet({ status, onClose }: { status: BillingStatus; onClose: () =
             target="_blank"
             rel="noopener noreferrer"
             data-testid="cancel-go-play"
-            className="inline-flex h-10 items-center justify-center gap-1 text-sm font-semibold text-zinc-500 dark:text-zinc-400"
+            className="inline-flex h-10 items-center justify-center gap-1 text-sm font-semibold text-muted"
           >
             구글 플레이에서 해지하기
             <ExternalLink aria-hidden="true" size={13} />

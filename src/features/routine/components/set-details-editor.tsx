@@ -42,7 +42,7 @@ function EnableWeightsPrompt({
 
   return (
     <div className="basis-full rounded-[10px] bg-zinc-100 p-2 dark:bg-white/[0.06]">
-      <p className="text-xs text-zinc-600 dark:text-zinc-300">
+      <p className="text-xs text-muted">
         드롭세트·피라미드는 기준 무게가 있어야 만들 수 있어요. 계획에서 무게·횟수를
         정하도록 <b>무게·횟수 고정</b>을 켤까요? (설정에서 다시 끌 수 있어요)
       </p>
@@ -206,7 +206,7 @@ export function SetDetailsEditor({
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5 basis-full sm:basis-auto">
       {minSets > 1 ? (
-        <p data-testid="sets-min-hint" className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p data-testid="sets-min-hint" className="text-xs text-muted">
           {minSets}세트 완료 — 완료를 취소하기 전엔 {minSets}세트 아래로 못 줄여요.
         </p>
       ) : null}
@@ -220,7 +220,7 @@ export function SetDetailsEditor({
           ) : null}
           {rows.map((row, i) => (
             <div key={i} className="flex flex-wrap items-center gap-1.5">
-              <span className="w-9 shrink-0 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="w-9 shrink-0 text-xs font-semibold text-muted">
                 {i + 1}세트
               </span>
               <input
@@ -233,7 +233,7 @@ export function SetDetailsEditor({
                 disabled={disabled}
                 className={wCls}
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 kg ×
               </span>
               <input
@@ -245,7 +245,7 @@ export function SetDetailsEditor({
                 disabled={disabled}
                 className={numCls}
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 회
               </span>
               <button
@@ -253,7 +253,7 @@ export function SetDetailsEditor({
                 aria-label="세트 삭제"
                 onClick={() => removeRow(i)}
                 disabled={disabled || rows.length <= Math.max(1, minSets)}
-                className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
+                className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-md text-muted transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
               </button>
@@ -264,7 +264,7 @@ export function SetDetailsEditor({
               type="button"
               onClick={addRow}
               disabled={disabled || rows.length >= 20}
-              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
+              className="inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-muted transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
             >
               <Plus aria-hidden="true" size={13} />
               세트 추가
@@ -284,7 +284,7 @@ export function SetDetailsEditor({
               type="button"
               onClick={disable}
               disabled={disabled}
-              className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 underline-offset-2 hover:underline"
+              className="text-xs font-semibold text-muted underline-offset-2 hover:underline"
             >
               균일하게
             </button>
@@ -306,7 +306,7 @@ export function SetDetailsEditor({
             disabled={disabled}
             className={numCls}
           />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
+          <span className="text-xs text-muted">세트</span>
           <input
             aria-label="횟수"
             type="number"
@@ -316,7 +316,7 @@ export function SetDetailsEditor({
             disabled={disabled}
             className={numCls}
           />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
+          <span className="text-xs text-muted">회</span>
           <input
             aria-label="무게(kg)"
             type="number"
@@ -331,7 +331,7 @@ export function SetDetailsEditor({
             type="button"
             onClick={enable}
             disabled={disabled}
-            className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand"
+            className="inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center rounded-md border app-field px-2 text-xs font-semibold text-muted transition hover:border-brand/40 hover:text-brand"
           >
             세트별 다르게
           </button>

@@ -23,7 +23,7 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
           <p className="text-2xl font-bold tabular-nums">
             체중 {sign(pred.weightKg!)}kg
           </p>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-muted">
             범위 {sign(pred.weightRange![0])} ~ {sign(pred.weightRange![1])}kg · {body.weightKg}kg →{" "}
             {Math.round((body.weightKg + pred.weightKg!) * 10) / 10}kg
           </p>
@@ -32,7 +32,7 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
             <Stat label="제지방(근육)" value={`${sign(pred.leanKg!)}kg`} />
             <Stat label="수분·글리코겐" value={`${sign(pred.waterKg!)}kg`} />
           </dl>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1 text-xs text-muted">
             시작·끝 체중은 각각 7일 평균으로 비교해요 — 주 2번 이상 체중을 기록해 주세요.
           </p>
           {pred.leanKg! < 0 ? (
@@ -47,12 +47,12 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
         <div data-testid="pred-muscle">
           <p className="text-lg font-bold tabular-nums">
             골격근 {sign(pred.muscleKg!)}kg
-            <span className="ml-1 text-xs font-normal text-zinc-500">
+            <span className="ml-1 text-xs font-normal text-muted">
               ({pred.muscleRange![0]}~{pred.muscleRange![1]}kg)
             </span>
           </p>
           {pred.baseline.skeletalMuscleKg !== null ? (
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted">
               지금 {pred.baseline.skeletalMuscleKg}kg →{" "}
               {Math.round((pred.baseline.skeletalMuscleKg + pred.muscleKg!) * 100) / 100}kg (인바디 기준)
             </p>
@@ -68,13 +68,13 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
             </ul>
           ) : null}
           {pred.days < 60 ? (
-            <p className="mt-1 text-xs text-zinc-500" data-testid="muscle-noise-note">
+            <p className="mt-1 text-xs text-muted" data-testid="muscle-noise-note">
               {pred.days}일 근육 변화는 인바디 오차(±0.5~1kg)보다 작아 재도 잘 안 보일 수 있어요 — 60일 이상 다짐에서
               확인해 보세요.
             </p>
           ) : null}
           {pred.parts.length > 0 ? (
-            <p className="mt-1 text-xs text-zinc-500">
+            <p className="mt-1 text-xs text-muted">
               {pred.parts.map((p) => BODY_PART_LABEL[p]).join("·")} 근육이 커지는 다짐이에요
             </p>
           ) : null}
@@ -84,7 +84,7 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
       {pred.hints.length > 0 ? (
         <ul className="space-y-0.5" data-testid="pred-hints">
           {pred.hints.map((h) => (
-            <li key={h} className="text-xs text-zinc-500 dark:text-zinc-400">
+            <li key={h} className="text-xs text-muted">
               {h}
             </li>
           ))}
@@ -104,7 +104,7 @@ export function PredictionCard({ pred, body }: { pred: Prediction; body: BodyInp
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg bg-zinc-50 py-1.5 dark:bg-white/[0.04]">
-      <dt className="text-zinc-500">{label}</dt>
+      <dt className="text-muted">{label}</dt>
       <dd className="font-bold tabular-nums">{value}</dd>
     </div>
   );

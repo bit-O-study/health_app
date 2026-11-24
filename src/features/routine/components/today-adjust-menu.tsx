@@ -235,7 +235,7 @@ export function TodayAdjustMenu({
                 type="button"
                 aria-label="닫기"
                 onClick={close}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -256,7 +256,7 @@ export function TodayAdjustMenu({
                   onClick={() => setTab(t.id)}
                   className={cn(
                     "h-9 rounded-lg text-xs font-semibold transition",
-                    tab === t.id ? "bg-brand text-white shadow-sm dark:text-zinc-950" : "text-zinc-600 dark:text-zinc-300",
+                    tab === t.id ? "bg-brand text-white shadow-sm dark:text-zinc-950" : "text-muted",
                   )}
                 >
                   {t.label}
@@ -271,7 +271,7 @@ export function TodayAdjustMenu({
                 <TodayAddPicker />
                 {/* 오늘 운동을 비우고 처음부터 직접 고르기(오늘 원래 운동은 내일로). */}
                 <div className="mt-5 border-t border-zinc-100 pt-4 dark:border-zinc-800">
-                  <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mb-2 text-xs text-muted">
                     오늘 운동을 통째로 새로 짜려면 — 원래 운동은 내일로 밀려요.
                   </p>
                   <TodayAddExercises />
@@ -283,7 +283,7 @@ export function TodayAdjustMenu({
                 <>
                 {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가.
                     루틴 빌더와 동일하게 기본 부위 + 세부근육 블록까지 고를 수 있다(원칙 #1). */}
-                <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
                   오늘만 부위 바꾸기 — 부위 선택 (세부근육까지, 여러 개)
                 </p>
                 <div className="space-y-2.5">
@@ -339,7 +339,7 @@ export function TodayAdjustMenu({
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">오늘만 부위 추가</span>
-                      <span className="block text-xs text-zinc-600 dark:text-zinc-400">지금 운동은 그대로 두고 고른 부위를 더해요</span>
+                      <span className="block text-xs text-muted">지금 운동은 그대로 두고 고른 부위를 더해요</span>
                     </span>
                     <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-brand" />
                   </button>
@@ -354,12 +354,12 @@ export function TodayAdjustMenu({
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">운동 전체 바꾸기</span>
-                      <span className="block text-xs text-zinc-600 dark:text-zinc-400">끝낸 운동은 남기고 나머지를 고른 부위로 바꿔요</span>
+                      <span className="block text-xs text-muted">끝낸 운동은 남기고 나머지를 고른 부위로 바꿔요</span>
                     </span>
-                    <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-zinc-400" />
+                    <ArrowRight aria-hidden="true" size={15} className="shrink-0 text-muted" />
                   </button>
                 </div>
-                <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                <p className="mt-3 text-xs leading-5 text-muted">
                   {picked.size === 0 ? "부위를 먼저 골라 주세요. " : ""}어느 쪽이든 <strong>오늘 하루만</strong> 바뀌고 루틴은 그대로예요.
                 </p>
                 </>
@@ -382,7 +382,7 @@ export function TodayAdjustMenu({
                       <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
                         다시 운동하기
                       </span>
-                      <span className="block text-xs text-zinc-600 dark:text-zinc-400">
+                      <span className="block text-xs text-muted">
                         휴식을 해제하고 직전 운동 데이터를 다시 불러옵니다
                       </span>
                     </span>
@@ -394,20 +394,20 @@ export function TodayAdjustMenu({
                     onClick={() => run(convertTodayToRestAction)}
                     className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-left transition hover:border-zinc-300 dark:hover:border-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 disabled:opacity-60"
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-700 text-muted">
                       <Moon aria-hidden="true" size={18} />
                     </span>
                     <span className="min-w-0">
                       <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
                         오늘 휴식 전환하기
                       </span>
-                      <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="block text-xs text-muted">
                         오늘 쉬고 루틴이 하루씩 미뤄집니다
                       </span>
                     </span>
                   </button>
                 )}
-                  <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-3 text-xs leading-5 text-muted">
                     {isRestToday
                       ? "오늘 운동을 다시 하면 밀어 둔 루틴이 원래 날짜로 돌아와요."
                       : "오늘 하려던 운동은 내일로 가고, 그 뒤 루틴도 하루씩 밀려요. 다시 운동하기로 되돌릴 수 있어요."}
@@ -422,7 +422,7 @@ export function TodayAdjustMenu({
               </p>
             ) : null}
             {pending ? (
-              <p className="mt-3 flex items-center justify-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+              <p className="mt-3 flex items-center justify-center gap-2 text-sm text-muted">
                 <Loader2
                   aria-hidden="true"
                   className="animate-spin"

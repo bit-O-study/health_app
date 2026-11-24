@@ -64,7 +64,7 @@ function Shot({ photo, caption }: { photo: BodyPhotoView; caption: string }) {
           <img src={photo.url} alt={`${caption} 몸 사진`} className="h-full w-full object-cover" />
         ) : null}
       </div>
-      <figcaption className="text-center text-xs text-zinc-500 dark:text-zinc-400">{caption}</figcaption>
+      <figcaption className="text-center text-xs text-muted">{caption}</figcaption>
     </figure>
   );
 }
@@ -155,7 +155,7 @@ export function BodyPhotosPanel({ view, today }: { view: BodyPhotosView; today: 
           </label>
         ) : null}
         {lockedFree ? (
-          <p className="flex items-center gap-1.5 text-sm text-zinc-600 dark:text-zinc-300" data-testid="body-photos-locked">
+          <p className="flex items-center gap-1.5 text-sm text-muted" data-testid="body-photos-locked">
             <Lock aria-hidden="true" size={14} />
             무료는 {FREE_PHOTO_LIMIT}장까지예요.{" "}
             <Link href="/settings/subscription" className="font-semibold text-brand">
@@ -176,7 +176,7 @@ export function BodyPhotosPanel({ view, today }: { view: BodyPhotosView; today: 
             </button>
           </>
         )}
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           같은 장소·같은 자세·비슷한 시간에 찍으면 변화가 잘 보여요.
           {view.plan === "free" ? ` 무료 ${view.photos.length}/${FREE_PHOTO_LIMIT}장.` : ""}
         </p>
@@ -244,7 +244,7 @@ export function BodyPhotosPanel({ view, today }: { view: BodyPhotosView; today: 
             </p>
           </>
         ) : (
-          <p className="py-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="py-4 text-center text-sm text-muted">
             {POSE_LABEL[cmpPose]} 사진이 2장 이상 쌓이면 나란히 비교할 수 있어요.
           </p>
         )}
@@ -271,7 +271,7 @@ export function BodyPhotosPanel({ view, today }: { view: BodyPhotosView; today: 
           </ul>
         </section>
       ) : null}
-      <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">이 사진은 나만 봐요.<br />다른 회원·트레이너에게 보이지 않아요.</p>
+      <p className="px-1 text-xs text-muted">이 사진은 나만 봐요.<br />다른 회원·트레이너에게 보이지 않아요.</p>
     </div>
   );
 }

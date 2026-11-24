@@ -46,7 +46,7 @@ function Chips<T extends string | number>({
 }) {
   return (
     <div className="space-y-1.5">
-      <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="text-xs font-semibold text-muted">{label}</p>
       <div role="group" aria-label={label} className="flex flex-wrap gap-1.5">
         {options.map((o) => (
           <button
@@ -141,14 +141,14 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
                   requestId.current = null;
                 }}
                 className={`h-9 rounded-full text-sm font-semibold ${
-                  kind === k ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-400"
+                  kind === k ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100" : "text-muted"
                 }`}
               >
                 {KIND_SHORT[k]}
               </button>
             ))}
           </div>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">{KIND_HINT[kind]}</p>
+          <p className="text-xs text-muted">{KIND_HINT[kind]}</p>
 
           {kind === "recommendation" && (
             <div className="space-y-3">
@@ -189,7 +189,7 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
           )}
 
           <label className="block space-y-1.5" htmlFor="coach-question">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-muted">
               {kind === "consultation" ? "상담할 내용" : "목표·컨디션·궁금한 점(선택)"}
             </span>
             <textarea
@@ -217,7 +217,7 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
               {message}
             </p>
           ) : null}
-          <p className="text-xs text-zinc-400 dark:text-zinc-500">
+          <p className="text-xs text-muted">
             최근 30일 운동 기록과 운동 계획이 함께 전달돼요. 루틴은 바뀌지 않아요. 진단·치료가 아닌 운동 안내예요.
           </p>
         </form>
@@ -229,12 +229,12 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
           type="button"
           onClick={() => router.refresh()}
           aria-label="새로고침"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted active:bg-zinc-100 dark:active:bg-white/[0.06]"
         >
           <RotateCw aria-hidden="true" size={16} />
         </button>
       </div>
-      {rows.length === 0 && <p className="app-card p-4 text-sm text-zinc-500">아직 받은 답변이 없어요.<br />보내면 여기에 쌓여요.</p>}
+      {rows.length === 0 && <p className="app-card p-4 text-sm text-muted">아직 받은 답변이 없어요.<br />보내면 여기에 쌓여요.</p>}
       {rows.map((row) => (
         <article key={row.id} className="app-card space-y-2 p-4">
           <div className="flex items-center justify-between gap-2">
@@ -247,8 +247,8 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
               {row.answer ? "답변 완료" : "답변 대기"}
             </span>
           </div>
-          <p className="text-xs text-zinc-500">{row.for_date}</p>
-          {row.question && <p className="whitespace-pre-wrap break-words text-sm text-zinc-500">{row.question}</p>}
+          <p className="text-xs text-muted">{row.for_date}</p>
+          {row.question && <p className="whitespace-pre-wrap break-words text-sm text-muted">{row.question}</p>}
           {row.answer && <p className="whitespace-pre-wrap break-words text-sm leading-7 text-zinc-900 dark:text-zinc-100">{row.answer}</p>}
         </article>
       ))}

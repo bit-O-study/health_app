@@ -212,13 +212,13 @@ export function UpcomingSevenDaysGrid({
         <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
           다가오는 7일
           {editMode ? (
-            <span className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
+            <span className="text-xs font-normal text-muted">
               드래그로 순서 변경
             </span>
           ) : null}
         </h2>
         {pending ? (
-          <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="inline-flex items-center gap-1 text-xs text-muted">
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />
             저장 중
           </span>
@@ -302,14 +302,14 @@ export function UpcomingSevenDaysGrid({
                         "shrink-0 transition-colors",
                         isDragged
                           ? "text-brand"
-                          : "text-zinc-400 dark:text-zinc-500",
+                          : "text-muted",
                       )}
                       size={13}
                     />
                   ) : null}
                   <span className="truncate">
                     {cell.weekday}
-                    <span className="ml-1.5 text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                    <span className="ml-1.5 text-xs font-normal text-muted">
                       {cell.label}
                     </span>
                   </span>
@@ -363,7 +363,7 @@ export function UpcomingSevenDaysGrid({
             <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
               오늘만 운동 상태예요
             </h3>
-            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+            <p className="mt-2 text-sm leading-6 text-muted">
               오늘만 운동 상태에서는 일자 순서를 바꿀 수 없어요.{" "}
               <strong>오늘만 상태에서 벗어나겠습니까?</strong> 오늘 운동이 원래
               루틴으로 돌아간 뒤에 순서를 바꿀 수 있어요.

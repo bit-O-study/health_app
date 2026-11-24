@@ -65,7 +65,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
             <ConditioningIcon id={item.id} size={28} />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">{kindLabel}</p>
+            <p className="text-xs font-semibold text-muted">{kindLabel}</p>
             {item.target ? (
               <p className="text-sm leading-5 text-zinc-700 dark:text-zinc-300">{item.target}</p>
             ) : null}
@@ -97,7 +97,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
               {item.params.map((p) => (
                 <li key={p} className="app-row justify-between text-sm">
                   <span className="text-zinc-900 dark:text-zinc-100">{PARAM_LABEL[p]}</span>
-                  <span className="whitespace-nowrap text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="whitespace-nowrap text-xs text-muted">
                     {PARAM_UNIT[p]}
                   </span>
                 </li>

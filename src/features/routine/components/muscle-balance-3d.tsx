@@ -75,7 +75,7 @@ export function MuscleBalance3D({
               "flex-1 rounded-full px-3 py-1 transition",
               !detail
                 ? "bg-brand text-white dark:text-zinc-950"
-                : "text-zinc-600 dark:text-zinc-300",
+                : "text-muted",
             )}
           >
             부위
@@ -89,7 +89,7 @@ export function MuscleBalance3D({
               "flex-1 rounded-full px-3 py-1 transition",
               detail
                 ? "bg-brand text-white dark:text-zinc-950"
-                : "text-zinc-600 dark:text-zinc-300",
+                : "text-muted",
             )}
           >
             세부근육

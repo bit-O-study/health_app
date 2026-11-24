@@ -15,7 +15,7 @@ export function WatchConnections() {
   }
   return <section className="app-card space-y-3 p-3" data-testid="watch-connections">
     <h2 className="font-semibold">Apple Watch · Galaxy Watch</h2>
-    <p className="text-sm text-zinc-600 dark:text-zinc-300">워치 기록을 휴대폰의 건강 앱에서 가져와요.<br />필요한 항목만 골라 허용해 주세요.</p>
+    <p className="text-sm text-muted">워치 기록을 휴대폰의 건강 앱에서 가져와요.<br />필요한 항목만 골라 허용해 주세요.</p>
     <details className="text-sm">
       <summary className="cursor-pointer py-2">워치 연결 방법</summary>
       <p className="py-1">Apple Watch: iPhone 건강 앱에 기록이 나타나는지 확인한 뒤 아래 항목을 선택하세요.</p>

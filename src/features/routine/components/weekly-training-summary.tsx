@@ -79,21 +79,21 @@ export function WeeklyTrainingSummary({
             className="min-w-0 text-center"
             title={`${r.label} ${r.sets}세트 · ${VOLUME_LABEL[r.status]} (권장 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX})`}
           >
-            <span className="block truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="block truncate text-xs font-semibold text-muted">
               {r.label}
             </span>
             <span
               className="mt-0.5 block h-1.5 w-full rounded-full"
               style={{ backgroundColor: VOLUME_COLOR[r.status] }}
             />
-            <span className="mt-0.5 block text-xs font-bold tabular-nums text-zinc-600 dark:text-zinc-300">
+            <span className="mt-0.5 block text-xs font-bold tabular-nums text-muted">
               {r.sets}
             </span>
           </li>
         ))}
       </ul>
 
-      <p className="mt-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+      <p className="mt-2 text-xs font-semibold text-muted">
         {untouched.length > 0 ? (
           <span className="text-rose-600 dark:text-rose-400">
             {untouched.map((r) => r.label).join("·")} 0세트
@@ -108,7 +108,7 @@ export function WeeklyTrainingSummary({
           </span>
         )}
         {stalledCount > 0 ? (
-          <span className="ml-1.5 text-zinc-500 dark:text-zinc-400">
+          <span className="ml-1.5 text-muted">
             · 무게 정체 {stalledCount}종목
           </span>
         ) : null}

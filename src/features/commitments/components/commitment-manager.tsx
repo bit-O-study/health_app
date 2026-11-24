@@ -44,7 +44,7 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                     )}
                     {c.title}
                   </p>
-                  <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">
+                  <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
                     <CalendarClock aria-hidden="true" size={11} />
                     {c.startDate} ~ {c.deadline}
                   </p>
@@ -54,14 +54,14 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                   aria-label="다짐 삭제"
                   onClick={() => remove(c.id)}
                   disabled={pending}
-                  className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                  className="flex relative h-8 w-8 after:absolute after:-inset-1.5 after:content-[''] shrink-0 items-center justify-center rounded-full text-muted transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
               </div>
               <div className="mt-3">
                 <div className="mb-1 flex items-end justify-between text-xs">
-                  <span className="font-semibold text-zinc-600 dark:text-zinc-400">
+                  <span className="font-semibold text-muted">
                     {c.metricLabel}
                     {p.done ? (
                       <span className="ml-1 font-semibold text-brand">달성 ✓</span>

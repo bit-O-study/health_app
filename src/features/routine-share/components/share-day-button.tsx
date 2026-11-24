@@ -106,7 +106,7 @@ function ShareDaySheet({
             <p className="text-base font-bold text-zinc-950 dark:text-zinc-50">
               소개글을 올렸어요
             </p>
-            <p className="text-sm text-zinc-600 dark:text-zinc-300">
+            <p className="text-sm text-muted">
               커뮤니티 › <strong>루틴</strong> 에서 볼 수 있어요.
             </p>
             <button
@@ -122,7 +122,7 @@ function ShareDaySheet({
             <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
               이 일차를 소개하기
             </h3>
-            <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 text-xs leading-5 text-muted">
               운동 순서·세트·횟수·메모가 그대로 올라가요. 올린 뒤 루틴을 고쳐도 이 글은
               바뀌지 않아요.
             </p>
@@ -169,7 +169,7 @@ function ShareDaySheet({
               />
               <span>
                 <strong>내 무게도 같이 올리기</strong>
-                <span className="block text-zinc-500 dark:text-zinc-400">
+                <span className="block text-muted">
                   기본은 안 올려요 — 무게는 사람마다 달라서, 받는 쪽이 자기 무게로 시작하는 게 안전해요.
                 </span>
               </span>

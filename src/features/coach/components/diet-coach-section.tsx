@@ -18,7 +18,7 @@ function Bar({ label, value, target, unit }: { label: string; value: number; tar
   const pct = pctOf(value, target);
   return (
     <div className="space-y-1">
-      <div className="flex items-baseline justify-between text-xs text-zinc-600 dark:text-zinc-300">
+      <div className="flex items-baseline justify-between text-xs text-muted">
         <span>{label}</span>
         <span className="tabular-nums">
           {value.toLocaleString("ko-KR")} / {target.toLocaleString("ko-KR")}

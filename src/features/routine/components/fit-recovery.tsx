@@ -33,7 +33,7 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
     <section className="app-card space-y-2.5 p-4" data-testid="fit-recovery">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">부위별 회복</h2>
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">{tired === 0 ? "다 회복됐어요" : `${tired}곳 회복 중`}</span>
+        <span className="text-xs text-muted">{tired === 0 ? "다 회복됐어요" : `${tired}곳 회복 중`}</span>
       </div>
       <ul className="space-y-2.5">
         {sorted.map((r) => {
@@ -46,16 +46,16 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
                 <div className="h-1.5 min-w-0 flex-1 self-center overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]" aria-hidden="true">
                   <div className={`h-full rounded-full ${done ? "bg-brand" : low ? "bg-warn" : "bg-brand/50"}`} style={{ width: `${Math.max(4, r.pct)}%` }} />
                 </div>
-                <span className={`w-20 shrink-0 text-right tabular-nums ${done ? "text-brand" : low ? "font-semibold text-warn" : "text-zinc-500 dark:text-zinc-400"}`}>
+                <span className={`w-20 shrink-0 text-right tabular-nums ${done ? "text-brand" : low ? "font-semibold text-warn" : "text-muted"}`}>
                   {done ? "회복됨" : `${r.pct}% · ${r.hoursLeft}시간`}
                 </span>
               </div>
               {!done ? (
-                <p className="pl-11 text-xs text-zinc-500 dark:text-zinc-400" data-testid={`fit-recovery-why-${r.part}`}>
+                <p className="pl-11 text-xs text-muted" data-testid={`fit-recovery-why-${r.part}`}>
                   {recoveryReason(r)}
                 </p>
               ) : r.easy ? (
-                <p className="pl-11 text-xs text-zinc-500 dark:text-zinc-400" data-testid={`fit-recovery-easy-${r.part}`}>
+                <p className="pl-11 text-xs text-muted" data-testid={`fit-recovery-easy-${r.part}`}>
                   {whenText(r.easy.at)} · {loadText(r.easy.loadPct)} · 가볍게 해서 회복이 필요 없어요
                 </p>
               ) : null}
@@ -63,7 +63,7 @@ export function FitRecovery({ rows }: { rows: RecoveryRow[] }) {
           );
         })}
       </ul>
-      <p className="sentences text-xs leading-5 text-zinc-400">
+      <p className="sentences text-xs leading-5 text-muted">
         <span>내 기록(종목별 최대 무게·평소 하던 양)과 골격근량에 견줘, 얼마나 힘들게 했는지로 계산해요.</span>
         <span>평소의 4분의 1이 안 되면 회복이 필요 없어요.</span>
         <span>작은 근육(팔·어깨·코어)은 빨리, 하체는 오래 걸리고 덜 풀린 채 또 하면 더 길어져요.</span>

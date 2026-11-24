@@ -152,24 +152,24 @@ function AuthorSheet({
           <div className="min-w-0 flex-1">
             <h3 className="truncate text-lg font-bold">{name}</h3>
             {profile ? (
-              <p className="text-sm text-zinc-500 dark:text-zinc-400" data-testid="author-stats">
+              <p className="text-sm text-muted" data-testid="author-stats">
                 이번 달 글 <b className="text-zinc-900 dark:text-zinc-100">{profile.monthPosts}</b>개 · 채택된 답변{" "}
                 <b className="text-zinc-900 dark:text-zinc-100">{profile.acceptedAnswers}</b>개
               </p>
             ) : null}
           </div>
-          <button type="button" aria-label="닫기" onClick={() => !pending && onClose()} className="self-start rounded-full p-1 text-zinc-400">
+          <button type="button" aria-label="닫기" onClick={() => !pending && onClose()} className="self-start rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
 
         <div className="mt-4">
           {profile === undefined ? (
-            <p className="flex justify-center py-8 text-zinc-400">
+            <p className="flex justify-center py-8 text-muted">
               <Loader2 aria-label="불러오는 중" size={20} className="animate-spin" />
             </p>
           ) : !profile || profile.posts.length === 0 ? (
-            <p className="py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">볼 수 있는 글이 없어요</p>
+            <p className="py-8 text-center text-sm text-muted">볼 수 있는 글이 없어요</p>
           ) : (
             <ul className="grid grid-cols-3 gap-1" data-testid="author-posts">
               {profile.posts.map((p) => (
@@ -193,7 +193,7 @@ function AuthorSheet({
               ))}
             </ul>
           )}
-          <p className="mt-2 text-xs text-zinc-400">내가 볼 수 있는 글만 보여요.<br />몸무게·신체 정보는 보이지 않아요.</p>
+          <p className="mt-2 text-xs text-muted">내가 볼 수 있는 글만 보여요.<br />몸무게·신체 정보는 보이지 않아요.</p>
         </div>
 
         {!isMine && blockTarget ? (

@@ -61,7 +61,7 @@ export default async function ExportPage() {
                     <span className="block truncate text-base text-zinc-900 dark:text-zinc-100">
                       {meta.label}
                     </span>
-                    <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="block truncate text-xs text-muted">
                       {meta.description}
                     </span>
                   </span>
@@ -72,7 +72,7 @@ export default async function ExportPage() {
               );
             })}
           </div>
-          <p className="mt-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1.5 px-1 text-xs text-muted">
             CSV 는 엑셀·구글시트에서 바로 열립니다.
           </p>
         </section>
@@ -85,7 +85,7 @@ export default async function ExportPage() {
           </p>
         </section>
         <ScopeList title="일부러 빼는 것" items={excluded} />
-        <p className="-mt-2 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="-mt-2 px-1 text-xs text-muted">
           내 계정 기록만 담기고 서버에 파일을 남기지 않아요. 사진은 경로만 담깁니다.
         </p>
 
@@ -97,7 +97,7 @@ export default async function ExportPage() {
             계정을 삭제하면 기록이 <b className="font-semibold text-danger">되돌릴 수 없게</b> 사라져요
           </span>
           <span className="shrink-0 font-semibold text-brand">계정 삭제 안내 보기</span>
-          <ChevronRight aria-hidden="true" size={16} className="-ml-1 shrink-0 text-zinc-400" />
+          <ChevronRight aria-hidden="true" size={16} className="-ml-1 shrink-0 text-muted" />
         </Link>
       </main>
     </div>
@@ -118,7 +118,7 @@ function ScopeList({
         {items.map((s) => (
           <li key={s.table} className="px-3 py-2">
             <p className="text-sm text-zinc-900 dark:text-zinc-100">{s.label}</p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">{s.reason}</p>
+            <p className="text-xs text-muted">{s.reason}</p>
           </li>
         ))}
       </ul>

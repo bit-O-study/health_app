@@ -255,7 +255,7 @@ export function BodyCompForm({
       <section>
         <h2 className="app-section-label">체성분 분석지 등록</h2>
         <label className="app-card block space-y-1 p-3">
-          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs font-medium text-muted">
             측정일
           </span>
           <input
@@ -273,7 +273,7 @@ export function BodyCompForm({
           <div className="app-card grid grid-cols-2 gap-x-2 gap-y-2.5 p-3 sm:grid-cols-3">
             {sec.fields.map((f) => (
               <label key={f.key} className="min-w-0 space-y-1">
-                <span className="block truncate text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                <span className="block truncate text-xs font-medium text-muted">
                   {f.label} ({f.unit})
                 </span>
                 <input
@@ -333,7 +333,7 @@ export function BodyCompForm({
           ) : null}
         </div>
         {scanMode ? null : (
-          <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400" data-testid="body-comp-no-ai">
+          <p className="mt-2 text-xs text-muted" data-testid="body-comp-no-ai">
             {inApp
               ? "앱을 최신 버전으로 업데이트하면 사진에서 숫자를 자동으로 읽어요. 지금은 숫자를 직접 입력해 주세요."
               : "사진에서 숫자 자동 읽기는 앱에서 돼요. 웹에서는 숫자를 직접 입력해 주세요."}
@@ -342,7 +342,7 @@ export function BodyCompForm({
 
         {ocrRunning ? (
           <div className="mt-3 space-y-1">
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">
+            <p className="text-xs text-muted">
               {ocrPhase}
               {ocrProgress > 0 ? ` ${ocrProgress}%` : ""}
             </p>
@@ -353,7 +353,7 @@ export function BodyCompForm({
               />
             </div>
             {scanMode === "ai" ? (
-              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              <p className="text-xs text-muted">
                 첫 실행은 30초쯤 걸려요.
               </p>
             ) : null}
@@ -365,7 +365,7 @@ export function BodyCompForm({
             업로드 완료 · {imagePath.split("/").pop()}
           </p>
         ) : hasExistingImage ? (
-          <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-2 text-xs text-muted">
             이전 분석지 사진이 등록돼 있어요.
           </p>
         ) : null}
@@ -390,7 +390,7 @@ export function BodyCompForm({
             {ocrMsg.text}
           </p>
         ) : null}
-        <p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
+        <p className="mt-2 text-xs text-muted">
           {scanMode === "device"
             ? "사진은 비공개로 저장되고, 숫자는 이 폰 안에서 읽어 외부로 보내지 않아요 · 최대 10MB"
             : "사진은 비공개로 저장되며 자동 추출 시 AI 서버로 전송됩니다 · 최대 10MB"}
@@ -402,7 +402,7 @@ export function BodyCompForm({
         <p className="font-semibold text-zinc-900 dark:text-zinc-100">
           민감정보(건강) 수집·이용 동의
         </p>
-        <ul className="mt-1 list-disc pl-5 text-xs text-zinc-600 dark:text-zinc-400">
+        <ul className="mt-1 list-disc pl-5 text-xs text-muted">
           <li>
             수집 항목: 측정일, 체중, 골격근량, 체지방률·량, 부위별 근육·지방
             수치, 분석지 사진

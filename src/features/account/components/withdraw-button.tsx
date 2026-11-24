@@ -119,7 +119,7 @@ export function WithdrawButton() {
                   <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
                     떠나시는 이유를 알려주세요
                   </h3>
-                  <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-muted">
                     더 나은 헬쑤를 만드는 데 큰 도움이 됩니다.
                   </p>
                   <div className="mt-4 space-y-2">

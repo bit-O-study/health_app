@@ -238,7 +238,7 @@ export default async function CalendarPage({
             <div
               key={w}
               className={`pb-1 text-center text-xs ${
-                i === 6 ? "text-danger" : "text-zinc-400 dark:text-zinc-500"
+                i === 6 ? "text-danger" : "text-muted"
               }`}
             >
               {w}
@@ -336,12 +336,12 @@ export default async function CalendarPage({
                     {holiday.name}
                   </span>
                 ) : bok ? (
-                  <span className="w-full truncate text-center text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                  <span className="w-full truncate text-center text-xs leading-4 text-muted">
                     {bok.name}
                   </span>
                 ) : null}
                 {s && s.intake > 0 ? (
-                  <span className="text-xs leading-4 tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="text-xs leading-4 tabular-nums text-muted">
                     +{s.intake}
                   </span>
                 ) : null}
@@ -356,7 +356,7 @@ export default async function CalendarPage({
                   </span>
                 ) : null}
                 {plan?.label ? (
-                  <span data-testid="planned" className="w-full truncate text-center text-xs leading-4 text-zinc-400 dark:text-zinc-500">
+                  <span data-testid="planned" className="w-full truncate text-center text-xs leading-4 text-muted">
                     {plan.label}
                   </span>
                 ) : null}
@@ -414,9 +414,9 @@ function WeightRow({
         href="/settings/profile"
         className="app-row text-sm transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
       >
-        <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
+        <span className="flex-1 text-muted">체중 기록이 없어요</span>
         <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
-        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-muted" />
       </Link>
     );
   }
@@ -428,20 +428,20 @@ function WeightRow({
     ? "text-brand"
     : up
       ? "text-danger"
-      : "text-zinc-500 dark:text-zinc-400";
+      : "text-muted";
   return (
     <div className="app-row justify-between">
-      <span className="flex items-baseline gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
+      <span className="flex items-baseline gap-1.5 text-sm text-muted">
         현재 체중
         {measuredAt ? (
-          <span className="whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500">
+          <span className="whitespace-nowrap text-xs text-muted">
             {shortDateLabel(measuredAt)} 측정
           </span>
         ) : null}
       </span>
       <span className="flex items-center gap-2">
         {d === null ? (
-          <span className="text-xs font-semibold text-zinc-400">첫 기록</span>
+          <span className="text-xs font-semibold text-muted">첫 기록</span>
         ) : (
           <span className={`flex items-center gap-0.5 text-xs font-semibold tabular-nums ${toneCls}`}>
             {down ? (
@@ -454,7 +454,7 @@ function WeightRow({
         )}
         <span className="whitespace-nowrap text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
           {delta.latestKg.toLocaleString()}
-          <span className="ml-0.5 text-xs font-medium text-zinc-400">kg</span>
+          <span className="ml-0.5 text-xs font-medium text-muted">kg</span>
         </span>
       </span>
     </div>
@@ -473,10 +473,10 @@ function SummaryStat({
 }) {
   return (
     <div className="min-w-0 px-2 text-center">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {value.toLocaleString()}
-        <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+        <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
       </p>
     </div>
   );
@@ -490,17 +490,17 @@ function SummaryStat({
 function BalanceStat({ balance }: { balance: CalorieBalance }) {
   const tone =
     balance.loggedDays === 0 || balance.direction === "even"
-      ? "text-zinc-500 dark:text-zinc-400"
+      ? "text-muted"
       : balance.direction === "loss"
         ? "text-brand"
         : "text-warn";
   return (
     <div className="min-w-0 px-2 text-center" data-testid="calorie-balance">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">칼로리 수지</p>
+      <p className="truncate text-xs text-muted">칼로리 수지</p>
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {balance.loggedDays === 0 ? "—" : signedKcal(balance.netKcal)}
         {balance.loggedDays === 0 ? null : (
-          <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+          <span className="ml-0.5 text-xs font-medium text-muted">kcal</span>
         )}
       </p>
       <p className={`truncate text-xs font-semibold ${tone}`}>{directionLabel(balance)}</p>
@@ -519,7 +519,7 @@ function BalanceNote({
   bmrPerDay: number;
 }) {
   return (
-    <p className="px-4 pb-2.5 text-xs leading-5 text-zinc-500 dark:text-zinc-400" data-testid="calorie-balance-note">
+    <p className="px-4 pb-2.5 text-xs leading-5 text-muted" data-testid="calorie-balance-note">
       {balance.loggedDays === 0
         ? `식단을 기록한 날의 먹은 양 − (기초대사량 ${bmrPerDay.toLocaleString()}kcal/일 + 운동 + 걷기)로 계산해요.`
         : `식단 기록한 ${balance.loggedDays}일 기준 · 기초대사량 ${bmrPerDay.toLocaleString()}kcal/일 포함`}
@@ -538,7 +538,7 @@ function CalendarLegend({ showCycle }: { showCycle: boolean }) {
     <ul
       aria-label="달력 표시 뜻"
       data-testid="calendar-legend"
-      className="mt-3 flex flex-wrap justify-center gap-x-3 gap-y-1 border-t border-[var(--line)] px-2 pt-2.5 text-xs text-zinc-500 dark:text-zinc-400"
+      className="mt-3 flex flex-wrap justify-center gap-x-3 gap-y-1 border-t border-[var(--line)] px-2 pt-2.5 text-xs text-muted"
     >
       <li className={item}><span className="tabular-nums">+</span>먹은 kcal</li>
       <li className={item}><span className="tabular-nums text-brand">−</span>움직인 kcal(운동+걷기)</li>
@@ -546,7 +546,7 @@ function CalendarLegend({ showCycle }: { showCycle: boolean }) {
       <li className={item}><Footprints aria-hidden="true" size={11} style={{ color: "var(--info)" }} />런닝 거리</li>
       <li className={item}><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />체중 잰 날</li>
       <li className={item}><span aria-hidden="true" className="inline-flex gap-px"><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[1]}`} /><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[2]}`} /><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[3]}`} /></span>진할수록 운동 많이</li>
-      <li className={item}><span className="text-zinc-400 dark:text-zinc-500">회색 글자</span>예정 루틴</li>
+      <li className={item}><span className="text-muted">회색 글자</span>예정 루틴</li>
       <li className={item}><span className="font-bold"><span className="text-brand">○</span><span className="text-amber-500">△</span><span className="text-rose-400">✕</span></span>다짐 달성</li>
       {showCycle ? (
         <li className={item}><Heart aria-hidden="true" size={10} className="fill-rose-500 text-rose-500" />생리·예정</li>
@@ -611,7 +611,7 @@ function WeekList({
               className="flex items-center gap-3 py-2.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
             >
               <span className="w-10 shrink-0 text-center">
-                <span className={`block text-xs ${red ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>
+                <span className={`block text-xs ${red ? "text-danger" : "text-muted"}`}>
                   {WEEKDAYS[i]}
                 </span>
                 <span
@@ -629,7 +629,7 @@ function WeekList({
               <span className="min-w-0 flex-1 space-y-1">
                 {holiday ? <span className="block truncate text-xs text-danger">{holiday.name}</span> : null}
                 {!s && planFor(date)?.label ? (
-                  <span data-testid="planned" className="block truncate text-xs text-zinc-400 dark:text-zinc-500">
+                  <span data-testid="planned" className="block truncate text-xs text-muted">
                     예정 · {planFor(date)!.label}
                   </span>
                 ) : null}
@@ -640,7 +640,7 @@ function WeekList({
                       style={{ width: pct(s?.intake ?? 0) }}
                     />
                   </span>
-                  <span className="w-14 shrink-0 text-right text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="w-14 shrink-0 text-right text-xs tabular-nums text-muted">
                     {s && s.intake > 0 ? `+${s.intake.toLocaleString()}` : "—"}
                   </span>
                 </span>

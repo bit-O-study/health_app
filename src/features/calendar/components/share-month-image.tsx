@@ -100,7 +100,7 @@ export function ShareMonthImage({
                 type="button"
                 aria-label="닫기"
                 onClick={() => setOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-muted active:bg-zinc-100 dark:active:bg-white/[0.06]"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -133,7 +133,7 @@ export function ShareMonthImage({
                 공유하기
               </button>
             ) : state.kind === "ready" ? (
-              <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-center text-xs text-muted">
                 화면을 캡처해서 친구에게 보내 보세요.
               </p>
             ) : null}

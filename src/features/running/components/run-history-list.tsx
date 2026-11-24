@@ -26,7 +26,7 @@ export function RunHistoryList({
   emptyText?: string;
 }) {
   if (rows.length === 0) {
-    return <p className="px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">{emptyText}</p>;
+    return <p className="px-3 py-2.5 text-sm text-muted">{emptyText}</p>;
   }
 
   return (
@@ -48,7 +48,7 @@ export function RunHistoryList({
                   {formatRunKm(row.distanceM)}km
                 </span>
               </div>
-              <p className="mt-0.5 flex gap-3 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+              <p className="mt-0.5 flex gap-3 text-xs tabular-nums text-muted">
                 <span>{formatRunDuration(row.durationSec)}</span>
                 <span>{formatRunPaceShort(row.paceSecPerKm)}</span>
               </p>

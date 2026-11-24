@@ -148,7 +148,7 @@ export default async function FitPage({
                   <div key={r.sub} className="space-y-1">
                     <div className="flex items-center justify-between gap-1 text-xs">
                       <span className="truncate text-zinc-800 dark:text-zinc-100">{subLabel(r.sub)}</span>
-                      <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+                      <span className="shrink-0 tabular-nums text-muted">
                         {fmtSets(r.stim)}/{fmtSets(r.target)}세트
                       </span>
                     </div>
@@ -158,9 +158,9 @@ export default async function FitPage({
                   </div>
                 ))
               ) : (
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">모자란 근육이 없어요</p>
+                <p className="text-xs text-muted">모자란 근육이 없어요</p>
               )}
-              <p className="text-xs text-zinc-400">점선 = 이번 주 목표 · 그림을 누르면 자세히</p>
+              <p className="text-xs text-muted">점선 = 이번 주 목표 · 그림을 누르면 자세히</p>
             </div>
           </div>
         </section>
@@ -181,7 +181,7 @@ export default async function FitPage({
               오늘 운동 하러 가기
             </Link>
             {full ? (
-              <Link href="/fit?more=1" className="inline-block text-xs font-semibold text-zinc-500 dark:text-zinc-400" data-testid="fit-more">
+              <Link href="/fit?more=1" className="inline-block text-xs font-semibold text-muted" data-testid="fit-more">
                 더 추천 받기
               </Link>
             ) : null}
@@ -195,7 +195,7 @@ export default async function FitPage({
         {/* 늘고 있는 것 — 성장 · 이번 달. 누르면 기록 탭. */}
         <div className="grid grid-cols-2 gap-3" data-testid="fit-tiles">
           <Link href="/fit/report" className="app-card app-press min-w-0 space-y-0.5 p-3.5" data-testid="fit-tile-growth">
-            <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="block truncate text-xs text-muted">
               성장{tile ? ` · ${tile.name}` : ""}
             </span>
             {tile ? (
@@ -213,7 +213,7 @@ export default async function FitPage({
             )}
           </Link>
           <Link href="/fit/report" className="app-card app-press min-w-0 space-y-0.5 p-3.5" data-testid="fit-tile-month">
-            <span className="flex items-center text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="flex items-center text-xs text-muted">
               {month ? `${month.m}월` : "이번 달"}
               <ChevronRight aria-hidden="true" size={13} className="ml-auto" />
             </span>
@@ -222,7 +222,7 @@ export default async function FitPage({
                 <b className="block text-base tabular-nums text-zinc-900 dark:text-zinc-100">
                   {month.t.days}일 · {shortVolume(month.t.volumeKg)}
                 </b>
-                <span className="block text-xs font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+                <span className="block text-xs font-semibold tabular-nums text-muted">
                   {month.t.volumeKg > month.l.volumeKg ? (
                     <span className="text-brand">▲ {shortVolume(month.t.volumeKg - month.l.volumeKg)}</span>
                   ) : (

@@ -238,7 +238,7 @@ export function ConditioningEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           등록된 항목이 없습니다.
         </p>
       ) : (
@@ -281,7 +281,7 @@ export function ConditioningEditor({
                           placeholder={PARAM_LABEL[p]}
                           className="h-8 w-16 rounded border app-field px-2 text-center text-sm"
                         />
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="text-xs text-muted">
                           {PARAM_UNIT[p]}
                         </span>
                       </span>
@@ -292,7 +292,7 @@ export function ConditioningEditor({
                   type="button"
                   aria-label="삭제"
                   onClick={() => update(rows.filter((_, i) => i !== idx))}
-                  className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
+                  className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-md text-muted transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
@@ -303,7 +303,7 @@ export function ConditioningEditor({
       )}
 
       {!lockWeightReps && rows.length > 0 ? (
-        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-2 text-xs text-muted">
           시간·속도·경사는 <b>운동 모드</b>에서 그때그때 설정해요. (설정 ▸ 무게·횟수
           고정을 켜면 여기서 직접 입력)
         </p>
@@ -322,7 +322,7 @@ export function ConditioningEditor({
           저장
         </button>
         {msg ? (
-          <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+          <span className="text-xs font-medium text-muted">
             {msg}
           </span>
         ) : null}

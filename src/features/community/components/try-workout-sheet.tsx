@@ -78,7 +78,7 @@ export function TryWorkoutSheet({ postId, onClose }: { postId: string; onClose: 
       >
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-base font-bold">오늘 운동에 담기</h3>
-          <button type="button" aria-label="닫기" onClick={() => !pending && onClose()} className="rounded-full p-1 text-zinc-400">
+          <button type="button" aria-label="닫기" onClick={() => !pending && onClose()} className="rounded-full p-1 text-muted">
             <X size={20} />
           </button>
         </div>
@@ -93,7 +93,7 @@ export function TryWorkoutSheet({ postId, onClose }: { postId: string; onClose: 
             </Link>
           </div>
         ) : items === null ? (
-          <p className="flex justify-center py-8 text-zinc-400">
+          <p className="flex justify-center py-8 text-muted">
             <Loader2 aria-label="불러오는 중" size={20} className="animate-spin" />
           </p>
         ) : (
@@ -120,7 +120,7 @@ export function TryWorkoutSheet({ postId, onClose }: { postId: string; onClose: 
                         {on ? <Check size={14} strokeWidth={3} /> : null}
                       </span>
                       <span className="min-w-0 flex-1 break-words">{it.name}</span>
-                      <span className="shrink-0 text-xs text-zinc-400">
+                      <span className="shrink-0 text-xs text-muted">
                         {it.status === "already" ? "이미 있어요" : it.status === "unknown" ? "담을 수 없어요" : it.sets ? `${it.sets}세트` : ""}
                       </span>
                     </button>

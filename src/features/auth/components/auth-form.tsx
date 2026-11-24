@@ -245,7 +245,7 @@ export function AuthForm({
               "h-11 rounded-lg text-sm font-semibold transition",
               mode === m
                 ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
-                : "text-zinc-500 dark:text-zinc-400",
+                : "text-muted",
             )}
           >
             {m === "login" ? "로그인" : "회원가입"}
@@ -273,7 +273,7 @@ export function AuthForm({
             </div>
             <div>
               <label className={labelCls} htmlFor="nickname">
-                닉네임 <span className="font-normal text-zinc-400">(선택)</span>
+                닉네임 <span className="font-normal text-muted">(선택)</span>
               </label>
               <input
                 id="nickname"
@@ -288,7 +288,7 @@ export function AuthForm({
             </div>
             <div>
               <label className={labelCls} htmlFor="phone">
-                전화번호 <span className="font-normal text-zinc-400">(선택)</span>
+                전화번호 <span className="font-normal text-muted">(선택)</span>
               </label>
               <input
                 id="phone"
@@ -349,7 +349,7 @@ export function AuthForm({
 
       <div className="my-4 flex items-center gap-3">
         <div className="h-px flex-1 bg-[var(--line)]" />
-        <span className="text-xs text-zinc-400 dark:text-zinc-500">또는</span>
+        <span className="text-xs text-muted">또는</span>
         <div className="h-px flex-1 bg-[var(--line)]" />
       </div>
 
@@ -384,7 +384,7 @@ export function AuthForm({
       </div>
 
       {mode === "login" ? (
-        <div className="mt-3 flex items-center justify-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="mt-3 flex items-center justify-center gap-3 text-sm text-muted">
           <Link href="/find-id" className="px-1 py-2 transition active:opacity-60">
             아이디 찾기
           </Link>

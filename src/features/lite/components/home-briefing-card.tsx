@@ -62,7 +62,7 @@ export function HomeBriefingCard({ briefing: b }: { briefing: Briefing }) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">{b.text}</span>
-        <span className="block text-xs text-zinc-500 dark:text-zinc-400">{b.sub}</span>
+        <span className="block text-xs text-muted">{b.sub}</span>
       </span>
       <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-300 dark:text-zinc-600" />
     </Link>

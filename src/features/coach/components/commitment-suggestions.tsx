@@ -81,7 +81,7 @@ export function CommitmentSuggestions({
           <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
             AI 다짐 짜주기
           </h2>
-          <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs leading-5 text-muted">
             {description}
           </p>
         </div>
@@ -121,7 +121,7 @@ export function CommitmentSuggestions({
                   <p className="truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
                     {s.title}
                   </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-muted">
                     {meta.label} {s.target.toLocaleString()}
                     {meta.unit} · {s.days}일
                   </p>

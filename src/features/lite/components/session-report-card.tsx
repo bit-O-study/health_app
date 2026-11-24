@@ -30,12 +30,12 @@ export async function SessionReportCard() {
     <section className="app-card space-y-3 p-4" data-testid="session-report">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">오늘 운동 리포트</h2>
-        {full ? <span className="text-xs text-zinc-500 dark:text-zinc-400">이번 주 {r.weekDays}일째</span> : null}
+        {full ? <span className="text-xs text-muted">이번 주 {r.weekDays}일째</span> : null}
       </div>
       <p className="text-sm tabular-nums text-zinc-700 dark:text-zinc-200">
         {r.exercises}개 · {r.sets}세트{r.volumeKg > 0 ? ` · ${shortVolume(r.volumeKg)}` : ""}
         {full && r.mainPart && diff !== null && r.lastSamePart ? (
-          <span className={diff >= 0 ? "font-semibold text-brand" : "text-zinc-500 dark:text-zinc-400"} data-testid="session-report-vs">
+          <span className={diff >= 0 ? "font-semibold text-brand" : "text-muted"} data-testid="session-report-vs">
             {" "}· 지난 {BODY_PART_LABEL[r.mainPart as BodyPart]} 날({md(r.lastSamePart.date)})보다 {diff >= 0 ? "▲" : "▼"} {shortVolume(Math.abs(diff))}
           </span>
         ) : null}
@@ -58,16 +58,16 @@ export async function SessionReportCard() {
                 <li key={c.exerciseId} className="space-y-0.5 py-1.5">
                   <div className="flex items-baseline gap-2 text-sm">
                     <span className="min-w-0 flex-1 truncate text-zinc-800 dark:text-zinc-100">{name(c.exerciseId)}</span>
-                    <span className="shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+                    <span className="shrink-0 tabular-nums text-muted">
                       {c.prev ? `${kgReps(c.prev)} → ` : ""}<b className="text-zinc-900 dark:text-zinc-100">{kgReps(c.now)}</b>
                     </span>
-                    <span className={`w-20 shrink-0 text-right text-xs font-semibold tabular-nums ${c.better ? "text-brand" : "text-zinc-400"}`}>
+                    <span className={`w-20 shrink-0 text-right text-xs font-semibold tabular-nums ${c.better ? "text-brand" : "text-muted"}`}>
                       {compareText(c)}
                     </span>
                   </div>
                   {/* 맨몸 운동(볼륨 0)은 '볼륨 0kg(±0kg)' 같은 빈 숫자를 보이지 않는다(2026-10-08 검토). */}
                   {c.prevDate && c.prevVolumeKg != null && (c.nowVolumeKg > 0 || c.prevVolumeKg > 0) ? (
-                    <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400" data-testid={`session-report-detail-${c.exerciseId}`}>
+                    <p className="text-xs tabular-nums text-muted" data-testid={`session-report-detail-${c.exerciseId}`}>
                       지난번 {md(c.prevDate)} 대비 · 볼륨 {shortVolume(c.nowVolumeKg)}({signedKg(c.nowVolumeKg - c.prevVolumeKg)})
                       {c.nowOneRmKg > 0 && c.prevOneRmKg ? ` · 예상 최대 ${c.nowOneRmKg}kg(${signedNum(c.nowOneRmKg - c.prevOneRmKg)})` : ""}
                     </p>
@@ -84,7 +84,7 @@ export async function SessionReportCard() {
           ) : null}
         </>
       ) : (
-        <Link href="/settings/subscription" className="flex items-center gap-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400" data-testid="session-report-locked">
+        <Link href="/settings/subscription" className="flex items-center gap-1.5 text-xs font-semibold text-muted" data-testid="session-report-locked">
           <Lock aria-hidden="true" size={12} /> 지난번 대비 · 신기록 · 이번 주 기록은 라이트(월 990원)에서
         </Link>
       )}

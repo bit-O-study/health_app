@@ -77,7 +77,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
         </section>
       </div>
 
-      <p className="mt-4 text-center text-xs text-zinc-400">
+      <p className="mt-4 text-center text-xs text-muted">
         AI 분석은 참고용이에요. 통증이 있으면 전문가와 상담하세요.
       </p>
     </main>

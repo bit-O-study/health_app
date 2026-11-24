@@ -115,7 +115,7 @@ export function BodyLogForm({
         </div>
       ) : null}
 
-      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-muted">
         입력한 항목만 기록됩니다. 체형 정보와 추천에 바로 반영돼요.
       </p>
       <div className="mt-3 flex items-center gap-3">

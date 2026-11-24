@@ -103,7 +103,7 @@ export function EquipmentScanner() {
               </h2>
             </div>
             {analysis.equipmentNameEn ? (
-              <p className="text-xs text-zinc-500">{analysis.equipmentNameEn}</p>
+              <p className="text-xs text-muted">{analysis.equipmentNameEn}</p>
             ) : null}
             <p className="mt-0.5 text-xs font-semibold text-warn">
               {CONFIDENCE_LABEL[analysis.confidence] ?? analysis.confidence}
@@ -115,7 +115,7 @@ export function EquipmentScanner() {
             ) : null}
             {analysis.muscles.length > 0 ? (
               <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                <Target aria-hidden="true" size={14} className="text-zinc-400" />
+                <Target aria-hidden="true" size={14} className="text-muted" />
                 {analysis.muscles.map((m) => (
                   <span
                     key={m}
@@ -151,7 +151,7 @@ export function EquipmentScanner() {
                                 {ex.name}
                               </p>
                               {ex.description ? (
-                                <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                                <p className="mt-0.5 text-xs leading-5 text-muted">
                                   {ex.description}
                                 </p>
                               ) : null}
@@ -182,7 +182,7 @@ export function EquipmentScanner() {
                             {ex.name}
                           </p>
                           {ex.description ? (
-                            <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                            <p className="mt-0.5 text-xs leading-5 text-muted">
                               {ex.description}
                             </p>
                           ) : null}

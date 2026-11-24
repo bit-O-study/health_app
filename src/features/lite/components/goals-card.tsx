@@ -58,13 +58,13 @@ export function GoalsCard({ view }: { view: GoalsView }) {
           <Target aria-hidden="true" size={16} className="text-brand" />
           내 목표
         </h2>
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+        <span className="text-xs text-muted">
           {view.active}/{view.limit}개
         </span>
       </div>
 
       {view.goals.length === 0 && !open ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-300">
+        <p className="text-sm text-muted">
           &ldquo;벤치프레스 100kg · 3개월&rdquo;처럼 목표를 정하면 지금 어디쯤인지, 언제 닿을지 알려 드려요.
         </p>
       ) : null}
@@ -90,7 +90,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
               >
                 <div className="h-full rounded-full bg-brand" style={{ width: `${p.pct}%` }} />
               </div>
-              <div className="flex items-start justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="flex items-start justify-between gap-2 text-xs text-muted">
                 <span data-testid={`goal-line-${g.exerciseId}`}>
                   <b className="text-zinc-700 dark:text-zinc-200">{p.pct}%</b>
                   {p.achieved
@@ -114,7 +114,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
                     onClick={() => remove(g.id)}
                     disabled={pending}
                     aria-label={`${g.name} 목표 지우기`}
-                    className="shrink-0 rounded-full p-1 text-zinc-400 hover:text-danger"
+                    className="shrink-0 rounded-full p-1 text-muted hover:text-danger"
                   >
                     <Trash2 aria-hidden="true" size={14} />
                   </button>
@@ -126,7 +126,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
       </ul>
 
       {!view.full && view.goals.length > 0 ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           라이트에서 목표 3개 + 예상 도달일·필요 속도를 볼 수 있어요.{" "}
           <Link href="/settings/subscription" className="font-semibold text-brand">
             라이트 알아보기
@@ -136,7 +136,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
 
       {open ? (
         <div className="space-y-2 rounded-xl border border-line p-3" data-testid="goal-form">
-          <label className="block space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
+          <label className="block space-y-1 text-xs text-muted">
             종목
             <select
               value={exerciseId}
@@ -151,7 +151,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
             </select>
           </label>
           <div className="grid grid-cols-2 gap-2">
-            <label className="block space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
+            <label className="block space-y-1 text-xs text-muted">
               목표 무게(예상 1RM, kg)
               <input
                 type="number"
@@ -162,7 +162,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
                 className="block h-10 w-full rounded-[10px] bg-zinc-100 px-3 text-base tabular-nums text-zinc-900 dark:bg-white/[0.08] dark:text-zinc-100"
               />
             </label>
-            <label className="block space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
+            <label className="block space-y-1 text-xs text-muted">
               언제까지
               <input
                 type="date"
@@ -173,7 +173,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
             </label>
           </div>
           {picked ? (
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted">
               지금 {kg(picked.currentKg)}에서 시작해요. 예상 1RM = 무게 × (1 + 횟수 ÷ 30).
             </p>
           ) : null}
@@ -189,7 +189,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="h-10 rounded-full px-4 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
+              className="h-10 rounded-full px-4 text-sm font-semibold text-muted"
             >
               취소
             </button>
@@ -204,7 +204,7 @@ export function GoalsCard({ view }: { view: GoalsView }) {
           목표 정하기
         </button>
       ) : view.candidates.length === 0 && view.active < view.limit ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">무게를 단 운동 기록이 쌓이면 목표를 정할 수 있어요.</p>
+        <p className="text-xs text-muted">무게를 단 운동 기록이 쌓이면 목표를 정할 수 있어요.</p>
       ) : null}
 
       {error ? (

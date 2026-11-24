@@ -15,7 +15,7 @@ export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; to
   if (live.length === 0) {
     return (
       <div className="app-card space-y-2 p-4 text-center">
-        <p className="text-sm text-zinc-500">진행 중인 다짐이 없어요</p>
+        <p className="text-sm text-muted">진행 중인 다짐이 없어요</p>
         <Link href="/commitments/new" className="inline-flex h-10 items-center rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950">
           다짐 만들기
         </Link>
@@ -29,7 +29,7 @@ export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; to
           return (
             <section key={p.id} className="app-card p-4">
               <h2 className="text-sm font-bold">{p.title}</h2>
-              <p className="mt-1 text-xs text-zinc-500">
+              <p className="mt-1 text-xs text-muted">
                 {p.startDate} 시작 — {dayDiff(today, p.startDate)}일 남았어요
               </p>
             </section>
@@ -46,7 +46,7 @@ export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; to
                   {p.week}/{p.totalWeeks}주차
                 </span>
               </div>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-muted">
                 이번 구간 {fmt(b.start)}~{fmt(b.end)} · {fmt(b.checkAt)} 00:00 체크
                 {left > 0 ? ` (${left}일 남음)` : ""}
               </p>
@@ -88,7 +88,7 @@ export function PledgeStatusView({ pledges, today }: { pledges: PledgeView[]; to
                 return (
                   <li key={it.key} data-testid="status-item">
                     <div className="mb-1 flex items-end justify-between text-xs">
-                      <span className="font-semibold text-zinc-600 dark:text-zinc-300">{it.label}</span>
+                      <span className="font-semibold text-muted">{it.label}</span>
                       <span className={`font-bold tabular-nums ${bad ? "text-danger" : ""}`}>
                         {it.have.toLocaleString()}
                         {it.unit} {it.dir === "atmost" ? "≤" : "/"} {it.need.toLocaleString()}

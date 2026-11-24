@@ -192,7 +192,8 @@ function Stat({ label, value, unit }: { label: string; value: string; unit?: str
       <p className="truncate text-xs text-muted">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-100">
         {value}
-        {unit ? <span className="ml-0.5 text-xs font-medium text-muted">{unit}</span> : null}
+        {/* 값이 없으면(—) 단위를 붙이지 않는다 — "— %" 처럼 보이지 않게. */}
+        {unit && value !== "—" ? <span className="ml-0.5 text-xs font-medium text-muted">{unit}</span> : null}
       </p>
     </div>
   );

@@ -109,11 +109,14 @@ export async function SupportList({ filters = {} }: { filters?: Filters }) {
               ))}
             </ul>
           )}
-          <nav aria-label="문의 페이지" className="flex items-center justify-between text-sm">
-            {page > 1 ? <Link className="inline-flex min-h-11 items-center text-brand" href={href(page - 1)}>← 이전</Link> : <span />}
-            <span className="text-muted">{page}페이지 · {count ?? 0}건</span>
-            {page * 20 < (count ?? 0) ? <Link className="inline-flex min-h-11 items-center text-brand" href={href(page + 1)}>다음 →</Link> : <span />}
-          </nav>
+          {/* 문의가 없으면 "1페이지 · 0건" 을 숨긴다 — 바로 위 "아직 문의가 없어요" 와 겹친다. */}
+          {(count ?? 0) > 0 ? (
+            <nav aria-label="문의 페이지" className="flex items-center justify-between text-sm">
+              {page > 1 ? <Link className="inline-flex min-h-11 items-center text-brand" href={href(page - 1)}>← 이전</Link> : <span />}
+              <span className="text-muted">{page}페이지 · {count ?? 0}건</span>
+              {page * 20 < (count ?? 0) ? <Link className="inline-flex min-h-11 items-center text-brand" href={href(page + 1)}>다음 →</Link> : <span />}
+            </nav>
+          ) : null}
         </section>
 
         <details className="group border-t border-line pt-4">

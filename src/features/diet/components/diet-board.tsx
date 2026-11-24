@@ -1787,7 +1787,7 @@ function AddFoodDialog({
                         onClose();
                       }}
                       aria-label={`${f.name} 담기`}
-                      className="app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                      className="app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                     >
                       <Plus aria-hidden="true" size={13} className="text-muted" />
                       <span className="truncate">{f.name}</span>

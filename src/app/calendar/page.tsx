@@ -197,7 +197,7 @@ export default async function CalendarPage({
         {/* 운동 기록(부위별 달력)과 서로 오간다 — 두 달력을 합치는 대신 연결(3단계). */}
         <Link
           href={`/settings/history?month=${isWeek ? week.from.slice(0, 7) : monthParam({ year, month0 })}`}
-          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
         >
           <History aria-hidden="true" size={12} />
           운동 기록
@@ -205,7 +205,7 @@ export default async function CalendarPage({
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
-            className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+            className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center gap-1 rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             <Heart aria-hidden="true" size={12} />
             생리 기록

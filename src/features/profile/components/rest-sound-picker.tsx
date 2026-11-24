@@ -99,7 +99,7 @@ export function RestSoundPicker() {
         <button
           type="button"
           onClick={() => void playRestAlert(ctxRef, kind)}
-          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
+          className="app-press inline-flex relative h-7 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] shrink-0 items-center gap-1 rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
         >
           <Play aria-hidden="true" size={12} />
           미리듣기

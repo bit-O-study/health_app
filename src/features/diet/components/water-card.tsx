@@ -163,7 +163,7 @@ export function WaterCard({
             key={cup.ml}
             type="button"
             onClick={() => void add(cup.ml)}
-            className="app-press inline-flex h-9 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+            className="app-press inline-flex h-9 items-center gap-1 rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
             <span className="text-muted">{cup.label}</span>

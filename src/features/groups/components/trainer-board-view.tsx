@@ -178,7 +178,7 @@ export function TrainerBoardView({
                         (`?member=` 로 적으면 그룹 화면만 뜨고 아무 일도 안 일어난다). */}
                   <Link
                     href={`/groups/${groupId}/member/${m.userId}`}
-                    className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                    className="app-press inline-flex relative h-8 after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-[''] items-center rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                   >
                     기록 자세히 보기
                   </Link>

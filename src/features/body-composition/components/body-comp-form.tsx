@@ -297,7 +297,7 @@ export function BodyCompForm({
         <div className="flex flex-wrap items-center gap-2">
           <label
             className={cn(
-              "app-press inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3.5 text-sm font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200",
+              "app-press inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3.5 text-sm font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200",
               uploading && "opacity-60",
             )}
           >

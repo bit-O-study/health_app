@@ -41,8 +41,9 @@ export function HomeHero({
               fill="none"
               strokeWidth="8"
               strokeLinecap="round"
-              className="stroke-brand transition-[stroke-dashoffset]"
+              className="app-ring stroke-brand"
               strokeDasharray={C}
+              style={{ ["--ring-from" as string]: C, ["--ring-to" as string]: C * (1 - Math.min(1, Math.max(0, ratio))) }}
               strokeDashoffset={C * (1 - Math.min(1, Math.max(0, ratio)))}
             />
           </svg>

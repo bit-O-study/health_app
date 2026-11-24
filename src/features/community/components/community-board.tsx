@@ -210,7 +210,7 @@ export function CommunityBoard({
               className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
                 mainTabOf(tab) === value
                   ? "text-zinc-900 dark:text-zinc-50"
-                  : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+                  : "text-muted hover:text-foreground"
               }`}
             >
               {label}
@@ -693,7 +693,7 @@ function PostCard({
         )}
         {!post.isMine ? (
           <ReportButton
-            className="ml-auto inline-flex items-center gap-1 text-zinc-300 hover:text-rose-500"
+            className="ml-auto inline-flex items-center gap-1 text-muted hover:text-danger"
             targetKind={isTeaching ? "teaching_post" : "community_post"}
             targetId={post.id}
             targetUserId={post.userId}
@@ -708,7 +708,7 @@ function PostCard({
             onClick={() => setConfirmDelete(true)}
             disabled={pending}
             aria-label="삭제"
-            className={`${post.isMine ? "ml-auto" : ""} text-zinc-300 hover:text-rose-500 disabled:opacity-50`}
+            className={`${post.isMine ? "ml-auto" : ""} text-muted hover:text-danger disabled:opacity-50`}
           >
             <Trash2 size={16} />
           </button>

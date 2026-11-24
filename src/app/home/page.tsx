@@ -77,7 +77,12 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         {/* 라이트 · 오늘 한 줄(2026-10-08) — 내 기록에서 지금 제일 쓸모 있는 말 하나. */}
         {fitAccess.full && briefing ? <HomeBriefingCard briefing={briefing} /> : null}
 
-        <HomeWeekStrip stats={stats} />
+        {/* 이번 주 — 7칸 · 주간 요약 · 부위별 훈련을 한 묶음으로(따로 흩어져 있던 "이번 주" 셋). */}
+        <div className="space-y-3">
+          <HomeWeekStrip stats={stats} />
+          <WeeklyReportCard report={weekly} />
+          {training && <WeeklyTrainingSummary regions={training.regions} weekSets={training.weekSets} />}
+        </div>
         <HomeCommitments commitments={todayCommitments} />
 
         {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
@@ -85,8 +90,6 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
         </section>
 
-        <WeeklyReportCard report={weekly} />
-        {training && <WeeklyTrainingSummary regions={training.regions} weekSets={training.weekSets} />}
         <ContributionGraph days={dashboard.contributions} totalWorkoutDays={dashboard.workoutCount} />
         {/* 라이트(990원) 혜택 — 홈 홍보 배너 없음(2026-10-02). fitAccess.full = 라이트 이상. */}
         {fitAccess.full ? null : <PromoBanner />}

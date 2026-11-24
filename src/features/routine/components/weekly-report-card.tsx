@@ -65,7 +65,7 @@ function Stat({
       <p className="truncate text-xs font-medium text-muted">
         {label}
       </p>
-      <p className="truncate text-base font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+      <p className="app-num truncate text-lg">
         {value}
       </p>
       <DeltaBadge delta={delta} unit={unit} />

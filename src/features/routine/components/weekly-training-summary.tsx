@@ -48,7 +48,7 @@ export function WeeklyTrainingSummary({
       href="/settings/score"
       data-testid="weekly-training-summary"
       data-week-sets={weekSets}
-      className="block rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-brand"
+      className="app-card block p-4 transition hover:border-brand"
     >
       <div className="flex items-center gap-2">
         <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
@@ -65,7 +65,7 @@ export function WeeklyTrainingSummary({
         <ChevronRight
           aria-hidden="true"
           size={16}
-          className="ml-auto shrink-0 text-zinc-300 dark:text-zinc-600"
+          className="ml-auto shrink-0 text-muted"
         />
       </div>
 

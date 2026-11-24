@@ -17,6 +17,8 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  // 고른 파일 이름 — 브라우저 기본 파일칸(영어 "Choose File") 대신 한국어 버튼 옆에 보여 준다.
+  const [fileName, setFileName] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,6 +69,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
       setTitle("");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
+        setFileName("");
       }
       setStatus("영상이 업로드됐습니다.");
       router.refresh();
@@ -100,9 +103,14 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
           <input
             ref={fileInputRef}
             accept="video/mp4,video/quicktime,video/webm"
-            className="block w-full rounded-[10px] bg-zinc-100 px-3 py-2 text-sm font-normal text-zinc-700 file:mr-3 file:rounded-full file:border-0 file:bg-zinc-200 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-300 dark:file:bg-white/[0.12] dark:file:text-zinc-100"
+            className="peer sr-only"
+            onChange={(e) => setFileName(e.target.files?.[0]?.name ?? "")}
             type="file"
           />
+          <span className="flex min-h-11 items-center gap-3 rounded-[10px] bg-[var(--surface-strong)] px-3 py-2 text-sm font-normal ring-1 ring-inset ring-[var(--line)] peer-focus-visible:ring-2 peer-focus-visible:ring-brand/40 dark:bg-white/[0.08]">
+            <span className="shrink-0 rounded-full bg-zinc-200/70 px-3 py-1 font-semibold text-foreground dark:bg-white/[0.12]">파일 선택</span>
+            <span className={`min-w-0 truncate ${fileName ? "text-foreground" : "text-muted"}`}>{fileName || "선택한 파일 없음"}</span>
+          </span>
         </label>
 
         <div className="flex items-center gap-3">

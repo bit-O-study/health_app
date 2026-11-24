@@ -19,8 +19,7 @@ import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
 import { Logo } from "@/features/brand/logo";
-import { HomeCommitments, HomeHero, HomeWeekStrip } from "@/features/home/components/home-hero";
-import { heroStats } from "@/features/home/hero-stats";
+import { HomeCommitments } from "@/features/home/components/home-commitments";
 
 export const dynamic = "force-dynamic";
 
@@ -52,13 +51,10 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   if (!profile) redirect("/onboarding");
 
   const { todayCommitments } = dashboard;
-  const doneCount = todayCommitments.filter(c => c.done).length;
-  const stats = heroStats(dashboard.contributions);
-  const dateLabel = new Intl.DateTimeFormat("ko-KR", { timeZone: "Asia/Seoul", month: "long", day: "numeric", weekday: "long" }).format(new Date());
 
   return (
     <div className="app-page overflow-x-clip">
-      <main className="app-container space-y-6">
+      <main className="app-container space-y-4">
         <header className="flex items-center justify-between gap-3 py-2">
           <Link href="/home" aria-label="헬쑤 홈"><Logo size={40} wordClassName="text-2xl" /></Link>
           <div className="flex items-center gap-1 pb-0.5">
@@ -69,30 +65,23 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           </div>
         </header>
 
-        <PermissionNudge />
-
-        {/* 주인공 — 오늘 할 일 한 가지(2026-11-18 리디자인). 링·행동 버튼·숫자 3칸. */}
-        <HomeHero dateLabel={dateLabel} stats={stats} commitDone={doneCount} commitTotal={todayCommitments.length} workoutCount={dashboard.workoutCount} />
-
-        {/* 라이트 · 오늘 한 줄(2026-10-08) — 내 기록에서 지금 제일 쓸모 있는 말 하나. */}
-        {fitAccess.full && briefing ? <HomeBriefingCard briefing={briefing} /> : null}
-
-        {/* 이번 주 — 7칸 · 주간 요약 · 부위별 훈련을 한 묶음으로(따로 흩어져 있던 "이번 주" 셋). */}
-        <div className="space-y-3">
-          <HomeWeekStrip stats={stats} />
-          <WeeklyReportCard report={weekly} />
-          {training && <WeeklyTrainingSummary regions={training.regions} weekSets={training.weekSets} />}
-        </div>
-        <HomeCommitments commitments={todayCommitments} />
-
-        {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
-        <section aria-label="내 앱">
-          <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
-        </section>
-
-        <ContributionGraph days={dashboard.contributions} totalWorkoutDays={dashboard.workoutCount} />
+        {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
         {/* 라이트(990원) 혜택 — 홈 홍보 배너 없음(2026-10-02). fitAccess.full = 라이트 이상. */}
         {fitAccess.full ? null : <PromoBanner />}
+        <PermissionNudge />
+
+        {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
+        {/* 라이트 · 오늘 한 줄(2026-10-08) — 내 기록에서 지금 제일 쓸모 있는 말 하나. 늦게 와도 홈을 막지 않게. */}
+        {fitAccess.full && briefing ? <HomeBriefingCard briefing={briefing} /> : null}
+
+        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
+
+        {/* 오늘의 다짐 — 같은 기능(눌러서 /commitments), 모양만 묶음 목록으로(2026-11-24 디자인만 변경). */}
+        <HomeCommitments commitments={todayCommitments} />
+
+        <WeeklyReportCard report={weekly} />
+        {training && <WeeklyTrainingSummary regions={training.regions} weekSets={training.weekSets} />}
+        <ContributionGraph days={dashboard.contributions} totalWorkoutDays={dashboard.workoutCount} />
       </main>
     </div>
   );

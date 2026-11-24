@@ -316,8 +316,8 @@ export default async function CalendarPage({
                       mMark.marker === "circle"
                         ? "text-brand"
                         : mMark.marker === "triangle"
-                          ? "text-amber-500"
-                          : "text-rose-400"
+                          ? "text-warn"
+                          : "text-danger"
                     }`}
                   >
                     {MARKER_SYMBOL[mMark.marker]}
@@ -547,7 +547,7 @@ function CalendarLegend({ showCycle }: { showCycle: boolean }) {
       <li className={item}><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />체중 잰 날</li>
       <li className={item}><span aria-hidden="true" className="inline-flex gap-px"><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[1]}`} /><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[2]}`} /><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[3]}`} /></span>진할수록 운동 많이</li>
       <li className={item}><span className="text-muted">회색 글자</span>예정 루틴</li>
-      <li className={item}><span className="font-bold"><span className="text-brand">○</span><span className="text-amber-500">△</span><span className="text-rose-400">✕</span></span>다짐 달성</li>
+      <li className={item}><span className="font-bold"><span className="text-brand">○</span><span className="text-warn">△</span><span className="text-danger">✕</span></span>다짐 달성</li>
       {showCycle ? (
         <li className={item}><Heart aria-hidden="true" size={10} className="fill-rose-500 text-rose-500" />생리·예정</li>
       ) : null}
@@ -661,8 +661,8 @@ function WeekList({
                         mMark.marker === "circle"
                           ? "text-brand"
                           : mMark.marker === "triangle"
-                            ? "text-amber-500"
-                            : "text-rose-400"
+                            ? "text-warn"
+                            : "text-danger"
                       }`}
                     >
                       {MARKER_SYMBOL[mMark.marker]}

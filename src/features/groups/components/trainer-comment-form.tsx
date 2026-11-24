@@ -71,7 +71,7 @@ export function TrainerCommentForm({
           onChange={(e) => setBody(e.target.value.slice(0, MAX_COMMENT_LEN))}
           rows={4}
           placeholder={`${memberName} 님에게 남길 말 — 자세, 무게, 이번 주 목표 등`}
-          className="w-full rounded-[10px] bg-zinc-100 p-3 text-base leading-6 outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="w-full rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] p-3 text-base leading-6 outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
         <div className="flex items-center justify-between">
           <span className="text-xs tabular-nums text-muted">

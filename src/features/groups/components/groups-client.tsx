@@ -62,7 +62,7 @@ export function GroupsClient({
 
   // 아이폰 입력칸 느낌 — 테두리 대신 옅은 회색 바탕. 버튼과 한 줄에 놓는다(2026-09-16 촘촘하게).
   const field =
-    "h-10 min-w-0 flex-1 rounded-[10px] bg-zinc-100 px-3 text-base outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
+    "h-10 min-w-0 flex-1 rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-base outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
   return (
     <div className="space-y-5">

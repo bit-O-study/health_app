@@ -234,7 +234,7 @@ export function CommunityBoard({
               onChange={(e) => setSearch(e.target.value)}
               aria-label="게시물 검색"
               placeholder={tab === "teaching" ? "운동 검색 (예: 스쿼트)" : mainTabOf(tab) === "question" ? "질문 검색" : "본문 · 운동명 검색"}
-              className="h-11 min-w-0 w-full rounded-[10px] bg-zinc-100 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+              className="h-11 min-w-0 w-full rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
             />
             <button type="submit" className="min-h-11 shrink-0 px-2 text-sm">검색</button>
           </form>

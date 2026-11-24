@@ -509,7 +509,7 @@ export function OnboardingFlow({
 
 /** 아이폰 입력칸 — 테두리 없는 옅은 회색 바탕. */
 const FIELD_CLS =
-  "h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none transition placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
+  "h-11 w-full rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-base outline-none transition placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
 const LABEL_CLS = "block px-1 pb-1 text-xs font-semibold text-muted";
 

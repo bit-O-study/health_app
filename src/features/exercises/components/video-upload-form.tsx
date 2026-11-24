@@ -89,7 +89,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            className="h-10 rounded-[10px] bg-zinc-100 px-3 text-sm font-normal text-zinc-900 outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
+            className="h-10 rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-sm font-normal text-zinc-900 outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
             placeholder="예: 스쿼트 측면 자세"
             type="text"
           />

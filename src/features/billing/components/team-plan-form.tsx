@@ -211,7 +211,7 @@ export function TeamPlanForm({
                   value={f.v}
                   onChange={(e) => f.set(e.target.value)}
                   placeholder={f.ph}
-                  className="h-10 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
+                  className="h-10 w-full rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
                 />
               </label>
             ))}

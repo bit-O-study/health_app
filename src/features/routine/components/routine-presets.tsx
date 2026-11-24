@@ -89,7 +89,7 @@ export function RoutinePresets({
             setError(null);
           }}
           disabled={pending}
-          className="h-10 min-w-0 flex-1 rounded-[10px] bg-zinc-100 px-3 text-sm text-zinc-800 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-200"
+          className="h-10 min-w-0 flex-1 rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-sm text-zinc-800 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-200"
         />
         <button
           type="button"

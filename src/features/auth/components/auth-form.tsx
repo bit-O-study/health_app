@@ -235,7 +235,7 @@ export function AuthForm({
     <>
     <fieldset disabled={!hydrated || isSubmitting || oauthLoading !== null} className="min-w-0 w-full">
       {/* 아이폰 세그먼트 — 로그인/회원가입 전환 */}
-      <div className="mb-4 grid grid-cols-2 gap-0.5 rounded-[10px] bg-zinc-100 p-0.5 dark:bg-white/[0.08]">
+      <div className="mb-4 grid grid-cols-2 gap-0.5 rounded-[10px] bg-zinc-200/70 p-0.5 dark:bg-white/[0.08]">
         {(["login", "signup"] as const).map((m) => (
           <button
             key={m}
@@ -358,7 +358,7 @@ export function AuthForm({
           type="button"
           disabled={oauthLoading !== null}
           onClick={() => handleOAuth("google")}
-          className="app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-zinc-100 text-base font-semibold text-zinc-800 transition disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-[var(--surface-strong)] text-base font-semibold text-zinc-800 ring-1 ring-inset ring-[var(--line)] transition disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-100"
         >
           {oauthLoading === "google" ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />

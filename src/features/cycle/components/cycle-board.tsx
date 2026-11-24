@@ -342,7 +342,7 @@ function DayEditor({
           rows={2}
           maxLength={500}
           placeholder="메모 (선택)"
-          className="mt-3 w-full resize-none rounded-[10px] bg-zinc-100 px-3 py-2 text-base outline-none focus:ring-2 focus:ring-rose-400/40 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="mt-3 w-full resize-none rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 py-2 text-base outline-none focus:ring-2 focus:ring-rose-400/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
 
         <button

@@ -83,7 +83,7 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
     setPreferences((value) => ({ ...value, ...patch }));
     requestId.current = null;
   }
-  const field = "w-full rounded-[10px] bg-zinc-100 px-3 text-base text-zinc-900 outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
+  const field = "w-full rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-base text-zinc-900 outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
   return (
     <div className="space-y-3">

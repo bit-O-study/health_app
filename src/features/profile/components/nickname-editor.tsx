@@ -54,7 +54,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           onChange={(e) => setValue(e.target.value)}
           placeholder="닉네임 (미설정 시 이름)"
           aria-label="닉네임"
-          className="h-11 w-44 rounded-[10px] bg-zinc-100 px-2.5 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="h-11 w-44 rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-2.5 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
         <button
           type="button"

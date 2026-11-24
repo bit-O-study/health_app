@@ -400,14 +400,14 @@ export function PostDetail({
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value.slice(0, MAX_QUESTION_TITLE))}
               aria-label="질문 제목"
-              className="mb-2 h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base font-semibold outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+              className="mb-2 h-11 w-full rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] px-3 text-base font-semibold outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
             />
           ) : null}
           <textarea
             value={caption}
             onChange={(e) => setCaption(e.target.value.slice(0, captionLimit(post.postType)))}
             rows={isQuestion ? 5 : 2}
-            className="w-full resize-none rounded-[10px] bg-zinc-100 p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+            className="w-full resize-none rounded-[10px] bg-[var(--surface-strong)] ring-1 ring-inset ring-[var(--line)] p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
           />
           <div className="mt-1 flex justify-end gap-2">
             <button

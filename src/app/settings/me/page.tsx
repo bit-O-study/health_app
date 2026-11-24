@@ -131,8 +131,8 @@ export default async function MyPage() {
             <div className="mb-1.5 flex items-baseline justify-between">
               <span className="text-sm text-muted">섭취 칼로리</span>
               <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
-                {consumed}
-                <span className="text-xs font-medium text-muted"> / {target.kcal} kcal</span>
+                {consumed.toLocaleString()}
+                <span className="text-xs font-medium text-muted"> / {target.kcal.toLocaleString()} kcal</span>
               </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">

@@ -301,7 +301,7 @@ export default async function HistoryPage({
             </div>
             <div>
               <p className="px-3 py-2 text-center text-xs tabular-nums text-muted">
-                {weekSummary.from.slice(5).replace("-", "/")}~{weekSummary.to.slice(5).replace("-", "/")}{weekSummary.caloriesKcal > 0 ? ` · ${weekSummary.caloriesKcal}kcal` : ""}
+                {weekSummary.from.slice(5).replace("-", "/")}~{weekSummary.to.slice(5).replace("-", "/")}{weekSummary.caloriesKcal > 0 ? ` · ${weekSummary.caloriesKcal.toLocaleString()}kcal` : ""}
               </p>
             </div>
           </div>

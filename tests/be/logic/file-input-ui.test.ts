@@ -18,7 +18,7 @@ describe("파일 입력칸은 기본 모양을 그대로 보이지 않는다", (
     for (const file of walk(ROOT)) {
       if (/admin/.test(file)) continue;
       const src = readFileSync(file, "utf8");
-      for (const m of src.matchAll(/<input\b[^>]*?type="file"[^>]*?\/>/gs)) {
+      for (const m of src.matchAll(/<input\b[^>]*?type="file"[^>]*?\/>/g)) {
         if (!/\b(hidden|sr-only)\b/.test(m[0])) offenders.push(file.split("src")[1]);
       }
     }

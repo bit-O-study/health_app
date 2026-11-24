@@ -18,6 +18,10 @@ import {
   UsersRound,
   type LucideIcon,
   Camera,
+  Bandage,
+  CreditCard,
+  Ticket,
+  UserCog,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
@@ -79,20 +83,20 @@ export default async function SettingsPage() {
       : []),
   ];
   const workout: Row[] = [
-    { href: "/settings/trainer-pass", title: "트레이너 정액권", icon: UsersRound },
+    { href: "/settings/trainer-pass", title: "트레이너 정액권", icon: Ticket },
     { href: "/settings/trainers", title: "트레이너 연결", icon: UsersRound },
     { href: "/settings/gym", title: "내 헬스장", icon: Building2 },
     { href: "/settings/fit", title: "맞춤 운동 설정", icon: SlidersHorizontal },
-    { href: "/settings/pain", title: "아픈 부위", icon: HeartPulse },
+    { href: "/settings/pain", title: "아픈 부위", icon: Bandage },
     { href: "/settings/score", title: "운동 점수", icon: Trophy },
     { href: "/settings/progress", title: "성장 그래프", icon: TrendingUp },
   ];
   const app: Row[] = [
     { href: "/support", title: "고객센터", icon: MessageCircle },
-    { href: "/settings/personal", title: "개인설정", icon: SlidersHorizontal },
+    { href: "/settings/personal", title: "개인설정", icon: UserCog },
     { href: "/settings/notifications", title: "알림 설정", icon: Bell },
     { href: "/settings/health", title: "건강 연동", icon: Smartphone },
-    { href: "/settings/subscription", title: "구독", icon: Trophy },
+    { href: "/settings/subscription", title: "구독", icon: CreditCard },
     // AI 가 닫혀 있는 동안(AI_OPEN=false)엔 동의할 AI 가 없다 — 줄을 숨긴다.
     ...(AI_OPEN ? [{ href: "/settings/ai", title: "AI 이용 동의", icon: ShieldCheck }] : []),
     { href: "/settings/export", title: "내 데이터 내보내기", icon: Download },

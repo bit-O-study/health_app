@@ -159,7 +159,7 @@ export async function SupportDetail({ id, created = false }: { id: string; creat
           {d.messages.map((m) => (
             <article key={m.id} className={`flex flex-col gap-1 ${m.is_admin ? "items-start" : "items-end"}`}>
               <div className="flex items-center gap-2 text-xs text-muted">
-                <strong className="font-semibold">{m.is_admin ? "고객센터" : "회원"}</strong>
+                <strong className="font-semibold">{m.is_admin ? "고객센터" : "나"}</strong>
                 <span>{date(m.created_at)}</span>
               </div>
               <p

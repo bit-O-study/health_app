@@ -40,7 +40,7 @@ export function ReplyForm({id}:{id:string}) {
   const router=useRouter();const [body,setBody]=useState("");const [message,setMessage]=useState("");const [pending,start]=useTransition();const request=useRef("");
   return <form className="space-y-3" onSubmit={e=>{e.preventDefault();start(async()=>{request.current ||= crypto.randomUUID();try{const r=await replyTicket(id,request.current,body);setMessage(r.error??"저장했어요.");if(!r.error){setBody("");request.current="";router.refresh();}}catch{setMessage("저장 결과를 확인하지 못했어요. 다시 시도해 주세요.");}});}}>
     <label className="block font-semibold">추가 문의<textarea className={field} rows={4} required maxLength={5000} value={body} onChange={e=>{setBody(e.target.value);request.current="";}}/></label>
-    <p role="status" className="text-sm">{message}</p><button className={button} disabled={pending}>{pending?"저장 중…":"답변 보내기"}</button>
+    <p role="status" className="text-sm">{message}</p><button className={`${button} w-full`} disabled={pending}>{pending?"저장 중…":"답변 보내기"}</button>
   </form>;
 }
 export function AttachmentForm({id}:{id:string}) {
@@ -49,7 +49,7 @@ export function AttachmentForm({id}:{id:string}) {
   return <form className="space-y-3" onSubmit={e=>{e.preventDefault();if(!file)return;start(async()=>{try{const form=new FormData();form.set("ticket",id);form.set("file",file);const response=await fetch("/api/support/attachments",{method:"POST",body:form});const result=await response.json();setMessage(result.error??"사진을 첨부했어요.");if(result.ok){setFile(null);setPreview("");router.refresh();}}catch{setMessage("사진 전송에 실패했어요. 문의 내용은 저장돼 있어요.");}});}}>
     <label className="block">스크린샷 첨부<input aria-label="스크린샷 첨부" className="peer sr-only" type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const next=e.target.files?.[0]??null;setFile(next);setPreview(next?URL.createObjectURL(next):"");}}/><span className="mt-2 flex min-h-11 items-center gap-3 rounded-xl border border-line bg-[var(--surface-strong)] px-3 py-2 text-sm peer-focus-visible:ring-2 peer-focus-visible:ring-brand/30"><span className="shrink-0 rounded-full bg-zinc-200/70 px-3 py-1 font-semibold dark:bg-white/[0.12]">사진 선택</span><span className={`min-w-0 truncate ${file?"text-foreground":"text-muted"}`}>{file?file.name:"선택한 사진 없음"}</span></span></label>
     {file&&<div>{preview&&/* User-selected local preview. */ <Image unoptimized width={320} height={240} src={preview} alt="첨부할 사진 미리보기" className="max-h-48 rounded-xl"/>}<button type="button" className="p-3 underline" onClick={()=>{setFile(null);setPreview("");}}>선택 취소</button></div>}
-    <p className="text-sm text-muted">JPG·PNG·WebP · 5MB 이하 · 문의당 최대 3장</p><button className={button} disabled={!file||pending}>사진 첨부</button><p role="status" className="text-sm">{message}</p>
+    <p className="text-sm text-muted">JPG·PNG·WebP · 5MB 이하 · 문의당 최대 3장</p><button className={`${button} w-full`} disabled={!file||pending}>사진 첨부</button><p role="status" className="text-sm">{message}</p>
   </form>;
 }
 export function NotificationSettings({configured,connection}:{configured:boolean;connection:{state:string;enabled:boolean;push_enabled:boolean;kakao_id:string|null}|null}) {

@@ -434,7 +434,7 @@ export function BodyCompForm({
           type="button"
           disabled={pending || !consented || scanNeedsReview || ocrRunning}
           onClick={submit}
-          className="app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
+          className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />

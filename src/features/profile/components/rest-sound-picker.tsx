@@ -108,7 +108,7 @@ export function RestSoundPicker() {
 
       <div className="mt-2 pl-10">
         {/* 종류 선택 — 아이폰 세그먼트 */}
-        <div className="grid grid-cols-3 gap-1 rounded-[10px] bg-zinc-100 p-0.5 dark:bg-white/[0.08]">
+        <div className="grid grid-cols-3 gap-1 rounded-[10px] bg-zinc-200/70 p-0.5 dark:bg-white/[0.08]">
           {OPTIONS.map((o) => {
             const active = kind === o.kind;
             return (

@@ -243,7 +243,7 @@ export function TodayAdjustMenu({
 
             {/* 할 일을 먼저 고른다(2026-10-14) — 예전엔 쉬기 · 운동 담기 · 부위 칩 서른 개 · 버튼 두 개가
                 한 화면에 다 있어, 운동 하나만 더 하려는 사람도 전부 훑어야 했다. */}
-            <div role="tablist" aria-label="오늘만 바꾸기" className="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-white/[0.06]">
+            <div role="tablist" aria-label="오늘만 바꾸기" className="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-zinc-200/70 p-1 dark:bg-white/[0.06]">
               {TABS.map((t) => (
                 <button
                   key={t.id}

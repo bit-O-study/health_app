@@ -890,7 +890,7 @@ function ComposeModal({
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
       <div role="dialog" aria-modal="true" aria-label={isQuestion ? "질문하기" : "오운완 인증"} className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <div className="flex gap-1 rounded-full bg-zinc-100 p-1 dark:bg-white/[0.08]">
+          <div className="flex gap-1 rounded-full bg-zinc-200/70 p-1 dark:bg-white/[0.08]">
             {(["photo", "question"] as const).map((m) => (
               <button
                 key={m}

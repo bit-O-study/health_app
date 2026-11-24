@@ -37,7 +37,7 @@ export default async function TrainerPage({ searchParams }: { searchParams: Prom
     </section>
     <section className="space-y-3" data-testid="trainer-trends" data-period={period}>
       <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="text-lg font-semibold">담당 회원 · {links.length}명</h2>
-        <div role="tablist" aria-label="기간" className="inline-flex rounded-full bg-zinc-100 p-0.5 text-xs dark:bg-white/[0.08]">{tab("week", "주별")}{tab("month", "월별")}</div></div>
+        <div role="tablist" aria-label="기간" className="inline-flex rounded-full bg-zinc-200/70 p-0.5 text-xs dark:bg-white/[0.08]">{tab("week", "주별")}{tab("month", "월별")}</div></div>
       <p className="flex flex-wrap items-center gap-2 text-xs text-muted">
         {period === "week" ? "이번 주 vs 지난주" : "이번 달 vs 지난달"} 같은 날짜까지 · 회원이 허용한 정보만 표시해요.
         {dropped > 0 ? <span className="rounded-full bg-danger/10 px-2 py-0.5 font-semibold text-danger" data-testid="dropped-count">줄어든 회원 {dropped}명</span> : null}

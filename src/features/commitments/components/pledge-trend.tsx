@@ -20,7 +20,7 @@ export function PledgeTrendView({ trend }: { trend: PledgeTrend }) {
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-xs font-semibold text-muted">변화</h3>
         {trend.monthly ? (
-          <div role="tablist" aria-label="기간" className="inline-flex rounded-full bg-zinc-100 p-0.5 text-xs dark:bg-white/[0.08]">
+          <div role="tablist" aria-label="기간" className="inline-flex rounded-full bg-zinc-200/70 p-0.5 text-xs dark:bg-white/[0.08]">
             {(["week", "month"] as const).map((m) => (
               <button
                 key={m}

@@ -128,7 +128,7 @@ export function ManualCoachPanel({ rows, active, review, reviewError }: { rows: 
             });
           }}
         >
-          <div role="tablist" aria-label="요청 종류" className="grid grid-cols-3 gap-1 rounded-full bg-zinc-100 p-1 dark:bg-white/[0.06]">
+          <div role="tablist" aria-label="요청 종류" className="grid grid-cols-3 gap-1 rounded-full bg-zinc-200/70 p-1 dark:bg-white/[0.06]">
             {COACH_KINDS.map((k) => (
               <button
                 key={k}

@@ -158,7 +158,7 @@ export function GymRoom({
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-end gap-2 pb-[150px]">
         <span className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-bold text-white backdrop-blur">
           {pet.name || "우리 강아지"}
-          <span className="rounded-full bg-violet-500 px-1.5 text-xs font-bold">
+          <span className="rounded-full bg-brand px-1.5 text-xs font-bold text-white dark:text-zinc-950">
             Lv.{pet.level}
           </span>
         </span>
@@ -214,7 +214,7 @@ export function GymRoom({
                 type="button"
                 onClick={() => deposit(Number(amount))}
                 disabled={pending || !amount}
-                className="inline-flex h-11 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white shadow disabled:opacity-60"
+                className="inline-flex h-11 shrink-0 items-center gap-1 rounded-lg bg-brand px-3 text-sm font-bold text-white shadow dark:text-zinc-950 disabled:opacity-60"
               >
                 {pending ? <Loader2 size={15} className="animate-spin" /> : null}
                 넣기
@@ -247,7 +247,7 @@ export function GymRoom({
                 setDepositOpen(true);
               }}
               disabled={pet.coins <= 0}
-              className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-bold text-white shadow transition hover:brightness-110 disabled:opacity-60"
+              className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white shadow dark:text-zinc-950 transition hover:brightness-110 disabled:opacity-60"
             >
               <CoinIcon size={16} /> 코인 넣기 (보유 {pet.coins.toLocaleString()})
             </button>

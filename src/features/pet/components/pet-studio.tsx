@@ -107,7 +107,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
         </p>
         <div className="mx-auto mt-1.5 h-2 w-48 overflow-hidden rounded-full bg-violet-100 dark:bg-violet-950/50">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-500"
+            className="h-full rounded-full bg-violet-500"
             style={{ width: `${pet.level.pct}%` }}
           />
         </div>

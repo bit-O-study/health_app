@@ -245,7 +245,8 @@ export default async function CalendarPage({
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7">
+        {/* 칸 사이 2px — 운동량 색이 칠해진 날끼리 붙어 한 덩어리로 보이지 않게. */}
+        <div className="grid grid-cols-7 gap-0.5">
           {cells.map((day, idx) => {
             if (day === null) return <div key={`e${idx}`} />;
             const date = isWeek ? week.dates[idx] : ymd(year, month0 + 1, day);

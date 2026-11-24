@@ -96,7 +96,7 @@ export function WeeklyReportCard({
       <section className="app-card p-4">
         <div className="flex items-center justify-between gap-2">
           <h2 className="flex items-center gap-2 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-400">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand/10 text-brand">
               <CalendarRange aria-hidden="true" size={15} />
             </span>
             이번 주
@@ -140,7 +140,7 @@ export function WeeklyReportCard({
     <section className="app-card p-5">
       <div className="mb-1 flex items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-400">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand/10 text-brand">
             <CalendarRange aria-hidden="true" size={16} />
           </span>
           이번 주 요약

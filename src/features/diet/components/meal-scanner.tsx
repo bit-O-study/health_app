@@ -116,7 +116,7 @@ export function MealScanForm({
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={pending}
-        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 text-sm font-bold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-white transition hover:brightness-110 dark:text-zinc-950 disabled:opacity-60"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={17} className="animate-spin" />

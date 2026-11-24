@@ -583,13 +583,13 @@ export function PostDetail({
                   onClick={() => removeComment(c.id)}
                   disabled={pending}
                   aria-label="댓글 삭제"
-                  className="shrink-0 text-zinc-300 hover:text-danger disabled:opacity-50"
+                  className="shrink-0 text-muted hover:text-danger disabled:opacity-50"
                 >
                   <Trash2 size={13} />
                 </button>
               ) : (
                 <ReportButton
-                  className="shrink-0 text-zinc-300 hover:text-danger"
+                  className="shrink-0 text-muted hover:text-danger"
                   // 댓글 쓴 사람을 막으면 그 사람 댓글이 빠진 목록으로 다시 읽는다.
                   onBlocked={() => start(async () => { await reloadComments(); })}
                   targetKind="community_comment"

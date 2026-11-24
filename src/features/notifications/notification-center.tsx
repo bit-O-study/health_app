@@ -163,7 +163,7 @@ export function NotificationBell() {
               <BellOff
                 aria-hidden="true"
                 size={16}
-                className="text-zinc-300 dark:text-zinc-600"
+                className="text-muted"
               />
               <p className="text-xs text-muted">
                 새 알림이 없어요

@@ -135,7 +135,7 @@ export default async function FitRecordsPage({ searchParams }: { searchParams: P
                           </span>
                         </span>
                         {r.bestKg ? <span className="shrink-0 text-sm tabular-nums text-zinc-700 dark:text-zinc-200">최고 {r.bestKg}kg</span> : null}
-                        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-300 dark:text-zinc-600" />
+                        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-muted" />
                       </Link>
                     </li>
                   ))}

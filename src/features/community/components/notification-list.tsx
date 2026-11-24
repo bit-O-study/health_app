@@ -25,7 +25,7 @@ export function CommunityNotificationList({ items }: { items: CommunityNotificat
       <main className="mx-auto w-full max-w-3xl px-4 pb-24 sm:px-6">
         {items.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-20 text-center">
-            <Bell aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
+            <Bell aria-hidden="true" size={28} className="text-muted" />
             <p className="text-sm text-muted">아직 알림이 없어요</p>
             <p className="text-xs text-muted">내 글에 댓글이 달리면 바로, 받은 좋아요는 하루 한 번 모아 알려드려요.</p>
           </div>

@@ -298,7 +298,7 @@ export function CommunityBoard({
         </div>
       ) : visible.length === 0 ? (
         <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">
-          <Camera aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
+          <Camera aria-hidden="true" size={28} className="text-muted" />
           <p className="text-sm text-muted">
             {initialSearch
               ? "검색 결과가 없어요"

@@ -330,7 +330,7 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {feedError ? <p role="alert" className="px-4 text-sm text-rose-500">{feedError}</p> : null}
+      {feedError ? <p role="alert" className="px-4 text-sm text-danger">{feedError}</p> : null}
       {restoring ? <p role="status" className="px-4 text-sm text-muted">보던 게시물을 불러오는 중…</p> : null}
       {cursor ? <button type="button" onClick={more} disabled={loadingMore || restoring} className="mx-4 mb-4 min-h-11 shrink-0 rounded-lg border border-zinc-200 text-sm disabled:opacity-50">{loadingMore ? "불러오는 중…" : "더 보기"}</button> : null}
       {/* 글쓰기 FAB — 루틴 탭에서는 내 영구 루틴의 일차를 골라 추천글을 쓴다. */}
@@ -1001,7 +1001,7 @@ function ComposeModal({
         {/* 그룹 선택(그룹만/그룹제외일 때) */}
         {needsGroup ? (
           groups.length === 0 ? (
-            <p className="mt-2 text-xs font-bold text-rose-500">
+            <p className="mt-2 text-xs font-bold text-danger">
               속한 그룹이 없어 전체 공개만 가능해요.
             </p>
           ) : (
@@ -1023,7 +1023,7 @@ function ComposeModal({
           )
         ) : null}
 
-        {error ? <p className="mt-2 text-xs font-bold text-rose-500">{error}</p> : null}
+        {error ? <p className="mt-2 text-xs font-bold text-danger">{error}</p> : null}
 
         <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-xs leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
           {RULES}

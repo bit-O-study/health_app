@@ -128,7 +128,7 @@ function ShareDaySheet({
             </p>
 
             <label className="mt-4 block text-xs font-bold text-zinc-700 dark:text-zinc-300">
-              제목 <span className="text-red-500">*</span>
+              제목 <span className="text-danger">*</span>
               <input
                 value={title}
                 maxLength={MAX_TITLE}

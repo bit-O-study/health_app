@@ -197,7 +197,7 @@ export function WithdrawButton() {
                           <X
                             aria-hidden="true"
                             size={15}
-                            className="mt-0.5 shrink-0 text-red-500"
+                            className="mt-0.5 shrink-0 text-danger"
                           />
                           {l}
                         </li>

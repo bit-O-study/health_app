@@ -849,7 +849,7 @@ function MemoDialog({
         <div className="mb-3 flex items-center gap-2">
           <StickyNote
             aria-hidden="true"
-            className="text-amber-500"
+            className="text-brand"
             size={18}
           />
           <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">

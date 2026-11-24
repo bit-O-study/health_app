@@ -38,7 +38,7 @@ export function WorkoutRecordPicker({ value, onChange }: { value: WorkoutSnapsho
       {dates.map(date => <option key={date} value={date}>{date} 운동</option>)}
     </select>
     {!loading && !dates.length && !error ? <p className="mt-2 text-xs text-muted">완료한 운동이 생기면 사진 없이도 공유할 수 있어요.</p> : null}
-    {error ? <p role="alert" className="mt-2 text-sm text-rose-500">{error} <button type="button" onClick={() => { setLoading(true); setReload(n => n + 1); }} className="underline">다시 시도</button></p> : null}
+    {error ? <p role="alert" className="mt-2 text-sm text-danger">{error} <button type="button" onClick={() => { setLoading(true); setReload(n => n + 1); }} className="underline">다시 시도</button></p> : null}
     {value ? <><WorkoutShareCard snapshot={value} /><p className="text-xs text-muted">운동명·세트·시간만 공유해요.<br />체중과 개인 메모는 포함하지 않아요.</p></> : null}
   </div>;
 }

@@ -170,7 +170,7 @@ export function TeachingComposeModal({
         />
 
         {error ? (
-          <p className="mt-2 text-xs font-bold text-rose-500">{error}</p>
+          <p className="mt-2 text-xs font-bold text-danger">{error}</p>
         ) : null}
 
         {/* 게시판 규칙 */}

@@ -1380,7 +1380,7 @@ function MultiPhotoPicker({
           />
         </label>
       </div>
-      {err ? <p className="mt-1 text-xs text-red-500">{err}</p> : null}
+      {err ? <p className="mt-1 text-xs text-danger">{err}</p> : null}
     </div>
   );
 }

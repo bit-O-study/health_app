@@ -661,7 +661,7 @@ function EnergySummary({ consumed, target }: { consumed: number; target: number 
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="app-eyebrow">섭취 칼로리</p>
         <p className={`text-sm font-semibold ${over ? "text-danger" : "text-brand"}`}>
-          {over ? `${consumed - target} kcal 초과` : `${Math.max(0, target - consumed)} kcal 남음`}
+          {over ? `${(consumed - target).toLocaleString()} kcal 초과` : `${Math.max(0, target - consumed).toLocaleString()} kcal 남음`}
         </p>
       </div>
       <p className="mt-3 flex flex-wrap items-baseline gap-2 tabular-nums">

@@ -228,6 +228,7 @@ export function OnboardingFlow({
                   <button
                     key={option.id}
                     type="button"
+                    aria-pressed={active}
                     onClick={() => setGender(option.id)}
                     className={cn(OPTION_CLS, "h-16 items-center justify-center text-center", active && OPTION_ACTIVE)}
                   >
@@ -522,7 +523,7 @@ const OPTION_CLS =
 const OPTION_ACTIVE = "border-brand bg-brand-soft";
 
 const SECONDARY_BTN_CLS =
-  "app-press inline-flex h-11 items-center justify-center rounded-full bg-zinc-100 px-5 text-base font-semibold text-zinc-700 transition dark:bg-white/[0.08] dark:text-zinc-200";
+  "app-press inline-flex h-11 items-center justify-center rounded-full bg-[var(--surface-strong)] px-5 text-base font-semibold text-zinc-700 ring-1 ring-inset ring-[var(--line)] transition dark:bg-white/[0.08] dark:text-zinc-200";
 
 function OptionButton({
   active,
@@ -536,7 +537,7 @@ function OptionButton({
   onClick: () => void;
 }) {
   return (
-    <button type="button" onClick={onClick} className={cn(OPTION_CLS, active && OPTION_ACTIVE)}>
+    <button type="button" aria-pressed={active} onClick={onClick} className={cn(OPTION_CLS, active && OPTION_ACTIVE)}>
       <span className="text-base font-semibold text-zinc-950 dark:text-zinc-50">{label}</span>
       <span className="text-sm text-muted">{description}</span>
     </button>

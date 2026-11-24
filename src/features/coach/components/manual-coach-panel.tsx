@@ -56,7 +56,7 @@ function Chips<T extends string | number>({
             disabled={disabled}
             onClick={() => onChange(o.id)}
             className={`h-9 rounded-full px-3.5 text-sm font-semibold disabled:opacity-50 ${
-              value === o.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+              value === o.id ? "bg-brand text-white dark:text-zinc-950" : "bg-[var(--surface-strong)] text-zinc-700 ring-1 ring-inset ring-[var(--line)] dark:bg-white/[0.08] dark:text-zinc-200"
             }`}
           >
             {o.label}

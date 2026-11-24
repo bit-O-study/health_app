@@ -31,4 +31,14 @@ describe("입력칸이 바탕과 구분된다", () => {
     const ui = readFileSync(resolve(ROOT, "features/auth/components/recover-ui.tsx"), "utf8");
     expect(ui).toContain("bg-[var(--surface-strong)] px-3 ring-1 ring-inset ring-[var(--line)]");
   });
+  it("고르지 않은 선택지 칩도 바탕과 구분된다(온보딩 추가 질문에서 발견)", () => {
+    const offenders: string[] = [];
+    for (const file of walk(ROOT)) {
+      if (/admin/.test(file)) continue;
+      if (readFileSync(file, "utf8").includes("\"bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200\"")) {
+        offenders.push(file.split("src")[1]);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
 });

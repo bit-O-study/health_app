@@ -41,7 +41,7 @@ export function PainAreaPicker({ initial }: { initial: BodyPart[] }) {
               aria-pressed={on}
               onClick={() => toggle(p)}
               className={`h-11 rounded-xl text-sm font-semibold ${
-                on ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                on ? "bg-brand text-white dark:text-zinc-950" : "bg-[var(--surface-strong)] text-zinc-700 ring-1 ring-inset ring-[var(--line)] dark:bg-white/[0.08] dark:text-zinc-200"
               }`}
             >
               {PAIN_LABEL[p]}

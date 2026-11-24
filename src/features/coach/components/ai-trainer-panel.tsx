@@ -182,7 +182,7 @@ export function AiTrainerPanel({
                 className={`h-9 flex-1 rounded-full text-sm font-semibold ${
                   minutes === m
                     ? "bg-brand text-white dark:text-zinc-950"
-                    : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                    : "bg-[var(--surface-strong)] text-zinc-700 ring-1 ring-inset ring-[var(--line)] dark:bg-white/[0.08] dark:text-zinc-200"
                 }`}
               >
                 {m === null ? "제한 없음" : `${m}분`}

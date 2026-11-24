@@ -25,7 +25,7 @@ export function SurveyExtraFields({
 }) {
   const chip = (on: boolean) =>
     `min-h-11 rounded-xl px-3 text-sm font-semibold ${
-      on ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+      on ? "bg-brand text-white dark:text-zinc-950" : "bg-[var(--surface-strong)] text-zinc-700 ring-1 ring-inset ring-[var(--line)] dark:bg-white/[0.08] dark:text-zinc-200"
     }`;
   return (
     <div className="space-y-5">

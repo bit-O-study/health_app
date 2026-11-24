@@ -3,7 +3,14 @@ import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getRecentFoodLogs } from "./data-access";
-import { addDaysYmd, seoulYmd } from "@/features/routine/data";
+import { addDaysYmd, seoulYmd, ymdDisplay } from "@/features/routine/data";
+
+/** "2026-11-24" → "11월 24일 (화)" — 올해가 아니면 연도를 붙인다. 화면 표기 전용. */
+function dayLabel(ymd: string, today: string): string {
+  const [y, m, d] = ymd.split("-").map(Number);
+  const md = `${m}월 ${d}일 (${ymdDisplay(ymd).weekday})`;
+  return ymd.slice(0, 4) === today.slice(0, 4) ? md : `${y}년 ${md}`;
+}
 import { MEAL_LABEL } from "./meal";
 import { FoodFavorites } from "./components/food-favorites";
 
@@ -22,7 +29,7 @@ export async function DietSectionPage({ section, days = "30" }: { section: "hist
     {section === "favorites" ? <FoodFavorites userId={user.id} recent={rows}/> : <>
       <nav aria-label="식단 조회 기간" className="flex gap-2">{[7,30,90].map(value => <Link key={value} href={`?days=${value}`} aria-current={period === value ? "page" : undefined} className={`min-h-11 rounded-xl px-4 py-3 text-sm font-semibold ${period === value ? "bg-brand text-white dark:text-zinc-950" : "bg-brand-soft text-brand"}`}>{value}일</Link>)}</nav>
       {section === "nutrition" && <section className="app-card space-y-4 p-5"><h3 className="font-semibold">기록한 날의 하루 평균</h3><p className="text-sm text-muted">최근 {period}일 중 {dates.length}일 기록 · 미기록일은 평균에서 제외해요.</p><dl className="grid grid-cols-2 gap-4">{[["칼로리",`${average(totals.kcal)} kcal`],["단백질",`${average(totals.protein)} g`],["탄수화물",`${average(totals.carbs)} g`],["지방",`${average(totals.fat)} g`]].map(([label,value])=><div key={label}><dt className="text-xs text-muted">{label}</dt><dd className="text-xl font-bold">{value}</dd></div>)}</dl><p className="text-xs text-muted">영양값이 없는 음식은 해당 영양소 합계에 포함되지 않아요.</p></section>}
-      <section className="app-card divide-y divide-line" aria-label="날짜별 식단">{dates.map(date => { const foods=rows.filter(row=>row.date===date); return <Link key={date} href={`/diet?d=${date}`} className="block space-y-2 p-4"><div className="flex justify-between gap-3"><h3 className="font-semibold">{date}</h3><span className="font-semibold text-brand">{Math.round(foods.reduce((sum,row)=>sum+row.kcal,0))} kcal</span></div><p className="text-sm text-muted">{[...new Set(foods.map(row=>MEAL_LABEL[row.meal]))].join(" · ")} · {foods.length}개 음식</p></Link>; })}{!dates.length && <p className="px-5 py-8 text-center text-sm text-muted">이 기간에는 식단 기록이 없어요.<br />식단을 기록하면 여기에 날짜별로 모여요.</p>}</section>
+      <section className="app-card divide-y divide-line" aria-label="날짜별 식단">{dates.map(date => { const foods=rows.filter(row=>row.date===date); return <Link key={date} href={`/diet?d=${date}`} className="block space-y-2 p-4"><div className="flex justify-between gap-3"><h3 className="font-semibold">{dayLabel(date, today)}</h3><span className="font-semibold text-brand">{Math.round(foods.reduce((sum,row)=>sum+row.kcal,0)).toLocaleString()} kcal</span></div><p className="text-sm text-muted">{[...new Set(foods.map(row=>MEAL_LABEL[row.meal]))].join(" · ")} · {foods.length}개 음식</p></Link>; })}{!dates.length && <p className="px-5 py-8 text-center text-sm text-muted">이 기간에는 식단 기록이 없어요.<br />식단을 기록하면 여기에 날짜별로 모여요.</p>}</section>
       <Link href="/diet" className="inline-flex min-h-11 items-center text-sm font-semibold text-brand">오늘 식단 기록하기 →</Link>
     </>}
   </main></div>;

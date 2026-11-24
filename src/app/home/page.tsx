@@ -82,7 +82,6 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
         {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
         <section aria-label="내 앱">
-          <div className="app-section-head"><h2>내 앱</h2></div>
           <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={flags} />
         </section>
 

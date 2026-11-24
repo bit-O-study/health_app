@@ -107,7 +107,7 @@ export type DockPlacement = ReturnType<typeof useDockPlacement>;
 
 export function appIcon(app: App, small = false) {
   const Icon = app.icon;
-  return <span aria-hidden="true" className={`flex ${small ? "h-10 w-10" : "h-12 w-12"} items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}><Icon size={small ? 20 : 22} /></span>;
+  return <span aria-hidden="true" className={`flex ${small ? "h-10 w-10" : "h-12 w-12"} items-center justify-center rounded-2xl ${app.tone}`}><Icon size={small ? 20 : 22} /></span>;
 }
 
 /** 하단바 미리보기(4자리 + 가운데 홈) — 내 앱 아이콘을 여기로 끌어 놓는다. */

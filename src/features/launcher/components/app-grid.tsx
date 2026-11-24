@@ -59,7 +59,7 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
   function tile(app: (typeof available)[number], adding = false) {
     const Icon = app.icon;
     const content = <>
-      <span aria-hidden="true" className={`relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}>
+      <span aria-hidden="true" className={`relative flex h-12 w-12 items-center justify-center rounded-2xl ${app.tone}`}>
         <Icon size={22} strokeWidth={1.9} />
         {(editing || adding) && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-white ring-2 ring-white dark:bg-zinc-200 dark:text-zinc-900 dark:ring-zinc-900">
           {adding ? <Plus size={14} /> : <Minus size={14} />}
@@ -73,7 +73,7 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
       const picked = placement.selected === app.id;
       return <li key={app.id} className="relative">
         <button type="button" aria-label={`${app.label} 하단에 놓기`} aria-pressed={picked} className={`${className} select-none cursor-grab active:cursor-grabbing ${picked ? "ring-2 ring-brand" : ""}`} {...placement.handlers(app.id, { holdOnTouch: true })} onClick={event => placement.click(app.id, undefined, event.detail === 0)}>
-          <span aria-hidden="true" className={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}><Icon size={22} strokeWidth={1.9} /></span>
+          <span aria-hidden="true" className={`flex h-12 w-12 items-center justify-center rounded-2xl ${app.tone}`}><Icon size={22} strokeWidth={1.9} /></span>
           <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{app.label}</span>
         </button>
         <button type="button" aria-label={`${app.label} 숨기기`} onClick={() => { toggle(app.id, true); placement.cancel(); }} className="absolute left-1/2 top-[-0.6rem] ml-3 flex h-8 w-8 items-center justify-center rounded-full">

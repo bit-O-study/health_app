@@ -47,7 +47,7 @@ export function AppWidget({
         <span className="flex items-center gap-1.5 text-xs font-semibold text-muted">
           <span
             aria-hidden="true"
-            className={`flex h-5 w-5 items-center justify-center rounded-md text-white ${app.tone}`}
+            className={`flex h-5 w-5 items-center justify-center rounded-md ${app.tone}`}
           >
             <Icon size={12} strokeWidth={2.2} />
           </span>

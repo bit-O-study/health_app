@@ -20,6 +20,9 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+/** 앱 아이콘 판은 브랜드 한 색의 옅은 면 + 단색 선 아이콘 — 앱마다 다른 그라데이션을 쓰지 않는다(2026-11-18 리디자인). */
+export const APP_TONE = "bg-brand/10 text-brand ring-1 ring-inset ring-brand/15";
+
 /**
  * 런처형 홈 — 앱 레지스트리 (2026-09-20).
  *
@@ -92,7 +95,7 @@ export function homeSlotIndex(sideTabCount: number): number {
 }
 
 export const LAUNCHER_APPS: LauncherApp[] = [
-  { id: "trainer", label: "헬스 트레이너", icon: Users, tone: "bg-gradient-to-br from-teal-400 to-brand", home: "/trainer", owns: ["/trainer"], tabs: [
+  { id: "trainer", label: "헬스 트레이너", icon: Users, tone: APP_TONE, home: "/trainer", owns: ["/trainer"], tabs: [
     { href: "/trainer", label: "대시보드", icon: ChartColumn, match: p => p === "/trainer" },
     { href: "/trainer/members", label: "회원 관리", icon: Users },
     { href: "/trainer/prescriptions", label: "운동 처방", icon: ClipboardList },
@@ -102,7 +105,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "workout",
     label: "운동",
     icon: Flame,
-    tone: "bg-gradient-to-br from-orange-400 to-red-500",
+    tone: APP_TONE,
     home: "/routine",
     // /plan/* 는 루틴 등록·오늘만 바꾸기·근육별 선택이라 전부 운동 앱이다.
     owns: ["/routine", "/plan", "/exercises", "/conditioning", "/jog", "/running"],
@@ -133,7 +136,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "diet",
     label: "식단",
     icon: Apple,
-    tone: "bg-gradient-to-br from-green-400 to-green-600",
+    tone: APP_TONE,
     home: "/diet",
     owns: ["/diet"],
     tabs: [
@@ -147,7 +150,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "calendar",
     label: "캘린더",
     icon: CalendarHeart,
-    tone: "bg-gradient-to-br from-sky-400 to-blue-600",
+    tone: APP_TONE,
     home: "/calendar",
     owns: ["/calendar", "/cycle"],
     tabs: [
@@ -159,7 +162,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "groups",
     label: "그룹",
     icon: UsersRound,
-    tone: "bg-gradient-to-br from-amber-400 to-yellow-600",
+    tone: APP_TONE,
     home: "/groups",
     owns: ["/groups"],
     // 찾기·랭킹은 `/groups` 화면 안에 있다 — 하단바엔 실제 화면 둘만.
@@ -174,7 +177,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "community",
     label: "커뮤니티",
     icon: Newspaper,
-    tone: "bg-gradient-to-br from-violet-400 to-purple-600",
+    tone: APP_TONE,
     home: "/community",
     owns: ["/community"],
     tabs: [
@@ -188,7 +191,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "coach",
     label: "헬쑤쌤",
     icon: GraduationCap,
-    tone: "bg-gradient-to-br from-teal-400 to-cyan-600",
+    tone: APP_TONE,
     home: "/coach",
     owns: ["/coach"],
     debugFlag: "helssu-coach",
@@ -200,7 +203,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "fit",
     label: "맞춤 운동",
     icon: Activity,
-    tone: "bg-gradient-to-br from-brand to-sky-600",
+    tone: APP_TONE,
     home: "/fit",
     owns: ["/fit"],
     debugFlag: "fit",
@@ -217,7 +220,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "ai-trainer",
     label: "AI 트레이너",
     icon: Sparkles,
-    tone: "bg-gradient-to-br from-brand to-teal-600",
+    tone: APP_TONE,
     home: "/ai-trainer",
     owns: ["/ai-trainer"],
     debugFlag: "ai-trainer",
@@ -228,7 +231,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     id: "commitments",
     label: "다짐",
     icon: Target,
-    tone: "bg-gradient-to-br from-rose-400 to-orange-500",
+    tone: APP_TONE,
     home: "/commitments",
     owns: ["/commitments"],
     tabs: [
@@ -243,7 +246,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     debugFlag: "pet",
     label: "펫",
     icon: PawPrint,
-    tone: "bg-gradient-to-br from-pink-400 to-rose-600",
+    tone: APP_TONE,
     home: "/pet",
     owns: ["/pet"],
     // 다짐은 2026-10-06 자기 앱(다짐)으로 나갔다 — 펫은 화면이 하나뿐이라 런처 바를 쓴다.

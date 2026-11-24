@@ -95,11 +95,11 @@ export function WeeklyTrainingSummary({
 
       <p className="mt-2 text-xs font-semibold text-muted">
         {untouched.length > 0 ? (
-          <span className="text-rose-600 dark:text-rose-400">
+          <span className="text-danger">
             {untouched.map((r) => r.label).join("·")} 0세트
           </span>
         ) : low.length > 0 ? (
-          <span className="text-amber-600 dark:text-amber-400">
+          <span className="text-warn">
             {low.map((r) => r.label).join("·")} 권장량 미달
           </span>
         ) : (

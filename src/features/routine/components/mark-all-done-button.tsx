@@ -86,7 +86,7 @@ export function MarkAllDoneButton({
         <span className="flex max-w-[240px] flex-col items-end gap-1 text-right">
           <span
             data-testid="mark-all-unconfirmed"
-            className="text-xs leading-tight text-amber-600 dark:text-amber-400"
+            className="text-xs leading-tight text-warn"
           >
             저장 결과를 확인하지 못했어요. 새로고침해서 확인해 주세요.
           </span>

@@ -950,7 +950,7 @@ function MealDetailDialog({
 
       {confirmDel ? (
         <div className="flex items-center justify-between gap-3 border-b border-red-200 bg-red-50 px-4 py-2.5 dark:border-red-900/50 dark:bg-red-950/30">
-          <span className="text-sm font-semibold text-red-700 dark:text-red-300">
+          <span className="text-sm font-semibold text-danger">
             이 {MEAL_LABEL[meal]} 기록을 삭제할까요?
           </span>
           <div className="flex shrink-0 gap-2">

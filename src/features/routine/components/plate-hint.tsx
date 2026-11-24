@@ -108,7 +108,7 @@ export function PlateHint({
       </p>
       <p className="font-bold tabular-nums">{text}</p>
       {result.leftoverKg > 0 && !result.belowBar ? (
-        <p className="text-amber-700 dark:text-amber-400">
+        <p className="text-warn">
           {result.leftoverKg}kg 는 원판으로 못 맞춰요
         </p>
       ) : null}

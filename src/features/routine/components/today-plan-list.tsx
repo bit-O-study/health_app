@@ -871,7 +871,7 @@ function MemoDialog({
           className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-muted"
         />
         {error ? (
-          <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="mt-2 text-xs font-semibold text-danger">
             {error}
           </p>
         ) : null}
@@ -1234,7 +1234,7 @@ function ExerciseEditForm({
         </button>
       </div>
       {error ? (
-        <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="text-xs font-semibold text-danger">
           {error}
         </p>
       ) : minSets > 1 && (exerciseDone || setsDone > 0) ? (
@@ -1457,7 +1457,7 @@ function AddExerciseSlot({
         상세에서 조절할 수 있어요.
       </p>
       {error ? (
-        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}

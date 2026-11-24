@@ -243,7 +243,7 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
   return (
     <div className="min-w-0 px-1">
       <p className="truncate text-xs text-muted">{label}</p>
-      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-rose-600 dark:text-rose-400">{value}</p>
+      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-danger">{value}</p>
       {sub ? <p className="truncate text-xs tabular-nums text-muted">{sub}</p> : null}
     </div>
   );

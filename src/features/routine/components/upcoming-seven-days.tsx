@@ -343,7 +343,7 @@ export function UpcomingSevenDaysGrid({
       </div>
 
       {err ? (
-        <p className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-medium text-danger">
           {err}
         </p>
       ) : null}

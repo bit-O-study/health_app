@@ -135,7 +135,7 @@ export function BodyLogForm({
             className={`text-sm font-medium ${
               msg.ok
                 ? "text-brand"
-                : "text-red-600 dark:text-red-400"
+                : "text-danger"
             }`}
           >
             {msg.text}

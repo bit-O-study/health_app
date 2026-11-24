@@ -150,7 +150,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
       )}
 
       {mode === "synced" && steps === 0 ? (
-        <span className="max-w-[220px] text-right text-xs leading-tight text-amber-600 dark:text-amber-400">
+        <span className="max-w-[220px] text-right text-xs leading-tight text-warn">
           걸음수가 0이면 삼성헬스 → Health Connect 의 걸음수 공유를 켜주세요.
         </span>
       ) : null}

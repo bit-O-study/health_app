@@ -90,7 +90,7 @@ export function ProofMemberSheet({
             {/* 섭취 / 소비 요약 */}
             <div className="mb-5 grid grid-cols-2 gap-2">
               <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-3 dark:border-amber-900/40 dark:bg-amber-950/20">
-                <span className="flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
+                <span className="flex items-center gap-1 text-xs font-bold text-warn">
                   <Utensils size={13} /> 오늘 섭취
                 </span>
                 <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -183,7 +183,7 @@ export function ProofMemberSheet({
                         </span>
                         {f.name}
                       </span>
-                      <span className="shrink-0 text-xs font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                      <span className="shrink-0 text-xs font-bold tabular-nums text-warn">
                         {f.kcal}kcal
                       </span>
                     </li>

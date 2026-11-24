@@ -310,7 +310,7 @@ function ShareDetailSheet({
                 </p>
                 <GymSwapNote swap={e.gymSwap} equipment={e.equipment} />
                 {e.memo ? (
-                  <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-amber-700 dark:text-amber-400">
+                  <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-warn">
                     <StickyNote
                       aria-hidden="true"
                       size={12}
@@ -417,7 +417,7 @@ function CondBlock({
 }) {
   const color =
     tone === "amber"
-      ? "text-amber-600 dark:text-amber-400"
+      ? "text-warn"
       : "text-sky-600 dark:text-sky-400";
   return (
     <div className="mt-3">
@@ -521,7 +521,7 @@ function ApplyDaySheet({
                       <span
                         className={`block text-xs font-semibold ${
                           overwrites
-                            ? "text-red-600 dark:text-red-400"
+                            ? "text-danger"
                             : "text-muted"
                         }`}
                       >
@@ -541,7 +541,7 @@ function ApplyDaySheet({
         )}
 
         {error ? (
-          <p className="mt-3 text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="mt-3 text-xs font-semibold text-danger">
             {error}
           </p>
         ) : null}

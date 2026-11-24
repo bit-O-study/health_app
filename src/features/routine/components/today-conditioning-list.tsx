@@ -738,7 +738,7 @@ function CondMemoDialog({
           className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-muted"
         />
         {error ? (
-          <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="mt-2 text-xs font-semibold text-danger">
             {error}
           </p>
         ) : null}
@@ -890,7 +890,7 @@ function ConditioningEditForm({
         </button>
       </div>
       {error ? (
-        <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}
@@ -1015,7 +1015,7 @@ function AddConditioningSlot({
         조절하세요.
       </p>
       {error ? (
-        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}

@@ -184,7 +184,7 @@ export function WithdrawButton() {
                   </div>
 
                   <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950/30">
-                    <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-700 dark:text-red-300">
+                    <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-danger">
                       <AlertTriangle aria-hidden="true" size={14} />
                       탈퇴하면 이런 것들이 사라져요
                     </p>
@@ -219,7 +219,7 @@ export function WithdrawButton() {
                   </label>
 
                   {error ? (
-                    <p className="mt-3 text-xs font-semibold text-red-600 dark:text-red-400">
+                    <p className="mt-3 text-xs font-semibold text-danger">
                       {error}
                     </p>
                   ) : null}

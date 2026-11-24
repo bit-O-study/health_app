@@ -149,7 +149,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
           </ul>
 
           {!c.prefs.prescription ? (
-            <p className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
+            <p className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-warn">
               <ShieldOff aria-hidden="true" size={12} />
               트레이너가 내 루틴을 바꿀 수 없어요
             </p>

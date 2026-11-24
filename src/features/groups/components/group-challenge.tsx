@@ -148,7 +148,7 @@ export function GroupChallenge({
             />
           </div>
           {error ? (
-            <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+            <p className="text-xs font-semibold text-danger">
               {error}
             </p>
           ) : null}

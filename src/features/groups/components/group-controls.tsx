@@ -111,7 +111,7 @@ export function GroupControls({
   if (compact) {
     return (
       <div className="flex flex-wrap items-center gap-1.5">
-        {shareError && <p role="alert" className="w-full text-xs text-red-600 dark:text-red-400">{shareError}</p>}
+        {shareError && <p role="alert" className="w-full text-xs text-danger">{shareError}</p>}
         <button
           type="button"
           onClick={shareKakao}
@@ -158,7 +158,7 @@ export function GroupControls({
 
   return (
     <div className="space-y-2">
-      {shareError && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{shareError}</p>}
+      {shareError && <p role="alert" className="text-sm text-danger">{shareError}</p>}
       <button
         type="button"
         onClick={shareKakao}

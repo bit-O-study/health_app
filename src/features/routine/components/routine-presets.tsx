@@ -106,7 +106,7 @@ export function RoutinePresets({
         </button>
       </div>
       {error ? (
-        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}

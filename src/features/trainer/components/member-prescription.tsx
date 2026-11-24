@@ -90,7 +90,7 @@ function PrescriptionFields({ input, setInput, name, setName, equipments, setEqu
       <label className="text-sm">횟수<input type="number" min="1" max="100" required className={field} value={input.reps || ""} onChange={e => setInput({ ...input, reps: Number(e.target.value) })} /></label>
       <label className="text-sm">중량(kg)<input type="number" min="0" max="9999.9" step="0.1" className={field} value={input.weightKg ?? ""} onChange={e => setInput({ ...input, weightKg: e.target.value === "" ? null : Number(e.target.value) })} /></label>
     </div>
-    {showSetDetailWarning && <p className="text-sm text-amber-700 dark:text-amber-400">저장하면 기존 세트별 설정은 위의 동일한 세트·횟수·중량으로 바뀝니다.</p>}
+    {showSetDetailWarning && <p className="text-sm text-warn">저장하면 기존 세트별 설정은 위의 동일한 세트·횟수·중량으로 바뀝니다.</p>}
   </>;
 }
 
@@ -141,7 +141,7 @@ function PrescriptionCard({ contextLabel, rowName, summary, memberName, initial,
     {!confirm && <div className="flex gap-3"><button type="button" disabled={pending} className="min-h-11 flex-1 rounded-lg bg-brand/10 px-4 py-2 text-sm font-semibold text-brand" onClick={() => { setEditing(!editing); setMessage(""); }}> {editing ? "닫기" : "운동 변경"}</button><button type="button" disabled={pending} className="min-h-11 rounded-lg px-3 py-2 text-sm text-muted" onClick={() => setConfirm("delete")}>운동 삭제</button></div>}
     {confirm && <div className="space-y-2 rounded-lg bg-zinc-100 p-3 dark:bg-zinc-800">
       <p className="text-sm">{memberName} 님의 {contextLabel}에서 {confirm === "delete" ? `${rowName} 운동을 삭제할까요?` : `${name} · ${input.sets}세트 × ${input.reps}회 · ${input.weightKg === null ? "중량 미설정" : `${input.weightKg}kg`}로 변경할까요?`}</p>
-      {extraNote && <p className="text-sm text-amber-700 dark:text-amber-400">{extraNote}</p>}
+      {extraNote && <p className="text-sm text-warn">{extraNote}</p>}
       <div className="flex gap-3"><button type="button" disabled={pending} onClick={submit} className="rounded-lg bg-brand px-3 py-2 text-sm text-white dark:text-zinc-950">{pending ? "저장 중…" : confirm === "delete" ? "삭제 확정" : "처방 저장"}</button><button type="button" disabled={pending} onClick={() => setConfirm(null)}>취소</button></div>
     </div>}
     {message && <p role="status" className="text-sm">{message}</p>}

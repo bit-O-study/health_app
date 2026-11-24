@@ -503,7 +503,7 @@ export function RoutinePlanner({
                     "font-medium",
                     saveStatus.ok
                       ? "text-brand"
-                      : "text-red-600 dark:text-red-400",
+                      : "text-danger",
                   )}
                 >
                   {saveStatus.message}

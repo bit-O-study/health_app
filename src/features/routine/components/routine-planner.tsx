@@ -304,7 +304,8 @@ export function RoutinePlanner({
       )}
 
       {/* 주기 그리드 (프리셋·커스텀 공통 미리보기) */}
-      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      {/* items-start — 휴식일 카드가 옆 운동일 카드 높이로 늘어나 아래가 텅 비지 않게. */}
+      <div className="mt-4 grid grid-cols-2 items-start gap-2 sm:grid-cols-4">
         {DAY_LABELS.map((dayLabel, index) => {
           const day = previewWeek[index];
           const style = TONE_STYLES[day.tone];

@@ -636,14 +636,14 @@ export function TodayConditioningList({
                         className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
                           item.memo
                             ? "text-zinc-700 dark:text-zinc-200"
-                            : "text-zinc-300 dark:text-zinc-600"
+                            : "text-muted"
                         }`}
                       >
                         <StickyNote aria-hidden="true" size={16} />
                       </button>
                       <ChevronRight
                         aria-hidden="true"
-                        className="shrink-0 text-zinc-300 dark:text-zinc-600"
+                        className="shrink-0 text-muted"
                         size={18}
                       />
                     </>

@@ -9,6 +9,7 @@ import { deletePledgeAction } from "@/features/commitments/pledge-actions";
 import { FAIL_REASON_LABEL, failReasons } from "@/features/commitments/evaluation";
 import { STATUS_LABEL, STATUS_TONE } from "@/features/commitments/components/pledge-labels";
 import type { PledgeView } from "@/features/commitments/pledge-data";
+import { pledgeRangeLabel } from "@/features/commitments/pledge-date-label";
 import { useConfirm } from "@/components/use-confirm";
 
 const sign = (v: number) => (v > 0 ? `+${v}` : `${v}`);
@@ -68,7 +69,7 @@ export function PledgeList({ pledges, groupNames }: { pledges: PledgeView[]; gro
                       <p className="mt-1 text-base font-semibold leading-5">{p.title}</p>
                       <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
                         <CalendarClock aria-hidden="true" size={11} />
-                        {p.startDate} ~ {p.endDate}
+                        {pledgeRangeLabel(p.startDate, p.endDate, Number(p.startDate.slice(0, 4)))}
                         {st === "active" ? ` · ${p.week}/${p.totalWeeks}주차` : ""}
                       </p>
                     </div>

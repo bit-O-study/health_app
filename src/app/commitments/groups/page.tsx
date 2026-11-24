@@ -1,3 +1,4 @@
+import { pledgeRangeLabel } from "@/features/commitments/pledge-date-label";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import { groupFailures, type GroupWidePledge } from "@/features/commitments/group-pledge";
@@ -73,7 +74,7 @@ export default async function GroupPledgesPage() {
                           </span>
                         </div>
                         <p className="mt-0.5 text-xs text-muted">
-                          {s.startDate} ~ {s.endDate}
+                          {pledgeRangeLabel(s.startDate, s.endDate, Number(s.startDate.slice(0, 4)))}
                         </p>
                         <ul className="mt-1.5 flex flex-wrap gap-1">
                           {s.lines.map((l) => (

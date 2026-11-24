@@ -1,5 +1,6 @@
 "use client";
 
+import { pledgeRangeLabel } from "@/features/commitments/pledge-date-label";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CalendarClock, Dumbbell, Salad, Trash2 } from "lucide-react";
@@ -46,7 +47,7 @@ export function CommitmentManager({ commitments }: { commitments: CommitmentView
                   </p>
                   <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
                     <CalendarClock aria-hidden="true" size={11} />
-                    {c.startDate} ~ {c.deadline}
+                    {pledgeRangeLabel(c.startDate, c.deadline, Number(c.startDate.slice(0, 4)))}
                   </p>
                 </div>
                 <button

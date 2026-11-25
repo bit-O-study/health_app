@@ -36,7 +36,13 @@
     "cleanup": "0 test accounts found in configured test DB; app-account cleanup not confirmed"
   },
   "android": "not-verified",
-  "production": "approved-pending-deployment",
+  "production": {
+    "status": "deployed-verified",
+    "sha": "8b85882deb47a6d356cd500ce5f2b9bf6125c822",
+    "publicVideoHashes": 537,
+    "light": 690,
+    "dark": 680
+  },
   "exceptionApproval": {
     "date": "2026-11-25",
     "user": "그냥 배포해줘도 돼",

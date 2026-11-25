@@ -1,0 +1,87 @@
+{
+  "v-up": [
+    {
+      "file": "tools/media/motion-guides/v-up.json",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-0.json",
+      "sha256": "29edf9512277ccff51f6dbba8b05567e3085ab5ed55a7dc73e4340a0ca7fc7bb"
+    },
+    {
+      "file": "tools/media/motion-guides/v-up.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-1.jpg",
+      "sha256": "26252130212b485fad788a11b82110be1ad29cec9b5dd41228037f9b5ebea535"
+    },
+    {
+      "file": "tools/media/motion-guides/v-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-3.mp4",
+      "sha256": "f7a53685cc14e2db0789489d0399bd315fbd7d93887b6102f7b5ac907706a898"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "v-up-2": [
+    {
+      "file": "tools/media/motion-guides/v-up-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-2-0.json",
+      "sha256": "f111a1b4a98abdb8b251ae207bd193ec647e0d322c4dada194d938701eaac2e3"
+    },
+    {
+      "file": "tools/media/motion-guides/v-up-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-2-1.jpg",
+      "sha256": "193f3afd70ceea8ac401e19d945731036df4733829d9abdb57a45731c858efc8"
+    },
+    {
+      "file": "tools/media/motion-guides/v-up-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-2-3.mp4",
+      "sha256": "650d19df5d3761f6a802fdb36064e08d67ffdbcabe0576b741e3a51b4259f360"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-2-dark.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/v-ups/backup/v-up-2-4.mp4",
+      "sha256": "288ec7786ee6977930466782de0e3df9c907f4a15a925d3a66550855a9cd14c3"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-2-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "jackknife-sit-up": [
+    {
+      "file": "tools/media/motion-guides/jackknife-sit-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/jackknife-sit-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/jackknife-sit-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jackknife-sit-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jackknife-sit-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jackknife-sit-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

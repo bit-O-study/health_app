@@ -1,0 +1,39 @@
+{
+  "scapular-push-up": {
+    "reviewedAt": "2026-11-24T06:50:38.716Z",
+    "checks": {
+      "exercise": "scapular-push-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight elbows are maintained while shoulder girdle protracts and retracts; hands remain fixed.",
+      "feet": "Both feet stay fixed with toes supporting the straight plank posture.",
+      "movement": "Keep elbows straight in high plank; let chest lower through scapular retraction, then press floor away through protraction with stable hands and toes."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second scapular push-up demonstration."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/full-sheet.png",
+        "sha256": "dedc38d76ec89ecfef384deb2ad2a5d5449e6f5139e4272c0255caeb2692477d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/side-sheet.png",
+        "sha256": "7a7e089d190428179ae941bf6687d0a059b27d88a1abc18662ee589ad9f5842a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/poses.json",
+        "sha256": "c4ff7692847bc0291340023c5374471c8784b63940a98a8cf9891b6728c3a98a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/geometry.json",
+        "sha256": "a9a68cee90d4d992164e0ef306ac6c92ae141e89b920e9b605302e649144abec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/kinematics.json",
+        "sha256": "f1cf823e40f022d426982b7a4c738f03af00aa24a503b77d3119cd1c655b6ae7"
+      }
+    ]
+  }
+}

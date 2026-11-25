@@ -1,0 +1,18 @@
+{
+  "id": "hollow-rock",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "51691357fbfd0fd94f6fb1b7e5a7e0661fc656175a4dca64aaf387e9db50b35c",
+  "rigSourceSha256": "f2bf9bead38f66cd1e87d156500c74fa2471d681b914e8ed3dd3d53a691a6a6d",
+  "videoSha256": "34b7c79c5780fc4bedb5cd616e59b8205f0beb693eaf16de5a8b44e1767ac8e0",
+  "darkVideoSha256": "40f257b8d1f327019214638f018ca54351ebf485abdfa7928a57fa31c573c290",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 99641,
+  "darkBytes": 106468,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T06:43:19.414Z"
+}

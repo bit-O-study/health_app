@@ -1,0 +1,39 @@
+{
+  "prone-l-raise": {
+    "reviewedAt": "2026-11-16T07:19:41.737Z",
+    "checks": {
+      "exercise": "prone-l-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around small dumbbell handles through the arm lift.",
+      "feet": "Prone torso and legs remain stable. Upper arms extend laterally, elbows remain at 90 degrees and forearms point forward in an L shape while both arms lift.",
+      "movement": "Light dumbbell variation of prone L raise. Upper arms lateral at shoulder level, forearms point forward, elbows fixed 90 degrees. Lift arms a small distance while trunk and legs remain stable. 3.5 seconds lift, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/full-sheet.png",
+        "sha256": "798cfed3e17d33a7802d9df4be62572b35c24a4332c8717fb6e0cbfb1cdea2d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/side-sheet.png",
+        "sha256": "1fa6ab07b1bb8696e08dd21731687818b8f2f2cb07b55cf75b34a032ccb4c9d5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/poses.json",
+        "sha256": "d26fd524d28217b9759c39209495db78472d71b3d46f55efb0f2c8c8ed9c7070"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/geometry.json",
+        "sha256": "16f86f33cb3883cc57150a75269411c1d70f67c9e92663dbd60f8de7bb507ec9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/kinematics.json",
+        "sha256": "dfd8299d9a98be6d2a1e0a72fc1eb1032302202409061f1a9a1f6f0d4df84df8"
+      }
+    ]
+  }
+}

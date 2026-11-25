@@ -1,0 +1,39 @@
+{
+  "lying-leg-raise": {
+    "reviewedAt": "2026-11-16T08:53:44.489Z",
+    "checks": {
+      "exercise": "lying-leg-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside body, palms down.",
+      "feet": "Supine body stays supported while straight legs lower together and return to vertical.",
+      "movement": "Supine, arms beside torso palms down. Straight legs lower together from vertical to 15 degrees above horizontal over 3.5 seconds, pause 1 second and return over 3.5 seconds. Back remains supported without pelvic curl; low head cushion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/full-sheet.png",
+        "sha256": "12b2aed1de1266a1ebec1b58c75c13161ba2aa6c28e9ad4d540df33347da08f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/side-sheet.png",
+        "sha256": "c744e8d4cd758019cbb8a7baf98185f9f5cbbed22cb9d39c230d263b752df317"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/poses.json",
+        "sha256": "4183e6f2bccbfe1e6bbbccab73073cbacefa901ada81af198913c0b19be80f45"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/geometry.json",
+        "sha256": "06fe8517fb2b82d6496112d92e9941b5a91cbd3b5bc4384ae312d3de04c442c5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/kinematics.json",
+        "sha256": "567a04d0c2621b4793e065cc6289cb1a5ec7251526e35a4285cd35b8a3268b0d"
+      }
+    ]
+  }
+}

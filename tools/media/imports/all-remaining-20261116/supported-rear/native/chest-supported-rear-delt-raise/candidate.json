@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/chest-supported-rear-delt-raise-alpha.webm",
+      "sha256": "1093755e66dadf15e8475d0c340b176a5951fbc604cc4175d90dc5e976815b51",
+      "bytes": 218798,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/chest-supported-rear-delt-raise.mp4",
+      "sha256": "41f3d54a68327f4203650f5ee95d65d56a419df8f8ced1568574acc83e900e96",
+      "bytes": 101166,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/chest-supported-rear-delt-raise-dark.mp4",
+      "sha256": "348fa452ea59654eff56a49229cb2b47eb451eee148022d22197de08058c8fa3",
+      "bytes": 83631,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/supported-rear/chest-supported-rear-delt-raise-studio.mjs",
+      "sha256": "5b171791ecc572d7a631883503f046ccd85e9f766a3df0faf3033cf03aeaae1d"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/supported-rear/chest-supported-rear-delt-raise-motion.mjs",
+      "sha256": "1bef6beebad9221ce36d46717cda31697f80bf840d7a7abcb812e0a8df8e73e0"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/supported-rear/render.mjs",
+      "sha256": "1f73e81017116ac53f29c9d5a1933ac8fda55f7a147b676b82bd6bc5cb1bbcd5"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

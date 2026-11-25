@@ -1,0 +1,18 @@
+{
+  "id": "sleeper-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "db70e30d796037b883b8564e4df744402cab5cb00101eb40f6cb0ffed4c59844",
+  "rigSourceSha256": "5f27ff7c40b0a92daa5f1c208b08c492fd9c29defb03b236ef216796164d4998",
+  "videoSha256": "7571c5bfa40693041f95698973aafae0f150004f7bdaddb369a3dd434b7e42e4",
+  "darkVideoSha256": "b1997c2ab40a99ad9856e60dda10ddcba11f8b2851e711fbee8f20b60be2421d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15310,
+  "darkBytes": 14962,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:44:44.075Z"
+}

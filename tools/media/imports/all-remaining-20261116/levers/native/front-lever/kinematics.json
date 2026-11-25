@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "kneeMinimum": 180,
+  "elbowMinimum": 180,
+  "horizontalLegs": true,
+  "straightBody": true,
+  "barSkinGaps": [
+    0.000013133797936493163,
+    0.000013133797936493163
+  ],
+  "bodyClearance": 7.5142920187298365
+}

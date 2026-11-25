@@ -1,0 +1,39 @@
+{
+  "legs-up-the-wall-pose": {
+    "reviewedAt": "2026-11-16T08:42:55.633Z",
+    "checks": {
+      "exercise": "legs-up-the-wall-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside the body, palms upward.",
+      "feet": "Supine body rests on mat with straight raised legs supported by a wall.",
+      "movement": "Lie on back with legs extended against wall and arms resting to sides palms upward. Keep head and torso supported. Eight-second hold with entry and exit omitted. A low head cushion supports a neutral head position."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/full-sheet.png",
+        "sha256": "f3d920f6a793cf258c87efc4f8317125112e9002a336af006f99fc2c7dff8c7a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/side-sheet.png",
+        "sha256": "10abb45d175b423135f1b3e7851eed753f82eb6ec483491661b1b2260ecdf4bb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/poses.json",
+        "sha256": "9e44b051f7bd0f92663e297c2ebdf2cc626af7f3a9e9012def574e1539668a83"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/geometry.json",
+        "sha256": "30af16d6cfb9ab348e0209f24e62c36612f17da47a821f95d5a7079a7365fa6e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/kinematics.json",
+        "sha256": "2dcd5edb882b597e56cc557803f6529ba9c24934f1dd600401cb69bc88c217fc"
+      }
+    ]
+  }
+}

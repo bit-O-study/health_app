@@ -1,0 +1,28 @@
+{
+  "plank-toe-tap": [
+    {
+      "file": "tools/media/motion-guides/plank-toe-tap.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/plank-toe-tap.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/plank-toe-tap-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-toe-tap.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-toe-tap-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-toe-tap-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

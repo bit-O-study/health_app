@@ -1,0 +1,18 @@
+{
+  "id": "bow-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "adb1cf9cf560e0352e3ef1ffef14aacb8db65ee90827331992bb808207a7c00e",
+  "rigSourceSha256": "6fe48fb9afc571c38cc511c52a773348f0bd40064b2ccb1188e6a3a3cc2f23a8",
+  "videoSha256": "5364b0facea6e89808688a7da0490e91b61e54276151316aa6120327499c797b",
+  "darkVideoSha256": "e9ec037cc0b4a41ef2589c9e37df020156f7e0a044306a68af216904fde5d5fb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15594,
+  "darkBytes": 15468,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T04:10:02.866Z"
+}

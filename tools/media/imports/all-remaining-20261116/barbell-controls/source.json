@@ -1,0 +1,14 @@
+{
+  "isometric-squat-hold": {
+    "equipment": "barbell",
+    "url": "https://stronglifts.com/squat/"
+  },
+  "isometric-bench-hold": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/bench-press/"
+  },
+  "eccentric-bench-press": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/bench-press/"
+  }
+}

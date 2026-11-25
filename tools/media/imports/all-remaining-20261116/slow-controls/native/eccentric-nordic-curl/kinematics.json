@@ -1,0 +1,9 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "supportDrift": 3.9968028886505635e-15,
+  "maxStep": 0.26937261000630996,
+  "supportSamples": 17,
+  "timing": "Eccentric-emphasis limited-range Nordic: 5-second controlled 45-degree lean, 1-second hold, 1-second unassisted return, 1-second upright pause. Not an eccentric-only full descent or assisted reset."
+}

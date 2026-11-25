@@ -1,0 +1,2691 @@
+{
+  "checkedAt": "2026-11-25T01:03:02.471Z",
+  "verification": "Fresh output/input hashes match previously decoded and reviewed artifacts; full re-decode was interrupted.",
+  "files": [
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-2.mp4",
+      "sha256": "f92df312bade5145bc299c89f3ea2193460ff95ce854bd55251a1b9500bbb361",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up.mp4",
+      "sha256": "f92df312bade5145bc299c89f3ea2193460ff95ce854bd55251a1b9500bbb361",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-2.mp4",
+      "sha256": "baa887bde2ce6c71336c8d37f516580d5a809fb60766994953fa657bd4b849cb",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-2.mp4",
+      "sha256": "f896292622f496902f930cd82c6456eb3b0fa7abe884dbb15470578b06d974af",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-2.mp4",
+      "sha256": "f9b28c74aebbe882d256dfc22f98b247fe736a0d2ffd7aa860a080b799e90733",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-2-dark.mp4",
+      "sha256": "605d510f088adf4ff899a01f0f580ead883e1d5ececcd99f8a9327bafaea7faa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-2.mp4",
+      "sha256": "6a77a2497b7f6db3373cde5d5dc2ce99ff979fcada771880232109fb3a6124f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-2.mp4",
+      "sha256": "8aab96c03849225f766296c1f3b7c2079c1250e7a82fe9237606cfdfa942dce8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bench-press.mp4",
+      "sha256": "fa9ef792f269b1ce54a4d6fc6446618986e2a31e8c63c2b027add280df97a3aa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-2.mp4",
+      "sha256": "990b097173b814ee9f1986d6597c7f96262d607951d984b836eb85b8ddb20bfa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-2-dark.mp4",
+      "sha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-2.mp4",
+      "sha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up.mp4",
+      "sha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-25-rep-bench-press-alpha.webm",
+      "sha256": "88d7f9a870d04a6d009662693208f7b89d748a2f1b4332457cf347629140b308",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-25-rep-bench-press-dark.mp4",
+      "sha256": "a12fe876e7428474ee89686a5a03e68692300688151c109338f3d203cabeec7f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-25-rep-bench-press.mp4",
+      "sha256": "80e7c0d9fd172cc706fe70620e63c2c28e76f577cc07ffa491efc54e72ab2738",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-leg-press-alpha.webm",
+      "sha256": "8e64faa1618651ebdd28e71a8a9b5325ba726c0d0454f7dea957bb54f1484728",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-leg-press-dark.mp4",
+      "sha256": "62d6846976f77e5a4a171a7948f487df6accb4096a4a4b03dd94217dc88d34f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-leg-press.mp4",
+      "sha256": "29a7548970fcbc91c8cbce4eb3cf3fd6fa02789b7470438fc2b60b1a79a7205c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-shoulder-press-alpha.webm",
+      "sha256": "6a758fdab1827f2a1e67602724e75ace7287b807670e805819210a024eeaed09",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-shoulder-press-dark.mp4",
+      "sha256": "f6346ec8b1eaa8124665881aaf8ad2de85261946334a5721e095e2c9c69b91cc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-shoulder-press.mp4",
+      "sha256": "027570a7de8699646d98c02a39dde28e475bace6ed605d11d38506a7518fac25",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/90-90-hip-stretch-alpha.webm",
+      "sha256": "e1de6fc7903cc57a097593582df13413a34a6b272b8227366b47650d8de31863",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/90-90-hip-stretch-dark.mp4",
+      "sha256": "e0cae40635d14335089ba07bbcdf8decb5369270a222a39086ebf264e4c62a38",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/90-90-hip-stretch.mp4",
+      "sha256": "0fbee61fe6d29588f7b183a2c2c370f0d5362b82aa279ed5d224333a02022ac9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/active-hang-alpha.webm",
+      "sha256": "33b9031953a4687d86cd1ef8ee01c5fd2dacb443cfad0f318517a5e1d6fbbf51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/active-hang-dark.mp4",
+      "sha256": "fa2cfdc067f48f57fadaec66f1fb597acdf8fdbbd80dd43650bc4fc2911c75d6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/active-hang.mp4",
+      "sha256": "ddedf3484b53ad12494b9529e8da31feefc409bef90dea6eea0017594bd34188",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-chin-up-alpha.webm",
+      "sha256": "0cfbec47a999cd6aa9fa73ced11d77c469029d04602f0440163141d074e8fe44",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-chin-up-dark.mp4",
+      "sha256": "c5dd3f1a3a950fdce8c6a2dde726b6d658e8237fd191f83ee3f360685aeda5a0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-chin-up.mp4",
+      "sha256": "09bac8315baa0fc7c43a76ddb5f7726b15b57e38f2fc7cd6857a5872365b2697",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-2-alpha.webm",
+      "sha256": "654192b15df4eeae4cf09e4be7ec7214af205b97f4ea1cab787a6e9e4cf4cee9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-2-dark.mp4",
+      "sha256": "7e2a2db17c7affbddfb545e4571285e157b001285d13da4b70659737b7908d77",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-alpha.webm",
+      "sha256": "f241253d90e878221285196b60e474a0b4f49b928a15616a6c7a72d6b7177471",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-dark.mp4",
+      "sha256": "7e2a2db17c7affbddfb545e4571285e157b001285d13da4b70659737b7908d77",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/back-lever-alpha.webm",
+      "sha256": "0c57b1c3c3233f67662e7bad2c8a5c049e71dcd384dc5368e010c5c983acafdc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/back-lever-dark.mp4",
+      "sha256": "39f0e9c649db332389117e7c4ceb66574a86d1fc000bd8ceabc0e3ce43f40728",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/back-lever.mp4",
+      "sha256": "595144aa658a6bb26ce1b8870ae34b56088ce07a83052ba1239b832405295005",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-clamshell-alpha.webm",
+      "sha256": "5a8bc3ae544e5f795a34c48aae514b08103309c97f98ca0f2ade4439db0703f4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-clamshell-dark.mp4",
+      "sha256": "b43680ef1692388769966bdeb96e1026bf9b13308622e6795319cf27eb533565",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-clamshell.mp4",
+      "sha256": "1ee2defdd57b5645dc2e1dcef9146b9aa33d4935428579f14eab8907bb1c126b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-leg-curl-alpha.webm",
+      "sha256": "f3a4286f76de7c7b02f3cb3348e3b6f8a2cfe250f6411b427fa7e2e43cd31c1f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-leg-curl-dark.mp4",
+      "sha256": "627c45302fa1cc50e820c6d80797b6831f2c09b2cdebb774774232a1d169c2bb",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-leg-curl.mp4",
+      "sha256": "a170258c27ca65a1450de5a507efab1599bcf26bb3df49837a8db5352c8fb0e2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-calf-raise-alpha.webm",
+      "sha256": "04e1b9e2d86f3f0b3b55e139ca1c452239ea6b313422fe7f1f538cb289a80670",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-calf-raise-dark.mp4",
+      "sha256": "4b3e4469337519b7be252d2b6bbfc7e0640b9c8bc5b09635a0b42ea214f17d64",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-calf-raise.mp4",
+      "sha256": "4c5834c189126a0b57e030e1a56cfd252859f0682a5884eb102876993c442e59",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bear-plank-alpha.webm",
+      "sha256": "6d326bf34b76ef606118c4afbeca7476020810338c7e3fc9327b8d9d24e93b7f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bear-plank-dark.mp4",
+      "sha256": "d6242a28224cda90b1f0a33811b95c7d3af0c816e800ef8bb876b76df546a20d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bear-plank.mp4",
+      "sha256": "05cfd5f6683b0cfd81062bbbc93cd06631c69d74375f07465722321cd35479ce",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bicycle-crunch-alpha.webm",
+      "sha256": "aa964c3c58ff723d5646f7e42f232d4ffb38e627a432b7337750ceb1030e0274",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bicycle-crunch-dark.mp4",
+      "sha256": "d9f37dabac32888792256ff1326504050aaef859ac139357eafddbcf219998bf",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bicycle-crunch.mp4",
+      "sha256": "b5db579be59c854c9cec295be50b36d01e4a142c268fda9aabd71b536f258f51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-pose-alpha.webm",
+      "sha256": "09d5f7970d893ca84b8a7aa9d2ec09b729a6f9eccc8da375b549fc5d81e9df9a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-pose-dark.mp4",
+      "sha256": "792edaf72e8e86166bf0c90a7319b55fe647459f4233bd5dd35c54ae881d899a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-pose.mp4",
+      "sha256": "e93d2652f4273d4fa8d9435a1924d23442b81feae1e1fdc057af9888b6db647b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-to-low-boat-alpha.webm",
+      "sha256": "2e3dc3750e7283d78d4399cd0ac0dc871e3a54c7d8c0e5300f3914944e19ed42",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-to-low-boat-dark.mp4",
+      "sha256": "e47954e00663174a514e87b11ca0a2de3a5df1e9175d6e9fb7e0f286424c5010",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-to-low-boat.mp4",
+      "sha256": "5f3948ce7d9d1adc67850c4b076017ed8f3cfab92bab837321f5131bb4b35795",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bow-pose-alpha.webm",
+      "sha256": "f59606045ad4561a3481051e3e2b2ac0ea7d4c27c70fa6256cb78530ce62bba1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bow-pose-dark.mp4",
+      "sha256": "e9ec037cc0b4a41ef2589c9e37df020156f7e0a044306a68af216904fde5d5fb",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bow-pose.mp4",
+      "sha256": "5364b0facea6e89808688a7da0490e91b61e54276151316aa6120327499c797b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bridge-pose-alpha.webm",
+      "sha256": "ce0ee9a08b86099be1fbd49bd957d11d7ec054a9295f4a6b84a25f4696311189",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bridge-pose-dark.mp4",
+      "sha256": "4023cec750da2eea97e629988ec03a1f65c758d35702da67c76cc385f52e2087",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bridge-pose.mp4",
+      "sha256": "115c77c41a4739574158d2d9271d6090b4385dcb5c6f8d762e8c60750eef7aff",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butterfly-stretch-alpha.webm",
+      "sha256": "8d8dc65833481a8e6572adfc92fda420fe60d96e4a4a04696fb82771ef6071ec",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butterfly-stretch-dark.mp4",
+      "sha256": "27d11411ef1c60971c770eb161cd6c377c90c57cd530469467d0831596a1bd88",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butterfly-stretch.mp4",
+      "sha256": "d8ba7ada18a08d0a97ab60057f1c3e0eb97cf5542c43a8c2925fbe309f562c82",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-2-alpha.webm",
+      "sha256": "24514632e2a7f0fd9631e4a3f902c20c888cf194d1aaf18d729ae5b5c5dea1c4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-2-dark.mp4",
+      "sha256": "0e51e67ecb2eda2ad911cf666667f64f2567a39969fd88d83cca34c5d6b269c5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-leg-curl-alpha.webm",
+      "sha256": "81d2236dcf38c54fcfc31a09b52ad988a94f1aacf04e7025abb71ff652bd93fe",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-leg-curl-dark.mp4",
+      "sha256": "9519a5f7c18e41e596006997afb109006f41f1dc1ca9cc3ab5f1ee9e4a4759ad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-leg-curl.mp4",
+      "sha256": "5b3b0a5bcb13ceeed95ae617f0a5f935dbd74f11cc09d107755e1612edcca8f6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-2-alpha.webm",
+      "sha256": "d80c088a21153e03bdf1bda69ccdd8c89eb7c27ac75c6ebc8af7852732221750",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-2-dark.mp4",
+      "sha256": "0ff80db8de69f11d92bb4e1ad5f5896ab187c96e2f0018db5cef29fa86144b23",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/calf-press-machine-alpha.webm",
+      "sha256": "f41a31ad59b7eaf053665d305f2532da7deb3ed604155f885ba0170c22aa30a8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/calf-press-machine-dark.mp4",
+      "sha256": "d1e4eeb0a4f507f13574b0c61c1a673b36512df65f5974edfabe19f5d9334b8c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/calf-press-machine.mp4",
+      "sha256": "e44c248ed55e291b06182594c205d4fa11fb3c02b991cfc0d01971e3cad7e983",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/camel-pose-alpha.webm",
+      "sha256": "4a8de105342e73d8091c38d3e735f914eae20e5316087b639e61105884a57241",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/camel-pose-dark.mp4",
+      "sha256": "e27d528f5b10884c3e821824ddc248ef6a1be33dcf479dfc1bc4590026c04a63",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/camel-pose.mp4",
+      "sha256": "de49d8aa81aad4d154df77d0d9d71e595c1f13d10f6fb45974fee66d38675475",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-supported-rear-delt-raise-alpha.webm",
+      "sha256": "1093755e66dadf15e8475d0c340b176a5951fbc604cc4175d90dc5e976815b51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-supported-rear-delt-raise-dark.mp4",
+      "sha256": "348fa452ea59654eff56a49229cb2b47eb451eee148022d22197de08058c8fa3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-supported-rear-delt-raise.mp4",
+      "sha256": "41f3d54a68327f4203650f5ee95d65d56a419df8f8ced1568574acc83e900e96",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/child-s-pose-alpha.webm",
+      "sha256": "ee7d5b00eba4cb49ec20f1dd5e167e6810d17bdfed5f900f0a303240a4b6abed",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/child-s-pose-dark.mp4",
+      "sha256": "1c26acb852fa37b70575d0f1b9d350f8ac706e11da62d9f291614bb9281e1252",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/child-s-pose.mp4",
+      "sha256": "6346a14654383ecd1f6b9f15e2c5e72cdd134026605c55e6ef70716489095ef4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chin-tuck-alpha.webm",
+      "sha256": "8ed9c02c339857c8eb7cd0b76f333d12385855951d6569f60de7ae514230b449",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chin-tuck-dark.mp4",
+      "sha256": "2db11b5b97e696785c8d9ce3c980b01d7ef20e13b87ee71ca8bd3b6a3141f90b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chin-tuck.mp4",
+      "sha256": "2750d3baf43a114c2452bf750924186d9077b1a6f70b09653f7cf55200fc0034",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-chin-up-alpha.webm",
+      "sha256": "08aa981c8e082b0bbc0a604ecb8d6c0b7ff3e1e175e22d5bd9c784511d588902",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-chin-up-dark.mp4",
+      "sha256": "7350c88b32223b9953a3f5fb93530c9dcd843d10ff7e290bedaea8edbbc51d7b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-chin-up.mp4",
+      "sha256": "a17a41fd92c72f68413e7d314af21c1b0317eda2590736282c9cb6d688e91322",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-dip-alpha.webm",
+      "sha256": "0f68e9d7cb8a533908fe91fabe16a3822f66e9e923ddba4d1bde32def2ef9143",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-dip-dark.mp4",
+      "sha256": "428b9a62c102ce6788c095a59f245e5224a1dec1107cfab07e08808f0f12efb3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-dip.mp4",
+      "sha256": "eb80247eb74acd6e2931a86e0488d1b1bba9697988587b49b0faf611ae6d4821",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-incline-press-alpha.webm",
+      "sha256": "14e12bed409b8bae5e35436dc0322f5f3b8735eb48898ad670d4c71963ac0a4e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-incline-press-dark.mp4",
+      "sha256": "ee61d3f2209f8a28081c6a8589c30617b96050f33e375a6517e0070a4e918752",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-incline-press.mp4",
+      "sha256": "239e175a03d6b9eccea4aeae9ffca6735b7ba2fc5eac69c4d70317cd1b1d3c31",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-neutral-grip-lat-pulldown-alpha.webm",
+      "sha256": "d9e23531c3bb9480a5228042de8d35c37fd0eca8bfa11bea0f7952cb5dffd42c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-neutral-grip-lat-pulldown-dark.mp4",
+      "sha256": "28dff55bf542fa3a1a86fa28442781136f6aa60803c0c2e3cc4820c4db454296",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-neutral-grip-lat-pulldown.mp4",
+      "sha256": "102f549c5799cd273feed265672f2c04201e172ec9174040c9a873984fb84e61",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-leg-press-alpha.webm",
+      "sha256": "70c7aec816dcf0aba02e22517ca1937ca7a5ac953b5d3108f66e795d7e2c2ffa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-leg-press-dark.mp4",
+      "sha256": "31687e9e0c00a46d5058ce6e43668fb5b23360430065f3d77dfebb66d2439d5e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-leg-press.mp4",
+      "sha256": "217e76a927d1026ff690611c537d122470de0e2f0ec1009087b71b214d4ddd50",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/couch-stretch-alpha.webm",
+      "sha256": "7c4abe230ccceb6cb14824bd8747d9a4ef585981f649b8f32f0891c28d8ceae9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/couch-stretch-dark.mp4",
+      "sha256": "4762359fdfe65d5c22ebcc08607ff8652e9071c0a933eb95331312b649d55655",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/couch-stretch.mp4",
+      "sha256": "3d16691172b646dcd55538f71a3f5679bfee9472e26fe9948c0f91751decbc27",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-extension-alpha.webm",
+      "sha256": "45c1174b32c4fd0507f39bfdf0c2a40dbef5f30e3c1ec14b69cc8f2d7fde3ba4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-extension-dark.mp4",
+      "sha256": "2418f9e36ea3fae9964310e6a568f5ebb08e3c4265b01489e1362c4c849be9d9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-extension.mp4",
+      "sha256": "33e711150d2408d3267d817673bc9677c8e613972dee3973a12fa6f2f6bb4f5c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-hang-alpha.webm",
+      "sha256": "c4235bd675ec12e590771b97eb14643fd852e91461a9e4911c5466cc08a0654b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-hang-dark.mp4",
+      "sha256": "533207ad47810e0c854651cd86d8ce2b9305487e1894f5a3ebe6ede184c86d3e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-hang.mp4",
+      "sha256": "5e4d908091a9e9c2eed7ee1980d30f495abd4e0a199c88ca7d82049c84a96e00",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deep-squat-hold-alpha.webm",
+      "sha256": "3de0278c0ae2086561b117cc1ef622b41965a895911d9d0aca43e6fd23ea6dce",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deep-squat-hold-dark.mp4",
+      "sha256": "5a070191b3acf79fd79bd2cf9ae084b5afff7a59759f27f1758dea5709d09f49",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deep-squat-hold.mp4",
+      "sha256": "cbff1c86b24295f7ca3a6d73785934248ad48529858c7757828863e5be7ca2bc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-knee-to-chest-alpha.webm",
+      "sha256": "172b6ac9e30e1007de2e4171b626acd3d6336a7cf24fc5fee9abcf52216b8156",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-knee-to-chest-dark.mp4",
+      "sha256": "13b8034abb06f6021b671334cd79c02c7f8dd6d828caa7aac1064c08625d1a02",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-knee-to-chest.mp4",
+      "sha256": "8debe42fd57d027343704dcb9e465497c669b2e3d307c01e23f30aaebc27d227",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dynamic-hip-flexor-stretch-alpha.webm",
+      "sha256": "029d79c8da339e550dbf3d5f468c122f9137edb18721eb45b05326dafde33c53",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dynamic-hip-flexor-stretch-dark.mp4",
+      "sha256": "2340713dadeb8744615385d21f6ed3988b386b510b429d34a07c6df87b91441d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dynamic-hip-flexor-stretch.mp4",
+      "sha256": "ab9df2367bd5299f7676ea4bd47f318606bacbc55346ee40b355c4b559de8e9e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-bench-press-alpha.webm",
+      "sha256": "780845dce18377c71c9b9922e4dbd86b20d939aaec1440d3168d64496035629a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-bench-press-dark.mp4",
+      "sha256": "9132c436bc491ebe0cdcc84a70c44eceef47efcc21111c8221753585e939e563",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-bench-press.mp4",
+      "sha256": "5a982dcd615e744f5bb5dffc3b0ae357591765851cb354c5539e37d256d611ad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-chin-up-alpha.webm",
+      "sha256": "dcdc6bba8bb17f5187fb9e8cff843d30da65813b2bd128c3f9f59dcc9b700b2f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-chin-up-dark.mp4",
+      "sha256": "fb5e874da9ed5f1ee4f132b896fdba400b83d724edace68b286bc8d87f9b4a7b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-chin-up.mp4",
+      "sha256": "224e55c84afbeca0d1e4380a798e90fb9588957d4cfaff0e78726cfbfbb1e5b0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-leg-curl-alpha.webm",
+      "sha256": "3a8d6103417d41b7cbd7df880078332b98d8ef792853bc1a1dd55fc053c1e448",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-leg-curl-dark.mp4",
+      "sha256": "5b4deeaa170ba6a8aae9d6abe82efcd0a610482713cdaaf98b99f125bfd01bfa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-leg-curl.mp4",
+      "sha256": "4f80a052f311b1fd4c704dd7cb9b22048b5574f681d8876b0290147eb7c8e2ce",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-nordic-curl-alpha.webm",
+      "sha256": "7e884876a21bb661b85ea92f668b92186ac2b9533d81fbb46d3415fa9a238fb3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-nordic-curl-dark.mp4",
+      "sha256": "f3014fd43700214f31be2984f258c0a5340402d52ad64430313aa8d7833fa0b3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-nordic-curl.mp4",
+      "sha256": "f20ba6425fdcae055c22fd53a5fc6c183f740b4668fc9ecf096ec8c8063c6cb5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/extended-side-angle-pose-alpha.webm",
+      "sha256": "28e719e19d8e8258fadc52825147f4dec967f454b2e338755255a4081bdc86c0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/extended-side-angle-pose-dark.mp4",
+      "sha256": "9d817fd2d733eabe6ee8fd637f7e05f6d35f57d77aa0e235d673c464f8e97c95",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/extended-side-angle-pose.mp4",
+      "sha256": "5b3eca977b9af8ee6035b50729b9d14b418f84013e995b68a8ae88dd12240038",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-2-alpha.webm",
+      "sha256": "8d0ce47a2c872f2b14c2f370bddfe71a5875002646d55975dc31e85e1339b994",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-2-dark.mp4",
+      "sha256": "4c2cc16dca03c35c93f34132cb710202e6a99ee343160190d2dd010b14869699",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/figure-4-stretch-alpha.webm",
+      "sha256": "3c52fa23804e23aca4e0afcd7368b68e11095cf0f89a1e74cbeded6b67e1c18f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/figure-4-stretch-dark.mp4",
+      "sha256": "dda030c6aa72b65b54306c6eafcefd3037e6d5d491f3e5c5901faec6f579c154",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/figure-4-stretch.mp4",
+      "sha256": "cd38495be4c687cc0025da0528779416734f0438d3764cd6c49a9ee85270e38f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/flutter-kick-alpha.webm",
+      "sha256": "12c83f7c1c5514943a44c02c8755896da7888c7b6c0d85d2f81997688ebde1a9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/flutter-kick-dark.mp4",
+      "sha256": "d05d902d267e87794fd2a40ee2bb5b0fec1858371995d175425038fb7f8fe169",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/flutter-kick.mp4",
+      "sha256": "c26e4c067ae4a8574cd759c222024e9ed29b8098a162387ff27dd9057a2e57d4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/forward-lean-dip-alpha.webm",
+      "sha256": "096f0ac36bf42ebb7b8775bb9e3356d5f3ff4b37d8e2149432d59b1679196bac",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/forward-lean-dip-dark.mp4",
+      "sha256": "c72e741cde6e06e2f2902ea071bb96856f2e54301a873cd4cda97b22c7dc4110",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/forward-lean-dip.mp4",
+      "sha256": "3c873590f7db2ebe0c14c7bb96338cc1bc411095aea358aa0efe3460aeb9c1b6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/freestanding-handstand-alpha.webm",
+      "sha256": "fbe1bfadb6ef41f2a9609726fea39f174730ac35aa6b26aa8dfa707e2255aac4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/freestanding-handstand-dark.mp4",
+      "sha256": "ce5b1b6d57c6ab9283ec21b6ac4142bcd6b9d4ed71557d70fe42e28d50ea0a9a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/freestanding-handstand.mp4",
+      "sha256": "b91fc47980eff570ca648978004ee2cd89962b94f613acccd1ec1ea9f40f4403",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/frog-stretch-alpha.webm",
+      "sha256": "059d1136a95fa5f6f97da8fee948aba8e4a04219674c2e869c2f1051d2594e96",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/frog-stretch-dark.mp4",
+      "sha256": "6bb97940d8da6c4597cb478aa67da202bb15ccc70006e82069a20166715ab670",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/frog-stretch.mp4",
+      "sha256": "b734948521a20fb74a8c28ce406ba4d0ff7c1f6c5cdc827f1518eeb3e0a863a4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-lever-alpha.webm",
+      "sha256": "9997645d93afae3816ce896aaba98f5700e9f619d9341bd836d4eaa916f2ca94",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-lever-dark.mp4",
+      "sha256": "67c9e62f46a2c94cf2c052bc95ea37fc2a16aa672126620a4eac69b47bc1475a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-lever.mp4",
+      "sha256": "0f70029a9e323b28900032b31eb94c4c0a1944c5fb4c08fa3dfa9b889b166716",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-split-stretch-alpha.webm",
+      "sha256": "bf94cb67086c78a6105d7ed377212166bbc7b5207692d982780d32b8b62d6aea",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-split-stretch-dark.mp4",
+      "sha256": "c336e3de6054a9798aac9eca203ca1a9098926a72f25ee650d0cb00c79ff2be4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-split-stretch.mp4",
+      "sha256": "28d0d8210db8cb2d9a17c3bd92ed13a57d6b8292f202df77e72aaab835249535",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-rom-leg-press-alpha.webm",
+      "sha256": "7213bbb43cae9a191182e1be97f53529d1a359a3456af305754199e8d028d659",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-rom-leg-press-dark.mp4",
+      "sha256": "620ddda0e4641033e9c0182a3b0bb22b518c979857fbfa91e3c99ce34f644e52",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-rom-leg-press.mp4",
+      "sha256": "1bd8d7da0f55bdf165f90fc1e2ea3c69d0dc5ff8ee778a19da7ede78cb05960f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/gate-pose-alpha.webm",
+      "sha256": "c2e93e1da9b261925e9d0f1d65f9bcc316cf1d3d595d209659bcbb2a186dc803",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/gate-pose-dark.mp4",
+      "sha256": "0e2dfbb11ab590727c4ba2d47f04daeb7f4aee551d3e15402c5b38ed0945bbc0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/gate-pose.mp4",
+      "sha256": "ce139903c421b7c5fe84a965a90d87910b26df3a5f91a7159a15f8d466724b0a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/glute-bridge-march-alpha.webm",
+      "sha256": "4e5b4c070e091b6f4a61e61c2df71ca4d5a5bd941b39f13638ae15f409b91729",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/glute-bridge-march-dark.mp4",
+      "sha256": "3db0c71a9c128ec80aac690a909c510849610463bd843d3994b536774c3c9a36",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/glute-bridge-march.mp4",
+      "sha256": "2e262f1fa1ca0a6e2d80e45918074059d6d0e4839e61539ad6af774dde75586e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/half-moon-pose-alpha.webm",
+      "sha256": "ca50e57d1454985b1d68ffab1a46b288bd4b373e6741aadd689d562e3eb445d3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/half-moon-pose-dark.mp4",
+      "sha256": "35b39cb596c94f52e1bad6ebc2d5c39aefec11ba2fccceb44f548e081c3946f4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/half-moon-pose.mp4",
+      "sha256": "c8628fa3ccdcf2fccf4c1b9ad24938b18e5b2bc1405da7c8516c1002362813a0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/handstand-hold-alpha.webm",
+      "sha256": "9f9d37c38da8e3fc165667230f220403a73cc517dd8d07b843bbf704b16eb3b9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/handstand-hold-dark.mp4",
+      "sha256": "ce5b1b6d57c6ab9283ec21b6ac4142bcd6b9d4ed71557d70fe42e28d50ea0a9a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/handstand-hold.mp4",
+      "sha256": "b91fc47980eff570ca648978004ee2cd89962b94f613acccd1ec1ea9f40f4403",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-twist-alpha.webm",
+      "sha256": "6587f13a508603e4f643aa507a695f060ab0031987ca63a06f98676c6e1ed779",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-twist-dark.mp4",
+      "sha256": "50ae129a3bfdd74c5389feaaf93f61992625872726f132d18c6c5591521b6116",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-twist.mp4",
+      "sha256": "d9115dab6d50c3625d21b750e48b6e2a190ad1d3898d17ed595d10570c88eb0c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-l-sit-alpha.webm",
+      "sha256": "d7d1491e83ffa804ded609da2d596884cb725bdcacde18273919b4d7db8aa481",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-l-sit-dark.mp4",
+      "sha256": "109aa8d930296775412412755c8be9ea97be46625d789c17f7826e9b46f5d41d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-l-sit.mp4",
+      "sha256": "84a93a3ecf181453fdbc094cf7fc5a745d7b59948d5f48eb37b984e53e38fc05",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-2-alpha.webm",
+      "sha256": "d04d5f182772c3606347d6b0e9ed5c721360d70da87deb28026d1c5683aef53a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-alpha.webm",
+      "sha256": "8a5a2bf7da0639de589fbd28c567bf3d9e14f7ad06d6a892e3451a9da01eeca5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-dark.mp4",
+      "sha256": "605d510f088adf4ff899a01f0f580ead883e1d5ececcd99f8a9327bafaea7faa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise.mp4",
+      "sha256": "6a77a2497b7f6db3373cde5d5dc2ce99ff979fcada771880232109fb3a6124f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-oblique-raise-alpha.webm",
+      "sha256": "5f1a75d55d675a5810605706565a53c47545822eb7b484ec10fee831577e3cad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-oblique-raise-dark.mp4",
+      "sha256": "50ae129a3bfdd74c5389feaaf93f61992625872726f132d18c6c5591521b6116",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-oblique-raise.mp4",
+      "sha256": "d9115dab6d50c3625d21b750e48b6e2a190ad1d3898d17ed595d10570c88eb0c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/happy-baby-pose-alpha.webm",
+      "sha256": "0e15b5774cd9273e0b784ab27ff9855a404a3870c3e19b113f9315b4d43d0e07",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/happy-baby-pose-dark.mp4",
+      "sha256": "0a2e24b5579f93d6be49825887d82cdec6efa93ff85cd684adfa42dc2540aa50",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/happy-baby-pose.mp4",
+      "sha256": "6b0ee718f4345d85f0858301d59dbe560bf19abeeadce29f87702e0b300ed15b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/heel-touch-alpha.webm",
+      "sha256": "8923f4aedc11130634a6b41d47a836755e93c81b8d80eac64bc684ec183cdb2b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/heel-touch-dark.mp4",
+      "sha256": "77e6b44ca9762ded4a4d16f521bbdb387d7963914cdffb5968699716fe63d04f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/heel-touch.mp4",
+      "sha256": "38ef09ff66abdea8b41d6645b39b04f718f720d2fec148600dd2e652ba30a998",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-lunge-stretch-alpha.webm",
+      "sha256": "f6c14fe120f50747abf3dbc7898c991f101db4b7e3950966a41306fdf8cc3c99",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-lunge-stretch-dark.mp4",
+      "sha256": "dd11e3da6a50400ed63f37dcfcee0d1217f8e30bd32ff14b491fb569cee561f7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-lunge-stretch.mp4",
+      "sha256": "a98564c3bf1974b8b5ad4291b0c4688a9f085688afc5b672732085b496b04770",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hollow-rock-alpha.webm",
+      "sha256": "543868459148d26a0e380e07a3fdee33e78d1d9658814572f85ffbc5fa16c840",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hollow-rock-dark.mp4",
+      "sha256": "40f257b8d1f327019214638f018ca54351ebf485abdfa7928a57fa31c573c290",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hollow-rock.mp4",
+      "sha256": "34b7c79c5780fc4bedb5cd616e59b8205f0beb693eaf16de5a8b44e1767ac8e0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/horizontal-calf-raise-machine-alpha.webm",
+      "sha256": "d2a394d9ff8d4d2cef95a47abfe14971111be0a6f2115d06b4adc4f04755df76",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/horizontal-calf-raise-machine-dark.mp4",
+      "sha256": "5f242071d8fc4d6d4e7fb172e44f175b7c91853d46e7d4f4517dce8e21c7a670",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/horizontal-calf-raise-machine.mp4",
+      "sha256": "48c5d6c5e0a5178dd138c47e69b28e468badc2e8453b9bae873b5f382dc54ffc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-t-raise-alpha.webm",
+      "sha256": "f2092f7bd81b1339c22a924e7d70e45a3c7bbceb5513bc859093c939376a82f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-t-raise-dark.mp4",
+      "sha256": "a69c9e32042f7105e9c16d65d482b75236b89935bc501cb2e7d8578f529e7ac8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-t-raise.mp4",
+      "sha256": "f24267e8c8dfd6e982be61a86b7126ae65e7da83ebb7ce986f2a82e6ee4782bc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-y-raise-alpha.webm",
+      "sha256": "23e5ea4d3d02613becf771fe168803fd360c11cdd2c08aeb793f2b0d495ae377",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-y-raise-dark.mp4",
+      "sha256": "c99970d080b3f30281742247b01d75dd5853a86c9818f3a5439bcf02597ab980",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-y-raise.mp4",
+      "sha256": "7ee60f0f720b8fb3dfaba46811f1c047f21f53cafff5a29c439a0b8609cb54ac",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-bench-hold-alpha.webm",
+      "sha256": "a11cd52e6088f6d02f9acd8877be57adefee870f5f7428797e7d3ff19c3de4a7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-bench-hold-dark.mp4",
+      "sha256": "fc111971ae73e04957c43c65ed6e052dcdf30050fa32df75cd914fd3646ab0d3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-bench-hold.mp4",
+      "sha256": "3fe0f8eec6676979f19f2536e36fedd11e62c575ca6a4b382b65d21d6b9ef8a4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-pull-up-hold-alpha.webm",
+      "sha256": "c48c1c417bf144652ea292785f5cbbdbcc08cc925a4ae26b7b851f3cee428663",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-pull-up-hold-dark.mp4",
+      "sha256": "a18af51eb60acf0398a074ed42756173dbfd2e584cbdf6d38bb176fc31de9aca",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-pull-up-hold.mp4",
+      "sha256": "7d26b9ae86583c99aa076d1ed06e23eee88b5f4ef07126bf81591183b3f1e3cb",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-push-up-hold-alpha.webm",
+      "sha256": "cfbe28b6600cc619b1135f1a091b12178532f3e346bcbf0639dcd4681a5c2e6d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-push-up-hold-dark.mp4",
+      "sha256": "3d14041907d43aa6ae5afd07882745ebb79ce99aa6c56fb1f87e9b1e70f4f663",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-push-up-hold.mp4",
+      "sha256": "bca943900e7c1067b1820b375f419db2fd5c60b8e4597e17c9f50f684d088d1b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-squat-hold-alpha.webm",
+      "sha256": "688527a2ead32824c9007cb0f8ad7c702369e2993ff49913079b07a35d1a1918",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-squat-hold-dark.mp4",
+      "sha256": "9cad36f0fbbfc0451036a57e5ae253bfa154e41f8e0bf6e9d92bfa9126e003c8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-squat-hold.mp4",
+      "sha256": "3660969e9fb8d371c0641d6233ef0f542d49434d9ab1d3bb0eef433428d963bf",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/it-band-stretch-alpha.webm",
+      "sha256": "5004fcbe57b6241dd1919288eb6b264b423423d88854c50679faddfed2ddea30",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/it-band-stretch-dark.mp4",
+      "sha256": "6f1256424ba7a4cde5be59511248af15090cc070669f21266eb168028305eaf2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/it-band-stretch.mp4",
+      "sha256": "8dc518de7b21e8385f1f46374b5200b80aa487d1e2721a118627270aa7909023",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jackknife-sit-up-alpha.webm",
+      "sha256": "a5a09f2c6a605f285ba34dceae80e8331409d2bcfb9bbeda7559827cd5561949",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jackknife-sit-up-dark.mp4",
+      "sha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/jackknife-sit-up.mp4",
+      "sha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/knee-to-chest-stretch-alpha.webm",
+      "sha256": "f22c3aedcaaef357a57ef28feaccf2f49dc99244f048e265a86be09a1a580967",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/knee-to-chest-stretch-dark.mp4",
+      "sha256": "6112d102143f76773e15023d71843e91ac8ea7e6392fe6ab3abfb23e53504efe",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/knee-to-chest-stretch.mp4",
+      "sha256": "f200c288d081c34f8ac46816fd5c8a33e5113f3e4ddcc932e3b2f8ee4a94d3e3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-cable-face-pull-alpha.webm",
+      "sha256": "a697b845654388ebce3a7ea991b4d29400902e28472022f92c7f979c69542324",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-cable-face-pull-dark.mp4",
+      "sha256": "a7ec860bd6b8720f54b1325526f4a246e216ce5035bb59963cdc7f6769e2f9d5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-cable-face-pull.mp4",
+      "sha256": "62a7a9127bd674de88d027bab671b688f6e21b424e81fc22567fc340c81aa4fd",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-leg-curl-machine-alpha.webm",
+      "sha256": "ad1b5ebe2ca8cb845d4885fdf4ed3afef4cd484d40a60f089c812c7e024a0d5d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-leg-curl-machine-dark.mp4",
+      "sha256": "ac44bf16d1e9c4b694269e3bd5916512aede2a2690eb8f364c4ac5878a6af6f5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-leg-curl-machine.mp4",
+      "sha256": "6a61725784e60fb6f3f4ab9efef51114c1cfb4f147d1bfd98d41381a065a5808",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-alpha.webm",
+      "sha256": "24f84d4404becb5f2794b67bf120db423261aba4b1c5c5b5939d23778b2bac90",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-dark.mp4",
+      "sha256": "efa331c0234e8e39ced5b2aa0fb89880fe91d517ff9f40eed87fee1463413dc2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-pull-up-alpha.webm",
+      "sha256": "80a1a5b9a59a7f2936a7ebdf11dca526a13841d04e4ffccdfa759509ff7250b4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-pull-up-dark.mp4",
+      "sha256": "57f8f2657bac8088a3023fe373958b64c3fb853e206d8d3f6441d94182fd6f48",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-pull-up.mp4",
+      "sha256": "55e4dd80069c602834022a62ad21275f4265265afa6a061cb641daff0efe21d9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit.mp4",
+      "sha256": "a7c87216abc79cc2c2d0f430b7896ad8696c42cd7109c6a5229adea1ac73ae32",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-2-alpha.webm",
+      "sha256": "59dece5e290127f194c81cdd99b01745c88030a85f20c696f330829792fd2e77",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-2-dark.mp4",
+      "sha256": "316ea48d951a51bbf7f07decd1cebdb215329f5a9793250b191980c4bdf79137",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-curl-alpha.webm",
+      "sha256": "6dca26060588ece1f670abd613163b81f810156b79ab5cf3faec72b43551d768",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-curl-dark.mp4",
+      "sha256": "fcbfdc97cb955a117e2d5851c07dd848469804a316edf9940caa0f56f5bd6136",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-curl.mp4",
+      "sha256": "17a921bd82e5f44e8d9d222c9b28aaa7f154f80afb7d74231be54e083679270e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/legs-up-the-wall-pose-alpha.webm",
+      "sha256": "28a644ae48e6471cbe7ae5a8fcc46d9a6b4463c40e414da947f6665cd7f9e737",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/legs-up-the-wall-pose-dark.mp4",
+      "sha256": "a14b4a668dfc45171f08af73e47b3ef1a4a65a5ee13e5803ef245ae6a2956fcc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/legs-up-the-wall-pose.mp4",
+      "sha256": "fd80171c7d8dbfbd62c0f35b970765deb03bc5770a6638c614445331c88ec66b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lizard-pose-alpha.webm",
+      "sha256": "46d4d4fa27d43a59e05921fb4214aed2660bdeb8874944823988468d4d370a07",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lizard-pose-dark.mp4",
+      "sha256": "2a7d99d0cca81d87306b889cb5d397fdab0223e076dfb024c8b451c9e4598aae",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lizard-pose.mp4",
+      "sha256": "5ad339fcecd9602d99ae879fcaad775bcadaa625b4b29863e77cc7efc3193dcc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/locust-pose-alpha.webm",
+      "sha256": "4d4a1c8aa827e8e9369e8e1fd23051c396b1eaf788b813f1063961b27ef43da3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/locust-pose-dark.mp4",
+      "sha256": "cfb1c8f969901c0ade229789d25aaab72af29db18aa029d1334d64c38fd6d3c8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/locust-pose.mp4",
+      "sha256": "73f2b3a0c3fa0c699319229b9d12a59887913cbd36342654dce4470a14566348",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-lunge-stretch-alpha.webm",
+      "sha256": "3f81bbc7413cc33cc1850993f2075ab4baf87f889300bf41e07b1649cccef334",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-lunge-stretch-dark.mp4",
+      "sha256": "d2ff86a1309bdca8bcd48b5cb6807a3955e768852a4b36b51963a06706a830c7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-lunge-stretch.mp4",
+      "sha256": "f80870c6d66039a091dc7e2bfc243b0d1cc1f92c3cf9ddd577d6c15cbecf795a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-glute-stretch-alpha.webm",
+      "sha256": "261adfd784cf8b02e72bde3c761d9c6407b51b72fdb51fa2069702a1b705defb",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-glute-stretch-dark.mp4",
+      "sha256": "bb178e000aa2c641f2fce0426818303ecc21af1f9fc656338634675d1cf9cdd3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-glute-stretch.mp4",
+      "sha256": "e72eaf4676db429e8497eda7f873c48b0157fd362a4667714d44257de65c54a7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-hamstring-stretch-alpha.webm",
+      "sha256": "4dd24e903597a6becc35d381f5884770d7726022df11e4b13feadb0f8d9aee38",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-hamstring-stretch-dark.mp4",
+      "sha256": "8669d20eb975351bc4c29b894839301c4a2ac0c98277ad76821b52694cce4149",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-hamstring-stretch.mp4",
+      "sha256": "24d6a4db30fa9cdc8d77b7ca7b05e3e32bcbf025784667e2d79dc7d4be650662",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-leg-raise-alpha.webm",
+      "sha256": "7daedb6f76e0e155cea387f340a0acb3478fa81ac079357d8441ec309f4af38c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-leg-raise-dark.mp4",
+      "sha256": "a31a723ad1777ddcaec6405f682d627934d65c97d494b624ad748018c0ef57c6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-leg-raise.mp4",
+      "sha256": "564ca43689c795361f44ecd9d47adc37e0794d296963b4b5b62136608374a982",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-quad-stretch-alpha.webm",
+      "sha256": "faa14b46d52a300bc5856f04dc29d5f388dee1a87e20c7e484faeb8bc1bc6902",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-quad-stretch-dark.mp4",
+      "sha256": "93fb2d469492727c18402bcb80345e16602b3d0785f704c6a0b1d8b73570cffe",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-quad-stretch.mp4",
+      "sha256": "fdd078bf3d51af480826d6abd98ca45139f7eedd93d6063c87a2cc32a820aba8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/medium-grip-pull-up-alpha.webm",
+      "sha256": "b5c7e04675a6ed135ba616b9d575ee8895d4d1a0a1c1b18ee9c5195f97dd9fab",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/medium-grip-pull-up-dark.mp4",
+      "sha256": "51cb35ae5cbf6654c1750c799e33a1a10924f64b25a729cb64675681a107d119",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/medium-grip-pull-up.mp4",
+      "sha256": "13fc4deadd16cadec91f87f5d48d0edd6a4c25975f93ae79fd75670a4ed4a5a5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neck-stretch-alpha.webm",
+      "sha256": "22bf5849986d7e886ceda86a751063c173e245c919f1d4301d7e304c3e8287ad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neck-stretch-dark.mp4",
+      "sha256": "62aeb07d8ba9f141eb1ac221f010b681d6b797b099896916fc605d6461f5f05f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neck-stretch.mp4",
+      "sha256": "375ca3ef11444a2d4affaf92d8c4dad2f225c32640ebcf0a82645bf069592957",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neutral-grip-lat-pulldown-alpha.webm",
+      "sha256": "46da43d8e1845f8449173e8362a1a361ae67a3831fb60a7ad65f85d338c279ec",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neutral-grip-lat-pulldown-dark.mp4",
+      "sha256": "a9398d3e1a7480704a669ab935f118cb3e68585ee2a4f1051272a84dd3af452d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neutral-grip-lat-pulldown.mp4",
+      "sha256": "e25c87696847e9e092c580e6f5c6e78e41a61f6c6e7e4366aa4472110b6bc1f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-leg-press-alpha.webm",
+      "sha256": "ee21b6cef82d6eb085c2c7b22a2a43179809d25a7abf8dcc383424414934dc11",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-leg-press-dark.mp4",
+      "sha256": "b512636f6e3039cd8510a80b815f9a4b31a0f29e90a74c040552d461c78aa424",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-leg-press.mp4",
+      "sha256": "105e4074c5fd3890a9f0a73ad5c161be8701ce7f63f57baf749aac5625ca9159",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-pulldown-alpha.webm",
+      "sha256": "c32e1267a36b9ef1c24b83b221c9e1137fc44ed6069f9ec55c5f9c3d112f4c3e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-pulldown-dark.mp4",
+      "sha256": "8b29625ca4c1f88d451144647639d271785f871f7b1c5ae829e451486bb29ba5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-pulldown.mp4",
+      "sha256": "f5ab81514fa1964cf372525e771b768cea3010ea9f691be2a1a782f341b5c6e7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-calf-raise-alpha.webm",
+      "sha256": "489fa391f3b8a9c8865749ae7c87bc68b7469602d6bbecfa4cc7ea5805eddb69",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-calf-raise-dark.mp4",
+      "sha256": "9b791f88601efb48a95939be1e0de780687b1742ade4d3dbd257dd98a4db90b3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-calf-raise.mp4",
+      "sha256": "77a9275b6578b8bf59e8d7c67b837656d92c6cd36ae3dc81411b12fa37599b0d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-hip-thrust-alpha.webm",
+      "sha256": "aef491f708dfc2891d3f2bf10afb5e0746166ba3cb972a55efad841ac36e698a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-hip-thrust-dark.mp4",
+      "sha256": "6b32df867444ea8d3044cbac2e4ff622559c2dd23a8071dee1dc35d50732e920",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-hip-thrust.mp4",
+      "sha256": "ae85d692b700cf02559bc7bf4939a6399ca5e862ef9923c9764dd5d3555382f1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-curl-alpha.webm",
+      "sha256": "99a1d543551c4a47143e5ec35d49e8890ed19194aa6199f5083d7d1b87a9f1ea",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-curl-dark.mp4",
+      "sha256": "3fce18e68f6cc4fa15e7e50d9bd72b503dab4eec9438595141521c3be8284e68",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-curl.mp4",
+      "sha256": "0363eb84a9c02a2c5d6f8661bd5552755395e99857b63ed44711e95b4f54b770",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-extension-alpha.webm",
+      "sha256": "cd4e84322fce6f05df7cfe1ee589b8cc0cd31eb358f55980e896069df75aa026",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-extension-dark.mp4",
+      "sha256": "d02b3d1d7d59cb25ce14b8f79f218de48942839e587b43abd566b939696b56d8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-extension.mp4",
+      "sha256": "124c3c5e4040fb6b5ef95617632e019f597fa5cc795df14ee8dbcf89886cd495",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pigeon-pose-alpha.webm",
+      "sha256": "2cae65656b53a3d76dc74ec1c684ec0253682b5b1f5227775b6622ac81e88bb8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pigeon-pose-dark.mp4",
+      "sha256": "f0f113bade3953fa54997814bea1b5a300ffba6ca1391fc0eb8410dc8c24a838",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pigeon-pose.mp4",
+      "sha256": "ea3105324ec57cebd0fa7cb81f6bef8a5104133720806579031a79c613592324",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-criss-cross-alpha.webm",
+      "sha256": "f991c62153eb3f8f78d79cf1ea54fee7944bba14a81141beb93fe632dbe39a26",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-criss-cross-dark.mp4",
+      "sha256": "d9f37dabac32888792256ff1326504050aaef859ac139357eafddbcf219998bf",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-criss-cross.mp4",
+      "sha256": "b5db579be59c854c9cec295be50b36d01e4a142c268fda9aabd71b536f258f51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-double-leg-stretch-alpha.webm",
+      "sha256": "36b8a446559ac425aeff8d677c9f5c49cc1b46c486ce793110ef92526fb64739",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-double-leg-stretch-dark.mp4",
+      "sha256": "11e0e72cbba13b2c20aae5ad680fef04837b72d58de2ba5b63329fdc05738290",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-double-leg-stretch.mp4",
+      "sha256": "09da8770f74bb3c8b5579930d4d4e08783c8080cb488557ce678fb04ba956d46",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-hundred-alpha.webm",
+      "sha256": "563e8dd51eaf4bc7414764263efd851392802e16ad9e6e77a772e076b34fe9f4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-hundred-dark.mp4",
+      "sha256": "e4735bde842e18ff248c477b3b7bb157d5002e8c600313ccd9de73551c144675",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-hundred.mp4",
+      "sha256": "14d06cdb791a579f0e3bea16f651d450553569db8ee5e967302671493c05cbae",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-leg-circle-alpha.webm",
+      "sha256": "5eed0dee63be8fb7daf165709d011442d3fec2b319757bf1871559c7365cd31d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-leg-circle-dark.mp4",
+      "sha256": "fcc3b33df2bb3df8db2cb006a6159cdda4a1b9516a469b6acbefd3819780c41f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-leg-circle.mp4",
+      "sha256": "a8011f8e9c998bc9ff49f881cd42722d4f422e18f9c05dd352015e1b8bfe2806",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-side-kick-alpha.webm",
+      "sha256": "3ad87b1c7c67743d54d3257029e3528d32b23d7ba8c2f2a4efcf65b320033675",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-side-kick-dark.mp4",
+      "sha256": "04dc93d696b08df94e0572ca646c80c8f2adc2b79b077f9ff99aed8f8c38a430",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-side-kick.mp4",
+      "sha256": "a2c0d8b2ee9d0801989ee495ad8811afb4a50fcadb9cb9544352751cb89b45c5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-single-leg-stretch-alpha.webm",
+      "sha256": "421734cb874e411e21a0eaabacbdce10a227e3f71c1b1d55a9498721104b1312",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-single-leg-stretch-dark.mp4",
+      "sha256": "ea8e5f15c14ab8fed27bbec917a4908dd52af14138c8a502e27387a0595f77fa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-single-leg-stretch.mp4",
+      "sha256": "14c0d690f24f7565f213e821a855693184a05651d24ad142e2567f5533c7eb3e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-swan-alpha.webm",
+      "sha256": "b262bd4c9a681da2212923a5cc0be6bb1d708f3ab1356415638c55804fdeb868",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-swan-dark.mp4",
+      "sha256": "11347c9d21e215025b2cf77a0e85bb3b23fc6afaa30b05d68d4133eba2c90dbd",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-swan.mp4",
+      "sha256": "47d18915f630f87aa2e0c57d109345b24df2d9f837f471ab275bd85416bb7d74",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/piriformis-stretch-alpha.webm",
+      "sha256": "736b31a0bd763dff37427b3e0754b0245b3d0ca2c66bee052272dd683902f7a6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/piriformis-stretch-dark.mp4",
+      "sha256": "bb178e000aa2c641f2fce0426818303ecc21af1f9fc656338634675d1cf9cdd3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/piriformis-stretch.mp4",
+      "sha256": "e72eaf4676db429e8497eda7f873c48b0157fd362a4667714d44257de65c54a7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-alpha.webm",
+      "sha256": "6f96da4a43b0198a7fdf9250d884ad0d6ec5845ff648bf0a6d90e1f60ae840b4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-dark.mp4",
+      "sha256": "89ecc6e856c9aa9a504c7a789fd17f3946971e85c3136bfa197a241779444ee4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-lean-alpha.webm",
+      "sha256": "fa50888b036aaecf191063790c38b5d7780647c5af14bf666bb9fc3a836dd39e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-lean-dark.mp4",
+      "sha256": "24d371014dfe7e53f49347810ec289d67fa3b5918f3b3228bcbe65fb5849327d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-lean.mp4",
+      "sha256": "a0be4596b44598a1ae0473b716b29d57dab248fabef00e4e43846a1ea5a02cbc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche.mp4",
+      "sha256": "b50374db42dd228a2e96326cec89ca7991778bef6dbce20382c0b27962bddfa9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-toe-tap-alpha.webm",
+      "sha256": "8c3a5d5a6af360035951933f797cb6db38b65362598161b3f6dab9547af03b51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-toe-tap-dark.mp4",
+      "sha256": "28d3fdccf50e0b2f248b393a23dde23b111cad57e227ef593cade343ad1c5d99",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-toe-tap.mp4",
+      "sha256": "2d7fc0c82fe2f2cb02ad03d00ebdcb0f75377eb46409f55b41d72f89f73461f3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-with-leg-lift-alpha.webm",
+      "sha256": "de20208b35f7b0b3172b61e70b2405ecf00aa3fcab2cb804f97f95d4de886bda",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-with-leg-lift-dark.mp4",
+      "sha256": "589a5a59e5f8f41b855360d00eeef6bb36d28f4843db0467e871cc9df99eda22",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-with-leg-lift.mp4",
+      "sha256": "47cde0039cf24ee30359a11933bac47f514a9256c9dfe0cb85cf3867342cffa7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-band-pull-apart-alpha.webm",
+      "sha256": "514d10ce907382429afc501ca1df362bec34c5a75ed7dc595add4edb4b08e37e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-band-pull-apart-dark.mp4",
+      "sha256": "9eda6feadaf80c71bf0c9a8507c131da0cef51f33c5199a5e6c88ae4c7a5e7a9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-band-pull-apart.mp4",
+      "sha256": "d700f194e6dc8a95027daa645ec13c176d40289d1906b0c0f49ddc875c49bedf",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-incline-dumbbell-shrug-alpha.webm",
+      "sha256": "5309fa1e6268efe3200828b8f853daf83a8cebf5a40f34f9e60ea1fdbd9ef110",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-incline-dumbbell-shrug-dark.mp4",
+      "sha256": "348e9a20a8411d84230bae451f369bbf541d753bc38643cb5c5d55d84cd6e392",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-incline-dumbbell-shrug.mp4",
+      "sha256": "f0c31c1b987851d853dbae1cee1231df0c0fc92a7e5ea4cbe99bd09c753604c3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-l-raise-alpha.webm",
+      "sha256": "93f39f78f65c8e2e2eb50574a129fa4e3b7feffa84bb843813caad980b4e7e72",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-l-raise-dark.mp4",
+      "sha256": "7384c6be10e4b0b413989c0ab32f5e39ca95436664d046926c63c8bce206d20b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-l-raise.mp4",
+      "sha256": "6a792f461b1e0b230d9836690cebb3492eb136eff57e90e066b4eaf4abf2db50",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise-alpha.webm",
+      "sha256": "9b6f4b19f28307256dfccc51fe55521d15b44f41621ace504238c2ae6f7bc175",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise-dark.mp4",
+      "sha256": "bdcc4b94188141882cbe816782df31e6ec6df0fb4c7ffb679bc7a308c5e9a789",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise.mp4",
+      "sha256": "9c042e9bd3c0dee2a21ef3d38378c6665d237ef3705da6a30702d3e550c10180",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise-alpha.webm",
+      "sha256": "c3a2a74edc4273ae9ca65067bd11dd9bd515a0681e69f8209ee5135c00f0b4d9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise-dark.mp4",
+      "sha256": "bb98fa9ffffdc6eaecbab6222845065e2ec0bd09ac0d1fa91333eaaae1fa6b2a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise.mp4",
+      "sha256": "5c61509053e1891809eb3303096305601f48eab35f554cdd8f2202800668e039",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/puppy-pose-alpha.webm",
+      "sha256": "9cc5a6e92c9c1a3e697b0518f2a883ad9e004616f7a69c85729988b6308167d0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/puppy-pose-dark.mp4",
+      "sha256": "d5693b19bf3419333dbd7929be6a641ba1bbe28c56918d3d419cc9fb10387d18",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/puppy-pose.mp4",
+      "sha256": "55483bc41cfbfec398be241fa7b18f42d6af158539901bfb58880e74482c4cf6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reclined-spinal-twist-alpha.webm",
+      "sha256": "eee7eb9db7e2f5e1779eab96c34e5212b97e98409c0c52eebd06b7b30b58f01d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reclined-spinal-twist-dark.mp4",
+      "sha256": "efdf4ef794a20c102417bb83177f704216dbd681d05f88d2da4ec022ade5a742",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reclined-spinal-twist.mp4",
+      "sha256": "4531788298cc03f9cfa381a40e5e0025ba321d481aa2e6f83638e9abe6e1753f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-nordic-curl-alpha.webm",
+      "sha256": "697135f0eeffa6aed9a7a08d8f77cdf3d149a3eda08b7218d45d5fd33c46c81b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-nordic-curl-dark.mp4",
+      "sha256": "569e6d520ad5d7e06070752827abc9acf6cda5c9f9e1aea79dcb7cf47a50c7bb",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-nordic-curl.mp4",
+      "sha256": "cbf3d570397c5e63ac58c39b34c74ccc30b8da131efed77eeb0fcc64d59a344b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-snow-angel-alpha.webm",
+      "sha256": "521896ccd177cc473bf7745ff84319a172f77af574e458230497f43832c3d2fa",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-snow-angel-dark.mp4",
+      "sha256": "0ef994917b04d84180a8858c7af198eda887753217192c8c4e4aea1294b42e3a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-snow-angel.mp4",
+      "sha256": "da0773ee9925967ebab5c3d2cd864274d97a2ebe44593b9fb8d44a1ba2a7c10d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-warrior-alpha.webm",
+      "sha256": "eefd6bbe9f9cb121baac890432db0919b9ce2b16119c1a8d6ed97c0a0096b256",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-warrior-dark.mp4",
+      "sha256": "1c606253d86c5e2c8cf09e2d619170d2e99a111e55294b1619f755ccba9e7ed5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-warrior.mp4",
+      "sha256": "6309ebdaf344ca6253ad1f82f1814206711b74a8c8150facdf56fc96f112bcf8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rkc-plank-alpha.webm",
+      "sha256": "fc6684b051e181ed0ab4576cbc8f91bf9b74bb1eebf49c26798aafaa04226939",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rkc-plank-dark.mp4",
+      "sha256": "52d9b7f4b8c47439cd2049061dee2b0294d7151856493b4b471a011919be31f9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/rkc-plank.mp4",
+      "sha256": "30b4844003e63719aa8b2880ab409bee64165c02564df0ced85a39733f609669",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-dip-alpha.webm",
+      "sha256": "dd1c1ef7b95f941edea871049c70bf82886b36b96f0d1ea617a80b044a7e24fd",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-dip-dark.mp4",
+      "sha256": "145a0973471e60a69ac807f71190a14bfeb63fa2ff9691c66076ee6b77d184c7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-dip.mp4",
+      "sha256": "6fdbe78f4118d751dee9b79fb741207d95e6f456c64e68f3ceea7e52959fc8ef",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-push-up-alpha.webm",
+      "sha256": "bd851f86e5df5db57c895f5b092c90501747e8df1adc02b07f9942110e01dd2e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-push-up-dark.mp4",
+      "sha256": "3e46c430fa017daeaaef1d0ffeb74199d6eb5df52681cf8c75f4f7f0ce3964f0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-push-up.mp4",
+      "sha256": "621d5bccb855e61834f2ad71d5a39cd72ef2b8b2e7a03975c3f87576f0e6ccad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scissor-kick-alpha.webm",
+      "sha256": "1cc6a0a875ba46b3ab3ca33e4f8a3cf36377ba8eafcb2a3ab7f423bcf5aeef8f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scissor-kick-dark.mp4",
+      "sha256": "849cd00977721940e12ca1d286cec5af15ea4ff1e35bca9a570cf5ffd79beed3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scissor-kick.mp4",
+      "sha256": "2b1df5fea391c58604b9d22fef757e79b691d64b43b8ee350b246ecf881dff7c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-band-abduction-alpha.webm",
+      "sha256": "f8397bd8b2ebbd6ccabaaad326dbfacdc0dfa48ff5decc75d11afdf37aba2e86",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-band-abduction-dark.mp4",
+      "sha256": "8b54ee7767f108df503640ede9abfe240f2e33effe00dba2fe175a007c01b822",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-band-abduction.mp4",
+      "sha256": "f778fe3f39c6cf88f0f1682d6be9391768ec35de5e76c38a9617345db47b190d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-face-pull-alpha.webm",
+      "sha256": "e552fb626fd3800b8426f4af3e10d49e54434b067c64ccd84df3b3eb75bed5c3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-face-pull-dark.mp4",
+      "sha256": "25de2ebb764f161c25f60069fd5df2620f029308496141034fe6e1bfab2c62b9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-face-pull.mp4",
+      "sha256": "a545eb11aff3fbe78bc25028e9ca61061c54436cfbadc26b3b594b693655dc6b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-forward-fold-alpha.webm",
+      "sha256": "6266bd305e17bfcb4d5e7a7ea75418cc7e0c27087a4eda5a065289bfc48027ff",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-forward-fold-dark.mp4",
+      "sha256": "3780d4052c04f18b5142607ec1b0f6c5075bab4612899880cdfa63605cbd94a6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-forward-fold.mp4",
+      "sha256": "97e8dc110114f37a4ccc5df2c7e623a1ebc374cc60ab842f7b2522226a67c14b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-leg-press-machine-alpha.webm",
+      "sha256": "a46dade570a88214903b9d781c230e6a91ba5cc05f08426ed829c6b21d3c21a7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-leg-press-machine-dark.mp4",
+      "sha256": "f55c8be65f28afd84722f1215c034feef4aee16f1cd8baa0d425bbde832524e6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-leg-press-machine.mp4",
+      "sha256": "b22ca7c2bcd1db4d4d9b8d5433eb29dd5b43328f9796e886b091983542dfd4b7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-external-rotation-alpha.webm",
+      "sha256": "07305b38a2c81169725b841833d65d47aeba10f2ab4ea2db640ef831b658be92",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-external-rotation-dark.mp4",
+      "sha256": "ab9f3dc75f272b6d2a105b14959372b557ed8dc9169756531d7ffe9f18bd7295",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-external-rotation.mp4",
+      "sha256": "c99dd0690757a2723985a84b7bdddcce0d781e016304d0b5e067aacb316c3f75",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-hip-abduction-alpha.webm",
+      "sha256": "e5ca00a4cece7e7b224b5c320092ed014254305f539d2a3c13d6b3541ab0bb7c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-hip-abduction-dark.mp4",
+      "sha256": "260145f2a5db474c65991f1d0e028cac26ad7c63bcdc761cdc0de528acad8b54",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-hip-abduction.mp4",
+      "sha256": "13b53351a4974aaea5abc79438ace3827380892ff731eeea10e0bfe4c5cb2fe0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-quad-stretch-alpha.webm",
+      "sha256": "ce9fb15b8ec8709b4905fdeb3ce522e5b15641e32296021b30b4ad9a1d5e3316",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-quad-stretch-dark.mp4",
+      "sha256": "b13e6dc8c61422ff2d3d93cc0c8b57376fe143cf9f98262a71887c1c429b6478",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-quad-stretch.mp4",
+      "sha256": "3d1c40ec3c6260754acb12e4b16673ab466d57816b64e7ed417d64ba7270c1b1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-reaching-child-s-pose-alpha.webm",
+      "sha256": "c872e9ab41cb3eed2854c5a74ba7ac3e736e34b5ac6a84a092347b2161a9d718",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-reaching-child-s-pose-dark.mp4",
+      "sha256": "733a33667ba1ef55a9eba1a7dc59bb5af17c531c84d287d14280adf2daf8389d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-reaching-child-s-pose.mp4",
+      "sha256": "196388b19e2d2f6fcf28c2e704ef14880282b48d923d5a6d3e5f3b35b61e9c96",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-split-stretch-alpha.webm",
+      "sha256": "cc202f161859b2e09a8a743162f096bbf575571c4566eba2173c323b8680d5d1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-split-stretch-dark.mp4",
+      "sha256": "33cfc1e0310f5de7629cbc0916b97dcbddebfe93f885614c6bdb164a46bab491",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-split-stretch.mp4",
+      "sha256": "f13dd74feed003ddcdd70d129205850cf29bbc0f9cf23ce90ca47c2f59dcce7d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-calf-press-alpha.webm",
+      "sha256": "16ad2cb882540e6bb706b8bc80bf43e5b642fa6940c1709c49ed2d34236add18",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-calf-press-dark.mp4",
+      "sha256": "9c857985ef1da4d394defc1dae6a358c7a6fd4ad440181116d13cb7d7dc9230f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-calf-press.mp4",
+      "sha256": "d907ffdc77511b17a6bd111c8144a0e186fbcbbff2b70d4d694ca90581cf37f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-curl-alpha.webm",
+      "sha256": "d53a8160bbeaa53cb5f999cc71ebcdbcfce2dda8b3fca3a439d97813ab840d34",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-curl-dark.mp4",
+      "sha256": "17a59ea0ba7800624d441bcd5c1b2bbd9c19d50d5a1e1a7b5f30e2af43fcfd9b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-curl.mp4",
+      "sha256": "18e9774e0ee1ff06d55e09d1badf08ff56f8c908f73335f77ad7334c7ad19872",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-extension-alpha.webm",
+      "sha256": "76f56c07ca4cf97448bb8dfcc1b32ae9ef6a38fc6c04d9154d98bc8ac0314849",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-extension-dark.mp4",
+      "sha256": "5bcc00181be7326527c0d3b5d067c4cb49f507f49b707900abba413b04342f14",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-extension.mp4",
+      "sha256": "f8dab6171244e89c62e912ec460fd026615267b60a6282a11c72635b507ab94c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-2-alpha.webm",
+      "sha256": "b77efe1b6c60b616edc372a2e0ed628402ad4072497f829e83f6df876bc94587",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-2-dark.mp4",
+      "sha256": "b2f378c23b0330f15e730a6900e1d357a9d5ba371fe316cedc381a4387c4fe31",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-2.mp4",
+      "sha256": "584b671e7a6b2832a9ad705070444d0db1cf43daaa558b5c1f3e2b1f72f70e51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-alpha.webm",
+      "sha256": "42d99d037d91a87080dd62a36a1f4d4d8d587474ba087c6b94fd2197ded02b59",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-calf-raise-alpha.webm",
+      "sha256": "68dab1da0906ba0688e11533e9db8a1aed98eeabc8826e98ac24a2f3a53e08de",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-calf-raise-dark.mp4",
+      "sha256": "9c857985ef1da4d394defc1dae6a358c7a6fd4ad440181116d13cb7d7dc9230f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-calf-raise.mp4",
+      "sha256": "d907ffdc77511b17a6bd111c8144a0e186fbcbbff2b70d4d694ca90581cf37f8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-dark.mp4",
+      "sha256": "b2f378c23b0330f15e730a6900e1d357a9d5ba371fe316cedc381a4387c4fe31",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press.mp4",
+      "sha256": "584b671e7a6b2832a9ad705070444d0db1cf43daaa558b5c1f3e2b1f72f70e51",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-wall-sit-alpha.webm",
+      "sha256": "f8171298d85f019bc8f7ab83d3ca4a219d1a3f29b8ee9785a9ffdb9ce1df1776",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-wall-sit-dark.mp4",
+      "sha256": "448db6e3a11976b87611391ddf1c07d675f0c10661b87aedf20bc8082502d712",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-wall-sit.mp4",
+      "sha256": "c01bda04fe35f29f2a619983d71c257d062d8678c3d87ae2a1a3e967a9e47633",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sleeper-stretch-alpha.webm",
+      "sha256": "6199dc43edc1aeb18a8780bf5325fa169c1b26f9df5ac123e6c3bf8b11d03b4c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sleeper-stretch-dark.mp4",
+      "sha256": "b1997c2ab40a99ad9856e60dda10ddcba11f8b2851e711fbee8f20b60be2421d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sleeper-stretch.mp4",
+      "sha256": "7571c5bfa40693041f95698973aafae0f150004f7bdaddb369a3dd434b7e42e4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bench-press-alpha.webm",
+      "sha256": "6604bfe78c1434b548c047bfc798219eae7c007c53cc0a947507ca02541f0287",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bench-press-dark.mp4",
+      "sha256": "fcb238410bb08e7344ee8e8f0abae5ed915e331c77442f2289e16dc87676ff90",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/staggered-push-up-alpha.webm",
+      "sha256": "101435c2ed01006d39682fe0b41b640fab99d96398c0344fbc4a2b209f5bf36a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/staggered-push-up-dark.mp4",
+      "sha256": "2ecad71a409f39bb85c4da284eef167208698ba5847f5151b313462b04d81d20",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/staggered-push-up.mp4",
+      "sha256": "3f3f594a35aedb5e51537a674b9ddeb2b34d2a8702dbcbcffe04cf13ba9566d9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-forward-fold-alpha.webm",
+      "sha256": "47204c82c07713532c0db5b6a3884b013fb29afbae878dfa510f79f0ddb84502",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-forward-fold-dark.mp4",
+      "sha256": "48fa04fe5ae5065609c8f8d349a51606c6d03056080ebf86c6ae0c74b0cf5136",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-forward-fold.mp4",
+      "sha256": "b3a66f68e299522ab22ad22cba568e0caefc92c64864138447a04475fdae1489",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-leg-curl-machine-alpha.webm",
+      "sha256": "245e1c505f643b4c8b417550c3f460cdca07c6518d2933375f49a7f8f2c8054e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-leg-curl-machine-dark.mp4",
+      "sha256": "7c7fcc94512e15215a2d0ca2008ac42a267997cc19f50dd14cbbcca72e3263c6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-leg-curl-machine.mp4",
+      "sha256": "dd90058e3d437aad50710f014db7330b9b15cd797773b5b9a90056c08afb29d8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-single-leg-curl-alpha.webm",
+      "sha256": "8dc86b211572374e0c59f1d994c8c2c87045f7e2a20ecb14feb3eb45b91969e8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-single-leg-curl-dark.mp4",
+      "sha256": "7c7fcc94512e15215a2d0ca2008ac42a267997cc19f50dd14cbbcca72e3263c6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-single-leg-curl.mp4",
+      "sha256": "dd90058e3d437aad50710f014db7330b9b15cd797773b5b9a90056c08afb29d8",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straddle-stretch-alpha.webm",
+      "sha256": "6df202328688d44880e9d0e2d9b17970651ba90c74c8544ab62e0998872b51ad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straddle-stretch-dark.mp4",
+      "sha256": "597ea21f5e5abf19021622fa0c3a639d56ed69d8a7a99caf574c6d49755fb13a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straddle-stretch.mp4",
+      "sha256": "c8d2abdfb797a1efce015fe04a32ae5a3cdee5b4d038d8cf64ed32f66754c74b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-2-alpha.webm",
+      "sha256": "b4bb3981e6bf2fda103ba5f957a32112f2f0607c5bd58ae0cbd2b7846a528a9d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-2-dark.mp4",
+      "sha256": "6a26c7625070746ce559d778a893fdea5476a46a7d2e12d27c3109ec833c6fd5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/super-wide-grip-pulldown-alpha.webm",
+      "sha256": "ef71aef51860a5cbc0f5cbd1bc06cb77f3a2a56ff23f9fe3ca13dee3b4dee25c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/super-wide-grip-pulldown-dark.mp4",
+      "sha256": "24526f8e97a07345a0115b7896b7cf26e66d7bd045f12f8b992196d090149a70",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/super-wide-grip-pulldown.mp4",
+      "sha256": "949ddbc341517a237d1de4e1b8f13a3588e34cd0da6f6454de7e1e1ce16651e9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-alpha.webm",
+      "sha256": "b78110599ec18b2f8a46b1ddeb31b1522db20a3fd6ea29538f03989d79573151",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-dark.mp4",
+      "sha256": "de3d5cde7daf1741c4c8b82b003d23fed4c95793167a30bf77edb71f0777e1e5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-pull-alpha.webm",
+      "sha256": "d550ab65fce2dc84d51e9ddc10248568de5202aeee05b66222c08c77a75befd9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-pull-dark.mp4",
+      "sha256": "bd065e95ad90a0ef726b2c0e0abb80565526e3a5f6a8bb00aa2a432804a8168f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-pull.mp4",
+      "sha256": "fd354a4d661c4fafcec82c85846a1aa331fbc5346b7a12a46424efa1d4a48e64",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman.mp4",
+      "sha256": "edeb4a1e2439d7e5e5caf8ebbd927509becdd1188c5d7c42950f3b8c1261c2dc",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/supine-spinal-twist-alpha.webm",
+      "sha256": "b8b7f65142bdde89512f31c115c2652b346e38fa64854db26995aa4ebd2c9b86",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/supine-spinal-twist-dark.mp4",
+      "sha256": "efdf4ef794a20c102417bb83177f704216dbd681d05f88d2da4ec022ade5a742",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/supine-spinal-twist.mp4",
+      "sha256": "4531788298cc03f9cfa381a40e5e0025ba321d481aa2e6f83638e9abe6e1753f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/swimmer-exercise-alpha.webm",
+      "sha256": "067aad0f0e1f6c23ccdcfdaa7f45cabba3710ff94b319a563f1fb362538eb453",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/swimmer-exercise-dark.mp4",
+      "sha256": "e908477f6ece31f6d942029c19a4e1e1b47316093e174d0ad77bdddcc5df8bcf",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/swimmer-exercise.mp4",
+      "sha256": "da1a404a166817a4f8ac849f9a728e1d51d67dde1d3c8c42d6cca64be82045e2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-leg-press-alpha.webm",
+      "sha256": "5dcc891b0f956cdfda2a0ec79777de2008148c48ff02df1f3880a38ed4df6664",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-leg-press-dark.mp4",
+      "sha256": "b6cb824cff1401859c834b9ae34a1c5d103a996c77a29d2f0494577f3bc5f440",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-leg-press.mp4",
+      "sha256": "9175a6f30ca64536512687a6d4ba181c6048cf7032ba03009777888d349c390f",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-overhead-press-alpha.webm",
+      "sha256": "a46852ec035367b3bea21213f0193959150c7b22202efa439561a85a4e43dde9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-overhead-press-dark.mp4",
+      "sha256": "c0ace75559b818dcf589bb491fb0ba827c8cc058c11d13809d0cec7964b05286",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-overhead-press.mp4",
+      "sha256": "37cb6013ef9ecbb726b7efad87876913afd3fa56d48504cac783da8d37007b9d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-pull-up-alpha.webm",
+      "sha256": "6a3afe0449cd65eb0bfaa4b7c7413c1fba9e46ce393b25140a428ddd9f217af9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-pull-up-dark.mp4",
+      "sha256": "51986dc61afb26adef4a3f052ee2e97191b54420ef32fb3b0dcc230eedc51ac2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-pull-up.mp4",
+      "sha256": "d7803323c3f084a76a4fffe52bc12f6012695dce908d8dff4d67bcbd38f80389",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-push-up-alpha.webm",
+      "sha256": "e0127bc3b4f42bbe648d4ba94a7f953b85ae75b98ae78c03ec57bcfa3463f821",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-push-up-dark.mp4",
+      "sha256": "2d383681ae21d65452ff751e46a0b54c0a1265eb2421cb1e02795e17bc9523b2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-push-up.mp4",
+      "sha256": "fe5568fcfcd0ef298d5eb6fa58f0a8dc1a5651897f25d80158c22c79c4577f31",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-row-alpha.webm",
+      "sha256": "0b587bb901205ff9b13e0588dac11f35a76af81085fbcac79dd79ec620f09187",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-row-dark.mp4",
+      "sha256": "7718ee9e09052042f60c8f19f80ddf422e3beb1a585dddf55661c022938fdcd6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-row.mp4",
+      "sha256": "b3e42757414b215de810ae5513c1f028870ae5672159810ff8b16d2369a8598a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/toe-touch-crunch-alpha.webm",
+      "sha256": "3635f6b79b9344a3e739ebb280502025df2727e1fa546825587662e9512842a6",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/toe-touch-crunch-dark.mp4",
+      "sha256": "d120879c4897f44545ab455e2a3452102ce578baa181a35f55ee982f3040343e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/toe-touch-crunch.mp4",
+      "sha256": "3a9ef854724d0a9998624ecf4a567ae6b60f62caf7f629e90392f2c3837fb30a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/top-half-leg-extension-alpha.webm",
+      "sha256": "07ef6dfa4a8516a830cc5271ec7052ef5867358537ab4218f262924cb34f4de4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/top-half-leg-extension-dark.mp4",
+      "sha256": "365e01bc7cd8862f818af672a95a81c84eed4ae19826b34a01a3c19c595ba5d1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/top-half-leg-extension.mp4",
+      "sha256": "58651bade34d006329b8dc7e6f048e81580deb259135a7e6289871850c5e848e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tree-pose-alpha.webm",
+      "sha256": "d9fe1cead412bf4efa6152e30f69680b65572c099f4af08da0a513d341d1ef3a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tree-pose-dark.mp4",
+      "sha256": "532a9f37a918f6188882fc395041c735e10bf7057585209a5ce99f650e7f9e5e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tree-pose.mp4",
+      "sha256": "57105d800f1d41ee121e3d36e1bed99861f9e93446d2f1518fb530ff2815af2a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/triangle-pose-alpha.webm",
+      "sha256": "c8316935136dbadfdecfcd7e4f26b5ea198b8fea54ec229962cd6319644ac249",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/triangle-pose-dark.mp4",
+      "sha256": "721f7236022253ce1566d66a4794e2594cc8f7423fefad0e5bffdf963529dfdd",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/triangle-pose.mp4",
+      "sha256": "424d5969805822849cd5bf49cb746a49e308ee1e6ebb3bc2913a0c5c4dc88a93",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upward-facing-dog-alpha.webm",
+      "sha256": "ae97195248c534cd6b34970058244b6bc4aade042d0f14b1edc79a269cff5499",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upward-facing-dog-dark.mp4",
+      "sha256": "9943648db2bc2a15d951351dc19d5a0d0bda7a87013387186b2c6d2a5d5a6f52",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upward-facing-dog.mp4",
+      "sha256": "6bef6061b6db44e568130caf3297e30d39a71232d5a1e462bdeb0c5ae998da52",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-bar-lat-pulldown-alpha.webm",
+      "sha256": "e78b9efe154664a1152ca18e92dddf9d95861861352160161e97145f950d037d",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-bar-lat-pulldown-dark.mp4",
+      "sha256": "28dff55bf542fa3a1a86fa28442781136f6aa60803c0c2e3cc4820c4db454296",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-bar-lat-pulldown.mp4",
+      "sha256": "102f549c5799cd273feed265672f2c04201e172ec9174040c9a873984fb84e61",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-sit-hold-alpha.webm",
+      "sha256": "f8f7f356d6d713f1e03819e83aff5cd8578aa2431c560b69806151d80287cec3",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-sit-hold-dark.mp4",
+      "sha256": "07026af55b09966c5977774ff346e931b17d026919a96807ef5a5f23baa9f1f2",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-sit-hold.mp4",
+      "sha256": "450e003bcf863da855f1be4ca41ff0de9750f89a7805bba06ede059d2dbfbb40",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-2-alpha.webm",
+      "sha256": "0bcf685d40f317ec4c75a9154da4ecf0a636f482ae9956dde71385170ae8b8d4",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-alpha.webm",
+      "sha256": "939ab834d1a37e91ce4ca6edd384ce4d29c3e6fbbd2eb540514838940d098fb1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-up-dark.mp4",
+      "sha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-alpha.webm",
+      "sha256": "d0bd774b9f921018f5084a81c8007ec27c5554fc055d1629274c52fc8d816e60",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-dark.mp4",
+      "sha256": "3867732e464f5434a519cf8f9655fb132c924599b8aeba378390199dd9400cd9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-march-alpha.webm",
+      "sha256": "2c1ec45ddce4740723ea9878dbf889a15d4d1a30604247eb78aacfecfd116be5",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-march-dark.mp4",
+      "sha256": "cc0e9e5113b0e554fc7b7338f5932bf73fbfab16230db0043c0b7aa3bf5ddfef",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-march.mp4",
+      "sha256": "5ecd20dfdb36e519a75a25aea90a1be30e187e9e97020f2970786537bc850d0c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit.mp4",
+      "sha256": "abacb1bc886cf1525cb0444365fb06afc3b762a8b1e652f043eb091dc28159a9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-i-pose-alpha.webm",
+      "sha256": "cfb8437efa261a2f02e04374b2e0747545e0aac5251b9776bcb39b4295ea4aca",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-i-pose-dark.mp4",
+      "sha256": "699c05ccd44778ced47acd51525c59597079044cd5527567929f4cc86e9eed28",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-i-pose.mp4",
+      "sha256": "ce5211a3957cbaecc4830ae7ea8c9008045bed52d5c49e4ecab0390d6b5f8865",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-ii-pose-alpha.webm",
+      "sha256": "93006fe2c8efd08373ad708ba741d79ba5c6cbca850ef9dc87728ba51a8a0f42",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-ii-pose-dark.mp4",
+      "sha256": "7d2797f2b129bc9bd8d8ad8edcea496076dbe29babaabce1803d12000526f1a9",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-ii-pose.mp4",
+      "sha256": "5758b4dbfe0ed8eff1e59021fcbeefbd50430807a516a11623e3d3fed37668c1",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-iii-pose-alpha.webm",
+      "sha256": "c7f2c2ec48c8e93a1076b91808f4aaaadbfb12460755fdddf8789f4ba08fa777",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-iii-pose-dark.mp4",
+      "sha256": "455c0458f7ceafb4688f3264000cf8189f56cd62612e147861cd50eaadeddef0",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-iii-pose.mp4",
+      "sha256": "d9c6e1cdc87e21866780c73dd83d2d020b3a846b27106e8534b2891f89d4d540",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-hanging-leg-raise-alpha.webm",
+      "sha256": "ffe10ac126c625d1513697bc9a265bdeda5d2d8628bf2a9e54caaea6ec5e3f34",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-hanging-leg-raise-dark.mp4",
+      "sha256": "669cb98d5301fe7f4620f04ac870f549ece14156935732264e957560569fa454",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-hanging-leg-raise.mp4",
+      "sha256": "964a9ecb6f75870c93156cfdaba72139122cd9978e5b7f46644ee1f45fd0985a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-plank-alpha.webm",
+      "sha256": "c004a8f0ad11a4bb7bd90f0c58a89e75b5a67e51357e9e0967d2fbd814dad645",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-plank-dark.mp4",
+      "sha256": "3f13e71b8b576f5bbda0d69384bb264a7ff4ffa1164ffa5ea359715d0afa6e27",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-plank.mp4",
+      "sha256": "e7ac72d51375827c13672ee2ee3959ce4192a2d1787d1b999c28b27caf24f818",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-cable-face-pull-alpha.webm",
+      "sha256": "737e8395be3c4b7cb550b199e58dcdda8a698eb851bcf922c3a183948eff5a43",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-cable-face-pull-dark.mp4",
+      "sha256": "8bfa2e44cf7d276987a0f501473eb3922679e975edffea1e312c057d3562cb53",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-cable-face-pull.mp4",
+      "sha256": "ad44f67253795d4c0945497a8900ca22cca392a43136d4dbc2ca5610eb955718",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-dip-alpha.webm",
+      "sha256": "e6f539fba05843498d60b0a9243d3ced3864362925462365028ee54bdfe66e4a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-dip-dark.mp4",
+      "sha256": "a3b18b52e423a8675e1eb3e32c12006b027e07d6dce4b52579576bab8c0bf89a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-dip.mp4",
+      "sha256": "eb7f6b3f682a75e9be143af2b3c8faefc1fae4e0f67aa49c09b42e31c8705d5b",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-leg-forward-fold-alpha.webm",
+      "sha256": "346b20e0d1565111f9352b5a00b3b7ff570d84e71765f5fe67476548d7882d3c",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-leg-forward-fold-dark.mp4",
+      "sha256": "d993a4146bcef85a8f86b92707ac77737ee31d83e6eb79db3d4f9c91785ea45e",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-leg-forward-fold.mp4",
+      "sha256": "863b7fbc3569942c1db78289ed91870ec14b7518aed8cfa58bb755cf6b86d1ad",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-leg-press-alpha.webm",
+      "sha256": "6f803bbde1e43fe0051901380e98a5c8e98efc63fffa7fb3d11a9efb24cc1084",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-leg-press-dark.mp4",
+      "sha256": "b822e6e8c0e611c00c6b69af884ccbdd2df76842bc6d4fabcd97defa07380d0a",
+      "decode": "previous-record-passed"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-leg-press.mp4",
+      "sha256": "de69de8eed77b4154d2076c531ec173341cd4ea4b04533af18cebc31849e3cc2",
+      "decode": "previous-record-passed"
+    }
+  ]
+}

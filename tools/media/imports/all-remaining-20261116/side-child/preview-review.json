@@ -1,0 +1,39 @@
+{
+  "side-reaching-child-s-pose": {
+    "reviewedAt": "2026-11-24T02:09:22.128Z",
+    "checks": {
+      "exercise": "side-reaching-child-s-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms extended to one side with palms resting on mat.",
+      "feet": "Deeply bent knees apart, hips toward heels, forehead supported on low pad.",
+      "movement": "Knees bent apart and hips toward heels; torso side bends with both straight arms reaching to one side, palms down and forehead supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/full-sheet.png",
+        "sha256": "aca9fa4f9fe535b605f31143ac2bde7ff7c82dffd4bd0befef4f7436919e4be6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-sheet.png",
+        "sha256": "a64a827a7e3912771059e12d78a432a175d4737ed61743ee7439a3d7acf5171a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/poses.json",
+        "sha256": "6336efd2cb313a894e5e39c4914325acddd0e08cc229217c4302875d3b64bd68"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/geometry.json",
+        "sha256": "6446759bae9a160fea346b16a3a8f91d3c58a4f56a401b2403a6e590aae5e15c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/kinematics.json",
+        "sha256": "e44872f176434c1a2dda6e657049b5ed42c537837577973f659fdc18c61da920"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T07:58:03.284Z",
+  "report": [
+    {
+      "id": "superman",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "superman-pull",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

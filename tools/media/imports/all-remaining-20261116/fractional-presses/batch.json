@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "1-25-rep-bench-press",
+      "original": "bench-press",
+      "equipment": "barbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "1-25-rep-bench-press",
+        "sourceUrls": [
+          "https://www.strengthlog.com/bench-press/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Quarter-extra repetition: lower to chest, press one quarter, lower again, press fully; feet and bench support fixed. Fractional timing is illustrative.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Fractional repetition timing is illustrative. Unracking and reracking are omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "1-5-rep-shoulder-press",
+      "original": "barbell-overhead-press",
+      "equipment": "barbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "1-5-rep-shoulder-press",
+        "sourceUrls": [
+          "https://www.strengthlog.com/overhead-press/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Half-extra standing strict press: half press, lower to shoulders, full press, lower to shoulders. No leg drive; fractional timing is illustrative.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Fractional repetition timing is illustrative. Unracking and reracking are omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

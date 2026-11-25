@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-dip",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "07366f4987bbfc3f05e1658b6ecf0ebafc3f8a94efc4efa0848d630f46d15edf",
+  "rigSourceSha256": "ca96b222055ca5ba0978df4074bb9a879849409f176fea1eb41d29c0df463980",
+  "videoSha256": "eb80247eb74acd6e2931a86e0488d1b1bba9697988587b49b0faf611ae6d4821",
+  "darkVideoSha256": "428b9a62c102ce6788c095a59f245e5224a1dec1107cfab07e08808f0f12efb3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 97541,
+  "darkBytes": 98250,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:14:52.950Z"
+}

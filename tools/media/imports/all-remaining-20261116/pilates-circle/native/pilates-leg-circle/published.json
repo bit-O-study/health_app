@@ -1,0 +1,18 @@
+{
+  "id": "pilates-leg-circle",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3c6cff8d27b174c4a19a739de7f6e6ec336f9f2e2936254338c3a5101bf43116",
+  "rigSourceSha256": "39c0e6f14db9ec875cfe6ce28e5c7a0d19dd79ed4f8fd92e69fbe30eebf17cc8",
+  "videoSha256": "a8011f8e9c998bc9ff49f881cd42722d4f422e18f9c05dd352015e1b8bfe2806",
+  "darkVideoSha256": "fcc3b33df2bb3df8db2cb006a6159cdda4a1b9516a469b6acbefd3819780c41f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 57182,
+  "darkBytes": 61117,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:17:13.669Z"
+}

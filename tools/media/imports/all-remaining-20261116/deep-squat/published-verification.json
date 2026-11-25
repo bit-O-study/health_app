@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T02:23:04.348Z",
+  "report": [
+    {
+      "id": "deep-squat-hold",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

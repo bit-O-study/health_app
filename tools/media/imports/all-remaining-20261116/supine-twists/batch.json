@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "supine-spinal-twist",
+      "original": "supine-spinal-twist",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "supine-twists",
+        "sourceUrls": [
+          "https://www.yogajournal.com/live-be-yoga-featured/create-and-hold-space/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine bent-knee spinal twist, arms extended in T, knees together to one side and head turned opposite, relaxed supported hold.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "reclined-spinal-twist",
+      "original": "reclined-spinal-twist",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "supine-twists",
+        "sourceUrls": [
+          "https://www.yogajournal.com/live-be-yoga-featured/create-and-hold-space/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine bent-knee spinal twist, arms extended in T, knees together to one side and head turned opposite, relaxed supported hold.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

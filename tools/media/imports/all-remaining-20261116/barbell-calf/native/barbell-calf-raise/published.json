@@ -1,0 +1,18 @@
+{
+  "id": "barbell-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d7c8aa375cc83bb86d1d693bc2ff9239ba2637481ad14162bdb95f469e867ea9",
+  "rigSourceSha256": "61b1a1c3227fcfdd1d1702e2a059c35d9ebf40701afd03790c92889ba3ac8ac1",
+  "videoSha256": "4c5834c189126a0b57e030e1a56cfd252859f0682a5884eb102876993c442e59",
+  "darkVideoSha256": "4b3e4469337519b7be252d2b6bbfc7e0640b9c8bc5b09635a0b42ea214f17d64",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 123889,
+  "darkBytes": 110645,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:56:54.757Z"
+}

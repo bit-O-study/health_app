@@ -1,0 +1,28 @@
+{
+  "dead-hang": [
+    {
+      "file": "tools/media/motion-guides/dead-hang.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dead-hang.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dead-hang-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-hang.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-hang-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-hang-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

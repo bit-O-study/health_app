@@ -1,0 +1,75 @@
+{
+  "glute-bridge-march": {
+    "reviewedAt": "2026-11-16T08:36:56.326Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "glute-bridge-march",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside the body on the mat.",
+      "feet": "Feet alternately lift and return while pelvis remains elevated and level, upper back and hands supported.",
+      "movement": "Maintain a raised level pelvis and upper back support, alternate bent-knee foot lifts. Each side rises for 1.5 seconds, pauses for 1 second, lowers for 1.5 seconds."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/final.jpg",
+        "sha256": "a79409d923f431bd45695d4a0efb0174f5f20ea211d09a5120340560ec72623f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/final-dark.jpg",
+        "sha256": "8dfbe35601ef27a7741dd9dbe09882719e0a6e3ff2ae487234890c14a3692e8e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/full-sheet.png",
+        "sha256": "41427b64423f51d5cfdf9efaaeae10fbfa2e0221ccf7f5f109392b87827fcfad"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/side-sheet.png",
+        "sha256": "fef66bfc570e5b5770534ece62e95093e1821bfce15ab417f389e40b833901dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/verification.json",
+        "sha256": "8e648208ad513c0b13965d64d28fc0e8c430733f50289b1062125c8be0f2a2b5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/geometry.json",
+        "sha256": "bbb14f1f8afdea728d0723c22f349db19042fba91e3ed570a0c805d65f734816"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/kinematics.json",
+        "sha256": "d1743fceb0b2e977c488f0be6308d62482485ce706adfb99af0b6a20462d458a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/provenance.json",
+        "sha256": "471ae7b5f550815db87e8be8f77d24cf5fc530b4ef6f7f43424c9e9c5c7bcf93"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/glute-bridge-march-alpha.webm",
+        "sha256": "4e5b4c070e091b6f4a61e61c2df71ca4d5a5bd941b39f13638ae15f409b91729",
+        "bytes": 87858,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/glute-bridge-march.mp4",
+        "sha256": "2e262f1fa1ca0a6e2d80e45918074059d6d0e4839e61539ad6af774dde75586e",
+        "bytes": 42365,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/glute-bridge-march-dark.mp4",
+        "sha256": "3db0c71a9c128ec80aac690a909c510849610463bd843d3994b536774c3c9a36",
+        "bytes": 41928,
+        "decode": "passed"
+      }
+    ]
+  }
+}

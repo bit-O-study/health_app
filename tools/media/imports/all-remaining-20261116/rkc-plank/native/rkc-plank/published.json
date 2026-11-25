@@ -1,0 +1,18 @@
+{
+  "id": "rkc-plank",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1cf83a7f7fe450f27235cd43017f96603cfb2a3101de6d17b1ab4d68e1357df3",
+  "rigSourceSha256": "6573259e8fbaada495eaf3b93476e59e730cbde39f6b287fee995d5b176bee5b",
+  "videoSha256": "30b4844003e63719aa8b2880ab409bee64165c02564df0ced85a39733f609669",
+  "darkVideoSha256": "52d9b7f4b8c47439cd2049061dee2b0294d7151856493b4b471a011919be31f9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14393,
+  "darkBytes": 14337,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:48:08.685Z"
+}

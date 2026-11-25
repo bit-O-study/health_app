@@ -1,0 +1,75 @@
+{
+  "figure-4-stretch": {
+    "reviewedAt": "2026-11-18T03:45:40.437Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "figure-4-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support behind the raised thigh; separate hands without visible overlap.",
+      "feet": "Right ankle rests above left knee with flexed foot; right knee opens out while hands support left thigh.",
+      "movement": "Lie supine, cross one ankle above the opposite knee and flex the crossed foot. Hold behind the uncrossed thigh and gently draw it toward chest, keeping head and pelvis supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/final.jpg",
+        "sha256": "4f51a7538da6c1fadd4376ecf18b62442b89b02238824e677c99bf2915735300"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/final-dark.jpg",
+        "sha256": "72690f87330d80df60f3f4e7a4e437e22866b7767b3bdb5a9cbf2119027698ba"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/full-sheet.png",
+        "sha256": "75a50b0d94c4ed19c5ec0823e9a199c1c7b7c43541f452ef97f3601088deca41"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/side-sheet.png",
+        "sha256": "3cc9401aed65a649763ff40219a36de84e4801d09abe681035c0259fd43e4171"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/verification.json",
+        "sha256": "6cf520200ccda1c2c0f0e24ddc80700fb7f88805b3c848f8b98e40aab2e70ea4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/geometry.json",
+        "sha256": "4acca216c8c54494061dde8b22bae9881606ba46997ff44a16d8945c7d922924"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/kinematics.json",
+        "sha256": "f03a34f30a97bdf89e47161cc91580a803667ea1f56f4aed10e3bc5862f62bc6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/provenance.json",
+        "sha256": "01716e80646293d020c6269c26d691d1b43eea44ebdb3c026c518a862a7a3e9a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/figure-4-stretch-alpha.webm",
+        "sha256": "3c52fa23804e23aca4e0afcd7368b68e11095cf0f89a1e74cbeded6b67e1c18f",
+        "bytes": 39893,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/figure-4-stretch.mp4",
+        "sha256": "cd38495be4c687cc0025da0528779416734f0438d3764cd6c49a9ee85270e38f",
+        "bytes": 16287,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/figure-four/native/figure-4-stretch/figure-4-stretch-dark.mp4",
+        "sha256": "dda030c6aa72b65b54306c6eafcefd3037e6d5d491f3e5c5901faec6f579c154",
+        "bytes": 16044,
+        "decode": "passed"
+      }
+    ]
+  }
+}

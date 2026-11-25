@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "kneeRange": [
+    90.00000000000001,
+    179.42506311437887
+  ],
+  "maxStep": 0.035331164775213475,
+  "pelvisDrift": 0.1169289825362192,
+  "levelFeet": true,
+  "oppositeShoulderRotation": true,
+  "maximumHandHeadGap": 0.052926367225232356
+}

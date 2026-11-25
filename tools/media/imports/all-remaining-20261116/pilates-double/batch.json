@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "pilates-double-leg-stretch",
+      "original": "pilates-double-leg-stretch",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pilates-double",
+        "sourceUrls": [
+          "https://ie.physitrack.com/home-exercise-video/pilates-double-leg-stretch"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine curled chest; tabletop knees extend diagonally while arms reach overhead, then circle arms outward and return hands to knees.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled extension and arm-circle return."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

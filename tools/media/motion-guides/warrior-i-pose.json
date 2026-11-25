@@ -1,0 +1,15 @@
+{
+  "id": "warrior-i-pose",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "warrior-i-pose-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.yogajournal.com/poses/warrior-i-pose/?scope=anon"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T02:40:52.782Z"
+}

@@ -1,0 +1,39 @@
+{
+  "neck-stretch": {
+    "reviewedAt": "2026-11-18T02:35:23.132Z",
+    "checks": {
+      "exercise": "neck-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Right hand rests lightly on the front of the left shoulder; opposite arm relaxed at side.",
+      "feet": "Feet flat on mat, pelvis supported by chair; head tilts laterally with upright torso.",
+      "movement": "Sit upright, support one shoulder lightly with opposite hand, side bend head away from supported shoulder without rotating torso. Hold gently with feet flat and pelvis supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video demonstrates a hold; actual hold duration remains user controlled."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/full-sheet.png",
+        "sha256": "3163dad56bcb2b394c2a98a074954ee7f2698b3b3fe9440c6614c4424bc78323"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/side-sheet.png",
+        "sha256": "f6b8f52c0a7843ab00e9fa341dc38dea9aa998319210f4acf726154d754ae135"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/poses.json",
+        "sha256": "00e0af869b6d1111a54b50aaaeda23923dcee320268797efe79afd28f54fe4d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/geometry.json",
+        "sha256": "32c96b08e2ae3f792bdb24475c16845fb5e203dcddce622d4f648d84a35d698f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/kinematics.json",
+        "sha256": "dafb2322531840a346306898cd535484e9e99f2ee2048fba9667e78f2ebe32b5"
+      }
+    ]
+  }
+}

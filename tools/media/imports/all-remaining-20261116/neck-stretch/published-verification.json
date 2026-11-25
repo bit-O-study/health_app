@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-18T03:15:38.013Z",
+  "report": [
+    {
+      "id": "neck-stretch",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "front-split-stretch": {
+    "reviewedAt": "2026-11-24T04:38:37.989Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "front-split-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support on the mat beside the front leg.",
+      "feet": "Both legs straight in opposite directions, front toes up, rear instep down; pelvis supported.",
+      "movement": "Supported front split with straight front and rear legs, square pelvis, front toes up and rear instep down; hands support beside the body."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/final.jpg",
+        "sha256": "a0c503d83b79c8b452cc8907a00202634793fae8aa3b344a8bd175f7ad296d77"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/final-dark.jpg",
+        "sha256": "9649c3b0ade1e43fe77301188229e3542701fd7c0acf89e62e809a66df816972"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/full-sheet.png",
+        "sha256": "c44435150f14ac34de3e94448f7cd6461240aee1fb8bdedf5d288a513468cb5f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/side-sheet.png",
+        "sha256": "f1976705c2da9483a71b7f1a41b320e8d4347c43a458048deea0361323c05157"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/verification.json",
+        "sha256": "9722bf50d91b42121cc1cc6677015891ffd14c06de68a57168c05bf5257be768"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/geometry.json",
+        "sha256": "82be11279a6aea069df40144922cf7928559c141e3eacce52ff29dcda64bdab9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/kinematics.json",
+        "sha256": "ee279afb4baa6640fd44a183b6a25f217c01a1e74b1e55e7647ec17b090cc5de"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/provenance.json",
+        "sha256": "9bb49fd9736172072e778473d4cf3cd773c50c76a6b325b63cb0dd1dac001c73"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/front-split-stretch-alpha.webm",
+        "sha256": "bf94cb67086c78a6105d7ed377212166bbc7b5207692d982780d32b8b62d6aea",
+        "bytes": 38481,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/front-split-stretch.mp4",
+        "sha256": "28d0d8210db8cb2d9a17c3bd92ed13a57d6b8292f202df77e72aaab835249535",
+        "bytes": 16830,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/front-split-stretch-dark.mp4",
+        "sha256": "c336e3de6054a9798aac9eca203ca1a9098926a72f25ee650d0cb00c79ff2be4",
+        "bytes": 15829,
+        "decode": "passed"
+      }
+    ]
+  }
+}

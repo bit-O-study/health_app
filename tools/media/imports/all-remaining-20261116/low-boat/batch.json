@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "boat-to-low-boat",
+      "original": "boat-to-low-boat",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "low-boat",
+        "sourceUrls": [
+          "https://yoga.com/pose/low-boat-pose"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Controlled high-to-low boat transition, straight legs, arms horizontal, balanced pelvic support; return to high boat.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

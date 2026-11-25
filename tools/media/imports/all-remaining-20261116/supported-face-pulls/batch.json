@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "seated-cable-face-pull",
+      "original": "seated-cable-face-pull",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-cable-face-pull",
+        "sourceUrls": [
+          "https://www.youtube.com/watch?v=QOlqL0DN1_4"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Upright bench seated position, feet planted and knees 90 degrees. Rope pulled toward sides of face with elbows outward and stable trunk. Cable pulley at head height, equal fixed-length rope branches and lifting weight stack. 3.5 seconds pull, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "kneeling-cable-face-pull",
+      "original": "kneeling-cable-face-pull",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "kneeling-cable-face-pull",
+        "sourceUrls": [
+          "https://legionathletics.com/face-pull/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Tall kneeling position, both knees and shins on pads, hips extended. Rope pulled toward sides of face with elbows outward and stable trunk. Cable pulley at head height, equal fixed-length rope branches and lifting weight stack. 3.5 seconds pull, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

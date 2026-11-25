@@ -1,0 +1,18 @@
+{
+  "id": "half-moon-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3493d7a422f0f561a454d71d11d8de04cc77480b93186081ff42efb4ea1f8e6d",
+  "rigSourceSha256": "1da6219755e009942ed1b1f74a92bb1c8b7b85190bb7bd81bb1b7f6dae25475d",
+  "videoSha256": "c8628fa3ccdcf2fccf4c1b9ad24938b18e5b2bc1405da7c8516c1002362813a0",
+  "darkVideoSha256": "35b39cb596c94f52e1bad6ebc2d5c39aefec11ba2fccceb44f548e081c3946f4",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15890,
+  "darkBytes": 15062,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T03:15:06.478Z"
+}

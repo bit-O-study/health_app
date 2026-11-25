@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose supine V-up, simultaneous straight-leg and trunk raise to V, hands reach toward ankles, reverse",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.verywellfit.com/v-sit-ab-exercise-3120059"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "v-up-2",
+  "registeredAt": "2026-09-13T12:59:17.735Z"
+}

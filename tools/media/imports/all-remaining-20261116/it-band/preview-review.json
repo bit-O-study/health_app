@@ -1,0 +1,39 @@
+{
+  "it-band-stretch": {
+    "reviewedAt": "2026-11-24T06:02:11.914Z",
+    "checks": {
+      "exercise": "it-band-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms relaxed beside torso.",
+      "feet": "Left leg crosses behind right, both feet grounded, torso leans away from left hip.",
+      "movement": "Standing lateral hip stretch: left leg crossed behind right, feet grounded, torso leans away from left hip with relaxed arms."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/full-sheet.png",
+        "sha256": "b67947f95bc9fbf6895f6d3a8525c503fca448552d3946edc0a658a622c58c3b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/side-sheet.png",
+        "sha256": "6116253cd5a0b745843b1e6e7e58fd63e411247b3aa5e95fe486cb224baa490f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/poses.json",
+        "sha256": "d1d3a166902b11bb74a825df08b99ccf2e2d075802d82105034f6b68e9fbe49b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/geometry.json",
+        "sha256": "2297b1bcca3be703f128d77880122484a2ea5971a64327c75c56970740062ba2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/kinematics.json",
+        "sha256": "911b09c04aec2d6eff09cab80ed28c845a671acfb3ccd69530345bdb5ec93f84"
+      }
+    ]
+  }
+}

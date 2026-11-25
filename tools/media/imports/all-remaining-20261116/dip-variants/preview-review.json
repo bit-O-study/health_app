@@ -1,0 +1,113 @@
+{
+  "wide-grip-dip": {
+    "reviewedAt": "2026-11-16T08:11:52.902Z",
+    "checks": {
+      "exercise": "wide-grip-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Body lowers and rises between parallel bars; feet remain clear of the floor, with grip width and trunk lean matched to each exercise.",
+      "movement": "Wider parallel bars, slight forward torso lean and bent knees. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/full-sheet.png",
+        "sha256": "b7c5f0dad0cc028e4f388b93b071366ab5c74d17f19026246b74bfc97b91014a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/side-sheet.png",
+        "sha256": "801048368122fe6018aac00d57323fcb6e606eca92f5f0e9c3440bca4e3cbc58"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/poses.json",
+        "sha256": "da296f478e5fa0cb75c5dcb4114b20ea2ede5c27b55efa0f1338e3c62ffc75ac"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/geometry.json",
+        "sha256": "175cba0772e6630847d3d984153e1f2f923ad6c28f8a6622b0471889950e4d1c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/kinematics.json",
+        "sha256": "dd1f097258d6e47d204482f5dafad49c818b2d945ec9cb56db7cffd4c890a68d"
+      }
+    ]
+  },
+  "close-grip-dip": {
+    "reviewedAt": "2026-11-16T08:11:52.907Z",
+    "checks": {
+      "exercise": "close-grip-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Body lowers and rises between parallel bars; feet remain clear of the floor, with grip width and trunk lean matched to each exercise.",
+      "movement": "Narrower parallel bars, upright torso and straight hanging legs. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/full-sheet.png",
+        "sha256": "359fe6adba746ca978b1a8efaaa6dc56ef95cdb78cb9a4185fe3ad612182cef5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/side-sheet.png",
+        "sha256": "37aef730c3470fb3f0bc39994442b09b5d82b4fdb36f6b6c156e1402e2efb23c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/poses.json",
+        "sha256": "4d8cf4a7a506ee186c230778ba9701662743e09704f1f80d64656fb4e256cd2f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/geometry.json",
+        "sha256": "b32969e2a702f79fe3bc02a10eb00c1ddd9fb3de5ee662865eed6ca8d20ba261"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/kinematics.json",
+        "sha256": "5633df52bac23f93373931c8a1d45cd5a036c67693aba447493fbca14b5ffb0a"
+      }
+    ]
+  },
+  "forward-lean-dip": {
+    "reviewedAt": "2026-11-16T08:11:52.909Z",
+    "checks": {
+      "exercise": "forward-lean-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Body lowers and rises between parallel bars; feet remain clear of the floor, with grip width and trunk lean matched to each exercise.",
+      "movement": "Parallel bars with deliberate forward torso lean and bent knees. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/full-sheet.png",
+        "sha256": "25d789830fc1f1cb9f8d50a1a48ca5802835680c532ece83644448a98e701761"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/side-sheet.png",
+        "sha256": "47d7c59b5a6f8610e3043f1c5bdf05a25a63445e2486f17c39ec6a519d3ede07"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/poses.json",
+        "sha256": "7f1bb5b3cd2b4aa9fd48604936a4fccf47315bbedeb7911424e14e069ca0e12c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/geometry.json",
+        "sha256": "ae4db4828cac267ab235ef0da810d3f0a9aee64800904273b33d4b581e6ddc2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/kinematics.json",
+        "sha256": "54706c8cb88e964b55203540bfc7d6a3219fa6ad441439b8e33fa3bc9a16d24b"
+      }
+    ]
+  }
+}

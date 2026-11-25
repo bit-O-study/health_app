@@ -1,0 +1,15 @@
+{
+  "id": "double-knee-to-chest",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "double-knee-to-chest-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://nafc.org/s/Double-Knee-to-Chest-Stretch.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T00:32:12.025Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "boat-pose",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "boat-pose-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.yogajournal.com/poses/full-boat-pose-2/?scope=anon"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T01:25:31.716Z"
+}

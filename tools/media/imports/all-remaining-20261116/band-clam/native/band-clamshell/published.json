@@ -1,0 +1,18 @@
+{
+  "id": "band-clamshell",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "32a5a2fb5fb2cb32ebd3dac1e7dd752da514784b667e36ce39b125d7b84c0184",
+  "rigSourceSha256": "6e6f5526378234d15b0ec23b1665e4f1552dbbdfe85641caac94b5fd6885e41b",
+  "videoSha256": "1ee2defdd57b5645dc2e1dcef9146b9aa33d4935428579f14eab8907bb1c126b",
+  "darkVideoSha256": "b43680ef1692388769966bdeb96e1026bf9b13308622e6795319cf27eb533565",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 51979,
+  "darkBytes": 52311,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T02:29:53.712Z"
+}

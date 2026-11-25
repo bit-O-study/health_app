@@ -1,0 +1,148 @@
+{
+  "standing-single-leg-curl": {
+    "reviewedAt": "2026-11-16T05:08:39.884Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "standing-single-leg-curl",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Standing left foot supports body; right knee flexes against a plate-loaded roller. Fixed torso, thigh support, heel path and roller contact checked.",
+      "movement": "Single right leg knee curl from 180 to 80 degrees, torso leaning forward 30 degrees, fixed thigh pad and hand grips, left foot on platform, ankle roller and plate-loaded side lever. Four seconds curl and four seconds return; switch legs between sets."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/final.jpg",
+        "sha256": "00aa6bb40bd1cc8c80f48e8107d06edb8650c2568d2eff3a0527679aaa8bdfea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/final-dark.jpg",
+        "sha256": "b62ba43733e3a17b1cbd62aa7eed4d7d9962bc201805d63be2a5df8cdd2fa6e8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/full-sheet.png",
+        "sha256": "269d46cd7fb274b3b35f145f94faa383419db61f40e4108e84fdcd27595784b9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/side-sheet.png",
+        "sha256": "4b6420a3b3fe05b07b180a5d6eaf60f29dae42bf7488c10df3d0cb3077f54c99"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/verification.json",
+        "sha256": "a99379a3f3de8733eeee9ceba70d187e3e3a36636b750a0caaa659f99cbf98d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/geometry.json",
+        "sha256": "aa26689f251f4e39a12a96b78111d51a1e229a4e3bf556b5f53fa99a0a22fc32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/kinematics.json",
+        "sha256": "685dcb73bab5b20d9fa638c56cf125c8f6c98c85f700b45e36a586d2ae20602e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/provenance.json",
+        "sha256": "7b591fa770eafcc5c14e8c48259f9ad11be855eb3ccccebad99afe87a0865c25"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/standing-single-leg-curl-alpha.webm",
+        "sha256": "8dc86b211572374e0c59f1d994c8c2c87045f7e2a20ecb14feb3eb45b91969e8",
+        "bytes": 211928,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/standing-single-leg-curl.mp4",
+        "sha256": "dd90058e3d437aad50710f014db7330b9b15cd797773b5b9a90056c08afb29d8",
+        "bytes": 94020,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/standing-single-leg-curl-dark.mp4",
+        "sha256": "7c7fcc94512e15215a2d0ca2008ac42a267997cc19f50dd14cbbcca72e3263c6",
+        "bytes": 77472,
+        "decode": "passed"
+      }
+    ]
+  },
+  "standing-leg-curl-machine": {
+    "reviewedAt": "2026-11-16T05:08:39.910Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "standing-leg-curl-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Standing left foot supports body; right knee flexes against a plate-loaded roller. Fixed torso, thigh support, heel path and roller contact checked.",
+      "movement": "Single right leg knee curl from 180 to 80 degrees, torso leaning forward 30 degrees, fixed thigh pad and hand grips, left foot on platform, ankle roller and plate-loaded side lever. Four seconds curl and four seconds return; switch legs between sets."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/final.jpg",
+        "sha256": "00aa6bb40bd1cc8c80f48e8107d06edb8650c2568d2eff3a0527679aaa8bdfea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/final-dark.jpg",
+        "sha256": "b62ba43733e3a17b1cbd62aa7eed4d7d9962bc201805d63be2a5df8cdd2fa6e8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/full-sheet.png",
+        "sha256": "269d46cd7fb274b3b35f145f94faa383419db61f40e4108e84fdcd27595784b9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/side-sheet.png",
+        "sha256": "4b6420a3b3fe05b07b180a5d6eaf60f29dae42bf7488c10df3d0cb3077f54c99"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/verification.json",
+        "sha256": "a99379a3f3de8733eeee9ceba70d187e3e3a36636b750a0caaa659f99cbf98d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/geometry.json",
+        "sha256": "aa26689f251f4e39a12a96b78111d51a1e229a4e3bf556b5f53fa99a0a22fc32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/kinematics.json",
+        "sha256": "685dcb73bab5b20d9fa638c56cf125c8f6c98c85f700b45e36a586d2ae20602e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/provenance.json",
+        "sha256": "b33cedfe9633de423f5c55d7adf2fc0159e2d425fbcb591be408a60c5e84a045"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/standing-leg-curl-machine-alpha.webm",
+        "sha256": "245e1c505f643b4c8b417550c3f460cdca07c6518d2933375f49a7f8f2c8054e",
+        "bytes": 211928,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/standing-leg-curl-machine.mp4",
+        "sha256": "dd90058e3d437aad50710f014db7330b9b15cd797773b5b9a90056c08afb29d8",
+        "bytes": 94020,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/standing-leg-curl-machine-dark.mp4",
+        "sha256": "7c7fcc94512e15215a2d0ca2008ac42a267997cc19f50dd14cbbcca72e3263c6",
+        "bytes": 77472,
+        "decode": "passed"
+      }
+    ]
+  }
+}

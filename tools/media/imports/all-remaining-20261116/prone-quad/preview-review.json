@@ -1,0 +1,39 @@
+{
+  "lying-quad-stretch": {
+    "reviewedAt": "2026-11-24T00:37:46.375Z",
+    "checks": {
+      "exercise": "lying-quad-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Matching hand holds ankle; opposite arm rests beside the head.",
+      "feet": "Opposite leg extends along mat; stretching leg bends toward buttock with thighs aligned.",
+      "movement": "Prone quadriceps hold: one knee flexed and ankle held with matching hand, thighs aligned, opposite leg extended and torso supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-quad/native/lying-quad-stretch/full-sheet.png",
+        "sha256": "d17253459962ec636f31657b3e732b3c80ac5e8b7f08a63b03731f3cc9c0e59c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-quad/native/lying-quad-stretch/side-sheet.png",
+        "sha256": "00b4a0b4db9dbf320a99e7f1249a222d35d623f1601c056ac5268c5a1794ddaf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-quad/native/lying-quad-stretch/poses.json",
+        "sha256": "3abfd2ca9e8df1f747801809d6269715832a16d411832f474596064be963ce46"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-quad/native/lying-quad-stretch/geometry.json",
+        "sha256": "a8230b92ebde466063445052d9315601cf6e2013242493084abab30f9f26121c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-quad/native/lying-quad-stretch/kinematics.json",
+        "sha256": "9b79b559755f8fe09642ca311c807780b275feff3913712f4d541f75251ced3d"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "pilates-side-kick",
+      "original": "pilates-side-kick",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pilates-side-kick",
+        "sourceUrls": [
+          "https://www.pilatesanytime.com/exercise-view/6197/video/Pilates-Side-Kick-by-Mychele-Sims"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Side lying top straight leg sweeps forward and backward at hip height, with stable pelvis and ankle lengthening on backward sweep.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "One side shown; controlled sweep without extra pulses."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

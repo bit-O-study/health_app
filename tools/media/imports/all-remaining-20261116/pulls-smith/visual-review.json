@@ -1,0 +1,221 @@
+{
+  "eccentric-chin-up": {
+    "reviewedAt": "2026-11-16T00:49:46.052Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "eccentric-chin-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Support remains stable: feet planted for seated exercises, legs travel with torso for chin-up.",
+      "movement": "One-second pull, one-second top hold, five-second controlled lowering, one-second bottom hold; illustrative timing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/final.jpg",
+        "sha256": "0ff963b8858a82032ce66c9a90292e6abbf15f7d0067eb91aa4b23c2c4e391d7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/final-dark.jpg",
+        "sha256": "c5f503dd039009bd9535cb7a1c1b58093b20d73d1721cf93c84e4199745dfece"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/full-sheet.png",
+        "sha256": "ec66c5716451ead3d939bb80413060071b72583a9eb8bd7ab02c5759d94ecc32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/side-sheet.png",
+        "sha256": "3251a9f55b3be0d7959dabedfb2285749f90055c4491fbcadf328f298c64e908"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/verification.json",
+        "sha256": "20596c86603249c5ad282baa573012fd853ec9310a39c382ef8b793eefb331fc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/geometry.json",
+        "sha256": "6e275790a535615bac88a3287ef08c0b79409663aac4bb27ec4eb0a2fc6a8729"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/kinematics.json",
+        "sha256": "58a8796da472c0d4d9391bf7230803e0d1b873f2a8ac1fce91ef737fd344ff50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/provenance.json",
+        "sha256": "162e477c56e4c31508bcf7c9c4f96e032bf9f58c9c8ef6127b3ea253b76ba537"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/eccentric-chin-up-alpha.webm",
+        "sha256": "dcdc6bba8bb17f5187fb9e8cff843d30da65813b2bd128c3f9f59dcc9b700b2f",
+        "bytes": 190060,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/eccentric-chin-up.mp4",
+        "sha256": "224e55c84afbeca0d1e4380a798e90fb9588957d4cfaff0e78726cfbfbb1e5b0",
+        "bytes": 73797,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/eccentric-chin-up-dark.mp4",
+        "sha256": "fb5e874da9ed5f1ee4f132b896fdba400b83d724edace68b286bc8d87f9b4a7b",
+        "bytes": 77204,
+        "decode": "passed"
+      }
+    ]
+  },
+  "lat-pulldown-2": {
+    "reviewedAt": "2026-11-16T00:49:46.125Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "lat-pulldown-2",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Support remains stable: feet planted for seated exercises, legs travel with torso for chin-up.",
+      "movement": "Seated cable pulldown with fixed feet, stable torso and continuous cable/weight stack travel."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/final.jpg",
+        "sha256": "64e7e39d32540b51b629ffe3b2aad816c0aa3f0f22a825343cb9a7fa713012ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/final-dark.jpg",
+        "sha256": "64c0c2d41f7983b22fbb675e4fda71e12b7a056f3e1674464e404ede7870311b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/full-sheet.png",
+        "sha256": "49ca3d8d3784d7b54b27037f7295effebd3eec1b30fece87ad9863ec36e7189e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/side-sheet.png",
+        "sha256": "08489bae108c4137eb2184d78336d6d85c6034f6cb22b9f58e9d4eb1ca6c0957"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/verification.json",
+        "sha256": "e2c004796565a63b35bfb5f5035ee75c2d3904f4fb69ee7552199dc7e6193b48"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/geometry.json",
+        "sha256": "a3f8b059e377eeb5d516a459d76262047cc6a2311e8901a2dc40c56d531a7a9e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/kinematics.json",
+        "sha256": "223459cab46509999fea275f31286951901425c2dc09df7a56b3cb1af99eeecd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/provenance.json",
+        "sha256": "761e1dd2968135d790383599a451ec8058961ca8715cfd0f4a3a479456be0600"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/lat-pulldown-2-alpha.webm",
+        "sha256": "59dece5e290127f194c81cdd99b01745c88030a85f20c696f330829792fd2e77",
+        "bytes": 226415,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/lat-pulldown-2.mp4",
+        "sha256": "8aab96c03849225f766296c1f3b7c2079c1250e7a82fe9237606cfdfa942dce8",
+        "bytes": 85281,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/lat-pulldown-2-dark.mp4",
+        "sha256": "316ea48d951a51bbf7f07decd1cebdb215329f5a9793250b191980c4bdf79137",
+        "bytes": 82144,
+        "decode": "passed"
+      }
+    ]
+  },
+  "smith-machine-bench-press": {
+    "reviewedAt": "2026-11-16T00:49:46.184Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "smith-machine-bench-press",
+      "equipment": "smith",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Support remains stable: feet planted for seated exercises, legs travel with torso for chin-up.",
+      "movement": "Smith bar follows vertical rails with stable bench support and planted feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/final.jpg",
+        "sha256": "7b193658980483910afd14e417c166bb6408810a993f83c861a588ba8f964f72"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/final-dark.jpg",
+        "sha256": "e3dd6d642950c84bb3d72367653051fb4804e94597e8a5211fdd4f7254b170c6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/full-sheet.png",
+        "sha256": "ad9a37b39eb8b92a72cfcdfd26eee07adc4b5f6522cadd01fc83710699587504"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/side-sheet.png",
+        "sha256": "71e715f45f8bae4736a82512834c5340e17c376b42bc811c9aa5e61782d4ec08"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/verification.json",
+        "sha256": "f8b2a8d514a55faa4a8ce57785bac743fc303fcf12baace79d2f9be1096b48c0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/geometry.json",
+        "sha256": "98d9696a84a3712eb44cb445d1019f59aed0f1a0e52668459a7008567b6bf9b6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/kinematics.json",
+        "sha256": "062c94ff9f2e83aa648a54bd39612a0de248a7f55a0abe2b32dc4689036a959c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/provenance.json",
+        "sha256": "adbd17752f8f52f8ac399c4c480f1fa37b1ca68e7f3a382e259069e2c613e613"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/smith-machine-bench-press-alpha.webm",
+        "sha256": "6604bfe78c1434b548c047bfc798219eae7c007c53cc0a947507ca02541f0287",
+        "bytes": 226834,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/smith-machine-bench-press.mp4",
+        "sha256": "fa9ef792f269b1ce54a4d6fc6446618986e2a31e8c63c2b027add280df97a3aa",
+        "bytes": 90632,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/smith-machine-bench-press-dark.mp4",
+        "sha256": "fcb238410bb08e7344ee8e8f0abae5ed915e331c77442f2289e16dc87676ff90",
+        "bytes": 81540,
+        "decode": "passed"
+      }
+    ]
+  }
+}

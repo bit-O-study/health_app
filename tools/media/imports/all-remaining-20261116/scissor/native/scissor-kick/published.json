@@ -1,0 +1,18 @@
+{
+  "id": "scissor-kick",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a64b8e5e97dd948ad5beedb2a9dfebdded19add0594f1d348571827f6bd8c93f",
+  "rigSourceSha256": "6f651a0ddb519b4c7c8ea378739d16550643de0016e3331f2ad0807cf0db32be",
+  "videoSha256": "2b1df5fea391c58604b9d22fef757e79b691d64b43b8ee350b246ecf881dff7c",
+  "darkVideoSha256": "849cd00977721940e12ca1d286cec5af15ea4ff1e35bca9a570cf5ffd79beed3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 75643,
+  "darkBytes": 76404,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T00:43:44.967Z"
+}

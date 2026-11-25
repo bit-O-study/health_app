@@ -1,0 +1,148 @@
+{
+  "supine-spinal-twist": {
+    "reviewedAt": "2026-11-24T01:40:38.510Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "supine-spinal-twist",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend out in T with palms upward and relaxed mat support.",
+      "feet": "Bent knees stacked to one side; head turned opposite on a low pillow.",
+      "movement": "Supine bent-knee spinal twist, arms extended in T, knees together to one side and head turned opposite, relaxed supported hold."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/final.jpg",
+        "sha256": "ada2e826b41c735056e0bbbed577d26a03a131e89a17f341125f8e548320f7d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/final-dark.jpg",
+        "sha256": "7a5641015d6f0593bfede2596abd1efb1a4d3981ea837338f40e911c7f4df680"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/full-sheet.png",
+        "sha256": "893071db57a85f201a5406855e5c52b1806f8ddd692eaa13d82ab236a502b13c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/side-sheet.png",
+        "sha256": "19e743adf95d921e3bab4f1103053c5a26534c372d33421a831622ae07269a5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/verification.json",
+        "sha256": "d23944bbf30e3f3d7be6a6ea3d0450d10f2a40cf937240a2fec39bada3eaeff5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/geometry.json",
+        "sha256": "a6fcdbc2ff32440f45eef2256e099667ea0cc389dc1ac5bb5a3f1bcb589c2fd0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/kinematics.json",
+        "sha256": "76a057158997ca45209b205ecd07036e69b394a466207807659db53555b5c3de"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/provenance.json",
+        "sha256": "3e3e31a308d69675f5ea4000435a9f28944c424ecf2ba609977b219d4d30fc9b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/supine-spinal-twist-alpha.webm",
+        "sha256": "b8b7f65142bdde89512f31c115c2652b346e38fa64854db26995aa4ebd2c9b86",
+        "bytes": 38031,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/supine-spinal-twist.mp4",
+        "sha256": "4531788298cc03f9cfa381a40e5e0025ba321d481aa2e6f83638e9abe6e1753f",
+        "bytes": 17143,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/supine-spinal-twist-dark.mp4",
+        "sha256": "efdf4ef794a20c102417bb83177f704216dbd681d05f88d2da4ec022ade5a742",
+        "bytes": 16088,
+        "decode": "passed"
+      }
+    ]
+  },
+  "reclined-spinal-twist": {
+    "reviewedAt": "2026-11-24T01:40:38.529Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "reclined-spinal-twist",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend out in T with palms upward and relaxed mat support.",
+      "feet": "Bent knees stacked to one side; head turned opposite on a low pillow.",
+      "movement": "Supine bent-knee spinal twist, arms extended in T, knees together to one side and head turned opposite, relaxed supported hold."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/final.jpg",
+        "sha256": "ada2e826b41c735056e0bbbed577d26a03a131e89a17f341125f8e548320f7d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/final-dark.jpg",
+        "sha256": "7a5641015d6f0593bfede2596abd1efb1a4d3981ea837338f40e911c7f4df680"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/full-sheet.png",
+        "sha256": "893071db57a85f201a5406855e5c52b1806f8ddd692eaa13d82ab236a502b13c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/side-sheet.png",
+        "sha256": "19e743adf95d921e3bab4f1103053c5a26534c372d33421a831622ae07269a5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/verification.json",
+        "sha256": "d23944bbf30e3f3d7be6a6ea3d0450d10f2a40cf937240a2fec39bada3eaeff5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/geometry.json",
+        "sha256": "a6fcdbc2ff32440f45eef2256e099667ea0cc389dc1ac5bb5a3f1bcb589c2fd0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/kinematics.json",
+        "sha256": "76a057158997ca45209b205ecd07036e69b394a466207807659db53555b5c3de"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/provenance.json",
+        "sha256": "a539437b93ce8c634b522084b36a757776abc3afbe3fea7b43861c8ecaa62f73"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/reclined-spinal-twist-alpha.webm",
+        "sha256": "eee7eb9db7e2f5e1779eab96c34e5212b97e98409c0c52eebd06b7b30b58f01d",
+        "bytes": 38031,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/reclined-spinal-twist.mp4",
+        "sha256": "4531788298cc03f9cfa381a40e5e0025ba321d481aa2e6f83638e9abe6e1753f",
+        "bytes": 17143,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/reclined-spinal-twist-dark.mp4",
+        "sha256": "efdf4ef794a20c102417bb83177f704216dbd681d05f88d2da4ec022ade5a742",
+        "bytes": 16088,
+        "decode": "passed"
+      }
+    ]
+  }
+}

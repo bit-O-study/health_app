@@ -1,0 +1,29 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 1.831026719408895e-15,
+  "maxStep": 0.0072705293196816375,
+  "kneeDegrees": [
+    130.00000000000006,
+    165.00000000000023
+  ],
+  "timingTargets": [
+    [
+      0,
+      130
+    ],
+    [
+      210,
+      165
+    ],
+    [
+      270,
+      165
+    ],
+    [
+      480,
+      130
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "weightFloorGap": 0.45408833635601553,
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryTrunk": true,
+  "stationaryLegs": true,
+  "elbowRange": [
+    89.99999999999997,
+    90.00000000000006
+  ],
+  "handRise": 0.763325516817245,
+  "maxStep": 0.006831626690970931,
+  "minimumBodyGap": 0.07312005055389825,
+  "minimumClothGap": 0.05108539790529232
+}

@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "seated-leg-press-machine",
+      "original": "seated-leg-press-machine",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-leg-press-machine",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/legs/quad-exercises/leg-presses/seated-leg-press/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Upright seated horizontal leg press. Knees 90 to 165 degrees, full feet on moving footplate, fixed torso/seat/back, cable-linked weight stack, 4 seconds each direction.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "horizontal-calf-raise-machine",
+      "original": "horizontal-calf-raise-machine",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "horizontal-calf-raise-machine",
+        "sourceUrls": [
+          "https://www.uwo.ca/campusrec/orientation/equipment_guides/legs.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Horizontal calf raise on upright seated cable-linked machine. Knees fixed at 165 degrees, forefeet on footplate edge and free heels, ankle plantarflexion with horizontal sled travel, 4 seconds each direction.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

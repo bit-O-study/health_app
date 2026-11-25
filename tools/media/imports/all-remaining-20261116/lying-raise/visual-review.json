@@ -1,0 +1,75 @@
+{
+  "lying-leg-raise": {
+    "reviewedAt": "2026-11-18T00:26:34.097Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "lying-leg-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside body, palms down.",
+      "feet": "Supine body stays supported while straight legs lower together and return to vertical.",
+      "movement": "Supine, arms beside torso palms down. Straight legs lower together from vertical to 15 degrees above horizontal over 3.5 seconds, pause 1 second and return over 3.5 seconds. Back remains supported without pelvic curl; low head cushion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/final.jpg",
+        "sha256": "ec3db48b4e994eb24ca521cccabec221fa4f17e7d3c8f46411c577c5d44d21af"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/final-dark.jpg",
+        "sha256": "06901499f414b3fa5c000be316158e7efb67962f51b31f3dad7d509494bea91e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/full-sheet.png",
+        "sha256": "12b2aed1de1266a1ebec1b58c75c13161ba2aa6c28e9ad4d540df33347da08f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/side-sheet.png",
+        "sha256": "c744e8d4cd758019cbb8a7baf98185f9f5cbbed22cb9d39c230d263b752df317"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/verification.json",
+        "sha256": "7cc81cdbd57ffa03100dbb932fa34639f685e964022bac7253ed19c63036df51"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/geometry.json",
+        "sha256": "06fe8517fb2b82d6496112d92e9941b5a91cbd3b5bc4384ae312d3de04c442c5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/kinematics.json",
+        "sha256": "567a04d0c2621b4793e065cc6289cb1a5ec7251526e35a4285cd35b8a3268b0d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/provenance.json",
+        "sha256": "411417ef79e2ea7b55a1da9f3d79c5181a6f66308a1566d23e18888c5dbcf056"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/lying-leg-raise-alpha.webm",
+        "sha256": "7daedb6f76e0e155cea387f340a0acb3478fa81ac079357d8441ec309f4af38c",
+        "bytes": 192048,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/lying-leg-raise.mp4",
+        "sha256": "564ca43689c795361f44ecd9d47adc37e0794d296963b4b5b62136608374a982",
+        "bytes": 81678,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/lying-raise/native/lying-leg-raise/lying-leg-raise-dark.mp4",
+        "sha256": "a31a723ad1777ddcaec6405f682d627934d65c97d494b624ad748018c0ef57c6",
+        "bytes": 84585,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "stationarySupport": true,
+  "loopError": 0,
+  "finalSpan": 7.6,
+  "maxStep": 0.03534474521056299,
+  "ropeError": 2.6645352591003757e-15,
+  "cableError": 1.7763568394002505e-15,
+  "stackTravel": 5.060740158590491,
+  "elbowRange": [
+    68.70557535720219,
+    166.65129363025704
+  ],
+  "supportGap": 0.015000000000000568
+}

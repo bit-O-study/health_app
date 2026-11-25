@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/plank-with-leg-lift-alpha.webm",
+      "sha256": "de20208b35f7b0b3172b61e70b2405ecf00aa3fcab2cb804f97f95d4de886bda",
+      "bytes": 104040,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/plank-with-leg-lift.mp4",
+      "sha256": "47cde0039cf24ee30359a11933bac47f514a9256c9dfe0cb85cf3867342cffa7",
+      "bytes": 45922,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/plank-with-leg-lift-dark.mp4",
+      "sha256": "589a5a59e5f8f41b855360d00eeef6bb36d28f4843db0467e871cc9df99eda22",
+      "bytes": 45602,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/plank-with-leg-lift-studio.mjs",
+      "sha256": "0a0cec3a2185e19291006304ff4f3c9d14a8b469782b8066c9a61ae92cf74df7"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/plank-with-leg-lift-motion.mjs",
+      "sha256": "3175bca044db0668006b1b36dbcecf3e38b912bd9b43d66fb3ec2ef7a3be36da"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/render.mjs",
+      "sha256": "46416ebdd2bd951603071ffb7cedf0f89df756a8a4eef0ca1bded48bfbe3cc3f"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

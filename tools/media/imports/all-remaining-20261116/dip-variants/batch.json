@@ -1,0 +1,66 @@
+{
+  "entries": [
+    {
+      "id": "wide-grip-dip",
+      "original": "wide-grip-dip",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "wide-grip-dip",
+        "sourceUrls": [
+          "https://www.jimstoppani.com/training/a-great-multi-joint-movement-triceps"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Wider parallel bars, slight forward torso lean and bent knees. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "close-grip-dip",
+      "original": "close-grip-dip",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-grip-dip",
+        "sourceUrls": [
+          "https://www.jimstoppani.com/training/a-great-multi-joint-movement-triceps"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Narrower parallel bars, upright torso and straight hanging legs. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "forward-lean-dip",
+      "original": "forward-lean-dip",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "forward-lean-dip",
+        "sourceUrls": [
+          "https://www.jimstoppani.com/training/a-great-multi-joint-movement-triceps"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Parallel bars with deliberate forward torso lean and bent knees. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "reverse-snow-angel",
+      "original": "reverse-snow-angel",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "reverse-snow-angel",
+        "sourceUrls": [
+          "https://aspireathletics.ca/exercises/reverse-snow-angel/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Prone on mat, legs and trunk stable. Straight arms remain slightly lifted and sweep from overhead through lateral T toward hips within available range, then reverse. 3.5 seconds sweep, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

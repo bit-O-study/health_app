@@ -1,0 +1,9 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "supportDrift": 0,
+  "maxStep": 0.0680642268752379,
+  "supportSamples": 17,
+  "timing": "Standing strict press: 3 seconds up, 1 second overhead, 3 seconds down, 1 second at shoulders; no leg drive."
+}

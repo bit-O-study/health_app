@@ -1,0 +1,15 @@
+{
+  "id": "weighted-hanging-leg-raise",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "weighted-hanging-leg-raise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.verywellfit.com/how-to-do-the-hanging-leg-raise-3498232"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T05:43:17.907Z"
+}

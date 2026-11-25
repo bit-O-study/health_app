@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "half-moon-pose",
+      "original": "half-moon-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "half-moon",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/half-moon-pose-3/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Standing foot grounded, rear leg horizontal, chest open sideways, lower hand on block beneath shoulder and upper arm raised.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "frog-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "298af5442b3ce480b0729af947ee26d701283ae6f07ddc1b7fd3ca3fcc6a710c",
+  "rigSourceSha256": "a83525a954b284a055483c7c0023a8d81d2d1cd3822aef19fbb6bdd8501375fe",
+  "videoSha256": "b734948521a20fb74a8c28ce406ba4d0ff7c1f6c5cdc827f1518eeb3e0a863a4",
+  "darkVideoSha256": "6bb97940d8da6c4597cb478aa67da202bb15ccc70006e82069a20166715ab670",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14564,
+  "darkBytes": 14653,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:24:08.719Z"
+}

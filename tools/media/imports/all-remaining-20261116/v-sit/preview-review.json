@@ -1,0 +1,39 @@
+{
+  "v-sit-hold": {
+    "reviewedAt": "2026-11-24T05:22:44.570Z",
+    "checks": {
+      "exercise": "v-sit-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms reach forward horizontally beside legs.",
+      "feet": "Straight legs maintained at 45 degrees, seated torso leaning back with garment supporting pelvis.",
+      "movement": "Seated core V-sit balance: torso leans back, straight legs at 45 degrees and arms reach forward; maintain still position."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Seated eight-second static hold; entry and exit omitted. Not suspended calisthenics V-sit."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/full-sheet.png",
+        "sha256": "7cf99db07c93246c197481109e6c817972f4ee894a0fb07b946be6d24a01b10e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/side-sheet.png",
+        "sha256": "fbb025aeb3544927f9d829aa76f0254f7b41fc079428ee1c68f43da17485a4dc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/poses.json",
+        "sha256": "196d9480258d0725d21408d3c90af582869823258cd6abf43ecedcd1b5998f8d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/geometry.json",
+        "sha256": "35f9b1e48160b1aa61cc5ae974b66efca960ee0af3002f962685a616c80d3b2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/kinematics.json",
+        "sha256": "d045e32a31742730546d7967c2b12fb174abf4f31d8bf5c74a28ec00cdce62eb"
+      }
+    ]
+  }
+}

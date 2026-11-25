@@ -1,0 +1,76 @@
+{
+  "seated-leg-press-machine": {
+    "reviewedAt": "2026-11-16T04:51:56.575Z",
+    "checks": {
+      "exercise": "seated-leg-press-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Seated press uses full feet on plate; horizontal calf uses forefeet on edge and free heels. Seat/back contacts and horizontal sled-to-stack travel checked.",
+      "movement": "Upright seated horizontal leg press. Knees 90 to 165 degrees, full feet on moving footplate, fixed torso/seat/back, cable-linked weight stack, 4 seconds each direction."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/seated-leg-press-machine/full-sheet.png",
+        "sha256": "5ec3a9b86c9fe3252557d8b148fdefecd4fea49cbe839668df2e5e1dac3c6177"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/seated-leg-press-machine/side-sheet.png",
+        "sha256": "d20b6eabb4c65e6763a6b12a99f32a31ebd78f55e1b1d6cc5acb909d48efac60"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/seated-leg-press-machine/poses.json",
+        "sha256": "e730d1b31f82d9ea209c5d7ec89296c8b5678341ca365194e5a7fc94fb6ef6e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/seated-leg-press-machine/geometry.json",
+        "sha256": "3bdd6c0dd70d42f3048ee7d84e4976571612527802d4f3a8155a8a08fe414f81"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/seated-leg-press-machine/kinematics.json",
+        "sha256": "ca2ec6d5cae282acd5c00fd75b0d14832bd0bdc86cda4c80f26ed1be632d0d10"
+      }
+    ]
+  },
+  "horizontal-calf-raise-machine": {
+    "reviewedAt": "2026-11-16T04:51:56.582Z",
+    "checks": {
+      "exercise": "horizontal-calf-raise-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Seated press uses full feet on plate; horizontal calf uses forefeet on edge and free heels. Seat/back contacts and horizontal sled-to-stack travel checked.",
+      "movement": "Horizontal calf raise on upright seated cable-linked machine. Knees fixed at 165 degrees, forefeet on footplate edge and free heels, ankle plantarflexion with horizontal sled travel, 4 seconds each direction."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/full-sheet.png",
+        "sha256": "15c47ed05148a6e89b0ee2bd7d2b44387c27c085a813ef1027eeda30b65704dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/side-sheet.png",
+        "sha256": "3a24a74c3c904b008428a2cc550d08ea198c2b4ebb1cd7894db53a666fbe204f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/poses.json",
+        "sha256": "44eaf66afb44d69f0121d4bf7bb9e7e889b6b65daaed49679d50a8843d3c1983"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/geometry.json",
+        "sha256": "58507d9c966e80193106cada894b351f0b736872b3eb40ca770a419a452a28ee"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/kinematics.json",
+        "sha256": "ae4f3e01a22b3198bec7b1620ab7d100b9610906d5a3c70c3f6c2e8fb78a68aa"
+      }
+    ]
+  }
+}

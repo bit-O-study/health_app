@@ -1,0 +1,148 @@
+{
+  "assisted-pull-up": {
+    "reviewedAt": "2026-11-16T01:37:41.258Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "assisted-pull-up",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both knees remain on the moving pad; feet stay clear of the rear apparatus.",
+      "movement": "Pronated pull-up with both knees continuously supported by a rising counterweighted pad; 3.5 seconds up, 1 second top, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic assisted pull-up apparatus with simplified cable transmission. Entry and exit are omitted; not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/final.jpg",
+        "sha256": "0c4b4e0eb955ee021d1811a194a02ff869aed6f6ec675283d964ab6f33344f84"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/final-dark.jpg",
+        "sha256": "9c98e417fb03a8e22ffd95db07ae6ca55b1fe7498366bd10d54189b607727b0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/full-sheet.png",
+        "sha256": "aa42cf6996420d9d6f3c7594bb3fa00b70e405551172e073e6125374d92a522f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/side-sheet.png",
+        "sha256": "4657c3e0bd0bbe7d4a93ef039a63b3f8d6d5fa395e1d4375d1cfeaf3d2f2f31b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/verification.json",
+        "sha256": "9b9defa76db427564748b648af54b6b02da8feb81f646d2d39831d3fe6f93a94"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/geometry.json",
+        "sha256": "ae2004e8d1ddaa9d9ae86bb16bacbcb4a4c74c1e3f43a7ad6188901f1d03bd8c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/kinematics.json",
+        "sha256": "0b0a1489e06d03089a93ea75bf2122ce952acfb677bde5a6cef5150304d0585e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/provenance.json",
+        "sha256": "5bf7f12d95e220d012898dc9db83789669ece83035e66dd45b4178ad5813fcfd"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/assisted-pull-up-alpha.webm",
+        "sha256": "f241253d90e878221285196b60e474a0b4f49b928a15616a6c7a72d6b7177471",
+        "bytes": 327302,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/assisted-pull-up.mp4",
+        "sha256": "f92df312bade5145bc299c89f3ea2193460ff95ce854bd55251a1b9500bbb361",
+        "bytes": 116498,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up/assisted-pull-up-dark.mp4",
+        "sha256": "7e2a2db17c7affbddfb545e4571285e157b001285d13da4b70659737b7908d77",
+        "bytes": 116862,
+        "decode": "passed"
+      }
+    ]
+  },
+  "assisted-pull-up-2": {
+    "reviewedAt": "2026-11-16T01:37:41.266Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "assisted-pull-up-2",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both knees remain on the moving pad; feet stay clear of the rear apparatus.",
+      "movement": "Pronated pull-up with both knees continuously supported by a rising counterweighted pad; 3.5 seconds up, 1 second top, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic assisted pull-up apparatus with simplified cable transmission. Entry and exit are omitted; not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/final.jpg",
+        "sha256": "0c4b4e0eb955ee021d1811a194a02ff869aed6f6ec675283d964ab6f33344f84"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/final-dark.jpg",
+        "sha256": "9c98e417fb03a8e22ffd95db07ae6ca55b1fe7498366bd10d54189b607727b0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/full-sheet.png",
+        "sha256": "aa42cf6996420d9d6f3c7594bb3fa00b70e405551172e073e6125374d92a522f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/side-sheet.png",
+        "sha256": "4657c3e0bd0bbe7d4a93ef039a63b3f8d6d5fa395e1d4375d1cfeaf3d2f2f31b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/verification.json",
+        "sha256": "9b9defa76db427564748b648af54b6b02da8feb81f646d2d39831d3fe6f93a94"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/geometry.json",
+        "sha256": "ae2004e8d1ddaa9d9ae86bb16bacbcb4a4c74c1e3f43a7ad6188901f1d03bd8c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/kinematics.json",
+        "sha256": "0b0a1489e06d03089a93ea75bf2122ce952acfb677bde5a6cef5150304d0585e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/provenance.json",
+        "sha256": "0ff394b2bd22f3cc16399bc951b53b7ae52ee31bcbe9a8b3e0568de4c37c1b34"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/assisted-pull-up-2-alpha.webm",
+        "sha256": "654192b15df4eeae4cf09e4be7ec7214af205b97f4ea1cab787a6e9e4cf4cee9",
+        "bytes": 327302,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/assisted-pull-up-2.mp4",
+        "sha256": "f92df312bade5145bc299c89f3ea2193460ff95ce854bd55251a1b9500bbb361",
+        "bytes": 116498,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/assisted-pulls/native/assisted-pull-up-2/assisted-pull-up-2-dark.mp4",
+        "sha256": "7e2a2db17c7affbddfb545e4571285e157b001285d13da4b70659737b7908d77",
+        "bytes": 116862,
+        "decode": "passed"
+      }
+    ]
+  }
+}

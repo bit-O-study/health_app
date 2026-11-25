@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "kneeDegrees": {
+    "L": 180,
+    "R": 180
+  },
+  "legElevationDegrees": 0,
+  "shouldersAheadOfHands": true,
+  "supportGaps": {
+    "garment": 3.555395513610944,
+    "body": 0.015000000000003233
+  }
+}

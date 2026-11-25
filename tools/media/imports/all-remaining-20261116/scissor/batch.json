@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "scissor-kick",
+      "original": "scissor-kick",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "scissor-kick",
+        "sourceUrls": [
+          "https://spotebi.com/exercise-guide/scissor-kicks/"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie supine with arms beside body, palms down and neutral head on low cushion. Straight raised legs open and cross horizontally, changing upper leg at the next crossing. Two open-cross-open cycles in eight seconds with back supported.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "side-lying-external-rotation",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "side-lying-external-rotation-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/external-rotation-in-side-lying-position-with-dumbbell"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-18T02:04:48.306Z"
+}

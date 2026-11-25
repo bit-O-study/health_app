@@ -1,0 +1,113 @@
+{
+  "wide-stance-leg-press": {
+    "reviewedAt": "2026-11-16T04:42:22.523Z",
+    "checks": {
+      "exercise": "wide-stance-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both full feet remain within the plate; exercise-specific width and knee range verified.",
+      "movement": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Wide ankle span 4.8, toes turned out 10 degrees. Full feet on plate, fixed pelvis/back and handle grips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/wide-stance-leg-press/full-sheet.png",
+        "sha256": "c0c9ef4266462b2578d61f6be8885131c7804b2eb78289cbf38c84e2b751ae5b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/wide-stance-leg-press/side-sheet.png",
+        "sha256": "167dfa8fdcfc03be7705887d94783eb0503b67ea4d45f200d48d967213c13910"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/wide-stance-leg-press/poses.json",
+        "sha256": "653a1b5eea9414aeb48cb36dfb004cfd45ca182778d4466661fc9348dc3ded53"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/wide-stance-leg-press/geometry.json",
+        "sha256": "78220ac70088877862f241ada2891d89ab364dbf596b964b612b983786c0eeb9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/wide-stance-leg-press/kinematics.json",
+        "sha256": "f680e24c852f9ab18714feb1b30e4d5220186753983fcb7bdfbbf00ecea9557d"
+      }
+    ]
+  },
+  "close-stance-leg-press": {
+    "reviewedAt": "2026-11-16T04:42:22.532Z",
+    "checks": {
+      "exercise": "close-stance-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both full feet remain within the plate; exercise-specific width and knee range verified.",
+      "movement": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Close ankle span 1.6, toes forward. Full feet on plate, fixed pelvis/back and handle grips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/close-stance-leg-press/full-sheet.png",
+        "sha256": "158c709c5591712a7fe2ec55b7b8c53aef0393d643aa341c3a20d292d8efc965"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/close-stance-leg-press/side-sheet.png",
+        "sha256": "1e237adcdafa995a14e383f208c73e50e23ef1818796d070d482f3046c20924b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/close-stance-leg-press/poses.json",
+        "sha256": "976d4a36e3a03b242f94f93dd9f96bcb6a3c0b8cc24dd65586e106535a1c1aea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/close-stance-leg-press/geometry.json",
+        "sha256": "59cefb630459f7a4aaedeaedcacf02779f150fed8f5da0b729f3755c493c523f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/close-stance-leg-press/kinematics.json",
+        "sha256": "cbf2cf48457dabd4dc8ce06db53afc6e39ae5773030b83e29ffd6f2b045b4c4f"
+      }
+    ]
+  },
+  "full-rom-leg-press": {
+    "reviewedAt": "2026-11-16T04:42:22.535Z",
+    "checks": {
+      "exercise": "full-rom-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both full feet remain within the plate; exercise-specific width and knee range verified.",
+      "movement": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Regular ankle span 3.2; full demonstrated range without pelvis lifting. Individual range depends on mobility. Full feet on plate, fixed pelvis/back and handle grips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/full-rom-leg-press/full-sheet.png",
+        "sha256": "85346b6e897a0b43673bcbc98628d3e5036face9d4049b8eaad11e6a435a910c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/full-rom-leg-press/side-sheet.png",
+        "sha256": "d5da5756120c398f8f22f88dc3542d6e34d2e65ffbb9f0bf48dcb3893ce6f744"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/full-rom-leg-press/poses.json",
+        "sha256": "906adf5d37ed23869859c6b8359e949a42687ccd404d64a52d47770fe8f657fe"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/full-rom-leg-press/geometry.json",
+        "sha256": "9e3162da4cf85eb9876e7bd9d6bf59f3b2aa9d4d7569cea21d99e663a4f66afc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/full-rom-leg-press/kinematics.json",
+        "sha256": "b7699bb1f30d181680da941ed029731f32a66f4b2adb88a2b158f57013cb5bb5"
+      }
+    ]
+  }
+}

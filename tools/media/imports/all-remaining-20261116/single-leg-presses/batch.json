@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "single-leg-leg-press",
+      "original": "single-leg-leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "single-leg-leg-press",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/one-leg-45-degree-leg-press.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Single left-leg press on a 45-degree sled. Working knee extends from 95 to 165 degrees over 4 seconds and returns over 4 seconds. Entire foot on plate, other foot on a separate fixed support; hands, back and pelvis remain fixed.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "single-leg-leg-press-2",
+      "original": "single-leg-leg-press-2",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "single-leg-leg-press",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/one-leg-45-degree-leg-press.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Single left-leg press on a 45-degree sled. Working knee extends from 95 to 165 degrees over 4 seconds and returns over 4 seconds. Entire foot on plate, other foot on a separate fixed support; hands, back and pelvis remain fixed.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

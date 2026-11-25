@@ -1,0 +1,25 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 5.329070518200751e-15,
+  "supportDrift": 0,
+  "maxStep": 0.07717069458861016,
+  "targetFrames": [
+    0,
+    120,
+    180,
+    240,
+    420,
+    480
+  ],
+  "fractions": [
+    1,
+    0,
+    0.25,
+    0,
+    1,
+    1
+  ],
+  "supportSamples": 17
+}

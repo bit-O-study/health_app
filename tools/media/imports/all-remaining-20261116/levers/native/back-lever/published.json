@@ -1,0 +1,18 @@
+{
+  "id": "back-lever",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "93bc37bee32c5ab38f320257fd08e9fe6eedfa08c348e1e2bf71b92c7af98be8",
+  "rigSourceSha256": "7403761058ca2297d4552ef4556ceeab34434a855b4086b45be2c681b969a79f",
+  "videoSha256": "595144aa658a6bb26ce1b8870ae34b56088ce07a83052ba1239b832405295005",
+  "darkVideoSha256": "39f0e9c649db332389117e7c4ceb66574a86d1fc000bd8ceabc0e3ce43f40728",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 13923,
+  "darkBytes": 14120,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T07:29:59.300Z"
+}

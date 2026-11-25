@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T05:44:19.761Z",
+  "report": [
+    {
+      "id": "weighted-hanging-leg-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

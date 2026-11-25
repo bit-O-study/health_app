@@ -1,0 +1,18 @@
+{
+  "id": "pilates-swan",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "df4e5dbf808426e6e279233352f5da7dce1efb3f5f1e826d88e16fd2515a89ea",
+  "rigSourceSha256": "1b06f523f084107daa024277ea9454f2e9d88d7ac999800552eef14c8c8146ef",
+  "videoSha256": "47d18915f630f87aa2e0c57d109345b24df2d9f837f471ab275bd85416bb7d74",
+  "darkVideoSha256": "11347c9d21e215025b2cf77a0e85bb3b23fc6afaa30b05d68d4133eba2c90dbd",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 60423,
+  "darkBytes": 66363,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:10:50.137Z"
+}

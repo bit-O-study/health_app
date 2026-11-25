@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 1.831026719408895e-15,
+  "maxStep": 0.022324694530309705,
+  "ankleSpan": 1.6,
+  "kneeRange": [
+    90.0000000000001,
+    165.00000000000017
+  ],
+  "supportSamples": 17
+}

@@ -1,0 +1,75 @@
+{
+  "pause-hip-thrust": {
+    "reviewedAt": "2026-11-15T13:27:02.653Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Pause hip thrust, 2-second top hold.",
+      "equipment": "Barbell with hip pad and bench.",
+      "setup": "Front oblique and side views inspected; full body and apparatus visible.",
+      "hands": "Both hands retain bar grip.",
+      "feet": "Both feet stay planted.",
+      "movement": "3 seconds ascent, 2 seconds top hold, 3 seconds descent; upper back supported on bench."
+    },
+    "limitations": [
+      "Procedural demonstration; contact samples do not constitute full collision or biomechanical validation.",
+      "3-2-3 timing chosen for demonstration, not prescribed by the source."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/final.jpg",
+        "sha256": "563b66ed7da75cc6deb98f072f218d8029d7c79d4da9855d5206c9929340341b"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/final-dark.jpg",
+        "sha256": "1b0873db1656653a4aaaedb45a0e1f783da9676fa224a421ef55bcb07e39f712"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/full-sheet.png",
+        "sha256": "93f682fc287b0d436b92722eab5d22363ef24f2486648bd7239a7e8a92242355"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/side-sheet.png",
+        "sha256": "debfa33ab43931bb64c33288f34e4536a8869a0031911793d244e1632ec647c4"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/verification.json",
+        "sha256": "a0b40b4cb4c423612f94d10ce9d05064c97f016f82e5da47c71610f19d327c2f"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/geometry.json",
+        "sha256": "bb0ee050bf33ae16884b07ae4d217ad59f11bfa0c5e347cd94796337a085a462"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/kinematics.json",
+        "sha256": "c50ebe46a06baefaa21d3d1f5f0e782a48d9359b2bfc1caff93a03b7e7d452b3"
+      },
+      {
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/provenance.json",
+        "sha256": "896079a56f878dd49284e7b64f6d96ee13631ff248e8780a69f37638715e5239"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/pause-hip-thrust-alpha.webm",
+        "sha256": "aef491f708dfc2891d3f2bf10afb5e0746166ba3cb972a55efad841ac36e698a",
+        "bytes": 306557,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/pause-hip-thrust.mp4",
+        "sha256": "ae85d692b700cf02559bc7bf4939a6399ca5e862ef9923c9764dd5d3555382f1",
+        "bytes": 141926,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/pause-hip-thrust-dark.mp4",
+        "sha256": "6b32df867444ea8d3044cbac2e4ff622559c2dd23a8071dee1dc35d50732e920",
+        "bytes": 129875,
+        "decode": "passed"
+      }
+    ]
+  }
+}

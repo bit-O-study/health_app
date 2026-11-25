@@ -1,0 +1,18 @@
+{
+  "id": "v-sit-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "aec515183b0a0e6dc0a8c0720d871f8ddd7c316002384dbc0bfcd657950103e4",
+  "rigSourceSha256": "910ca1b1f6431078f2c214271cecbcab425d11f910b327322b4e704526cbb30e",
+  "videoSha256": "450e003bcf863da855f1be4ca41ff0de9750f89a7805bba06ede059d2dbfbb40",
+  "darkVideoSha256": "07026af55b09966c5977774ff346e931b17d026919a96807ef5a5f23baa9f1f2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15180,
+  "darkBytes": 14941,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:25:36.099Z"
+}

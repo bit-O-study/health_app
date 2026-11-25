@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "maxFixedError": 0,
+  "maxStep": 0.037812517456436046,
+  "minKnee": 179.99999809090406,
+  "lifts": [
+    1.811992038443761,
+    1.811992038443761
+  ],
+  "supportSamples": 17
+}

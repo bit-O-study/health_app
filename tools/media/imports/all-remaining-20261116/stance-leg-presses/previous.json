@@ -1,0 +1,80 @@
+{
+  "wide-stance-leg-press": [
+    {
+      "file": "tools/media/motion-guides/wide-stance-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-stance-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-stance-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-stance-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "close-stance-leg-press": [
+    {
+      "file": "tools/media/motion-guides/close-stance-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-stance-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-stance-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-stance-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "full-rom-leg-press": [
+    {
+      "file": "tools/media/motion-guides/full-rom-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/full-rom-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/full-rom-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-rom-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-rom-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/full-rom-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

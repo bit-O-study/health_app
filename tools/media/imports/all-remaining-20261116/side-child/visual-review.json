@@ -1,0 +1,75 @@
+{
+  "side-reaching-child-s-pose": {
+    "reviewedAt": "2026-11-24T02:11:02.546Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "side-reaching-child-s-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms extended to one side with palms resting on mat.",
+      "feet": "Deeply bent knees apart, hips toward heels, forehead supported on low pad.",
+      "movement": "Knees bent apart and hips toward heels; torso side bends with both straight arms reaching to one side, palms down and forehead supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/final.jpg",
+        "sha256": "77944bc5bb79eb4a651dc071f9250f1092c3e8962a95be29069bc257a24324eb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/final-dark.jpg",
+        "sha256": "0e0e038b82abb5761aff8ecc25d6b05c5f3d3c5a43474f86c4848824f47b6e65"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/full-sheet.png",
+        "sha256": "aca9fa4f9fe535b605f31143ac2bde7ff7c82dffd4bd0befef4f7436919e4be6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-sheet.png",
+        "sha256": "a64a827a7e3912771059e12d78a432a175d4737ed61743ee7439a3d7acf5171a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/verification.json",
+        "sha256": "0d12f5c8f5ec2343b9ba663978312831838ea0a3f546e36207e819ef28925258"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/geometry.json",
+        "sha256": "6446759bae9a160fea346b16a3a8f91d3c58a4f56a401b2403a6e590aae5e15c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/kinematics.json",
+        "sha256": "e44872f176434c1a2dda6e657049b5ed42c537837577973f659fdc18c61da920"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/provenance.json",
+        "sha256": "00ff4519cbaa87bad4dc74cd5fb9c90a04f62e60c114406652dd67376649a152"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-reaching-child-s-pose-alpha.webm",
+        "sha256": "c872e9ab41cb3eed2854c5a74ba7ac3e736e34b5ac6a84a092347b2161a9d718",
+        "bytes": 32650,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-reaching-child-s-pose.mp4",
+        "sha256": "196388b19e2d2f6fcf28c2e704ef14880282b48d923d5a6d3e5f3b35b61e9c96",
+        "bytes": 14232,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-reaching-child-s-pose-dark.mp4",
+        "sha256": "733a33667ba1ef55a9eba1a7dc59bb5af17c531c84d287d14280adf2daf8389d",
+        "bytes": 14163,
+        "decode": "passed"
+      }
+    ]
+  }
+}

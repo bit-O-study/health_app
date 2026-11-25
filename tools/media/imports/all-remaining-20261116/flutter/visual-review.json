@@ -1,0 +1,75 @@
+{
+  "flutter-kick": {
+    "reviewedAt": "2026-11-18T00:38:38.155Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "flutter-kick",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside body, palms down.",
+      "feet": "Supine body stays supported while straight legs alternate upward and downward in a small range.",
+      "movement": "Lie supine with arms beside body and palms down; neutral head on low cushion. Straight legs alternate vertically between 10 and 30 degrees above horizontal, four cycles in eight seconds, keeping back supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/final.jpg",
+        "sha256": "06dc56773257231fcc549cdaf3df68aceb7f601f1438e8a4ea3a7483d960bf08"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/final-dark.jpg",
+        "sha256": "3a3e41f6095450ad86655ddc9e0e061712b8d6a70e4a7fc4b248c6e492a3661b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/full-sheet.png",
+        "sha256": "71d1792e912bf1888f093537939ac21ecfb65ac12a3844c549d52d7838b2f6f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/side-sheet.png",
+        "sha256": "96b9a203ef43dd48a2a9dea7dc5b3855eadc8f42c66b1bb7a4543d725e07d279"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/verification.json",
+        "sha256": "37d4afd2c3c1288aa6878829d19e2cd3a9002b170a9ae30096d369ee1cd0f30c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/geometry.json",
+        "sha256": "afd9766dc1686ac1b1a2c25a46de0cf6aa84ddf3a09b1d36b2e6668ded14c553"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/kinematics.json",
+        "sha256": "3092238be458be87f5b82de8aa465e15dc0ec9c25759cdb9d6040b187fdf17b1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/provenance.json",
+        "sha256": "09f8b6bf23bc362c7d230769606eb7778f1383db8dc91c0c8eb8480753ea185e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/flutter-kick-alpha.webm",
+        "sha256": "12c83f7c1c5514943a44c02c8755896da7888c7b6c0d85d2f81997688ebde1a9",
+        "bytes": 181676,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/flutter-kick.mp4",
+        "sha256": "c26e4c067ae4a8574cd759c222024e9ed29b8098a162387ff27dd9057a2e57d4",
+        "bytes": 85709,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/flutter-kick-dark.mp4",
+        "sha256": "d05d902d267e87794fd2a40ee2bb5b0fec1858371995d175425038fb7f8fe169",
+        "bytes": 85945,
+        "decode": "passed"
+      }
+    ]
+  }
+}

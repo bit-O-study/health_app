@@ -1,0 +1,75 @@
+{
+  "puppy-pose": {
+    "reviewedAt": "2026-11-24T02:16:17.469Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "puppy-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms extended forward with palms resting on mat.",
+      "feet": "Knees bent near right angles with hips elevated, shins back and forehead supported.",
+      "movement": "Hips raised near knees, shins back, torso extending forward and down, forehead supported, straight arms reaching forward with palms on mat."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/final.jpg",
+        "sha256": "dd7de481d8cb6aec2e4d6435bca8d66a18f212e6cb56fa910d2494fc5c46399a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/final-dark.jpg",
+        "sha256": "1765837bc244b18f0d3a8adc38a786d8f98c521223d427a807b9bac450b0006b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/full-sheet.png",
+        "sha256": "0f9e39f54f9d2fc2994bec64ed2ca267cc26e7db9c40cdd1ffccec34b874b769"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/side-sheet.png",
+        "sha256": "7244b2d8c9d236ac1e554c65108ce7878f9343a4ce0ffd70ac54df7013d575cd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/verification.json",
+        "sha256": "84719619b6d357cdae4d2f2f6d1dffe566632cfff075daaacf606a5278f1439c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/geometry.json",
+        "sha256": "73b31e3a6402ad806043a085f3285c0e2897055feb9400e8d5ed3b71e442916e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/kinematics.json",
+        "sha256": "4189c0e47cf7fc79342b9646d50581506e229ebcb75462ec2d52eb285bac52d1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/provenance.json",
+        "sha256": "eda7215edbb7445f063ca79fed2984648731e6142bfead33f2e17e78638b4637"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/puppy-pose-alpha.webm",
+        "sha256": "9cc5a6e92c9c1a3e697b0518f2a883ad9e004616f7a69c85729988b6308167d0",
+        "bytes": 33990,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/puppy-pose.mp4",
+        "sha256": "55483bc41cfbfec398be241fa7b18f42d6af158539901bfb58880e74482c4cf6",
+        "bytes": 14986,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/puppy-pose-dark.mp4",
+        "sha256": "d5693b19bf3419333dbd7929be6a641ba1bbe28c56918d3d419cc9fb10387d18",
+        "bytes": 14415,
+        "decode": "passed"
+      }
+    ]
+  }
+}

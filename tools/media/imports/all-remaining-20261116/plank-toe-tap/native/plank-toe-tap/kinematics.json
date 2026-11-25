@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "maxFixedError": 0,
+  "maxStep": 0.047203411490483994,
+  "lateralTravel": [
+    2.23521897952855,
+    2.23521897952855
+  ],
+  "supportSamples": 17
+}

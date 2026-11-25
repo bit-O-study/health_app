@@ -1,0 +1,294 @@
+{
+  "straight-arm-pulldown-2": {
+    "reviewedAt": "2026-11-16T00:24:10.417Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "straight-arm-pulldown-2",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Cable handle grip matches the reviewed original.",
+      "feet": "Both feet remain planted.",
+      "movement": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/final.jpg",
+        "sha256": "70613bd04b7be7c4e1772bd701ed91693df47ff707de7b6a42eb87f4ae6ee681"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/final-dark.jpg",
+        "sha256": "ae51d756e1da238142ed07a1112d4120650c8c90945399e1527876380209d380"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/full-sheet.png",
+        "sha256": "e31d5075ab2335c18694e234dfa69ffe0f6e15f43442284a24b8f6326177decb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/side-sheet.png",
+        "sha256": "a4b3e80d73eeea6e3e32a47d9caf5b35f92f3e5ca30161ca96df987f895ea98d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/verification.json",
+        "sha256": "0dda5c484f195078cb40791bda4a02fcb803f11710f04df6d78ccf75b820bb85"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/geometry.json",
+        "sha256": "815701a014e64cf5e93004bc7676df2313151baf64a7e9e7625e2ca0dc83b22f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/kinematics.json",
+        "sha256": "c1e9b14b66fe95bef01a33c5c2509e3e289c0c32bffa914381a3679f4a463859"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/provenance.json",
+        "sha256": "f95cdc76ac3b61ed5782260043a7ae37fb670bae889627088a364627663788fa"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/straight-arm-pulldown-2.mp4",
+        "sha256": "990b097173b814ee9f1986d6597c7f96262d607951d984b836eb85b8ddb20bfa",
+        "bytes": 88011,
+        "reusedFrom": "public/exercise-guides/ai-v3/straight-arm-pulldown.mp4"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/straight-arm-pulldown-2-dark.mp4",
+        "sha256": "6a26c7625070746ce559d778a893fdea5476a46a7d2e12d27c3109ec833c6fd5",
+        "bytes": 86162,
+        "reusedFrom": "public/exercise-guides/ai-v3/straight-arm-pulldown-dark.mp4"
+      },
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/straight-arm-pulldown-2/straight-arm-pulldown-2-alpha.webm",
+        "sha256": "b4bb3981e6bf2fda103ba5f957a32112f2f0607c5bd58ae0cbd2b7846a528a9d",
+        "bytes": 221615,
+        "reusedFrom": "public/exercise-guides/ai-v3/straight-arm-pulldown-alpha.webm"
+      }
+    ]
+  },
+  "cable-lateral-raise-2": {
+    "reviewedAt": "2026-11-16T00:24:10.424Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "cable-lateral-raise-2",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Cable handle grip matches the reviewed original.",
+      "feet": "Both feet remain planted.",
+      "movement": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/final.jpg",
+        "sha256": "58a1ebdbc44575dcb9fd85269c58d2c45e422827d0b3c47e5df0f809b69c13bd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/final-dark.jpg",
+        "sha256": "1160beb84a631d44dde3781fac7d2015e4bdc49f0e2431ed14af358f29f27594"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/full-sheet.png",
+        "sha256": "83703f5d98819b3f7badda3bdd1e3000ba86fd0d138fad83b98e7fc3fbc1597b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/side-sheet.png",
+        "sha256": "cbf3fd24dada9c187afb08b2d72c41998295361221f02a940330d3a86bf01d63"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/verification.json",
+        "sha256": "5a43b55fc9bf9400aae0943d883a84a3664018edac62da3a1c7e23f73bad2129"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/geometry.json",
+        "sha256": "815701a014e64cf5e93004bc7676df2313151baf64a7e9e7625e2ca0dc83b22f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/kinematics.json",
+        "sha256": "be4bcd2c4275b48216aa613471db795736f1f7c2780024ac3e17579ba43b45a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/provenance.json",
+        "sha256": "00a0c89798b6afc820a343f4759ad0e80223df101c7078085c88661ba3d6c1d2"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/cable-lateral-raise-2.mp4",
+        "sha256": "baa887bde2ce6c71336c8d37f516580d5a809fb60766994953fa657bd4b849cb",
+        "bytes": 96705,
+        "reusedFrom": "public/exercise-guides/ai-v3/cable-lateral-raise.mp4"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/cable-lateral-raise-2-dark.mp4",
+        "sha256": "0e51e67ecb2eda2ad911cf666667f64f2567a39969fd88d83cca34c5d6b269c5",
+        "bytes": 94750,
+        "reusedFrom": "public/exercise-guides/ai-v3/cable-lateral-raise-dark.mp4"
+      },
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-lateral-raise-2/cable-lateral-raise-2-alpha.webm",
+        "sha256": "24514632e2a7f0fd9631e4a3f902c20c888cf194d1aaf18d729ae5b5c5dea1c4",
+        "bytes": 232240,
+        "reusedFrom": "public/exercise-guides/ai-v3/cable-lateral-raise-alpha.webm"
+      }
+    ]
+  },
+  "face-pull-2": {
+    "reviewedAt": "2026-11-16T00:24:10.430Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "face-pull-2",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Cable handle grip matches the reviewed original.",
+      "feet": "Both feet remain planted.",
+      "movement": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/final.jpg",
+        "sha256": "0ce1351bfffcb35751ba87019679f32c589644186332e56df214f72639ec1db0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/final-dark.jpg",
+        "sha256": "0fe9f04ef20d807397c292e6599c5c18515c5d613c72127a6892b3e72c029282"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/full-sheet.png",
+        "sha256": "5de31459836a876b26b589e29fcd42df325cb2e213e15ef20682e72f14f6ef3d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/side-sheet.png",
+        "sha256": "5a0bdb669c901066ad4ff7a0a1723c952309e553612f54082531f6698c6e2015"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/verification.json",
+        "sha256": "8c89c2d57588a3ec6a79628c78d52d0cad91194086991da71cac9ed5523eead9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/geometry.json",
+        "sha256": "815701a014e64cf5e93004bc7676df2313151baf64a7e9e7625e2ca0dc83b22f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/kinematics.json",
+        "sha256": "bca4c762a4affee273359d4b5cae9112d908221a017403120ae852e1373c9b37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/provenance.json",
+        "sha256": "897e2163c4d9e9bc6e36ba723dd9995a799d435ed6e9b34460465f60898b8076"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/face-pull-2.mp4",
+        "sha256": "f9b28c74aebbe882d256dfc22f98b247fe736a0d2ffd7aa860a080b799e90733",
+        "bytes": 86280,
+        "reusedFrom": "public/exercise-guides/ai-v3/face-pull.mp4"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/face-pull-2-dark.mp4",
+        "sha256": "4c2cc16dca03c35c93f34132cb710202e6a99ee343160190d2dd010b14869699",
+        "bytes": 76573,
+        "reusedFrom": "public/exercise-guides/ai-v3/face-pull-dark.mp4"
+      },
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/face-pull-2/face-pull-2-alpha.webm",
+        "sha256": "8d0ce47a2c872f2b14c2f370bddfe71a5875002646d55975dc31e85e1339b994",
+        "bytes": 196161,
+        "reusedFrom": "public/exercise-guides/ai-v3/face-pull-alpha.webm"
+      }
+    ]
+  },
+  "cable-rope-hammer-curl-2": {
+    "reviewedAt": "2026-11-16T00:24:10.437Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "cable-rope-hammer-curl-2",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Cable handle grip matches the reviewed original.",
+      "feet": "Both feet remain planted.",
+      "movement": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/final.jpg",
+        "sha256": "dc9c9e1dee2119ae6c1d55f5631c2a91d37dd1c8a9a53d9283938c446bab9618"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/final-dark.jpg",
+        "sha256": "34d710d502155554452f5880d9a1831e38bc8b9d9f0166d2e493107a78d11e9b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/full-sheet.png",
+        "sha256": "5c91474f5d2ed4cbc8d5cea1753f58896ab6b3e7a62d8032ff2716146b7bb21f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/side-sheet.png",
+        "sha256": "94b0b04d94dcb129716e8941c1368f2d17661704b46c3bfe5b7a199adfcc3a27"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/verification.json",
+        "sha256": "9f64bd114f93a28d3e131a8270030ed92d7fd4d8c51c3c2a1423517a230bab2b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/geometry.json",
+        "sha256": "815701a014e64cf5e93004bc7676df2313151baf64a7e9e7625e2ca0dc83b22f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/kinematics.json",
+        "sha256": "c12357f86e9cc2675562a83431e707593942b4ed34249ce988c77cfbc82b6db0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/provenance.json",
+        "sha256": "187396f18a588df70abce3f6797370a441534f4cc4ce00b605d74b4995956120"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/cable-rope-hammer-curl-2.mp4",
+        "sha256": "f896292622f496902f930cd82c6456eb3b0fa7abe884dbb15470578b06d974af",
+        "bytes": 116511,
+        "reusedFrom": "public/exercise-guides/ai-v3/cable-rope-hammer-curl.mp4"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/cable-rope-hammer-curl-2-dark.mp4",
+        "sha256": "0ff80db8de69f11d92bb4e1ad5f5896ab187c96e2f0018db5cef29fa86144b23",
+        "bytes": 88699,
+        "reusedFrom": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-dark.mp4"
+      },
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/equivalent-cables/native/cable-rope-hammer-curl-2/cable-rope-hammer-curl-2-alpha.webm",
+        "sha256": "d80c088a21153e03bdf1bda69ccdd8c89eb7c27ac75c6ebc8af7852732221750",
+        "bytes": 236167,
+        "reusedFrom": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-alpha.webm"
+      }
+    ]
+  }
+}

@@ -1,11 +1,15 @@
 {
-  "prompt": "Eight-pose supine V-up, simultaneous straight-leg and trunk raise to V, hands reach toward ankles, reverse",
-  "equipment": "bodyweight",
-  "sources": [
-    "https://www.verywellfit.com/v-sit-ab-exercise-3120059"
-  ],
-  "panels": 8,
-  "cycle": "reverse",
   "id": "v-up-2",
-  "registeredAt": "2026-09-13T12:59:17.735Z"
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "v-up-2-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://au.physitrack.com/home-exercise-video/jack-knife-sit-ups-%2528v-ups%2529-version-1"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T06:18:23.548Z"
 }

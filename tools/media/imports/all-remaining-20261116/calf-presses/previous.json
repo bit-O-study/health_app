@@ -1,0 +1,54 @@
+{
+  "calf-press-machine": [
+    {
+      "file": "tools/media/motion-guides/calf-press-machine.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/calf-press-machine.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/calf-press-machine-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/calf-press-machine.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/calf-press-machine-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/calf-press-machine-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "pause-calf-raise": [
+    {
+      "file": "tools/media/motion-guides/pause-calf-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-calf-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-calf-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-calf-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-calf-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-calf-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

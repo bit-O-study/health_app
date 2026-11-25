@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-nordic-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d79a701ddda64ea1b67289c00d040a911567a2375715e3565ec30bed491d6ab0",
+  "rigSourceSha256": "881f6b6a2c2aa7ccde0b0de7ae6173b8386eaf9026e49c9c9c21696e8fced743",
+  "videoSha256": "f20ba6425fdcae055c22fd53a5fc6c183f740b4668fc9ecf096ec8c8063c6cb5",
+  "darkVideoSha256": "f3014fd43700214f31be2984f258c0a5340402d52ad64430313aa8d7833fa0b3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 113496,
+  "darkBytes": 114494,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:27:31.851Z"
+}

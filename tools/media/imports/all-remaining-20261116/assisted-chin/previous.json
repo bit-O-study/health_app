@@ -1,0 +1,28 @@
+{
+  "assisted-chin-up": [
+    {
+      "file": "tools/media/motion-guides/assisted-chin-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/assisted-chin-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/assisted-chin-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-chin-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-chin-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-chin-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

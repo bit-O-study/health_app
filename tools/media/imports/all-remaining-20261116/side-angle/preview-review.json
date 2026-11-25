@@ -1,0 +1,39 @@
+{
+  "extended-side-angle-pose": {
+    "reviewedAt": "2026-11-24T03:08:30.843Z",
+    "checks": {
+      "exercise": "extended-side-angle-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower forearm supported on front thigh with opposite arm reaching over ear.",
+      "feet": "Both feet grounded, front knee over ankle and back leg straight.",
+      "movement": "Front knee bent over ankle, rear leg straight, feet grounded, lower forearm resting on front thigh and upper arm reaching over ear."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/full-sheet.png",
+        "sha256": "2c6aa95fa99bc335e5c42c450fb8fc74883b4bf351c6e5fdb88d1763cfc3d2d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/side-sheet.png",
+        "sha256": "c352ec145390f72a32d02712968985204948b3125b3096b4f88979a6be4d668d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/poses.json",
+        "sha256": "6596b44a0cf2969f7e772294637f4f356a4c5451c9525e4cc5264d40f855815a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/geometry.json",
+        "sha256": "bc3684245290248df9637aec20b45a89c97e50aea6d66efcefd595131c0ada10"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/kinematics.json",
+        "sha256": "f3a93fd461719c168b3705a82ebc864235ef0e6be4dc917386c7a79f77b90a3e"
+      }
+    ]
+  }
+}

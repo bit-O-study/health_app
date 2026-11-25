@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "happy-baby-pose",
+      "original": "happy-baby-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "happy-baby",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/happy-baby-pose/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine happy baby hold: knees wider than torso toward armpits, shins vertical, soles face ceiling, hands on outside edges of feet, relaxed supported head and back.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

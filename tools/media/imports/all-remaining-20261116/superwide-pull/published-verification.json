@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T01:59:12.023Z",
+  "report": [
+    {
+      "id": "super-wide-grip-pulldown",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

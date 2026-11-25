@@ -1,0 +1,18 @@
+{
+  "id": "deep-squat-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "92eea16f08bae67a9db3ba1d5dc643a1ced11a4d784236b05a1fba334724cd68",
+  "rigSourceSha256": "8c704567b1568792b8a84678a8f52949b44f2770386a94e6458779687931815f",
+  "videoSha256": "cbff1c86b24295f7ca3a6d73785934248ad48529858c7757828863e5be7ca2bc",
+  "darkVideoSha256": "5a070191b3acf79fd79bd2cf9ae084b5afff7a59759f27f1758dea5709d09f49",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 13789,
+  "darkBytes": 13564,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:21:51.340Z"
+}

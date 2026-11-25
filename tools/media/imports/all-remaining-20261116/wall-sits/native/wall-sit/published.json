@@ -1,0 +1,18 @@
+{
+  "id": "wall-sit",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7f8472a74df14cd116340e09bdac51a9393f0e4b14442332d5e8817150e6450a",
+  "rigSourceSha256": "d95357d9177c9df369be0815bc9b918e14e86e21954d76b7e696c243254d1687",
+  "videoSha256": "abacb1bc886cf1525cb0444365fb06afc3b762a8b1e652f043eb091dc28159a9",
+  "darkVideoSha256": "3867732e464f5434a519cf8f9655fb132c924599b8aeba378390199dd9400cd9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16111,
+  "darkBytes": 15718,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:34:09.654Z"
+}

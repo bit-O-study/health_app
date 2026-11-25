@@ -1,0 +1,18 @@
+{
+  "id": "superman-pull",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "28b5e5af11b84642123740ebed4658defa29d48ea628877dd7fe0008339f7359",
+  "rigSourceSha256": "df90756aa9647653e065c9d7ccd8382dab0b2f3deda404ccd012900ace61829b",
+  "videoSha256": "fd354a4d661c4fafcec82c85846a1aa331fbc5346b7a12a46424efa1d4a48e64",
+  "darkVideoSha256": "bd065e95ad90a0ef726b2c0e0abb80565526e3a5f6a8bb00aa2a432804a8168f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 44002,
+  "darkBytes": 46350,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:56:15.826Z"
+}

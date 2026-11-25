@@ -1,0 +1,75 @@
+{
+  "plank-with-leg-lift": {
+    "reviewedAt": "2026-11-16T03:14:44.050Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "plank-with-leg-lift",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both forearms remain on virtual floor; hands open.",
+      "feet": "Supporting toes retain floor contact while the opposite straight leg lifts; sides alternate.",
+      "movement": "Forearm plank with alternating straight-leg lifts: each side 1.5 seconds up, 1 second hold, 1.5 seconds down; limited 12-degree hip lift toward trunk level without pelvis or torso motion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/final.jpg",
+        "sha256": "e2547597934e12f45185aaf2c698ed25bd702e705c320dc8f8fa9fae4c28d2d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/final-dark.jpg",
+        "sha256": "1cbfa39d7b929b41c2f46b351fa7ddf57535b4e8cfe95cb2e5cbc991bdd5b463"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/full-sheet.png",
+        "sha256": "d3db188bd813a0e4dd103263fb832e5c37d29e73c0bd632c77c1c4ce2d817a8e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/side-sheet.png",
+        "sha256": "9d4843aeb4224722e6f683a0c7d165edcb9023db1db0b1360a1809cb97edfbee"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/verification.json",
+        "sha256": "0912308819c1fbd20726b40cc6c8477ba59288223fc5439a0d7c9dfb5acd9f3f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/geometry.json",
+        "sha256": "e2b565ac9cc75d09527bbb79074aa26710e629158a380ce9876c6869db9b86b1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/kinematics.json",
+        "sha256": "f978afd115bc087af9f0647ab213d0e4fe1cefa2452492c178f83e5e5797920a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/provenance.json",
+        "sha256": "cf1b5b7dc10af526d5ef4cc3825255e118b227d8a967a3cda93c28631441a79e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/plank-with-leg-lift-alpha.webm",
+        "sha256": "de20208b35f7b0b3172b61e70b2405ecf00aa3fcab2cb804f97f95d4de886bda",
+        "bytes": 104040,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/plank-with-leg-lift.mp4",
+        "sha256": "47cde0039cf24ee30359a11933bac47f514a9256c9dfe0cb85cf3867342cffa7",
+        "bytes": 45922,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/plank-with-leg-lift-dark.mp4",
+        "sha256": "589a5a59e5f8f41b855360d00eeef6bb36d28f4843db0467e871cc9df99eda22",
+        "bytes": 45602,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "barbell-calf-raise",
+      "original": "barbell-calf-raise",
+      "equipment": "barbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "barbell-calf-raise",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/standing-calf-raise.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Standing barbell calf raise on a step. Forefeet stay supported while both heels rise and lower; knees remain straight and bar stays across the upper back. 3.5 seconds rise, 1 second pause, 3.5 seconds lower.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

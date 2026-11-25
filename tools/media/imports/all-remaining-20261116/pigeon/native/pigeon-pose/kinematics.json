@@ -1,0 +1,17 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "kneeDegrees": {
+    "L": 42.7035379417523,
+    "R": 180
+  },
+  "frontShinAcross": true,
+  "rearLegStraight": true,
+  "torsoUpright": true,
+  "supportGaps": {
+    "garment": 0.015000016048099418,
+    "body": 0.06699680898816585
+  }
+}

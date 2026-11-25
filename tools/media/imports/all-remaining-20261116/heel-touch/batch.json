@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "heel-touch",
+      "original": "heel-touch",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "heel-touch",
+        "sourceUrls": [
+          "https://spotebi.com/exercise-guide/alternate-heel-touchers/"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Supine with bent knees and feet flat. Lift shoulder blades slightly, reach left hand to left heel then return and repeat right. Keep neck neutral and feet stationary.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

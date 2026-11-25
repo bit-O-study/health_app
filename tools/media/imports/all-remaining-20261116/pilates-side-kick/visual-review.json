@@ -1,0 +1,75 @@
+{
+  "pilates-side-kick": {
+    "reviewedAt": "2026-11-24T05:21:42.863Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-side-kick",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand supports head; upper hand rests on hip.",
+      "feet": "Top straight leg sweeps forward and backward at hip height, lower leg remains on mat.",
+      "movement": "Side lying top straight leg sweeps forward and backward at hip height, with stable pelvis and ankle lengthening on backward sweep."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "One side shown; controlled sweep without extra pulses."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/final.jpg",
+        "sha256": "1f09f88af65cef71cd017af4066da4e2198b0b53129e41cb337779bfb4002bd6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/final-dark.jpg",
+        "sha256": "77f387457549cf4850dee5cd5d26ac0d1eba5eba0c2736d021521a35b12bdbb2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/full-sheet.png",
+        "sha256": "51ec0678ff933c02cef4d1d104b75151ca03338834e987b5d78e57ebf6c032f3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/side-sheet.png",
+        "sha256": "79847de5536a23baccbc0f27399bd6c7a160fa844fb7ac8645932a24b1e87f7b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/verification.json",
+        "sha256": "dc509de9f4fe4c4de0d03dda254c30aeff9b865ef777a12f416bbdc2847b03f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/geometry.json",
+        "sha256": "f74c56864d2108c28093a02dfd4dd644a4f5a489a5ca8eaec74b528877d5d705"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/kinematics.json",
+        "sha256": "b9886eb05de49d3556feae744ac0cb16acc388009644715c49d4ad0e7f13c1e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/provenance.json",
+        "sha256": "cfaf4a60a0b32a2ddbf53786d545121c482f04951a39b9bd880503a826360cfd"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/pilates-side-kick-alpha.webm",
+        "sha256": "3ad87b1c7c67743d54d3257029e3528d32b23d7ba8c2f2a4efcf65b320033675",
+        "bytes": 60127,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/pilates-side-kick.mp4",
+        "sha256": "a2c0d8b2ee9d0801989ee495ad8811afb4a50fcadb9cb9544352751cb89b45c5",
+        "bytes": 43661,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/pilates-side-kick-dark.mp4",
+        "sha256": "04dc93d696b08df94e0572ca646c80c8f2adc2b79b077f9ff99aed8f8c38a430",
+        "bytes": 42714,
+        "decode": "passed"
+      }
+    ]
+  }
+}

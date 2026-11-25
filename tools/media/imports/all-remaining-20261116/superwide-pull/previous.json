@@ -1,0 +1,28 @@
+{
+  "super-wide-grip-pulldown": [
+    {
+      "file": "tools/media/motion-guides/super-wide-grip-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/super-wide-grip-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/super-wide-grip-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/super-wide-grip-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/super-wide-grip-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/super-wide-grip-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

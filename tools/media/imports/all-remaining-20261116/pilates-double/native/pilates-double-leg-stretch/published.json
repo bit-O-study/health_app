@@ -1,0 +1,18 @@
+{
+  "id": "pilates-double-leg-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5a6d8d315e768a9f7c5b77eb8c0574615dfc70e12c0af9ad0c71f1765fe56499",
+  "rigSourceSha256": "72e7a72dfa0dd054736627580ab1ac61a45e38db247a62729c66e5aeec306112",
+  "videoSha256": "09da8770f74bb3c8b5579930d4d4e08783c8080cb488557ce678fb04ba956d46",
+  "darkVideoSha256": "11e0e72cbba13b2c20aae5ad680fef04837b72d58de2ba5b63329fdc05738290",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 105439,
+  "darkBytes": 114259,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T04:54:16.928Z"
+}

@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T05:18:29.048Z",
+  "report": [
+    {
+      "id": "pilates-leg-circle",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

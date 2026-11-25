@@ -1,0 +1,39 @@
+{
+  "side-lying-external-rotation": {
+    "reviewedAt": "2026-11-18T01:50:01.449Z",
+    "checks": {
+      "exercise": "side-lying-external-rotation",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand supports head; upper hand closes around one light dumbbell.",
+      "feet": "Side lying torso and legs remain stable while forearm rotates upward with elbow held at ninety degrees.",
+      "movement": "Lie on side, lower arm supporting head. Hold a light dumbbell with upper elbow bent ninety degrees and upper arm kept alongside torso. Rotate forearm upward sixty degrees and lower with control; pelvis and legs stay still. 3.5 seconds raise, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-rotation/native/side-lying-external-rotation/full-sheet.png",
+        "sha256": "cb5b7c6c122be2b53ab08a9383d8c8c5e3aa08464d2f6fc8101b11d7c74974ec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-rotation/native/side-lying-external-rotation/side-sheet.png",
+        "sha256": "3777cb65b702ebfd0679aa3e607d3ef740d2885bd3eb01db3e800f859f7c629d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-rotation/native/side-lying-external-rotation/poses.json",
+        "sha256": "3be00868eb6ff9121cd3fe131addb52beb736513a52758ce84502afc93c1e479"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-rotation/native/side-lying-external-rotation/geometry.json",
+        "sha256": "3d10f46605cae4fb17805eaf321cb26535089fc44120e2572dd656bed6d146fc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-rotation/native/side-lying-external-rotation/kinematics.json",
+        "sha256": "ee76b8a98a5b1fdc27eccb1486bff8b31ad59d21d334e9f4faa4a86fe9f140c1"
+      }
+    ]
+  }
+}

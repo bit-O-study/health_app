@@ -1,0 +1,315 @@
+{
+  "id": "pilates-swan",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/pilates-swan/pilates-swan-studio.mjs",
+      "sha256": "39a7e3fb55044c0467aa3c0a65d78678e996535b4c024886247bda8c65f835cc"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/pilates-swan/pilates-swan-motion.mjs",
+      "sha256": "09d6f95109158fe721914fb5394281fb83f54e8a01498a87500170d256e537f8"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/pilates-swan/render.mjs",
+      "sha256": "4dfd119fb3276cdcb8fd24a7127fc19fc3837bcd97bcdb480058303ac1a820f4"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "pilates-swan",
+    "sourceUrls": [
+      "https://www.pilatesanytime.com/blog/mat/mat-sequences-for-every-level"
+    ],
+    "sourcesCheckedAt": "2026-11-24",
+    "criteria": "Beginner Swan variation with arms beside torso: lift head, chest, arms and straight legs slightly, then lower with control.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Low arm-by-side Swan variation, not a hand-supported Swan dive."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "body": -7.885000000000002,
+      "toes": -7.874020801478504,
+      "cloth": -7.815586562570669,
+      "palms": -7.65991334274253,
+      "kneeL": -7.413381011161632,
+      "kneeR": -7.413381011161632,
+      "floorClearance": 0.014999999999998792
+    },
+    {
+      "frame": 30,
+      "body": -7.884999999283112,
+      "toes": -7.852272797906801,
+      "cloth": -7.8380262860243555,
+      "palms": -7.614316148606908,
+      "kneeL": -7.425624916605252,
+      "kneeR": -7.425624916605252,
+      "floorClearance": 0.01500000071688845
+    },
+    {
+      "frame": 60,
+      "body": -7.885000000000001,
+      "toes": -7.643175818847759,
+      "cloth": -7.873911232476805,
+      "palms": -7.2868333431122965,
+      "kneeL": -7.38435612303551,
+      "kneeR": -7.38435612303551,
+      "floorClearance": 0.01499999999999968
+    },
+    {
+      "frame": 90,
+      "body": -7.785037309647729,
+      "toes": -7.158906593967663,
+      "cloth": -7.8849999948294505,
+      "palms": -6.603530455575191,
+      "kneeL": -7.181088645270152,
+      "kneeR": -7.181088645270152,
+      "floorClearance": 0.11496269035227158
+    },
+    {
+      "frame": 120,
+      "body": -7.785063360669045,
+      "toes": -6.660900141362408,
+      "cloth": -7.8849999947095455,
+      "palms": -5.90992035988776,
+      "kneeL": -6.963875703174207,
+      "kneeR": -6.963875703174207,
+      "floorClearance": 0.11493663933095544
+    },
+    {
+      "frame": 150,
+      "body": -7.785102116280426,
+      "toes": -6.3623996416097155,
+      "cloth": -7.884999994627039,
+      "palms": -5.497733927048653,
+      "kneeL": -6.832866714182553,
+      "kneeR": -6.832866714182553,
+      "floorClearance": 0.11489788371957399
+    },
+    {
+      "frame": 180,
+      "body": -7.785112125273244,
+      "toes": -6.301848027514971,
+      "cloth": -7.884999994609279,
+      "palms": -5.414433099660831,
+      "kneeL": -6.80621724082816,
+      "kneeR": -6.80621724082816,
+      "floorClearance": 0.11488787472675632
+    },
+    {
+      "frame": 210,
+      "body": -7.785112125273244,
+      "toes": -6.301848027514971,
+      "cloth": -7.884999994609279,
+      "palms": -5.414433099660831,
+      "kneeL": -6.80621724082816,
+      "kneeR": -6.80621724082816,
+      "floorClearance": 0.11488787472675632
+    },
+    {
+      "frame": 240,
+      "body": -7.785112125273244,
+      "toes": -6.301848027514971,
+      "cloth": -7.884999994609279,
+      "palms": -5.414433099660831,
+      "kneeL": -6.80621724082816,
+      "kneeR": -6.80621724082816,
+      "floorClearance": 0.11488787472675632
+    },
+    {
+      "frame": 270,
+      "body": -7.785112125273244,
+      "toes": -6.301848027514971,
+      "cloth": -7.884999994609279,
+      "palms": -5.414433099660831,
+      "kneeL": -6.80621724082816,
+      "kneeR": -6.80621724082816,
+      "floorClearance": 0.11488787472675632
+    },
+    {
+      "frame": 300,
+      "body": -7.785112125273244,
+      "toes": -6.301848027514971,
+      "cloth": -7.884999994609279,
+      "palms": -5.414433099660831,
+      "kneeL": -6.80621724082816,
+      "kneeR": -6.80621724082816,
+      "floorClearance": 0.11488787472675632
+    },
+    {
+      "frame": 330,
+      "body": -7.785102116280426,
+      "toes": -6.3623996416097155,
+      "cloth": -7.884999994627039,
+      "palms": -5.497733927048654,
+      "kneeL": -6.832866714182553,
+      "kneeR": -6.832866714182553,
+      "floorClearance": 0.11489788371957399
+    },
+    {
+      "frame": 360,
+      "body": -7.785063360669045,
+      "toes": -6.660900141362411,
+      "cloth": -7.8849999947095455,
+      "palms": -5.909920359887759,
+      "kneeL": -6.963875703174207,
+      "kneeR": -6.963875703174207,
+      "floorClearance": 0.11493663933095544
+    },
+    {
+      "frame": 390,
+      "body": -7.785037309647729,
+      "toes": -7.158906593967663,
+      "cloth": -7.8849999948294505,
+      "palms": -6.603530455575191,
+      "kneeL": -7.181088645270152,
+      "kneeR": -7.181088645270152,
+      "floorClearance": 0.11496269035227158
+    },
+    {
+      "frame": 420,
+      "body": -7.885000000000001,
+      "toes": -7.643175818847759,
+      "cloth": -7.873911232476805,
+      "palms": -7.2868333431122965,
+      "kneeL": -7.38435612303551,
+      "kneeR": -7.38435612303551,
+      "floorClearance": 0.01499999999999968
+    },
+    {
+      "frame": 450,
+      "body": -7.884999999283112,
+      "toes": -7.852272797906801,
+      "cloth": -7.8380262860243555,
+      "palms": -7.614316148606909,
+      "kneeL": -7.425624916605252,
+      "kneeR": -7.425624916605252,
+      "floorClearance": 0.01500000071688845
+    },
+    {
+      "frame": 480,
+      "body": -7.885000000000002,
+      "toes": -7.874020801478504,
+      "cloth": -7.815586562570669,
+      "palms": -7.65991334274253,
+      "kneeL": -7.413381011161632,
+      "kneeR": -7.413381011161632,
+      "floorClearance": 0.014999999999998792
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "kneeDegrees": [
+      179.99999829245272,
+      180
+    ],
+    "maxStep": 0.022393694680631626,
+    "torsoDrift": 1.5736486213486531,
+    "headRise": 1.1430794575325063,
+    "footRise": 1.5721727956748746
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      179.99999829245272,
+      180
+    ],
+    "alpha": {
+      "transparent": 40857390,
+      "opaque": 2936441,
+      "partial": 442969,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Beginner Swan, arms beside torso: low controlled simultaneous chest and leg lift.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/source.jpg",
+    "sha256": "df4e5dbf808426e6e279233352f5da7dce1efb3f5f1e826d88e16fd2515a89ea",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Low arm-by-side Swan variation, not a hand-supported Swan dive."
+}

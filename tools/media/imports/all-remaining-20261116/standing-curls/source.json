@@ -1,0 +1,10 @@
+{
+  "standing-single-leg-curl": {
+    "equipment": "machine",
+    "url": "https://ironpack.io/exercises/standing-leg-curl"
+  },
+  "standing-leg-curl-machine": {
+    "equipment": "machine",
+    "url": "https://ironpack.io/exercises/standing-leg-curl"
+  }
+}

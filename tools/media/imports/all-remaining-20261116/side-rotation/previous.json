@@ -1,0 +1,28 @@
+{
+  "side-lying-external-rotation": [
+    {
+      "file": "tools/media/motion-guides/side-lying-external-rotation.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/side-lying-external-rotation.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/side-lying-external-rotation-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-external-rotation.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-external-rotation-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-external-rotation-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

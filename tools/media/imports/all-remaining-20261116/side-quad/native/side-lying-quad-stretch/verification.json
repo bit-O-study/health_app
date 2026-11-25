@@ -1,0 +1,67 @@
+{
+  "sourceHashChecks": "passed",
+  "poseSamples": 481,
+  "loopPoseError": 0,
+  "elbowDegrees": [
+    45.829669330897325,
+    119.72257675954127
+  ],
+  "alpha": {
+    "transparent": 38930880,
+    "opaque": 4914040,
+    "partial": 391880,
+    "all192FrameEdgesClear": true
+  },
+  "playback": [
+    {
+      "theme": "alpha",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 0,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    },
+    {
+      "theme": "light",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    },
+    {
+      "theme": "dark",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    }
+  ],
+  "limits": [
+    "Procedural demonstration; not captured human motion.",
+    "Side lying quadriceps stretch with upper ankle held and stable torso; eight-second hold.",
+    "Actual phone and production deployment are not verified."
+  ]
+}

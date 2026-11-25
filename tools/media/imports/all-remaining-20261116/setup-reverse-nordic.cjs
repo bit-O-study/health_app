@@ -1,0 +1,13 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const root='tools/media/imports/all-remaining-20261116',base=root+'/reverse-nordic',old=root+'/deep-squat',id='reverse-nordic-curl',read=p=>fs.readFileSync(p,'utf8'),write=(p,x)=>fs.writeFileSync(p,JSON.stringify(x,null,2)+'\n');
+assert.ok(!fs.existsSync(base+'/batch.json'));fs.mkdirSync(base,{recursive:true});
+const master=JSON.parse(read(root+'/batch.json')),entry=master.entries.find(e=>e.id===id);assert.equal(entry.status,'awaiting-motion-implementation');entry.status='motion-preview';entry.group='reverse-nordic';
+let motion=read(root+'/slow-controls/eccentric-nordic-curl-motion.mjs').replaceAll('eccentric-nordic-curl',id).replace('depth=t<.625?smooth(t/.625):t<.75?1:t<.875?1-smooth((t-.75)/.125):0','depth=t<.4375?smooth(t/.4375):t<.5625?1:1-smooth((t-.5625)/.4375)').replace('rad(45*depth)','rad(-35*depth)');
+let studio=read(root+'/slow-controls/eccentric-nordic-curl-studio.mjs').replaceAll('eccentric-nordic-curl',id);
+const start=studio.indexOf('for(const x of [-2.6,2.6])'),end=studio.indexOf('const restPositions=',start);assert.ok(start>0&&end>start);studio=studio.slice(0,start)+studio.slice(end);
+studio=studio.replace('new THREE.BoxGeometry(6,.3,7)','new THREE.BoxGeometry(6,.3,8)').replace('camera.lookAt(0,-1,1)','camera.lookAt(0,-1,-1.5)');
+studio=studio.replace('kneePad.position.set(0,-7.29,0);scene.add(kneePad);','kneePad.position.set(0,-7.225,0);scene.add(kneePad);\nconst shinPad=new THREE.Mesh(new THREE.BoxGeometry(4.5,.73,4),padMaterial);shinPad.position.set(0,-7.335,-3.2);scene.add(shinPad);');
+fs.writeFileSync(base+'/'+id+'-motion.mjs',motion);fs.writeFileSync(base+'/'+id+'-studio.mjs',studio);
+for(const name of ['render','verify','finalize','prepare','publish','check-published'])fs.writeFileSync(base+'/'+name+'.mjs',read(old+'/'+name+'.mjs').replaceAll(old,base).replaceAll('deep-squat-hold',id));
+fs.writeFileSync(root+'/review-reverse-nordic.cjs',read(root+'/review-deep-squat.cjs').replaceAll(old,base).replace('Both feet retain their planted support positions.','Knees and lower legs retain their support positions on padded surfaces.'));
+write(base+'/batch.json',{entries:[{id,original:id,equipment:'bodyweight',hold:false,status:'awaiting-preview-review',recipe:{family:id,sourceUrls:['https://us.physitrack.com/home-exercise-video/nordic-curl---reversed'],sourcesCheckedAt:'2026-11-16',criteria:'Tall kneeling reverse Nordic: trunk and thighs tilt backward together through illustrative 35-degree range; 3.5-second lean, 1-second hold, 3.5-second return. Knees and lower legs remain supported; no ankle restraint.'}}]});write(root+'/batch.json',master);

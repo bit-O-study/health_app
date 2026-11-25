@@ -1,0 +1,15 @@
+{
+  "id": "seated-leg-press-machine",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-leg-press-machine-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/legs/quad-exercises/leg-presses/seated-leg-press/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T04:57:56.206Z"
+}

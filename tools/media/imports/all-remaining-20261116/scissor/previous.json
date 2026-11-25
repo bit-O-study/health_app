@@ -1,0 +1,28 @@
+{
+  "scissor-kick": [
+    {
+      "file": "tools/media/motion-guides/scissor-kick.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/scissor-kick.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/scissor-kick-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scissor-kick.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scissor-kick-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scissor-kick-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

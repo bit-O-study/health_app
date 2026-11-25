@@ -1,0 +1,18 @@
+{
+  "id": "pause-leg-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2357f2b3a347c4f8358b9a9249ffc94bedc8a6046aef7bcf0909cd625189e86f",
+  "rigSourceSha256": "e5ebd635b76f1ff5726408cdc2b7b20371ea0887de63542108436a4170fd8fea",
+  "videoSha256": "124c3c5e4040fb6b5ef95617632e019f597fa5cc795df14ee8dbcf89886cd495",
+  "darkVideoSha256": "d02b3d1d7d59cb25ce14b8f79f218de48942839e587b43abd566b939696b56d8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 103054,
+  "darkBytes": 91592,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:03:35.708Z"
+}

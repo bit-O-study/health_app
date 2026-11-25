@@ -1,0 +1,39 @@
+{
+  "chest-supported-rear-delt-raise": {
+    "reviewedAt": "2026-11-16T07:34:19.723Z",
+    "checks": {
+      "exercise": "chest-supported-rear-delt-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around dumbbell handles throughout the lift.",
+      "feet": "Torso remains supported by 45-degree bench, feet stable; slightly bent arms lift laterally to shoulder level.",
+      "movement": "Chest supported on 45-degree bench, feet stable, neutral dumbbell grip, elbows slightly bent. Raise arms laterally to shoulder height, pause and lower without torso swing. 3.5 seconds lift, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/full-sheet.png",
+        "sha256": "a5bbfdb786002f2c74c5b2383def90b699290ba24a53597498f20c3a9869c64b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/side-sheet.png",
+        "sha256": "cfba7f2eb0b1169ac3fd8227716d1877c66debeffffa595a83014f0765b11287"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/poses.json",
+        "sha256": "cfb7e16840515f5d64bfb905941ca8ec6415cfc12468bfc432e30648efe23e89"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/geometry.json",
+        "sha256": "204adab729f07858f8da7d1f0cf6c0c6a7692bcaff268a35a6a7f62f1fc8ddbc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/kinematics.json",
+        "sha256": "9cd551c8d9947b9bcfd00d50a82db11834496f6ccaf784f8cd3743fd1ca89381"
+      }
+    ]
+  }
+}

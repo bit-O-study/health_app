@@ -1,0 +1,39 @@
+{
+  "child-s-pose": {
+    "reviewedAt": "2026-11-24T01:58:50.661Z",
+    "checks": {
+      "exercise": "child-s-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms extended forward with palms resting on mat.",
+      "feet": "Deeply bent knees apart, hips toward heels, forehead supported on low pad.",
+      "movement": "Extended child pose with hips resting toward heels, bent knees apart, torso folded forward, forehead supported, arms extended forward and palms down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/full-sheet.png",
+        "sha256": "6ed590291c4fc7050e0606c70a9feea4ebaad5837918f7a64b802c47dbf713b9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/side-sheet.png",
+        "sha256": "a4544fb37ecddc0fb4698254c3bde7ba4a1d61607749fc93ab171aba6a97363f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/poses.json",
+        "sha256": "385f764a6376ac040a8fd90308b0a1b06a2f32ff0af6b4f1dd52e92e23db11de"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/geometry.json",
+        "sha256": "5c37ac612bba039ecdf6246773f4f47bb58a8b8bea770cd720155301c2a6b72c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/kinematics.json",
+        "sha256": "1a6893f8752c70b26b136f71b3567a66e5f0e45fcdde5a76d558496d451cce60"
+      }
+    ]
+  }
+}

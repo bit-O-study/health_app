@@ -1,0 +1,39 @@
+{
+  "happy-baby-pose": {
+    "reviewedAt": "2026-11-24T00:47:58.905Z",
+    "checks": {
+      "exercise": "happy-baby-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands hold outer edges of feet.",
+      "feet": "Both shins vertical above widened knees; flexed soles face ceiling.",
+      "movement": "Supine happy baby hold: knees wider than torso toward armpits, shins vertical, soles face ceiling, hands on outside edges of feet, relaxed supported head and back."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/full-sheet.png",
+        "sha256": "2455bc63769492aa3b7dcc16802d9682dbbac8c6e0fb9276009cc9f8e30ced5d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/side-sheet.png",
+        "sha256": "536794e509259dd1777e5700a934fc863499f113da3440ea9cf0a6cefe64e433"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/poses.json",
+        "sha256": "4c9356659af6c4cd964974adf7d713afab96e0ec65f8271030f2b9c67aff3f88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/geometry.json",
+        "sha256": "620f27430dad665fe30015e574d0b5083c5084e105877837f5e40a32bd2e01b1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/kinematics.json",
+        "sha256": "73bd148e2d8369ade8546bb00a988c4ef347920dc0e1555eb15843a7cd811c25"
+      }
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "v-bar-lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/v-bar-lat-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/v-bar-lat-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/v-bar-lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-bar-lat-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-bar-lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/v-bar-lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "partial-pulldown": [
+    {
+      "file": "tools/media/motion-guides/partial-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/partial-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/partial-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

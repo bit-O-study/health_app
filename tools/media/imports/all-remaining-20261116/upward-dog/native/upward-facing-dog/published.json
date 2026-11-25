@@ -1,0 +1,18 @@
+{
+  "id": "upward-facing-dog",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "11ae2a7b499c3daad01c54c7927d8dbaeaace439064cdf43b8b5e437d73a76ef",
+  "rigSourceSha256": "ae65e781fb8e8561c1c0da8a173860b31c45452afbfe5e0bec697dce4244b2bf",
+  "videoSha256": "6bef6061b6db44e568130caf3297e30d39a71232d5a1e462bdeb0c5ae998da52",
+  "darkVideoSha256": "9943648db2bc2a15d951351dc19d5a0d0bda7a87013387186b2c6d2a5d5a6f52",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15334,
+  "darkBytes": 15389,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T07:33:32.152Z"
+}

@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "kneeMinimum": 179.99999829245272,
+  "legElevation": [
+    12.00000000000002,
+    28.00000000000001
+  ],
+  "maxStep": 0.044613980110762536,
+  "shapeError": 1.0658141036401503e-14,
+  "cycles": 2
+}

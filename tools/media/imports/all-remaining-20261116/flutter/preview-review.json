@@ -1,0 +1,39 @@
+{
+  "flutter-kick": {
+    "reviewedAt": "2026-11-18T00:31:47.679Z",
+    "checks": {
+      "exercise": "flutter-kick",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside body, palms down.",
+      "feet": "Supine body stays supported while straight legs alternate upward and downward in a small range.",
+      "movement": "Lie supine with arms beside body and palms down; neutral head on low cushion. Straight legs alternate vertically between 10 and 30 degrees above horizontal, four cycles in eight seconds, keeping back supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/full-sheet.png",
+        "sha256": "71d1792e912bf1888f093537939ac21ecfb65ac12a3844c549d52d7838b2f6f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/side-sheet.png",
+        "sha256": "96b9a203ef43dd48a2a9dea7dc5b3855eadc8f42c66b1bb7a4543d725e07d279"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/poses.json",
+        "sha256": "f785171fe498d7b2cb6a37daf6dcc6afac405912c976df2c61e951eab4bf9432"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/geometry.json",
+        "sha256": "afd9766dc1686ac1b1a2c25a46de0cf6aa84ddf3a09b1d36b2e6668ded14c553"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/kinematics.json",
+        "sha256": "3092238be458be87f5b82de8aa465e15dc0ec9c25759cdb9d6040b187fdf17b1"
+      }
+    ]
+  }
+}

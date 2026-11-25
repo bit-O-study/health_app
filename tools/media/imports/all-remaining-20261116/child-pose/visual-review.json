@@ -1,0 +1,75 @@
+{
+  "child-s-pose": {
+    "reviewedAt": "2026-11-24T02:03:57.688Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "child-s-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms extended forward with palms resting on mat.",
+      "feet": "Deeply bent knees apart, hips toward heels, forehead supported on low pad.",
+      "movement": "Extended child pose with hips resting toward heels, bent knees apart, torso folded forward, forehead supported, arms extended forward and palms down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/final.jpg",
+        "sha256": "6e2608530088186c239f9966d48396cae028cefd475b3d878b4ebca7d7e06937"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/final-dark.jpg",
+        "sha256": "a3919f5535b318960beacbc28f001b7083821a269ecdbe6103f4570efd49108e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/full-sheet.png",
+        "sha256": "6ed590291c4fc7050e0606c70a9feea4ebaad5837918f7a64b802c47dbf713b9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/side-sheet.png",
+        "sha256": "a4544fb37ecddc0fb4698254c3bde7ba4a1d61607749fc93ab171aba6a97363f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/verification.json",
+        "sha256": "9d7ffb3eba9214f969b625959e5b1e3c31910dd9955a7ffb2afa1b91fa963b4f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/geometry.json",
+        "sha256": "5c37ac612bba039ecdf6246773f4f47bb58a8b8bea770cd720155301c2a6b72c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/kinematics.json",
+        "sha256": "1a6893f8752c70b26b136f71b3567a66e5f0e45fcdde5a76d558496d451cce60"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/provenance.json",
+        "sha256": "e35f08779d6da0949c9fab85ad76a2ba2e69529e2b26260634e57ebef01daba8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/child-s-pose-alpha.webm",
+        "sha256": "ee7d5b00eba4cb49ec20f1dd5e167e6810d17bdfed5f900f0a303240a4b6abed",
+        "bytes": 31380,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/child-s-pose.mp4",
+        "sha256": "6346a14654383ecd1f6b9f15e2c5e72cdd134026605c55e6ef70716489095ef4",
+        "bytes": 14349,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/child-s-pose-dark.mp4",
+        "sha256": "1c26acb852fa37b70575d0f1b9d350f8ac706e11da62d9f291614bb9281e1252",
+        "bytes": 13383,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "tree-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7f49b857d21b899e7d62ec3c74c02b9be7e040b9d4cce84a9022ecc5b2ff7e38",
+  "rigSourceSha256": "d8068187516c12e61b09a502f6b753dde6666c5a6e27dcafb0f689f94c7151d4",
+  "videoSha256": "57105d800f1d41ee121e3d36e1bed99861f9e93446d2f1518fb530ff2815af2a",
+  "darkVideoSha256": "532a9f37a918f6188882fc395041c735e10bf7057585209a5ce99f650e7f9e5e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14997,
+  "darkBytes": 14971,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T03:04:58.886Z"
+}

@@ -1,0 +1,39 @@
+{
+  "pilates-leg-circle": {
+    "reviewedAt": "2026-11-24T05:14:08.724Z",
+    "checks": {
+      "exercise": "pilates-leg-circle",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms support mat beside torso, head rests on cushion.",
+      "feet": "One straight leg circles while the opposite leg and pelvis stay still.",
+      "movement": "Supine single straight raised leg circles while opposite leg rests long on mat and palms support stable pelvis."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Two small circles in eight seconds; one side and direction shown."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/full-sheet.png",
+        "sha256": "6701f6addd0f5a6c36a0442dd4d77a4b9eb5822e76c2315a6d55d3a673ac5b8b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/side-sheet.png",
+        "sha256": "e663564bc832f8b995f2213b1c8ff67bf71798ea8d2dce5d0efcb65516ed8ee8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/poses.json",
+        "sha256": "9c320d7c0a89d717720f0ca137d18a3fb099e9fee6e51dd9b7240b0a6270a16f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/geometry.json",
+        "sha256": "961de4c47d0029deb19ba52f0119950fde4996ed0e7549cb755758ad7e01da06"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/kinematics.json",
+        "sha256": "00cbbacb3a64f814e93c9cc4369c06472d2af43bb1a5a1e9f2d73bb768aa3950"
+      }
+    ]
+  }
+}

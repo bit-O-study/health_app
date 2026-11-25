@@ -1,0 +1,8 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const base='tools/media/imports/all-remaining-20261116/wall-sits',read=p=>JSON.parse(readFileSync(p));
+const angle=(a,b,c)=>{const u=a.map((x,i)=>x-b[i]),v=c.map((x,i)=>x-b[i]);return Math.acos(Math.max(-1,Math.min(1,u.reduce((s,x,i)=>s+x*v[i],0)/Math.hypot(...u)/Math.hypot(...v))))*180/Math.PI;};
+for(const e of read(base+'/batch.json').entries){const dir=base+'/native/'+e.id,p=read(dir+'/poses.json'),g=read(dir+'/geometry.json'),single=e.id==='single-leg-wall-sit';assert.equal(p.length,481);const knees={L:[],R:[]};
+for(const {joints:j} of p){assert.ok(Object.values(j).flat(Infinity).every(Number.isFinite));assert.deepEqual(j,p[0].joints);for(const s of ['L','R']){const hip=j['upperleg01.'+s],knee=j['lowerleg01.'+s],foot=j['foot.'+s];knees[s].push(angle(hip,knee,foot));assert.ok(Math.abs(knee[1]-hip[1])<1e-7);if(single&&s==='R')assert.ok(Math.abs(foot[1]-hip[1])<1e-7);else assert.ok(Math.hypot(knee[0]-foot[0],knee[2]-foot[2])<1e-7);}}
+assert.ok(knees.L.every(a=>Math.abs(a-90)<1e-5));assert.ok(knees.R.every(a=>Math.abs(a-(single?180:90))<1e-5));for(const x of g){assert.ok(Math.abs(x.leftSoleGap-.015)<1e-7);assert.ok(single?x.rightSoleGap>4:Math.abs(x.rightSoleGap-.015)<1e-7);assert.ok(x.backGap>0&&x.backGap<.04&&x.hipGap>0&&x.hipGap<.02&&x.bodyWallClearance>0);}
+const result={status:'numeric-checks-passed',poseSamples:481,staticPose:true,loopError:0,leftKnee:knees.L[0],rightKnee:knees.R[0],leftSoleGap:g[0].leftSoleGap,rightSoleGap:g[0].rightSoleGap,backGap:g[0].backGap,hipGap:g[0].hipGap,bodyWallClearance:g[0].bodyWallClearance};writeFileSync(dir+'/kinematics.json',JSON.stringify(result,null,2)+'\n');console.log(e.id,result);}

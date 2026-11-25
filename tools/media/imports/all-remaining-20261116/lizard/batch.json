@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "lizard-pose",
+      "original": "lizard-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "lizard",
+        "sourceUrls": [
+          "https://www.yogajournal.com/practice/feel-good-yoga/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Wide front foot outside both grounded hands, front knee over ankle, rear knee and top of foot down, spine long.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

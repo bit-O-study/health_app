@@ -1,0 +1,18 @@
+{
+  "pause-leg-extension": {
+    "equipment": "machine",
+    "url": "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+  },
+  "top-half-leg-extension": {
+    "equipment": "machine",
+    "url": "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+  },
+  "pause-leg-curl": {
+    "equipment": "machine",
+    "url": "https://www.nasm.org/resource-center/exercise-library/seated-leg-curl"
+  },
+  "eccentric-leg-curl": {
+    "equipment": "machine",
+    "url": "https://www.nasm.org/resource-center/exercise-library/seated-leg-curl"
+  }
+}

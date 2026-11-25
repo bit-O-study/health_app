@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "single-leg-calf-press",
+      "original": "single-leg-calf-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "single-leg-calf-press",
+        "sourceUrls": [
+          "https://www.ritfitsports.com/blogs/article/how-to-do-single-leg-calf-raises-on-leg-press-hack-squat-machine"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Unilateral calf press on a 45-degree leg press. Left knee fixed at 165 degrees, ankle plantarflexes over 4 seconds and returns over 4 seconds. Left forefoot only on the plate; right leg bent with foot on separate fixed support. Hands retain handles, pelvis and back fixed.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "single-leg-leg-press-calf-raise",
+      "original": "single-leg-leg-press-calf-raise",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "single-leg-calf-press",
+        "sourceUrls": [
+          "https://www.ritfitsports.com/blogs/article/how-to-do-single-leg-calf-raises-on-leg-press-hack-squat-machine"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Unilateral calf press on a 45-degree leg press. Left knee fixed at 165 degrees, ankle plantarflexes over 4 seconds and returns over 4 seconds. Left forefoot only on the plate; right leg bent with foot on separate fixed support. Hands retain handles, pelvis and back fixed.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

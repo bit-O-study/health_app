@@ -1,0 +1,75 @@
+{
+  "side-lying-quad-stretch": {
+    "reviewedAt": "2026-11-18T02:19:08.839Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "side-lying-quad-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand supports head while upper hand holds the upper ankle.",
+      "feet": "Side lying torso stays stable; upper knee bends to bring heel toward glute and upper thigh stays nearly parallel to floor.",
+      "movement": "Lie on side, head supported by lower arm. Hold upper ankle behind body with knee bent and thigh parallel to floor. Keep abdomen engaged without arching. Eight-second maintained hold, entry and exit omitted; repeat opposite side after set."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/final.jpg",
+        "sha256": "7fe4ae972b8c557a2f8885cef55f8a0fa6ecc7b09ebde637215b6af9689f2ce4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/final-dark.jpg",
+        "sha256": "54a7afa9435c0c13cc368d7b1a0c8d3cbc10d2c96153423a3b3f9a40abc94ce3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/full-sheet.png",
+        "sha256": "f7a11a8efd9e5efffdb64d1325de205606db395e5dfc78b3e694cd30bb092cdf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/side-sheet.png",
+        "sha256": "6aa74be8791707880ef436d2903790ebb6679a31b5738088710b9a280c8b0143"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/verification.json",
+        "sha256": "c4232e9af469e6e8bdf8fcc975091552b7e7b456bb2579a09c427c431535613f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/geometry.json",
+        "sha256": "b4a902625743ff71622e2d9cb49a1c9c0d9d872793507546b045361242c62bbc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/kinematics.json",
+        "sha256": "2cf26710006d0608b50294dd3fee28a0f8d717038faa7053ab243763c9188c69"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/provenance.json",
+        "sha256": "47353205c65c9e269a71e7471218cb39d80058ef63c360fdfe539886dd158607"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/side-lying-quad-stretch-alpha.webm",
+        "sha256": "ce9fb15b8ec8709b4905fdeb3ce522e5b15641e32296021b30b4ad9a1d5e3316",
+        "bytes": 33331,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/side-lying-quad-stretch.mp4",
+        "sha256": "3d1c40ec3c6260754acb12e4b16673ab466d57816b64e7ed417d64ba7270c1b1",
+        "bytes": 14245,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/side-lying-quad-stretch-dark.mp4",
+        "sha256": "b13e6dc8c61422ff2d3d93cc0c8b57376fe143cf9f98262a71887c1c429b6478",
+        "bytes": 14210,
+        "decode": "passed"
+      }
+    ]
+  }
+}

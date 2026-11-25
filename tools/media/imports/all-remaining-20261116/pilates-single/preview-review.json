@@ -1,0 +1,39 @@
+{
+  "pilates-single-leg-stretch": {
+    "reviewedAt": "2026-11-24T04:54:53.024Z",
+    "checks": {
+      "exercise": "pilates-single-leg-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands transfer to the bent knee while legs exchange positions.",
+      "feet": "One leg extends diagonally while the other bends; sides alternate with stable curled torso.",
+      "movement": "Supine curled torso with alternating diagonal straight leg and bent knee; hands transfer smoothly to bent knee."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled alternating leg extension."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/full-sheet.png",
+        "sha256": "f8ad3da711afc59167c52f84d3df97fbc2376fa20fc59de21e4a158fb66895e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/side-sheet.png",
+        "sha256": "c329769feb2fe68bef1541a1d810537b73d9f8fb67bc33f718a3da425f718522"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/poses.json",
+        "sha256": "175646b2e405185abc0a3015a4cf73f4bb0c50e42a68ed30a83a249cefeb1542"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/geometry.json",
+        "sha256": "9e917ed41cbf50327a749a81291a1b8e2fb6f20e1caa3b37ca9c8cc0ec62cb10"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/kinematics.json",
+        "sha256": "b71e4f1d8037eca83d5dd93c87bc6ab92703260a85dadbdf53bfdd9ec54d8363"
+      }
+    ]
+  }
+}

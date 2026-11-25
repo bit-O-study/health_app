@@ -1,0 +1,28 @@
+{
+  "puppy-pose": [
+    {
+      "file": "tools/media/motion-guides/puppy-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/puppy-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/puppy-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/puppy-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/puppy-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/puppy-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

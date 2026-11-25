@@ -1,0 +1,75 @@
+{
+  "dynamic-hip-flexor-stretch": {
+    "reviewedAt": "2026-11-24T04:29:32.692Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "dynamic-hip-flexor-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms rest separately on the front thigh; torso upright.",
+      "feet": "Front foot and rear knee fixed; rear instep stays grounded.",
+      "movement": "Half kneeling controlled forward weight shift and return with fixed front foot and rear knee; optional overhead side bend omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second cycle illustrates a smooth forward shift and return."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/final.jpg",
+        "sha256": "38f1bbae9d656a658a9772677b421aa9284f3e521e2e1145804988b6348a7937"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/final-dark.jpg",
+        "sha256": "9ca5532cdada479e3855a81fe63eec9f81a6c7bf1e01d549fb888f6260a30ef0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/full-sheet.png",
+        "sha256": "ab16b310100134f15063266f03cff86b0fb617d353ee9d9b055ca70d8390b496"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/side-sheet.png",
+        "sha256": "c5b6d48a85a484348ec958594b5e285bcf64b34fe5567a2832d84aaaa5f2dbd9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/verification.json",
+        "sha256": "9316174a054d9a5f31fee0489995eb0f77be31592c62a1d97512203ce13005cd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/geometry.json",
+        "sha256": "8a793e456efe6ca66410204bf422e4837c56214550af2be67c229c91792de647"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/kinematics.json",
+        "sha256": "1d2a5aa360f3abfae0dbf247e545b0ddb7c5751901c9cb91b6c59b43a538d9d7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/provenance.json",
+        "sha256": "4344063ae9e6d003ad4625582d49ddee4e93d48bb95ff4989cb9cee1c16eae7b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/dynamic-hip-flexor-stretch-alpha.webm",
+        "sha256": "029d79c8da339e550dbf3d5f468c122f9137edb18721eb45b05326dafde33c53",
+        "bytes": 196562,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/dynamic-hip-flexor-stretch.mp4",
+        "sha256": "ab9df2367bd5299f7676ea4bd47f318606bacbc55346ee40b355c4b559de8e9e",
+        "bytes": 74928,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/dynamic-hip-flexor-stretch-dark.mp4",
+        "sha256": "2340713dadeb8744615385d21f6ed3988b386b510b429d34a07c6df87b91441d",
+        "bytes": 80197,
+        "decode": "passed"
+      }
+    ]
+  }
+}

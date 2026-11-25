@@ -1,0 +1,39 @@
+{
+  "locust-pose": {
+    "reviewedAt": "2026-11-16T08:21:23.574Z",
+    "checks": {
+      "exercise": "locust-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands reach backward beside the hips with straight arms.",
+      "feet": "Prone torso and straight legs remain gently lifted while abdomen and pelvis contact the mat.",
+      "movement": "Maintain a low prone back extension with arms reaching back beside torso, straight legs raised and neck long. Eight-second hold, entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/full-sheet.png",
+        "sha256": "e14ead0d775aa7f457fdd59d84d5e036a734583e020969f91fc4cc83d867c26c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/side-sheet.png",
+        "sha256": "f3a944069c732e336881a5406d22177e300b3ae0b49aa07dca7d3cf56687d0e3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/poses.json",
+        "sha256": "ca18b2d0b6d16061846edf1cc9e8617bb5cf8efd1a190c27b53750bb6b0beea1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/geometry.json",
+        "sha256": "b17776518f1978672f554c713da22d38c9189d08e2a8bbb57d75cb0b0b0595cc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/kinematics.json",
+        "sha256": "9e0cacd99307a3dbe9a52073ab3e46b5e882f0b5b87c5d84e8070b057b3e7263"
+      }
+    ]
+  }
+}

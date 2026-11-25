@@ -1,0 +1,75 @@
+{
+  "half-moon-pose": {
+    "reviewedAt": "2026-11-24T03:15:05.085Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "half-moon-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower palm supported on block below shoulder; upper arm raised vertically.",
+      "feet": "Standing foot grounded, opposite leg horizontal with knee and toes oriented with open chest.",
+      "movement": "Standing foot grounded, rear leg horizontal, chest open sideways, lower hand on block beneath shoulder and upper arm raised."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/final.jpg",
+        "sha256": "5bb0037d07ad9e223d8e9b50692c5c90319bb26b0941ca30b8e2d6b54af710aa"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/final-dark.jpg",
+        "sha256": "630dac3fd90440506407558be8ccaef5a05832e56d7d61a16524ce78bd8251e7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/full-sheet.png",
+        "sha256": "eafee972f98ae2d2a940e01af5ce2b2760baa31e2916d584af9a1ebb4c604fdf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/side-sheet.png",
+        "sha256": "051ab1bdbd8b8799d4702c5133599cd2fbb7f4bee577b9886bcb2e966be99217"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/verification.json",
+        "sha256": "ffabef97495508e5c09ae73725ee520c0e67dcdc0c716a12ecc9630bb90419ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/geometry.json",
+        "sha256": "d5c3a8fca568702c243e950d0632d68495467e611473ab6dfaf8f443c9341eb3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/kinematics.json",
+        "sha256": "a8d1e4fde73c151173fd7c46a91d829099f8690e8a2f70ccf3408df639b5c4ce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/provenance.json",
+        "sha256": "1da6219755e009942ed1b1f74a92bb1c8b7b85190bb7bd81bb1b7f6dae25475d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/half-moon-pose-alpha.webm",
+        "sha256": "ca50e57d1454985b1d68ffab1a46b288bd4b373e6741aadd689d562e3eb445d3",
+        "bytes": 41245,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/half-moon-pose.mp4",
+        "sha256": "c8628fa3ccdcf2fccf4c1b9ad24938b18e5b2bc1405da7c8516c1002362813a0",
+        "bytes": 15890,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/half-moon-pose-dark.mp4",
+        "sha256": "35b39cb596c94f52e1bad6ebc2d5c39aefec11ba2fccceb44f548e081c3946f4",
+        "bytes": 15062,
+        "decode": "passed"
+      }
+    ]
+  }
+}

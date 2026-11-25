@@ -1,0 +1,39 @@
+{
+  "pilates-side-kick": {
+    "reviewedAt": "2026-11-24T05:19:11.508Z",
+    "checks": {
+      "exercise": "pilates-side-kick",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand supports head; upper hand rests on hip.",
+      "feet": "Top straight leg sweeps forward and backward at hip height, lower leg remains on mat.",
+      "movement": "Side lying top straight leg sweeps forward and backward at hip height, with stable pelvis and ankle lengthening on backward sweep."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "One side shown; controlled sweep without extra pulses."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/full-sheet.png",
+        "sha256": "51ec0678ff933c02cef4d1d104b75151ca03338834e987b5d78e57ebf6c032f3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/side-sheet.png",
+        "sha256": "79847de5536a23baccbc0f27399bd6c7a160fa844fb7ac8645932a24b1e87f7b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/poses.json",
+        "sha256": "8c6751044e6fed3b7285f4d0bdb9345a2605bdc4e3b4ed455700883717d37696"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/geometry.json",
+        "sha256": "f74c56864d2108c28093a02dfd4dd644a4f5a489a5ca8eaec74b528877d5d705"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-side-kick/native/pilates-side-kick/kinematics.json",
+        "sha256": "b9886eb05de49d3556feae744ac0cb16acc388009644715c49d4ad0e7f13c1e2"
+      }
+    ]
+  }
+}

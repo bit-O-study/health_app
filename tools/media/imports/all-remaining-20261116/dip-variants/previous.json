@@ -1,0 +1,80 @@
+{
+  "wide-grip-dip": [
+    {
+      "file": "tools/media/motion-guides/wide-grip-dip.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-dip.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-grip-dip-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-dip.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-dip-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-grip-dip-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "close-grip-dip": [
+    {
+      "file": "tools/media/motion-guides/close-grip-dip.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-dip.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-dip-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-dip.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-dip-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-dip-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "forward-lean-dip": [
+    {
+      "file": "tools/media/motion-guides/forward-lean-dip.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/forward-lean-dip.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/forward-lean-dip-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/forward-lean-dip.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/forward-lean-dip-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/forward-lean-dip-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

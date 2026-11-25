@@ -1,0 +1,86 @@
+{
+  "entries": [
+    {
+      "id": "pause-leg-extension",
+      "original": "leg-extension",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "leg-extension",
+        "sourceUrls": [
+          "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+        ],
+        "criteria": "Three-second working phase, two-second contracted pause, three-second controlled return; seated machine, maintained hip and hand supports.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "top-half-leg-extension",
+      "original": "leg-extension",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "leg-extension",
+        "sourceUrls": [
+          "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+        ],
+        "criteria": "Upper-half knee extension, 130 to 170 degrees, three seconds each way and two-second top pause.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "pause-leg-curl",
+      "original": "seated-leg-curl",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-leg-curl",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/seated-leg-curl"
+        ],
+        "criteria": "Three-second working phase, two-second contracted pause, three-second controlled return; seated machine, maintained hip and hand supports.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "eccentric-leg-curl",
+      "original": "seated-leg-curl",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-leg-curl",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/seated-leg-curl"
+        ],
+        "criteria": "One-second knee flexion, one-second hold, five-second controlled extension, one-second start hold.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 4,
+  "status": "completed-local"
+}

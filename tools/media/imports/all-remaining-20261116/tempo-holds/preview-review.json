@@ -1,0 +1,150 @@
+{
+  "tempo-pull-up": {
+    "reviewedAt": "2026-11-16T00:14:37.863Z",
+    "checks": {
+      "exercise": "tempo-pull-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Legs remain still relative to the torso without swing.",
+      "movement": "1-second concentric, 1-second hold, 3-second eccentric, 3-second start hold; illustrative timing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/full-sheet.png",
+        "sha256": "11eed79cd00b1412e0e04d9f518a1cba8815df47226c5dc6a40cae9c9a66594e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/side-sheet.png",
+        "sha256": "228bfde7f926178717454ad5cbaf4693e3d4ca125b9a55b63b2d79e3097b3574"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/poses.json",
+        "sha256": "93f43b13cb1395cfbb5abff90183013968366f827de6007c18d2f4af7c14acae"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/geometry.json",
+        "sha256": "7ca149d3e70bfbabd5d55c5e8e567f54626cb5b653e12d10ada007cdd76929ce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/kinematics.json",
+        "sha256": "6e8a97b27e4a02b37dbbe2c2b56a3d66094c60bdf2e8b4a35b3d63ded2900ac3"
+      }
+    ]
+  },
+  "tempo-leg-press": {
+    "reviewedAt": "2026-11-16T00:14:37.868Z",
+    "checks": {
+      "exercise": "tempo-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet follow sled footplate.",
+      "movement": "1-second concentric, 1-second hold, 3-second eccentric, 3-second start hold; illustrative timing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-leg-press/full-sheet.png",
+        "sha256": "7511d366f9f57191f206e22419542423dbf3a1417ca08593a00def923f7b57f8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-leg-press/side-sheet.png",
+        "sha256": "c9750e61cf0b13f39a3f7eb2a7f34e841673e81f7d3ed63eb16c28be164750d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-leg-press/poses.json",
+        "sha256": "3230fb6d70a1548aceb241afa49b9b6a60ed790aada3dea7c4ab0e9fcb639c93"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-leg-press/geometry.json",
+        "sha256": "31969cbbe0b5fc7967c52676120a7dc11dfc2981125254b9bbf8f4337422bd86"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-leg-press/kinematics.json",
+        "sha256": "27b8ce11d89e40c3914daaef71e53cfe09774f080c8525e86227c7e580d62fce"
+      }
+    ]
+  },
+  "isometric-pull-up-hold": {
+    "reviewedAt": "2026-11-16T00:14:37.870Z",
+    "checks": {
+      "exercise": "isometric-pull-up-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Legs remain still relative to the torso without swing.",
+      "movement": "Eight-second static hold at the demonstrated position; duration illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-pull-up-hold/full-sheet.png",
+        "sha256": "1ccda72e2b386631031b64b1ba975153cfefeaf02d5c343dec11c6bc817f795c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-pull-up-hold/side-sheet.png",
+        "sha256": "6c7d25937702ae97300ba3826787c786935f6700837f1f7eb05c3a3ece8f7f94"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-pull-up-hold/poses.json",
+        "sha256": "e025a7c8a6f1e844537c91f6eb384249c26280c994329fa69991ce0dbc2cc01b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-pull-up-hold/geometry.json",
+        "sha256": "246fa262808248dec33ec23f185ef303a31b1db72f6826cb8f476f401081c3ac"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-pull-up-hold/kinematics.json",
+        "sha256": "4e16de542a02d68c2a8832963bce37428dd5f874730cdc1170947a71f14b9819"
+      }
+    ]
+  },
+  "isometric-push-up-hold": {
+    "reviewedAt": "2026-11-16T00:14:37.872Z",
+    "checks": {
+      "exercise": "isometric-push-up-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms stay on virtual floor.",
+      "feet": "Toes fixed on virtual floor.",
+      "movement": "Eight-second static hold at the demonstrated position; duration illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-push-up-hold/full-sheet.png",
+        "sha256": "a3eb5c6d4cdea395339a4b08c771b449a12328e3aeaa52aca46093b89d075bf5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-push-up-hold/side-sheet.png",
+        "sha256": "1b3c6494c74849021e4f48df61c6a231b3d1c1e8aaed784dcd7c02f6459bdc36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-push-up-hold/poses.json",
+        "sha256": "41ddc78e0c85e63180a36521d8ba4976828662a1de83cbfb5539dc0cdae401df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-push-up-hold/geometry.json",
+        "sha256": "83dbcc4f2022fc3671e706827660d7b7c9ce2b1b325107a62f4b7fbf198b3e35"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-push-up-hold/kinematics.json",
+        "sha256": "e4bdb659430f937621f007761d5006c21459203c22e49744310e7947fe39b28f"
+      }
+    ]
+  }
+}

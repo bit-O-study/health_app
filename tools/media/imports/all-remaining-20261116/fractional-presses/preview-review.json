@@ -1,0 +1,76 @@
+{
+  "1-25-rep-bench-press": {
+    "reviewedAt": "2026-11-16T02:11:59.579Z",
+    "checks": {
+      "exercise": "1-25-rep-bench-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Quarter-extra repetition: lower to chest, press one quarter, lower again, press fully; feet and bench support fixed. Fractional timing is illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Fractional repetition timing is illustrative. Unracking and reracking are omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/full-sheet.png",
+        "sha256": "2bbc44930e69d224d2634cb649e2471d6d5e00fd0bc0ab9f08a87165d95d3196"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/side-sheet.png",
+        "sha256": "c98878d995be48aa52993baf86c1e956ad5f18e9f6833c22d9e0c25eb1ed14b7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/poses.json",
+        "sha256": "abf1026cf3a286bb555cf5a3bf8f66ea6fdc30b8de1063c71a78160615072c03"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/geometry.json",
+        "sha256": "28dd21b73f2623a227d5fc1d5d9796384d323c30cc8bcae1d6f9bfc487954191"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/kinematics.json",
+        "sha256": "6cd3c1cb59baa2f7ae91899241d7fd71f2953f462a31cec7fef51987d81e0786"
+      }
+    ]
+  },
+  "1-5-rep-shoulder-press": {
+    "reviewedAt": "2026-11-16T02:11:59.588Z",
+    "checks": {
+      "exercise": "1-5-rep-shoulder-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Half-extra standing strict press: half press, lower to shoulders, full press, lower to shoulders. No leg drive; fractional timing is illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Fractional repetition timing is illustrative. Unracking and reracking are omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/full-sheet.png",
+        "sha256": "3b8816791c55f1126fed601fcc57585292504af4921f117636c0b73314b6f9bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/side-sheet.png",
+        "sha256": "7ab75b3a149b158cbc60b8e4291679916574027484dd8db287eb3d25f99e1605"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/poses.json",
+        "sha256": "5ce80ea5ef67a63d3f127109a330d5892182efa6f0a9a518bf0a13f6a48abb0c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/geometry.json",
+        "sha256": "8a202ffeb5b24eeb98d94219ba5157d852da7533f13ce6b29b3c2d08c153d35d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/kinematics.json",
+        "sha256": "d7f8f14f1011c099e30677dff527af1f22eeaa190a497004fdfd1f8daea6a66f"
+      }
+    ]
+  }
+}

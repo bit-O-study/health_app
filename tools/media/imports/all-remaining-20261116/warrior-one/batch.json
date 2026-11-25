@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "warrior-i-pose",
+      "original": "warrior-i-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "warrior-one",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/warrior-i-pose/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Warrior one with front knee above ankle, rear knee straight and heel grounded, rear foot turned out 45 degrees, torso facing front and arms overhead.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

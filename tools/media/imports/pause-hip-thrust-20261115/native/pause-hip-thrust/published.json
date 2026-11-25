@@ -1,0 +1,18 @@
+{
+  "id": "pause-hip-thrust",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "37e61e04b549d082e3ffba3d391234841e6366715db7a644ede93b730d2b0e56",
+  "rigSourceSha256": "896079a56f878dd49284e7b64f6d96ee13631ff248e8780a69f37638715e5239",
+  "videoSha256": "ae85d692b700cf02559bc7bf4939a6399ca5e862ef9923c9764dd5d3555382f1",
+  "darkVideoSha256": "6b32df867444ea8d3044cbac2e4ff622559c2dd23a8071dee1dc35d50732e920",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 141926,
+  "darkBytes": 129875,
+  "decode": "passed",
+  "verifiedAt": "2026-11-15T13:27:12.324Z"
+}

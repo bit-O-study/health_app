@@ -1,0 +1,39 @@
+{
+  "scissor-kick": {
+    "reviewedAt": "2026-11-18T00:33:26.591Z",
+    "checks": {
+      "exercise": "scissor-kick",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside body, palms down.",
+      "feet": "Supine body stays supported while straight legs open and cross, alternating which leg passes above.",
+      "movement": "Lie supine with arms beside body, palms down and neutral head on low cushion. Straight raised legs open and cross horizontally, changing upper leg at the next crossing. Two open-cross-open cycles in eight seconds with back supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/full-sheet.png",
+        "sha256": "371d2ec9b4063d229d73bc4b59c17c3dcccfdbb402b4078a9bcfd0cea16576db"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/side-sheet.png",
+        "sha256": "0749bdc6e2ce860147061a18ac187119958c570ae976fa9363d6507fc4881bef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/poses.json",
+        "sha256": "fb2dfebda7898617040b0c22fa41dc0c17c756a8a7b2397aca86969686543bab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/geometry.json",
+        "sha256": "e7d777147b4fdc490384a530821315a16e0eca263d36613cac3a4ef3a61997a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/kinematics.json",
+        "sha256": "2108b3a7ac51798ee5394e7f384b523c27462d56733c5ac46ea1d39cc0ba4439"
+      }
+    ]
+  }
+}

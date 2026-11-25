@@ -1,0 +1,18 @@
+{
+  "id": "hanging-oblique-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "93881c2b18e140616d9cf5d359eca60226b1caea1e1f7a2ac2a2d0ef2e9039e8",
+  "rigSourceSha256": "3455de83da241f10150169a34684537dbc50c836cb81adf634733867d89874e0",
+  "videoSha256": "d9115dab6d50c3625d21b750e48b6e2a190ad1d3898d17ed595d10570c88eb0c",
+  "darkVideoSha256": "50ae129a3bfdd74c5389feaaf93f61992625872726f132d18c6c5591521b6116",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74608,
+  "darkBytes": 71411,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:48:03.160Z"
+}

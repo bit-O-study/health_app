@@ -1,0 +1,18 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 9.082140078317007e-15,
+  "gripError": 3.021866884883597e-15,
+  "elbowDegrees": [
+    117.48936299892718,
+    165.52846289719994
+  ],
+  "kneeDegrees": [
+    71.30702364483822,
+    89.37202465253407
+  ],
+  "backGap": 0.014195219805488879,
+  "padClearance": 0.015007464496395895,
+  "topHoldSeconds": 2
+}

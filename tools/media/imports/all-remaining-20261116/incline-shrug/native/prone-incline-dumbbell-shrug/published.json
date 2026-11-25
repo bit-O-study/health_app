@@ -1,0 +1,18 @@
+{
+  "id": "prone-incline-dumbbell-shrug",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e10d5cbcbff03bf5b9d19cf9426adb051df7db1055fe3d5bafd137dba4c34433",
+  "rigSourceSha256": "60767fadb44ef5be24a71377f324c41d13e08a3877c732f07141f3c419869f8d",
+  "videoSha256": "f0c31c1b987851d853dbae1cee1231df0c0fc92a7e5ea4cbe99bd09c753604c3",
+  "darkVideoSha256": "348e9a20a8411d84230bae451f369bbf541d753bc38643cb5c5d55d84cd6e392",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 53673,
+  "darkBytes": 46098,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:41:06.258Z"
+}

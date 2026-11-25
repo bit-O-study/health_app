@@ -1,0 +1,39 @@
+{
+  "upward-facing-dog": {
+    "reviewedAt": "2026-11-24T07:28:24.845Z",
+    "checks": {
+      "exercise": "upward-facing-dog",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press palms into floor directly below shoulders.",
+      "feet": "Tops of feet support straight legs; knees, thighs and pelvis remain above floor.",
+      "movement": "Straight-arm upward-facing dog supported by flat palms and tops of feet, with chest lifted and thighs off floor. Static completed pose."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second upward-facing dog hold; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/upward-dog/native/upward-facing-dog/full-sheet.png",
+        "sha256": "f183c50a56a6198df4e8c6ac6764a3630087269bf4745d9705b3828be17b7e83"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/upward-dog/native/upward-facing-dog/side-sheet.png",
+        "sha256": "4fba20c7c2f34db8fdc518bc07d2cfb65fc4b443e86563581198f6719845e7e4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/upward-dog/native/upward-facing-dog/poses.json",
+        "sha256": "7228f1b1a3ddf8b9890a084e1a07311b7ac4c1258a2498fabd74916e1343383e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/upward-dog/native/upward-facing-dog/geometry.json",
+        "sha256": "3d1b54907db5e8ae8fa594f23a4606774074da96af94d8f6742fdcfb7057205f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/upward-dog/native/upward-facing-dog/kinematics.json",
+        "sha256": "6d342d1827fcb6b0a337e1b889673a696abc5b7dcb44492638ab6ee5ca049704"
+      }
+    ]
+  }
+}

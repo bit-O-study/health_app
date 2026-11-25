@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryPelvis": true,
+  "stationaryFeet": true,
+  "minKnee": 89.93422026845889,
+  "maxKnee": 94.34922991285133,
+  "maxStep": 0.0294470205183619,
+  "kneeRise": 1.8200593738752255,
+  "minBandFloorClearance": 0.10208377062617657,
+  "maxBandStretch": 1.3744577030249119,
+  "maxFootContactGap": 0.0029624573195334847,
+  "bandClearanceMethod": "Visual review plus convex envelope of sampled skin and garment vertices; not a full collision test."
+}

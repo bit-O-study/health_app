@@ -1,0 +1,7 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const dir='tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank',read=p=>JSON.parse(readFileSync(dir+'/'+p)),p=read('poses.json'),g=read('geometry.json');
+assert.equal(p.length,481);for(const x of p){assert.deepEqual(x.joints,p[0].joints);assert.ok(Object.values(x.joints).flat(Infinity).every(Number.isFinite));for(const s of ['L','R']){const j=x.joints;assert.ok(Math.abs(j['upperleg01.'+s][2]-j['lowerleg01.'+s][2])<1e-10);assert.ok(Math.abs(j['upperarm01.'+s][2]-j['wrist.'+s][2])<.31);}}
+for(const x of g){assert.ok(Object.values(x).every(Number.isFinite));assert.ok(x.floorClearance>=0);assert.ok(x.palms+7.9>=0&&x.palms+7.9<.04);assert.ok(x.toes+7.9>=0&&x.toes+7.9<.04);for(const n of ['kneeL','kneeR'])assert.ok(x[n]+7.9>.3&&x[n]+7.9<.8);}
+const elbows=['L','R'].map(s=>{const j=p[0].joints,a=j['upperarm01.'+s].map((x,k)=>x-j['lowerarm01.'+s][k]),b=j['wrist.'+s].map((x,k)=>x-j['lowerarm01.'+s][k]);return Math.acos(a.reduce((sum,x,k)=>sum+x*b[k],0)/(Math.hypot(...a)*Math.hypot(...b)))*180/Math.PI;});assert.ok(elbows.every(x=>x>155&&x<180));
+const report={status:'numeric-checks-passed',poseSamples:481,holdSeconds:8,loopError:0,elbows,handGap:g[0].palms+7.9,toeGap:g[0].toes+7.9,kneeHover:[g[0].kneeL+7.9,g[0].kneeR+7.9]};writeFileSync(dir+'/kinematics.json',JSON.stringify(report,null,2)+'\n');console.log(report);

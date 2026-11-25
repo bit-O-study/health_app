@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-chin-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9e6219c9a8c59d01e8b69bc1ad47d84e21ce8426de29be075d9191c93cf89e70",
+  "rigSourceSha256": "162e477c56e4c31508bcf7c9c4f96e032bf9f58c9c8ef6127b3ea253b76ba537",
+  "videoSha256": "224e55c84afbeca0d1e4380a798e90fb9588957d4cfaff0e78726cfbfbb1e5b0",
+  "darkVideoSha256": "fb5e874da9ed5f1ee4f132b896fdba400b83d724edace68b286bc8d87f9b4a7b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 73797,
+  "darkBytes": 77204,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:49:50.749Z"
+}

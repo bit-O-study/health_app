@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 4.2826412465193164e-15,
+  "supportDrift": 6.062909940762751e-8,
+  "maxStep": 0.04151534668315193,
+  "supportSamples": 17,
+  "padTravel": 4.65,
+  "counterweightTravel": -4.65
+}

@@ -1,0 +1,18 @@
+{
+  "id": "dynamic-hip-flexor-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "df3f5b0c9857f407ad03bf1048093cf6f1b488da2af72c8357be7b14771f59d5",
+  "rigSourceSha256": "4344063ae9e6d003ad4625582d49ddee4e93d48bb95ff4989cb9cee1c16eae7b",
+  "videoSha256": "ab9df2367bd5299f7676ea4bd47f318606bacbc55346ee40b355c4b559de8e9e",
+  "darkVideoSha256": "2340713dadeb8744615385d21f6ed3988b386b510b429d34a07c6df87b91441d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74928,
+  "darkBytes": 80197,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T04:29:34.129Z"
+}

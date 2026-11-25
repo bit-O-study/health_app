@@ -1,0 +1,221 @@
+{
+  "single-leg-extension": {
+    "reviewedAt": "2026-11-16T01:15:13.391Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-extension",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Working ankles follow the roller with aligned knee pivots; the unused right foot stays on its platform for unilateral demonstrations.",
+      "movement": "Left leg demonstrated; right foot remains on support platform. Three-and-a-half seconds each way and one-second contracted pause. Switch sides for the other leg."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/final.jpg",
+        "sha256": "936860030e6bf191c4ec81c522fe3ef1e71756e8230de60eb4b3f4ebbe2fc0fd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/final-dark.jpg",
+        "sha256": "478747a1f8bc02d485b496c211327d1ee0b38eab0e4d9adca2d59602db908b9d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/full-sheet.png",
+        "sha256": "8a6f3d1f50555cd73327417098380c4bddb90f1101168d7762c2342d84a9c8cb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/side-sheet.png",
+        "sha256": "75dc885b2495f585998c3e23b1660ac5923dfeb0d6f469f8ac6bbfc2ca6cbae2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/verification.json",
+        "sha256": "1540e6dd2b948aec8787605c588ef448a47182cc75f9a24d46c896156142e81d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/geometry.json",
+        "sha256": "f629fdcaae8f5719860042353c08b08fcf1721dd52d7f35d145d579da74a1f4b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/kinematics.json",
+        "sha256": "e4140c4d7b0fcf765afa8395ea50f312972c173fc932efc5ded15f26aa6305d5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/provenance.json",
+        "sha256": "075c865928837a196a951da37bf585179968252d0115ca0724e1da011bd56f9d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/single-leg-extension-alpha.webm",
+        "sha256": "76f56c07ca4cf97448bb8dfcc1b32ae9ef6a38fc6c04d9154d98bc8ac0314849",
+        "bytes": 187471,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/single-leg-extension.mp4",
+        "sha256": "f8dab6171244e89c62e912ec460fd026615267b60a6282a11c72635b507ab94c",
+        "bytes": 88095,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-extension/single-leg-extension-dark.mp4",
+        "sha256": "5bcc00181be7326527c0d3b5d067c4cb49f507f49b707900abba413b04342f14",
+        "bytes": 78462,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-leg-curl": {
+    "reviewedAt": "2026-11-16T01:15:13.402Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-curl",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Working ankles follow the roller with aligned knee pivots; the unused right foot stays on its platform for unilateral demonstrations.",
+      "movement": "Left leg demonstrated; right foot remains on support platform. Three-and-a-half seconds each way and one-second contracted pause. Switch sides for the other leg."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/final.jpg",
+        "sha256": "c3a6eb40d92204c2b9eb0a66f9d227fa4212a7148f9950d7bc2f912074a95a87"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/final-dark.jpg",
+        "sha256": "994c80b4437c829953a8a72f4732815abd1a16360e22c742cd9ff4891be6049c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/full-sheet.png",
+        "sha256": "b8e0558e89999bc644fc3170c8369e0dc01e263787c32da7f49b6abbf2b8212f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/side-sheet.png",
+        "sha256": "ebcc35aacba0e128341414174dc18d89970aaab55f08396225acb3694c471b71"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/verification.json",
+        "sha256": "88e97ffe1b1df682f053ef201f498cc64d46ce8e3025d1c19a150d2e9e64b807"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/geometry.json",
+        "sha256": "2206445af12a1951d74d07a739ad279f319b0774d1427b66a54ceb517957a7c4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/kinematics.json",
+        "sha256": "479619cd3fcb21899b96691323de910ec15d6d64bbe909e9e7c2c779baed37cf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/provenance.json",
+        "sha256": "4689c70cf026b7acc9ee1c95ce8446d09984e4cc95cc76cefc10570da20688a8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/single-leg-curl-alpha.webm",
+        "sha256": "d53a8160bbeaa53cb5f999cc71ebcdbcfce2dda8b3fca3a439d97813ab840d34",
+        "bytes": 196688,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/single-leg-curl.mp4",
+        "sha256": "18e9774e0ee1ff06d55e09d1badf08ff56f8c908f73335f77ad7334c7ad19872",
+        "bytes": 91097,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/single-leg-curl/single-leg-curl-dark.mp4",
+        "sha256": "17a59ea0ba7800624d441bcd5c1b2bbd9c19d50d5a1e1a7b5f30e2af43fcfd9b",
+        "bytes": 80870,
+        "decode": "passed"
+      }
+    ]
+  },
+  "leg-curl": {
+    "reviewedAt": "2026-11-16T01:15:13.415Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "leg-curl",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Working ankles follow the roller with aligned knee pivots; the unused right foot stays on its platform for unilateral demonstrations.",
+      "movement": "Bilateral seated leg curl; three-and-a-half seconds each way with one-second contracted pause."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/final.jpg",
+        "sha256": "bbc07fbb3fa74d553e74653d41b8997f51eff78f18cd6fc2b180b715dac38969"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/final-dark.jpg",
+        "sha256": "81b1fda2004417259660edd02a8f8fa08917716413c1d7f18e4c98c597ce7a58"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/full-sheet.png",
+        "sha256": "c306db0b56ba6d37f0c9e7682383611b181f3b5b01d32f5f50e43c71e56f7792"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/side-sheet.png",
+        "sha256": "69273a8c2115b73e58a7de4334d6aaf117b3a4d619015ce4de802c0bd930afb5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/verification.json",
+        "sha256": "bf56521bd659f079d992c586ac7e8d25779b76666425b93b38fb2bf60bc72001"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/geometry.json",
+        "sha256": "994c5adb9edbf771909f154119e4522da833881103f89632c8aabae5de61a0ea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/kinematics.json",
+        "sha256": "ebb2ea727a9f8e556fd466fa1323f46d118139d266496be13d5d62bff6a27fce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/provenance.json",
+        "sha256": "659b4456edcf033873aaa4bcdbb6f6f00db8e94aee1a653cb23769fc918e5203"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/leg-curl-alpha.webm",
+        "sha256": "6dca26060588ece1f670abd613163b81f810156b79ab5cf3faec72b43551d768",
+        "bytes": 264590,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/leg-curl.mp4",
+        "sha256": "17a921bd82e5f44e8d9d222c9b28aaa7f154f80afb7d74231be54e083679270e",
+        "bytes": 117967,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/knee-singles/native/leg-curl/leg-curl-dark.mp4",
+        "sha256": "fcbfdc97cb955a117e2d5851c07dd848469804a316edf9940caa0f56f5bd6136",
+        "bytes": 104080,
+        "decode": "passed"
+      }
+    ]
+  }
+}

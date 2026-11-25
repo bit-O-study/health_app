@@ -1,0 +1,84 @@
+{
+  "hanging-leg-raise": [
+    {
+      "file": "tools/media/motion-guides/hanging-leg-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-leg-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-leg-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hanging-leg-raise-2": [
+    {
+      "file": "tools/media/motion-guides/hanging-leg-raise-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/hanging-legs/backup/hanging-leg-raise-2-0.json",
+      "sha256": "2ba381b5a093b7de0ad061fc70de6f6cc8490c9615af8788bba477c0b50d0858"
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-leg-raise-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/hanging-legs/backup/hanging-leg-raise-2-1.jpg",
+      "sha256": "54077844bb3a5b0b41179946f6f1ed1c870d71b9407edee9869af0bb0ac8db5f"
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-leg-raise-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/hanging-legs/backup/hanging-leg-raise-2-3.mp4",
+      "sha256": "42a07eed986b7bfc689cc8db2350f6a939d90a03cc8a1f2beb7cd92620a9ab5c"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-2-dark.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/hanging-legs/backup/hanging-leg-raise-2-4.mp4",
+      "sha256": "c3d219c199810eb2fcc6ad4c3e702d80e6985d9e2491347fba5659234ea5e356"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-leg-raise-2-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hanging-l-sit": [
+    {
+      "file": "tools/media/motion-guides/hanging-l-sit.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-l-sit.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-l-sit-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-l-sit.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-l-sit-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-l-sit-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

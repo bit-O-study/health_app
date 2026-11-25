@@ -1,0 +1,18 @@
+{
+  "id": "plank-toe-tap",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8ed68a4377eda6baaa8f01dfede9870e9a899c16082a7bf7dfceb3969c44ec00",
+  "rigSourceSha256": "53e351d8c54b9f316ac825a599746515a151e304d16e8392616dcf1bf49fc898",
+  "videoSha256": "2d7fc0c82fe2f2cb02ad03d00ebdcb0f75377eb46409f55b41d72f89f73461f3",
+  "darkVideoSha256": "28d3fdccf50e0b2f248b393a23dde23b111cad57e227ef593cade343ad1c5d99",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 46591,
+  "darkBytes": 46461,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:17:11.517Z"
+}

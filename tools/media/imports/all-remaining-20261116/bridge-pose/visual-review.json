@@ -1,0 +1,75 @@
+{
+  "bridge-pose": {
+    "reviewedAt": "2026-11-16T08:31:28.170Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "bridge-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside the body on the mat.",
+      "feet": "Both feet remain flat and upper back stays supported while hips remain lifted in a bridge.",
+      "movement": "Maintain hips raised with feet hip-width apart, knees bent and arms beside torso. Head and upper back supported, neck neutral. Eight-second hold with entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/final.jpg",
+        "sha256": "2d3de80e87f61dbb6717f3edec1769cec85ccd6186f0ce79370b45d189b42683"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/final-dark.jpg",
+        "sha256": "cdd55e1047bcdbf15266ec56a6aeaca0e318dee14a7a55bb8525c14639e80138"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/full-sheet.png",
+        "sha256": "86c802a0e733e23602e6c3ee6941593da52d21ce81cebabc816272b68186341a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/side-sheet.png",
+        "sha256": "21eb963f72ae6ce07e844e0e1a26b9079f3e356ace66996e3f749e56f1b30461"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/verification.json",
+        "sha256": "839b587ce19a22c5699ac247e29798436cab58055ca8ed3430787f2cb5d510c1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/geometry.json",
+        "sha256": "db313018bd9fcda6593d674cdac38adaea3e9481c77cf49d1c0572dd9d327edd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/kinematics.json",
+        "sha256": "ee39189fe6c1d9d6aa7c9eef083c79249ecf6f39c4f3a5f71d2997ef879fa2ab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/provenance.json",
+        "sha256": "7f3025cd1fa8355a66301c49a582fedd03cd89bc02d76cb0e6db6eee6537d7bf"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/bridge-pose-alpha.webm",
+        "sha256": "ce0ee9a08b86099be1fbd49bd957d11d7ec054a9295f4a6b84a25f4696311189",
+        "bytes": 33610,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/bridge-pose.mp4",
+        "sha256": "115c77c41a4739574158d2d9271d6090b4385dcb5c6f8d762e8c60750eef7aff",
+        "bytes": 14519,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/bridge-pose-dark.mp4",
+        "sha256": "4023cec750da2eea97e629988ec03a1f65c758d35702da67c76cc385f52e2087",
+        "bytes": 14033,
+        "decode": "passed"
+      }
+    ]
+  }
+}

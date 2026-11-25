@@ -1,0 +1,39 @@
+{
+  "toe-touch-crunch": {
+    "reviewedAt": "2026-11-24T06:30:21.710Z",
+    "checks": {
+      "exercise": "toe-touch-crunch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms reach upward toward toes as shoulder blades rise.",
+      "feet": "Both legs remain straight and vertical while upper torso curls and lowers.",
+      "movement": "Hold straight legs vertical, lift shoulder blades by curling upper torso while reaching arms toward toes, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled crunch demonstration."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/full-sheet.png",
+        "sha256": "d93ea89e71f2c696f296b2ba91b99fa7d811f7f25c3de471cec49a18064d130b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/side-sheet.png",
+        "sha256": "06ea1d58d3ac6f3c1765cdb6fb6b8f08d40c6b93af0dafb16f41886812c0ec2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/poses.json",
+        "sha256": "d1485f60bdb69e02557275250c0714c51488d512d1ea432a4efa6046651dc11c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/geometry.json",
+        "sha256": "e16c8cfd9337ada864dad548572ac3ce2775a48c73c898aaed6b8c2753120edc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/kinematics.json",
+        "sha256": "162332a8cda5075194a058c828c7af62dc6450c45686835bb979c4e819d03c1e"
+      }
+    ]
+  }
+}

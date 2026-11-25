@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T01:52:22.143Z",
+  "report": [
+    {
+      "id": "neutral-grip-lat-pulldown",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "close-neutral-grip-lat-pulldown",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

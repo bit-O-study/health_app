@@ -1,0 +1,104 @@
+[
+  {
+    "frame": 0,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 30,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 60,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 90,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 120,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 150,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 180,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 210,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 240,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 270,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 300,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 330,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 360,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 390,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 420,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 450,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  },
+  {
+    "frame": 480,
+    "footMin": -0.133483387279286,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083
+  }
+]

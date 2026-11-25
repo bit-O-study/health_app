@@ -1,0 +1,15 @@
+{
+  "id": "swimmer-exercise",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "swimmer-exercise-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://uk.physitrack.com/home-exercise-video/pilates-swimming-level-3"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T07:46:33.319Z"
+}

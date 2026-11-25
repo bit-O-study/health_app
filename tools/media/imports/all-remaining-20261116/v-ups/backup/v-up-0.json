@@ -1,0 +1,11 @@
+{
+  "prompt": "16-frame 4x4 V-up, grey mannequin teal shorts on mat, full controlled supine-to-V and descent cycle, fixed side view and white background.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/242/v-ups/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "v-up",
+  "registeredAt": "2026-09-14T23:41:05.257Z"
+}

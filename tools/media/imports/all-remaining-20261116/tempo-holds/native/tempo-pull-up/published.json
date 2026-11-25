@@ -1,0 +1,18 @@
+{
+  "id": "tempo-pull-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "dc260201c66f3913c0195e791ce1522c117955621ad125bec8792abd90208c76",
+  "rigSourceSha256": "d98c37e017d19d5817aec3a46b72caddfa153ba60221dae2ea167872856461f4",
+  "videoSha256": "d7803323c3f084a76a4fffe52bc12f6012695dce908d8dff4d67bcbd38f80389",
+  "darkVideoSha256": "51986dc61afb26adef4a3f052ee2e97191b54420ef32fb3b0dcc230eedc51ac2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 67591,
+  "darkBytes": 68914,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:17:59.643Z"
+}

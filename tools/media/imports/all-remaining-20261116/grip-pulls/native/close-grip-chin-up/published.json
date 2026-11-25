@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-chin-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7b6c0b013826708a7f621ee19ae146af7f907adcb5c4f9cb177d395cb9b1e1b9",
+  "rigSourceSha256": "b548bb9b8e79aa4451c9ff92c07607a44f1522c7c40397c291001d45604e584e",
+  "videoSha256": "a17a41fd92c72f68413e7d314af21c1b0317eda2590736282c9cb6d688e91322",
+  "darkVideoSha256": "7350c88b32223b9953a3f5fb93530c9dcd843d10ff7e290bedaea8edbbc51d7b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 87099,
+  "darkBytes": 90019,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:26:24.716Z"
+}

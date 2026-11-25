@@ -1,0 +1,39 @@
+{
+  "swimmer-exercise": {
+    "reviewedAt": "2026-11-16T07:44:25.753Z",
+    "checks": {
+      "exercise": "swimmer-exercise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open empty hands reach overhead and alternate small lifts above the mat.",
+      "feet": "Prone trunk remains stable while each straight leg lifts with the opposite arm.",
+      "movement": "Lie prone with arms reaching overhead and legs long. Alternate raising each arm with the opposite leg while keeping torso steady; limbs hover and knees/elbows stay extended. Two controlled alternating cycles in eight seconds."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/full-sheet.png",
+        "sha256": "7e77afc8b4307ae7f63ce42955695998df5a72615b737e97ca757a297a6d2953"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/side-sheet.png",
+        "sha256": "c5ff02f4722d2c89c3144ddf6bc35fe9b5967d055d708632a1ac1df62b3316eb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/poses.json",
+        "sha256": "9ed4d7aa8fb91f0ccb738e13351f3eccac7707b33eaf42eb9b9fef4dc5b28782"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/geometry.json",
+        "sha256": "23c90461c5206017d9eee19bb88badcbbfb477afaf384941af27b200b6e8d4ea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/kinematics.json",
+        "sha256": "952fb3dd2e7bd1f01a24e7769b4c9699500dc07e3dd2f44e6baeb9155335e33c"
+      }
+    ]
+  }
+}

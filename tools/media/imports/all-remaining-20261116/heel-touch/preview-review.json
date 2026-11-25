@@ -1,0 +1,39 @@
+{
+  "heel-touch": {
+    "reviewedAt": "2026-11-18T00:47:31.687Z",
+    "checks": {
+      "exercise": "heel-touch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms reach along the sides to touch the same-side heel.",
+      "feet": "Feet remain planted with knees bent while the raised upper torso bends side to side.",
+      "movement": "Supine with bent knees and feet flat. Lift shoulder blades slightly, reach left hand to left heel then return and repeat right. Keep neck neutral and feet stationary."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/full-sheet.png",
+        "sha256": "d4ebad40e49ea59ce8da48e864cf6fb1ada594542a4a8ca5c847e99b9d54e3ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/side-sheet.png",
+        "sha256": "29cc22e708fad70e74557d37f4886651c2ccd86286ead0d7067f77a063f4ce29"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/poses.json",
+        "sha256": "68566171cd6b87e4e32403d14476f1cfb3052201e383b6d9a196837d65ef16e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/geometry.json",
+        "sha256": "ff0150d27cee478f3295e0eb73f755586d50c6e9a51071753dd30bbf5f8b843a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/kinematics.json",
+        "sha256": "336f416af13c316380700641e59b8f0aa4798880fb6b78cd8fb6783afce520d3"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "deep-squat-hold": [
+    {
+      "file": "tools/media/motion-guides/deep-squat-hold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/deep-squat-hold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/deep-squat-hold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deep-squat-hold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deep-squat-hold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/deep-squat-hold-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

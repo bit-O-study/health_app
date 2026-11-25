@@ -1,0 +1,76 @@
+{
+  "piriformis-stretch": {
+    "reviewedAt": "2026-11-18T03:52:57.697Z",
+    "checks": {
+      "exercise": "piriformis-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Left hand supports outside of bent knee; right hand supports outside of ankle.",
+      "feet": "Opposite leg stays straight with heel supported; bent knee crosses toward opposite shoulder.",
+      "movement": "Supine cross-body glute/piriformis stretch: keep opposite leg straight, bring bent knee toward opposite shoulder while supporting outside knee and ankle with hands; head and back remain supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/full-sheet.png",
+        "sha256": "42100deddf7844d79d5a896c0fe6764593f073bdcf2950a6557394f2d5039cec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/side-sheet.png",
+        "sha256": "ac9b9eb7bcea0404577b3238455601eed653f1b229a6f914a4a82d6d59dc8300"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/poses.json",
+        "sha256": "e9b28411c5a19916a174a01386314a580b90a670e78e5970edbcea3d4723d14f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/geometry.json",
+        "sha256": "24d2985c02c4661ae686dc13734dd1438ae6791278831b37477aa64005aa3cf8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/kinematics.json",
+        "sha256": "6a5b8a5a6b7950aca06ce7fb03e60e0b020c6b91dae8bf4dcaac5d8d42081395"
+      }
+    ]
+  },
+  "lying-glute-stretch": {
+    "reviewedAt": "2026-11-18T03:52:57.712Z",
+    "checks": {
+      "exercise": "lying-glute-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Left hand supports outside of bent knee; right hand supports outside of ankle.",
+      "feet": "Opposite leg stays straight with heel supported; bent knee crosses toward opposite shoulder.",
+      "movement": "Supine cross-body glute/piriformis stretch: keep opposite leg straight, bring bent knee toward opposite shoulder while supporting outside knee and ankle with hands; head and back remain supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/full-sheet.png",
+        "sha256": "42100deddf7844d79d5a896c0fe6764593f073bdcf2950a6557394f2d5039cec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/side-sheet.png",
+        "sha256": "ac9b9eb7bcea0404577b3238455601eed653f1b229a6f914a4a82d6d59dc8300"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/poses.json",
+        "sha256": "e9b28411c5a19916a174a01386314a580b90a670e78e5970edbcea3d4723d14f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/geometry.json",
+        "sha256": "24d2985c02c4661ae686dc13734dd1438ae6791278831b37477aa64005aa3cf8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/kinematics.json",
+        "sha256": "6a5b8a5a6b7950aca06ce7fb03e60e0b020c6b91dae8bf4dcaac5d8d42081395"
+      }
+    ]
+  }
+}

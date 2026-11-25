@@ -1,0 +1,13 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const root='tools/media/imports/all-remaining-20261116',old=root+'/incline-yt',base=root+'/supported-rear',id='chest-supported-rear-delt-raise',prior='incline-dumbbell-t-raise';
+const read=p=>fs.readFileSync(p,'utf8'),write=(p,x)=>fs.writeFileSync(p,JSON.stringify(x,null,2)+'\n');
+assert.ok(!fs.existsSync(base+'/batch.json'));fs.mkdirSync(base,{recursive:true});
+const master=JSON.parse(read(root+'/batch.json')),e=master.entries.find(e=>e.id===id);assert.equal(e.status,'awaiting-motion-implementation');assert.ok(e.equipment.includes('dumbbell'));e.status='motion-preview';e.group='supported-rear';
+fs.writeFileSync(base+'/'+id+'-motion.mjs',read(old+'/'+prior+'-motion.mjs').replaceAll(prior,id).replace('new THREE.Vector3(0,0,.12)','new THREE.Vector3(0,0,.22)'));
+fs.writeFileSync(base+'/'+id+'-studio.mjs',read(old+'/'+prior+'-studio.mjs'));
+for(const name of ['render','verify','finalize','prepare','publish','check-published'])fs.writeFileSync(base+'/'+name+'.mjs',read(old+'/'+name+'.mjs').replaceAll(old,base).replaceAll('["incline-dumbbell-y-raise","incline-dumbbell-t-raise"]',JSON.stringify([id])));
+fs.writeFileSync(root+'/review-supported-rear.cjs',read(root+'/review-incline-yt.cjs').replaceAll(old,base).replace('arms lift into a diagonal Y or lateral T','slightly bent arms lift laterally to shoulder level'));
+fs.writeFileSync(root+'/check-supported-rear.mjs',read(root+'/check-incline-yt.mjs').replaceAll(old,base).replace("['incline-dumbbell-y-raise','incline-dumbbell-t-raise']",JSON.stringify([id])).replace('a>172','a>165'));
+let guide=read(root+'/add-incline-yt-guides.cjs').replace("['incline-dumbbell-y-raise','incline-dumbbell-t-raise']",JSON.stringify([id])).replace('팔을 옆으로 벌려 어깨 높이에서 T 모양을 만든 뒤 천천히 내린다.','팔꿈치를 살짝 굽힌 각도를 유지하며 팔을 옆으로 벌린다. 어깨 높이에서 멈췄다가 천천히 내린다.');fs.writeFileSync(root+'/add-supported-rear-guides.cjs',guide);
+fs.writeFileSync('tests/be/logic/all-remaining-supported-rear.test.ts',read('tests/be/logic/all-remaining-incline-yt.test.ts').replace('["incline-dumbbell-y-raise", "incline-dumbbell-t-raise"]',JSON.stringify([id])).replaceAll(old,base).replace('toBeGreaterThan(172)','toBeGreaterThan(165)'));
+write(base+'/batch.json',{entries:[{id,original:id,equipment:'dumbbell',hold:false,status:'awaiting-preview-review',recipe:{family:id,sourceUrls:['https://www.catalystathletics.com/exercise/848/Incline-Bench-Rear-Delt-Fly/'],sourcesCheckedAt:'2026-11-16',criteria:'Chest supported on 45-degree bench, feet stable, neutral dumbbell grip, elbows slightly bent. Raise arms laterally to shoulder height, pause and lower without torso swing. 3.5 seconds lift, 1 second pause, 3.5 seconds lower.'}}]});write(root+'/batch.json',master);

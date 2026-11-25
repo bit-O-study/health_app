@@ -1,0 +1,28 @@
+{
+  "knee-to-chest-stretch": [
+    {
+      "file": "tools/media/motion-guides/knee-to-chest-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/knee-to-chest-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/knee-to-chest-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/knee-to-chest-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/knee-to-chest-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/knee-to-chest-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "hanging-oblique-raise": [
+    {
+      "file": "tools/media/motion-guides/hanging-oblique-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-oblique-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-oblique-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-oblique-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-oblique-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-oblique-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "hanging-knee-raise-twist": [
+    {
+      "file": "tools/media/motion-guides/hanging-knee-raise-twist.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-knee-raise-twist.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hanging-knee-raise-twist-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-twist.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-twist-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hanging-knee-raise-twist-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

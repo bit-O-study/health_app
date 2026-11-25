@@ -1,0 +1,6 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const dir='tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank',read=p=>JSON.parse(readFileSync(dir+'/'+p)),p=read('poses.json'),g=read('geometry.json');
+assert.equal(p.length,481);for(const x of p){assert.deepEqual(x.joints,p[0].joints);assert.ok(Object.values(x.joints).flat(Infinity).every(Number.isFinite));}
+for(const x of g){assert.ok(x.support.every(Number.isFinite));assert.ok(x.support.slice(0,4).every(v=>v>=0&&v<.04));assert.ok(x.support[4]>=0);assert.ok(Math.abs(x.plateContact-.015)<1e-10);assert.ok(x.contactRadius>=.3&&x.contactRadius<1.1);assert.deepEqual(x.plateNormal,[0,1,0]);assert.deepEqual(x.plateCenter,g[0].plateCenter);for(const sx of [-1,1])for(const sz of [-1,1])assert.ok(x.contacts.some(p=>p[0]*sx>.5&&p[2]*sz>.05),'Contact regions surround plate center');}
+const report={status:'numeric-checks-passed',poseSamples:481,holdSeconds:8,loopError:0,support:g[0].support,plateContact:g[0].plateContact,contactRadius:g[0].contactRadius,plateCenter:g[0].plateCenter};writeFileSync(dir+'/kinematics.json',JSON.stringify(report,null,2)+'\n');console.log(report);

@@ -1,0 +1,15 @@
+{
+  "id": "reverse-nordic-curl",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-nordic-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/nordic-curl---reversed"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T02:42:05.346Z"
+}

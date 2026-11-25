@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "superman",
+      "original": "superman",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "superman",
+        "sourceUrls": [
+          "https://weighttraining.guide/exercises/superman-exercise/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Prone simultaneous arm, upper chest and straight leg lift. Stable pelvis and neutral neck. Raise gently for 3 seconds, pause 2 seconds, lower 3 seconds.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "superman-pull",
+      "original": "superman-pull",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "superman-pull",
+        "sourceUrls": [
+          "https://russhowepti.com/exercises/superman-pull-ups/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Maintain gentle upper chest and straight leg hover. Reach arms overhead, pull elbows toward ribs, pause and extend arms. Pelvis remains stable; 3 seconds pull, 2 seconds pause, 3 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

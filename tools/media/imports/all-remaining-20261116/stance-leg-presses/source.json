@@ -1,0 +1,14 @@
+{
+  "wide-stance-leg-press": {
+    "equipment": "machine",
+    "url": "https://www.muscleandstrength.com/exercises/wide-stance-45-degree-leg-press.html"
+  },
+  "close-stance-leg-press": {
+    "equipment": "machine",
+    "url": "https://www.muscleandstrength.com/exercises/narrow-stance-45-degree-leg-press.html"
+  },
+  "full-rom-leg-press": {
+    "equipment": "machine",
+    "url": "https://www.muscleandstrength.com/exercises/45-degree-leg-press.html"
+  }
+}

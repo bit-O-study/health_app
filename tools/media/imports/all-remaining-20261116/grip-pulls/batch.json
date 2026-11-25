@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "medium-grip-pull-up",
+      "original": "medium-grip-pull-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "medium-grip-pull-up",
+        "sourceUrls": [
+          "https://www.muscleandfitness.com/workouts/back-exercises/the-pull-up-setup-secrets-that-build-more-back-and-biceps-strength/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Overhand medium grip, span 4.8 model units slightly wider than shoulders. Straight-leg hang; start with extended arms, pull chin above bar, return without swinging. 3.5 seconds up, 1 second pause, 3.5 seconds down.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "close-grip-chin-up",
+      "original": "close-grip-chin-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-grip-chin-up",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/close-grip-chin-up"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Underhand narrow grip, span 2.2 model units inside shoulder width. Straight-leg hang; start with extended arms, pull chin above bar, return without swinging. 3.5 seconds up, 1 second pause, 3.5 seconds down.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

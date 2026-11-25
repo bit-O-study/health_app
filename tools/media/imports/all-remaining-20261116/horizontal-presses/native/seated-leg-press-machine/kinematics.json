@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 6.280369834735101e-16,
+  "maxStep": 0.02235959858952974,
+  "kneeRange": [
+    89.99999999999999,
+    165.00000000000017
+  ],
+  "supportSamples": 17,
+  "cableLengthError": 0,
+  "stackTravel": 2.4705780555718304,
+  "minSeatGap": 0.013125241926377373
+}

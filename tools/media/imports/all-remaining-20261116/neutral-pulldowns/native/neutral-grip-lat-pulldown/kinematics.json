@@ -1,0 +1,10 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 4.965068306494546e-15,
+  "maxStep": 0.0472189046897909,
+  "handleSpan": 4.8,
+  "supportSamples": 17,
+  "cableLength": 16.7
+}

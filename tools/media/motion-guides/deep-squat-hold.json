@@ -1,0 +1,15 @@
+{
+  "id": "deep-squat-hold",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "deep-squat-hold-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://gmb.io/squat/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T02:21:51.334Z"
+}

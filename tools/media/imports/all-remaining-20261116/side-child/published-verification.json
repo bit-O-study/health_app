@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T02:11:36.335Z",
+  "report": [
+    {
+      "id": "side-reaching-child-s-pose",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

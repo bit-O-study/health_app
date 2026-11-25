@@ -1,0 +1,28 @@
+{
+  "prone-incline-dumbbell-shrug": [
+    {
+      "file": "tools/media/motion-guides/prone-incline-dumbbell-shrug.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-incline-dumbbell-shrug.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-incline-dumbbell-shrug-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-incline-dumbbell-shrug.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-incline-dumbbell-shrug-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-incline-dumbbell-shrug-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

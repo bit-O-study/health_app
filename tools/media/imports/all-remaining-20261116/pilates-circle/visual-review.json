@@ -1,0 +1,75 @@
+{
+  "pilates-leg-circle": {
+    "reviewedAt": "2026-11-24T05:17:12.179Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-leg-circle",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms support mat beside torso, head rests on cushion.",
+      "feet": "One straight leg circles while the opposite leg and pelvis stay still.",
+      "movement": "Supine single straight raised leg circles while opposite leg rests long on mat and palms support stable pelvis."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Two small circles in eight seconds; one side and direction shown."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/final.jpg",
+        "sha256": "d76aa33c08a724b4bf61bf74f94647b7b7ba1bbaa76c8ca044f8451623db624d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/final-dark.jpg",
+        "sha256": "c094cc90e09a603f47e945da25514d83d1f6aa2d592f1b976e256f6a3f71c671"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/full-sheet.png",
+        "sha256": "6701f6addd0f5a6c36a0442dd4d77a4b9eb5822e76c2315a6d55d3a673ac5b8b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/side-sheet.png",
+        "sha256": "e663564bc832f8b995f2213b1c8ff67bf71798ea8d2dce5d0efcb65516ed8ee8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/verification.json",
+        "sha256": "85db135407dc70e5591ad9b886cbfd86857d82a0233c56042508d57cd869b964"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/geometry.json",
+        "sha256": "961de4c47d0029deb19ba52f0119950fde4996ed0e7549cb755758ad7e01da06"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/kinematics.json",
+        "sha256": "00cbbacb3a64f814e93c9cc4369c06472d2af43bb1a5a1e9f2d73bb768aa3950"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/provenance.json",
+        "sha256": "39c0e6f14db9ec875cfe6ce28e5c7a0d19dd79ed4f8fd92e69fbe30eebf17cc8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/pilates-leg-circle-alpha.webm",
+        "sha256": "5eed0dee63be8fb7daf165709d011442d3fec2b319757bf1871559c7365cd31d",
+        "bytes": 146246,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/pilates-leg-circle.mp4",
+        "sha256": "a8011f8e9c998bc9ff49f881cd42722d4f422e18f9c05dd352015e1b8bfe2806",
+        "bytes": 57182,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-circle/native/pilates-leg-circle/pilates-leg-circle-dark.mp4",
+        "sha256": "fcc3b33df2bb3df8db2cb006a6159cdda4a1b9516a469b6acbefd3819780c41f",
+        "bytes": 61117,
+        "decode": "passed"
+      }
+    ]
+  }
+}

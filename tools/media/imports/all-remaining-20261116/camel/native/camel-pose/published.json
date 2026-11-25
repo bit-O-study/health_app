@@ -1,0 +1,18 @@
+{
+  "id": "camel-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b59fc8596aa6467e18b0f971f03a643abb7b6d07241de529905c2f265cd1f2a0",
+  "rigSourceSha256": "d2a49b79b7f8bd8d8e981a659e9a1c6b24a8c9f2af903edaa3d0bd19eeb964d9",
+  "videoSha256": "de49d8aa81aad4d154df77d0d9d71e595c1f13d10f6fb45974fee66d38675475",
+  "darkVideoSha256": "e27d528f5b10884c3e821824ddc248ef6a1be33dcf479dfc1bc4590026c04a63",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14768,
+  "darkBytes": 14703,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T04:18:16.058Z"
+}

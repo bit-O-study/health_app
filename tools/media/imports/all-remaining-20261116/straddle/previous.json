@@ -1,0 +1,28 @@
+{
+  "straddle-stretch": [
+    {
+      "file": "tools/media/motion-guides/straddle-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/straddle-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/straddle-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straddle-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straddle-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straddle-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "elbowDegrees": 90,
+  "handContactGap": 0.03530385111687052,
+  "supportGaps": {
+    "body": 0.018737837012443137,
+    "head": 0.01499999999999968,
+    "foot": 0.018737837012443137,
+    "hip": 0.014999998860222519
+  }
+}

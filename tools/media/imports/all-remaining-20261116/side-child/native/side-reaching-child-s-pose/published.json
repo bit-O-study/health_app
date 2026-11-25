@@ -1,0 +1,18 @@
+{
+  "id": "side-reaching-child-s-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2e898b6b4f93812b2e6245003f8ccd7cbbb8bb38ac9a59663d3d46e0d93cadb4",
+  "rigSourceSha256": "00ff4519cbaa87bad4dc74cd5fb9c90a04f62e60c114406652dd67376649a152",
+  "videoSha256": "196388b19e2d2f6fcf28c2e704ef14880282b48d923d5a6d3e5f3b35b61e9c96",
+  "darkVideoSha256": "733a33667ba1ef55a9eba1a7dc59bb5af17c531c84d287d14280adf2daf8389d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14232,
+  "darkBytes": 14163,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:11:04.429Z"
+}

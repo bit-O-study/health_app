@@ -1,0 +1,148 @@
+{
+  "handstand-hold": {
+    "reviewedAt": "2026-11-24T07:21:26.155Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "handstand-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor with shoulders stacked above wrists.",
+      "feet": "Straight legs point upward above hips, with head clear of floor.",
+      "movement": "Freestanding handstand with palms supporting, straight arms and legs, shoulders stacked over wrists and feet above hips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static freestanding handstand; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/final.jpg",
+        "sha256": "69b3cb7fdfc95764076d0baffb58c838959bbaa66aa0e301adc010636488762f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/final-dark.jpg",
+        "sha256": "e3845ea70656ddbd157a96116ae8eb22bd10c060bf2bae158479ddfdc5c532f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/full-sheet.png",
+        "sha256": "48a3a39e8b9f5387a797b8b87121239a2b6fde62f2387e0758ced07807e899b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/side-sheet.png",
+        "sha256": "ae18b72bdd0426793dd4c6e1267bf57dea1200acffadb4b02dccb3bfe9f83f76"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/verification.json",
+        "sha256": "7e092fab65c5bf63503e00ad28c389e4e1751497effbe4d9884e78d63c034df0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/geometry.json",
+        "sha256": "a4893c699cd272d7f0efdbc8c549a52bd7cdb510c4b41f80ba1055f901c74347"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/kinematics.json",
+        "sha256": "efb0b3523f5e6f284a7c1ab136b2a0da7449870deabaa294ec335c69c7b31d1d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/provenance.json",
+        "sha256": "cbe631687979fb2a92dbc1d4c75aa482f70203b997236133a15ff82094c31f40"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/handstand-hold-alpha.webm",
+        "sha256": "9f9d37c38da8e3fc165667230f220403a73cc517dd8d07b843bbf704b16eb3b9",
+        "bytes": 35002,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/handstand-hold.mp4",
+        "sha256": "b91fc47980eff570ca648978004ee2cd89962b94f613acccd1ec1ea9f40f4403",
+        "bytes": 14604,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/handstand-hold-dark.mp4",
+        "sha256": "ce5b1b6d57c6ab9283ec21b6ac4142bcd6b9d4ed71557d70fe42e28d50ea0a9a",
+        "bytes": 14192,
+        "decode": "passed"
+      }
+    ]
+  },
+  "freestanding-handstand": {
+    "reviewedAt": "2026-11-24T07:21:26.166Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "freestanding-handstand",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor with shoulders stacked above wrists.",
+      "feet": "Straight legs point upward above hips, with head clear of floor.",
+      "movement": "Freestanding handstand with palms supporting, straight arms and legs, shoulders stacked over wrists and feet above hips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static freestanding handstand; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/final.jpg",
+        "sha256": "69b3cb7fdfc95764076d0baffb58c838959bbaa66aa0e301adc010636488762f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/final-dark.jpg",
+        "sha256": "e3845ea70656ddbd157a96116ae8eb22bd10c060bf2bae158479ddfdc5c532f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/full-sheet.png",
+        "sha256": "48a3a39e8b9f5387a797b8b87121239a2b6fde62f2387e0758ced07807e899b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/side-sheet.png",
+        "sha256": "ae18b72bdd0426793dd4c6e1267bf57dea1200acffadb4b02dccb3bfe9f83f76"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/verification.json",
+        "sha256": "7e092fab65c5bf63503e00ad28c389e4e1751497effbe4d9884e78d63c034df0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/geometry.json",
+        "sha256": "a4893c699cd272d7f0efdbc8c549a52bd7cdb510c4b41f80ba1055f901c74347"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/kinematics.json",
+        "sha256": "efb0b3523f5e6f284a7c1ab136b2a0da7449870deabaa294ec335c69c7b31d1d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/provenance.json",
+        "sha256": "aeaf2e609384ac4fab91b040b93e230296c55b5f649cffe362ff04579d1b9899"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/freestanding-handstand-alpha.webm",
+        "sha256": "fbe1bfadb6ef41f2a9609726fea39f174730ac35aa6b26aa8dfa707e2255aac4",
+        "bytes": 35002,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/freestanding-handstand.mp4",
+        "sha256": "b91fc47980eff570ca648978004ee2cd89962b94f613acccd1ec1ea9f40f4403",
+        "bytes": 14604,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/freestanding-handstand-dark.mp4",
+        "sha256": "ce5b1b6d57c6ab9283ec21b6ac4142bcd6b9d4ed71557d70fe42e28d50ea0a9a",
+        "bytes": 14192,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "close-grip-incline-press": {
+    "reviewedAt": "2026-11-16T06:09:52.686Z",
+    "checks": {
+      "exercise": "close-grip-incline-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the barbell.",
+      "feet": "Feet planted, head and back supported by the incline bench. Shoulder-width grip and controlled incline bar path.",
+      "movement": "45-degree incline bench press with shoulder-width grip (span 4 model units, reduced from 6.6). Stable feet, head and back support, controlled press from upper chest and return; 3.5 seconds up, 1 second pause, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/full-sheet.png",
+        "sha256": "ad1d7cbfb4d31cde1e6e1697d428faa6f79c4550246924479f3b4e7d317967bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/side-sheet.png",
+        "sha256": "6fdb894cc79fc58630f789791ab772b7d77a9cd83a922edad119fda2ec6cc6a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/poses.json",
+        "sha256": "6a0e10a788856f41920c6462e4e72788761211c4743f973e2301db2a34db9e38"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/geometry.json",
+        "sha256": "2e08870b5169255ef06f974203a9264f09e9ac2ae3210cfd7f9a3830b8479881"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/kinematics.json",
+        "sha256": "aacc6728502f0b84a5a9e406bde19caad1d030f3cd95430acabcfdad1e8daad5"
+      }
+    ]
+  }
+}

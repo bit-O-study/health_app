@@ -1,0 +1,18 @@
+{
+  "id": "kneeling-leg-curl-machine",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8d21504128da8581ecc1d20d129efa512a7dffd8006382eecd8e248f854fdf4b",
+  "rigSourceSha256": "cf2070420a444933487fdb6c69bb552e60a5a5b8fb36baf65fd313760bc13d44",
+  "videoSha256": "6a61725784e60fb6f3f4ab9efef51114c1cfb4f147d1bfd98d41381a065a5808",
+  "darkVideoSha256": "ac44bf16d1e9c4b694269e3bd5916512aede2a2690eb8f364c4ac5878a6af6f5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 95864,
+  "darkBytes": 82823,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:01:07.764Z"
+}

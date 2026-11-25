@@ -1,0 +1,75 @@
+{
+  "close-grip-incline-press": {
+    "reviewedAt": "2026-11-16T06:11:58.496Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "close-grip-incline-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the barbell.",
+      "feet": "Feet planted, head and back supported by the incline bench. Shoulder-width grip and controlled incline bar path.",
+      "movement": "45-degree incline bench press with shoulder-width grip (span 4 model units, reduced from 6.6). Stable feet, head and back support, controlled press from upper chest and return; 3.5 seconds up, 1 second pause, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/final.jpg",
+        "sha256": "df7b83ecb447a5b1f767c43307608136de9b44efa3ca50ec52b4fb99c2985f08"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/final-dark.jpg",
+        "sha256": "8aec6f3c24f3463772844eb260a49efefce852239143e1ef732f1cc0cc8f7ae1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/full-sheet.png",
+        "sha256": "ad1d7cbfb4d31cde1e6e1697d428faa6f79c4550246924479f3b4e7d317967bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/side-sheet.png",
+        "sha256": "6fdb894cc79fc58630f789791ab772b7d77a9cd83a922edad119fda2ec6cc6a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/verification.json",
+        "sha256": "cf2eb415cca2014cf43e5e17b0e861a14dea87129bbf1ef3accdaca8baf0292f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/geometry.json",
+        "sha256": "2e08870b5169255ef06f974203a9264f09e9ac2ae3210cfd7f9a3830b8479881"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/kinematics.json",
+        "sha256": "aacc6728502f0b84a5a9e406bde19caad1d030f3cd95430acabcfdad1e8daad5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/provenance.json",
+        "sha256": "3f1642d490a64a991853572eff03f97356856b96a486bba7b53e0ecff991982c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/close-grip-incline-press-alpha.webm",
+        "sha256": "14e12bed409b8bae5e35436dc0322f5f3b8735eb48898ad670d4c71963ac0a4e",
+        "bytes": 277071,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/close-grip-incline-press.mp4",
+        "sha256": "239e175a03d6b9eccea4aeae9ffca6735b7ba2fc5eac69c4d70317cd1b1d3c31",
+        "bytes": 123463,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/close-grip-incline-press-dark.mp4",
+        "sha256": "ee61d3f2209f8a28081c6a8589c30617b96050f33e375a6517e0070a4e918752",
+        "bytes": 108551,
+        "decode": "passed"
+      }
+    ]
+  }
+}

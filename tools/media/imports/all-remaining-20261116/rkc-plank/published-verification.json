@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T02:48:51.242Z",
+  "report": [
+    {
+      "id": "rkc-plank",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

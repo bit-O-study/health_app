@@ -1,0 +1,18 @@
+{
+  "id": "lizard-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b601a1127561786fddf9f96304ccfd0de5354631ff02d109974099e0fa54a9c7",
+  "rigSourceSha256": "6505fdbac4f8c24be3c936bdf2d9b2afb113290d308cc554b1ab60216d7cb4a1",
+  "videoSha256": "5ad339fcecd9602d99ae879fcaad775bcadaa625b4b29863e77cc7efc3193dcc",
+  "darkVideoSha256": "2a7d99d0cca81d87306b889cb5d397fdab0223e076dfb024c8b451c9e4598aae",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16689,
+  "darkBytes": 15812,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T03:19:49.989Z"
+}

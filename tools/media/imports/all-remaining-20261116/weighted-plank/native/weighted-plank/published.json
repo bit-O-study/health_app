@@ -1,0 +1,18 @@
+{
+  "id": "weighted-plank",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8d694790700e2df781c710f4b316be58c226a3421339d128076a6fb7cd34a157",
+  "rigSourceSha256": "3952e99870ed0f64eaff084ef0709f3252f718bfda089be7ad8988476edaf909",
+  "videoSha256": "e7ac72d51375827c13672ee2ee3959ce4192a2d1787d1b999c28b27caf24f818",
+  "darkVideoSha256": "3f13e71b8b576f5bbda0d69384bb264a7ff4ffa1164ffa5ea359715d0afa6e27",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15151,
+  "darkBytes": 14485,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:09:50.596Z"
+}

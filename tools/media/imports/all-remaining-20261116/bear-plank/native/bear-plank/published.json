@@ -1,0 +1,18 @@
+{
+  "id": "bear-plank",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a8bedfc6b0b8f79c4c15c56bad56dc39b0e3cad3143ac1420d5d48d76b3daf90",
+  "rigSourceSha256": "ca0b76d26fd17340822e8722aec9340d16d23bca8658249c348de62a6042f880",
+  "videoSha256": "05cfd5f6683b0cfd81062bbbc93cd06631c69d74375f07465722321cd35479ce",
+  "darkVideoSha256": "d6242a28224cda90b1f0a33811b95c7d3af0c816e800ef8bb876b76df546a20d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14050,
+  "darkBytes": 13776,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T03:16:45.512Z"
+}

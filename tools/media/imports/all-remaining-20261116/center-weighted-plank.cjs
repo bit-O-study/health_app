@@ -1,0 +1,1 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),p='tools/media/imports/all-remaining-20261116/weighted-plank/weighted-plank-studio.mjs';let s=fs.readFileSync(p,'utf8');assert.ok(s.includes('new THREE.Vector3(0,0,.8)'));s=s.replace('new THREE.Vector3(0,0,.8)','new THREE.Vector3(0,0,2.05)');fs.writeFileSync(p,s);

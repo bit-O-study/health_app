@@ -1,0 +1,388 @@
+{
+  "id": "bridge-pose",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "hold"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/bridge-pose/bridge-pose-studio.mjs",
+      "sha256": "8292156a8e4dd2f4084e3e3b822b70f9223c69066616b71d838138327bbe7abf"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/bridge-pose/bridge-pose-motion.mjs",
+      "sha256": "30ec343ef462f3ebb49bdc88426d56bcb228d83acc09704bcd01a888a7236db0"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/bridge-pose/render.mjs",
+      "sha256": "08a54249ce67f8cd3367a78169bc17650cea97950728f64b2afaae1be0160da9"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "bridge-pose",
+    "sourceUrls": [
+      "https://www.yogajournal.com/poses/bridge-pose/?scope=anon"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Maintain hips raised with feet hip-width apart, knees bent and arms beside torso. Head and upper back supported, neck neutral. Eight-second hold with entry and exit omitted.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 30,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 60,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 90,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 120,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 150,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 180,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 210,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 240,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 270,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 300,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 330,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 360,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 390,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 420,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 450,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    },
+    {
+      "frame": 480,
+      "upperBack": -7.871820209552999,
+      "head": -7.854074881502641,
+      "soleL": -7.867505979919433,
+      "soleR": -7.867505979919433,
+      "body": -7.874571027779334,
+      "toes": -7.857606121015724,
+      "cloth": -5.833172936736744,
+      "palms": -7.874571027779334,
+      "kneeL": -3.831657418713278,
+      "kneeR": -3.831657418713278,
+      "floorClearance": 0.025428972220666424
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "staticHold": true,
+    "minElbow": 174.9999999999999,
+    "minKnee": 85.116304956183,
+    "maxKnee": 85.116304956183,
+    "hipAboveShoulder": 2.112800236179522,
+    "supportGaps": {
+      "upperBack": 0.02817979044700092,
+      "head": 0.04592511849735903,
+      "soleL": 0.03249402008056723,
+      "soleR": 0.03249402008056723,
+      "palms": 0.025428972220666424
+    },
+    "minimumBodyGap": 0.025428972220666424
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      174.9999999999998,
+      174.9999999999998
+    ],
+    "alpha": {
+      "transparent": 40082304,
+      "opaque": 3775672,
+      "partial": 378824,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Supine bridge posture with both feet and upper back supported, hips elevated; eight-second maintained hold.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/bridge-pose/native/bridge-pose/source.jpg",
+    "sha256": "99a5b2c0ca31437f281b387bd2284b38038b4aea7f1af1c79149c0084f162b7a",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

@@ -1,0 +1,39 @@
+{
+  "side-lying-hip-abduction": {
+    "reviewedAt": "2026-11-18T01:08:33.338Z",
+    "checks": {
+      "exercise": "side-lying-hip-abduction",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower arm supports the head while upper hand rests at the hip.",
+      "feet": "Side lying torso stays stable while only the upper leg abducts and lowers.",
+      "movement": "Lie on side with straight legs, lower arm supporting head and upper hand on hip. Keep hips stacked, raise upper leg without rotating knee or foot and lower slowly; repeat on opposite side after set. One side shown, 3.5 seconds raise, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/full-sheet.png",
+        "sha256": "08a10b83f0c360b4100a7b3272af2559e9785d610b279608cdf0bd29cb430f3d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/side-sheet.png",
+        "sha256": "a2b92d159a06912dcc5bbf3ca8cb7419cd7d65e999e9350c9105e122e96af4ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/poses.json",
+        "sha256": "bd3436c81471ffbb4070373460869f956503dd83f921eedf98f7cfa741648b0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/geometry.json",
+        "sha256": "1d3266d2362b60c9752a81b19d6f145e66f410fe83b9cbe8e67e42b177a40cf6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/kinematics.json",
+        "sha256": "763f1e2ddc39920096de950712292cacef8aed19345386b94c1c0cedacb2becf"
+      }
+    ]
+  }
+}

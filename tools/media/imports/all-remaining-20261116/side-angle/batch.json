@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "extended-side-angle-pose",
+      "original": "extended-side-angle-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "side-angle",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/extended-side-angle-pose-2/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Front knee bent over ankle, rear leg straight, feet grounded, lower forearm resting on front thigh and upper arm reaching over ear.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

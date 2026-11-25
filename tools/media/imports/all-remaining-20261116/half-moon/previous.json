@@ -1,0 +1,28 @@
+{
+  "half-moon-pose": [
+    {
+      "file": "tools/media/motion-guides/half-moon-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/half-moon-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/half-moon-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/half-moon-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/half-moon-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/half-moon-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "dead-hang",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dead-hang-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.puregym.com/exercises/back/pull-up/pull-ups/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T05:23:50.472Z"
+}

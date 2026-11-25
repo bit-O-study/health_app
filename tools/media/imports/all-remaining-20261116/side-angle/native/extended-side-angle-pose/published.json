@@ -1,0 +1,18 @@
+{
+  "id": "extended-side-angle-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ad0d7f3d842b6ffa9ee09fcb649dcd58d55ad6a6a186b3cbde9a8c58603fbd56",
+  "rigSourceSha256": "d7f7be4a551780add49f45c3b54d37267877bcef676d3f27029440993f17f00a",
+  "videoSha256": "5b3eca977b9af8ee6035b50729b9d14b418f84013e995b68a8ae88dd12240038",
+  "darkVideoSha256": "9d817fd2d733eabe6ee8fd637f7e05f6d35f57d77aa0e235d673c464f8e97c95",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15277,
+  "darkBytes": 14902,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T03:10:35.037Z"
+}

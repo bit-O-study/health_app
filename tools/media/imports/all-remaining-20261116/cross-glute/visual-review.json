@@ -1,0 +1,148 @@
+{
+  "piriformis-stretch": {
+    "reviewedAt": "2026-11-18T04:11:05.149Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "piriformis-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Left hand supports outside of bent knee; right hand supports outside of ankle.",
+      "feet": "Opposite leg stays straight with heel supported; bent knee crosses toward opposite shoulder.",
+      "movement": "Supine cross-body glute/piriformis stretch: keep opposite leg straight, bring bent knee toward opposite shoulder while supporting outside knee and ankle with hands; head and back remain supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/final.jpg",
+        "sha256": "8e13c43a393ffcbd4ba56247e7acbb0cd41fc963c6dd276cf8b5a4eb7f9e464f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/final-dark.jpg",
+        "sha256": "4992b624a2b783966dabac83ea136d3c946450bba2347f94faf058e409afc0da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/full-sheet.png",
+        "sha256": "42100deddf7844d79d5a896c0fe6764593f073bdcf2950a6557394f2d5039cec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/side-sheet.png",
+        "sha256": "ac9b9eb7bcea0404577b3238455601eed653f1b229a6f914a4a82d6d59dc8300"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/verification.json",
+        "sha256": "fdbaa475cfe96fb6bd3078ed3278f6045c8f5c344caf2d237ef78e755f0bb691"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/geometry.json",
+        "sha256": "24d2985c02c4661ae686dc13734dd1438ae6791278831b37477aa64005aa3cf8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/kinematics.json",
+        "sha256": "6a5b8a5a6b7950aca06ce7fb03e60e0b020c6b91dae8bf4dcaac5d8d42081395"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/provenance.json",
+        "sha256": "bd4ba51fd37eada605ba344d30341b69e639b1a3d143ab878f6867d39d57c9fa"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/piriformis-stretch-alpha.webm",
+        "sha256": "736b31a0bd763dff37427b3e0754b0245b3d0ca2c66bee052272dd683902f7a6",
+        "bytes": 40717,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/piriformis-stretch.mp4",
+        "sha256": "e72eaf4676db429e8497eda7f873c48b0157fd362a4667714d44257de65c54a7",
+        "bytes": 16801,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/piriformis-stretch/piriformis-stretch-dark.mp4",
+        "sha256": "bb178e000aa2c641f2fce0426818303ecc21af1f9fc656338634675d1cf9cdd3",
+        "bytes": 16109,
+        "decode": "passed"
+      }
+    ]
+  },
+  "lying-glute-stretch": {
+    "reviewedAt": "2026-11-18T04:11:05.175Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "lying-glute-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Left hand supports outside of bent knee; right hand supports outside of ankle.",
+      "feet": "Opposite leg stays straight with heel supported; bent knee crosses toward opposite shoulder.",
+      "movement": "Supine cross-body glute/piriformis stretch: keep opposite leg straight, bring bent knee toward opposite shoulder while supporting outside knee and ankle with hands; head and back remain supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/final.jpg",
+        "sha256": "8e13c43a393ffcbd4ba56247e7acbb0cd41fc963c6dd276cf8b5a4eb7f9e464f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/final-dark.jpg",
+        "sha256": "4992b624a2b783966dabac83ea136d3c946450bba2347f94faf058e409afc0da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/full-sheet.png",
+        "sha256": "42100deddf7844d79d5a896c0fe6764593f073bdcf2950a6557394f2d5039cec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/side-sheet.png",
+        "sha256": "ac9b9eb7bcea0404577b3238455601eed653f1b229a6f914a4a82d6d59dc8300"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/verification.json",
+        "sha256": "fdbaa475cfe96fb6bd3078ed3278f6045c8f5c344caf2d237ef78e755f0bb691"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/geometry.json",
+        "sha256": "24d2985c02c4661ae686dc13734dd1438ae6791278831b37477aa64005aa3cf8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/kinematics.json",
+        "sha256": "6a5b8a5a6b7950aca06ce7fb03e60e0b020c6b91dae8bf4dcaac5d8d42081395"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/provenance.json",
+        "sha256": "4a3f4fd33bd1fc6c50732599bcfacebd1645b295ed19d967d41c36d6b0feaf44"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/lying-glute-stretch-alpha.webm",
+        "sha256": "261adfd784cf8b02e72bde3c761d9c6407b51b72fdb51fa2069702a1b705defb",
+        "bytes": 40717,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/lying-glute-stretch.mp4",
+        "sha256": "e72eaf4676db429e8497eda7f873c48b0157fd362a4667714d44257de65c54a7",
+        "bytes": 16801,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/cross-glute/native/lying-glute-stretch/lying-glute-stretch-dark.mp4",
+        "sha256": "bb178e000aa2c641f2fce0426818303ecc21af1f9fc656338634675d1cf9cdd3",
+        "bytes": 16109,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "assisted-pull-up",
+      "original": "assisted-pull-up",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "assisted-pull-up",
+        "sourceUrls": [
+          "https://www.strengthlog.com/assisted-pull-up/"
+        ],
+        "criteria": "Pronated pull-up with both knees continuously supported by a rising counterweighted pad; 3.5 seconds up, 1 second top, 3.5 seconds down.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic assisted pull-up apparatus with simplified cable transmission. Entry and exit are omitted; not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "assisted-pull-up-2",
+      "original": "assisted-pull-up",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "assisted-pull-up",
+        "sourceUrls": [
+          "https://www.strengthlog.com/assisted-pull-up/"
+        ],
+        "criteria": "Pronated pull-up with both knees continuously supported by a rising counterweighted pad; 3.5 seconds up, 1 second top, 3.5 seconds down.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic assisted pull-up apparatus with simplified cable transmission. Entry and exit are omitted; not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/rkc-plank-alpha.webm",
+      "sha256": "fc6684b051e181ed0ab4576cbc8f91bf9b74bb1eebf49c26798aafaa04226939",
+      "bytes": 35026,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/rkc-plank.mp4",
+      "sha256": "30b4844003e63719aa8b2880ab409bee64165c02564df0ced85a39733f609669",
+      "bytes": 14393,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/rkc-plank-dark.mp4",
+      "sha256": "52d9b7f4b8c47439cd2049061dee2b0294d7151856493b4b471a011919be31f9",
+      "bytes": 14337,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/rkc-plank/rkc-plank-studio.mjs",
+      "sha256": "4969d9e01c15b067d4e18231fb1c8689b3e4a8b2e0cd841d4c3bbf55c99e0be1"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/rkc-plank/rkc-plank-motion.mjs",
+      "sha256": "f03a4deea42828dc2a1e4cde4c01152d5f316dbdd057b19bbace1aff16415e65"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/rkc-plank/render.mjs",
+      "sha256": "19eb2fb0047aac09066cb898a5991ecca02a871e28c28ed68904834e37d65539"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

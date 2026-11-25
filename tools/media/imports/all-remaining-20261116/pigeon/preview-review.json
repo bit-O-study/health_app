@@ -1,0 +1,39 @@
+{
+  "pigeon-pose": {
+    "reviewedAt": "2026-11-24T07:36:03.268Z",
+    "checks": {
+      "exercise": "pigeon-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands supported by low blocks, front knee on a small pad; upright torso.",
+      "feet": "Front knee bent and shin angled across mat; opposite leg straight behind, top of rear foot near mat.",
+      "movement": "Supported upright pigeon: front knee bent with shin angled across mat, rear leg straight back, hands supported; static left-side demonstration."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second supported left pigeon hold; repeat opposite side separately."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/full-sheet.png",
+        "sha256": "fe21e33439ced87942b37765e38a2d32c891b1b3e5d2db42dec4727fb184852b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/side-sheet.png",
+        "sha256": "0ce55e45feb12161856a7d3ae2784cce10a89689225913e5c596c5fc117071d4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/poses.json",
+        "sha256": "e5d0c40a76e2840bc405fbe28e886e877e958a18f0885326f733113ecfd131b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/geometry.json",
+        "sha256": "601f77cfa0eb2392710fc3abc43e1dfb07f8b98ac17b6736745373bde29fd36c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/kinematics.json",
+        "sha256": "cf6eba7e2f9c1028bf788c9603db856567e9bf95d95d3d90a3fa09c34e640ccc"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "low-lunge-stretch": {
+    "reviewedAt": "2026-11-24T02:30:04.788Z",
+    "checks": {
+      "exercise": "low-lunge-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach overhead with palms facing inward.",
+      "feet": "Rear knee and instep grounded with front foot flat and front knee above ankle.",
+      "movement": "Low lunge with rear knee and instep grounded, front knee over ankle, upright torso, both arms reaching overhead and palms inward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/full-sheet.png",
+        "sha256": "018304dbefddcd56aa028b3cde473d2ea4d0d1b14cb22297393524e7e2dfc0ec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/side-sheet.png",
+        "sha256": "e24abe2a916dc4d9e954aeeb7055a67341b68abff3d54d257f161fba560765c8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/poses.json",
+        "sha256": "fb644a48a6fdf63160ad4108279225f45040558d9ec54d4434da93a97c1b6e40"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/geometry.json",
+        "sha256": "a6b4fefbffcf0a91db68e99f6b574adfffae8028aef176ca8ff294598f01cb6b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/kinematics.json",
+        "sha256": "e636f347b9a42372c125e4798f2d013618c30ca840be0bf62539534e05c32e3e"
+      }
+    ]
+  }
+}

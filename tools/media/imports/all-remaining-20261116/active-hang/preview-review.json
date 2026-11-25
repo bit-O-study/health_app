@@ -1,0 +1,39 @@
+{
+  "active-hang": {
+    "reviewedAt": "2026-11-16T05:34:03.436Z",
+    "checks": {
+      "exercise": "active-hang",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor; arms extended at 179 degrees and hands stay on the overhead bar. Shoulders depressed relative to the dead-hang reference; torso rises without bending the elbows. Static hold without swinging.",
+      "movement": "Static active overhead hang with shoulder girdle depressed by 12-degree clavicle rotations, arms at 179 degrees and fixed grip. Body rises relative to passive reference without elbow flexion. Eight-second maintained hold; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/full-sheet.png",
+        "sha256": "1ba4adf53ce87a96a7c387b6f80a155fbb18847fee0316ee3c0f2f06785985d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/side-sheet.png",
+        "sha256": "c36c3a6bd809d5c5b29084f313a55fd0ed74283ad4742ae77bd23a2c41a54798"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/poses.json",
+        "sha256": "5c414da2a3776ab069ce5901a4681cb408bcde7d27e4962a6c620cf607fb90c6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/geometry.json",
+        "sha256": "05bbe943939da8cd320caa4bbb7e762219105e4b9587344e88991d04161bbb32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/kinematics.json",
+        "sha256": "9ca6cdf33a7e27abecc822ba9c7bcda90b0c9b70b2604c6666a77bc81f599a65"
+      }
+    ]
+  }
+}

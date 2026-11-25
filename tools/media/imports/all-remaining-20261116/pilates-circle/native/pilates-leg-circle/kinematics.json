@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "kneeDegrees": [
+    179.99999879258175,
+    180
+  ],
+  "maxStep": 0.058894032418321404,
+  "torsoDrift": 0,
+  "xSpan": 4.2050104116300755,
+  "zSpan": 4.205010411630077
+}

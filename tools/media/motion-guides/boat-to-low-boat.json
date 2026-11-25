@@ -1,0 +1,15 @@
+{
+  "id": "boat-to-low-boat",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "boat-to-low-boat-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://yoga.com/pose/low-boat-pose"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T01:30:07.174Z"
+}

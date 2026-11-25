@@ -1,0 +1,14 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.06817393038044417,
+  "elbowDegrees": [
+    169.99999999999986,
+    170.00000000000014
+  ],
+  "topHoldSeconds": 1,
+  "status": "numeric-checks-passed",
+  "sourceId": "straight-arm-pulldown",
+  "sourceProvenanceSha256": "cd4736ef4f4e20e9ecd80cf03b366bb5817eda23519a6fb7e63a6a5fb7a07823"
+}

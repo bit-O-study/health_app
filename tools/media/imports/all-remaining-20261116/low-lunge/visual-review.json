@@ -1,0 +1,75 @@
+{
+  "low-lunge-stretch": {
+    "reviewedAt": "2026-11-24T02:32:08.279Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "low-lunge-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach overhead with palms facing inward.",
+      "feet": "Rear knee and instep grounded with front foot flat and front knee above ankle.",
+      "movement": "Low lunge with rear knee and instep grounded, front knee over ankle, upright torso, both arms reaching overhead and palms inward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/final.jpg",
+        "sha256": "1f0f2bd324dd601395a89a2d5a1711b3c72845523d7dd410f7fd6200d5729417"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/final-dark.jpg",
+        "sha256": "7205a87a5303d7537b04b4cea57a7fc059f1f5dba8691782a350056edf8944d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/full-sheet.png",
+        "sha256": "018304dbefddcd56aa028b3cde473d2ea4d0d1b14cb22297393524e7e2dfc0ec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/side-sheet.png",
+        "sha256": "e24abe2a916dc4d9e954aeeb7055a67341b68abff3d54d257f161fba560765c8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/verification.json",
+        "sha256": "9d3708b841d4121e1193bfe0b7c582006e2adaaa6782e13b53672fddb7faa7fd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/geometry.json",
+        "sha256": "a6b4fefbffcf0a91db68e99f6b574adfffae8028aef176ca8ff294598f01cb6b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/kinematics.json",
+        "sha256": "e636f347b9a42372c125e4798f2d013618c30ca840be0bf62539534e05c32e3e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/provenance.json",
+        "sha256": "ffb54a5b8ae8eca4cbe87f2bda783411986d5bdd81956faef58b5592880cbe30"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/low-lunge-stretch-alpha.webm",
+        "sha256": "3f81bbc7413cc33cc1850993f2075ab4baf87f889300bf41e07b1649cccef334",
+        "bytes": 38569,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/low-lunge-stretch.mp4",
+        "sha256": "f80870c6d66039a091dc7e2bfc243b0d1cc1f92c3cf9ddd577d6c15cbecf795a",
+        "bytes": 14893,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/low-lunge/native/low-lunge-stretch/low-lunge-stretch-dark.mp4",
+        "sha256": "d2ff86a1309bdca8bcd48b5cb6807a3955e768852a4b36b51963a06706a830c7",
+        "bytes": 14540,
+        "decode": "passed"
+      }
+    ]
+  }
+}

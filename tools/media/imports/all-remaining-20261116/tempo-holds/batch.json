@@ -1,0 +1,86 @@
+{
+  "entries": [
+    {
+      "id": "tempo-pull-up",
+      "original": "pull-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pull-up",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/pull-up/pull-ups/"
+        ],
+        "criteria": "1-second concentric, 1-second hold, 3-second eccentric, 3-second start hold; illustrative timing.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "tempo-leg-press",
+      "original": "leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "leg-press",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/leg-press"
+        ],
+        "criteria": "1-second concentric, 1-second hold, 3-second eccentric, 3-second start hold; illustrative timing.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "isometric-pull-up-hold",
+      "original": "pull-up",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pull-up",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/pull-up/pull-ups/"
+        ],
+        "criteria": "Eight-second static hold at the demonstrated position; duration illustrative.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "isometric-push-up-hold",
+      "original": "tempo-push-up",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "tempo-push-up",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
+        ],
+        "criteria": "Eight-second static hold at the demonstrated position; duration illustrative.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 4,
+  "status": "completed-local"
+}

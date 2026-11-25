@@ -1,0 +1,28 @@
+{
+  "gate-pose": [
+    {
+      "file": "tools/media/motion-guides/gate-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/gate-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/gate-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/gate-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/gate-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/gate-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

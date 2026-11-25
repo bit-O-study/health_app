@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T06:54:49.200Z",
+  "report": [
+    {
+      "id": "seated-cable-face-pull",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "kneeling-cable-face-pull",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

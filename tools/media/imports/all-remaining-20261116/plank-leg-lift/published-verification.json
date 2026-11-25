@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T03:15:34.712Z",
+  "report": [
+    {
+      "id": "plank-with-leg-lift",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

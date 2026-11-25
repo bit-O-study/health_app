@@ -1,0 +1,8 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 0,
+  "footDrift": 0,
+  "timing": "8-second static hold"
+}

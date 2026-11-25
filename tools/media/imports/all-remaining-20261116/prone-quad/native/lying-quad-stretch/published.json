@@ -1,0 +1,18 @@
+{
+  "id": "lying-quad-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "04c35c1e2f47aa02def04cca02ea97140feb4b2a38c36d7196a25a2b0c2dbeed",
+  "rigSourceSha256": "2cfcfdc46ba7c34e7fd06d314b9be1237bc593385cea4bb0a2af572cb1a86b3f",
+  "videoSha256": "fdd078bf3d51af480826d6abd98ca45139f7eedd93d6063c87a2cc32a820aba8",
+  "darkVideoSha256": "93fb2d469492727c18402bcb80345e16602b3d0785f704c6a0b1d8b73570cffe",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14355,
+  "darkBytes": 13927,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T00:40:37.095Z"
+}

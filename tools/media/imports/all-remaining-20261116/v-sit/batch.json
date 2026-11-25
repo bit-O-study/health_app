@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "v-sit-hold",
+      "original": "v-sit-hold",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "v-sit-hold",
+        "sourceUrls": [
+          "https://sport.education.nsw.gov.au/File/4666"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Seated core V-sit balance: torso leans back, straight legs at 45 degrees and arms reach forward; maintain still position.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Seated eight-second static hold; entry and exit omitted. Not suspended calisthenics V-sit."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

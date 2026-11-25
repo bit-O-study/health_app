@@ -1,0 +1,75 @@
+{
+  "l-sit-pull-up": {
+    "reviewedAt": "2026-11-16T06:18:20.562Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "l-sit-pull-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the fixed overhead bar.",
+      "feet": "Both legs remain horizontal with straight knees throughout the pull-up. Fixed grip, controlled vertical trunk motion, chin above bar at top.",
+      "movement": "Overhand L-sit pull-up, straight horizontal legs maintained throughout. Start with extended arms, pull chin above bar, return under control; 3.5 seconds up, 1 second pause, 3.5 seconds down. Entry into L-sit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/final.jpg",
+        "sha256": "ddfb6cdae352324e50d1486bd096ae444cac2eacb0dc1d6e0850dd83a2beefbd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/final-dark.jpg",
+        "sha256": "7c122745d48baa27ae8ed358b03dd8da262577cec6490fc04c5d431784857a69"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/full-sheet.png",
+        "sha256": "16caca315ca79c6380e010ce102aeea9203f4d2d9b22052991398b4a492b7a0d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/side-sheet.png",
+        "sha256": "ea868052728603f9de397cb55ec12f048c30ac6357553137d86ea9e2a2bc9f52"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/verification.json",
+        "sha256": "ed1098345d042ce0ae99e6ca98919f1e436568b0e52ff4dac1e5e23008a1ac90"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/geometry.json",
+        "sha256": "73312a6db84c901a9e11623e2ccf9fa467af623784125f14c2a56d94f696e521"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/kinematics.json",
+        "sha256": "bce67e331875d7bd59ec27adf7820935b95f3357588a86ebebb4daa894f791d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/provenance.json",
+        "sha256": "bda759cdd94f80239aac8d5a7cd2587feb538d3569c2463d1ea0d974c8f3d8f8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/l-sit-pull-up-alpha.webm",
+        "sha256": "80a1a5b9a59a7f2936a7ebdf11dca526a13841d04e4ffccdfa759509ff7250b4",
+        "bytes": 258852,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/l-sit-pull-up.mp4",
+        "sha256": "55e4dd80069c602834022a62ad21275f4265265afa6a061cb641daff0efe21d9",
+        "bytes": 97743,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/l-sit-pull-up-dark.mp4",
+        "sha256": "57f8f2657bac8088a3023fe373958b64c3fb853e206d8d3f6441d94182fd6f48",
+        "bytes": 98125,
+        "decode": "passed"
+      }
+    ]
+  }
+}

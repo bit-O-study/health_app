@@ -1,0 +1,75 @@
+{
+  "seated-band-abduction": {
+    "reviewedAt": "2026-11-18T03:22:41.486Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "seated-band-abduction",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms relaxed beside chair; torso upright.",
+      "feet": "Both feet remain flat and fixed while both knees open symmetrically against band.",
+      "movement": "Sit upright on stool, band above knees, feet flat. Open both knees against band without moving pelvis, then return slowly. 3.5 seconds open, 1 second pause, 3.5 seconds close."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Sampled garment-seat clearance is 0.015 to 0.1 model units; full mesh collision is not certified."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/final.jpg",
+        "sha256": "47d9f64f910d5cf01c324532e9444cb224a32d158aaf9580bf0502d60b72458b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/final-dark.jpg",
+        "sha256": "91a71f79d629614dd766c2b1da268bb8da07b97cb2a3eb064bdd0e2dfdb19b08"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/full-sheet.png",
+        "sha256": "3d9df79b7a6e35e9f1dcde103381d7df3f769374e441e6cb1e1cda0c33823fab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/side-sheet.png",
+        "sha256": "6c97f745bdd6ea2edf586d41f8da9d8f62a2f17b7b763cad08d36a02d1a296da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/verification.json",
+        "sha256": "df6299921332cdd048904241dfea0b0f8767c994850c84b41b7fee65481a37ea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/geometry.json",
+        "sha256": "ca455b1d5b8d2c1564488fe26d19d40e378b399826ca6405d02a36d732835314"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/kinematics.json",
+        "sha256": "3689a8a60bfbb8c03fa2e99fb8d1885f78ab68babc51043d85d46a89612fe342"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/provenance.json",
+        "sha256": "5c0251227fdad76b61af577ee4ca1d4bb0be0014bdb3c29129c447cffb538233"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/seated-band-abduction-alpha.webm",
+        "sha256": "f8397bd8b2ebbd6ccabaaad326dbfacdc0dfa48ff5decc75d11afdf37aba2e86",
+        "bytes": 168720,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/seated-band-abduction.mp4",
+        "sha256": "f778fe3f39c6cf88f0f1682d6be9391768ec35de5e76c38a9617345db47b190d",
+        "bytes": 80089,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/seated-band-abduction-dark.mp4",
+        "sha256": "8b54ee7767f108df503640ede9abfe240f2e33effe00dba2fe175a007c01b822",
+        "bytes": 80447,
+        "decode": "passed"
+      }
+    ]
+  }
+}

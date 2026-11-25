@@ -1,0 +1,28 @@
+{
+  "high-lunge-stretch": [
+    {
+      "file": "tools/media/motion-guides/high-lunge-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/high-lunge-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/high-lunge-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-lunge-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-lunge-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/high-lunge-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

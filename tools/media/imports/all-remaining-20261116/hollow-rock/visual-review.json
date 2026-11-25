@@ -1,0 +1,75 @@
+{
+  "hollow-rock": {
+    "reviewedAt": "2026-11-24T06:43:16.878Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "hollow-rock",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms stay overhead while the entire body rocks.",
+      "feet": "Straight raised legs keep a constant angle relative to the torso.",
+      "movement": "Rock back and forth with straight legs raised and arms overhead, maintaining a constant hollow body shape and hip angle."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second hollow rock demonstration with two cycles."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/final.jpg",
+        "sha256": "b33ac42e7ee383761736ad5bcee79d84620d0db2f5155755dce1d7ce085fb4e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/final-dark.jpg",
+        "sha256": "fe205c2e572b2538d602483d2cd3705ace528c02ba44572288eb4592e40776ec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/full-sheet.png",
+        "sha256": "11428d863f5435e0f1016f91575e839caf74b371b5722e1e4a0f8105656bda93"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/side-sheet.png",
+        "sha256": "83f72a088977ef9bc6c562f3013e8796b7cbfd5a0879ccd799c373a6a5c17e8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/verification.json",
+        "sha256": "20ba0dae576f605d97c0583a4746c59ad211651bb5d26a223ff524d9eb45fbe5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/geometry.json",
+        "sha256": "489d053c5475841b277c783dfdbe3557ce012460fc891958a33ed3616ef58c64"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/kinematics.json",
+        "sha256": "5d1bfc27669f82200e443b68076ba22c2e74a91e2574370f1187b862a43df28e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/provenance.json",
+        "sha256": "f2bf9bead38f66cd1e87d156500c74fa2471d681b914e8ed3dd3d53a691a6a6d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/hollow-rock-alpha.webm",
+        "sha256": "543868459148d26a0e380e07a3fdee33e78d1d9658814572f85ffbc5fa16c840",
+        "bytes": 281950,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/hollow-rock.mp4",
+        "sha256": "34b7c79c5780fc4bedb5cd616e59b8205f0beb693eaf16de5a8b44e1767ac8e0",
+        "bytes": 99641,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/hollow-rock-dark.mp4",
+        "sha256": "40f257b8d1f327019214638f018ca54351ebf485abdfa7928a57fa31c573c290",
+        "bytes": 106468,
+        "decode": "passed"
+      }
+    ]
+  }
+}

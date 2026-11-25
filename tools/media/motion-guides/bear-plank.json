@@ -1,0 +1,15 @@
+{
+  "id": "bear-plank",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "bear-plank-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.the-fit-edit.com/library/bear-plank"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T03:16:45.508Z"
+}

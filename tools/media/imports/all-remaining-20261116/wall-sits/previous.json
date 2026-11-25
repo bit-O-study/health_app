@@ -1,0 +1,54 @@
+{
+  "wall-sit": [
+    {
+      "file": "tools/media/motion-guides/wall-sit.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wall-sit.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wall-sit-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-leg-wall-sit": [
+    {
+      "file": "tools/media/motion-guides/single-leg-wall-sit.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-wall-sit.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-wall-sit-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-wall-sit.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-wall-sit-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-wall-sit-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

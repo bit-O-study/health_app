@@ -1,0 +1,8 @@
+import {readFileSync,writeFileSync} from 'node:fs';import assert from 'node:assert/strict';
+const base='tools/media/imports/all-remaining-20261116/bow/native/bow-pose',read=p=>JSON.parse(readFileSync(p)),poses=read(base+'/poses.json'),g=read(base+'/geometry.json');assert.equal(poses.length,481);const angles={};
+for(const f of poses){assert.deepEqual(f.joints,poses[0].joints);assert.ok(Object.values(f.joints).flat().every(Number.isFinite));for(const side of ['L','R']){const[a,b,c]=['upperleg01','lowerleg01','foot'].map(n=>f.joints[n+'.'+side]),u=a.map((x,k)=>x-b[k]),v=c.map((x,k)=>x-b[k]),cos=u.reduce((s,x,k)=>s+x*v[k],0)/Math.hypot(...u)/Math.hypot(...v);assert.ok(Number.isFinite(cos)&&Math.abs(cos)<=1+1e-12);angles[side]=Math.acos(Math.max(-1,Math.min(1,cos)))*180/Math.PI;assert.ok(angles[side]>40&&angles[side]<60);}
+ const j=f.joints;assert.ok(j.head[1]>j['upperleg01.L'][1]+4);for(const side of ['L','R']){assert.ok(j['foot.'+side][1]>j['lowerleg01.'+side][1]+2);assert.ok(Math.abs(j['lowerleg01.'+side][0]-j['upperleg01.'+side][0])<1e-10);}
+}
+for(const x of g){assert.ok(x.floorClearance>0&&x.floorClearance<.15);assert.ok(Math.abs(x.cloth+7.9-.015)<1e-6);assert.ok(x.handAnkleGaps.every(v=>v<.02));assert.ok(x.kneeL+7.9>1&&x.kneeR+7.9>1);assert.ok(x.head+7.9>4);}
+
+const result={status:'numeric-checks-passed',poseSamples:481,loopError:0,staticHold:true,kneeDegrees:angles,supportGaps:{body:g[0].floorClearance,feet:g[0].footFloorGaps,hands:g[0].handAnkleGaps,knees:[g[0].kneeL+7.9,g[0].kneeR+7.9],cloth:g[0].cloth+7.9}};writeFileSync(base+'/kinematics.json',JSON.stringify(result,null,2)+'\n');console.log(result);

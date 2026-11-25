@@ -1,0 +1,39 @@
+{
+  "assisted-chin-up": {
+    "reviewedAt": "2026-11-16T01:40:29.749Z",
+    "checks": {
+      "exercise": "assisted-chin-up",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Supinated shoulder-width grip stays fixed to the bar.",
+      "feet": "Both knees remain on the moving pad; feet stay clear of the rear apparatus.",
+      "movement": "Supinated shoulder-width chin-up on a counterweighted knee pad; 3.5 seconds up, 1 second top, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic assisted pull-up apparatus with simplified cable transmission. Entry and exit are omitted; not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-chin/native/assisted-chin-up/full-sheet.png",
+        "sha256": "8d30ba7930ab1a71c563ef9c7c9359c393e5b9153c5a7b6d27e4aaffe7d4ee07"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-chin/native/assisted-chin-up/side-sheet.png",
+        "sha256": "1afdf182c636a717934982b37983b998a0e3d2123946f8655669d12e409a66b6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-chin/native/assisted-chin-up/poses.json",
+        "sha256": "f093a52ccc7587fa9db35e1a35cd60a49a754d16bcfd83f30e11d24c22dd9a49"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-chin/native/assisted-chin-up/geometry.json",
+        "sha256": "3c8404c83fa9fab31357077bfecf8bc76d8145930b9a9159ce1e7005f687c3bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/assisted-chin/native/assisted-chin-up/kinematics.json",
+        "sha256": "2043f8736576471e362fc456a44a592b2971f433cf2edc1c6bf03ff138390530"
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "wall-sit": {
+    "reviewedAt": "2026-11-16T06:31:17.372Z",
+    "checks": {
+      "exercise": "wall-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extended forward without resting on thighs.",
+      "feet": "Back against wall, supporting foot or feet flat on the floor with horizontal thigh and vertical shin. Single-leg version extends the other leg horizontally. Static maintained position.",
+      "movement": "Static wall sit with both thighs horizontal, knees 90 degrees, feet flat and back supported. Arms extended in front. Eight seconds shows maintained hold; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/full-sheet.png",
+        "sha256": "4b8c715b47bf6416c381ee41c9a11baeeda83b983f5bffd1fe498c2cfaadc1e3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/side-sheet.png",
+        "sha256": "b72f9aa1a0a8b11f1577dedcc729ea034e67a334ff420cfd9f4d048bd83e5eaf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/poses.json",
+        "sha256": "6b18eec2414530deb2571bb520996009295151725f399afbb789779b992c337e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/geometry.json",
+        "sha256": "dbc34443d9e61306911c796e0b24cfe05ffb1a61113a31ee3289987783d4a17f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/kinematics.json",
+        "sha256": "1296611840d976f8cc27c61301b589627352af7da74231b118b971521d99ee0a"
+      }
+    ]
+  },
+  "single-leg-wall-sit": {
+    "reviewedAt": "2026-11-16T06:31:17.377Z",
+    "checks": {
+      "exercise": "single-leg-wall-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extended forward without resting on thighs.",
+      "feet": "Back against wall, supporting foot or feet flat on the floor with horizontal thigh and vertical shin. Single-leg version extends the other leg horizontally. Static maintained position.",
+      "movement": "Static single-leg wall sit supported on left leg, thigh horizontal and knee 90 degrees. Right leg extended horizontally, back supported and arms extended forward. Eight seconds shows maintained hold; entry, exit and side change omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/full-sheet.png",
+        "sha256": "ac5336fb11663be0cd99401bf2a5e020f0de95d18889e445825080f2debb7d97"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/side-sheet.png",
+        "sha256": "667128931fb5034ae8c891f75fc5fa63840ef3fffb76e77870326a911f155f97"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/poses.json",
+        "sha256": "cb08c93bb07ac0fa9ecbbcc0c13719df872304d6e21782f4edbd83a6b3e3e6f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/geometry.json",
+        "sha256": "d534d783134732b95e4966201c2c4700558b5316beb1ffcb59e2803ff4c5b363"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/kinematics.json",
+        "sha256": "5d3fd3e3c3490ee3f81a0079e7f9c95d758a1f55543211b3844a7dffe11259ca"
+      }
+    ]
+  }
+}

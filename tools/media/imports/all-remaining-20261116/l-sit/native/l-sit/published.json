@@ -1,0 +1,18 @@
+{
+  "id": "l-sit",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "26f10c14d30063afdde52a6858509e9ee0b6dd087fca761dfcb5f6dbd7f48d16",
+  "rigSourceSha256": "795be61c49f1a5c8bdbed9ead559b11c7eef0222318e080d200dd0eff8bb224f",
+  "videoSha256": "a7c87216abc79cc2c2d0f430b7896ad8696c42cd7109c6a5229adea1ac73ae32",
+  "darkVideoSha256": "efa331c0234e8e39ced5b2aa0fb89880fe91d517ff9f40eed87fee1463413dc2",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15505,
+  "darkBytes": 15269,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T06:47:11.358Z"
+}

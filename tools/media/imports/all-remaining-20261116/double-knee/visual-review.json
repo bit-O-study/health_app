@@ -1,0 +1,75 @@
+{
+  "double-knee-to-chest": {
+    "reviewedAt": "2026-11-24T00:32:10.567Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "double-knee-to-chest",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Each palm supports its matching thigh; separate hands without visible overlap.",
+      "feet": "Both knees bend toward chest symmetrically; feet raised with neutral ankles.",
+      "movement": "Supine double knee to chest hold, both thighs supported with relaxed head and back; knees flexed symmetrically."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/final.jpg",
+        "sha256": "17741d93c5817945af3c14fc0b58bc13328aa44911afd38e950c5cb119de6fde"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/final-dark.jpg",
+        "sha256": "d99876b08eede371f2508a10f5152442cee36d13d5284363af4fa23ddbd3bc26"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/full-sheet.png",
+        "sha256": "bb8f07456d22dfa817d7ce1a0e7ff380664f78d0f99b481b36713d1c62b32011"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/side-sheet.png",
+        "sha256": "03d7203e36b20d59310da82845cd5ecbd2b56a54d5f935ce35a9b51b581154b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/verification.json",
+        "sha256": "97fc84b3ad829ebae5d0645ba3e7f3c384babbe6e76d5263c4482cf812eb993c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/geometry.json",
+        "sha256": "fa9382938b0137d08bdb1a93025fd2aff5cf1edc3bfd0008c5443d75b8c03207"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/kinematics.json",
+        "sha256": "272f573c2c22039f9cb15037279ce4eddd450dc3c6890370d9a938c43d07310b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/provenance.json",
+        "sha256": "981e3d000bd3a35f8c22d2c8083c61919da6407e20638809e580662603881879"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/double-knee-to-chest-alpha.webm",
+        "sha256": "172b6ac9e30e1007de2e4171b626acd3d6336a7cf24fc5fee9abcf52216b8156",
+        "bytes": 38051,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/double-knee-to-chest.mp4",
+        "sha256": "8debe42fd57d027343704dcb9e465497c669b2e3d307c01e23f30aaebc27d227",
+        "bytes": 16056,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/double-knee-to-chest-dark.mp4",
+        "sha256": "13b8034abb06f6021b671334cd79c02c7f8dd6d828caa7aac1064c08625d1a02",
+        "bytes": 15336,
+        "decode": "passed"
+      }
+    ]
+  }
+}

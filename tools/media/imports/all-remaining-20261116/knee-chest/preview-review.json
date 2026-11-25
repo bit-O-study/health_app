@@ -1,0 +1,39 @@
+{
+  "knee-to-chest-stretch": {
+    "reviewedAt": "2026-11-18T03:27:14.230Z",
+    "checks": {
+      "exercise": "knee-to-chest-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support behind the raised thigh; separate hands without visible overlap.",
+      "feet": "Opposite foot remains on mat; lifted knee draws toward chest while head and back stay supported.",
+      "movement": "Lie supine with both knees initially bent, keep one foot grounded and draw the other knee toward chest, supporting behind the thigh with both hands. Keep head and back supported and hold gently."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/full-sheet.png",
+        "sha256": "dc9a46b6d80af97fc3a6b8595ec751c8878b9bb846c21ad94d1beb30e7fc71b8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/side-sheet.png",
+        "sha256": "ada32aa4273820155fa5750da0c609dcfc166b1de815283a5e1621af2d96fc37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/poses.json",
+        "sha256": "ff2a3bc21bdba0b04cfac0d48dd59d6495c8034614e074b41e2d82cf320d7181"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/geometry.json",
+        "sha256": "89d3f2e5076b317db6994512db9a43ebff2d61d0f6a6634462db5e88f65097f6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/kinematics.json",
+        "sha256": "fd325fbb2b5251317f22d173df16ce29e2a1d91082fdda6f92e8031085710ff3"
+      }
+    ]
+  }
+}

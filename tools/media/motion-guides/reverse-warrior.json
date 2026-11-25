@@ -1,0 +1,15 @@
+{
+  "id": "reverse-warrior",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-warrior-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.yogajournal.com/practice/yoga-sequences/home-yoga-practice-to-awaken-your-inner-warrior?scope=anon"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T05:54:04.761Z"
+}

@@ -1,0 +1,60 @@
+{
+  "assisted-pull-up": [
+    {
+      "file": "tools/media/motion-guides/assisted-pull-up.json",
+      "backup": "tools/media/imports/all-remaining-20261116/assisted-pulls/backup/assisted-pull-up-0.json",
+      "sha256": "7b33c165bd7d1fe85c40c6d4970179e0bc6f292d21ee93665e81fd5f83eeda02"
+    },
+    {
+      "file": "tools/media/motion-guides/assisted-pull-up.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/assisted-pulls/backup/assisted-pull-up-1.jpg",
+      "sha256": "904c81194c38c882e055018096c0657cef7aa3b15ff9aba563ff4ae309a63f0a"
+    },
+    {
+      "file": "tools/media/motion-guides/assisted-pull-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/assisted-pulls/backup/assisted-pull-up-3.mp4",
+      "sha256": "cca7835a1f9b83fd2b774022d482971117b0b08138efe4108b21408654564db0"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "assisted-pull-up-2": [
+    {
+      "file": "tools/media/motion-guides/assisted-pull-up-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/assisted-pulls/backup/assisted-pull-up-2-0.json",
+      "sha256": "431c5b03ed553ae5a38b0f98bfa218a87a7494bf90f0aaa876334dc25e2b89e5"
+    },
+    {
+      "file": "tools/media/motion-guides/assisted-pull-up-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/assisted-pulls/backup/assisted-pull-up-2-1.jpg",
+      "sha256": "85720ce4c7975772ea0ce7df3e2de7602311cd0528540114141b823dc2241ff0"
+    },
+    {
+      "file": "tools/media/motion-guides/assisted-pull-up-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/assisted-pulls/backup/assisted-pull-up-2-3.mp4",
+      "sha256": "33221ce6db8fa99a493e044e6f8a7a54d50b04f8c7beff6d2e13f2deda1d7972"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/assisted-pull-up-2-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

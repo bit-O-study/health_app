@@ -1,0 +1,18 @@
+{
+  "id": "plank-with-leg-lift",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f63221b1a64d8c2cbdaa4fed5cb94f5e420a68263df13f7755bdd6d19e1d098d",
+  "rigSourceSha256": "cf1b5b7dc10af526d5ef4cc3825255e118b227d8a967a3cda93c28631441a79e",
+  "videoSha256": "47cde0039cf24ee30359a11933bac47f514a9256c9dfe0cb85cf3867342cffa7",
+  "darkVideoSha256": "589a5a59e5f8f41b855360d00eeef6bb36d28f4843db0467e871cc9df99eda22",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 45922,
+  "darkBytes": 45602,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T03:14:47.989Z"
+}

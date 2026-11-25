@@ -1,0 +1,75 @@
+{
+  "side-lying-hip-abduction": {
+    "reviewedAt": "2026-11-18T01:52:53.682Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "side-lying-hip-abduction",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower arm supports the head while upper hand rests at the hip.",
+      "feet": "Side lying torso stays stable while only the upper leg abducts and lowers.",
+      "movement": "Lie on side with straight legs, lower arm supporting head and upper hand on hip. Keep hips stacked, raise upper leg without rotating knee or foot and lower slowly; repeat on opposite side after set. One side shown, 3.5 seconds raise, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/final.jpg",
+        "sha256": "48895a78e8559d8871fbe345f3480ebbd618bd2de2357f040ba4d6430c40dfc5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/final-dark.jpg",
+        "sha256": "412ad1fcfd776d58d2ebd5944decccbed76e6917a74bcae4989b6968f66367dc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/full-sheet.png",
+        "sha256": "08a10b83f0c360b4100a7b3272af2559e9785d610b279608cdf0bd29cb430f3d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/side-sheet.png",
+        "sha256": "a2b92d159a06912dcc5bbf3ca8cb7419cd7d65e999e9350c9105e122e96af4ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/verification.json",
+        "sha256": "7bb4cf4ab343fb73d4f710811535a4efdcb60252477ef2ed0571982cd03e6660"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/geometry.json",
+        "sha256": "1d3266d2362b60c9752a81b19d6f145e66f410fe83b9cbe8e67e42b177a40cf6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/kinematics.json",
+        "sha256": "763f1e2ddc39920096de950712292cacef8aed19345386b94c1c0cedacb2becf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/provenance.json",
+        "sha256": "603c7bc25e61fdd50436c19633b4955140fd7ed69ed333511f2e77da5bf85162"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/side-lying-hip-abduction-alpha.webm",
+        "sha256": "e5ca00a4cece7e7b224b5c320092ed014254305f539d2a3c13d6b3541ab0bb7c",
+        "bytes": 144717,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/side-lying-hip-abduction.mp4",
+        "sha256": "13b53351a4974aaea5abc79438ace3827380892ff731eeea10e0bfe4c5cb2fe0",
+        "bytes": 57742,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/side-abduction/native/side-lying-hip-abduction/side-lying-hip-abduction-dark.mp4",
+        "sha256": "260145f2a5db474c65991f1d0e028cac26ad7c63bcdc761cdc0de528acad8b54",
+        "bytes": 55493,
+        "decode": "passed"
+      }
+    ]
+  }
+}

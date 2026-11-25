@@ -1,0 +1,39 @@
+{
+  "90-90-hip-stretch": {
+    "reviewedAt": "2026-11-24T01:50:34.035Z",
+    "checks": {
+      "exercise": "90-90-hip-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands rest lightly on respective thighs.",
+      "feet": "Front leg externally rotated and side leg internally rotated with knees near 90 degrees; feet and pelvis supported.",
+      "movement": "Seated 90/90 hip stretch, front hip externally rotated and side hip internally rotated, knees bent 90 degrees, upright torso and supported legs."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second illustrative hold; sampled foot and pelvis clearance remains below 0.15 model units, not exact soft-tissue contact."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/full-sheet.png",
+        "sha256": "588182431b4f889279f3b2d29fbfed1465368cfa9505fce344c89896d0f3cb37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/side-sheet.png",
+        "sha256": "8b45c7e8caf6fe04f59e2831465fefecd0b87dff6724f71096edb112afad2ce1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/poses.json",
+        "sha256": "3583da16c7a1a5ea165c91cbff4d3253ef7c348f0e43955d8492bc6fde0d0b42"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/geometry.json",
+        "sha256": "5d0386b612a227c0a612084ac7def50ae7a486dacefb3c1caacdfc4f45a236ed"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/kinematics.json",
+        "sha256": "fa2da451b340dd048af145ffa0593e07a4b2244230fa27d54ac23a72986c7acb"
+      }
+    ]
+  }
+}

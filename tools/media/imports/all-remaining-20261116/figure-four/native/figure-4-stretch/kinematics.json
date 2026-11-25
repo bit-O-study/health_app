@@ -1,0 +1,20 @@
+{
+  "ankleThighGap": 0.009448507547888674,
+  "crossedAnkleAboveKnee": true,
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "raisedKneeDegrees": 60.00000000000001,
+  "kneeTowardChest": 2.148159021770151,
+  "handThighGaps": [
+    0.008095399498673501,
+    0.010434124150520736
+  ],
+  "handHandGap": 0.14633539705886245,
+  "supportGaps": {
+    "back": 0.02571618025898914,
+    "hip": 0.01499999999999968,
+    "head": 0.01499999999999968
+  }
+}

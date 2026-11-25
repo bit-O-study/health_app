@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-16T00:05:15.002Z",
+  "id": "tempo-row",
+  "files": 3,
+  "status": "completed-local",
+  "bothThemesReviewed": 504,
+  "tests": 39,
+  "testFiles": 3,
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "warnings": 1,
+    "detail": "Unused inset variable in reused studio."
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

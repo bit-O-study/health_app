@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-18T00:42:37.458Z",
+  "report": [
+    {
+      "id": "flutter-kick",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

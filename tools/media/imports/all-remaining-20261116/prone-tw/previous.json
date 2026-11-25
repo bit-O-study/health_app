@@ -1,0 +1,54 @@
+{
+  "prone-t-raise": [
+    {
+      "file": "tools/media/motion-guides/prone-t-raise.json",
+      "sha256": "a5fb717c11f96b8110b6a3fefb9eadb6841de5447791e3e9216869df3560d898"
+    },
+    {
+      "file": "tools/media/motion-guides/prone-t-raise.jpg",
+      "sha256": "9b39c5d6a022f8a7ad6f88844989c1a47b1501041f22f00614f8c442c5da1dbf"
+    },
+    {
+      "file": "tools/media/motion-guides/prone-t-raise-provenance.json",
+      "sha256": "0b564050c8f0322a06337d26020850dd0c6993725eb39acffe6594463942708d"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise.mp4",
+      "sha256": "f4725c900692eb11fd3e06e20e15d8e933da427d9bcb32cd7a237bd967f015bc"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise-dark.mp4",
+      "sha256": "f42cd62ac8f12bb31d1d0dd550007d9fcee8542fc2180d3a7c451a03bf7b7795"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise-alpha.webm",
+      "sha256": "b0b70bb56d201ec361d2cdd533240729fc08f43fbc84251ddb293d357875535b"
+    }
+  ],
+  "prone-w-raise": [
+    {
+      "file": "tools/media/motion-guides/prone-w-raise.json",
+      "sha256": "0428111dfe4ea543c1da683e68e3e6939c0924db74878d6e593c22203fbc7721"
+    },
+    {
+      "file": "tools/media/motion-guides/prone-w-raise.jpg",
+      "sha256": "0de8a1975f6435a073382f54c8f6ee792b772d0107ce0b0a46d9a2b493f304d1"
+    },
+    {
+      "file": "tools/media/motion-guides/prone-w-raise-provenance.json",
+      "sha256": "f8e96cd896ce08e5410d827daa41ed8ec8ccd34d7a9b941b2141639fa064a8a3"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise.mp4",
+      "sha256": "aa531584a6fc39b42d5367c1cbabfca3f4792204134feece8d53a0be0b079350"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise-dark.mp4",
+      "sha256": "b4b68b6c9f679edc8770b4122a575e150906aa931d3e75cabb378841d8c3c9ca"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise-alpha.webm",
+      "sha256": "79de5cefd59c3f7072609eec2d29f99afad3004579b07862c72d70cfe4e9addf"
+    }
+  ]
+}

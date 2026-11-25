@@ -1,0 +1,39 @@
+{
+  "wall-sit-march": {
+    "reviewedAt": "2026-11-16T06:38:02.129Z",
+    "checks": {
+      "exercise": "wall-sit-march",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extended forward without resting on thighs.",
+      "feet": "Back and hip position remain stable against wall. Alternate small foot lifts with the opposite foot flat; return to two-foot support between lifts.",
+      "movement": "Wall sit with alternating foot lifts: right then left, each 4 seconds (1.5 seconds up, 1 second pause, 1.5 seconds down). Hip flexion increases 15 degrees while the opposite foot stays flat, support thigh horizontal and knee 90 degrees. Stable trunk and pelvis against wall. Entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/full-sheet.png",
+        "sha256": "79bdcaab7fc4063dfbc05a5ff06acf0c5915bd7c6aa95c30dc61fdf688071052"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/side-sheet.png",
+        "sha256": "e79ab7b16c21c72053e342b69639fc8deb1a44c58bd217f652c89accf760d7a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/poses.json",
+        "sha256": "6ee7a099c93abb588f3c79bec00e2ace0d2c7d8c82a642cf4f97c0cb3dfe8767"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/geometry.json",
+        "sha256": "40c6158f695f8b7ee0282b2d9552357ecfd6f9c0e9b5575bcda3c0055b828ffb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/kinematics.json",
+        "sha256": "de0ba6f17a6ef0a650262631fb10d1fa8bd7aab522268b4b6bc4f36dd6524c98"
+      }
+    ]
+  }
+}

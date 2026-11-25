@@ -1,0 +1,75 @@
+{
+  "warrior-i-pose": {
+    "reviewedAt": "2026-11-24T02:40:51.128Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "warrior-i-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach overhead with palms facing inward.",
+      "feet": "Rear leg straight and foot turned out 45 degrees with heel grounded; front foot flat and knee above ankle.",
+      "movement": "Warrior one with front knee above ankle, rear knee straight and heel grounded, rear foot turned out 45 degrees, torso facing front and arms overhead."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/final.jpg",
+        "sha256": "121a389a86eea7138fcdebe759d679050e612241e40bdfc43792937077f581fe"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/final-dark.jpg",
+        "sha256": "a937213ea5e3f19091c753fde94bc8f1584fec378fba6805aeffdd5f361db41f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/full-sheet.png",
+        "sha256": "c70573ac8a3a5ab48dc88e76794c00ceae1765bafee7727c4f1764eb241c0ba1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/side-sheet.png",
+        "sha256": "6c9d13311c809b8182239143a1c14a2438725985c0b9a846bdecefe2b11a6a1b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/verification.json",
+        "sha256": "2f15779aa89dfffee48ebc8a85437293637dac53209a74b20c6167238f363817"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/geometry.json",
+        "sha256": "cb2b9b4bea2d9ece9ddcf827978bcfbfb953d26a0d2d148355d68a7c3b44cc16"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/kinematics.json",
+        "sha256": "d2a468c54bbf5ebe6921f5f7e0d95f5f54cb6edb97f96be99ef6d1e619239cd2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/provenance.json",
+        "sha256": "acc27031fbf8c92bebe8cb29edb0ab69ba12a02e7355bd0c5b63dafe5024feb4"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/warrior-i-pose-alpha.webm",
+        "sha256": "cfb8437efa261a2f02e04374b2e0747545e0aac5251b9776bcb39b4295ea4aca",
+        "bytes": 40025,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/warrior-i-pose.mp4",
+        "sha256": "ce5211a3957cbaecc4830ae7ea8c9008045bed52d5c49e4ecab0390d6b5f8865",
+        "bytes": 15259,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/warrior-i-pose-dark.mp4",
+        "sha256": "699c05ccd44778ced47acd51525c59597079044cd5527567929f4cc86e9eed28",
+        "bytes": 15017,
+        "decode": "passed"
+      }
+    ]
+  }
+}

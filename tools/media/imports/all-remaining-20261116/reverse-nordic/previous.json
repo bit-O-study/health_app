@@ -1,0 +1,28 @@
+{
+  "reverse-nordic-curl": [
+    {
+      "file": "tools/media/motion-guides/reverse-nordic-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-nordic-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-nordic-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-nordic-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-nordic-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-nordic-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

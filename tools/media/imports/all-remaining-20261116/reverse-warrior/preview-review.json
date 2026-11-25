@@ -1,0 +1,39 @@
+{
+  "reverse-warrior": {
+    "reviewedAt": "2026-11-24T05:45:32.639Z",
+    "checks": {
+      "exercise": "reverse-warrior",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Front arm reaches overhead toward back leg, rear hand rests lightly on rear thigh.",
+      "feet": "Front knee stays bent over ankle, rear leg straight and both feet grounded.",
+      "movement": "Warrior II legs, front knee bent and rear leg straight, side bend toward back leg with front arm overhead and rear hand resting lightly on rear thigh."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static hold; one side, entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/full-sheet.png",
+        "sha256": "67e9ed9b95a326a82ba0d5e66796845cd45eaa51b2833c41db652114df35ec00"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/side-sheet.png",
+        "sha256": "e5ce27a50bef928133d6817b1ed68085b5d851d7e305919bb7db3c5b9cfe0d2b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/poses.json",
+        "sha256": "d2f2ce52fc553c80fa9a887b75f8227cdab28a9c4862823ae0cbaf1bfc0ed98f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/geometry.json",
+        "sha256": "991fc19cfdc3951d92058157a224157b72b04115ad6512cea883e147f38b4450"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/kinematics.json",
+        "sha256": "d43ff9d21234ae29ed9f29a98fe7327a049f0e62300fe2661a0f8ca8b3671175"
+      }
+    ]
+  }
+}

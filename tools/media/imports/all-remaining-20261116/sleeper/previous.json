@@ -1,0 +1,28 @@
+{
+  "sleeper-stretch": [
+    {
+      "file": "tools/media/motion-guides/sleeper-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/sleeper-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/sleeper-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sleeper-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sleeper-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/sleeper-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

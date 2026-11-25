@@ -1,0 +1,18 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "kneeWidth": 9.971143285655996,
+  "footFootGap": 0.0049880401611339656,
+  "handFootGaps": [
+    0.01197157388076327,
+    0.01197157388076327
+  ],
+  "handHandGap": 0.12077328918233121,
+  "supportGaps": {
+    "body": 0.015597306669135058,
+    "hip": 0.015000015982067794,
+    "foot": 0.020205509102821928
+  }
+}

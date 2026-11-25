@@ -1,0 +1,221 @@
+{
+  "v-up": {
+    "reviewedAt": "2026-11-24T06:17:53.792Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "v-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms arc from overhead toward feet as torso rises.",
+      "feet": "Straight legs rise from 5 to 45 degrees together with torso, then lower; pelvis stays supported.",
+      "movement": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/final.jpg",
+        "sha256": "fb09a28387d6c94246ed6d1d67f9358c62b05ee6b7c10670906e315731cccbb8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/final-dark.jpg",
+        "sha256": "b8d7df80339eda538207ab02a83e2da8a4c5e0be8dc8a32a8e15ddea0c5d81c7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/full-sheet.png",
+        "sha256": "bc9a37babffa4957bc9228da815e60f26eae52d91c1ff24ccde52a2f4e25fd8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/side-sheet.png",
+        "sha256": "7470ac381dda23a87f19da534d766d4fd71c8e3622e3de11346accc8891e89a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/verification.json",
+        "sha256": "e93a9049eddcf61a5ab7d9aedcff065039fa01d7ed5516d1f3722d35ed4cd776"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/geometry.json",
+        "sha256": "d149757afd37cc3ae7f63ebec479c4b51ed342cfd49dcc896fd0286fc837e68f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/kinematics.json",
+        "sha256": "630fc2a4d13f22f98a2de0bf90f2509050c31974680c54cc36b42507211dfe2f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/provenance.json",
+        "sha256": "9f7e3b9decb5728b59faefc7f0e9c740d0627c7661249055e4a63ea418d9b720"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/v-up-alpha.webm",
+        "sha256": "939ab834d1a37e91ce4ca6edd384ce4d29c3e6fbbd2eb540514838940d098fb1",
+        "bytes": 301690,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/v-up.mp4",
+        "sha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+        "bytes": 111476,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/v-up-dark.mp4",
+        "sha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+        "bytes": 122214,
+        "decode": "passed"
+      }
+    ]
+  },
+  "v-up-2": {
+    "reviewedAt": "2026-11-24T06:17:53.802Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "v-up-2",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms arc from overhead toward feet as torso rises.",
+      "feet": "Straight legs rise from 5 to 45 degrees together with torso, then lower; pelvis stays supported.",
+      "movement": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/final.jpg",
+        "sha256": "fb09a28387d6c94246ed6d1d67f9358c62b05ee6b7c10670906e315731cccbb8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/final-dark.jpg",
+        "sha256": "b8d7df80339eda538207ab02a83e2da8a4c5e0be8dc8a32a8e15ddea0c5d81c7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/full-sheet.png",
+        "sha256": "bc9a37babffa4957bc9228da815e60f26eae52d91c1ff24ccde52a2f4e25fd8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/side-sheet.png",
+        "sha256": "7470ac381dda23a87f19da534d766d4fd71c8e3622e3de11346accc8891e89a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/verification.json",
+        "sha256": "e93a9049eddcf61a5ab7d9aedcff065039fa01d7ed5516d1f3722d35ed4cd776"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/geometry.json",
+        "sha256": "d149757afd37cc3ae7f63ebec479c4b51ed342cfd49dcc896fd0286fc837e68f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/kinematics.json",
+        "sha256": "630fc2a4d13f22f98a2de0bf90f2509050c31974680c54cc36b42507211dfe2f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/provenance.json",
+        "sha256": "03f8983734349902976c0d61c276d13c10dd19fade9bc64c3d65477a596824b3"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/v-up-2-alpha.webm",
+        "sha256": "0bcf685d40f317ec4c75a9154da4ecf0a636f482ae9956dde71385170ae8b8d4",
+        "bytes": 301690,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/v-up-2.mp4",
+        "sha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+        "bytes": 111476,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/v-up-2-dark.mp4",
+        "sha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+        "bytes": 122214,
+        "decode": "passed"
+      }
+    ]
+  },
+  "jackknife-sit-up": {
+    "reviewedAt": "2026-11-24T06:17:53.811Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "jackknife-sit-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms arc from overhead toward feet as torso rises.",
+      "feet": "Straight legs rise from 5 to 45 degrees together with torso, then lower; pelvis stays supported.",
+      "movement": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/final.jpg",
+        "sha256": "fb09a28387d6c94246ed6d1d67f9358c62b05ee6b7c10670906e315731cccbb8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/final-dark.jpg",
+        "sha256": "b8d7df80339eda538207ab02a83e2da8a4c5e0be8dc8a32a8e15ddea0c5d81c7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/full-sheet.png",
+        "sha256": "bc9a37babffa4957bc9228da815e60f26eae52d91c1ff24ccde52a2f4e25fd8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/side-sheet.png",
+        "sha256": "7470ac381dda23a87f19da534d766d4fd71c8e3622e3de11346accc8891e89a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/verification.json",
+        "sha256": "e93a9049eddcf61a5ab7d9aedcff065039fa01d7ed5516d1f3722d35ed4cd776"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/geometry.json",
+        "sha256": "d149757afd37cc3ae7f63ebec479c4b51ed342cfd49dcc896fd0286fc837e68f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/kinematics.json",
+        "sha256": "630fc2a4d13f22f98a2de0bf90f2509050c31974680c54cc36b42507211dfe2f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/provenance.json",
+        "sha256": "65024113bd9228df26ad4775190adebf47ab729b98763631ceaa4fdee9e7ad4c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/jackknife-sit-up-alpha.webm",
+        "sha256": "a5a09f2c6a605f285ba34dceae80e8331409d2bcfb9bbeda7559827cd5561949",
+        "bytes": 301690,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/jackknife-sit-up.mp4",
+        "sha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+        "bytes": 111476,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/jackknife-sit-up-dark.mp4",
+        "sha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+        "bytes": 122214,
+        "decode": "passed"
+      }
+    ]
+  }
+}

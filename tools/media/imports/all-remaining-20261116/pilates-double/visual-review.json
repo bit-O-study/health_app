@@ -1,0 +1,75 @@
+{
+  "pilates-double-leg-stretch": {
+    "reviewedAt": "2026-11-24T04:54:15.475Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-double-leg-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands return to knees, reach overhead and circle outward; wrists follow forearms.",
+      "feet": "Both legs move symmetrically from tabletop to diagonal extension; head and chest remain curled.",
+      "movement": "Supine curled chest; tabletop knees extend diagonally while arms reach overhead, then circle arms outward and return hands to knees."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled extension and arm-circle return."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/final.jpg",
+        "sha256": "159b408ec63da31e656ae8e73e6f04c0aa9d4ff8ac6630e97cdcaad46dc1b4b5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/final-dark.jpg",
+        "sha256": "36dbe7515a423c880260f15db8d8f9d640f84f4d860d05f6d60426aa21bd6b4c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/full-sheet.png",
+        "sha256": "08ffbd2889e77d7a7a5599ebda8cfba6cbc7bb461e3433d8bc9bb8f5b1f0c229"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/side-sheet.png",
+        "sha256": "6d2616cc18dbcc7e8f523719807b6ff74b04028e571dd8742895f2b68d352627"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/verification.json",
+        "sha256": "f87b4f9eac76038d9617b1a6fc8fddddaf25b4733f48e972d3dd203eaad4f51a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/geometry.json",
+        "sha256": "834c6f771fbdf8112009f6697bb9107f948ce124c89a963b779726258b39c3df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/kinematics.json",
+        "sha256": "52f3db5059e79a887991ea23690b727bce8f620331e38c6dae46a1625590e084"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/provenance.json",
+        "sha256": "72e7a72dfa0dd054736627580ab1ac61a45e38db247a62729c66e5aeec306112"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/pilates-double-leg-stretch-alpha.webm",
+        "sha256": "36b8a446559ac425aeff8d677c9f5c49cc1b46c486ce793110ef92526fb64739",
+        "bytes": 272705,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/pilates-double-leg-stretch.mp4",
+        "sha256": "09da8770f74bb3c8b5579930d4d4e08783c8080cb488557ce678fb04ba956d46",
+        "bytes": 105439,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/pilates-double-leg-stretch-dark.mp4",
+        "sha256": "11e0e72cbba13b2c20aae5ad680fef04837b72d58de2ba5b63329fdc05738290",
+        "bytes": 114259,
+        "decode": "passed"
+      }
+    ]
+  }
+}

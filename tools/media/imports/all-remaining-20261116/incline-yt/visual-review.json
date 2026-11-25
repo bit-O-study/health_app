@@ -1,0 +1,148 @@
+{
+  "incline-dumbbell-y-raise": {
+    "reviewedAt": "2026-11-16T07:31:24.245Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "incline-dumbbell-y-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around dumbbell handles throughout the lift.",
+      "feet": "Torso remains supported by 45-degree bench, feet stable; arms lift into a diagonal Y or lateral T.",
+      "movement": "Chest supported on 45-degree incline bench, stable feet, dumbbells held with long arms. Raise arms diagonally overhead into Y. 3.5 seconds lift, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/final.jpg",
+        "sha256": "8bba65afe4cea6c1aa0a1d83f2b4c49900c0a31d284d4019bb09b9ae7171c53c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/final-dark.jpg",
+        "sha256": "149059ef46ce1deea90028ff2d4d7fd571f0cf52eb57ab9a18de9a7329e8dcbf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/full-sheet.png",
+        "sha256": "b1a0e5f3e736576159c5ee48783a3319b69d6f108f69d4d6651f1b53c10017ca"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/side-sheet.png",
+        "sha256": "3ead3741ba1e325503df72d03fb19d586642ebcdafa4e87f5357e1609d4a8e88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/verification.json",
+        "sha256": "ad657ca5b941b06ec48dc1603c39b927699418f4441ee8b003a2f2a9c39668c6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/geometry.json",
+        "sha256": "6b867413636e43e985a724add96b60b04cf9f5df7be1ebde3fe035ce1b9984b3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/kinematics.json",
+        "sha256": "1eb907d329193d68b4f15b57efbd6107bd1c65f42a03e6ba76381fb2de488628"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/provenance.json",
+        "sha256": "b9b83935bfd07b02e6c89382f646d4e0dcc90a0ad5fa692a9f178dfc1ccda493"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/incline-dumbbell-y-raise-alpha.webm",
+        "sha256": "23e5ea4d3d02613becf771fe168803fd360c11cdd2c08aeb793f2b0d495ae377",
+        "bytes": 226669,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/incline-dumbbell-y-raise.mp4",
+        "sha256": "7ee60f0f720b8fb3dfaba46811f1c047f21f53cafff5a29c439a0b8609cb54ac",
+        "bytes": 104748,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-y-raise/incline-dumbbell-y-raise-dark.mp4",
+        "sha256": "c99970d080b3f30281742247b01d75dd5853a86c9818f3a5439bcf02597ab980",
+        "bytes": 86958,
+        "decode": "passed"
+      }
+    ]
+  },
+  "incline-dumbbell-t-raise": {
+    "reviewedAt": "2026-11-16T07:31:24.257Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "incline-dumbbell-t-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around dumbbell handles throughout the lift.",
+      "feet": "Torso remains supported by 45-degree bench, feet stable; arms lift into a diagonal Y or lateral T.",
+      "movement": "Chest supported on 45-degree incline bench, stable feet, dumbbells held with long arms. Raise arms laterally to shoulder level into T. 3.5 seconds lift, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/final.jpg",
+        "sha256": "35c378372923ed65d88dd39ca23087ebd141ca85bf946d920f9d2c547b8cc910"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/final-dark.jpg",
+        "sha256": "f5c38e17d480e7cc0b0dd82b7a9bd89f5b3215a334b357ba8bdc1b216da110db"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/full-sheet.png",
+        "sha256": "1649a6cd6441b718a0006680e0c16e3999d587fe081cc4f847659eb3cc1920fc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/side-sheet.png",
+        "sha256": "f92d1a12927c7e16b92a0c7db7662154dbb81ae20b8df0d6a1965f3439b34783"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/verification.json",
+        "sha256": "46d17f5808f7bbb264fe266fc05c383067ac490bdf74faf991c0e2cd858d9451"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/geometry.json",
+        "sha256": "3af56b00850ea530a5407860ae20dc89fec01d8c03b05b6353bd1c50b6d3c646"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/kinematics.json",
+        "sha256": "97da38ac2c252afb8816a6d7921840af4b9775c6e0d6a35d808911a787d6a78f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/provenance.json",
+        "sha256": "5941ab1ce36145bda2b036184cfea0e3d96d5969fdc0393c843f6dfe9c1eab4a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/incline-dumbbell-t-raise-alpha.webm",
+        "sha256": "f2092f7bd81b1339c22a924e7d70e45a3c7bbceb5513bc859093c939376a82f8",
+        "bytes": 220376,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/incline-dumbbell-t-raise.mp4",
+        "sha256": "f24267e8c8dfd6e982be61a86b7126ae65e7da83ebb7ce986f2a82e6ee4782bc",
+        "bytes": 101631,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/incline-yt/native/incline-dumbbell-t-raise/incline-dumbbell-t-raise-dark.mp4",
+        "sha256": "a69c9e32042f7105e9c16d65d482b75236b89935bc501cb2e7d8578f529e7ac8",
+        "bytes": 84605,
+        "decode": "passed"
+      }
+    ]
+  }
+}

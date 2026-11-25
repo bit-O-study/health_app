@@ -1,0 +1,10 @@
+{
+  "1-25-rep-bench-press": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/bench-press/"
+  },
+  "1-5-rep-shoulder-press": {
+    "equipment": "barbell",
+    "url": "https://www.strengthlog.com/overhead-press/"
+  }
+}

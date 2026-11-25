@@ -1,0 +1,18 @@
+{
+  "id": "reverse-snow-angel",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2aab4dfb9b099efed37b6c4e3c9fc5f6c4ebd434e78780b650be39d371fc6294",
+  "rigSourceSha256": "0faa915ba0eeb6084c3f412bdd2981181bfc623df5e9ec73b82654d30c8908a3",
+  "videoSha256": "da0773ee9925967ebab5c3d2cd864274d97a2ebe44593b9fb8d44a1ba2a7c10d",
+  "darkVideoSha256": "0ef994917b04d84180a8858c7af198eda887753217192c8c4e4aea1294b42e3a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 64021,
+  "darkBytes": 65620,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:17:34.309Z"
+}

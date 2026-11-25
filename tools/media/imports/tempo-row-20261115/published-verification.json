@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T00:04:05.702Z",
+  "report": [
+    {
+      "id": "tempo-row",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

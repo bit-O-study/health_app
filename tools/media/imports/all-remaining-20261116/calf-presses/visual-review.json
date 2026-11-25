@@ -1,0 +1,148 @@
+{
+  "calf-press-machine": {
+    "reviewedAt": "2026-11-16T02:31:58.023Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "calf-press-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Forefeet stay on the moving plate; heels remain outside its lower edge.",
+      "movement": "Seated 45-degree calf press: fixed knee angle, forefeet on narrow sled plate and heels below its edge; ankle-driven travel. 4 seconds up and 4 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/final.jpg",
+        "sha256": "27f82e6da54d32d0f53778600a8091cc8ff901076164ae9f8d4e3cb87770047a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/final-dark.jpg",
+        "sha256": "cf2147dfb49a36455a1231b897a1439d435ef5e732aeffbddc2fc9796ee48ed8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/full-sheet.png",
+        "sha256": "61588bac7b37be21c3dac9a59d8060828bb4e51de03e4094670ad31912b41748"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/side-sheet.png",
+        "sha256": "29838ce66a8a158a2b2534110abc9d5ddbcfaae6bddf2e78ccb7de79a4cf78c0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/verification.json",
+        "sha256": "666112cfa25267ff8cfa9e5d2ff01112f9dcb31c1d0809d43d282c944558eabc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/geometry.json",
+        "sha256": "6aacb346a50678c90dd920139b6b3d7135da52d2776afc9d7e6a4a8d98db1b0c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/kinematics.json",
+        "sha256": "0b1e41dc372089535cae42a0870ac5a490a4793a8a054b7074d72d45566c598f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/provenance.json",
+        "sha256": "441caaa9ad24ca2b5c77d548aa6d87fcf23eb9618774f4ac421470dbd3febae1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/calf-press-machine-alpha.webm",
+        "sha256": "f41a31ad59b7eaf053665d305f2532da7deb3ed604155f885ba0170c22aa30a8",
+        "bytes": 187131,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/calf-press-machine.mp4",
+        "sha256": "e44c248ed55e291b06182594c205d4fa11fb3c02b991cfc0d01971e3cad7e983",
+        "bytes": 83639,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/calf-press-machine-dark.mp4",
+        "sha256": "d1e4eeb0a4f507f13574b0c61c1a673b36512df65f5974edfabe19f5d9334b8c",
+        "bytes": 66339,
+        "decode": "passed"
+      }
+    ]
+  },
+  "pause-calf-raise": {
+    "reviewedAt": "2026-11-16T02:31:58.036Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pause-calf-raise",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Forefeet stay on the moving plate; heels remain outside its lower edge.",
+      "movement": "Seated 45-degree calf press: fixed knee angle, forefeet on narrow sled plate and heels below its edge; ankle-driven travel. 3 seconds up, 2 seconds at top, 3 seconds down; leg-press-machine example of paused calf raise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/final.jpg",
+        "sha256": "1669e329ee22e10228322934f63dee30024239ab1a4830c03c85b96dc6ae1ccc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/final-dark.jpg",
+        "sha256": "a01b4ad03ad5799bf859b3f9ff270e179e2199cf6938325f4e3e59155eb94c26"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/full-sheet.png",
+        "sha256": "79040f96375aa71441422464d855b32dbb68df7b788dfe8986fc08bcae05a440"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/side-sheet.png",
+        "sha256": "db1a2765c28c1a13f61f6fee76fe51e8b62b1c160f023d22c1b029a310370c3b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/verification.json",
+        "sha256": "fb30c1d44fd85edab3f41971289455c25cab4c2199e22d5b586f2aa2172c1bdc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/geometry.json",
+        "sha256": "e17926ec4a5e9df73955bbcba146248450e76832b0b6b9e1ff90005414babaf6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/kinematics.json",
+        "sha256": "66cec142dd02e48f6cbe9b348fec3ef00459bf0adb89dc7893411c5b95909e82"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/provenance.json",
+        "sha256": "535327558b9b4a9ec273b980ec29c186fe7145b75452c76c9ee9d1c81b2c8083"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/pause-calf-raise-alpha.webm",
+        "sha256": "489fa391f3b8a9c8865749ae7c87bc68b7469602d6bbecfa4cc7ea5805eddb69",
+        "bytes": 164277,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/pause-calf-raise.mp4",
+        "sha256": "77a9275b6578b8bf59e8d7c67b837656d92c6cd36ae3dc81411b12fa37599b0d",
+        "bytes": 74124,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/pause-calf-raise-dark.mp4",
+        "sha256": "9b791f88601efb48a95939be1e0de780687b1742ade4d3dbd257dd98a4db90b3",
+        "bytes": 58942,
+        "decode": "passed"
+      }
+    ]
+  }
+}

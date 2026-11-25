@@ -1,0 +1,75 @@
+{
+  "pilates-single-leg-stretch": {
+    "reviewedAt": "2026-11-24T05:02:41.859Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-single-leg-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands transfer to the bent knee while legs exchange positions.",
+      "feet": "One leg extends diagonally while the other bends; sides alternate with stable curled torso.",
+      "movement": "Supine curled torso with alternating diagonal straight leg and bent knee; hands transfer smoothly to bent knee."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled alternating leg extension."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/final.jpg",
+        "sha256": "d13fd66d1c09e16fa5a223db6ee3a7d3f6f6666a9458802947232c7c4bd74f2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/final-dark.jpg",
+        "sha256": "78881f3e2120746bd546a3a9c45d0c28a803dbe12449c5a3d3dcfbc85ecd09fa"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/full-sheet.png",
+        "sha256": "f8ad3da711afc59167c52f84d3df97fbc2376fa20fc59de21e4a158fb66895e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/side-sheet.png",
+        "sha256": "c329769feb2fe68bef1541a1d810537b73d9f8fb67bc33f718a3da425f718522"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/verification.json",
+        "sha256": "5462733f8b642c7fe6ccdd247a87bdf311e272c68adb82059ec8aa6f435cba6b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/geometry.json",
+        "sha256": "9e917ed41cbf50327a749a81291a1b8e2fb6f20e1caa3b37ca9c8cc0ec62cb10"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/kinematics.json",
+        "sha256": "b71e4f1d8037eca83d5dd93c87bc6ab92703260a85dadbdf53bfdd9ec54d8363"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/provenance.json",
+        "sha256": "9ba94052aaa9599c4ad93b17d4fe852e81967dbc27eb68a9deab1d68d62cb6e4"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/pilates-single-leg-stretch-alpha.webm",
+        "sha256": "421734cb874e411e21a0eaabacbdce10a227e3f71c1b1d55a9498721104b1312",
+        "bytes": 218453,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/pilates-single-leg-stretch.mp4",
+        "sha256": "14c0d690f24f7565f213e821a855693184a05651d24ad142e2567f5533c7eb3e",
+        "bytes": 91209,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-single/native/pilates-single-leg-stretch/pilates-single-leg-stretch-dark.mp4",
+        "sha256": "ea8e5f15c14ab8fed27bbec917a4908dd52af14138c8a502e27387a0595f77fa",
+        "bytes": 95402,
+        "decode": "passed"
+      }
+    ]
+  }
+}

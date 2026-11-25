@@ -1,0 +1,28 @@
+{
+  "lying-quad-stretch": [
+    {
+      "file": "tools/media/motion-guides/lying-quad-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-quad-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-quad-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-quad-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-quad-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-quad-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

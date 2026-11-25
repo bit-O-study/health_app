@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-24T05:56:08.131Z",
+  "report": [
+    {
+      "id": "standing-forward-fold",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "wide-leg-forward-fold",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

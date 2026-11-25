@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T06:59:45.109Z",
+  "report": [
+    {
+      "id": "wide-cable-face-pull",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

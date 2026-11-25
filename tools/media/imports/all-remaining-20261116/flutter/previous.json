@@ -1,0 +1,28 @@
+{
+  "flutter-kick": [
+    {
+      "file": "tools/media/motion-guides/flutter-kick.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/flutter-kick.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/flutter-kick-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/flutter-kick.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/flutter-kick-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/flutter-kick-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "26bc6c7e7e649d899fb1302200c90c6ce16d4da31eb09d0d1ca1faf7ebd7b3f0",
+  "rigSourceSha256": "7c12b931d9449810bcd8106db061e1a82a3fb489a5c07089b18d92c662900aba",
+  "videoSha256": "5a982dcd615e744f5bb5dffc3b0ae357591765851cb354c5539e37d256d611ad",
+  "darkVideoSha256": "9132c436bc491ebe0cdcc84a70c44eceef47efcc21111c8221753585e939e563",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90542,
+  "darkBytes": 80348,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:38:14.758Z"
+}

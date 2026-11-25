@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "it-band-stretch",
+      "original": "it-band-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "it-band",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/iliotibial-band-stretch-in-standing"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Standing lateral hip stretch: left leg crossed behind right, feet grounded, torso leans away from left hip with relaxed arms.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

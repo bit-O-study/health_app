@@ -1,0 +1,322 @@
+{
+  "id": "1-5-rep-leg-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/leg-press-variants/1-5-rep-leg-press-studio.mjs",
+      "sha256": "f345a7464c221113a40fde985a29ecbd02852ea52fda4c53b273c28ec4075f95"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/leg-press-variants/1-5-rep-leg-press-motion.mjs",
+      "sha256": "556821dab063262fa1239558d865ae2ef649d78a5a6374cc7ac0a6aa516e61d7"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/leg-press-variants/render.mjs",
+      "sha256": "b13637e6d09273a596a87fc86996ac630d62958216b533626c478f4b97ded138"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "1-5-rep-leg-press",
+    "sourceUrls": [
+      "https://www.nasm.org/resource-center/exercise-library/leg-press"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "One-and-a-half repetition: lower fully, press halfway, lower again, press to top. Knee included angle 165, 95, 130, 95, 165 degrees; supported back and feet.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "contacts": [
+        4.1632347566087144,
+        -2.2124353547175337,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 30,
+      "contacts": [
+        4.093920640757488,
+        -2.1995442296661754,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 60,
+      "contacts": [
+        3.61363527213383,
+        -2.1678194547200573,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 90,
+      "contacts": [
+        2.8159613274618907,
+        -2.1584218539918103,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 120,
+      "contacts": [
+        2.5607049249054152,
+        -2.1561123861421905,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 150,
+      "contacts": [
+        2.819341829631403,
+        -2.158458558529503,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 180,
+      "contacts": [
+        3.431838225743285,
+        -2.1656146347503924,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 210,
+      "contacts": [
+        3.61363527213383,
+        -2.1678194547200573,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 240,
+      "contacts": [
+        3.431838225743285,
+        -2.1656146347503924,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 270,
+      "contacts": [
+        2.8193418296314006,
+        -2.158458558529503,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 300,
+      "contacts": [
+        2.5607049249054152,
+        -2.1561123861421905,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 330,
+      "contacts": [
+        2.705766653136867,
+        -2.1572913570042815,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 360,
+      "contacts": [
+        3.2834211554920016,
+        -2.1638567601774903,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 390,
+      "contacts": [
+        3.8763052143945345,
+        -2.1713485398318375,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 420,
+      "contacts": [
+        4.127377259462071,
+        -2.205296896159302,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 450,
+      "contacts": [
+        4.1632347566087144,
+        -2.2124353547175337,
+        -4.234535693060611,
+        0
+      ]
+    },
+    {
+      "frame": 480,
+      "contacts": [
+        4.1632347566087144,
+        -2.2124353547175337,
+        -4.234535693060611,
+        0
+      ]
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "gripError": 1.831026719408895e-15,
+    "maxStep": 0.03980547532066519,
+    "kneeDegrees": [
+      95.00000000000004,
+      165.00000000000023
+    ],
+    "timingTargets": [
+      [
+        0,
+        165
+      ],
+      [
+        120,
+        95
+      ],
+      [
+        210,
+        130
+      ],
+      [
+        300,
+        95
+      ],
+      [
+        450,
+        165
+      ],
+      [
+        480,
+        165
+      ]
+    ]
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      137.9035227637148,
+      137.9035227637148
+    ],
+    "alpha": {
+      "transparent": 35921648,
+      "opaque": 7074236,
+      "partial": 1240916,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/source.jpg",
+    "sha256": "68a1d32c692bd0db65784de93064b0a78d67b92d95ab47bcd7a2f9c01bd26627",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Range and timing are illustrative; entry and exit are not animated."
+}

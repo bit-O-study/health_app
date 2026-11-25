@@ -1,0 +1,39 @@
+{
+  "glute-bridge-march": {
+    "reviewedAt": "2026-11-16T08:34:38.300Z",
+    "checks": {
+      "exercise": "glute-bridge-march",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside the body on the mat.",
+      "feet": "Feet alternately lift and return while pelvis remains elevated and level, upper back and hands supported.",
+      "movement": "Maintain a raised level pelvis and upper back support, alternate bent-knee foot lifts. Each side rises for 1.5 seconds, pauses for 1 second, lowers for 1.5 seconds."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/full-sheet.png",
+        "sha256": "41427b64423f51d5cfdf9efaaeae10fbfa2e0221ccf7f5f109392b87827fcfad"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/side-sheet.png",
+        "sha256": "fef66bfc570e5b5770534ece62e95093e1821bfce15ab417f389e40b833901dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/poses.json",
+        "sha256": "2aadf2ad52fb60dd4e1be5386e9655fb83ab5b9a92a300192f64ecb350e1f224"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/geometry.json",
+        "sha256": "bbb14f1f8afdea728d0723c22f349db19042fba91e3ed570a0c805d65f734816"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bridge-march/native/glute-bridge-march/kinematics.json",
+        "sha256": "d1743fceb0b2e977c488f0be6308d62482485ce706adfb99af0b6a20462d458a"
+      }
+    ]
+  }
+}

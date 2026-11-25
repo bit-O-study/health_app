@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "camel-pose",
+      "original": "camel-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "camel",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/camel-pose?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Kneeling backbend with hip-width vertical thighs, knees grounded, chest lifted and palms supported on heels.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+import {checkPoses} from './check-poses.mjs';
+const dir='tools/media/imports/tempo-row-20261115/native/tempo-row',poses=JSON.parse(readFileSync(dir+'/poses.json'));
+const kinematics=checkPoses('tempo-row',poses);
+for(let f=60;f<=120;f++)assert.deepEqual(poses[f].joints,poses[60].joints);
+for(let f=300;f<=480;f++)assert.deepEqual(poses[f].joints,poses[0].joints);
+assert.ok(poses[30].joints.bar[1]>poses[0].joints.bar[1]);assert.ok(poses[210].joints.bar[1]<poses[120].joints.bar[1]);
+let maxStep=0;for(let f=1;f<=480;f++)maxStep=Math.max(maxStep,Math.hypot(...poses[f].joints.bar.map((x,i)=>x-poses[f-1].joints.bar[i])));assert.ok(maxStep<.1);
+const report={status:'numeric-checks-passed',...kinematics,maxStep,pullSeconds:1,topHoldSeconds:1,loweringSeconds:3,bottomHoldSeconds:3};
+writeFileSync(dir+'/kinematics.json',JSON.stringify(report,null,2));console.log(report);

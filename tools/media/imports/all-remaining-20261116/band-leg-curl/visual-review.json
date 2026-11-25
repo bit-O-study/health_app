@@ -1,0 +1,75 @@
+{
+  "band-leg-curl": {
+    "reviewedAt": "2026-11-16T05:18:56.586Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "band-leg-curl",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left foot on step; right ankle cuff joined to a red resistance band fixed to the low rack. Torso and support leg fixed; band elongation and ankle contact checked.",
+      "movement": "Standing right knee curl against a red resistance band secured to the low front rack. Left foot on step, fixed hands and torso, knee 180 to 80 degrees; four seconds each direction. Band length increases while its thickness decreases."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/final.jpg",
+        "sha256": "f5faa31bc8159a850e7b391fc2d16ff6bb317370708b6a34f747c0f3b0e241d2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/final-dark.jpg",
+        "sha256": "0c2f360e04da138085764e7674a3b74bce1fa5fe7a8cdb1a7c76fb3105693f78"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/full-sheet.png",
+        "sha256": "2b3178422fd18069b99127e65dcb259f0aa591eea446af5dd4d126f1e007d937"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/side-sheet.png",
+        "sha256": "75c0bf956d3e0e8053242939ab042967912d965f11cc0866561846faa89b64fe"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/verification.json",
+        "sha256": "93429c25b4346daf9aa7897471d1ffc7e118be63faeb0814bb403046a915c4ed"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/geometry.json",
+        "sha256": "e5bd0a56be9d806094e97a1c6395c976affc415a96148c5256ab9e737d866a72"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/kinematics.json",
+        "sha256": "1bac361556be1eabc08ced93d670e8cc7ea8b42bca877201e461aff3e1413b36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/provenance.json",
+        "sha256": "fc4fea5892bccfe020f2646af5d092318290328a2e242bfc1c8a9970b65c6f69"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/band-leg-curl-alpha.webm",
+        "sha256": "f3a4286f76de7c7b02f3cb3348e3b6f8a2cfe250f6411b427fa7e2e43cd31c1f",
+        "bytes": 180226,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/band-leg-curl.mp4",
+        "sha256": "a170258c27ca65a1450de5a507efab1599bcf26bb3df49837a8db5352c8fb0e2",
+        "bytes": 74349,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/band-leg-curl/native/band-leg-curl/band-leg-curl-dark.mp4",
+        "sha256": "627c45302fa1cc50e820c6d80797b6831f2c09b2cdebb774774232a1d169c2bb",
+        "bytes": 68764,
+        "decode": "passed"
+      }
+    ]
+  }
+}

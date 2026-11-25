@@ -1,0 +1,39 @@
+{
+  "camel-pose": {
+    "reviewedAt": "2026-11-24T04:12:29.811Z",
+    "checks": {
+      "exercise": "camel-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms supported on heels with chest lifted and neck following upper back.",
+      "feet": "Hip-width knees and tops of feet grounded; thighs vertical and pelvis over knees.",
+      "movement": "Kneeling backbend with hip-width vertical thighs, knees grounded, chest lifted and palms supported on heels."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/full-sheet.png",
+        "sha256": "44790004d7ecf71ad2a37eac141c2142f68e2554c45fd6442096694c7ac2ab73"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/side-sheet.png",
+        "sha256": "f4810d6f53355c42106d6b87d7a2fbc5683f3f42b69a70f77bd0a3eed3a91b37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/poses.json",
+        "sha256": "5ff117a255c0dd502eee99eff3da847092f3e847fbcb18927523ff8f6e90562e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/geometry.json",
+        "sha256": "5338cee8f8a3cd9a1e59d450ceebb5a5e9ca91b1fd23dfb65b0dfbb1a114c978"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/kinematics.json",
+        "sha256": "0f127e30a6424c8450d4f9fb75b91aa114002e448e49446f027317d75e58f84f"
+      }
+    ]
+  }
+}

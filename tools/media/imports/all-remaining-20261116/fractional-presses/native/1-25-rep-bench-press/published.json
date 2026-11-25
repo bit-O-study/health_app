@@ -1,0 +1,18 @@
+{
+  "id": "1-25-rep-bench-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9ae03d62b0bfd63c7457f93fb7cf5ffbd1e81287764092bc026388591758248f",
+  "rigSourceSha256": "de9fa7cd3a860c5b3e9b300bfa18784290e2e9b455b030f72e9fafd2f8c58adf",
+  "videoSha256": "80e7c0d9fd172cc706fe70620e63c2c28e76f577cc07ffa491efc54e72ab2738",
+  "darkVideoSha256": "a12fe876e7428474ee89686a5a03e68692300688151c109338f3d203cabeec7f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 127487,
+  "darkBytes": 111904,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:16:09.486Z"
+}

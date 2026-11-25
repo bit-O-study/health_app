@@ -1,0 +1,14 @@
+{
+  "single-leg-extension": {
+    "equipment": "machine",
+    "url": "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+  },
+  "single-leg-curl": {
+    "equipment": "machine",
+    "url": "https://www.nasm.org/resource-center/exercise-library/single-leg-seated-leg-curl"
+  },
+  "leg-curl": {
+    "equipment": "machine",
+    "url": "https://www.nasm.org/resource-center/exercise-library/single-leg-seated-leg-curl"
+  }
+}

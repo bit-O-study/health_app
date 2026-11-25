@@ -1,0 +1,18 @@
+{
+  "id": "pause-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "27e7c2795d3c7103f92dd325fdc0c7499f704eaaa1f842007c6ecdff148cbb07",
+  "rigSourceSha256": "535327558b9b4a9ec273b980ec29c186fe7145b75452c76c9ee9d1c81b2c8083",
+  "videoSha256": "77a9275b6578b8bf59e8d7c67b837656d92c6cd36ae3dc81411b12fa37599b0d",
+  "darkVideoSha256": "9b791f88601efb48a95939be1e0de780687b1742ade4d3dbd257dd98a4db90b3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74124,
+  "darkBytes": 58942,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:32:24.622Z"
+}

@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "planche",
+      "original": "planche",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "planche",
+        "sourceUrls": [
+          "https://gmb.io/planche/"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Hold body face down and horizontal on straight arms, shoulders ahead of palms, legs extended and feet off floor.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static full planche; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

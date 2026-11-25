@@ -1,0 +1,54 @@
+{
+  "1-5-rep-leg-press": [
+    {
+      "file": "tools/media/motion-guides/1-5-rep-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-5-rep-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-5-rep-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "partial-leg-press": [
+    {
+      "file": "tools/media/motion-guides/partial-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/partial-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/partial-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/partial-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "1-5-rep-leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "68a1d32c692bd0db65784de93064b0a78d67b92d95ab47bcd7a2f9c01bd26627",
+  "rigSourceSha256": "60535cb657845026d309a302286196823a0d384fe08efcfea3b83c35b5f1f8c6",
+  "videoSha256": "29a7548970fcbc91c8cbce4eb3cf3fd6fa02789b7470438fc2b60b1a79a7205c",
+  "darkVideoSha256": "62d6846976f77e5a4a171a7948f487df6accb4096a4a4b03dd94217dc88d34f8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 126078,
+  "darkBytes": 105017,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:11:48.374Z"
+}

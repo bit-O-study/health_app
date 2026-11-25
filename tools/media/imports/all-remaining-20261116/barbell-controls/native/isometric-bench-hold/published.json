@@ -1,0 +1,18 @@
+{
+  "id": "isometric-bench-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "42b63375d5accfa171c6bb0200ec4b463d81462ab9e30b5d50d2302fbe9445a6",
+  "rigSourceSha256": "c976aa6b62028504e75053cbbd359c8c69405e380e8f2c2d7636476fb6ff4afb",
+  "videoSha256": "3fe0f8eec6676979f19f2536e36fedd11e62c575ca6a4b382b65d21d6b9ef8a4",
+  "darkVideoSha256": "fc111971ae73e04957c43c65ed6e052dcdf30050fa32df75cd914fd3646ab0d3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 17392,
+  "darkBytes": 17085,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:38:08.127Z"
+}

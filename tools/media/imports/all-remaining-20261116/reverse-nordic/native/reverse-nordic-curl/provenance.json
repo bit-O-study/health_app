@@ -1,0 +1,295 @@
+{
+  "id": "reverse-nordic-curl",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/reverse-nordic/reverse-nordic-curl-studio.mjs",
+      "sha256": "015ef46b74ae680ccb4dc87d1d7c96386ff9894a3b2ee2454999bcb06d9dc5d7"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/reverse-nordic/reverse-nordic-curl-motion.mjs",
+      "sha256": "a314a10fc19bd4fe035b4dbced2f176fa2845a907ddaf1add47b9e9423a0f5b1"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/reverse-nordic/render.mjs",
+      "sha256": "fe88742ea1ff3d10ac6d128d7e8e77225c2d3bb61e62feef51f0dc6a80011cbb"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "reverse-nordic-curl",
+    "sourceUrls": [
+      "https://us.physitrack.com/home-exercise-video/nordic-curl---reversed"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Tall kneeling reverse Nordic: trunk and thighs tilt backward together through illustrative 35-degree range; 3.5-second lean, 1-second hold, 3.5-second return. Knees and lower legs remain supported; no ankle restraint.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "body": -7.025289483970018,
+      "toes": -6.225812436066475,
+      "cloth": -6.395307127032452,
+      "knees": -7.025289483970018,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.8747105160299826
+    },
+    {
+      "frame": 30,
+      "body": -7.023966776574794,
+      "toes": -6.225812436066476,
+      "cloth": -6.387965008849753,
+      "knees": -7.023966776574794,
+      "ankleMax": -5.8929186340332045,
+      "floorClearance": 0.876033223425206
+    },
+    {
+      "frame": 60,
+      "body": -7.016568589512121,
+      "toes": -6.225812436066473,
+      "cloth": -6.351943583856867,
+      "knees": -7.016568589512121,
+      "ankleMax": -5.892918634033201,
+      "floorClearance": 0.8834314104878791
+    },
+    {
+      "frame": 90,
+      "body": -7.00092380232885,
+      "toes": -6.225812436066475,
+      "cloth": -6.291632537154727,
+      "knees": -7.00092380232885,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.8990761976711505
+    },
+    {
+      "frame": 120,
+      "body": -6.979323787289972,
+      "toes": -6.225812436066475,
+      "cloth": -6.288683567666839,
+      "knees": -6.979323787289972,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.9206762127100285
+    },
+    {
+      "frame": 150,
+      "body": -6.970288099463285,
+      "toes": -6.225812436066476,
+      "cloth": -6.362261748141477,
+      "knees": -6.964957027599484,
+      "ankleMax": -5.8929186340332045,
+      "floorClearance": 0.9297119005367156
+    },
+    {
+      "frame": 180,
+      "body": -6.970288099463285,
+      "toes": -6.225812436066473,
+      "cloth": -6.415227403228753,
+      "knees": -6.958166836605882,
+      "ankleMax": -5.892918634033201,
+      "floorClearance": 0.9297119005367156
+    },
+    {
+      "frame": 210,
+      "body": -6.9702880994632865,
+      "toes": -6.225812436066477,
+      "cloth": -6.4256541844549675,
+      "knees": -6.956828875476645,
+      "ankleMax": -5.8929186340332045,
+      "floorClearance": 0.9297119005367138
+    },
+    {
+      "frame": 240,
+      "body": -6.9702880994632865,
+      "toes": -6.225812436066477,
+      "cloth": -6.4256541844549675,
+      "knees": -6.956828875476645,
+      "ankleMax": -5.8929186340332045,
+      "floorClearance": 0.9297119005367138
+    },
+    {
+      "frame": 270,
+      "body": -6.9702880994632865,
+      "toes": -6.225812436066477,
+      "cloth": -6.4256541844549675,
+      "knees": -6.956828875476645,
+      "ankleMax": -5.8929186340332045,
+      "floorClearance": 0.9297119005367138
+    },
+    {
+      "frame": 300,
+      "body": -6.970288099463286,
+      "toes": -6.225812436066475,
+      "cloth": -6.415227403228753,
+      "knees": -6.958166836605882,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.9297119005367147
+    },
+    {
+      "frame": 330,
+      "body": -6.970288099463286,
+      "toes": -6.225812436066477,
+      "cloth": -6.362261748141478,
+      "knees": -6.964957027599484,
+      "ankleMax": -5.8929186340332045,
+      "floorClearance": 0.9297119005367147
+    },
+    {
+      "frame": 360,
+      "body": -6.979323787289972,
+      "toes": -6.225812436066475,
+      "cloth": -6.288683567666839,
+      "knees": -6.979323787289972,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.9206762127100285
+    },
+    {
+      "frame": 390,
+      "body": -7.00092380232885,
+      "toes": -6.225812436066475,
+      "cloth": -6.291632537154727,
+      "knees": -7.00092380232885,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.8990761976711505
+    },
+    {
+      "frame": 420,
+      "body": -7.016568589512121,
+      "toes": -6.225812436066473,
+      "cloth": -6.351943583856867,
+      "knees": -7.016568589512121,
+      "ankleMax": -5.892918634033201,
+      "floorClearance": 0.8834314104878791
+    },
+    {
+      "frame": 450,
+      "body": -7.023966776574794,
+      "toes": -6.225812436066473,
+      "cloth": -6.387965008849752,
+      "knees": -7.023966776574794,
+      "ankleMax": -5.892918634033201,
+      "floorClearance": 0.876033223425206
+    },
+    {
+      "frame": 480,
+      "body": -7.025289483970018,
+      "toes": -6.225812436066475,
+      "cloth": -6.395307127032452,
+      "knees": -7.025289483970018,
+      "ankleMax": -5.892918634033203,
+      "floorClearance": 0.8747105160299826
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "maxSupportError": 5.9746092726847654e-15,
+    "maxAlignmentError": 3.885780586188048e-16,
+    "maxStep": 0.05990274403364138,
+    "backwardHeadTravel": 6.385129988415677,
+    "supportSamples": 17
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      68.52403760829166,
+      68.52403760829178
+    ],
+    "alpha": {
+      "transparent": 39237790,
+      "opaque": 4402913,
+      "partial": 596097,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/reverse-nordic/native/reverse-nordic-curl/source.jpg",
+    "sha256": "c18c47e200e6d98d0e50d148bf8b77d0a5062621ca659d13e1b9bdede0ce48ca",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

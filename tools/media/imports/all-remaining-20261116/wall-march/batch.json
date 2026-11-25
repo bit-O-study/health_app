@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "wall-sit-march",
+      "original": "wall-sit-march",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "wall-sit-march",
+        "sourceUrls": [
+          "https://www.catalystathletics.com/exercise/750/Wall-Sit-March/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Wall sit with alternating foot lifts: right then left, each 4 seconds (1.5 seconds up, 1 second pause, 1.5 seconds down). Hip flexion increases 15 degrees while the opposite foot stays flat, support thigh horizontal and knee 90 degrees. Stable trunk and pelvis against wall. Entry and exit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

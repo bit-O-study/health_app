@@ -1,0 +1,473 @@
+{
+  "id": "barbell-calf-raise",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/barbell-calf/barbell-calf-raise-studio.mjs",
+      "sha256": "17193792830400eb0d7395b400a2aec92497c5e6e6fee6a2b570c5306d097c70"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/barbell-calf/barbell-calf-raise-motion.mjs",
+      "sha256": "378fdf996b27119b29c2f2fd21f6eb0aefdf11d90e4fb7c9e30ebd9821448295"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/barbell-calf/render.mjs",
+      "sha256": "bf78228e58378accaccc41a56a899af49de63bb6a063904cc0b996be960b88ff"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "barbell-calf-raise",
+    "sourceUrls": [
+      "https://www.muscleandstrength.com/exercises/standing-calf-raise.html"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Standing barbell calf raise on a step. Forefeet stay supported while both heels rise and lower; knees remain straight and bar stays across the upper back. 3.5 seconds rise, 1 second pause, 3.5 seconds lower.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "gripError": 1.9984014443252818e-15,
+      "support": {
+        "L": 0.015000001399810614,
+        "R": 0.015000001399810614
+      },
+      "heels": {
+        "L": -8.544388914189135,
+        "R": -8.544388914189135
+      },
+      "heelBack": 0.3940422071774561,
+      "barGap": 0.018829813444093735,
+      "bar": [
+        0,
+        4.976795759304663,
+        -1.0493194655914755
+      ]
+    },
+    {
+      "frame": 30,
+      "gripError": 1.2755491433176288e-15,
+      "support": {
+        "L": 0.015000001335227608,
+        "R": 0.015000001335227608
+      },
+      "heels": {
+        "L": -8.516349079405046,
+        "R": -8.516349079405046
+      },
+      "heelBack": 0.3833453501849906,
+      "barGap": 0.018829813433730747,
+      "bar": [
+        0,
+        5.001348323493926,
+        -1.048526851622839
+      ]
+    },
+    {
+      "frame": 60,
+      "gripError": 2.0350724194510405e-15,
+      "support": {
+        "L": 0.014999999479906378,
+        "R": 0.014999999479906378
+      },
+      "heels": {
+        "L": -8.381163787982654,
+        "R": -8.381163787982654
+      },
+      "heelBack": 0.33442948695051844,
+      "barGap": 0.01882981335351247,
+      "bar": [
+        0,
+        5.115178964185523,
+        -1.036187337194744
+      ]
+    },
+    {
+      "frame": 90,
+      "gripError": 2.8435583831733384e-15,
+      "support": {
+        "L": 0.014999999897254312,
+        "R": 0.014999999897254312
+      },
+      "heels": {
+        "L": -8.112979685140314,
+        "R": -8.112979685140314
+      },
+      "heelBack": 0.2945323660839019,
+      "barGap": 0.01882981306776796,
+      "bar": [
+        0,
+        5.3462789510454805,
+        -0.978039825664337
+      ]
+    },
+    {
+      "frame": 120,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.014999999977316492,
+        "R": 0.014999999977316492
+      },
+      "heels": {
+        "L": -7.812462793797655,
+        "R": -7.812462793797655
+      },
+      "heelBack": 0.3119976462211318,
+      "barGap": 0.018829812515665095,
+      "bar": [
+        0,
+        5.626545593951018,
+        -0.8521576905375317
+      ]
+    },
+    {
+      "frame": 150,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.01499999988959999,
+        "R": 0.01499999988959999
+      },
+      "heels": {
+        "L": -7.574061350590735,
+        "R": -7.574061350590735
+      },
+      "heelBack": 0.38203795643138455,
+      "barGap": 0.018829811890840487,
+      "bar": [
+        0,
+        5.842234682143788,
+        -0.701433686514489
+      ]
+    },
+    {
+      "frame": 180,
+      "gripError": 2.8435583831733384e-15,
+      "support": {
+        "L": 0.01499999986027234,
+        "R": 0.01499999986027234
+      },
+      "heels": {
+        "L": -7.447232270533093,
+        "R": -7.447232270533093
+      },
+      "heelBack": 0.44557497404074653,
+      "barGap": 0.018829811497180493,
+      "bar": [
+        0,
+        5.948156805165098,
+        -0.6040333374742597
+      ]
+    },
+    {
+      "frame": 210,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.014999999856168955,
+        "R": 0.014999999856168955
+      },
+      "heels": {
+        "L": -7.423301782718931,
+        "R": -7.423301782718931
+      },
+      "heelBack": 0.45901242253627567,
+      "barGap": 0.018829811417844955,
+      "bar": [
+        0,
+        5.967413779683925,
+        -0.5842338209350624
+      ]
+    },
+    {
+      "frame": 240,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.014999999856168955,
+        "R": 0.014999999856168955
+      },
+      "heels": {
+        "L": -7.423301782718931,
+        "R": -7.423301782718931
+      },
+      "heelBack": 0.45901242253627567,
+      "barGap": 0.018829811417844955,
+      "bar": [
+        0,
+        5.967413779683925,
+        -0.5842338209350624
+      ]
+    },
+    {
+      "frame": 270,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.014999999856168955,
+        "R": 0.014999999856168955
+      },
+      "heels": {
+        "L": -7.423301782718931,
+        "R": -7.423301782718931
+      },
+      "heelBack": 0.45901242253627567,
+      "barGap": 0.018829811417844955,
+      "bar": [
+        0,
+        5.967413779683925,
+        -0.5842338209350624
+      ]
+    },
+    {
+      "frame": 300,
+      "gripError": 1.7342238036525468e-15,
+      "support": {
+        "L": 0.01499999986027234,
+        "R": 0.01499999986027234
+      },
+      "heels": {
+        "L": -7.447232270533093,
+        "R": -7.447232270533093
+      },
+      "heelBack": 0.44557497404074564,
+      "barGap": 0.01882981149718055,
+      "bar": [
+        0,
+        5.948156805165097,
+        -0.6040333374742601
+      ]
+    },
+    {
+      "frame": 330,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.01499999988959999,
+        "R": 0.01499999988959999
+      },
+      "heels": {
+        "L": -7.574061350590735,
+        "R": -7.574061350590735
+      },
+      "heelBack": 0.382037956431385,
+      "barGap": 0.018829811890840487,
+      "bar": [
+        0,
+        5.842234682143788,
+        -0.7014336865144886
+      ]
+    },
+    {
+      "frame": 360,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.014999999977316492,
+        "R": 0.014999999977316492
+      },
+      "heels": {
+        "L": -7.812462793797655,
+        "R": -7.812462793797655
+      },
+      "heelBack": 0.3119976462211318,
+      "barGap": 0.018829812515665095,
+      "bar": [
+        0,
+        5.626545593951018,
+        -0.8521576905375317
+      ]
+    },
+    {
+      "frame": 390,
+      "gripError": 2.737549743767154e-15,
+      "support": {
+        "L": 0.014999999897254312,
+        "R": 0.014999999897254312
+      },
+      "heels": {
+        "L": -8.112979685140314,
+        "R": -8.112979685140314
+      },
+      "heelBack": 0.2945323660839017,
+      "barGap": 0.01882981306776796,
+      "bar": [
+        0,
+        5.3462789510454805,
+        -0.9780398256643372
+      ]
+    },
+    {
+      "frame": 420,
+      "gripError": 2.0350724194510405e-15,
+      "support": {
+        "L": 0.014999999479908155,
+        "R": 0.014999999479908155
+      },
+      "heels": {
+        "L": -8.381163787982654,
+        "R": -8.381163787982654
+      },
+      "heelBack": 0.3344294869505182,
+      "barGap": 0.01882981335351247,
+      "bar": [
+        0,
+        5.115178964185523,
+        -1.036187337194744
+      ]
+    },
+    {
+      "frame": 450,
+      "gripError": 1.2560739669470201e-15,
+      "support": {
+        "L": 0.015000001335227608,
+        "R": 0.015000001335227608
+      },
+      "heels": {
+        "L": -8.516349079405046,
+        "R": -8.516349079405046
+      },
+      "heelBack": 0.38334535018499105,
+      "barGap": 0.018829813433730747,
+      "bar": [
+        0,
+        5.001348323493925,
+        -1.0485268516228388
+      ]
+    },
+    {
+      "frame": 480,
+      "gripError": 1.9984014443252818e-15,
+      "support": {
+        "L": 0.015000001399810614,
+        "R": 0.015000001399810614
+      },
+      "heels": {
+        "L": -8.544388914189135,
+        "R": -8.544388914189135
+      },
+      "heelBack": 0.3940422071774561,
+      "barGap": 0.018829813444093735,
+      "bar": [
+        0,
+        4.976795759304663,
+        -1.0493194655914755
+      ]
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "gripError": 2.8435583831733384e-15,
+    "maxStep": 0.010474625350886349,
+    "toeHorizontalDrift": 4.440892098500626e-16,
+    "kneeRange": [
+      173.83236709677178,
+      173.83236709677178
+    ],
+    "heelRange": [
+      -8.544388914189135,
+      -7.423301782718931
+    ],
+    "minimumBarGap": 0.018829811417844955,
+    "minimumSupportGap": 0.014999999479906378
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      67.10693796187834,
+      67.10693796187839
+    ],
+    "alpha": {
+      "transparent": 39148959,
+      "opaque": 4147399,
+      "partial": 940442,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/barbell-calf/native/barbell-calf-raise/source.jpg",
+    "sha256": "d7c8aa375cc83bb86d1d693bc2ff9239ba2637481ad14162bdb95f469e867ea9",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

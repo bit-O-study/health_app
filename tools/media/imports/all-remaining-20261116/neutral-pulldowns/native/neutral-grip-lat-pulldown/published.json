@@ -1,0 +1,18 @@
+{
+  "id": "neutral-grip-lat-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f5bb2fcb52969cffdc7989d60d0168e6e8811cba07b32fb354bf3701c44442d8",
+  "rigSourceSha256": "e6308ed50c48e91ee6051f772479c7ae53fb865de82f6e552daf1b32ea8b9b9d",
+  "videoSha256": "e25c87696847e9e092c580e6f5c6e78e41a61f6c6e7e4366aa4472110b6bc1f8",
+  "darkVideoSha256": "a9398d3e1a7480704a669ab935f118cb3e68585ee2a4f1051272a84dd3af452d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 71012,
+  "darkBytes": 69345,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:50:40.151Z"
+}

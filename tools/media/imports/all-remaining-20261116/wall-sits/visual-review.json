@@ -1,0 +1,148 @@
+{
+  "wall-sit": {
+    "reviewedAt": "2026-11-16T06:34:05.082Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "wall-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extended forward without resting on thighs.",
+      "feet": "Back against wall, supporting foot or feet flat on the floor with horizontal thigh and vertical shin. Single-leg version extends the other leg horizontally. Static maintained position.",
+      "movement": "Static wall sit with both thighs horizontal, knees 90 degrees, feet flat and back supported. Arms extended in front. Eight seconds shows maintained hold; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/final.jpg",
+        "sha256": "11ba119cba159a09afd2acf36c4f315321d19c3487d85bbfb22e89f8603e55e9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/final-dark.jpg",
+        "sha256": "037945cb6c9a883c642ceb4ceb8d14801470b058621454e89d7e00dd270f7d69"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/full-sheet.png",
+        "sha256": "4b8c715b47bf6416c381ee41c9a11baeeda83b983f5bffd1fe498c2cfaadc1e3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/side-sheet.png",
+        "sha256": "b72f9aa1a0a8b11f1577dedcc729ea034e67a334ff420cfd9f4d048bd83e5eaf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/verification.json",
+        "sha256": "77370a39df80b109e1fc71451261d1617093a3201080c1ffece132219fb8778d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/geometry.json",
+        "sha256": "dbc34443d9e61306911c796e0b24cfe05ffb1a61113a31ee3289987783d4a17f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/kinematics.json",
+        "sha256": "1296611840d976f8cc27c61301b589627352af7da74231b118b971521d99ee0a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/provenance.json",
+        "sha256": "d95357d9177c9df369be0815bc9b918e14e86e21954d76b7e696c243254d1687"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/wall-sit-alpha.webm",
+        "sha256": "d0bd774b9f921018f5084a81c8007ec27c5554fc055d1629274c52fc8d816e60",
+        "bytes": 35672,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/wall-sit.mp4",
+        "sha256": "abacb1bc886cf1525cb0444365fb06afc3b762a8b1e652f043eb091dc28159a9",
+        "bytes": 16111,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/wall-sit/wall-sit-dark.mp4",
+        "sha256": "3867732e464f5434a519cf8f9655fb132c924599b8aeba378390199dd9400cd9",
+        "bytes": 15718,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-leg-wall-sit": {
+    "reviewedAt": "2026-11-16T06:34:05.091Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-wall-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extended forward without resting on thighs.",
+      "feet": "Back against wall, supporting foot or feet flat on the floor with horizontal thigh and vertical shin. Single-leg version extends the other leg horizontally. Static maintained position.",
+      "movement": "Static single-leg wall sit supported on left leg, thigh horizontal and knee 90 degrees. Right leg extended horizontally, back supported and arms extended forward. Eight seconds shows maintained hold; entry, exit and side change omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/final.jpg",
+        "sha256": "d0ec92c15101ba2ae175e3dad2535c56af1e345508f8b5eafd24c0d5f7384264"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/final-dark.jpg",
+        "sha256": "5d59163c401152f822bbb046ca75fa572eaad87c074be5204da41df0d10cb4e5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/full-sheet.png",
+        "sha256": "ac5336fb11663be0cd99401bf2a5e020f0de95d18889e445825080f2debb7d97"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/side-sheet.png",
+        "sha256": "667128931fb5034ae8c891f75fc5fa63840ef3fffb76e77870326a911f155f97"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/verification.json",
+        "sha256": "f5176bc8a9bc22ca3fd675b52e9612329aa7ba71001cf5d9dc9bf41f0db23d87"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/geometry.json",
+        "sha256": "d534d783134732b95e4966201c2c4700558b5316beb1ffcb59e2803ff4c5b363"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/kinematics.json",
+        "sha256": "5d3fd3e3c3490ee3f81a0079e7f9c95d758a1f55543211b3844a7dffe11259ca"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/provenance.json",
+        "sha256": "b79ba97c43015b26c899772dc15c67d26b2b1ab78a5f9581e456c97979d40fbb"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/single-leg-wall-sit-alpha.webm",
+        "sha256": "f8171298d85f019bc8f7ab83d3ca4a219d1a3f29b8ee9785a9ffdb9ce1df1776",
+        "bytes": 36432,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/single-leg-wall-sit.mp4",
+        "sha256": "c01bda04fe35f29f2a619983d71c257d062d8678c3d87ae2a1a3e967a9e47633",
+        "bytes": 16566,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/wall-sits/native/single-leg-wall-sit/single-leg-wall-sit-dark.mp4",
+        "sha256": "448db6e3a11976b87611391ddf1c07d675f0c10661b87aedf20bc8082502d712",
+        "bytes": 15908,
+        "decode": "passed"
+      }
+    ]
+  }
+}

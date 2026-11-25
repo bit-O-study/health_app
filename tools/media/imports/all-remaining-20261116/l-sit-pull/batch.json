@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "l-sit-pull-up",
+      "original": "l-sit-pull-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "l-sit-pull-up",
+        "sourceUrls": [
+          "https://www.youtube.com/watch?v=e1NiaKFx7gI"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Overhand L-sit pull-up, straight horizontal legs maintained throughout. Start with extended arms, pull chin above bar, return under control; 3.5 seconds up, 1 second pause, 3.5 seconds down. Entry into L-sit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

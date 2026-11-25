@@ -1,0 +1,39 @@
+{
+  "weighted-plank": {
+    "reviewedAt": "2026-11-16T04:06:05.562Z",
+    "checks": {
+      "exercise": "weighted-plank",
+      "equipment": "plate",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands and forearms supported on virtual floor.",
+      "feet": "Both feet retain toe contact. Plate rests on the back with a measured contact gap.",
+      "movement": "Static weighted forearm plank with a centered weight plate on the back; forearms and toes supported. Eight-second illustrative hold. Plate placement and removal are omitted; guidance calls for a training partner."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/full-sheet.png",
+        "sha256": "998021031982fbf5d87c0ee7f2b5a9d3ca30f574280927a62184afd0cef23c64"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/side-sheet.png",
+        "sha256": "0811f451a05483a138c477c3d18967266edb354559e30d70b53bab8d74bdf964"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/poses.json",
+        "sha256": "58f409294608d238687b7dc42d54c4a587e47a1d190b7f5e95cae906280ee337"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/geometry.json",
+        "sha256": "4d861c9516f284c759a515984afc1d8c03c619c328f5a20d7d137e3174ffb147"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/kinematics.json",
+        "sha256": "8a098c91cc692ba72a5db7730fe2ce771357ec4e656e0c7c28b1a3dfc05b741b"
+      }
+    ]
+  }
+}

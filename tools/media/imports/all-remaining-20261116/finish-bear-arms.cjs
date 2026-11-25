@@ -1,0 +1,1 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),p='tools/media/imports/all-remaining-20261116/bear-plank/bear-plank-motion.mjs';const s=fs.readFileSync(p,'utf8');assert.ok(s.includes('rad(86));byName.root'));fs.writeFileSync(p,s.replace('rad(86));byName.root','rad(85));byName.root'));

@@ -1,0 +1,121 @@
+[
+  {
+    "frame": 0,
+    "kneeGap": 0,
+    "bodyFloorGap": 4.655542435253864,
+    "barClearance": 0.0545775708601087,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 30,
+    "kneeGap": 0,
+    "bodyFloorGap": 4.773026220239571,
+    "barClearance": 0.05457757086010778,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 60,
+    "kneeGap": 0,
+    "bodyFloorGap": 5.386285568464202,
+    "barClearance": 0.054577570860108865,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 90,
+    "kneeGap": 0,
+    "bodyFloorGap": 6.513348682227352,
+    "barClearance": 0.054577570860108754,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 120,
+    "kneeGap": -1.1102230246251565e-16,
+    "bodyFloorGap": 7.847736122435869,
+    "barClearance": 0.05457757086010914,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 150,
+    "kneeGap": 0,
+    "bodyFloorGap": 8.974799236199017,
+    "barClearance": 0.054577570860110974,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 180,
+    "kneeGap": 0,
+    "bodyFloorGap": 9.58805858442365,
+    "barClearance": 0.05457757086011117,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 210,
+    "kneeGap": 0,
+    "bodyFloorGap": 9.705542369409358,
+    "barClearance": 0.05457757086010889,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 240,
+    "kneeGap": 0,
+    "bodyFloorGap": 9.705542369409358,
+    "barClearance": 0.05457757086010889,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 270,
+    "kneeGap": 0,
+    "bodyFloorGap": 9.705542369409358,
+    "barClearance": 0.05457757086010889,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 300,
+    "kneeGap": 0,
+    "bodyFloorGap": 9.588058584423647,
+    "barClearance": 0.054577570860110974,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 330,
+    "kneeGap": 0,
+    "bodyFloorGap": 8.974799236199019,
+    "barClearance": 0.054577570860109254,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 360,
+    "kneeGap": -1.1102230246251565e-16,
+    "bodyFloorGap": 7.847736122435869,
+    "barClearance": 0.05457757086010914,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 390,
+    "kneeGap": 0,
+    "bodyFloorGap": 6.513348682227352,
+    "barClearance": 0.054577570860108754,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 420,
+    "kneeGap": 0,
+    "bodyFloorGap": 5.386285568464204,
+    "barClearance": 0.05457757086011078,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 450,
+    "kneeGap": 0,
+    "bodyFloorGap": 4.773026220239569,
+    "barClearance": 0.054577570860113084,
+    "shinRearClearance": 1.5000247270788085
+  },
+  {
+    "frame": 480,
+    "kneeGap": 0,
+    "bodyFloorGap": 4.655542435253864,
+    "barClearance": 0.0545775708601087,
+    "shinRearClearance": 1.5000247270788085
+  }
+]

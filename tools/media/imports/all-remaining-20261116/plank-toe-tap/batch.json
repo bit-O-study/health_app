@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "plank-toe-tap",
+      "original": "plank-toe-tap",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "plank-toe-tap",
+        "sourceUrls": [
+          "https://www.sisulift.app/en/exercises/front-plank-toe-tap"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Forearm plank with alternating lateral toe taps: each side 1.5 seconds out, 1 second toe contact, 1.5 seconds back. Moving toes briefly clear floor during each step; pelvis and arms remain fixed.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,148 @@
+{
+  "single-leg-leg-press": {
+    "reviewedAt": "2026-11-16T04:38:44.376Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Entire left foot stays within the plate; right foot remains on a separate fixed rest.",
+      "movement": "Single left-leg press on a 45-degree sled. Working knee extends from 95 to 165 degrees over 4 seconds and returns over 4 seconds. Entire foot on plate, other foot on a separate fixed support; hands, back and pelvis remain fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/final.jpg",
+        "sha256": "49d1a1b43182e55ecbea10f3640b2dd8ee5f70f9298b41b1ffd320196758a1c6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/final-dark.jpg",
+        "sha256": "b8c1226fea6ce15a188b71636bc39e4908fe4b4451d9cfe846dbc0bd0fc966b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/full-sheet.png",
+        "sha256": "9c4d72e1e24d5d29cad34a705abd23d1fa0234168d653d16d8d45aa69eb562ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/side-sheet.png",
+        "sha256": "dce1b4e83e047481303c4996ac93a68c60551d26034244f171139c9676ea7d88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/verification.json",
+        "sha256": "79c9a00aa4bfc887419b2db01b0f17fa6661cd8819dc2232359e42cbeeec6dec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/geometry.json",
+        "sha256": "79554d4f29dd5d2808e9152a5208f0c6357fffdeb2d4b6d28ac493f4de73b8dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/kinematics.json",
+        "sha256": "09f7c5adbd31c11add3dd4beb41cf834195d62fd561bcd1e1ee031c778ee9672"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/provenance.json",
+        "sha256": "dc686dc39fdaea2e89ea14ae4dca0c08abeedbd5cdd064ca3ea94f8789f61212"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/single-leg-leg-press-alpha.webm",
+        "sha256": "42d99d037d91a87080dd62a36a1f4d4d8d587474ba087c6b94fd2197ded02b59",
+        "bytes": 209812,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/single-leg-leg-press.mp4",
+        "sha256": "584b671e7a6b2832a9ad705070444d0db1cf43daaa558b5c1f3e2b1f72f70e51",
+        "bytes": 112613,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/single-leg-leg-press-dark.mp4",
+        "sha256": "b2f378c23b0330f15e730a6900e1d357a9d5ba371fe316cedc381a4387c4fe31",
+        "bytes": 89721,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-leg-leg-press-2": {
+    "reviewedAt": "2026-11-16T04:38:44.390Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-leg-press-2",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Entire left foot stays within the plate; right foot remains on a separate fixed rest.",
+      "movement": "Single left-leg press on a 45-degree sled. Working knee extends from 95 to 165 degrees over 4 seconds and returns over 4 seconds. Entire foot on plate, other foot on a separate fixed support; hands, back and pelvis remain fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/final.jpg",
+        "sha256": "49d1a1b43182e55ecbea10f3640b2dd8ee5f70f9298b41b1ffd320196758a1c6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/final-dark.jpg",
+        "sha256": "b8c1226fea6ce15a188b71636bc39e4908fe4b4451d9cfe846dbc0bd0fc966b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/full-sheet.png",
+        "sha256": "9c4d72e1e24d5d29cad34a705abd23d1fa0234168d653d16d8d45aa69eb562ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/side-sheet.png",
+        "sha256": "dce1b4e83e047481303c4996ac93a68c60551d26034244f171139c9676ea7d88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/verification.json",
+        "sha256": "79c9a00aa4bfc887419b2db01b0f17fa6661cd8819dc2232359e42cbeeec6dec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/geometry.json",
+        "sha256": "79554d4f29dd5d2808e9152a5208f0c6357fffdeb2d4b6d28ac493f4de73b8dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/kinematics.json",
+        "sha256": "09f7c5adbd31c11add3dd4beb41cf834195d62fd561bcd1e1ee031c778ee9672"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/provenance.json",
+        "sha256": "d5d8b888445789ccc818bf0c294c61a58522b9afdc1abc58a82f166abf26d573"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/single-leg-leg-press-2-alpha.webm",
+        "sha256": "b77efe1b6c60b616edc372a2e0ed628402ad4072497f829e83f6df876bc94587",
+        "bytes": 209812,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/single-leg-leg-press-2.mp4",
+        "sha256": "584b671e7a6b2832a9ad705070444d0db1cf43daaa558b5c1f3e2b1f72f70e51",
+        "bytes": 112613,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/single-leg-leg-press-2-dark.mp4",
+        "sha256": "b2f378c23b0330f15e730a6900e1d357a9d5ba371fe316cedc381a4387c4fe31",
+        "bytes": 89721,
+        "decode": "passed"
+      }
+    ]
+  }
+}

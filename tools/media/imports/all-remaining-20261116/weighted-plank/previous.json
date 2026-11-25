@@ -1,0 +1,28 @@
+{
+  "weighted-plank": [
+    {
+      "file": "tools/media/motion-guides/weighted-plank.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/weighted-plank.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/weighted-plank-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-plank.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-plank-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-plank-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

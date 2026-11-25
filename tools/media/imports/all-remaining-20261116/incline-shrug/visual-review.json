@@ -1,0 +1,75 @@
+{
+  "prone-incline-dumbbell-shrug": {
+    "reviewedAt": "2026-11-16T07:41:02.258Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "prone-incline-dumbbell-shrug",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around dumbbell handles throughout the lift.",
+      "feet": "Torso remains supported by 45-degree bench, feet stable; shoulders elevate and retract slightly while both arms remain straight and hang down.",
+      "movement": "Chest supported on 45-degree incline bench with feet stationary. Dumbbells hang from straight arms. Elevate shoulders toward ears with slight retraction; pause and lower without elbow flexion or torso movement. 3.5 seconds lift, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/final.jpg",
+        "sha256": "03359ad27214c247fdc255983e782ebd0b8b09ddf2eda4ad0c92d40d5ae756df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/final-dark.jpg",
+        "sha256": "a4335d072dad906c7a23e9edc9d6c3ed7f65f7a3b6811eede7fd3eaec22f2347"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/full-sheet.png",
+        "sha256": "05297c6612289ce6d92bd22c8d8beba5673e6eeb1c0c7550cfcf79eb24328576"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/side-sheet.png",
+        "sha256": "aba42a1367aab9d41f181780df64535d8da3f1a86a3cc260a06e2784c4f7b3f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/verification.json",
+        "sha256": "8340cec8e9efcda3534d6d50f1458a0cf530b1ecbdda39f0c1fe4d27e8161c78"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/geometry.json",
+        "sha256": "cd5e43ecbd8e13cf24c4767e5fc4dfc4468fae2ded4d8dd2b5875a424647928d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/kinematics.json",
+        "sha256": "f4f80e7fdb3db6050989dabd53be0bc871de9bee7db4ea9523e82cc44fb2de2f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/provenance.json",
+        "sha256": "60767fadb44ef5be24a71377f324c41d13e08a3877c732f07141f3c419869f8d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/prone-incline-dumbbell-shrug-alpha.webm",
+        "sha256": "5309fa1e6268efe3200828b8f853daf83a8cebf5a40f34f9e60ea1fdbd9ef110",
+        "bytes": 115486,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/prone-incline-dumbbell-shrug.mp4",
+        "sha256": "f0c31c1b987851d853dbae1cee1231df0c0fc92a7e5ea4cbe99bd09c753604c3",
+        "bytes": 53673,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/prone-incline-dumbbell-shrug-dark.mp4",
+        "sha256": "348e9a20a8411d84230bae451f369bbf541d753bc38643cb5c5d55d84cd6e392",
+        "bytes": 46098,
+        "decode": "passed"
+      }
+    ]
+  }
+}

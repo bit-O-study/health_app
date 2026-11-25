@@ -1,0 +1,28 @@
+{
+  "happy-baby-pose": [
+    {
+      "file": "tools/media/motion-guides/happy-baby-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/happy-baby-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/happy-baby-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/happy-baby-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/happy-baby-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/happy-baby-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

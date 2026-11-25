@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "pilates-swan",
+      "original": "pilates-swan",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pilates-swan",
+        "sourceUrls": [
+          "https://www.pilatesanytime.com/blog/mat/mat-sequences-for-every-level"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Beginner Swan variation with arms beside torso: lift head, chest, arms and straight legs slightly, then lower with control.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Low arm-by-side Swan variation, not a hand-supported Swan dive."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,148 @@
+{
+  "seated-cable-face-pull": {
+    "reviewedAt": "2026-11-16T06:53:42.668Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "seated-cable-face-pull",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the rope ends; split rope and cable follow the hands.",
+      "feet": "Stable seated or tall-kneeling support; fixed trunk and pelvis, elbows spread while pulling rope toward the sides of the face.",
+      "movement": "Upright bench seated position, feet planted and knees 90 degrees. Rope pulled toward sides of face with elbows outward and stable trunk. Cable pulley at head height, equal fixed-length rope branches and lifting weight stack. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/final.jpg",
+        "sha256": "ff9a414098e08241924cd8043445b959a465fe38eba55cce6ac3b9f8dbce2eb3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/final-dark.jpg",
+        "sha256": "a37384458963609931992682e0b8cff871b37c3a85dbc21c0568d64c23d48453"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/full-sheet.png",
+        "sha256": "3426dc52df17c03ec7d764c1426dd38c802d6ff17a3ff3294fb216dd1c79d4da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/side-sheet.png",
+        "sha256": "bf940fef021fa89ac00183365e20b4e79e06aa108c6cfc3e056bc191a531749c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/verification.json",
+        "sha256": "17b9c28ea3d219f21503c2a16a12a1c889762d85ba7ae0890ba0b94bf47d5c68"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/geometry.json",
+        "sha256": "7576393af5bbb9af423c12fa49eb88c040b033dde5d6c4503028189ad0c82360"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/kinematics.json",
+        "sha256": "644d1a3b4f5e4261ec2c2a89950a0f05faf246637a42df20b55631699e98a2a3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/provenance.json",
+        "sha256": "9296a4673214224db6bc830c84ed3e1162ec699694e85c69361944650f52599f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/seated-cable-face-pull-alpha.webm",
+        "sha256": "e552fb626fd3800b8426f4af3e10d49e54434b067c64ccd84df3b3eb75bed5c3",
+        "bytes": 201920,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/seated-cable-face-pull.mp4",
+        "sha256": "a545eb11aff3fbe78bc25028e9ca61061c54436cfbadc26b3b594b693655dc6b",
+        "bytes": 89519,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/seated-cable-face-pull-dark.mp4",
+        "sha256": "25de2ebb764f161c25f60069fd5df2620f029308496141034fe6e1bfab2c62b9",
+        "bytes": 78180,
+        "decode": "passed"
+      }
+    ]
+  },
+  "kneeling-cable-face-pull": {
+    "reviewedAt": "2026-11-16T06:53:42.678Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "kneeling-cable-face-pull",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the rope ends; split rope and cable follow the hands.",
+      "feet": "Stable seated or tall-kneeling support; fixed trunk and pelvis, elbows spread while pulling rope toward the sides of the face.",
+      "movement": "Tall kneeling position, both knees and shins on pads, hips extended. Rope pulled toward sides of face with elbows outward and stable trunk. Cable pulley at head height, equal fixed-length rope branches and lifting weight stack. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/final.jpg",
+        "sha256": "044df1d55ff534c95038650788fc6d0ceb3c99d8aff312e50b5585f978d0b750"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/final-dark.jpg",
+        "sha256": "6c9762135cede94b4e5830de2744df99a03dad8f382f2667a1a0f47f7e064b35"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/full-sheet.png",
+        "sha256": "63150bd1ccf8be324c77c32f1bbd7e86a84633d0ef0ee8c2082bc3ae724cdd83"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/side-sheet.png",
+        "sha256": "ee75828d9564bd42df02d640ade249f91e58d3f00cfdfd2773feb07c6997ab88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/verification.json",
+        "sha256": "208e414f25f5b8aed60f0ec0bb7b9cdd0f20a70e0d75d61ab6e279eac3361e0c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/geometry.json",
+        "sha256": "d0bd4b087bb1e1950525710d623ac3e7237bcdf1bfe9fb59711d339134b610d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/kinematics.json",
+        "sha256": "054f7b807b5f69a31a04ab5839e85a48a281f25350036ece7a3cab51c6889971"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/provenance.json",
+        "sha256": "006f0b98778a2e499a66da4aaf753d6d103a08d560cdc3dd404e2857a278348f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/kneeling-cable-face-pull-alpha.webm",
+        "sha256": "a697b845654388ebce3a7ea991b4d29400902e28472022f92c7f979c69542324",
+        "bytes": 200750,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/kneeling-cable-face-pull.mp4",
+        "sha256": "62a7a9127bd674de88d027bab671b688f6e21b424e81fc22567fc340c81aa4fd",
+        "bytes": 88093,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/kneeling-cable-face-pull-dark.mp4",
+        "sha256": "a7ec860bd6b8720f54b1325526f4a246e216ce5035bb59963cdc7f6769e2f9d5",
+        "bytes": 78216,
+        "decode": "passed"
+      }
+    ]
+  }
+}

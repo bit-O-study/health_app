@@ -1,0 +1,75 @@
+{
+  "high-lunge-stretch": {
+    "reviewedAt": "2026-11-24T02:38:02.215Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "high-lunge-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach overhead with palms facing inward.",
+      "feet": "Rear leg straight, heel lifted and toes grounded; front foot flat and knee above ankle.",
+      "movement": "High crescent lunge with front knee above ankle, rear leg straight and heel lifted, toes grounded, upright torso and arms overhead with palms facing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/final.jpg",
+        "sha256": "af21d4b00632f991eb496bf5a81ce9cc8f8783cd9eec3a36675a3e25aceda2da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/final-dark.jpg",
+        "sha256": "2725d1737fbd4474f10aafa3fb336652a4ddc80bb948f88ddc862d62fe740ab3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/full-sheet.png",
+        "sha256": "dd1d55108a86d988ecfae4b3a17d8675415b2f4853022f4fe0d3d04d3e3fb5a7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/side-sheet.png",
+        "sha256": "a71cab0dae68e0bdc147cefbb81d822a53a854107f6e0b7edd784d645f5032e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/verification.json",
+        "sha256": "3651bccd23bbd68201d479ae0b408a35f81f9c367de8769ad866dd68243844d4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/geometry.json",
+        "sha256": "d9b6d9833fbcdf8d96ea75991108d9366958a9dd2f2aef0aedfd4658200c084e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/kinematics.json",
+        "sha256": "59671858dba784cf447c3b884561afeed2ddfd7b29000e5e51ce4bb8757aaf69"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/provenance.json",
+        "sha256": "05e1c2b30cbdfdefa2ff7a4c2172065643da060e0cbaab6cd2191abe6a64797c"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/high-lunge-stretch-alpha.webm",
+        "sha256": "f6c14fe120f50747abf3dbc7898c991f101db4b7e3950966a41306fdf8cc3c99",
+        "bytes": 40251,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/high-lunge-stretch.mp4",
+        "sha256": "a98564c3bf1974b8b5ad4291b0c4688a9f085688afc5b672732085b496b04770",
+        "bytes": 15535,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/high-lunge-stretch-dark.mp4",
+        "sha256": "dd11e3da6a50400ed63f37dcfcee0d1217f8e30bd32ff14b491fb569cee561f7",
+        "bytes": 14946,
+        "decode": "passed"
+      }
+    ]
+  }
+}

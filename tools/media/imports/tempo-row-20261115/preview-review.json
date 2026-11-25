@@ -1,0 +1,37 @@
+{
+  "reviewedAt": "2026-11-15T23:58:43.122Z",
+  "checks": {
+    "exercise": "Tempo barbell row with controlled lowering.",
+    "equipment": "Barbell.",
+    "setup": "Front oblique and side views inspected; full body and bar visible.",
+    "hands": "Both hands retain overhand bar grip.",
+    "feet": "Feet remain planted, torso fixed.",
+    "movement": "1-second pull, 1-second top hold, 3-second lowering, 3-second bottom hold."
+  },
+  "limitations": [
+    "Procedural demonstration; joint samples are not full mesh collision or biomechanical validation.",
+    "1-1-3-3 timing is illustrative, not prescribed by the source."
+  ],
+  "artifacts": [
+    {
+      "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/full-sheet.png",
+      "sha256": "09b267987ee1dc0a9724244d359a65a2c091e794b8df1e3c243f94cbfa0f23a6"
+    },
+    {
+      "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/side-sheet.png",
+      "sha256": "260516db053289dfa379efe5c815dab38e45ce0e74c490b33022c738ea12ba43"
+    },
+    {
+      "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/poses.json",
+      "sha256": "71d7583c1590c5bc6230e1f8573b317fd7120484195661020e0163f7f7fbb483"
+    },
+    {
+      "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/geometry.json",
+      "sha256": "7b644399a59b8cc4b47146eca7f3ae7ca675daff06176c53cdde447b33f8efe1"
+    },
+    {
+      "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/kinematics.json",
+      "sha256": "b729c20406f5ecc37b7cf52f65d523cec5e2548277b1116eda27d0534e14520d"
+    }
+  ]
+}

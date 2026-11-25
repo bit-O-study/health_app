@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "standing-forward-fold",
+      "original": "standing-forward-fold",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "standing-forward-fold",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/standing-forward-bend-2?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Hip-width grounded stance, fold at hips with long spine and palms supported on blocks ahead of feet.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static hold; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "wide-leg-forward-fold",
+      "original": "wide-leg-forward-fold",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "standing-forward-fold",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/wide-legged-forward-bend/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Wide grounded stance, fold at hips with long spine and palms supported on blocks ahead of feet.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static hold; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

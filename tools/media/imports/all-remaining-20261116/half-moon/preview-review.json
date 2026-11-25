@@ -1,0 +1,39 @@
+{
+  "half-moon-pose": {
+    "reviewedAt": "2026-11-24T03:13:00.157Z",
+    "checks": {
+      "exercise": "half-moon-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower palm supported on block below shoulder; upper arm raised vertically.",
+      "feet": "Standing foot grounded, opposite leg horizontal with knee and toes oriented with open chest.",
+      "movement": "Standing foot grounded, rear leg horizontal, chest open sideways, lower hand on block beneath shoulder and upper arm raised."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/full-sheet.png",
+        "sha256": "eafee972f98ae2d2a940e01af5ce2b2760baa31e2916d584af9a1ebb4c604fdf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/side-sheet.png",
+        "sha256": "051ab1bdbd8b8799d4702c5133599cd2fbb7f4bee577b9886bcb2e966be99217"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/poses.json",
+        "sha256": "6e32b21cb02a9bd65bdef46faf19341f63588f0af42ace335913fe3a76c53b11"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/geometry.json",
+        "sha256": "d5c3a8fca568702c243e950d0632d68495467e611473ab6dfaf8f443c9341eb3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/half-moon/native/half-moon-pose/kinematics.json",
+        "sha256": "a8d1e4fde73c151173fd7c46a91d829099f8690e8a2f70ccf3408df639b5c4ce"
+      }
+    ]
+  }
+}

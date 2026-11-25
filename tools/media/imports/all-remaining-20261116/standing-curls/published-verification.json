@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T05:09:46.783Z",
+  "report": [
+    {
+      "id": "standing-single-leg-curl",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "standing-leg-curl-machine",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

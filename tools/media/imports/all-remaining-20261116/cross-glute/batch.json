@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "piriformis-stretch",
+      "original": "piriformis-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "cross-glute",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/glute-stretch---supine"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Supine cross-body glute/piriformis stretch: keep opposite leg straight, bring bent knee toward opposite shoulder while supporting outside knee and ankle with hands; head and back remain supported.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "lying-glute-stretch",
+      "original": "lying-glute-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "cross-glute",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/glute-stretch---supine"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Supine cross-body glute/piriformis stretch: keep opposite leg straight, bring bent knee toward opposite shoulder while supporting outside knee and ankle with hands; head and back remain supported.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

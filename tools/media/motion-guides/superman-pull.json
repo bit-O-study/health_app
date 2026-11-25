@@ -1,0 +1,15 @@
+{
+  "id": "superman-pull",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "superman-pull-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://russhowepti.com/exercises/superman-pull-ups/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T07:56:15.823Z"
+}

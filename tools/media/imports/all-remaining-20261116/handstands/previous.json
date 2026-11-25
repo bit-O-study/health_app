@@ -1,0 +1,54 @@
+{
+  "handstand-hold": [
+    {
+      "file": "tools/media/motion-guides/handstand-hold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/handstand-hold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/handstand-hold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/handstand-hold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/handstand-hold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/handstand-hold-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "freestanding-handstand": [
+    {
+      "file": "tools/media/motion-guides/freestanding-handstand.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/freestanding-handstand.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/freestanding-handstand-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/freestanding-handstand.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/freestanding-handstand-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/freestanding-handstand-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

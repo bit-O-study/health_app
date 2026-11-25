@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-15T13:01:46.794Z",
+  "id": "tempo-push-up",
+  "files": 3,
+  "status": "completed-local",
+  "bothThemesReviewed": 502,
+  "tests": 39,
+  "testFiles": 3,
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "warnings": 1,
+    "detail": "Existing unused radians variable in reused studio."
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

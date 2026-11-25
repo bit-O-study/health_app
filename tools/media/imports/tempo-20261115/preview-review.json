@@ -1,0 +1,38 @@
+{
+  "reviewedAt": "2026-11-15T12:53:18.745Z",
+  "checks": {
+    "exercise": "Tempo push-up; rigid torso and straight legs move together.",
+    "equipment": "Bodyweight; no apparatus.",
+    "setup": "Front oblique and side sheets inspected, full head and feet visible.",
+    "hands": "Two palms remain fixed slightly wider than shoulder joint spacing.",
+    "feet": "Fixed toe support at virtual floor; straight knees throughout.",
+    "movement": "3 seconds lowering, 1 second bottom hold, 1 second rising, 3 seconds top hold; elbow range 81.9–172.2 degrees."
+  },
+  "limitations": [
+    "Top elbows retain approximately 7.8 degrees of flexion; chest does not touch the floor.",
+    "Virtual floor support only; sampled geometry is not full mesh collision or human motion certification.",
+    "The 3-1-1-3 timing is an illustrative tempo chosen for this clip, not prescribed by the source."
+  ],
+  "artifacts": [
+    {
+      "file": "tools/media/imports/tempo-20261115/native/tempo-push-up/full-sheet.png",
+      "sha256": "3a703b6dbe13b656a98f93416e657a30f84cd7ee72968b21515626e7a4742efe"
+    },
+    {
+      "file": "tools/media/imports/tempo-20261115/native/tempo-push-up/side-sheet.png",
+      "sha256": "5cee4caa47cffbb2b3b8d94452740eb8a7f8720b719e219bc2a16e582194dea3"
+    },
+    {
+      "file": "tools/media/imports/tempo-20261115/native/tempo-push-up/poses.json",
+      "sha256": "204a12e99e8724ec99d554192f6bfae6963766d8ff52e81a95ad86f72f012baf"
+    },
+    {
+      "file": "tools/media/imports/tempo-20261115/native/tempo-push-up/geometry.json",
+      "sha256": "48cb6abfdf77fb218a8d180ffb0ca441748cb541d82742256bb03e02913204f3"
+    },
+    {
+      "file": "tools/media/imports/tempo-20261115/native/tempo-push-up/kinematics.json",
+      "sha256": "757881c290bba94819a5b9fead393bd7dc76cf09ac91bd37019c0278e6b8ced1"
+    }
+  ]
+}

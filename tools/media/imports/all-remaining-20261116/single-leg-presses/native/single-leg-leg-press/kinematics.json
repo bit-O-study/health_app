@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 1.831026719408895e-15,
+  "maxStep": 0.01990433161768967,
+  "supportSamples": 17,
+  "idleFootMotion": 0,
+  "kneeRange": [
+    95.00000000000004,
+    165.00000000000023
+  ],
+  "minimumIdlePlateGap": 3.754793179489074
+}

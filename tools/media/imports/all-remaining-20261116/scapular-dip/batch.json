@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "scapular-dip",
+      "original": "scapular-dip",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "scapular-dip",
+        "sourceUrls": [
+          "https://www.caliverse.app/exercises/scapula-dips-506"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Keep arms straight and hands fixed on parallel bars. Depress shoulder girdle to raise body, pause, then return slowly. Legs remain slightly forward without swinging.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

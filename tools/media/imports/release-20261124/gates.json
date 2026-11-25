@@ -1,0 +1,22 @@
+[
+  {
+    "name": "schema",
+    "exitCode": 1,
+    "seconds": 3.771
+  },
+  {
+    "name": "lint",
+    "exitCode": 1,
+    "seconds": 237.438
+  },
+  {
+    "name": "types",
+    "exitCode": 0,
+    "seconds": 68.101
+  },
+  {
+    "name": "build",
+    "exitCode": 1,
+    "seconds": 81.508
+  }
+]

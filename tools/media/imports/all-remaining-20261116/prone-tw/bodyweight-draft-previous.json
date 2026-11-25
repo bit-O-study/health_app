@@ -1,0 +1,54 @@
+{
+  "prone-t-raise": [
+    {
+      "file": "tools/media/motion-guides/prone-t-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-t-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-t-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-t-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "prone-w-raise": [
+    {
+      "file": "tools/media/motion-guides/prone-w-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-w-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-w-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-w-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

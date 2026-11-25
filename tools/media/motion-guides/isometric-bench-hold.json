@@ -1,0 +1,15 @@
+{
+  "id": "isometric-bench-hold",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "isometric-bench-hold-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/bench-press/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T00:38:08.123Z"
+}

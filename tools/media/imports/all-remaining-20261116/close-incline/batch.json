@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "close-grip-incline-press",
+      "original": "close-grip-incline-press",
+      "equipment": "barbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-grip-incline-press",
+        "sourceUrls": [
+          "https://centr.com/blogs/thewarmup/cp-tutorial-barbell-incline-close-grip-bench-press"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "45-degree incline bench press with shoulder-width grip (span 4 model units, reduced from 6.6). Stable feet, head and back support, controlled press from upper chest and return; 3.5 seconds up, 1 second pause, 3.5 seconds down.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-11-15T12:48:47.930Z",
+  "entries": [
+    {
+      "id": "tempo-push-up",
+      "status": "registered-local",
+      "recipe": {
+        "family": "tempo-push-up",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/41/push-up/"
+        ],
+        "sourcesCheckedAt": "2026-11-15",
+        "criteria": "Rigid torso and straight legs; fixed palms and toes. Demonstration timing chosen for this asset: 3 seconds down, 1 second bottom hold, 1 second up, 3 seconds top hold. Timing is not prescribed by ACE.",
+        "limitations": [
+          "Top elbows retain approximately 7.8 degrees of flexion; chest does not touch the floor.",
+          "Virtual floor support only; sampled geometry is not full mesh collision or human motion certification.",
+          "The 3-1-1-3 timing is an illustrative tempo chosen for this clip, not prescribed by the source."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "updatedAt": "2026-11-15T13:01:46.791Z"
+}

@@ -1,0 +1,39 @@
+{
+  "lizard-pose": {
+    "reviewedAt": "2026-11-24T03:17:40.026Z",
+    "checks": {
+      "exercise": "lizard-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms grounded inside front foot; elbows separated from front leg.",
+      "feet": "Wide front foot grounded, rear knee and top of foot supported on mat.",
+      "movement": "Wide front foot outside both grounded hands, front knee over ankle, rear knee and top of foot down, spine long."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/full-sheet.png",
+        "sha256": "5a58b24b36ad118c772fcaf7cfa414f86f50b596f3bd80fa17085bbc06f8cfd1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/side-sheet.png",
+        "sha256": "c613b437ea8429b688fbb4bfd923d6edab5668826e13c686cc958c3f40e9b67d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/poses.json",
+        "sha256": "3eed1284dc66b132a9d260b7731c726aa3f64e952f1f6b38cf529180d4ef5928"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/geometry.json",
+        "sha256": "82de0e9ff26e3d67d5bfc5130d11507d067994425f1b9e7ee0306bc0f0f77113"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/kinematics.json",
+        "sha256": "e6f1f69cc41af7d3c88328e6bacfbf4d58f7172470f1562c94205fd93d351c8e"
+      }
+    ]
+  }
+}

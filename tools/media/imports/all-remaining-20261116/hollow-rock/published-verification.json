@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T06:43:54.969Z",
+  "report": [
+    {
+      "id": "hollow-rock",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

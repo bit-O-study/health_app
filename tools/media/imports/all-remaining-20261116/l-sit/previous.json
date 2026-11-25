@@ -1,0 +1,28 @@
+{
+  "l-sit": [
+    {
+      "file": "tools/media/motion-guides/l-sit.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/l-sit.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/l-sit-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

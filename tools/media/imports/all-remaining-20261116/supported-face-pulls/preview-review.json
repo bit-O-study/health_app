@@ -1,0 +1,76 @@
+{
+  "seated-cable-face-pull": {
+    "reviewedAt": "2026-11-16T06:50:55.038Z",
+    "checks": {
+      "exercise": "seated-cable-face-pull",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the rope ends; split rope and cable follow the hands.",
+      "feet": "Stable seated or tall-kneeling support; fixed trunk and pelvis, elbows spread while pulling rope toward the sides of the face.",
+      "movement": "Upright bench seated position, feet planted and knees 90 degrees. Rope pulled toward sides of face with elbows outward and stable trunk. Cable pulley at head height, equal fixed-length rope branches and lifting weight stack. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/full-sheet.png",
+        "sha256": "3426dc52df17c03ec7d764c1426dd38c802d6ff17a3ff3294fb216dd1c79d4da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/side-sheet.png",
+        "sha256": "bf940fef021fa89ac00183365e20b4e79e06aa108c6cfc3e056bc191a531749c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/poses.json",
+        "sha256": "4d44ae5597ab38d5f2b75c5aa52d103ad633973bb03ac75f1d9ac209400429f8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/geometry.json",
+        "sha256": "7576393af5bbb9af423c12fa49eb88c040b033dde5d6c4503028189ad0c82360"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/seated-cable-face-pull/kinematics.json",
+        "sha256": "644d1a3b4f5e4261ec2c2a89950a0f05faf246637a42df20b55631699e98a2a3"
+      }
+    ]
+  },
+  "kneeling-cable-face-pull": {
+    "reviewedAt": "2026-11-16T06:50:55.043Z",
+    "checks": {
+      "exercise": "kneeling-cable-face-pull",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the rope ends; split rope and cable follow the hands.",
+      "feet": "Stable seated or tall-kneeling support; fixed trunk and pelvis, elbows spread while pulling rope toward the sides of the face.",
+      "movement": "Tall kneeling position, both knees and shins on pads, hips extended. Rope pulled toward sides of face with elbows outward and stable trunk. Cable pulley at head height, equal fixed-length rope branches and lifting weight stack. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/full-sheet.png",
+        "sha256": "63150bd1ccf8be324c77c32f1bbd7e86a84633d0ef0ee8c2082bc3ae724cdd83"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/side-sheet.png",
+        "sha256": "ee75828d9564bd42df02d640ade249f91e58d3f00cfdfd2773feb07c6997ab88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/poses.json",
+        "sha256": "8292e90b564cd1b9284bfa861edaf8d8455a28dfef0f19e0df1226abb1e3eb3f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/geometry.json",
+        "sha256": "d0bd4b087bb1e1950525710d623ac3e7237bcdf1bfe9fb59711d339134b610d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-face-pulls/native/kneeling-cable-face-pull/kinematics.json",
+        "sha256": "054f7b807b5f69a31a04ab5839e85a48a281f25350036ece7a3cab51c6889971"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "seated-leg-press-machine",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a985fa81647c0e99362d972666a9078eb4bb10d0e4eb37715dda51a3bd1a6d06",
+  "rigSourceSha256": "a942613e2faa0d19978341aa9e81c9c6dc964cec96ec11ac89f741b7104e5083",
+  "videoSha256": "b22ca7c2bcd1db4d4d9b8d5433eb29dd5b43328f9796e886b091983542dfd4b7",
+  "darkVideoSha256": "f55c8be65f28afd84722f1215c034feef4aee16f1cd8baa0d425bbde832524e6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104064,
+  "darkBytes": 93397,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:57:56.213Z"
+}

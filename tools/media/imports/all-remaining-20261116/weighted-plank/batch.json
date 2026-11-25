@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "weighted-plank",
+      "original": "weighted-plank",
+      "equipment": "plate",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "weighted-plank",
+        "sourceUrls": [
+          "https://www.strengthlog.com/weighted-plank/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Static weighted forearm plank with a centered weight plate on the back; forearms and toes supported. Eight-second illustrative hold. Plate placement and removal are omitted; guidance calls for a training partner.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

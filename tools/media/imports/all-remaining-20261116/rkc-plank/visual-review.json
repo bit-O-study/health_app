@@ -1,0 +1,75 @@
+{
+  "rkc-plank": {
+    "reviewedAt": "2026-11-16T02:48:04.881Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "rkc-plank",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands clenched in fists; forearms supported on virtual floor.",
+      "feet": "Toes retain floor contact with feet close together.",
+      "movement": "Static forearm plank, closed fists and close feet. Whole-body contraction and isometric elbow-to-toe pull are coached in text; muscle tension cannot be demonstrated by pose alone. Eight-second illustrative hold, no entry or exit."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/final.jpg",
+        "sha256": "cd50343e786fb8bf98c2766062341ef766ef38fc47379cac75a26ddd847d7385"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/final-dark.jpg",
+        "sha256": "f1e532f4a780942987e7aed7ec93574c730d516819f4b3129c12c4baf1dbc00c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/full-sheet.png",
+        "sha256": "cc3cbae6de818cae9ec7e38da4022182838b061f70d4a0d49a0f1fd89ca6b96b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/side-sheet.png",
+        "sha256": "954006490e63ebde2afeeea6d51e8619e3e63cfb226a3b07b038085a782de7d7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/verification.json",
+        "sha256": "9b860f4c26104eb6888e5ee14d6b73ee4622caf1120539e3947b3ce59df0d109"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/geometry.json",
+        "sha256": "59c3a1ba9833162c5dd9ba1115ae68ed594cbb5ac14ee4e181376c7fb77eecc6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/kinematics.json",
+        "sha256": "30071368c91cde33cd60be715bff25452d50adad4b257bda411e77fcdbffb739"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/provenance.json",
+        "sha256": "6573259e8fbaada495eaf3b93476e59e730cbde39f6b287fee995d5b176bee5b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/rkc-plank-alpha.webm",
+        "sha256": "fc6684b051e181ed0ab4576cbc8f91bf9b74bb1eebf49c26798aafaa04226939",
+        "bytes": 35026,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/rkc-plank.mp4",
+        "sha256": "30b4844003e63719aa8b2880ab409bee64165c02564df0ced85a39733f609669",
+        "bytes": 14393,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/rkc-plank-dark.mp4",
+        "sha256": "52d9b7f4b8c47439cd2049061dee2b0294d7151856493b4b471a011919be31f9",
+        "bytes": 14337,
+        "decode": "passed"
+      }
+    ]
+  }
+}

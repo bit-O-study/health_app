@@ -1,0 +1,28 @@
+{
+  "triangle-pose": [
+    {
+      "file": "tools/media/motion-guides/triangle-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/triangle-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/triangle-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/triangle-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/triangle-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/triangle-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

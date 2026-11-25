@@ -1,0 +1,18 @@
+{
+  "id": "prone-band-pull-apart",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0fbbc2c7a51ab3237437dc911a06888c8e5d0c9f8d0a3fcaf4b016b463be5d44",
+  "rigSourceSha256": "7140d1a95539a98ab5a39a204f4239748d516d80dbe7bd8ee9af84d8e73ebde7",
+  "videoSha256": "d700f194e6dc8a95027daa645ec13c176d40289d1906b0c0f49ddc875c49bedf",
+  "darkVideoSha256": "9eda6feadaf80c71bf0c9a8507c131da0cef51f33c5199a5e6c88ae4c7a5e7a9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 40923,
+  "darkBytes": 44952,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:01:45.064Z"
+}

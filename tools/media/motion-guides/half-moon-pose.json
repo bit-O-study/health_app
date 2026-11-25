@@ -1,0 +1,15 @@
+{
+  "id": "half-moon-pose",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "half-moon-pose-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.yogajournal.com/poses/half-moon-pose-3/?scope=anon"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T03:15:06.471Z"
+}

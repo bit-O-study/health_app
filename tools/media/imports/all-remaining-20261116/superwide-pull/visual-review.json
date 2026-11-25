@@ -1,0 +1,75 @@
+{
+  "super-wide-grip-pulldown": {
+    "reviewedAt": "2026-11-16T01:58:26.587Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "super-wide-grip-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Extra-wide pronated grip remains on the long straight bar.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Extra-wide pronated grip, twice the shoulder-width neutral handle span; fixed seated torso, 3.5 seconds pull, 1 second contracted pause, 3.5 seconds return. Illustrative comfortable range, not a recommendation to force grip width."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/final.jpg",
+        "sha256": "5cfaf78375a82ce29e6432aa5af82aece1c4b8f2b4068309432dc860f4a1608d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/final-dark.jpg",
+        "sha256": "0f881892f55c6c2a53921787fa090ffb508b6820fe66d19f19426e394f087f78"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/full-sheet.png",
+        "sha256": "9ab4523723012b3bd3161f4682ffafae0e1adea396e738e0be8436532a1db2f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/side-sheet.png",
+        "sha256": "65d46e07f9d79343e81f8e8a93b228d6284574a8108d314626b360447b357175"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/verification.json",
+        "sha256": "bda8b43c88c9a649df159051b3360b0194e7b4c5fa7a0d6ce4454a9628bcc72b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/geometry.json",
+        "sha256": "b4801a93ac2a1e94b5bf33891fa8ba2eb97473e9a9a7226272815618b00174e5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/kinematics.json",
+        "sha256": "5f4be0aa916e1e2c0c87a3aa41834ac063d53c308504f5f8b674988331e7110e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/provenance.json",
+        "sha256": "65ab8c701958697de5f31dd9caa360eecf7b951bb459d0b371a965ea7aa43ab3"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/super-wide-grip-pulldown-alpha.webm",
+        "sha256": "ef71aef51860a5cbc0f5cbd1bc06cb77f3a2a56ff23f9fe3ca13dee3b4dee25c",
+        "bytes": 201321,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/super-wide-grip-pulldown.mp4",
+        "sha256": "949ddbc341517a237d1de4e1b8f13a3588e34cd0da6f6454de7e1e1ce16651e9",
+        "bytes": 76033,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/super-wide-grip-pulldown-dark.mp4",
+        "sha256": "24526f8e97a07345a0115b7896b7cf26e66d7bd045f12f8b992196d090149a70",
+        "bytes": 72751,
+        "decode": "passed"
+      }
+    ]
+  }
+}

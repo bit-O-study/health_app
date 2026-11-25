@@ -1,0 +1,113 @@
+{
+  "v-up": {
+    "reviewedAt": "2026-11-24T06:12:14.746Z",
+    "checks": {
+      "exercise": "v-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms arc from overhead toward feet as torso rises.",
+      "feet": "Straight legs rise from 5 to 45 degrees together with torso, then lower; pelvis stays supported.",
+      "movement": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/full-sheet.png",
+        "sha256": "bc9a37babffa4957bc9228da815e60f26eae52d91c1ff24ccde52a2f4e25fd8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/side-sheet.png",
+        "sha256": "7470ac381dda23a87f19da534d766d4fd71c8e3622e3de11346accc8891e89a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/poses.json",
+        "sha256": "ad8ab8110745aaf34c77e4517b589c5f901938e74b7aa55538c71f0709b01796"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/geometry.json",
+        "sha256": "d149757afd37cc3ae7f63ebec479c4b51ed342cfd49dcc896fd0286fc837e68f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up/kinematics.json",
+        "sha256": "630fc2a4d13f22f98a2de0bf90f2509050c31974680c54cc36b42507211dfe2f"
+      }
+    ]
+  },
+  "v-up-2": {
+    "reviewedAt": "2026-11-24T06:12:14.751Z",
+    "checks": {
+      "exercise": "v-up-2",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms arc from overhead toward feet as torso rises.",
+      "feet": "Straight legs rise from 5 to 45 degrees together with torso, then lower; pelvis stays supported.",
+      "movement": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/full-sheet.png",
+        "sha256": "bc9a37babffa4957bc9228da815e60f26eae52d91c1ff24ccde52a2f4e25fd8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/side-sheet.png",
+        "sha256": "7470ac381dda23a87f19da534d766d4fd71c8e3622e3de11346accc8891e89a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/poses.json",
+        "sha256": "ad8ab8110745aaf34c77e4517b589c5f901938e74b7aa55538c71f0709b01796"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/geometry.json",
+        "sha256": "d149757afd37cc3ae7f63ebec479c4b51ed342cfd49dcc896fd0286fc837e68f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/v-up-2/kinematics.json",
+        "sha256": "630fc2a4d13f22f98a2de0bf90f2509050c31974680c54cc36b42507211dfe2f"
+      }
+    ]
+  },
+  "jackknife-sit-up": {
+    "reviewedAt": "2026-11-24T06:12:14.755Z",
+    "checks": {
+      "exercise": "jackknife-sit-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms arc from overhead toward feet as torso rises.",
+      "feet": "Straight legs rise from 5 to 45 degrees together with torso, then lower; pelvis stays supported.",
+      "movement": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/full-sheet.png",
+        "sha256": "bc9a37babffa4957bc9228da815e60f26eae52d91c1ff24ccde52a2f4e25fd8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/side-sheet.png",
+        "sha256": "7470ac381dda23a87f19da534d766d4fd71c8e3622e3de11346accc8891e89a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/poses.json",
+        "sha256": "ad8ab8110745aaf34c77e4517b589c5f901938e74b7aa55538c71f0709b01796"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/geometry.json",
+        "sha256": "d149757afd37cc3ae7f63ebec479c4b51ed342cfd49dcc896fd0286fc837e68f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-ups/native/jackknife-sit-up/kinematics.json",
+        "sha256": "630fc2a4d13f22f98a2de0bf90f2509050c31974680c54cc36b42507211dfe2f"
+      }
+    ]
+  }
+}

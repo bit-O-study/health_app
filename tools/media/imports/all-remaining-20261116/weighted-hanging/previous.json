@@ -1,0 +1,28 @@
+{
+  "weighted-hanging-leg-raise": [
+    {
+      "file": "tools/media/motion-guides/weighted-hanging-leg-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/weighted-hanging-leg-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/weighted-hanging-leg-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-hanging-leg-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-hanging-leg-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/weighted-hanging-leg-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

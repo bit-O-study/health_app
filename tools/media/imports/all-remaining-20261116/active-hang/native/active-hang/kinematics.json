@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "staticPose": true,
+  "shoulderDrop": 0.3478195170777916,
+  "bodyRise": 0.384555440904335,
+  "loopError": 0,
+  "gripError": 1.4043333874306805e-15,
+  "elbowRange": [
+    178.99999999999972,
+    178.99999999999972
+  ],
+  "minimumFloorClearance": 1.8161970536250536,
+  "minimumBarClearance": 2.0469518700780167
+}

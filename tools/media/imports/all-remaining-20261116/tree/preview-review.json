@@ -1,0 +1,39 @@
+{
+  "tree-pose": {
+    "reviewedAt": "2026-11-24T03:03:21.547Z",
+    "checks": {
+      "exercise": "tree-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms reach overhead with palms inward.",
+      "feet": "Standing foot grounded; raised sole on inner thigh above knee with knee opened outward.",
+      "movement": "Upright single-leg balance, raised sole on inner thigh above knee, open knee, level pelvis and arms overhead."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/full-sheet.png",
+        "sha256": "e7fc866333296cef5f92eba83da3ba65cc273cba3bd1315904b046e8685c7025"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/side-sheet.png",
+        "sha256": "91b9057f02b0e269bd2cc871f107a6c4b26523fc443efb0daa395680dbbf0760"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/poses.json",
+        "sha256": "be0031b8daaa4437dd1ee4247f0c75bb89bb2c7165cee2d3a3cd134823c8f956"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/geometry.json",
+        "sha256": "d1dfaf6571a435198b6374ce56af82d9122d115cab928aed12578961947eb1a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/kinematics.json",
+        "sha256": "c9de211601a8dc2b212daefe1deea1479eb4ab5a015d5cf183f84a6dd82ac2ce"
+      }
+    ]
+  }
+}

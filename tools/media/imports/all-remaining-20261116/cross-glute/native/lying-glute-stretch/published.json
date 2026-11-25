@@ -1,0 +1,18 @@
+{
+  "id": "lying-glute-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "82d5f712a3a51e3033156cc91f7ea5889c77d153990071e5b1ab7e9be1f5fab5",
+  "rigSourceSha256": "4a3f4fd33bd1fc6c50732599bcfacebd1645b295ed19d967d41c36d6b0feaf44",
+  "videoSha256": "e72eaf4676db429e8497eda7f873c48b0157fd362a4667714d44257de65c54a7",
+  "darkVideoSha256": "bb178e000aa2c641f2fce0426818303ecc21af1f9fc656338634675d1cf9cdd3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16801,
+  "darkBytes": 16109,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T04:11:39.746Z"
+}

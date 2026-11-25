@@ -1,0 +1,28 @@
+{
+  "pilates-side-kick": [
+    {
+      "file": "tools/media/motion-guides/pilates-side-kick.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-side-kick.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-side-kick-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-side-kick.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-side-kick-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-side-kick-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryTrunk": true,
+  "oppositeLimbs": true,
+  "armTravel": 0.7012795628425854,
+  "legTravel": 1.035719872150647,
+  "minAngle": 179.99999829245272,
+  "maxStep": 0.013591824452471948,
+  "bodyGap": 0.07312005055389825,
+  "clothGap": 0.20690735805657212,
+  "palmGap": 1.2124713170445025,
+  "toeGap": 0.4241460312708556
+}

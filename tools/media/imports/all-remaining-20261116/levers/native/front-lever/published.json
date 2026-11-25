@@ -1,0 +1,18 @@
+{
+  "id": "front-lever",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e8a882e46c63b3d82d5668f4630b9d08895d361cd8027acb83fff7946de6b669",
+  "rigSourceSha256": "e4cb0a5bf7b8402c1fb1bfa7bf40cd57183a0f297e82bd6e1d9e0c7f52c78bca",
+  "videoSha256": "0f70029a9e323b28900032b31eb94c4c0a1944c5fb4c08fa3dfa9b889b166716",
+  "darkVideoSha256": "67c9e62f46a2c94cf2c052bc95ea37fc2a16aa672126620a4eac69b47bc1475a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14190,
+  "darkBytes": 13778,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T07:29:26.527Z"
+}

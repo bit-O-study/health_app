@@ -1,0 +1,48 @@
+{
+  "entries": [
+    {
+      "id": "neutral-grip-lat-pulldown",
+      "original": "close-grip-lat-pulldown",
+      "equipment": "cable",
+      "hold": false,
+      "halfWidth": 2.4,
+      "status": "registered-local",
+      "recipe": {
+        "family": "neutral-grip-lat-pulldown",
+        "sourceUrls": [
+          "https://www.strengthlog.com/close-grip-lat-pulldown/"
+        ],
+        "criteria": "Shoulder-width parallel grip; seated cable pulldown with thigh restraint and fixed feet; 3.5 seconds pull, 1 second pause, 3.5 seconds controlled return.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "close-neutral-grip-lat-pulldown",
+      "original": "close-grip-lat-pulldown",
+      "equipment": "cable",
+      "hold": false,
+      "halfWidth": 0.85,
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-neutral-grip-lat-pulldown",
+        "sourceUrls": [
+          "https://www.strengthlog.com/close-grip-lat-pulldown/"
+        ],
+        "criteria": "Narrow parallel grip; seated cable pulldown with thigh restraint and fixed feet; 3.5 seconds pull, 1 second pause, 3.5 seconds controlled return.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

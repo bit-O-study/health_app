@@ -1,0 +1,18 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 2.8435583831733384e-15,
+  "maxStep": 0.010474625350886349,
+  "toeHorizontalDrift": 4.440892098500626e-16,
+  "kneeRange": [
+    173.83236709677178,
+    173.83236709677178
+  ],
+  "heelRange": [
+    -8.544388914189135,
+    -7.423301782718931
+  ],
+  "minimumBarGap": 0.018829811417844955,
+  "minimumSupportGap": 0.014999999479906378
+}

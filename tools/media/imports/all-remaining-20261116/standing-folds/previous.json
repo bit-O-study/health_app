@@ -1,0 +1,54 @@
+{
+  "standing-forward-fold": [
+    {
+      "file": "tools/media/motion-guides/standing-forward-fold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-forward-fold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-forward-fold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-forward-fold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-forward-fold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-forward-fold-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "wide-leg-forward-fold": [
+    {
+      "file": "tools/media/motion-guides/wide-leg-forward-fold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-leg-forward-fold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wide-leg-forward-fold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-leg-forward-fold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-leg-forward-fold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wide-leg-forward-fold-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

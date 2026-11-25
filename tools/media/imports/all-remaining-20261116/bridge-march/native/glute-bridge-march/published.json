@@ -1,0 +1,18 @@
+{
+  "id": "glute-bridge-march",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e4dad18a52115ddf566ab4e8b368c2c0c942361a764aea7f7158253b5e652803",
+  "rigSourceSha256": "471ae7b5f550815db87e8be8f77d24cf5fc530b4ef6f7f43424c9e9c5c7bcf93",
+  "videoSha256": "2e262f1fa1ca0a6e2d80e45918074059d6d0e4839e61539ad6af774dde75586e",
+  "darkVideoSha256": "3db0c71a9c128ec80aac690a909c510849610463bd843d3994b536774c3c9a36",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 42365,
+  "darkBytes": 41928,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:37:00.361Z"
+}

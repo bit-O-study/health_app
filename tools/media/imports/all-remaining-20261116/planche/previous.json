@@ -1,0 +1,28 @@
+{
+  "planche": [
+    {
+      "file": "tools/media/motion-guides/planche.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/planche.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/planche-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 5.329070518200751e-15,
+  "footDrift": 0,
+  "timing": "3-second lowering, 1-second bottom, 1-second press, 3-second top"
+}

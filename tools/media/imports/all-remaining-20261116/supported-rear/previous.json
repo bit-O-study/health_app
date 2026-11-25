@@ -1,0 +1,28 @@
+{
+  "chest-supported-rear-delt-raise": [
+    {
+      "file": "tools/media/motion-guides/chest-supported-rear-delt-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/chest-supported-rear-delt-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/chest-supported-rear-delt-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-supported-rear-delt-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-supported-rear-delt-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/chest-supported-rear-delt-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

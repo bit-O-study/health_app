@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/legs-up-the-wall-pose-alpha.webm",
+      "sha256": "28a644ae48e6471cbe7ae5a8fcc46d9a6b4463c40e414da947f6665cd7f9e737",
+      "bytes": 30084,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/legs-up-the-wall-pose.mp4",
+      "sha256": "fd80171c7d8dbfbd62c0f35b970765deb03bc5770a6638c614445331c88ec66b",
+      "bytes": 13687,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/legs-up-the-wall-pose-dark.mp4",
+      "sha256": "a14b4a668dfc45171f08af73e47b3ef1a4a65a5ee13e5803ef245ae6a2956fcc",
+      "bytes": 13756,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/legs-wall/legs-up-the-wall-pose-studio.mjs",
+      "sha256": "4063e62f4e5b9c2bda2ef0f458806a8dcb73b3a35b51b7d783d43c1f092583d0"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/legs-wall/legs-up-the-wall-pose-motion.mjs",
+      "sha256": "1047bc62ac25bc29f2ef9ba4ca5d70304bf2847f9cbe9b9928c81e9f6e21b7c9"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/legs-wall/render.mjs",
+      "sha256": "c81ceac26cf8b7e5ae49de2965af5ffdf660d4470c9c884edf7b084eea06d600"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

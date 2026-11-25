@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "hollow-rock",
+      "original": "hollow-rock",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "hollow-rock",
+        "sourceUrls": [
+          "https://www.crossfit.com/essentials/the-hollow-rock"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Rock back and forth with straight legs raised and arms overhead, maintaining a constant hollow body shape and hip angle.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second hollow rock demonstration with two cycles."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

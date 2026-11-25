@@ -1,0 +1,39 @@
+{
+  "plank-with-leg-lift": {
+    "reviewedAt": "2026-11-16T03:05:01.699Z",
+    "checks": {
+      "exercise": "plank-with-leg-lift",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both forearms remain on virtual floor; hands open.",
+      "feet": "Supporting toes retain floor contact while the opposite straight leg lifts; sides alternate.",
+      "movement": "Forearm plank with alternating straight-leg lifts: each side 1.5 seconds up, 1 second hold, 1.5 seconds down; limited 12-degree hip lift toward trunk level without pelvis or torso motion."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/full-sheet.png",
+        "sha256": "d3db188bd813a0e4dd103263fb832e5c37d29e73c0bd632c77c1c4ce2d817a8e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/side-sheet.png",
+        "sha256": "9d4843aeb4224722e6f683a0c7d165edcb9023db1db0b1360a1809cb97edfbee"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/poses.json",
+        "sha256": "484ee47573c1028dc66ed2a07ce7f542efcf1ce84800fb088271539642992e83"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/geometry.json",
+        "sha256": "e2b565ac9cc75d09527bbb79074aa26710e629158a380ce9876c6869db9b86b1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-leg-lift/native/plank-with-leg-lift/kinematics.json",
+        "sha256": "f978afd115bc087af9f0647ab213d0e4fe1cefa2452492c178f83e5e5797920a"
+      }
+    ]
+  }
+}

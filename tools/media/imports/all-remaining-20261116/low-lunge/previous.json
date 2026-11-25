@@ -1,0 +1,28 @@
+{
+  "low-lunge-stretch": [
+    {
+      "file": "tools/media/motion-guides/low-lunge-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/low-lunge-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/low-lunge-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-lunge-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-lunge-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/low-lunge-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

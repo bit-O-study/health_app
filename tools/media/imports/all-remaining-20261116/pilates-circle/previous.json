@@ -1,0 +1,28 @@
+{
+  "pilates-leg-circle": [
+    {
+      "file": "tools/media/motion-guides/pilates-leg-circle.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-leg-circle.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-leg-circle-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-leg-circle.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-leg-circle-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-leg-circle-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

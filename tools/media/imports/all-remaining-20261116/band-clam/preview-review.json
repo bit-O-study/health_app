@@ -1,0 +1,39 @@
+{
+  "band-clamshell": {
+    "reviewedAt": "2026-11-18T02:26:24.669Z",
+    "checks": {
+      "exercise": "band-clamshell",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower arm supports the head while upper hand rests at the hip.",
+      "feet": "Both feet stay together; upper knee opens while pelvis and lower leg remain fixed.",
+      "movement": "Lie on side with bent knees, feet together, and resistance band above knees. Keep pelvis and back still while lifting top knee against band; slowly close without rolling backward. 3.5 seconds open, 1 second pause, 3.5 seconds close."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/full-sheet.png",
+        "sha256": "e61c72f5a1cd879ae98da41fe156ff1093d9f9dfcb06740d2315d9e2e8e84480"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/side-sheet.png",
+        "sha256": "7cdb879803ff3b9797bd75a7d1e540c10f9d384984ca2e71c3aa35684301afc9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/poses.json",
+        "sha256": "1a8c787d5a8695d9a8565f0ed11e77cb878cf3f405b7380864967d6bb4828db7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/geometry.json",
+        "sha256": "ba62506df6bba7ee33397dbd8f835773d87670db927cd5757a93e50a8bfd7c11"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/kinematics.json",
+        "sha256": "cb205b5be6603ed5f58048a43283c71f41597d8e0b83ca564eb5159c3e7a5b26"
+      }
+    ]
+  }
+}

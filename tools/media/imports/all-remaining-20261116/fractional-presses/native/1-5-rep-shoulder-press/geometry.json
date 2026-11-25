@@ -1,0 +1,138 @@
+[
+  {
+    "frame": 0,
+    "equipmentBodyClearance": 0.8209259082839728,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.3999999999999995,
+    "barGripError": 4.440892098500626e-16
+  },
+  {
+    "frame": 30,
+    "equipmentBodyClearance": 0.5060708940713387,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999997,
+    "barGripError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 60,
+    "equipmentBodyClearance": 0.5065260253486886,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999999,
+    "barGripError": 8.881784197001252e-16
+  },
+  {
+    "frame": 90,
+    "equipmentBodyClearance": 0.7342432087106018,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.3999999999999995,
+    "barGripError": 4.440892098500626e-16
+  },
+  {
+    "frame": 120,
+    "equipmentBodyClearance": 0.5065260253486891,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999999,
+    "barGripError": 8.881784197001252e-16
+  },
+  {
+    "frame": 150,
+    "equipmentBodyClearance": 0.5060708940713394,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.4,
+    "barGripError": 0
+  },
+  {
+    "frame": 180,
+    "equipmentBodyClearance": 0.8209259082839728,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.3999999999999995,
+    "barGripError": 4.440892098500626e-16
+  },
+  {
+    "frame": 210,
+    "equipmentBodyClearance": 0.6095915364136049,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.4,
+    "barGripError": 0
+  },
+  {
+    "frame": 240,
+    "equipmentBodyClearance": 0.45208639703303233,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999999,
+    "barGripError": 8.881784197001252e-16
+  },
+  {
+    "frame": 270,
+    "equipmentBodyClearance": 1.0213203519879492,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999998,
+    "barGripError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 300,
+    "equipmentBodyClearance": 1.034813761934088,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999998,
+    "barGripError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 330,
+    "equipmentBodyClearance": 1.070269191699571,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.3999999999999995,
+    "barGripError": 4.440892098500626e-16
+  },
+  {
+    "frame": 360,
+    "equipmentBodyClearance": 1.034813761934088,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999997,
+    "barGripError": 1.7763568394002505e-15
+  },
+  {
+    "frame": 390,
+    "equipmentBodyClearance": 1.0213203519879515,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999998,
+    "barGripError": 1.3322676295501878e-15
+  },
+  {
+    "frame": 420,
+    "equipmentBodyClearance": 0.4520863970330331,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999999,
+    "barGripError": 8.881784197001252e-16
+  },
+  {
+    "frame": 450,
+    "equipmentBodyClearance": 0.609591536413605,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.399999999999999,
+    "barGripError": 8.881784197001252e-16
+  },
+  {
+    "frame": 480,
+    "equipmentBodyClearance": 0.8209259082839728,
+    "bodyFloorGap": 0,
+    "heelFloorGap": 0,
+    "gripSpan": 7.3999999999999995,
+    "barGripError": 4.440892098500626e-16
+  }
+]

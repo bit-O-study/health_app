@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "puppy-pose",
+      "original": "puppy-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "puppy",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/extended-puppy-pose?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Hips raised near knees, shins back, torso extending forward and down, forehead supported, straight arms reaching forward with palms on mat.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

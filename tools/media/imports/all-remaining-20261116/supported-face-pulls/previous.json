@@ -1,0 +1,54 @@
+{
+  "seated-cable-face-pull": [
+    {
+      "file": "tools/media/motion-guides/seated-cable-face-pull.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-cable-face-pull.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-cable-face-pull-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-face-pull.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-face-pull-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-cable-face-pull-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "kneeling-cable-face-pull": [
+    {
+      "file": "tools/media/motion-guides/kneeling-cable-face-pull.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kneeling-cable-face-pull.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/kneeling-cable-face-pull-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-cable-face-pull.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-cable-face-pull-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/kneeling-cable-face-pull-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

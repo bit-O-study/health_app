@@ -1,0 +1,75 @@
+{
+  "plank-toe-tap": {
+    "reviewedAt": "2026-11-16T04:17:07.058Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "plank-toe-tap",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both forearms remain on virtual floor; hands open.",
+      "feet": "Supporting toes retain floor contact; the other foot clears the floor, taps laterally and returns. Sides alternate.",
+      "movement": "Forearm plank with alternating lateral toe taps: each side 1.5 seconds out, 1 second toe contact, 1.5 seconds back. Moving toes briefly clear floor during each step; pelvis and arms remain fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/final.jpg",
+        "sha256": "e5b6f5ed13fb090d243fd8d4b70ec4cd70e7d5741c1f1aed239470763d24861a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/final-dark.jpg",
+        "sha256": "3aeefd8ba205fdb890bc9b54fdb7f7ec5298e72ef0e29125563d3ee8aee4c667"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/full-sheet.png",
+        "sha256": "b24388c13480d10f55cffa1290dfada05cd3737603568aac2a9cc5e029ddbdbf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/side-sheet.png",
+        "sha256": "b9a0c4e326945585ca737089f19822092af41ebd6a3a033d742da72794089e16"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/verification.json",
+        "sha256": "cd046e31f405077f541d9008d130a4d2c53973dc8e819c4d71efe79cfb57cb6a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/geometry.json",
+        "sha256": "7142edfcc42cb6b4f088b500f48700420920ae4be82f01a3b3e6fe49850e719c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/kinematics.json",
+        "sha256": "5e9e902d1066d7a7a931db445200be837f9ba1bf91ede9112e554b502ab12dec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/provenance.json",
+        "sha256": "53e351d8c54b9f316ac825a599746515a151e304d16e8392616dcf1bf49fc898"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/plank-toe-tap-alpha.webm",
+        "sha256": "8c3a5d5a6af360035951933f797cb6db38b65362598161b3f6dab9547af03b51",
+        "bytes": 109430,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/plank-toe-tap.mp4",
+        "sha256": "2d7fc0c82fe2f2cb02ad03d00ebdcb0f75377eb46409f55b41d72f89f73461f3",
+        "bytes": 46591,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/plank-toe-tap-dark.mp4",
+        "sha256": "28d3fdccf50e0b2f248b393a23dde23b111cad57e227ef593cade343ad1c5d99",
+        "bytes": 46461,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "reverse-warrior": [
+    {
+      "file": "tools/media/motion-guides/reverse-warrior.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-warrior.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-warrior-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-warrior.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-warrior-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-warrior-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

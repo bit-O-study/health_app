@@ -1,0 +1,20 @@
+{
+  "maxStep": 0.04246857553689343,
+  "footLift": 1.9732324469195364,
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryPelvis": true,
+  "minElbow": 174.9999999999999,
+  "minKnee": 85.11630495618293,
+  "maxKnee": 85.11630495618307,
+  "hipAboveShoulder": 2.112800236179522,
+  "supportGaps": {
+    "upperBack": 0.02817979044700092,
+    "head": 0.04592511849735903,
+    "soleL": 0.03249402008056723,
+    "soleR": 0.03249402008056723,
+    "palms": 0.025428972220666424
+  },
+  "minimumBodyGap": 0.025428972220666424
+}

@@ -1,0 +1,75 @@
+{
+  "lizard-pose": {
+    "reviewedAt": "2026-11-24T03:19:48.632Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "lizard-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms grounded inside front foot; elbows separated from front leg.",
+      "feet": "Wide front foot grounded, rear knee and top of foot supported on mat.",
+      "movement": "Wide front foot outside both grounded hands, front knee over ankle, rear knee and top of foot down, spine long."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/final.jpg",
+        "sha256": "ec24bc52513cc9e8dcee37fdd80218084b9f5fcf85964a3abf0b5939d831feae"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/final-dark.jpg",
+        "sha256": "8eb1e01e039594f0b100277fb90516ce95603ca07c5b964657bb93a48d22ba18"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/full-sheet.png",
+        "sha256": "5a58b24b36ad118c772fcaf7cfa414f86f50b596f3bd80fa17085bbc06f8cfd1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/side-sheet.png",
+        "sha256": "c613b437ea8429b688fbb4bfd923d6edab5668826e13c686cc958c3f40e9b67d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/verification.json",
+        "sha256": "13c488e0a8ad9f589763d63bfb9842655cf882a764c20930cfd9b0fbf1da34a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/geometry.json",
+        "sha256": "82de0e9ff26e3d67d5bfc5130d11507d067994425f1b9e7ee0306bc0f0f77113"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/kinematics.json",
+        "sha256": "e6f1f69cc41af7d3c88328e6bacfbf4d58f7172470f1562c94205fd93d351c8e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/provenance.json",
+        "sha256": "6505fdbac4f8c24be3c936bdf2d9b2afb113290d308cc554b1ab60216d7cb4a1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/lizard-pose-alpha.webm",
+        "sha256": "46d4d4fa27d43a59e05921fb4214aed2660bdeb8874944823988468d4d370a07",
+        "bytes": 38613,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/lizard-pose.mp4",
+        "sha256": "5ad339fcecd9602d99ae879fcaad775bcadaa625b4b29863e77cc7efc3193dcc",
+        "bytes": 16689,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/lizard/native/lizard-pose/lizard-pose-dark.mp4",
+        "sha256": "2a7d99d0cca81d87306b889cb5d397fdab0223e076dfb024c8b451c9e4598aae",
+        "bytes": 15812,
+        "decode": "passed"
+      }
+    ]
+  }
+}

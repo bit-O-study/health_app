@@ -1,0 +1,28 @@
+{
+  "legs-up-the-wall-pose": [
+    {
+      "file": "tools/media/motion-guides/legs-up-the-wall-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/legs-up-the-wall-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/legs-up-the-wall-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/legs-up-the-wall-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/legs-up-the-wall-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/legs-up-the-wall-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

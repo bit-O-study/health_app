@@ -1,0 +1,18 @@
+{
+  "id": "swimmer-exercise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "be44d25574efe83b07758a90e96c03c268fd2b6179399b520aba75907675a6cd",
+  "rigSourceSha256": "f44b32bd293145bdfb2e90851df29ef2ce858c7cd2c9c26d259afe6675bf2afd",
+  "videoSha256": "da1a404a166817a4f8ac849f9a728e1d51d67dde1d3c8c42d6cca64be82045e2",
+  "darkVideoSha256": "e908477f6ece31f6d942029c19a4e1e1b47316093e174d0ad77bdddcc5df8bcf",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 72344,
+  "darkBytes": 80985,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:46:33.324Z"
+}

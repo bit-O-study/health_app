@@ -1,0 +1,75 @@
+{
+  "swimmer-exercise": {
+    "reviewedAt": "2026-11-16T07:46:29.521Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "swimmer-exercise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open empty hands reach overhead and alternate small lifts above the mat.",
+      "feet": "Prone trunk remains stable while each straight leg lifts with the opposite arm.",
+      "movement": "Lie prone with arms reaching overhead and legs long. Alternate raising each arm with the opposite leg while keeping torso steady; limbs hover and knees/elbows stay extended. Two controlled alternating cycles in eight seconds."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/final.jpg",
+        "sha256": "e56774e9e6f3500c4f78ce6d2757ec23b65ea50b2e6fee5b3dcf0b80e74cad24"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/final-dark.jpg",
+        "sha256": "e88156e4692ff303526b47eb402346cbb830cbece8bafbafb78bafebae093d9a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/full-sheet.png",
+        "sha256": "7e77afc8b4307ae7f63ce42955695998df5a72615b737e97ca757a297a6d2953"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/side-sheet.png",
+        "sha256": "c5ff02f4722d2c89c3144ddf6bc35fe9b5967d055d708632a1ac1df62b3316eb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/verification.json",
+        "sha256": "6d78163f131352e0f57ded654eb6cd8c871d073ca98efe10f1538f4aed27b168"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/geometry.json",
+        "sha256": "23c90461c5206017d9eee19bb88badcbbfb477afaf384941af27b200b6e8d4ea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/kinematics.json",
+        "sha256": "952fb3dd2e7bd1f01a24e7769b4c9699500dc07e3dd2f44e6baeb9155335e33c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/provenance.json",
+        "sha256": "f44b32bd293145bdfb2e90851df29ef2ce858c7cd2c9c26d259afe6675bf2afd"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/swimmer-exercise-alpha.webm",
+        "sha256": "067aad0f0e1f6c23ccdcfdaa7f45cabba3710ff94b319a563f1fb362538eb453",
+        "bytes": 200189,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/swimmer-exercise.mp4",
+        "sha256": "da1a404a166817a4f8ac849f9a728e1d51d67dde1d3c8c42d6cca64be82045e2",
+        "bytes": 72344,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/swimmer/native/swimmer-exercise/swimmer-exercise-dark.mp4",
+        "sha256": "e908477f6ece31f6d942029c19a4e1e1b47316093e174d0ad77bdddcc5df8bcf",
+        "bytes": 80985,
+        "decode": "passed"
+      }
+    ]
+  }
+}

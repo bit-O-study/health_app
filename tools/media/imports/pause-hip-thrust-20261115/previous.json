@@ -1,0 +1,28 @@
+{
+  "pause-hip-thrust": [
+    {
+      "file": "tools/media/motion-guides/pause-hip-thrust.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-hip-thrust.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-hip-thrust-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-hip-thrust.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-hip-thrust-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-hip-thrust-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

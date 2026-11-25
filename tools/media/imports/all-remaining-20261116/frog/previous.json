@@ -1,0 +1,28 @@
+{
+  "frog-stretch": [
+    {
+      "file": "tools/media/motion-guides/frog-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/frog-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/frog-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/frog-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/frog-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/frog-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

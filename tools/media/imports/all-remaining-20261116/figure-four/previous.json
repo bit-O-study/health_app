@@ -1,0 +1,28 @@
+{
+  "figure-4-stretch": [
+    {
+      "file": "tools/media/motion-guides/figure-4-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/figure-4-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/figure-4-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/figure-4-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/figure-4-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/figure-4-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

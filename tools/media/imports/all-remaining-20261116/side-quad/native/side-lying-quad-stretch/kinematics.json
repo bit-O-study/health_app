@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "minElbow": 45.829669330897325,
+  "minKnee": 24.999999999999993,
+  "thighAngle": -1.4999999999999982,
+  "ankleHandGap": 0.006107048198081601,
+  "supportGaps": {
+    "body": 0.018737837012443137,
+    "hip": 0.014999998860222519,
+    "foot": 0.018737837012443137,
+    "headHand": 0.026020117701675675
+  }
+}

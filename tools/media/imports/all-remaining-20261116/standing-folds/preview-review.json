@@ -1,0 +1,76 @@
+{
+  "standing-forward-fold": {
+    "reviewedAt": "2026-11-24T05:42:42.110Z",
+    "checks": {
+      "exercise": "standing-forward-fold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms rest on two blocks ahead of feet; elbows softly bent.",
+      "feet": "Both feet grounded; long legs and torso folded from hips with relaxed neck.",
+      "movement": "Hip-width grounded stance, fold at hips with long spine and palms supported on blocks ahead of feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static hold; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/standing-forward-fold/full-sheet.png",
+        "sha256": "b6e720f164c1b324d27394488334b70eb39e91899c153598131d05bd641488a7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/standing-forward-fold/side-sheet.png",
+        "sha256": "226b4d644702d4763086136e6df9be27ed7e330e3399f724e01db4ec622e8c8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/standing-forward-fold/poses.json",
+        "sha256": "226717086abdcb67c86df6dfbe124bca75c3ecae3d43cddcc8ec4847d60a396f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/standing-forward-fold/geometry.json",
+        "sha256": "b76f6f30f7d787392c39adfb0ae98e39bb96a70d4c244ec578c1c3495bb990e5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/standing-forward-fold/kinematics.json",
+        "sha256": "b2f95a8823ec87fc756f8a0168f28d5d08cb7611d192cf3b46cb3c86b6eecbeb"
+      }
+    ]
+  },
+  "wide-leg-forward-fold": {
+    "reviewedAt": "2026-11-24T05:42:42.118Z",
+    "checks": {
+      "exercise": "wide-leg-forward-fold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms rest on two blocks ahead of feet; elbows softly bent.",
+      "feet": "Both feet grounded; long legs and torso folded from hips with relaxed neck.",
+      "movement": "Wide grounded stance, fold at hips with long spine and palms supported on blocks ahead of feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static hold; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/wide-leg-forward-fold/full-sheet.png",
+        "sha256": "abe1500341658d204ca510801aff992ff1a340ba5d1e8bf021062a4d1440ddfc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/wide-leg-forward-fold/side-sheet.png",
+        "sha256": "c367e392179c670085e63143c96208b0084cbdbccfbb9d9e35425c445b2c37df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/wide-leg-forward-fold/poses.json",
+        "sha256": "e1c5a2dd35c941e15df93de76cb1a5f4f45e7877dd9f32a74978705a80c897c1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/wide-leg-forward-fold/geometry.json",
+        "sha256": "b44e63d5323324c9e9e4432d12308f1c747ea6570b0e48d655957c3be3d485bd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-folds/native/wide-leg-forward-fold/kinematics.json",
+        "sha256": "feccebab410d7ec2cab468d41385a58b74967481397be71c4bfe8cfc227a175e"
+      }
+    ]
+  }
+}

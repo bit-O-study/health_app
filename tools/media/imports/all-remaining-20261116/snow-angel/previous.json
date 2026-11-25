@@ -1,0 +1,28 @@
+{
+  "reverse-snow-angel": [
+    {
+      "file": "tools/media/motion-guides/reverse-snow-angel.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-snow-angel.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reverse-snow-angel-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-snow-angel.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-snow-angel-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reverse-snow-angel-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

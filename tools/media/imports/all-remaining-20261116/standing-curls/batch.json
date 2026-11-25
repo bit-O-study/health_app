@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "standing-single-leg-curl",
+      "original": "standing-single-leg-curl",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "standing-single-leg-curl",
+        "sourceUrls": [
+          "https://ironpack.io/exercises/standing-leg-curl"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Single right leg knee curl from 180 to 80 degrees, torso leaning forward 30 degrees, fixed thigh pad and hand grips, left foot on platform, ankle roller and plate-loaded side lever. Four seconds curl and four seconds return; switch legs between sets.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "standing-leg-curl-machine",
+      "original": "standing-leg-curl-machine",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "standing-leg-curl-machine",
+        "sourceUrls": [
+          "https://ironpack.io/exercises/standing-leg-curl"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Single right leg knee curl from 180 to 80 degrees, torso leaning forward 30 degrees, fixed thigh pad and hand grips, left foot on platform, ankle roller and plate-loaded side lever. Four seconds curl and four seconds return; switch legs between sets.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

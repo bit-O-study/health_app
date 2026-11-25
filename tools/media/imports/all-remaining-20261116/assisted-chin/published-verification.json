@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T01:44:19.521Z",
+  "report": [
+    {
+      "id": "assisted-chin-up",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

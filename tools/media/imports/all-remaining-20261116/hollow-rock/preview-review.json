@@ -1,0 +1,39 @@
+{
+  "hollow-rock": {
+    "reviewedAt": "2026-11-24T06:40:51.061Z",
+    "checks": {
+      "exercise": "hollow-rock",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms stay overhead while the entire body rocks.",
+      "feet": "Straight raised legs keep a constant angle relative to the torso.",
+      "movement": "Rock back and forth with straight legs raised and arms overhead, maintaining a constant hollow body shape and hip angle."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second hollow rock demonstration with two cycles."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/full-sheet.png",
+        "sha256": "11428d863f5435e0f1016f91575e839caf74b371b5722e1e4a0f8105656bda93"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/side-sheet.png",
+        "sha256": "83f72a088977ef9bc6c562f3013e8796b7cbfd5a0879ccd799c373a6a5c17e8f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/poses.json",
+        "sha256": "6ba92880d025a9a26d5e74ebeac1992ec62caa642443c990ce4b8065f9f26271"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/geometry.json",
+        "sha256": "489d053c5475841b277c783dfdbe3557ce012460fc891958a33ed3616ef58c64"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hollow-rock/native/hollow-rock/kinematics.json",
+        "sha256": "5d1bfc27669f82200e443b68076ba22c2e74a91e2574370f1187b862a43df28e"
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "entries": [
+    {
+      "id": "pilates-hundred",
+      "original": "pilates-hundred",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pilates-hundred",
+        "sourceUrls": [
+          "https://www.pilatesanytime.com/blog/mat/mat-sequences-for-every-level",
+          "https://uk.physitrack.com/home-exercise-video/pilates-hundred-level-2"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Curled head and chest, straight diagonal legs held still; long arms pulse by sides with palms down.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight seconds demonstrates ten arm pulses, not the full hundred."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

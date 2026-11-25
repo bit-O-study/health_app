@@ -1,0 +1,15 @@
+{
+  "id": "horizontal-calf-raise-machine",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "horizontal-calf-raise-machine-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.uwo.ca/campusrec/orientation/equipment_guides/legs.html"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T04:58:05.916Z"
+}

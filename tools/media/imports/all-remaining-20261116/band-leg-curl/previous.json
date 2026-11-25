@@ -1,0 +1,28 @@
+{
+  "band-leg-curl": [
+    {
+      "file": "tools/media/motion-guides/band-leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "assisted-chin-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "49514604c2e996eea18d84abdbb4ec54bf4a927e38997749184e67ebc79fecff",
+  "rigSourceSha256": "6bb6c66b3744d62c5778be24a3fb24fdf5a3389e4abe1feaaeb57de2ebd533e3",
+  "videoSha256": "09bac8315baa0fc7c43a76ddb5f7726b15b57e38f2fc7cd6857a5872365b2697",
+  "darkVideoSha256": "c5dd3f1a3a950fdce8c6a2dde726b6d658e8237fd191f83ee3f360685aeda5a0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 124220,
+  "darkBytes": 123002,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:43:26.081Z"
+}

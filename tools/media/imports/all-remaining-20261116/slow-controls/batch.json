@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "id": "tempo-overhead-press",
+      "original": "barbell-overhead-press",
+      "equipment": "barbell",
+      "rig": "all-exercises-20261007/skinned-standing-barbell-press-repair-20261012",
+      "url": "https://www.strengthlog.com/overhead-press/",
+      "criteria": "Standing strict press: 3 seconds up, 1 second overhead, 3 seconds down, 1 second at shoulders; no leg drive.",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "barbell-overhead-press",
+        "sourceUrls": [
+          "https://www.strengthlog.com/overhead-press/"
+        ],
+        "criteria": "Standing strict press: 3 seconds up, 1 second overhead, 3 seconds down, 1 second at shoulders; no leg drive.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Illustrative tempo. Nordic shows a limited 45-degree eccentric-emphasis repetition and unassisted return, not a full descent or assisted reset."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "eccentric-nordic-curl",
+      "original": "nordic-hamstring-curl",
+      "equipment": "bodyweight",
+      "rig": "hundred-20261111",
+      "url": "https://theprehabguys.com/vimeo-video/nordic-curl/",
+      "criteria": "Eccentric-emphasis limited-range Nordic: 5-second controlled 45-degree lean, 1-second hold, 1-second unassisted return, 1-second upright pause. Not an eccentric-only full descent or assisted reset.",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "nordic-hamstring-curl",
+        "sourceUrls": [
+          "https://theprehabguys.com/vimeo-video/nordic-curl/"
+        ],
+        "criteria": "Eccentric-emphasis limited-range Nordic: 5-second controlled 45-degree lean, 1-second hold, 1-second unassisted return, 1-second upright pause. Not an eccentric-only full descent or assisted reset.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Illustrative tempo. Nordic shows a limited 45-degree eccentric-emphasis repetition and unassisted return, not a full descent or assisted reset."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

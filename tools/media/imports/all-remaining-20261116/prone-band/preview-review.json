@@ -1,0 +1,39 @@
+{
+  "prone-band-pull-apart": {
+    "reviewedAt": "2026-11-16T07:59:35.645Z",
+    "checks": {
+      "exercise": "prone-band-pull-apart",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Closed hands keep contact with the resistance band while arms separate overhead.",
+      "feet": "Prone torso and legs remain stable while straight arms separate into a small Y and stretch the band.",
+      "movement": "Lie prone holding a resistance band overhead. Keep arms long and torso steady; separate hands laterally into a small Y, pause, return with tension. Band remains attached to both closed grips and clear of the head. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/full-sheet.png",
+        "sha256": "f9b29fa0417aa76984cbef70452e1e91e33f94b7e1011448d2d9e202899907af"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/side-sheet.png",
+        "sha256": "c590b05cea5eb1f484cc22b4615a14790eb611191ec426c329ca1afdae65b00d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/poses.json",
+        "sha256": "0b534e06e0d528ac29af68c9cffe0fbc4921e5b14249c7b1443e2e663b9c6dec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/geometry.json",
+        "sha256": "a0b26df8f16f6870c36883a53ad063873f7e991a801624437f3d6795470a595b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/kinematics.json",
+        "sha256": "1ea77b223c889ebb0ea3e09d6fdaf256b7356f0bccffb800dca71d2c53af7d6d"
+      }
+    ]
+  }
+}

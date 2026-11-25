@@ -1,0 +1,76 @@
+{
+  "medium-grip-pull-up": {
+    "reviewedAt": "2026-11-16T06:23:27.051Z",
+    "checks": {
+      "exercise": "medium-grip-pull-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the fixed overhead bar.",
+      "feet": "Straight legs hang clear of the floor. Grip matches the specified width and pronation/supination. Fixed hands, controlled vertical trunk motion, chin above bar at top.",
+      "movement": "Overhand medium grip, span 4.8 model units slightly wider than shoulders. Straight-leg hang; start with extended arms, pull chin above bar, return without swinging. 3.5 seconds up, 1 second pause, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/medium-grip-pull-up/full-sheet.png",
+        "sha256": "6476ac277826c42a588cb6447a856cb6c3bb293f96b59cc7f2e8bd01e9d049ca"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/medium-grip-pull-up/side-sheet.png",
+        "sha256": "ff2663ceafb2e7facbec529c695baf563d33620d27a69b194654a81d7c837d11"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/medium-grip-pull-up/poses.json",
+        "sha256": "576e20335dca2b2b4a7e46746ade48e545c43c5e9110fb3b352aa2be158aaf9a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/medium-grip-pull-up/geometry.json",
+        "sha256": "df9f964be3cf315b5e78d111b2e07d6c44f191810656fd3f0c92e4f6b09006c9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/medium-grip-pull-up/kinematics.json",
+        "sha256": "fba178aea614118d638106eabaa2d4212958004cb8fa924d767fbc24661f7d14"
+      }
+    ]
+  },
+  "close-grip-chin-up": {
+    "reviewedAt": "2026-11-16T06:23:27.057Z",
+    "checks": {
+      "exercise": "close-grip-chin-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the fixed overhead bar.",
+      "feet": "Straight legs hang clear of the floor. Grip matches the specified width and pronation/supination. Fixed hands, controlled vertical trunk motion, chin above bar at top.",
+      "movement": "Underhand narrow grip, span 2.2 model units inside shoulder width. Straight-leg hang; start with extended arms, pull chin above bar, return without swinging. 3.5 seconds up, 1 second pause, 3.5 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/full-sheet.png",
+        "sha256": "9ccccc645439036f2e5290c9cce0bed8b85ffa427a30ab7866914f42500f6077"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/side-sheet.png",
+        "sha256": "5c94b1a8a44ededc08575c40d604e61fee23e6328d81c6ef84868e0db6565b39"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/poses.json",
+        "sha256": "def93fe3d8c07f7c6c24f07414f52f3ec77876c65fdefa773d5bdd393ad8ce31"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/geometry.json",
+        "sha256": "b01908e041571efa1f955aab74b59a7b1c24aeae8ccb9a215f05989fc21d5e87"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/kinematics.json",
+        "sha256": "7ed8fbda5084f9aa29c1f0048faeab2ce8a7ca4721687769632944c6f7a36d45"
+      }
+    ]
+  }
+}

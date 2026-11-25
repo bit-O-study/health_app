@@ -1,0 +1,148 @@
+{
+  "pilates-criss-cross": {
+    "reviewedAt": "2026-11-24T06:21:58.148Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-criss-cross",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands rest lightly beside head, elbows wide; shoulders rotate with trunk.",
+      "feet": "One leg extends while the other bends; upper torso rotates toward bent knee, pelvis stays stable.",
+      "movement": "Curled torso alternates rotation toward bent knee while opposite leg extends; hands lightly support head with wide elbows; stable pelvis and level feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled alternating leg extension."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/final.jpg",
+        "sha256": "bd4238d418a9f853b8296173b761ffc4175fdf24d81b6f9065ff8448183c5762"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/final-dark.jpg",
+        "sha256": "a025b7b0fbfe65c21afec4c9644cc47b4e9b92be7ce5712938387b7f6f225f84"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/full-sheet.png",
+        "sha256": "b38d0a8ff5b243ec437b0abea9cf7e52cf7ec0dcdfcaa59f5bdd9a17e5ef75f8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/side-sheet.png",
+        "sha256": "6aba8fcaea8b62aa07ea50a944ba8fe87b1a43c8001be73998fbec3d08b260df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/verification.json",
+        "sha256": "d58b8ba238959debf508f8d08a65eb02b4f7e5dec9bb11bc8259d271a4b34f8d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/geometry.json",
+        "sha256": "226e429dec024c04980ab8640fb50b069314915b943d3d2aa6c732c09bd7cb2a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/kinematics.json",
+        "sha256": "32f37577a2027431b4d5d864929732913464fdd1245befbadaa8f42c029d3da9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/provenance.json",
+        "sha256": "03cb5331ba370acb6a2fe8ae38d4b671e772d3febd70083e612331d8ddad80ed"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/pilates-criss-cross-alpha.webm",
+        "sha256": "f991c62153eb3f8f78d79cf1ea54fee7944bba14a81141beb93fe632dbe39a26",
+        "bytes": 281918,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/pilates-criss-cross.mp4",
+        "sha256": "b5db579be59c854c9cec295be50b36d01e4a142c268fda9aabd71b536f258f51",
+        "bytes": 104723,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/pilates-criss-cross/pilates-criss-cross-dark.mp4",
+        "sha256": "d9f37dabac32888792256ff1326504050aaef859ac139357eafddbcf219998bf",
+        "bytes": 110893,
+        "decode": "passed"
+      }
+    ]
+  },
+  "bicycle-crunch": {
+    "reviewedAt": "2026-11-24T06:21:58.160Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "bicycle-crunch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands rest lightly beside head, elbows wide; shoulders rotate with trunk.",
+      "feet": "One leg extends while the other bends; upper torso rotates toward bent knee, pelvis stays stable.",
+      "movement": "Curled torso alternates rotation toward bent knee while opposite leg extends; hands lightly support head with wide elbows; stable pelvis and level feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled alternating leg extension."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/final.jpg",
+        "sha256": "bd4238d418a9f853b8296173b761ffc4175fdf24d81b6f9065ff8448183c5762"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/final-dark.jpg",
+        "sha256": "a025b7b0fbfe65c21afec4c9644cc47b4e9b92be7ce5712938387b7f6f225f84"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/full-sheet.png",
+        "sha256": "b38d0a8ff5b243ec437b0abea9cf7e52cf7ec0dcdfcaa59f5bdd9a17e5ef75f8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/side-sheet.png",
+        "sha256": "6aba8fcaea8b62aa07ea50a944ba8fe87b1a43c8001be73998fbec3d08b260df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/verification.json",
+        "sha256": "d58b8ba238959debf508f8d08a65eb02b4f7e5dec9bb11bc8259d271a4b34f8d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/geometry.json",
+        "sha256": "226e429dec024c04980ab8640fb50b069314915b943d3d2aa6c732c09bd7cb2a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/kinematics.json",
+        "sha256": "32f37577a2027431b4d5d864929732913464fdd1245befbadaa8f42c029d3da9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/provenance.json",
+        "sha256": "e08f78891cf9cdc8145499e4da9e04a684d7b8480697b2e74218542987e520bc"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/bicycle-crunch-alpha.webm",
+        "sha256": "aa964c3c58ff723d5646f7e42f232d4ffb38e627a432b7337750ceb1030e0274",
+        "bytes": 281918,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/bicycle-crunch.mp4",
+        "sha256": "b5db579be59c854c9cec295be50b36d01e4a142c268fda9aabd71b536f258f51",
+        "bytes": 104723,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/criss-cross/native/bicycle-crunch/bicycle-crunch-dark.mp4",
+        "sha256": "d9f37dabac32888792256ff1326504050aaef859ac139357eafddbcf219998bf",
+        "bytes": 110893,
+        "decode": "passed"
+      }
+    ]
+  }
+}

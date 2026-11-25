@@ -1,0 +1,28 @@
+{
+  "extended-side-angle-pose": [
+    {
+      "file": "tools/media/motion-guides/extended-side-angle-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/extended-side-angle-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/extended-side-angle-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/extended-side-angle-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/extended-side-angle-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/extended-side-angle-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

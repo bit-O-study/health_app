@@ -1,0 +1,18 @@
+{
+  "id": "full-rom-leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bc37e4b327ef726ab4c08f4b605a6bda9b7354df27f34bb3d04f02a6790962a0",
+  "rigSourceSha256": "bd66c5710f1e993dd9bb418631cc632b4e0238168caa1de16c84d37cc038609f",
+  "videoSha256": "1bd8d7da0f55bdf165f90fc1e2ea3c69d0dc5ff8ee778a19da7ede78cb05960f",
+  "darkVideoSha256": "620ddda0e4641033e9c0182a3b0bb22b518c979857fbfa91e3c99ce34f644e52",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 120195,
+  "darkBytes": 96116,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:50:01.774Z"
+}

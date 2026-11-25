@@ -1,0 +1,39 @@
+{
+  "high-lunge-stretch": {
+    "reviewedAt": "2026-11-24T02:34:53.549Z",
+    "checks": {
+      "exercise": "high-lunge-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach overhead with palms facing inward.",
+      "feet": "Rear leg straight, heel lifted and toes grounded; front foot flat and knee above ankle.",
+      "movement": "High crescent lunge with front knee above ankle, rear leg straight and heel lifted, toes grounded, upright torso and arms overhead with palms facing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/full-sheet.png",
+        "sha256": "dd1d55108a86d988ecfae4b3a17d8675415b2f4853022f4fe0d3d04d3e3fb5a7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/side-sheet.png",
+        "sha256": "a71cab0dae68e0bdc147cefbb81d822a53a854107f6e0b7edd784d645f5032e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/poses.json",
+        "sha256": "70037bc5703e17d5cd49e8245fb75a171c4957caf96c81e00cab283945187eb0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/geometry.json",
+        "sha256": "d9b6d9833fbcdf8d96ea75991108d9366958a9dd2f2aef0aedfd4658200c084e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/high-lunge/native/high-lunge-stretch/kinematics.json",
+        "sha256": "59671858dba784cf447c3b884561afeed2ddfd7b29000e5e51ce4bb8757aaf69"
+      }
+    ]
+  }
+}

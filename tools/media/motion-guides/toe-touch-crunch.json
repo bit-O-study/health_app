@@ -1,0 +1,15 @@
+{
+  "id": "toe-touch-crunch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "toe-touch-crunch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.vaco.org/AchievementAwards/Entries2016/HenricoFireFitIntensiveFocus/HenricoFireFitIntensiveFocus.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T06:32:10.333Z"
+}

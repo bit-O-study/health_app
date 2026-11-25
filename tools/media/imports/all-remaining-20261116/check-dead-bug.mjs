@@ -1,0 +1,9 @@
+import {readFileSync,writeFileSync} from 'node:fs';import assert from 'node:assert/strict';
+const base='tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension',read=n=>JSON.parse(readFileSync(base+'/'+n,'utf8')),p=read('poses.json'),g=read('geometry.json');
+assert.equal(p.length,481);assert.deepEqual(p[0].joints,p[480].joints);let minKnee=180,maxKnee=0,maxStep=0,torsoDrift=0;
+const angle=(j,s)=>{const[a,b,c]=['upperleg01','lowerleg01','foot'].map(n=>j[n+'.'+s]),u=a.map((x,k)=>x-b[k]),v=c.map((x,k)=>x-b[k]),cos=u.reduce((sum,x,k)=>sum+x*v[k],0)/Math.hypot(...u)/Math.hypot(...v);assert.ok(Number.isFinite(cos)&&Math.abs(cos)<=1+1e-12);return Math.acos(Math.max(-1,Math.min(1,cos)))*180/Math.PI;};
+for(const [i,f]of p.entries()){const j=f.joints;assert.ok(Object.values(j).flat().every(Number.isFinite));for(const s of ['L','R']){const a=angle(j,s);minKnee=Math.min(minKnee,a);maxKnee=Math.max(maxKnee,a);}for(const n of ['root','head','spine01','upperleg01.L','upperleg01.R'])torsoDrift=Math.max(torsoDrift,Math.hypot(...j[n].map((x,k)=>x-p[0].joints[n][k])));if(i)for(const n of Object.keys(j))maxStep=Math.max(maxStep,Math.hypot(...j[n].map((x,k)=>x-p[i-1].joints[n][k])));}
+for(const [frame,s,o]of [[120,'L','R'],[360,'R','L']]){const j=p[frame].joints;assert.ok(angle(j,s)>179&&Math.abs(angle(j,o)-90)<1e-6);assert.ok(j['foot.'+s][2]>p[0].joints['foot.'+s][2]+3);assert.ok(j['wrist.'+o][2]<p[0].joints['wrist.'+o][2]-3);assert.deepEqual(j['wrist.'+s],p[0].joints['wrist.'+s]);}
+assert.ok(torsoDrift<.03&&maxStep<.15&&minKnee>89.9&&maxKnee>179);
+for(const x of g){assert.ok(x.floorClearance>.01&&x.cloth+7.9>.01&&x.upperBack+7.9<.05&&x.lowerBack+7.9<.3);assert.ok(x.palms+7.9>1&&x.supportFootGap>1);}
+const result={status:'numeric-checks-passed',poseSamples:481,loopError:0,kneeRange:[minKnee,maxKnee],maxStep,torsoDrift,oppositeArmLeg:true};writeFileSync(base+'/kinematics.json',JSON.stringify(result,null,2)+'\n');console.log(result);

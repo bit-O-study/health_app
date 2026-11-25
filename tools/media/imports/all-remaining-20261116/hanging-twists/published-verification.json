@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T05:50:16.336Z",
+  "report": [
+    {
+      "id": "hanging-oblique-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "hanging-knee-raise-twist",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

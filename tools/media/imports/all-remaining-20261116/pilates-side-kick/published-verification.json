@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T05:23:06.643Z",
+  "report": [
+    {
+      "id": "pilates-side-kick",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

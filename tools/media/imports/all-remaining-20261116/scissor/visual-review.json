@@ -1,0 +1,75 @@
+{
+  "scissor-kick": {
+    "reviewedAt": "2026-11-18T00:43:04.292Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "scissor-kick",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside body, palms down.",
+      "feet": "Supine body stays supported while straight legs open and cross, alternating which leg passes above.",
+      "movement": "Lie supine with arms beside body, palms down and neutral head on low cushion. Straight raised legs open and cross horizontally, changing upper leg at the next crossing. Two open-cross-open cycles in eight seconds with back supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/final.jpg",
+        "sha256": "3de78048ba1e822f4b0035482b9659f184c3edd74584d6ad417cbc863ca05f90"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/final-dark.jpg",
+        "sha256": "b17b94527076de83a5c9af85c603c2eef506c1e79f26f1ff3f11b79172cdff67"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/full-sheet.png",
+        "sha256": "371d2ec9b4063d229d73bc4b59c17c3dcccfdbb402b4078a9bcfd0cea16576db"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/side-sheet.png",
+        "sha256": "0749bdc6e2ce860147061a18ac187119958c570ae976fa9363d6507fc4881bef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/verification.json",
+        "sha256": "0191b131b299e558e9e0d03f3704a36820f4f5fc938018e27bbce0b98c34e161"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/geometry.json",
+        "sha256": "e7d777147b4fdc490384a530821315a16e0eca263d36613cac3a4ef3a61997a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/kinematics.json",
+        "sha256": "2108b3a7ac51798ee5394e7f384b523c27462d56733c5ac46ea1d39cc0ba4439"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/provenance.json",
+        "sha256": "6f651a0ddb519b4c7c8ea378739d16550643de0016e3331f2ad0807cf0db32be"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/scissor-kick-alpha.webm",
+        "sha256": "1cc6a0a875ba46b3ab3ca33e4f8a3cf36377ba8eafcb2a3ab7f423bcf5aeef8f",
+        "bytes": 175821,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/scissor-kick.mp4",
+        "sha256": "2b1df5fea391c58604b9d22fef757e79b691d64b43b8ee350b246ecf881dff7c",
+        "bytes": 75643,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/scissor/native/scissor-kick/scissor-kick-dark.mp4",
+        "sha256": "849cd00977721940e12ca1d286cec5af15ea4ff1e35bca9a570cf5ffd79beed3",
+        "bytes": 76404,
+        "decode": "passed"
+      }
+    ]
+  }
+}

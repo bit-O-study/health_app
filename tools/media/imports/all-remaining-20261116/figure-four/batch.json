@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "figure-4-stretch",
+      "original": "figure-4-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "figure-four",
+        "sourceUrls": [
+          "https://www.hss.edu/health-library/move-better/hip-strengthening-exercises"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie supine, cross one ankle above the opposite knee and flex the crossed foot. Hold behind the uncrossed thigh and gently draw it toward chest, keeping head and pelvis supported.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

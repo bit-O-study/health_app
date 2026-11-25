@@ -1,0 +1,39 @@
+{
+  "pilates-double-leg-stretch": {
+    "reviewedAt": "2026-11-24T04:51:42.481Z",
+    "checks": {
+      "exercise": "pilates-double-leg-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands return to knees, reach overhead and circle outward; wrists follow forearms.",
+      "feet": "Both legs move symmetrically from tabletop to diagonal extension; head and chest remain curled.",
+      "movement": "Supine curled chest; tabletop knees extend diagonally while arms reach overhead, then circle arms outward and return hands to knees."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled extension and arm-circle return."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/full-sheet.png",
+        "sha256": "08ffbd2889e77d7a7a5599ebda8cfba6cbc7bb461e3433d8bc9bb8f5b1f0c229"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/side-sheet.png",
+        "sha256": "6d2616cc18dbcc7e8f523719807b6ff74b04028e571dd8742895f2b68d352627"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/poses.json",
+        "sha256": "3d03f1df9ad227992ed2b8dad11785f0a47809e7116922756997ee449179ef12"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/geometry.json",
+        "sha256": "834c6f771fbdf8112009f6697bb9107f948ce124c89a963b779726258b39c3df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-double/native/pilates-double-leg-stretch/kinematics.json",
+        "sha256": "52f3db5059e79a887991ea23690b727bce8f620331e38c6dae46a1625590e084"
+      }
+    ]
+  }
+}

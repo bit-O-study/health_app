@@ -1,0 +1,18 @@
+{
+  "id": "reverse-nordic-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c18c47e200e6d98d0e50d148bf8b77d0a5062621ca659d13e1b9bdede0ce48ca",
+  "rigSourceSha256": "8d31ce2e348e1beceadb3d46c516ee0cf355a2911662841542cf421bd39df1e5",
+  "videoSha256": "cbf3d570397c5e63ac58c39b34c74ccc30b8da131efed77eeb0fcc64d59a344b",
+  "darkVideoSha256": "569e6d520ad5d7e06070752827abc9acf6cda5c9f9e1aea79dcb7cf47a50c7bb",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 112894,
+  "darkBytes": 116183,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:42:05.352Z"
+}

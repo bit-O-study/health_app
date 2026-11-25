@@ -1,0 +1,28 @@
+{
+  "staggered-push-up": [
+    {
+      "file": "tools/media/motion-guides/staggered-push-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/staggered-push-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/staggered-push-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/staggered-push-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/staggered-push-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/staggered-push-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

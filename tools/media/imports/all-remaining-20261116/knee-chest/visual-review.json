@@ -1,0 +1,75 @@
+{
+  "knee-to-chest-stretch": {
+    "reviewedAt": "2026-11-18T03:33:14.039Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "knee-to-chest-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support behind the raised thigh; separate hands without visible overlap.",
+      "feet": "Opposite foot remains on mat; lifted knee draws toward chest while head and back stay supported.",
+      "movement": "Lie supine with both knees initially bent, keep one foot grounded and draw the other knee toward chest, supporting behind the thigh with both hands. Keep head and back supported and hold gently."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/final.jpg",
+        "sha256": "9968359d834a5b48a1176c6b980198eea24b84b520ef071632c9f3acd85e81f8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/final-dark.jpg",
+        "sha256": "0117f9496f5a572e10cd01006dfebe9b240dab9492f6eeed366b8792b4ddeaed"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/full-sheet.png",
+        "sha256": "dc9a46b6d80af97fc3a6b8595ec751c8878b9bb846c21ad94d1beb30e7fc71b8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/side-sheet.png",
+        "sha256": "ada32aa4273820155fa5750da0c609dcfc166b1de815283a5e1621af2d96fc37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/verification.json",
+        "sha256": "be4e47ba6ac13f943278928cccd038924743189511428900333aad471d1c2f45"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/geometry.json",
+        "sha256": "89d3f2e5076b317db6994512db9a43ebff2d61d0f6a6634462db5e88f65097f6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/kinematics.json",
+        "sha256": "fd325fbb2b5251317f22d173df16ce29e2a1d91082fdda6f92e8031085710ff3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/provenance.json",
+        "sha256": "1af446b3797c0cacf4d3edbe12ad551cc25de773f04ead66656f7eaeb0e8823f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/knee-to-chest-stretch-alpha.webm",
+        "sha256": "f22c3aedcaaef357a57ef28feaccf2f49dc99244f048e265a86be09a1a580967",
+        "bytes": 39431,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/knee-to-chest-stretch.mp4",
+        "sha256": "f200c288d081c34f8ac46816fd5c8a33e5113f3e4ddcc932e3b2f8ee4a94d3e3",
+        "bytes": 16735,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/knee-chest/native/knee-to-chest-stretch/knee-to-chest-stretch-dark.mp4",
+        "sha256": "6112d102143f76773e15023d71843e91ac8ea7e6392fe6ab3abfb23e53504efe",
+        "bytes": 15847,
+        "decode": "passed"
+      }
+    ]
+  }
+}

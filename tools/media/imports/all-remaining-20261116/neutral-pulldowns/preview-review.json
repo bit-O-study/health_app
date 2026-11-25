@@ -1,0 +1,76 @@
+{
+  "neutral-grip-lat-pulldown": {
+    "reviewedAt": "2026-11-16T01:47:45.939Z",
+    "checks": {
+      "exercise": "neutral-grip-lat-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms face each other around the parallel handles.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Shoulder-width parallel grip; seated cable pulldown with thigh restraint and fixed feet; 3.5 seconds pull, 1 second pause, 3.5 seconds controlled return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/neutral-grip-lat-pulldown/full-sheet.png",
+        "sha256": "6cfb278cdab8d3f524741833d22d4a610c607b09917547fd9b59a3e25a6aa812"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/neutral-grip-lat-pulldown/side-sheet.png",
+        "sha256": "4aecd35ef1053c7f7382bda4e4c2862df94060ad599e715d7e830e9bee6a4b08"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/neutral-grip-lat-pulldown/poses.json",
+        "sha256": "a3b208ca77cb51dc8f91333923c47ef506f1df080fbd7853f97cfbbedc73519e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/neutral-grip-lat-pulldown/geometry.json",
+        "sha256": "8291e4c66fd6a617b5465caa16b08b9e7275c7b927faf2107d9de7fc474e7ee5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/neutral-grip-lat-pulldown/kinematics.json",
+        "sha256": "4407571e2a2ca543d90afc9fb77af9ebacfc2361d959f7c91df8a87ed2ebd961"
+      }
+    ]
+  },
+  "close-neutral-grip-lat-pulldown": {
+    "reviewedAt": "2026-11-16T01:47:45.944Z",
+    "checks": {
+      "exercise": "close-neutral-grip-lat-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Palms face each other around the parallel handles.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Narrow parallel grip; seated cable pulldown with thigh restraint and fixed feet; 3.5 seconds pull, 1 second pause, 3.5 seconds controlled return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/close-neutral-grip-lat-pulldown/full-sheet.png",
+        "sha256": "2b3bbbb1cbe5abec48a7a63e306e72718e4807a3908b74c3a745d61e1c1705cd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/close-neutral-grip-lat-pulldown/side-sheet.png",
+        "sha256": "69c31a5b5f6bc1377174780737c05882fb6ec1e4757b4b3706ccfcd7099feaa3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/close-neutral-grip-lat-pulldown/poses.json",
+        "sha256": "e43faf7222386b4b3edd29613355a42b40e0315addf8cde15479ad0f616d2d9b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/close-neutral-grip-lat-pulldown/geometry.json",
+        "sha256": "dc6c573db294d1159c1ad9f3aa2a03ad7f3678704ed0107ffdc0cf36d6cefc07"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neutral-pulldowns/native/close-neutral-grip-lat-pulldown/kinematics.json",
+        "sha256": "0312d50eea4ec7e6027490afdb95cef8972ad48e87c8407d8c399fe9f777c6be"
+      }
+    ]
+  }
+}

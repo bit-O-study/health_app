@@ -1,0 +1,15 @@
+{
+  "id": "pilates-double-leg-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "pilates-double-leg-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://ie.physitrack.com/home-exercise-video/pilates-double-leg-stretch"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T04:54:16.919Z"
+}

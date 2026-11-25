@@ -1,0 +1,39 @@
+{
+  "warrior-ii-pose": {
+    "reviewedAt": "2026-11-24T02:40:02.814Z",
+    "checks": {
+      "exercise": "warrior-ii-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach forward and backward at shoulder height, palms down.",
+      "feet": "Rear leg straight and foot facing long side of mat with heel grounded; front foot points forward and knee above ankle.",
+      "movement": "Warrior two with hips and chest facing long side of mat, bent front knee over ankle, straight rear leg, both feet grounded, arms horizontal and gaze over front hand."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/full-sheet.png",
+        "sha256": "d83a92a551f1e450191abe6aa188ae2044eca556a7a44a1b8180788f31848ce7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/side-sheet.png",
+        "sha256": "6f8b0021374257549675767e68438e8b482e7b4d173332200b65fbc2b38841ba"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/poses.json",
+        "sha256": "f367abd97a0bb4c14d8448218d3e7ca719cc7ff78ea50052a06acc409ef2105a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/geometry.json",
+        "sha256": "a5af2a47c0ff8aa4b9f797f10c248c12029497f6cbcb19736f37decdfffde491"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/kinematics.json",
+        "sha256": "da5514d52aea851b66ea9c1fbca8b99ddf2faf29705b5b763a1c5270904227e2"
+      }
+    ]
+  }
+}

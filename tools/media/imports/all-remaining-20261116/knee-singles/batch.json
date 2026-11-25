@@ -1,0 +1,69 @@
+{
+  "entries": [
+    {
+      "id": "single-leg-extension",
+      "original": "leg-extension",
+      "equipment": "machine",
+      "hold": false,
+      "single": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "leg-extension",
+        "sourceUrls": [
+          "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+        ],
+        "criteria": "Left leg demonstrated; right foot remains on support platform. Three-and-a-half seconds each way and one-second contracted pause. Switch sides for the other leg.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "single-leg-curl",
+      "original": "seated-leg-curl",
+      "equipment": "machine",
+      "hold": false,
+      "single": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-leg-curl",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/single-leg-seated-leg-curl"
+        ],
+        "criteria": "Left leg demonstrated; right foot remains on support platform. Three-and-a-half seconds each way and one-second contracted pause. Switch sides for the other leg.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "leg-curl",
+      "original": "seated-leg-curl",
+      "equipment": "machine",
+      "hold": false,
+      "single": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-leg-curl",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/single-leg-seated-leg-curl"
+        ],
+        "criteria": "Bilateral seated leg curl; three-and-a-half seconds each way with one-second contracted pause.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

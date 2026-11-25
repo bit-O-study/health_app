@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ea266e1d5908856a4d705c56a46feba0fc4e6dd73822520e57a656b720f5ac69",
+  "rigSourceSha256": "4689c70cf026b7acc9ee1c95ce8446d09984e4cc95cc76cefc10570da20688a8",
+  "videoSha256": "18e9774e0ee1ff06d55e09d1badf08ff56f8c908f73335f77ad7334c7ad19872",
+  "darkVideoSha256": "17a59ea0ba7800624d441bcd5c1b2bbd9c19d50d5a1e1a7b5f30e2af43fcfd9b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 91097,
+  "darkBytes": 80870,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:15:33.040Z"
+}

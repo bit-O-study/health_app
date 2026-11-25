@@ -1,0 +1,28 @@
+{
+  "plank-with-leg-lift": [
+    {
+      "file": "tools/media/motion-guides/plank-with-leg-lift.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/plank-with-leg-lift.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/plank-with-leg-lift-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-with-leg-lift.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-with-leg-lift-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/plank-with-leg-lift-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

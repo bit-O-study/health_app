@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const base='tools/media/imports/all-remaining-20261116/knee-singles',read=p=>JSON.parse(readFileSync(p)),d=(a,b)=>Math.hypot(...a.map((x,i)=>x-b[i]));
+const angle=(a,b,c)=>{const u=a.map((x,i)=>x-b[i]),v=c.map((x,i)=>x-b[i]);return Math.acos(Math.max(-1,Math.min(1,u.reduce((s,x,i)=>s+x*v[i],0)/Math.hypot(...u)/Math.hypot(...v))))*180/Math.PI;};
+for(const e of read(base+'/batch.json').entries){const dir=base+'/native/'+e.id,poses=read(dir+'/poses.json'),geometry=read(dir+'/geometry.json'),first=poses[0].joints;assert.equal(poses.length,481);assert.deepEqual(first,poses[480].joints);let gripError=0,maxStep=0,restFootDrift=0;const knees=[];
+ for(let f=0;f<=480;f++){const j=poses[f].joints;assert.ok(Object.values(j).flat(Infinity).every(Number.isFinite));for(const n of ['root','spine01','head','lowerleg01.L','lowerleg01.R'])assert.ok(d(j[n],first[n])<1e-8);for(let i=0;i<2;i++)gripError=Math.max(gripError,d(j.grips[i],j.targets[i]),d(j.grips[i],first.grips[i]));knees.push(angle(j['upperleg01.L'],j['lowerleg01.L'],j['foot.L']));if(e.single){restFootDrift=Math.max(restFootDrift,d(j['foot.R'],first['foot.R']));assert.ok(j.roller[0]-.7>0,'Working roller crosses resting leg');}if(f)for(const n of ['foot.L','foot.R','roller'])maxStep=Math.max(maxStep,d(j[n],poses[f-1].joints[n]));}
+ assert.ok(gripError<1e-7&&maxStep<.08&&restFootDrift<1e-8);const range=[Math.min(...knees),Math.max(...knees)],expected=e.id.includes('curl')?[80,165]:[90,170];for(let i=0;i<2;i++)assert.ok(Math.abs(range[i]-expected[i])<1e-6);
+ for(const g of geometry){assert.ok(Object.values(g).every(Number.isFinite));assert.ok(Math.abs(g.seatGap)<.02&&Math.abs(g.backGap)<.02&&g.soleMin>-7.8);assert.ok(Math.abs(g.rollerGap-.01)<1e-7&&g.kneeAxisGap<1e-8);if(e.id.includes('curl'))assert.ok(g.thighGap>=0&&g.thighGap<.03);}
+ for(let f=210;f<=270;f++)assert.deepEqual(poses[f].joints,poses[210].joints);
+ const report={status:'numeric-checks-passed',poseSamples:481,loopError:0,gripError,maxStep,restFootDrift,kneeDegrees:range,supportSamples:geometry.length,timing:e.recipe.criteria};writeFileSync(dir+'/kinematics.json',JSON.stringify(report,null,2)+'\n');console.log(e.id,report);
+}

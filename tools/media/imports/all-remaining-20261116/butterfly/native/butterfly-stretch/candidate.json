@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/butterfly-stretch-alpha.webm",
+      "sha256": "8d8dc65833481a8e6572adfc92fda420fe60d96e4a4a04696fb82771ef6071ec",
+      "bytes": 38587,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/butterfly-stretch.mp4",
+      "sha256": "d8ba7ada18a08d0a97ab60057f1c3e0eb97cf5542c43a8c2925fbe309f562c82",
+      "bytes": 17140,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/butterfly-stretch-dark.mp4",
+      "sha256": "27d11411ef1c60971c770eb161cd6c377c90c57cd530469467d0831596a1bd88",
+      "bytes": 16945,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/butterfly/butterfly-stretch-studio.mjs",
+      "sha256": "15d94dab575b59c68f7b6b5b46e02e22d576e428836ea9208dee4650522fa5aa"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/butterfly/butterfly-stretch-motion.mjs",
+      "sha256": "8c9ed72aded89b70586b217f2c4e14b151f7a56e41dd2421063ffe5d2f690066"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/butterfly/render.mjs",
+      "sha256": "4ac434cb1096faa488ff5fc65e3ae91ae91471456205d4f5a292fece543dbeff"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

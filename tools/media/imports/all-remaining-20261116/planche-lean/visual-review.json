@@ -1,0 +1,75 @@
+{
+  "planche-lean": {
+    "reviewedAt": "2026-11-24T07:05:28.478Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "planche-lean",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight elbows maintained with shoulders ahead of the wrists and hands fixed.",
+      "feet": "Both feet stay fixed with toes supporting the straight plank posture.",
+      "movement": "Hold a straight-arm plank with shoulders ahead of wrists and toes supporting the body; maintain trunk alignment."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static planche lean, entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/final.jpg",
+        "sha256": "b8f7168adda738fa9b238d4aadf8280530ca493e56346a29bebf5587350090e0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/final-dark.jpg",
+        "sha256": "a0e978d4d040c2af31d9d9f686a55790551b2441608f9c6b69d896fc310e8b17"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/full-sheet.png",
+        "sha256": "3fef94ea8e4dab1a0c64332f1d6bc5c1c5fb51ab6510e4f6050f959fcb34f42b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/side-sheet.png",
+        "sha256": "b96bed7af823652180ad1acfd705ad0e9274fb26c051e13ad722c97e48aa81d5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/verification.json",
+        "sha256": "bd6c021cc9448f9eb66e9889369aaf94cc08544c3eefa4be3d52748f301e0fbd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/geometry.json",
+        "sha256": "93b0d5851026b4f70585f404806e18b188de7e312b0b398c3f9547d8056ceccb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/kinematics.json",
+        "sha256": "5b7a973296df310c1e7ea3f3cde56b2a6d86e49140d2e89c2b7b54a374afcd63"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/provenance.json",
+        "sha256": "d066e8a47abb6550a42f7062a140a1da24ac6da4cfe5b2c4be7c44dcbca95858"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/planche-lean-alpha.webm",
+        "sha256": "fa50888b036aaecf191063790c38b5d7780647c5af14bf666bb9fc3a836dd39e",
+        "bytes": 34134,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/planche-lean.mp4",
+        "sha256": "a0be4596b44598a1ae0473b716b29d57dab248fabef00e4e43846a1ea5a02cbc",
+        "bytes": 13560,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/planche-lean-dark.mp4",
+        "sha256": "24d371014dfe7e53f49347810ec289d67fa3b5918f3b3228bcbe65fb5849327d",
+        "bytes": 13582,
+        "decode": "passed"
+      }
+    ]
+  }
+}

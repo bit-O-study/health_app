@@ -1,0 +1,18 @@
+{
+  "id": "hanging-l-sit",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "46ab11713552546dfba2a085738af31314b89834c3ecac894a71e64d28a627df",
+  "rigSourceSha256": "ff40bda494fedc027177b22f15dfe145ce6d78ad170cd8f6c87d216c9744b33a",
+  "videoSha256": "84a93a3ecf181453fdbc094cf7fc5a745d7b59948d5f48eb37b984e53e38fc05",
+  "darkVideoSha256": "109aa8d930296775412412755c8be9ea97be46625d789c17f7826e9b46f5d41d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14823,
+  "darkBytes": 14181,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:33:58.790Z"
+}

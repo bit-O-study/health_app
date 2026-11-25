@@ -1,0 +1,18 @@
+{
+  "id": "reclined-spinal-twist",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0369628dba222eac4443b5ffae82242b64d23083c707d186a86fcdb20eab5bb0",
+  "rigSourceSha256": "a539437b93ce8c634b522084b36a757776abc3afbe3fea7b43861c8ecaa62f73",
+  "videoSha256": "4531788298cc03f9cfa381a40e5e0025ba321d481aa2e6f83638e9abe6e1753f",
+  "darkVideoSha256": "efdf4ef794a20c102417bb83177f704216dbd681d05f88d2da4ec022ade5a742",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 17143,
+  "darkBytes": 16088,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:41:17.564Z"
+}

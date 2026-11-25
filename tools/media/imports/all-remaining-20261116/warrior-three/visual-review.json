@@ -1,0 +1,75 @@
+{
+  "warrior-iii-pose": {
+    "reviewedAt": "2026-11-24T02:51:13.367Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "warrior-iii-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach forward alongside head with palms facing inward.",
+      "feet": "Standing foot grounded, opposite leg straight and horizontal, pelvis level.",
+      "movement": "Single-leg balance with torso and raised leg near horizontal, level hips, standing foot grounded, both arms reaching forward and palms inward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/final.jpg",
+        "sha256": "76f8afd85f916eb84123d9aacb275c028df866ffe7f1e6626868a95f8afe5388"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/final-dark.jpg",
+        "sha256": "12f1a47574c2501f73b35d99ea0ee0cb0da353c7cde218f45ee0e77628cc58a9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/full-sheet.png",
+        "sha256": "778ca9a32f256a7d4b064db4fcdde3165e2c2d147ae8e85582c4a6158c42eef6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/side-sheet.png",
+        "sha256": "b44373c531a2efc4812a591d9c5d1d3b1d9440a507fdff165d6ea14afbbbd2f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/verification.json",
+        "sha256": "3db19ecd2d98f0d980a29acd4b5cc9de1317347f9c9b86e299dc1f1dabb54d36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/geometry.json",
+        "sha256": "f641d65bc62121c6637f0e936672755593d3e785cef5a92c13222ae1b7bd7ed3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/kinematics.json",
+        "sha256": "6c2f2b90ebecd1debe2ec987cdc985d74c9c6666807e6e3f9c90c90b6ff0fb74"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/provenance.json",
+        "sha256": "e6d70537f56d79b657849c75b688a0ed3de77b8b7e1375ab86c0193e149b675d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/warrior-iii-pose-alpha.webm",
+        "sha256": "c7f2c2ec48c8e93a1076b91808f4aaaadbfb12460755fdddf8789f4ba08fa777",
+        "bytes": 38041,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/warrior-iii-pose.mp4",
+        "sha256": "d9c6e1cdc87e21866780c73dd83d2d020b3a846b27106e8534b2891f89d4d540",
+        "bytes": 15434,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/warrior-iii-pose-dark.mp4",
+        "sha256": "455c0458f7ceafb4688f3264000cf8189f56cd62612e147861cd50eaadeddef0",
+        "bytes": 15398,
+        "decode": "passed"
+      }
+    ]
+  }
+}

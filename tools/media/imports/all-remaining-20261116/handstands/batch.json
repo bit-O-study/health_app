@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "handstand-hold",
+      "original": "handstand-hold",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "handstands",
+        "sourceUrls": [
+          "https://gmb.io/handstand/"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Freestanding handstand with palms supporting, straight arms and legs, shoulders stacked over wrists and feet above hips.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static freestanding handstand; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "freestanding-handstand",
+      "original": "freestanding-handstand",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "handstands",
+        "sourceUrls": [
+          "https://gmb.io/handstand/"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Freestanding handstand with palms supporting, straight arms and legs, shoulders stacked over wrists and feet above hips.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static freestanding handstand; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

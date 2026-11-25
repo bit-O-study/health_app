@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "30e42d3e8d8813b5cf0abd0bad60d2b354cdf9e56b9c81ad7ea4ff144ee4f2d3",
+  "rigSourceSha256": "075c865928837a196a951da37bf585179968252d0115ca0724e1da011bd56f9d",
+  "videoSha256": "f8dab6171244e89c62e912ec460fd026615267b60a6282a11c72635b507ab94c",
+  "darkVideoSha256": "5bcc00181be7326527c0d3b5d067c4cb49f507f49b707900abba413b04342f14",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 88095,
+  "darkBytes": 78462,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:15:20.292Z"
+}

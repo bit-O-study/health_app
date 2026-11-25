@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/close-grip-chin-up-alpha.webm",
+      "sha256": "08aa981c8e082b0bbc0a604ecb8d6c0b7ff3e1e175e22d5bd9c784511d588902",
+      "bytes": 216763,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/close-grip-chin-up.mp4",
+      "sha256": "a17a41fd92c72f68413e7d314af21c1b0317eda2590736282c9cb6d688e91322",
+      "bytes": 87099,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/close-grip-chin-up-dark.mp4",
+      "sha256": "7350c88b32223b9953a3f5fb93530c9dcd843d10ff7e290bedaea8edbbc51d7b",
+      "bytes": 90019,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/grip-pulls/close-grip-chin-up-studio.mjs",
+      "sha256": "a577f4ce422b2993bcdf93be8c7da3a74a59b4bbfe41afc83a0e8f44b177f795"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/grip-pulls/close-grip-chin-up-motion.mjs",
+      "sha256": "6ee67f9ad095fc09e4cf48b73e3f50c21d9d6f1b53e24d76fc0efb2113017a0b"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/grip-pulls/render.mjs",
+      "sha256": "9ed2f1ffce5148c858baeaa1d0ffb6f73e75fba2bb04d8a78011d941de92c89f"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

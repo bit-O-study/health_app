@@ -1,0 +1,75 @@
+{
+  "planche": {
+    "reviewedAt": "2026-11-24T07:00:17.123Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "planche",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor with shoulders forward of wrists.",
+      "feet": "Face-down torso and straight horizontal legs remain off floor.",
+      "movement": "Hold body face down and horizontal on straight arms, shoulders ahead of palms, legs extended and feet off floor."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static full planche; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/final.jpg",
+        "sha256": "e0c550decad85b623dad033447852823bb09351a81b51399846e905894019938"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/final-dark.jpg",
+        "sha256": "c160d6f6a72d28417152e4af1c0cd11f3ed02131ff332b9fc47486d33b4f49f9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/full-sheet.png",
+        "sha256": "6ac2ab6e7f73acd701c1d615a095a8ac3c59a69472d767d79f40ab1a5262d6c0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/side-sheet.png",
+        "sha256": "c7a113b6ca13f123c17141f5fd14020ed065b99a94543f457963d3b535588dd4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/verification.json",
+        "sha256": "4ac53288e2856df7da808e92ef49e6f2f5f08130224b3a2c6bdb8762216a8865"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/geometry.json",
+        "sha256": "f4672c50b536108cc5a3e6a491b35d8adc7880ff835e960f87350f0b41978ac0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/kinematics.json",
+        "sha256": "061a02eca579f8218fb9afcebefa449aec650f4b651de6034ee7d79e55c42387"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/provenance.json",
+        "sha256": "8132e7cd09f3e783de180326453be22d6b6d40734fe5001a4f3f0d7bf1a11d96"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/planche-alpha.webm",
+        "sha256": "6f96da4a43b0198a7fdf9250d884ad0d6ec5845ff648bf0a6d90e1f60ae840b4",
+        "bytes": 41305,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/planche.mp4",
+        "sha256": "b50374db42dd228a2e96326cec89ca7991778bef6dbce20382c0b27962bddfa9",
+        "bytes": 16290,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/planche-dark.mp4",
+        "sha256": "89ecc6e856c9aa9a504c7a789fd17f3946971e85c3136bfa197a241779444ee4",
+        "bytes": 16160,
+        "decode": "passed"
+      }
+    ]
+  }
+}

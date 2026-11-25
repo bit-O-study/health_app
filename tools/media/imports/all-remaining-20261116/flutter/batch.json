@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "flutter-kick",
+      "original": "flutter-kick",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "flutter-kick",
+        "sourceUrls": [
+          "https://spotebi.com/exercise-guide/flutter-kicks/"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie supine with arms beside body and palms down; neutral head on low cushion. Straight legs alternate vertically between 10 and 30 degrees above horizontal, four cycles in eight seconds, keeping back supported.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

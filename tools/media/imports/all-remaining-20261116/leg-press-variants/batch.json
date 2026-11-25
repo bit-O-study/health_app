@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "1-5-rep-leg-press",
+      "original": "leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "1-5-rep-leg-press",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/leg-press"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "One-and-a-half repetition: lower fully, press halfway, lower again, press to top. Knee included angle 165, 95, 130, 95, 165 degrees; supported back and feet.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Range and timing are illustrative; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "partial-leg-press",
+      "original": "leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "partial-leg-press",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/leg-press"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Upper-half leg press, knee included angle 130 to 165 degrees; maintain seat, back and footplate contact. Illustrative partial range, not full-depth repetition.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Range and timing are illustrative; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

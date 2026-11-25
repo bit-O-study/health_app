@@ -1,0 +1,75 @@
+{
+  "weighted-hanging-leg-raise": {
+    "reviewedAt": "2026-11-16T05:43:16.587Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "weighted-hanging-leg-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Two fitted weighted ankle cuffs stay on the lower legs throughout the lift. Both feet clear the floor. Straight legs raise together to hip height or remain horizontal for the L hold; fixed hands and trunk, no swing.",
+      "movement": "Straight-leg hanging raise with two weighted ankle cuffs; 3.5 seconds up to hip height, 1 second pause, 3.5 seconds down. Fixed trunk and overhead grip without swinging. Cuffs stay secured on the lower shins."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/final.jpg",
+        "sha256": "3453034c7251d72de28b46f7ade110089676e9f835f1797f234837621a0b2b20"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/final-dark.jpg",
+        "sha256": "91a0900f0f46bae1d3ca73ff521ddffcbf0902a193b7bf32d2d5c529c052ba22"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/full-sheet.png",
+        "sha256": "3c9420cc220a11f8a5a8c1c00a1a2084b830652f2dd2617f463a56a7723f2aea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/side-sheet.png",
+        "sha256": "70b7403fe13f0e7093491bc4e178787cf1882bd45de7397d8a01b9bc81a0b570"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/verification.json",
+        "sha256": "b11f53a6d70df9c6bc2148af0a071cea057c9df34805208c2225b2deef5d4477"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/geometry.json",
+        "sha256": "8f6a285f9164f8f5590c7ab642ce314d24eef137e4097f0fd932e2c88ae50d18"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/kinematics.json",
+        "sha256": "f8b2cb1d0ab12747cc50a73624e429031e1f2988b4b6cf41d83a703a33648324"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/provenance.json",
+        "sha256": "7f5d9907300cd603aa5a332c80c1f01cd61f934bbe4cb5a8bd192bc1231b9e45"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/weighted-hanging-leg-raise-alpha.webm",
+        "sha256": "ffe10ac126c625d1513697bc9a265bdeda5d2d8628bf2a9e54caaea6ec5e3f34",
+        "bytes": 214413,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/weighted-hanging-leg-raise.mp4",
+        "sha256": "964a9ecb6f75870c93156cfdaba72139122cd9978e5b7f46644ee1f45fd0985a",
+        "bytes": 90934,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/weighted-hanging-leg-raise-dark.mp4",
+        "sha256": "669cb98d5301fe7f4620f04ac870f549ece14156935732264e957560569fa454",
+        "bytes": 86355,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "partial-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c181f62c0bf33c1995d2b520f10ef90d23f33844e6f2c9da85315314a622a2d2",
+  "rigSourceSha256": "c4b090943a268dab64544e23d323e9a605d6bf89592c1a59cc429772fd22a81d",
+  "videoSha256": "f5ab81514fa1964cf372525e771b768cea3010ea9f691be2a1a782f341b5c6e7",
+  "darkVideoSha256": "8b29625ca4c1f88d451144647639d271785f871f7b1c5ae829e451486bb29ba5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 57865,
+  "darkBytes": 56008,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:06:04.966Z"
+}

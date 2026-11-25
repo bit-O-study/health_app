@@ -1,0 +1,18 @@
+{
+  "id": "happy-baby-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "2fbdb37cfc93d1a45349434379bf0435de35c076bf6e48d12d87166a328a38b8",
+  "rigSourceSha256": "e8b5e0fb057834e5a8ed493c9530f282cb13d42c0a63e14bb147ccb5fca4d7d6",
+  "videoSha256": "6b0ee718f4345d85f0858301d59dbe560bf19abeeadce29f87702e0b300ed15b",
+  "darkVideoSha256": "0a2e24b5579f93d6be49825887d82cdec6efa93ff85cd684adfa42dc2540aa50",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16001,
+  "darkBytes": 15289,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T00:52:07.979Z"
+}

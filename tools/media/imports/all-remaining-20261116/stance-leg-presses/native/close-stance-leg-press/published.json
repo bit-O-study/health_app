@@ -1,0 +1,18 @@
+{
+  "id": "close-stance-leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "598d8affbcd9de067ee19ddb3ea1057c8a15e03db94bc857101926ad4439fa07",
+  "rigSourceSha256": "11dc26483e6372fd438551500ac1fc0653c2039833ff8201ba8785405da1e07c",
+  "videoSha256": "217e76a927d1026ff690611c537d122470de0e2f0ec1009087b71b214d4ddd50",
+  "darkVideoSha256": "31687e9e0c00a46d5058ce6e43668fb5b23360430065f3d77dfebb66d2439d5e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 116914,
+  "darkBytes": 93437,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:49:49.772Z"
+}

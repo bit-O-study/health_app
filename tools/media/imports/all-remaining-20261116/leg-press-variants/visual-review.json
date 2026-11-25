@@ -1,0 +1,148 @@
+{
+  "1-5-rep-leg-press": {
+    "reviewedAt": "2026-11-16T02:11:44.417Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "1-5-rep-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain contact with the moving sled plate.",
+      "movement": "One-and-a-half repetition: lower fully, press halfway, lower again, press to top. Knee included angle 165, 95, 130, 95, 165 degrees; supported back and feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/final.jpg",
+        "sha256": "ca09b389f4d2a64b879a9017f78bdee3bb5d558209a1241fdfafe58d64d98271"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/final-dark.jpg",
+        "sha256": "0e58003575e964288204b0efd1d2f513156af665662a82d881e7b5bf17a7c38c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/full-sheet.png",
+        "sha256": "1f0fabadf64209697896d17ea7a5c238a50dfc150583db562ff06019c3507a30"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/side-sheet.png",
+        "sha256": "1b6f6d1ad35e1c0165029d4e22fd781687fa7a4e156785521492ab8c0823f181"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/verification.json",
+        "sha256": "6cb2f0e4a4134ea1be3e990ccbd622ddca01572b6a9f5a4cc08b3b025c98e8f4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/geometry.json",
+        "sha256": "1603c0f24f36cc6d6abbdb67014601361cc4d6d1499ecc5633c338746caaebdc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/kinematics.json",
+        "sha256": "f2d2a11948156ff948cc9ed4dbbc7d64f549845435f71d36ae51f93b0860b58f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/provenance.json",
+        "sha256": "60535cb657845026d309a302286196823a0d384fe08efcfea3b83c35b5f1f8c6"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/1-5-rep-leg-press-alpha.webm",
+        "sha256": "8e64faa1618651ebdd28e71a8a9b5325ba726c0d0454f7dea957bb54f1484728",
+        "bytes": 222386,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/1-5-rep-leg-press.mp4",
+        "sha256": "29a7548970fcbc91c8cbce4eb3cf3fd6fa02789b7470438fc2b60b1a79a7205c",
+        "bytes": 126078,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/1-5-rep-leg-press/1-5-rep-leg-press-dark.mp4",
+        "sha256": "62d6846976f77e5a4a171a7948f487df6accb4096a4a4b03dd94217dc88d34f8",
+        "bytes": 105017,
+        "decode": "passed"
+      }
+    ]
+  },
+  "partial-leg-press": {
+    "reviewedAt": "2026-11-16T02:11:44.426Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "partial-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain contact with the moving sled plate.",
+      "movement": "Upper-half leg press, knee included angle 130 to 165 degrees; maintain seat, back and footplate contact. Illustrative partial range, not full-depth repetition."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/final.jpg",
+        "sha256": "58af60f9787a9d604cb2607f0dba520c10500676bf3457a9c68248bb01332968"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/final-dark.jpg",
+        "sha256": "996abc8186153cb2f41ef15e86f3fdca56044f21de111d16faa5b600414474d3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/full-sheet.png",
+        "sha256": "cdee90fbee35d2ca011cb2572d49ba02dfa7b4e447942e755ef2757b65af2bd8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/side-sheet.png",
+        "sha256": "ae129b0d71353e1c9f5b1eb95bec72edd4c84133b199c0116926ffff4e05f764"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/verification.json",
+        "sha256": "80263635e13408b1c2ee72f0a2066cab4fb8f216975d53622c3f2bce48fc55ff"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/geometry.json",
+        "sha256": "73b458eb6f1b16b84567ac20dd1ecf1c5bba6a5cf73777022060e87cdb600782"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/kinematics.json",
+        "sha256": "c247f52b2acf19bcd10aa111cbb62c5c263f49c2c6181b7bd33d9d81880d1926"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/provenance.json",
+        "sha256": "a3e16cad6fbbcd9c0800105a062ed693e0d02910746ec4399356070d2a870e25"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/partial-leg-press-alpha.webm",
+        "sha256": "ee21b6cef82d6eb085c2c7b22a2a43179809d25a7abf8dcc383424414934dc11",
+        "bytes": 171322,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/partial-leg-press.mp4",
+        "sha256": "105e4074c5fd3890a9f0a73ad5c161be8701ce7f63f57baf749aac5625ca9159",
+        "bytes": 88492,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/leg-press-variants/native/partial-leg-press/partial-leg-press-dark.mp4",
+        "sha256": "b512636f6e3039cd8510a80b815f9a4b31a0f29e90a74c040552d461c78aa424",
+        "bytes": 73462,
+        "decode": "passed"
+      }
+    ]
+  }
+}

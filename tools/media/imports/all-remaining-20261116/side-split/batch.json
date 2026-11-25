@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "side-split-stretch",
+      "original": "side-split-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "side-split",
+        "sourceUrls": [
+          "https://lim.univ-reunion.fr/staff/fred/Perso/Stretch/pm_ba-stretching.pdf"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Wide lateral split progression with knees straight, toes upward, supported pelvis and palms on floor in front; do not force full range.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

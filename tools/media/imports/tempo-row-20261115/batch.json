@@ -1,0 +1,24 @@
+{
+  "createdAt": "2026-11-15T13:38:51.118Z",
+  "entries": [
+    {
+      "id": "tempo-row",
+      "status": "registered-local",
+      "recipe": {
+        "family": "tempo-row",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/rows/barbell-bent-over-row/"
+        ],
+        "sourcesCheckedAt": "2026-11-15",
+        "criteria": "Fixed bent-over torso, feet planted, overhand barbell grip; pull toward abdomen and lower under control. Illustrative 1-second pull, 1-second top hold, 3-second lowering, 3-second bottom hold; timing not prescribed by source.",
+        "limitations": [
+          "Procedural demonstration; joint samples are not full mesh collision or biomechanical validation.",
+          "1-1-3-3 timing is illustrative, not prescribed by the source."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "updatedAt": "2026-11-16T00:05:14.998Z"
+}

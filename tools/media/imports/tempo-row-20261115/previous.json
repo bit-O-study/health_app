@@ -1,0 +1,28 @@
+{
+  "tempo-row": [
+    {
+      "file": "tools/media/motion-guides/tempo-row.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-row.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-row-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-row.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-row-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-row-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

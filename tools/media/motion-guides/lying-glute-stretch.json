@@ -1,0 +1,15 @@
+{
+  "id": "lying-glute-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "lying-glute-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://us.physitrack.com/home-exercise-video/glute-stretch---supine"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-18T04:11:39.735Z"
+}

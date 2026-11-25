@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "triangle-pose",
+      "original": "triangle-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "triangle",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/extended-triangle-pose/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Straight wide legs, front foot forward, rear foot inward, torso extending over front leg, lower hand supported on shin and upper arm reaching upward.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,75 @@
+{
+  "pilates-swan": {
+    "reviewedAt": "2026-11-24T05:10:48.557Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-swan",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms lift backward beside the torso.",
+      "feet": "Straight legs and chest lift slightly together, then lower with control.",
+      "movement": "Beginner Swan variation with arms beside torso: lift head, chest, arms and straight legs slightly, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Low arm-by-side Swan variation, not a hand-supported Swan dive."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/final.jpg",
+        "sha256": "d636874235ab8eb7f405000cdf71b6fb6a4ee78285ef8f1ff2905f4f249a1ffb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/final-dark.jpg",
+        "sha256": "9c227270cf6905cc1bcd3a3b8cec2f67c3ace13d96036a127bf091e837934a80"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/full-sheet.png",
+        "sha256": "c958aaaeb048baa2d704616df50326ad2cd2079336115526db8004b07c5d2482"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/side-sheet.png",
+        "sha256": "8cdbd944910116441a06457b911f258d81c6f9176d85edb667c0cf2c191665ee"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/verification.json",
+        "sha256": "89af282758c8590b8129f8640517776626b58915ad9c0270203d7a4afce2dffa"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/geometry.json",
+        "sha256": "78689d6056af52a8eef78d9dec790d9b9aedbdc6ffde0465faed9069a6b9f4df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/kinematics.json",
+        "sha256": "6090a6f6fb9f7614efc28ebde374ec40401a6c88d7814089593fc3bc0659e96c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/provenance.json",
+        "sha256": "1b06f523f084107daa024277ea9454f2e9d88d7ac999800552eef14c8c8146ef"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/pilates-swan-alpha.webm",
+        "sha256": "b262bd4c9a681da2212923a5cc0be6bb1d708f3ab1356415638c55804fdeb868",
+        "bytes": 146628,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/pilates-swan.mp4",
+        "sha256": "47d18915f630f87aa2e0c57d109345b24df2d9f837f471ab275bd85416bb7d74",
+        "bytes": 60423,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-swan/native/pilates-swan/pilates-swan-dark.mp4",
+        "sha256": "11347c9d21e215025b2cf77a0e85bb3b23fc6afaa30b05d68d4133eba2c90dbd",
+        "bytes": 66363,
+        "decode": "passed"
+      }
+    ]
+  }
+}

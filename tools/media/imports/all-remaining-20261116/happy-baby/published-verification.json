@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T00:54:23.463Z",
+  "report": [
+    {
+      "id": "happy-baby-pose",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

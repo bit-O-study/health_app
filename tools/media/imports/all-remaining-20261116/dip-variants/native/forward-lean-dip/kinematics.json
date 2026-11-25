@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "minElbow": 95,
+  "maxElbow": 174.99999999999974,
+  "maxStep": 0.019062071211922275,
+  "bottomUpperArmDrop": 0.596123275319115,
+  "gripSpan": 5.6,
+  "torsoTilt": 30,
+  "minimumBarBodyGap": 0.8429247599661163,
+  "minimumFloorClearance": 4.562678371943608,
+  "maximumGripError": 1.3732700395566711e-15
+}

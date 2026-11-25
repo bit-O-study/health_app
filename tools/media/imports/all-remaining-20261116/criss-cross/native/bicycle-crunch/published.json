@@ -1,0 +1,18 @@
+{
+  "id": "bicycle-crunch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "83a5bf9c4aaf0ae624106c2fb8b8470939f7bb84c40110b6bbac7f72dce932da",
+  "rigSourceSha256": "e08f78891cf9cdc8145499e4da9e04a684d7b8480697b2e74218542987e520bc",
+  "videoSha256": "b5db579be59c854c9cec295be50b36d01e4a142c268fda9aabd71b536f258f51",
+  "darkVideoSha256": "d9f37dabac32888792256ff1326504050aaef859ac139357eafddbcf219998bf",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104723,
+  "darkBytes": 110893,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T06:22:24.342Z"
+}

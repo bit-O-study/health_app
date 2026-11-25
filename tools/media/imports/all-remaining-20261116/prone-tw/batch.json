@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "prone-t-raise",
+      "original": "prone-t-raise",
+      "equipment": "dumbbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "prone-t-raise",
+        "sourceUrls": [
+          "https://mil-sport.ch/en/topics/exercise/7246"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Straight arms spread laterally in a T. Light dumbbells held in closed hands. Prone support, stable torso and legs, controlled small arm lift. 3.5 seconds lift, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "prone-w-raise",
+      "original": "prone-w-raise",
+      "equipment": "dumbbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "prone-w-raise",
+        "sourceUrls": [
+          "https://www.texaschildrens.org/sites/default/files/uploads/documents/Exercises%20for%20Shoulders.pdf"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Elbows bent 90 degrees with upper arms diagonal to trunk in a W. Light dumbbells held in closed hands. Prone support, stable torso and legs, controlled small arm lift. 3.5 seconds lift, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

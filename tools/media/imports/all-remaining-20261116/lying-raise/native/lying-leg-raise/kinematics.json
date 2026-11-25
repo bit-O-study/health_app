@@ -1,0 +1,18 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "minElbow": 180,
+  "minKnee": 179.99999829245272,
+  "minLegAngle": 14.999999999999996,
+  "maxLegAngle": 90.00000000000001,
+  "maxStep": 0.1013102567546742,
+  "torsoStationary": true,
+  "supportGaps": {
+    "body": 0.018540207631319916,
+    "cloth": 0.01499999999999968,
+    "upperBack": 0.018540207631319916,
+    "hands": 0.029458476172425918,
+    "head": 0.01499999999999968
+  }
+}

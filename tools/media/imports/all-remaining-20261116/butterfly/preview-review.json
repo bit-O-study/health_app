@@ -1,0 +1,39 @@
+{
+  "butterfly-stretch": {
+    "reviewedAt": "2026-11-24T00:56:32.848Z",
+    "checks": {
+      "exercise": "butterfly-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms rest over matching feet; hands stay separated.",
+      "feet": "Soles meet centrally with knees relaxed outward; ankles and seated pelvis supported above mat.",
+      "movement": "Seated butterfly hold, knees relaxed outward and soles together, hands supporting feet, long spine with gentle forward inclination."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/full-sheet.png",
+        "sha256": "c5627f94ffb123b47592a08a5dc3b11b75d8de97dff9974f56e69354ed8015e8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/side-sheet.png",
+        "sha256": "c49c31bc49f858296a411c3a6600669ad8de47e6d1d0038ca86a7aa16a415480"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/poses.json",
+        "sha256": "2c5b5eb0bbd78b747edf9ce564dc5f5169b6a7122ab3064a9386b039986cdeb0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/geometry.json",
+        "sha256": "55744eca3dbff2368ebe5cfa819d82c9d62f92204557b816a33cd175c90e158e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/kinematics.json",
+        "sha256": "be85c35f837df1bc348e607f47865b6618e1a465dde68a73c2f15c018a9db4d1"
+      }
+    ]
+  }
+}

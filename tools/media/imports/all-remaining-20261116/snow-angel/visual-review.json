@@ -1,0 +1,75 @@
+{
+  "reverse-snow-angel": {
+    "reviewedAt": "2026-11-16T07:17:30.370Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "reverse-snow-angel",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open empty hands sweep in a wide arc while remaining above the floor.",
+      "feet": "Prone torso and legs remain stable while straight arms sweep overhead to hips and return.",
+      "movement": "Prone on mat, legs and trunk stable. Straight arms remain slightly lifted and sweep from overhead through lateral T toward hips within available range, then reverse. 3.5 seconds sweep, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/final.jpg",
+        "sha256": "44e1a5a888abe33ffb80d3357b8ec0915a8b7ad48905e436b8b938222b138287"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/final-dark.jpg",
+        "sha256": "5e3453690c12a36ac557467a95ef68b22765a3ffa64cb89cf02187ef178b4b96"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/full-sheet.png",
+        "sha256": "a0793876c712942c5855fa22118cfd8dcc36f9248c846eea7e967277cec24a47"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/side-sheet.png",
+        "sha256": "85fbb59da61428ca273b275294523350da78a9f9279b0ba96edc745e03db215f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/verification.json",
+        "sha256": "0ccd0830e84ba848dedd36757e96a1d527109a58affad0eeabd1bafa631695c2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/geometry.json",
+        "sha256": "8d4a802435502998ff992db47729729bb24e7b930b594fa5a6f1ad7b130b9e50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/kinematics.json",
+        "sha256": "0877da9e4df8fb984fd745160ed622f527d1bc28e6327055fe474db8ab5ad730"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/provenance.json",
+        "sha256": "0faa915ba0eeb6084c3f412bdd2981181bfc623df5e9ec73b82654d30c8908a3"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/reverse-snow-angel-alpha.webm",
+        "sha256": "521896ccd177cc473bf7745ff84319a172f77af574e458230497f43832c3d2fa",
+        "bytes": 141622,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/reverse-snow-angel.mp4",
+        "sha256": "da0773ee9925967ebab5c3d2cd864274d97a2ebe44593b9fb8d44a1ba2a7c10d",
+        "bytes": 64021,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/reverse-snow-angel-dark.mp4",
+        "sha256": "0ef994917b04d84180a8858c7af198eda887753217192c8c4e4aea1294b42e3a",
+        "bytes": 65620,
+        "decode": "passed"
+      }
+    ]
+  }
+}

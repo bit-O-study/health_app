@@ -1,0 +1,21 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "seated": true,
+  "stationarySupport": true,
+  "maxStep": 0.0331931917953171,
+  "ropeError": 2.6645352591003757e-15,
+  "cableError": 1.7763568394002505e-15,
+  "gripError": 0,
+  "stackTravel": 4.564428580222975,
+  "elbowRange": [
+    61.041131095880814,
+    166.65129363025707
+  ],
+  "kneeRange": [
+    89.99999999999999,
+    89.99999999999999
+  ],
+  "supportGap": 0.01499999999999968
+}

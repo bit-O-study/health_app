@@ -1,0 +1,18 @@
+{
+  "id": "tempo-row",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "bb1d5d96fce4c8d9203ed476cf72234ef65e96ec571d2808f9e76047b0fcc147",
+  "rigSourceSha256": "26ca7f234314bee0b6aebd74706b075686e1598273d7e332ea733070d5130315",
+  "videoSha256": "b3e42757414b215de810ae5513c1f028870ae5672159810ff8b16d2369a8598a",
+  "darkVideoSha256": "7718ee9e09052042f60c8f19f80ddf422e3beb1a585dddf55661c022938fdcd6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 74657,
+  "darkBytes": 64648,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:03:34.080Z"
+}

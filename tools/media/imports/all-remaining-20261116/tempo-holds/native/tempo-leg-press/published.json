@@ -1,0 +1,18 @@
+{
+  "id": "tempo-leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8862fa42efa5f633ca831ee0e5bbb59999c7ec8d100dafbf1b1ef3fa245b9fb5",
+  "rigSourceSha256": "0e2ca420e546b5d167417e39e4697f18aab81ba217cb2e5c556c9290caccb32c",
+  "videoSha256": "9175a6f30ca64536512687a6d4ba181c6048cf7032ba03009777888d349c390f",
+  "darkVideoSha256": "b6cb824cff1401859c834b9ae34a1c5d103a996c77a29d2f0494577f3bc5f440",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 82586,
+  "darkBytes": 70797,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:18:06.822Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "calf-press-machine",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a7ffc7ea874d63cd7bd5f81122ccfa0fc753d560cfb3646a0589f455860471d4",
+  "rigSourceSha256": "441caaa9ad24ca2b5c77d548aa6d87fcf23eb9618774f4ac421470dbd3febae1",
+  "videoSha256": "e44c248ed55e291b06182594c205d4fa11fb3c02b991cfc0d01971e3cad7e983",
+  "darkVideoSha256": "d1e4eeb0a4f507f13574b0c61c1a673b36512df65f5974edfabe19f5d9334b8c",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 83639,
+  "darkBytes": 66339,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:32:09.949Z"
+}

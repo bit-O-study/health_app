@@ -1,0 +1,15 @@
+{
+  "id": "heel-touch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "heel-touch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://spotebi.com/exercise-guide/alternate-heel-touchers/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-18T00:55:16.974Z"
+}

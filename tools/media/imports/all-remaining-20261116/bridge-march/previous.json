@@ -1,0 +1,28 @@
+{
+  "glute-bridge-march": [
+    {
+      "file": "tools/media/motion-guides/glute-bridge-march.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/glute-bridge-march.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/glute-bridge-march-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/glute-bridge-march.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/glute-bridge-march-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/glute-bridge-march-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

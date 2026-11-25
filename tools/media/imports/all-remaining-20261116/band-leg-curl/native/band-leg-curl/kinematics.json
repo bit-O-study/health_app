@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 1.88411095042053e-15,
+  "maxStep": 0.054845821142443976,
+  "cuffOffsetError": 4.996003610813204e-16,
+  "kneeRange": [
+    80,
+    180
+  ],
+  "supportSamples": 17,
+  "cuffGapRange": [
+    0.025246963422137614,
+    0.025432299186923468
+  ],
+  "maxBandStretch": 2.1097481606063453,
+  "minimumBandRadius": 0.05851990565047674
+}

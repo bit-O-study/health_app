@@ -1,0 +1,75 @@
+{
+  "chest-supported-rear-delt-raise": {
+    "reviewedAt": "2026-11-16T07:36:04.270Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "chest-supported-rear-delt-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around dumbbell handles throughout the lift.",
+      "feet": "Torso remains supported by 45-degree bench, feet stable; slightly bent arms lift laterally to shoulder level.",
+      "movement": "Chest supported on 45-degree bench, feet stable, neutral dumbbell grip, elbows slightly bent. Raise arms laterally to shoulder height, pause and lower without torso swing. 3.5 seconds lift, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/final.jpg",
+        "sha256": "0348e26eca70042ada9c0b46a3f64ec4774996b9890aa6a8cb5ea21a2bcf53ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/final-dark.jpg",
+        "sha256": "b1e19341ca82af2629af579de37d116d0bca4b1c9b9a60d04604980718a18f93"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/full-sheet.png",
+        "sha256": "a5bbfdb786002f2c74c5b2383def90b699290ba24a53597498f20c3a9869c64b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/side-sheet.png",
+        "sha256": "cfba7f2eb0b1169ac3fd8227716d1877c66debeffffa595a83014f0765b11287"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/verification.json",
+        "sha256": "6105a8698bd294785a48676cd7df63ce5fe5f2ad5f9e5a695cfddebd5e8885e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/geometry.json",
+        "sha256": "204adab729f07858f8da7d1f0cf6c0c6a7692bcaff268a35a6a7f62f1fc8ddbc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/kinematics.json",
+        "sha256": "9cd551c8d9947b9bcfd00d50a82db11834496f6ccaf784f8cd3743fd1ca89381"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/provenance.json",
+        "sha256": "081e3d19f00fb634845a1c0420d37e9f195ae15af562cdd412a0609c8a151790"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/chest-supported-rear-delt-raise-alpha.webm",
+        "sha256": "1093755e66dadf15e8475d0c340b176a5951fbc604cc4175d90dc5e976815b51",
+        "bytes": 218798,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/chest-supported-rear-delt-raise.mp4",
+        "sha256": "41f3d54a68327f4203650f5ee95d65d56a419df8f8ced1568574acc83e900e96",
+        "bytes": 101166,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supported-rear/native/chest-supported-rear-delt-raise/chest-supported-rear-delt-raise-dark.mp4",
+        "sha256": "348fa452ea59654eff56a49229cb2b47eb451eee148022d22197de08058c8fa3",
+        "bytes": 83631,
+        "decode": "passed"
+      }
+    ]
+  }
+}

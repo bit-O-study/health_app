@@ -1,0 +1,75 @@
+{
+  "lying-hamstring-stretch": {
+    "reviewedAt": "2026-11-24T00:27:01.468Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "lying-hamstring-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support behind the raised thigh; separate hands without visible overlap.",
+      "feet": "Opposite leg remains straight with heel on mat; raised knee is straight and toes point toward head.",
+      "movement": "Lie supine with opposite leg straight, support the raised thigh with both hands, extend raised knee toward ceiling and hold gentle hamstring stretch with head and torso relaxed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/final.jpg",
+        "sha256": "5cea57a09c562b01bbf9c080ce0eaf58801946f66b0de3cd155a8f7d5cbaea1d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/final-dark.jpg",
+        "sha256": "dfa2b68efd368a8131908a6939a1ffbe4ac49f5ccb440a8f4afa304ad1eef59b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/full-sheet.png",
+        "sha256": "82748e791315ee285bcd176bfac42882a1993e6f078eb224b3b88fc5e469e449"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/side-sheet.png",
+        "sha256": "01bd95b5bd523eca73f23030263d7d0860ffe1c1250f0206fb2e25f342781726"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/verification.json",
+        "sha256": "5ffcc9a53bd0b2561d965a4e4016635175ebe987b55ce5d75038b77bf35d8c81"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/geometry.json",
+        "sha256": "8525b63f7b2a39b83f28b6b587a01897256bf79c12a7675b3f1a3d97fc9d96df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/kinematics.json",
+        "sha256": "85ee08682d464b346b270da80f92dc068f4999913ee862c4a0d7397daa336fb8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/provenance.json",
+        "sha256": "f1f44c5a63fa6e8c7ee1cc2649e8cb57ba5e5d63dbff2ac0b6ae9eb32396b1fe"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/lying-hamstring-stretch-alpha.webm",
+        "sha256": "4dd24e903597a6becc35d381f5884770d7726022df11e4b13feadb0f8d9aee38",
+        "bytes": 37287,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/lying-hamstring-stretch.mp4",
+        "sha256": "24d6a4db30fa9cdc8d77b7ca7b05e3e32bcbf025784667e2d79dc7d4be650662",
+        "bytes": 15341,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/lying-hamstring-stretch-dark.mp4",
+        "sha256": "8669d20eb975351bc4c29b894839301c4a2ac0c98277ad76821b52694cce4149",
+        "bytes": 15022,
+        "decode": "passed"
+      }
+    ]
+  }
+}

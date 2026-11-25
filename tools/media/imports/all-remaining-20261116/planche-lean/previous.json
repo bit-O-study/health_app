@@ -1,0 +1,28 @@
+{
+  "planche-lean": [
+    {
+      "file": "tools/media/motion-guides/planche-lean.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/planche-lean.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/planche-lean-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-lean.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-lean-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/planche-lean-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

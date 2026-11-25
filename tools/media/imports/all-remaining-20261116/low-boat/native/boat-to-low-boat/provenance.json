@@ -1,0 +1,571 @@
+{
+  "id": "boat-to-low-boat",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/low-boat/boat-to-low-boat-studio.mjs",
+      "sha256": "a2711a996f46b94cc2f3051370571d5ad3e9bef0c8204b09f6e20d312b1a43cb"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/low-boat/boat-to-low-boat-motion.mjs",
+      "sha256": "b3e5018525732ed29150071173e92872637476712a6df9a48cca5c9ea2c3363e"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/low-boat/render.mjs",
+      "sha256": "0e7360edac1f67d296ce9bd78960ca59de80be5388d2905800ea606f8350d43f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "low-boat",
+    "sourceUrls": [
+      "https://yoga.com/pose/low-boat-pose"
+    ],
+    "sourcesCheckedAt": "2026-11-24",
+    "criteria": "Controlled high-to-low boat transition, straight legs, arms horizontal, balanced pelvic support; return to high boat.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        2.0721245666089985,
+        2.0721245666089985
+      ],
+      "handThighGaps": [
+        0.5156114653619447,
+        0.5156114653619447
+      ],
+      "handHandGap": 2.56085794444133,
+      "supportFootGap": 6.6547281914311025,
+      "head": -1.7297907612717665,
+      "upperBack": -4.805747846034491,
+      "heelMaxZ": 7.257837463883944,
+      "maxZ": 7.257837463883944,
+      "body": -7.626340037123932,
+      "toes": 0.4491143315948769,
+      "cloth": -7.8850000069553206,
+      "palms": -3.5777859417192825,
+      "kneeL": -4.667026724300044,
+      "kneeR": -4.667026724300044,
+      "floorClearance": 0.2736599628760681
+    },
+    {
+      "frame": 30,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        2.1166512036555947,
+        2.1166512036555947
+      ],
+      "handThighGaps": [
+        0.5297669579691594,
+        0.5297669579691594
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 6.576690664021697,
+      "head": -1.78333164249496,
+      "upperBack": -4.841050819355368,
+      "heelMaxZ": 7.32715406135169,
+      "maxZ": 7.32715406135169,
+      "body": -7.622835986375352,
+      "toes": 0.38168161614127843,
+      "cloth": -7.885000002351868,
+      "palms": -3.613153142996058,
+      "kneeL": -4.703652357774502,
+      "kneeR": -4.703652357774502,
+      "floorClearance": 0.27716401362464804
+    },
+    {
+      "frame": 60,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        2.439124667824185,
+        2.439124667824185
+      ],
+      "handThighGaps": [
+        0.40696269735596846,
+        0.40696269735596846
+      ],
+      "handHandGap": 2.5608579444413335,
+      "supportFootGap": 6.155530236569246,
+      "head": -2.080814522151916,
+      "upperBack": -5.032646633080119,
+      "heelMaxZ": 7.67366456407553,
+      "maxZ": 7.67366456407553,
+      "body": -7.610871397628336,
+      "toes": 0.01159550580053002,
+      "cloth": -7.88500000252116,
+      "palms": -3.8110165954943636,
+      "kneeL": -4.900645840577631,
+      "kneeR": -4.900645840577631,
+      "floorClearance": 0.2891286023716644
+    },
+    {
+      "frame": 90,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        3.2259407780368865,
+        3.2259407780368865
+      ],
+      "handThighGaps": [
+        0.29242265326908473,
+        0.2924226314851224
+      ],
+      "handHandGap": 2.560857944441329,
+      "supportFootGap": 5.314551621064186,
+      "head": -2.714875327536875,
+      "upperBack": -5.425045283405069,
+      "heelMaxZ": 8.229280603340557,
+      "maxZ": 8.229280603340557,
+      "body": -7.673064511336959,
+      "toes": -0.7552169984002602,
+      "cloth": -7.885000002889826,
+      "palms": -4.240749592984797,
+      "kneeL": -5.2970766299608645,
+      "kneeR": -5.2970766299608645,
+      "floorClearance": 0.2269354886630417
+    },
+    {
+      "frame": 120,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        4.146909793342752,
+        4.146909793342752
+      ],
+      "handThighGaps": [
+        0.09568624756733561,
+        0.09568624756733561
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 4.220575886500125,
+      "head": -3.592313436489472,
+      "upperBack": -5.948304494105664,
+      "heelMaxZ": 8.745295462722119,
+      "maxZ": 8.745295462722119,
+      "body": -7.756729992979139,
+      "toes": -1.7937177411690672,
+      "cloth": -7.885000003414103,
+      "palms": -4.850509337448051,
+      "kneeL": -5.818759893574995,
+      "kneeR": -5.818759893574995,
+      "floorClearance": 0.14327000702086146
+    },
+    {
+      "frame": 150,
+      "footFootGap": 1.3482624773660676,
+      "handFootGaps": [
+        4.793563862724824,
+        4.793563862724824
+      ],
+      "handThighGaps": [
+        0.014337808880243552,
+        0.014337808880243552
+      ],
+      "handHandGap": 2.5608579444413335,
+      "supportFootGap": 3.2286475914536776,
+      "head": -4.4227437446936175,
+      "upperBack": -6.428407498993007,
+      "heelMaxZ": 9.055869028525358,
+      "maxZ": 9.055869028525358,
+      "body": -7.83156838294136,
+      "toes": -2.7652887370813994,
+      "cloth": -7.885000013675522,
+      "palms": -5.437828531766929,
+      "kneeL": -6.300935789450047,
+      "kneeR": -6.300935789450047,
+      "floorClearance": 0.06843161705864009
+    },
+    {
+      "frame": 180,
+      "footFootGap": 1.3482624773660676,
+      "handFootGaps": [
+        5.092150138187714,
+        5.092150138187714
+      ],
+      "handThighGaps": [
+        0.024460711503659676,
+        0.024460711503659676
+      ],
+      "handHandGap": 2.560857944441331,
+      "supportFootGap": 2.659787076373088,
+      "head": -4.902103610835731,
+      "upperBack": -6.699855912006081,
+      "heelMaxZ": 9.17465508153482,
+      "maxZ": 9.17465508153482,
+      "body": -7.872627292676048,
+      "toes": -3.3251375696309675,
+      "cloth": -7.885000014642091,
+      "palms": -5.780029663881891,
+      "kneeL": -6.572717548882611,
+      "kneeR": -6.572717548882611,
+      "floorClearance": 0.027372707323952028
+    },
+    {
+      "frame": 210,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        5.14444652314142,
+        5.14444652314142
+      ],
+      "handThighGaps": [
+        0.003821252061963664,
+        0.003821252061963664
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 2.548685548047607,
+      "head": -4.995995704225219,
+      "upperBack": -6.752654093146888,
+      "heelMaxZ": 9.193513390206371,
+      "maxZ": 9.193513390206371,
+      "body": -7.880541018381484,
+      "toes": -3.434696311296193,
+      "cloth": -7.885000014832627,
+      "palms": -5.847338099177208,
+      "kneeL": -6.628721305500122,
+      "kneeR": -6.628721305500122,
+      "floorClearance": 0.019458981618516447
+    },
+    {
+      "frame": 240,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        5.14444652314142,
+        5.14444652314142
+      ],
+      "handThighGaps": [
+        0.003821252061963664,
+        0.003821252061963664
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 2.548685548047607,
+      "head": -4.995995704225219,
+      "upperBack": -6.752654093146888,
+      "heelMaxZ": 9.193513390206371,
+      "maxZ": 9.193513390206371,
+      "body": -7.880541018381484,
+      "toes": -3.434696311296193,
+      "cloth": -7.885000014832627,
+      "palms": -5.847338099177208,
+      "kneeL": -6.628721305500122,
+      "kneeR": -6.628721305500122,
+      "floorClearance": 0.019458981618516447
+    },
+    {
+      "frame": 270,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        5.14444652314142,
+        5.14444652314142
+      ],
+      "handThighGaps": [
+        0.003821252061963664,
+        0.003821252061963664
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 2.548685548047607,
+      "head": -4.995995704225219,
+      "upperBack": -6.752654093146888,
+      "heelMaxZ": 9.193513390206371,
+      "maxZ": 9.193513390206371,
+      "body": -7.880541018381484,
+      "toes": -3.434696311296193,
+      "cloth": -7.885000014832627,
+      "palms": -5.847338099177208,
+      "kneeL": -6.628721305500122,
+      "kneeR": -6.628721305500122,
+      "floorClearance": 0.019458981618516447
+    },
+    {
+      "frame": 300,
+      "footFootGap": 1.3482624773660676,
+      "handFootGaps": [
+        5.092150138187714,
+        5.092150138187714
+      ],
+      "handThighGaps": [
+        0.024460711503659676,
+        0.024460711503659676
+      ],
+      "handHandGap": 2.560857944441331,
+      "supportFootGap": 2.659787076373088,
+      "head": -4.902103610835731,
+      "upperBack": -6.699855912006081,
+      "heelMaxZ": 9.17465508153482,
+      "maxZ": 9.17465508153482,
+      "body": -7.872627292676048,
+      "toes": -3.3251375696309675,
+      "cloth": -7.885000014642091,
+      "palms": -5.780029663881891,
+      "kneeL": -6.572717548882611,
+      "kneeR": -6.572717548882611,
+      "floorClearance": 0.027372707323952028
+    },
+    {
+      "frame": 330,
+      "footFootGap": 1.3482624773660676,
+      "handFootGaps": [
+        4.793563862724824,
+        4.793563862724824
+      ],
+      "handThighGaps": [
+        0.014337808880243552,
+        0.014337808880243552
+      ],
+      "handHandGap": 2.5608579444413335,
+      "supportFootGap": 3.2286475914536776,
+      "head": -4.4227437446936175,
+      "upperBack": -6.428407498993007,
+      "heelMaxZ": 9.055869028525358,
+      "maxZ": 9.055869028525358,
+      "body": -7.83156838294136,
+      "toes": -2.7652887370813994,
+      "cloth": -7.885000013675522,
+      "palms": -5.437828531766929,
+      "kneeL": -6.300935789450047,
+      "kneeR": -6.300935789450047,
+      "floorClearance": 0.06843161705864009
+    },
+    {
+      "frame": 360,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        4.146909793342752,
+        4.146909793342752
+      ],
+      "handThighGaps": [
+        0.09568624756733561,
+        0.09568624756733561
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 4.220575886500125,
+      "head": -3.592313436489472,
+      "upperBack": -5.948304494105664,
+      "heelMaxZ": 8.745295462722119,
+      "maxZ": 8.745295462722119,
+      "body": -7.756729992979139,
+      "toes": -1.7937177411690672,
+      "cloth": -7.885000003414103,
+      "palms": -4.850509337448051,
+      "kneeL": -5.818759893574995,
+      "kneeR": -5.818759893574995,
+      "floorClearance": 0.14327000702086146
+    },
+    {
+      "frame": 390,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        3.2259407780368865,
+        3.2259407780368865
+      ],
+      "handThighGaps": [
+        0.29242265326908473,
+        0.2924226314851224
+      ],
+      "handHandGap": 2.560857944441329,
+      "supportFootGap": 5.314551621064186,
+      "head": -2.714875327536875,
+      "upperBack": -5.425045283405069,
+      "heelMaxZ": 8.229280603340557,
+      "maxZ": 8.229280603340557,
+      "body": -7.673064511336959,
+      "toes": -0.7552169984002602,
+      "cloth": -7.885000002889826,
+      "palms": -4.240749592984797,
+      "kneeL": -5.2970766299608645,
+      "kneeR": -5.2970766299608645,
+      "floorClearance": 0.2269354886630417
+    },
+    {
+      "frame": 420,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        2.439124667824185,
+        2.439124667824185
+      ],
+      "handThighGaps": [
+        0.40696269735596846,
+        0.40696269735596846
+      ],
+      "handHandGap": 2.5608579444413335,
+      "supportFootGap": 6.155530236569246,
+      "head": -2.080814522151916,
+      "upperBack": -5.032646633080119,
+      "heelMaxZ": 7.67366456407553,
+      "maxZ": 7.67366456407553,
+      "body": -7.610871397628336,
+      "toes": 0.01159550580053002,
+      "cloth": -7.88500000252116,
+      "palms": -3.8110165954943636,
+      "kneeL": -4.900645840577631,
+      "kneeR": -4.900645840577631,
+      "floorClearance": 0.2891286023716644
+    },
+    {
+      "frame": 450,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        2.1166512036555947,
+        2.1166512036555947
+      ],
+      "handThighGaps": [
+        0.5297669579691594,
+        0.5297669579691594
+      ],
+      "handHandGap": 2.5608579444413326,
+      "supportFootGap": 6.576690664021697,
+      "head": -1.78333164249496,
+      "upperBack": -4.841050819355368,
+      "heelMaxZ": 7.32715406135169,
+      "maxZ": 7.32715406135169,
+      "body": -7.622835986375352,
+      "toes": 0.38168161614127843,
+      "cloth": -7.885000002351868,
+      "palms": -3.613153142996058,
+      "kneeL": -4.703652357774502,
+      "kneeR": -4.703652357774502,
+      "floorClearance": 0.27716401362464804
+    },
+    {
+      "frame": 480,
+      "footFootGap": 1.3482624773660672,
+      "handFootGaps": [
+        2.0721245666089985,
+        2.0721245666089985
+      ],
+      "handThighGaps": [
+        0.5156114653619447,
+        0.5156114653619447
+      ],
+      "handHandGap": 2.56085794444133,
+      "supportFootGap": 6.6547281914311025,
+      "head": -1.7297907612717665,
+      "upperBack": -4.805747846034491,
+      "heelMaxZ": 7.257837463883944,
+      "maxZ": 7.257837463883944,
+      "body": -7.626340037123932,
+      "toes": 0.4491143315948769,
+      "cloth": -7.8850000069553206,
+      "palms": -3.5777859417192825,
+      "kneeL": -4.667026724300044,
+      "kneeR": -4.667026724300044,
+      "floorClearance": 0.2736599628760681
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "kneeMinimum": 179.99999829245272,
+    "legElevationRange": [
+      14.999999999999986,
+      44.999999999999986
+    ],
+    "maxFrameStep": 0.042615021628653695,
+    "armsHorizontal": true,
+    "minimumFootGap": 2.548685548047607,
+    "minimumShoulderGap": 1.1473459068531122
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      180,
+      180
+    ],
+    "alpha": {
+      "transparent": 39031629,
+      "opaque": 4561179,
+      "partial": 643992,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Controlled high to low boat cycle with raised straight legs and horizontal arms.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/low-boat/native/boat-to-low-boat/source.jpg",
+    "sha256": "dda2ad355f0b0467948b80c478686c617be55a9b0558cbb3428ef1c4a4d84add",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Eight-second controlled transition is illustrative, not a prescribed training tempo."
+}

@@ -1,0 +1,39 @@
+{
+  "warrior-i-pose": {
+    "reviewedAt": "2026-11-24T02:36:26.215Z",
+    "checks": {
+      "exercise": "warrior-i-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach overhead with palms facing inward.",
+      "feet": "Rear leg straight and foot turned out 45 degrees with heel grounded; front foot flat and knee above ankle.",
+      "movement": "Warrior one with front knee above ankle, rear knee straight and heel grounded, rear foot turned out 45 degrees, torso facing front and arms overhead."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/full-sheet.png",
+        "sha256": "c70573ac8a3a5ab48dc88e76794c00ceae1765bafee7727c4f1764eb241c0ba1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/side-sheet.png",
+        "sha256": "6c9d13311c809b8182239143a1c14a2438725985c0b9a846bdecefe2b11a6a1b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/poses.json",
+        "sha256": "b3844e0e8d3a615b12bd2d1c36444a50b930f35b0ccb40231d5b6e89418ad8a1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/geometry.json",
+        "sha256": "cb2b9b4bea2d9ece9ddcf827978bcfbfb953d26a0d2d148355d68a7c3b44cc16"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-one/native/warrior-i-pose/kinematics.json",
+        "sha256": "d2a468c54bbf5ebe6921f5f7e0d95f5f54cb6edb97f96be99ef6d1e619239cd2"
+      }
+    ]
+  }
+}

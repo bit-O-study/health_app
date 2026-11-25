@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/close-grip-incline-press-alpha.webm",
+      "sha256": "14e12bed409b8bae5e35436dc0322f5f3b8735eb48898ad670d4c71963ac0a4e",
+      "bytes": 277071,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/close-grip-incline-press.mp4",
+      "sha256": "239e175a03d6b9eccea4aeae9ffca6735b7ba2fc5eac69c4d70317cd1b1d3c31",
+      "bytes": 123463,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/close-incline/native/close-grip-incline-press/close-grip-incline-press-dark.mp4",
+      "sha256": "ee61d3f2209f8a28081c6a8589c30617b96050f33e375a6517e0070a4e918752",
+      "bytes": 108551,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/close-incline/close-grip-incline-press-studio.mjs",
+      "sha256": "77ec4a391281a1dffe989e7ee39fd41afbdfaf66ca0fcd8e69814e7805cb6854"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/close-incline/close-grip-incline-press-motion.mjs",
+      "sha256": "2b758eca3f80c7ada02c5908d6df301094f5e80adebdfaa9b63f39b22b814b39"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/close-incline/render.mjs",
+      "sha256": "41e860c13521167d155616cd1d501d6b8e331be25cee7ea13948a6d87d19885d"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

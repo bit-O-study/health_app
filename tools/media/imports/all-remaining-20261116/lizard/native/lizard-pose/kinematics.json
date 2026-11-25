@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "kneeDegrees": {
+    "L": 82.6216641545069,
+    "R": 108.61569200733103
+  },
+  "supportGaps": {
+    "body": 0.014999999999998792,
+    "feet": [
+      0.014999999999998792,
+      0.04815242276753651
+    ],
+    "knee": 0.01998511046489604,
+    "palms": 0.015428972220663972
+  }
+}

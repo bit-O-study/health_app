@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "reverse-nordic-curl",
+      "original": "reverse-nordic-curl",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "reverse-nordic-curl",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/nordic-curl---reversed"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Tall kneeling reverse Nordic: trunk and thighs tilt backward together through illustrative 35-degree range; 3.5-second lean, 1-second hold, 3.5-second return. Knees and lower legs remain supported; no ankle restraint.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

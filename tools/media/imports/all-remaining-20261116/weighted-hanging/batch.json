@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "weighted-hanging-leg-raise",
+      "original": "weighted-hanging-leg-raise",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "weighted-hanging-leg-raise",
+        "sourceUrls": [
+          "https://www.verywellfit.com/how-to-do-the-hanging-leg-raise-3498232"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Straight-leg hanging raise with two weighted ankle cuffs; 3.5 seconds up to hip height, 1 second pause, 3.5 seconds down. Fixed trunk and overhead grip without swinging. Cuffs stay secured on the lower shins.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,352 @@
+{
+  "id": "prone-w-raise",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/prone-tw/prone-w-raise-studio.mjs",
+      "sha256": "462cfecc64b25d51c77e99a3f6d09121bd9d3833abed1435250a706ce11836da"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/prone-tw/prone-w-raise-motion.mjs",
+      "sha256": "7b2fc82e550ec3b1020802b5938036369b86b72fc105af0eb9c9fef55da0615b"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/prone-tw/render.mjs",
+      "sha256": "98d32ddc1bae16c9a5ceb99e91c2a379b7b6e7a723dbfe887a072bd08d4bfd94"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "prone-w-raise",
+    "sourceUrls": [
+      "https://www.texaschildrens.org/sites/default/files/uploads/documents/Exercises%20for%20Shoulders.pdf"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Elbows bent 90 degrees with upper arms diagonal to trunk in a W. Light dumbbells held in closed hands. Prone support, stable torso and legs, controlled small arm lift. 3.5 seconds lift, 1 second pause, 3.5 seconds return.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -7.131439099295596,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.445911663643985,
+      "weightFloorGap": 0.45408833635601553,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 30,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -7.1103767281265835,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.42360175570554,
+      "weightFloorGap": 0.47639824429446076,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 60,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -7.000243569956017,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.307302979117061,
+      "weightFloorGap": 0.5926970208829392,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 90,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.797199543292782,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.092663599099094,
+      "weightFloorGap": 0.8073364009009065,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 120,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.559954114476369,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.837580674241477,
+      "weightFloorGap": 1.0624193257585235,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 150,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.3632823754985886,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.62186673362792,
+      "weightFloorGap": 1.2781332663720804,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 180,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.25677366630757,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.504572615515455,
+      "weightFloorGap": 1.3954273844845453,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 210,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.23639199107458,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.482117603405866,
+      "weightFloorGap": 1.417882396594134,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 240,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.23639199107458,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.482117603405866,
+      "weightFloorGap": 1.417882396594134,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 270,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.23639199107458,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.482117603405866,
+      "weightFloorGap": 1.417882396594134,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 300,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.25677366630757,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.504572615515455,
+      "weightFloorGap": 1.3954273844845453,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 330,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.3632823754985886,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.62186673362792,
+      "weightFloorGap": 1.2781332663720804,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 360,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.559954114476369,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -6.837580674241477,
+      "weightFloorGap": 1.0624193257585235,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 390,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.797199543292782,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.092663599099094,
+      "weightFloorGap": 0.8073364009009065,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 420,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -7.000243569956016,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.307302979117061,
+      "weightFloorGap": 0.5926970208829392,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 450,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -7.1103767281265835,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.4236017557055405,
+      "weightFloorGap": 0.47639824429445987,
+      "floorClearance": 0.07312005055389825
+    },
+    {
+      "frame": 480,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -7.131439099295596,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "weightBottom": -7.445911663643985,
+      "weightFloorGap": 0.45408833635601553,
+      "floorClearance": 0.07312005055389825
+    }
+  ],
+  "kinematics": {
+    "weightFloorGap": 0.45408833635601553,
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "stationaryTrunk": true,
+    "stationaryLegs": true,
+    "elbowRange": [
+      89.99999999999997,
+      90.00000000000006
+    ],
+    "handRise": 0.763325516817245,
+    "maxStep": 0.006831626690970931,
+    "minimumBodyGap": 0.07312005055389825,
+    "minimumClothGap": 0.05108539790529232
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      89.99999999999997,
+      90.00000000000006
+    ],
+    "alpha": {
+      "transparent": 39669771,
+      "opaque": 4094935,
+      "partial": 472094,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Prone light dumbbell arm raise; eight-second controlled cycle.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/source.jpg",
+    "sha256": "79541aa590ae6efb5875c2e6a42acaddf792f8168a5710892f9c8e220ca5e15e",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

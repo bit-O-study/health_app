@@ -1,0 +1,28 @@
+{
+  "seated-band-abduction": [
+    {
+      "file": "tools/media/motion-guides/seated-band-abduction.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-band-abduction.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-band-abduction-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-band-abduction.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-band-abduction-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-band-abduction-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

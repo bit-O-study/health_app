@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/child-s-pose-alpha.webm",
+      "sha256": "ee7d5b00eba4cb49ec20f1dd5e167e6810d17bdfed5f900f0a303240a4b6abed",
+      "bytes": 31380,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/child-s-pose.mp4",
+      "sha256": "6346a14654383ecd1f6b9f15e2c5e72cdd134026605c55e6ef70716489095ef4",
+      "bytes": 14349,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/child-pose/native/child-s-pose/child-s-pose-dark.mp4",
+      "sha256": "1c26acb852fa37b70575d0f1b9d350f8ac706e11da62d9f291614bb9281e1252",
+      "bytes": 13383,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/child-pose/child-s-pose-studio.mjs",
+      "sha256": "2dcc6628acd7d42a505f938166f0ed45620cf75591daa4a02382c0fb6e471bc3"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/child-pose/child-s-pose-motion.mjs",
+      "sha256": "509545620f4c9b08bd154445c0b5dfaf7843fd9c9fa688d478357db7e3c267ba"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/child-pose/render.mjs",
+      "sha256": "d92fc7ac793a6d189fc08dd1cbe5697d8f8281385bbb17c72973e0e90521b208"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

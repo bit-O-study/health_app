@@ -1,0 +1,18 @@
+{
+  "id": "medium-grip-pull-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "13ed9c367fee1cbd2f2274ff66e6dbfa4a18847b3ed0e99f07b87205d0336c03",
+  "rigSourceSha256": "94ba653a2a0c82067c0b4f78929bc1cc147bae0ff9a1e01b1e2c6e386c5eed0d",
+  "videoSha256": "13fc4deadd16cadec91f87f5d48d0edd6a4c25975f93ae79fd75670a4ed4a5a5",
+  "darkVideoSha256": "51cb35ae5cbf6654c1750c799e33a1a10924f64b25a729cb64675681a107d119",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 86454,
+  "darkBytes": 93596,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:26:10.530Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "super-wide-grip-pulldown",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6bc9454fc8107f86a77725c2637e925c0c0dfaced16dcbfbc136db51d1e9c981",
+  "rigSourceSha256": "65ab8c701958697de5f31dd9caa360eecf7b951bb459d0b371a965ea7aa43ab3",
+  "videoSha256": "949ddbc341517a237d1de4e1b8f13a3588e34cd0da6f6454de7e1e1ce16651e9",
+  "darkVideoSha256": "24526f8e97a07345a0115b7896b7cf26e66d7bd045f12f8b992196d090149a70",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 76033,
+  "darkBytes": 72751,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:58:30.706Z"
+}

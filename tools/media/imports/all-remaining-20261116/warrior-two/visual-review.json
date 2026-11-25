@@ -1,0 +1,75 @@
+{
+  "warrior-ii-pose": {
+    "reviewedAt": "2026-11-24T02:43:17.090Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "warrior-ii-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach forward and backward at shoulder height, palms down.",
+      "feet": "Rear leg straight and foot facing long side of mat with heel grounded; front foot points forward and knee above ankle.",
+      "movement": "Warrior two with hips and chest facing long side of mat, bent front knee over ankle, straight rear leg, both feet grounded, arms horizontal and gaze over front hand."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/final.jpg",
+        "sha256": "9c87fb2b7c8cd86cca24ac3674626fc5bfe6bdc586d842f8590323bdd64dda20"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/final-dark.jpg",
+        "sha256": "cf5607886aaa4f25aa9f04510ea71ba9a84a9ceef00e020bedc356728d48b2ec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/full-sheet.png",
+        "sha256": "d83a92a551f1e450191abe6aa188ae2044eca556a7a44a1b8180788f31848ce7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/side-sheet.png",
+        "sha256": "6f8b0021374257549675767e68438e8b482e7b4d173332200b65fbc2b38841ba"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/verification.json",
+        "sha256": "2290989b6abf5ac4cf05df14853a40ef05685f3e721887766ad0437cd1532079"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/geometry.json",
+        "sha256": "a5af2a47c0ff8aa4b9f797f10c248c12029497f6cbcb19736f37decdfffde491"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/kinematics.json",
+        "sha256": "da5514d52aea851b66ea9c1fbca8b99ddf2faf29705b5b763a1c5270904227e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/provenance.json",
+        "sha256": "8c0d6c5bd507d7aa2bde612fca301e736744cc7109d3ed51f9361e65d1d3ee65"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/warrior-ii-pose-alpha.webm",
+        "sha256": "93006fe2c8efd08373ad708ba741d79ba5c6cbca850ef9dc87728ba51a8a0f42",
+        "bytes": 40759,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/warrior-ii-pose.mp4",
+        "sha256": "5758b4dbfe0ed8eff1e59021fcbeefbd50430807a516a11623e3d3fed37668c1",
+        "bytes": 15307,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/warrior-two/native/warrior-ii-pose/warrior-ii-pose-dark.mp4",
+        "sha256": "7d2797f2b129bc9bd8d8ad8edcea496076dbe29babaabce1803d12000526f1a9",
+        "bytes": 15521,
+        "decode": "passed"
+      }
+    ]
+  }
+}

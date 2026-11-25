@@ -1,0 +1,39 @@
+{
+  "prone-incline-dumbbell-shrug": {
+    "reviewedAt": "2026-11-16T07:38:55.648Z",
+    "checks": {
+      "exercise": "prone-incline-dumbbell-shrug",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around dumbbell handles throughout the lift.",
+      "feet": "Torso remains supported by 45-degree bench, feet stable; shoulders elevate and retract slightly while both arms remain straight and hang down.",
+      "movement": "Chest supported on 45-degree incline bench with feet stationary. Dumbbells hang from straight arms. Elevate shoulders toward ears with slight retraction; pause and lower without elbow flexion or torso movement. 3.5 seconds lift, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/full-sheet.png",
+        "sha256": "05297c6612289ce6d92bd22c8d8beba5673e6eeb1c0c7550cfcf79eb24328576"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/side-sheet.png",
+        "sha256": "aba42a1367aab9d41f181780df64535d8da3f1a86a3cc260a06e2784c4f7b3f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/poses.json",
+        "sha256": "fb3be77e006fdcffd860cf38e1e94390e881b7a25ffd0abc9bd35d95d8a9a6d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/geometry.json",
+        "sha256": "cd5e43ecbd8e13cf24c4767e5fc4dfc4468fae2ded4d8dd2b5875a424647928d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/kinematics.json",
+        "sha256": "f4f80e7fdb3db6050989dabd53be0bc871de9bee7db4ea9523e82cc44fb2de2f"
+      }
+    ]
+  }
+}

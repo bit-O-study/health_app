@@ -1,0 +1,18 @@
+{
+  "id": "pilates-single-leg-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4a92cb7dc5eeb2adb418ded1958e1e07d8af997188ec0d1cafc751255677e810",
+  "rigSourceSha256": "9ba94052aaa9599c4ad93b17d4fe852e81967dbc27eb68a9deab1d68d62cb6e4",
+  "videoSha256": "14c0d690f24f7565f213e821a855693184a05651d24ad142e2567f5533c7eb3e",
+  "darkVideoSha256": "ea8e5f15c14ab8fed27bbec917a4908dd52af14138c8a502e27387a0595f77fa",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 91209,
+  "darkBytes": 95402,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:02:43.290Z"
+}

@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "side-lying-hip-abduction",
+      "original": "side-lying-hip-abduction",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "side-lying-hip-abduction",
+        "sourceUrls": [
+          "https://www.acefitness.org/resources/everyone/exercise-library/38/side-lying-hip-abduction/"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie on side with straight legs, lower arm supporting head and upper hand on hip. Keep hips stacked, raise upper leg without rotating knee or foot and lower slowly; repeat on opposite side after set. One side shown, 3.5 seconds raise, 1 second pause, 3.5 seconds lower.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

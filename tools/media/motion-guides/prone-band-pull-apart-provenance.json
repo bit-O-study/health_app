@@ -1,0 +1,403 @@
+{
+  "id": "prone-band-pull-apart",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/prone-band/prone-band-pull-apart-studio.mjs",
+      "sha256": "609e83395a2ae10dd815b35eddd99df95d9b3e599b47ae15f4cb1aed1538155c"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/prone-band/prone-band-pull-apart-motion.mjs",
+      "sha256": "08055df572d3ab3dc633e18479e0b29186a44a49d7c2af1b98084d93496edc75"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/prone-band/render.mjs",
+      "sha256": "1324b1b103cfa58ac2c92af387eb99206facd449faf84739d42a70d8fbd46490"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "prone-band-pull-apart",
+    "sourceUrls": [
+      "https://www.nsca.com/contentassets/8dd49e5ea0e547d69bc9dde749bdcbad/volt_rotator_cuff_injury_prevention_primer.pdf"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Lie prone holding a resistance band overhead. Keep arms long and torso steady; separate hands laterally into a small Y, pause, return with tension. Band remains attached to both closed grips and clear of the head. 3.5 seconds pull, 1 second pause, 3.5 seconds return.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.027583034781635,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 7.116364344563977,
+      "bandStretch": 1,
+      "bandBodyGap": 0.8401979744243849,
+      "bandFloorGap": 2.086454410258806,
+      "gripError": 4.550560269027492e-15
+    },
+    {
+      "frame": 30,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.0272749161423995,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 7.2630844691491285,
+      "bandStretch": 1.0206172867887557,
+      "bandBodyGap": 0.8341248051653443,
+      "bandFloorGap": 2.0864600737236167,
+      "gripError": 1.0841599276764049e-14
+    },
+    {
+      "frame": 60,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.0256137095224656,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 8.020432303937465,
+      "bandStretch": 1.1270407072487911,
+      "bandBodyGap": 0.8001250764381549,
+      "bandFloorGap": 2.0864977665979922,
+      "gripError": 2.3228879851839006e-14
+    },
+    {
+      "frame": 90,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.022271510998917,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 9.366864770991292,
+      "bandStretch": 1.3162430023901768,
+      "bandBodyGap": 0.7279886756239846,
+      "bandFloorGap": 2.0866083458843474,
+      "gripError": 3.133898254570751e-14
+    },
+    {
+      "frame": 120,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.017619057027527,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 10.86320684247039,
+      "bandStretch": 1.5265107738291306,
+      "bandBodyGap": 0.62772395114225,
+      "bandFloorGap": 2.0868329481891226,
+      "gripError": 2.2556934274576247e-14
+    },
+    {
+      "frame": 150,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.012790095545064,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.02436056802068,
+      "bandStretch": 1.689677479372709,
+      "bandBodyGap": 0.5319923586961601,
+      "bandFloorGap": 2.087143944241809,
+      "gripError": 2.2921198984285134e-14
+    },
+    {
+      "frame": 180,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.009656362792305,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.610493091685669,
+      "bandStretch": 1.7720415202347708,
+      "bandBodyGap": 0.4762263055578717,
+      "bandFloorGap": 2.0873841067665473,
+      "gripError": 4.58853980699185e-14
+    },
+    {
+      "frame": 210,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.009004120382533,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.71882549203295,
+      "bandStretch": 1.7872645182576354,
+      "bandBodyGap": 0.46527830551245963,
+      "bandFloorGap": 2.087437647099247,
+      "gripError": 2.701289205785704e-14
+    },
+    {
+      "frame": 240,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.009004120382533,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.71882549203295,
+      "bandStretch": 1.7872645182576354,
+      "bandBodyGap": 0.46527830551245963,
+      "bandFloorGap": 2.087437647099247,
+      "gripError": 2.701289205785704e-14
+    },
+    {
+      "frame": 270,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.009004120382533,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.71882549203295,
+      "bandStretch": 1.7872645182576354,
+      "bandBodyGap": 0.46527830551245963,
+      "bandFloorGap": 2.087437647099247,
+      "gripError": 2.701289205785704e-14
+    },
+    {
+      "frame": 300,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.0096563627923025,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.610493091685662,
+      "bandStretch": 1.77204152023477,
+      "bandBodyGap": 0.4762263055578735,
+      "bandFloorGap": 2.087384106766548,
+      "gripError": 4.070144838902081e-15
+    },
+    {
+      "frame": 330,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.012790095545064,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 12.02436056802068,
+      "bandStretch": 1.689677479372709,
+      "bandBodyGap": 0.5319923586961601,
+      "bandFloorGap": 2.087143944241809,
+      "gripError": 2.2921198984285134e-14
+    },
+    {
+      "frame": 360,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.017619057027527,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 10.86320684247039,
+      "bandStretch": 1.5265107738291306,
+      "bandBodyGap": 0.62772395114225,
+      "bandFloorGap": 2.0868329481891226,
+      "gripError": 2.2556934274576247e-14
+    },
+    {
+      "frame": 390,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.022271510998917,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 9.366864770991292,
+      "bandStretch": 1.3162430023901768,
+      "bandBodyGap": 0.7279886756239827,
+      "bandFloorGap": 2.0866083458843474,
+      "gripError": 3.040633126371917e-14
+    },
+    {
+      "frame": 420,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.0256137095224656,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 8.020432303937465,
+      "bandStretch": 1.1270407072487911,
+      "bandBodyGap": 0.8001250764381549,
+      "bandFloorGap": 2.086497766597993,
+      "gripError": 2.3381202007556437e-14
+    },
+    {
+      "frame": 450,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.0272749161423995,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 7.263084469149125,
+      "bandStretch": 1.0206172867887553,
+      "bandBodyGap": 0.8341248051653443,
+      "bandFloorGap": 2.0864600737236167,
+      "gripError": 7.377764055609925e-15
+    },
+    {
+      "frame": 480,
+      "body": -7.826879949446102,
+      "toes": -7.737001139690116,
+      "cloth": -7.848914602094708,
+      "palms": -6.027583034781635,
+      "kneeL": -7.50391836722954,
+      "kneeR": -7.50391836722954,
+      "floorClearance": 0.07312005055389825,
+      "bandLength": 7.116364344563977,
+      "bandStretch": 1,
+      "bandBodyGap": 0.8401979744243849,
+      "bandFloorGap": 2.086454410258806,
+      "gripError": 4.550560269027492e-15
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "stationaryBody": true,
+    "minElbow": 179.99999852122065,
+    "maxStep": 0.02398138054664216,
+    "bandLengthRange": [
+      7.116364344563977,
+      12.71882549203295
+    ],
+    "maximumBandStretch": 1.7872645182576354,
+    "minimumBandBodyGap": 0.46527830551245963,
+    "minimumBandFloorGap": 2.086454410258806,
+    "maximumGripError": 4.58853980699185e-14
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      179.99999829245272,
+      180
+    ],
+    "alpha": {
+      "transparent": 40956089,
+      "opaque": 2862584,
+      "partial": 418127,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Prone straight-arm band pull-apart; eight-second controlled cycle.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/source.jpg",
+    "sha256": "0fbbc2c7a51ab3237437dc911a06888c8e5d0c9f8d0a3fcaf4b016b463be5d44",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

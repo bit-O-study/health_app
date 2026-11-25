@@ -1,0 +1,18 @@
+{
+  "id": "partial-leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "73cfadd357fe7a90dba6aed3088c481aeedd8b966d5ad8ebf968036c23fbd7e8",
+  "rigSourceSha256": "a3e16cad6fbbcd9c0800105a062ed693e0d02910746ec4399356070d2a870e25",
+  "videoSha256": "105e4074c5fd3890a9f0a73ad5c161be8701ce7f63f57baf749aac5625ca9159",
+  "darkVideoSha256": "b512636f6e3039cd8510a80b815f9a4b31a0f29e90a74c040552d461c78aa424",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 88492,
+  "darkBytes": 73462,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:11:56.161Z"
+}

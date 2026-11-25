@@ -1,0 +1,28 @@
+{
+  "wall-sit-march": [
+    {
+      "file": "tools/media/motion-guides/wall-sit-march.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wall-sit-march.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/wall-sit-march-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-march.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-march-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/wall-sit-march-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

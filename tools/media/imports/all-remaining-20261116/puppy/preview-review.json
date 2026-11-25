@@ -1,0 +1,39 @@
+{
+  "puppy-pose": {
+    "reviewedAt": "2026-11-24T02:14:35.205Z",
+    "checks": {
+      "exercise": "puppy-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms extended forward with palms resting on mat.",
+      "feet": "Knees bent near right angles with hips elevated, shins back and forehead supported.",
+      "movement": "Hips raised near knees, shins back, torso extending forward and down, forehead supported, straight arms reaching forward with palms on mat."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/full-sheet.png",
+        "sha256": "0f9e39f54f9d2fc2994bec64ed2ca267cc26e7db9c40cdd1ffccec34b874b769"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/side-sheet.png",
+        "sha256": "7244b2d8c9d236ac1e554c65108ce7878f9343a4ce0ffd70ac54df7013d575cd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/poses.json",
+        "sha256": "356514d34fd401a7a7aa60b6f9b73239b6349f86467aaa0f8156ecec9127fc00"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/geometry.json",
+        "sha256": "73b31e3a6402ad806043a085f3285c0e2897055feb9400e8d5ed3b71e442916e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/puppy/native/puppy-pose/kinematics.json",
+        "sha256": "4189c0e47cf7fc79342b9646d50581506e229ebcb75462ec2d52eb285bac52d1"
+      }
+    ]
+  }
+}

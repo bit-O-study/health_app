@@ -1,5 +1,184 @@
 # 헬쑤 개발 로드맵 — 업무 기준 문서
 
+> 2026-11-25: 사용자 “그냥 배포해줘도 돼”로 아래 E2E 환경 실패 및 Android 미검증 한계를 수용하고 커밋·운영 배포 승인. 서버 후속 제작과 관리자 서버 탭 완료율 연결도 요청함.
+
+## 2026-11-24 완성 영상 연결·운영 반영
+
+- [진행중] 사용자 요청에 따라 완성된 영상의 앱 연결과 운영 반영 진행.
+  - [완료] 제작본 manifest 690종/다크 680종, 공개 MP4 1,370파일과 검수 SHA 및 원본/리그 SHA 일치 확인. `tools/media/imports/release-20261124/local-audit.json`.
+  - [완료] 최신 운영 149d8040 통합, 타임라인·설명·장비 매핑 회귀 검사. 단위536파일4,120개(선택1개 제외), 스키마116개, 전체 린트 오류0, 타입·webpack 빌드 완료. 179종537개 변경 영상 SHA/입력 SHA 및 기존 decode 기록 일치.
+  - [완료] localhost:3198 Edge 폭390px에서 5종×3포맷 15건 재생·탐색·루프·가로넘침 검사 통과. `tools/media/imports/release-20261124/browser.json`.
+  - [대기] 전체 E2E: 앱/테스트 DB 불일치로 1통과/3실패/490미실행(계정 조회 및 user_id NOT NULL). RULE.md 예외 승인 전 커밋·배포 대기. 상세 내용은 재개 문서 2026-11-25 기록.
+  - [대기] 공개 URL 파일 해시·모바일 브라우저 재생 확인. Android 실기기는 별도 확인.
+  - [완료] 2026-11-25 서버 Codex 인계 준비: 별도 저장소·Node24·의존성·Edge·FFmpeg 및 실제 파일읽기 성공 확인. `BitO-Exercise-Video-Worker`는 배포 승인 전 비활성. 사용자 예외 승인 후 배포→서버 최신 코드/제작 브랜치→작업 활성화 순서로 진행.
+
+## 2026-11-16 전체 운동 영상 연결 — 176/847
+
+- [진행중] 사용자 지시: 100종 단위 종료를 취소하고, 모든 운동이 연결될 때까지 남은 전체 제작·보정·검수·로컬 앱 연결을 계속한다. 기준 504/1351, 남은 847종.
+  - [완료] 기존 검수 완료 504종과 미완료 847종을 분리해 `tools/media/imports/all-remaining-20261116/batch.json`에 고정.
+  - [진행중] 운동별 장비·동작 자료 확인, 재사용 가능한 리그 선별 및 신규 동작/장비 구현.
+  - [대기] 각 운동 밝은·어두운 MP4/투명 WebM, 자세·접촉·시각·전체decode·재생·탐색·반복 검수.
+  - [대기] 영상·설명·장비 매핑 연결, 회귀 검사 및 전체 타임라인 사양 동기화.
+  - [대기] 운영 반영·Android 실기기 검증. 로컬 연결과 운영 연결을 별도 보고한다.
+- [완료] tempo-holds: 4종 로컬 검수·연결, 관련 16tests·TypeScript 통과, lint 오류 0/경고 7. 근거: `tools/media/imports/all-remaining-20261116/tempo-holds/completion.json`. 현재 전체 508/1351. 운영·실기기 대기.
+- [완료] equivalent-cables: 4종 로컬 검수·연결, 관련 20tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/equivalent-cables/completion.json`. 현재 전체 512/1351. 운영·실기기 대기.
+- [완료] barbell-controls: 3종 로컬 검수·연결, 관련 26tests·TypeScript 통과, lint 오류 0/경고 7. 근거: `tools/media/imports/all-remaining-20261116/barbell-controls/completion.json`. 현재 전체 515/1351. 운영·실기기 대기.
+- [완료] pulls-smith: 3종 로컬 검수·연결, 관련 18tests·TypeScript 통과, lint 오류 0/경고 6. 근거: `tools/media/imports/all-remaining-20261116/pulls-smith/completion.json`. 현재 전체 518/1351. 운영·실기기 대기.
+- [완료] knee-machines: 4종 로컬 검수·연결, 관련 20tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/knee-machines/completion.json`. 현재 전체 522/1351. 운영·실기기 대기.
+- [완료] knee-singles: 3종 로컬 검수·연결, 관련 14tests·TypeScript 통과, lint 오류 0/경고 3. 근거: `tools/media/imports/all-remaining-20261116/knee-singles/completion.json`. 현재 전체 525/1351. 운영·실기기 대기.
+- [완료] slow-controls: 2종 로컬 검수·연결, 관련 10tests·TypeScript 통과, lint 오류 0/경고 3. 근거: `tools/media/imports/all-remaining-20261116/slow-controls/completion.json`. 현재 전체 527/1351. 운영·실기기 대기.
+- [완료] assisted-pulls: 2종 로컬 검수·연결, 관련 9tests·TypeScript 통과, lint 오류 0/경고 5. 근거: `tools/media/imports/all-remaining-20261116/assisted-pulls/completion.json`. 현재 전체 529/1351. 운영·실기기 대기.
+- [완료] assisted-chin: 1종 로컬 검수·연결, 관련 7tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/assisted-chin/completion.json`. 현재 전체 530/1351. 운영·실기기 대기.
+- [완료] neutral-pulldowns: 2종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/neutral-pulldowns/completion.json`. 현재 전체 532/1351. 운영·실기기 대기.
+- [완료] superwide-pull: 1종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 2. 근거: `tools/media/imports/all-remaining-20261116/superwide-pull/completion.json`. 현재 전체 533/1351. 운영·실기기 대기.
+- [완료] pulldown-variants: 2종 로컬 검수·연결, 관련 7tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pulldown-variants/completion.json`. 현재 전체 535/1351. 운영·실기기 대기.
+- [완료] leg-press-variants: 2종 로컬 검수·연결, 관련 8tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/leg-press-variants/completion.json`. 현재 전체 537/1351. 운영·실기기 대기.
+- [완료] fractional-presses: 2종 로컬 검수·연결, 관련 7tests·TypeScript 통과, lint 오류 0/경고 5. 근거: `tools/media/imports/all-remaining-20261116/fractional-presses/completion.json`. 현재 전체 539/1351. 운영·실기기 대기.
+- [완료] deep-squat: 1종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 2. 근거: `tools/media/imports/all-remaining-20261116/deep-squat/completion.json`. 현재 전체 540/1351. 운영·실기기 대기.
+- [완료] calf-presses: 2종 로컬 검수·연결, 관련 3tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/calf-presses/completion.json`. 현재 전체 542/1351. 운영·실기기 대기.
+- [완료] reverse-nordic: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/reverse-nordic/completion.json`. 현재 전체 543/1351. 운영·실기기 대기.
+- [완료] rkc-plank: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/rkc-plank/completion.json`. 현재 전체 544/1351. 운영·실기기 대기.
+- [완료] plank-leg-lift: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/plank-leg-lift/completion.json`. 현재 전체 545/1351. 운영·실기기 대기.
+- [완료] bear-plank: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/bear-plank/completion.json`. 현재 전체 546/1351. 운영·실기기 대기.
+- [완료] weighted-plank: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/weighted-plank/completion.json`. 현재 전체 547/1351. 운영·실기기 대기.
+- [완료] plank-toe-tap: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/plank-toe-tap/completion.json`. 현재 전체 548/1351. 운영·실기기 대기.
+- [완료] staggered-push-up: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/staggered-push-up/completion.json`. 현재 전체 549/1351. 운영·실기기 대기.
+- [완료] single-calf-presses: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/single-calf-presses/completion.json`. 현재 전체 551/1351. 운영·실기기 대기.
+- [완료] single-leg-presses: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/single-leg-presses/completion.json`. 현재 전체 553/1351. 운영·실기기 대기.
+- [완료] stance-leg-presses: 3종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 6. 근거: `tools/media/imports/all-remaining-20261116/stance-leg-presses/completion.json`. 현재 전체 556/1351. 운영·실기기 대기.
+- [완료] horizontal-presses: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 4. 근거: `tools/media/imports/all-remaining-20261116/horizontal-presses/completion.json`. 현재 전체 558/1351. 운영·실기기 대기.
+- [완료] standing-curls: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/standing-curls/completion.json`. 현재 전체 560/1351. 운영·실기기 대기.
+- [완료] cable-leg-curl: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/cable-leg-curl/completion.json`. 현재 전체 561/1351. 운영·실기기 대기.
+- [완료] band-leg-curl: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/band-leg-curl/completion.json`. 현재 전체 562/1351. 운영·실기기 대기.
+- [완료] dead-hang: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/dead-hang/completion.json`. 현재 전체 563/1351. 운영·실기기 대기.
+- [완료] hanging-legs: 3종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/hanging-legs/completion.json`. 현재 전체 566/1351. 운영·실기기 대기.
+- [완료] active-hang: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/active-hang/completion.json`. 현재 전체 567/1351. 운영·실기기 대기.
+- [완료] weighted-hanging: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/weighted-hanging/completion.json`. 현재 전체 568/1351. 운영·실기기 대기.
+- [완료] hanging-twists: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/hanging-twists/completion.json`. 현재 전체 570/1351. 운영·실기기 대기.
+- [완료] barbell-calf: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/barbell-calf/completion.json`. 현재 전체 571/1351. 운영·실기기 대기.
+- [완료] kneeling-curl: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/kneeling-curl/completion.json`. 현재 전체 572/1351. 운영·실기기 대기.
+- [완료] close-incline: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 2. 근거: `tools/media/imports/all-remaining-20261116/close-incline/completion.json`. 현재 전체 573/1351. 운영·실기기 대기.
+- [완료] l-sit-pull: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/l-sit-pull/completion.json`. 현재 전체 574/1351. 운영·실기기 대기.
+- [완료] grip-pulls: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/grip-pulls/completion.json`. 현재 전체 576/1351. 운영·실기기 대기.
+- [완료] wall-sits: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 2. 근거: `tools/media/imports/all-remaining-20261116/wall-sits/completion.json`. 현재 전체 578/1351. 운영·실기기 대기.
+- [완료] wall-march: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/wall-march/completion.json`. 현재 전체 579/1351. 운영·실기기 대기.
+- [완료] supported-face-pulls: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/supported-face-pulls/completion.json`. 현재 전체 581/1351. 운영·실기기 대기.
+- [완료] wide-face-pull: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/wide-face-pull/completion.json`. 현재 전체 582/1351. 운영·실기기 대기.
+- [완료] prone-tw: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/prone-tw/completion.json`. 현재 전체 584/1351. 운영·실기기 대기.
+- [완료] snow-angel: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/snow-angel/completion.json`. 현재 전체 585/1351. 운영·실기기 대기.
+- [완료] prone-l: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/prone-l/completion.json`. 현재 전체 586/1351. 운영·실기기 대기.
+- [완료] incline-yt: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/incline-yt/completion.json`. 현재 전체 588/1351. 운영·실기기 대기.
+- [완료] supported-rear: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/supported-rear/completion.json`. 현재 전체 589/1351. 운영·실기기 대기.
+- [완료] incline-shrug: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/incline-shrug/completion.json`. 현재 전체 590/1351. 운영·실기기 대기.
+- [완료] swimmer: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/swimmer/completion.json`. 현재 전체 591/1351. 운영·실기기 대기.
+- [완료] supermans: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/supermans/completion.json`. 현재 전체 593/1351. 운영·실기기 대기.
+- [완료] prone-band: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/prone-band/completion.json`. 현재 전체 594/1351. 운영·실기기 대기.
+- [완료] dip-variants: 3종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 6. 근거: `tools/media/imports/all-remaining-20261116/dip-variants/completion.json`. 현재 전체 597/1351. 운영·실기기 대기.
+- [완료] scapular-dip: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 2. 근거: `tools/media/imports/all-remaining-20261116/scapular-dip/completion.json`. 현재 전체 598/1351. 운영·실기기 대기.
+- [완료] locust: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/locust/completion.json`. 현재 전체 599/1351. 운영·실기기 대기.
+- [완료] bridge-pose: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/bridge-pose/completion.json`. 현재 전체 600/1351. 운영·실기기 대기.
+- [완료] bridge-march: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/bridge-march/completion.json`. 현재 전체 601/1351. 운영·실기기 대기.
+- [완료] legs-wall: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/legs-wall/completion.json`. 현재 전체 602/1351. 운영·실기기 대기.
+- [완료] lying-raise: 1종 로컬 검수·연결, 관련 3tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/lying-raise/completion.json`. 현재 전체 603/1351. 운영·실기기 대기.
+- [완료] flutter: 1종 로컬 검수·연결, 관련 3tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/flutter/completion.json`. 현재 전체 604/1351. 운영·실기기 대기.
+- [완료] scissor: 1종 로컬 검수·연결, 관련 3tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/scissor/completion.json`. 현재 전체 605/1351. 운영·실기기 대기.
+- [완료] heel-touch: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/heel-touch/completion.json`. 현재 전체 606/1351. 운영·실기기 대기.
+- [완료] side-abduction: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/side-abduction/completion.json`. 현재 전체 607/1351. 운영·실기기 대기.
+- [완료] side-rotation: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/side-rotation/completion.json`. 현재 전체 608/1351. 운영·실기기 대기.
+- [완료] side-quad: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/side-quad/completion.json`. 현재 전체 609/1351. 운영·실기기 대기.
+- [완료] band-clam: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/band-clam/completion.json`. 현재 전체 610/1351. 운영·실기기 대기.
+- [완료] neck-stretch: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/neck-stretch/completion.json`. 현재 전체 611/1351. 운영·실기기 대기.
+- [완료] seated-band: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/seated-band/completion.json`. 현재 전체 612/1351. 운영·실기기 대기.
+- [완료] knee-chest: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/knee-chest/completion.json`. 현재 전체 613/1351. 운영·실기기 대기.
+- [완료] figure-four: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/figure-four/completion.json`. 현재 전체 614/1351. 운영·실기기 대기.
+- [완료] cross-glute: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/cross-glute/completion.json`. 현재 전체 616/1351. 운영·실기기 대기.
+- [완료] lying-hamstring: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/lying-hamstring/completion.json`. 현재 전체 617/1351. 운영·실기기 대기.
+- [완료] double-knee: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/double-knee/completion.json`. 현재 전체 618/1351. 운영·실기기 대기.
+- [완료] prone-quad: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/prone-quad/completion.json`. 현재 전체 619/1351. 운영·실기기 대기.
+- [완료] happy-baby: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/happy-baby/completion.json`. 현재 전체 620/1351. 운영·실기기 대기.
+- [완료] butterfly: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/butterfly/completion.json`. 현재 전체 621/1351. 운영·실기기 대기.
+- [완료] straddle: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/straddle/completion.json`. 현재 전체 622/1351. 운영·실기기 대기.
+- [완료] forward-fold: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/forward-fold/completion.json`. 현재 전체 623/1351. 운영·실기기 대기.
+- [완료] boat: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/boat/completion.json`. 현재 전체 624/1351. 운영·실기기 대기.
+- [완료] low-boat: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/low-boat/completion.json`. 현재 전체 625/1351. 운영·실기기 대기.
+- [완료] supine-twists: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/supine-twists/completion.json`. 현재 전체 627/1351. 운영·실기기 대기.
+- [완료] sleeper: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/sleeper/completion.json`. 현재 전체 628/1351. 운영·실기기 대기.
+- [완료] ninety-hip: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/ninety-hip/completion.json`. 현재 전체 629/1351. 운영·실기기 대기.
+- [완료] child-pose: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/child-pose/completion.json`. 현재 전체 630/1351. 운영·실기기 대기.
+- [완료] side-child: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/side-child/completion.json`. 현재 전체 631/1351. 운영·실기기 대기.
+- [완료] puppy: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/puppy/completion.json`. 현재 전체 632/1351. 운영·실기기 대기.
+- [완료] frog: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/frog/completion.json`. 현재 전체 633/1351. 운영·실기기 대기.
+- [완료] gate: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/gate/completion.json`. 현재 전체 634/1351. 운영·실기기 대기.
+- [완료] low-lunge: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/low-lunge/completion.json`. 현재 전체 635/1351. 운영·실기기 대기.
+- [완료] high-lunge: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/high-lunge/completion.json`. 현재 전체 636/1351. 운영·실기기 대기.
+- [완료] warrior-one: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/warrior-one/completion.json`. 현재 전체 637/1351. 운영·실기기 대기.
+- [완료] warrior-two: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/warrior-two/completion.json`. 현재 전체 638/1351. 운영·실기기 대기.
+- [완료] warrior-three: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/warrior-three/completion.json`. 현재 전체 639/1351. 운영·실기기 대기.
+- [완료] triangle: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/triangle/completion.json`. 현재 전체 640/1351. 운영·실기기 대기.
+- [완료] tree: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/tree/completion.json`. 현재 전체 641/1351. 운영·실기기 대기.
+- [완료] side-angle: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/side-angle/completion.json`. 현재 전체 642/1351. 운영·실기기 대기.
+- [완료] half-moon: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/half-moon/completion.json`. 현재 전체 643/1351. 운영·실기기 대기.
+- [완료] lizard: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/lizard/completion.json`. 현재 전체 644/1351. 운영·실기기 대기.
+- [완료] bow: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/bow/completion.json`. 현재 전체 645/1351. 운영·실기기 대기.
+- [완료] camel: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/camel/completion.json`. 현재 전체 646/1351. 운영·실기기 대기.
+- [완료] couch: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/couch/completion.json`. 현재 전체 647/1351. 운영·실기기 대기.
+- [완료] dynamic-hip: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/dynamic-hip/completion.json`. 현재 전체 648/1351. 운영·실기기 대기.
+- [완료] front-split: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/front-split/completion.json`. 현재 전체 649/1351. 운영·실기기 대기.
+- [완료] side-split: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/side-split/completion.json`. 현재 전체 650/1351. 운영·실기기 대기.
+- [완료] pilates-double: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pilates-double/completion.json`. 현재 전체 651/1351. 운영·실기기 대기.
+- [완료] pilates-single: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pilates-single/completion.json`. 현재 전체 652/1351. 운영·실기기 대기.
+- [완료] pilates-hundred: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pilates-hundred/completion.json`. 현재 전체 653/1351. 운영·실기기 대기.
+- [완료] pilates-swan: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pilates-swan/completion.json`. 현재 전체 654/1351. 운영·실기기 대기.
+- [완료] pilates-circle: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pilates-circle/completion.json`. 현재 전체 655/1351. 운영·실기기 대기.
+- [완료] pilates-side-kick: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pilates-side-kick/completion.json`. 현재 전체 656/1351. 운영·실기기 대기.
+- [완료] v-sit: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/v-sit/completion.json`. 현재 전체 657/1351. 운영·실기기 대기.
+- [완료] standing-folds: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/standing-folds/completion.json`. 현재 전체 660/1351. 운영·실기기 대기.
+- [완료] reverse-warrior: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/reverse-warrior/completion.json`. 현재 전체 660/1351. 운영·실기기 대기.
+- [완료] chin-tuck: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/chin-tuck/completion.json`. 현재 전체 661/1351. 운영·실기기 대기.
+- [완료] it-band: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/it-band/completion.json`. 현재 전체 662/1351. 운영·실기기 대기.
+- [완료] v-ups: 3종 로컬 검수·연결, 관련 6tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/v-ups/completion.json`. 현재 전체 665/1351. 운영·실기기 대기.
+- [완료] criss-cross: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/criss-cross/completion.json`. 현재 전체 667/1351. 운영·실기기 대기.
+- [완료] toe-crunch: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/toe-crunch/completion.json`. 현재 전체 668/1351. 운영·실기기 대기.
+- [완료] dead-bug: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/dead-bug/completion.json`. 현재 전체 669/1351. 운영·실기기 대기.
+- [완료] hollow-rock: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/hollow-rock/completion.json`. 현재 전체 670/1351. 운영·실기기 대기.
+- [완료] l-sit: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/l-sit/completion.json`. 현재 전체 671/1351. 운영·실기기 대기.
+- [완료] scapular-push: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 1. 근거: `tools/media/imports/all-remaining-20261116/scapular-push/completion.json`. 현재 전체 672/1351. 운영·실기기 대기.
+- [완료] planche: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/planche/completion.json`. 현재 전체 673/1351. 운영·실기기 대기.
+- [완료] planche-lean: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/planche-lean/completion.json`. 현재 전체 674/1351. 운영·실기기 대기.
+- [완료] handstands: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/handstands/completion.json`. 현재 전체 676/1351. 운영·실기기 대기.
+- [완료] levers: 2종 로컬 검수·연결, 관련 4tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/levers/completion.json`. 현재 전체 678/1351. 운영·실기기 대기.
+- [완료] upward-dog: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/upward-dog/completion.json`. 현재 전체 679/1351. 운영·실기기 대기.
+- [완료] pigeon: 1종 로컬 검수·연결, 관련 2tests·TypeScript 통과, lint 오류 0/경고 0. 근거: `tools/media/imports/all-remaining-20261116/pigeon/completion.json`. 현재 전체 680/1351. 운영·실기기 대기.
+- 완료 처리 조건: 검수와 로컬 매핑 확인을 통과한 운동만 completed에 포함한다. 일괄 초안 생성만으로 완료 처리하지 않는다. 기존 템포 푸시업·포즈 힙 쓰러스트·템포 로우 로컬 완료는 기준 504종에 이미 포함.
+
+## 2026-11-16 추가 제작 — 템포 로우 로컬 완료
+
+- [완료] tempo-row 밝은·어두운 MP4 및 투명 WebM 3파일 제작·검수·로컬 등록. 8초/480×480/24fps, 1초 당김·1초 상단 정지·3초 하강·3초 하단 정지.
+- [완료] 481자세에서 발·그립·몸통 고정, 정지 시간과 루프 확인. 팔꿈치 66.04–160.65도. 정면/측면 및 최종 양테마 64프레임 시각 검수, 전체 decode·재생·탐색·반복·192프레임 알파 가장자리 및 등록본 해시 통과. 17개 바벨/그립 기하 표본은 전체 충돌 또는 생체역학 검증을 의미하지 않는다.
+- [완료] 실제 템포에 맞춘 안내 문구와 연결 회귀 검사: 관련 3파일 39tests, 전체 TypeScript 통과. 대상 ESLint 오류 0·재사용 studio 미사용 변수 경고 1.
+- 로컬 양테마 검수 완료 504/1351, 남은 미제작·보정 847종. 로컬 manifest 밝은 518/어두운 504. 작업 시작 시 운영 직접 확인은 밝은 515/어두운 501.
+- 근거: `tools/media/imports/tempo-row-20261115/completion.json`, `visual-review.json`, `published-verification.json`, `tests.json`, `live-coverage.json`. 완료된 prepare/publish는 재실행하지 않는다.
+- [대기] 커밋·운영 배포·Android 실기기 확인. 템포 푸시업·포즈 힙 쓰러스트·템포 로우 3종은 로컬에만 추가되어 있다. 다음 제작은 새 묶음에서 미제작 항목을 선택한다.
+
+## 2026-11-15 추가 제작 — 포즈 힙 쓰러스트 로컬 완료
+
+- [완료] pause-hip-thrust 밝은·어두운 MP4 및 투명 WebM 3파일 제작·검수·로컬 등록. 8초/480×480/24fps, 3초 상승·2초 상단 정지·3초 하강.
+- [완료] 481자세에서 발 고정·양손 그립·등의 벤치 지지·패드 간격·2초 정지·루프 확인. 정면/측면 및 최종 양테마 64프레임 시각 검수, 전체 decode·재생·탐색·반복·192프레임 알파 가장자리 및 등록본 해시 통과. 절차적 애니메이션의 접촉 표본 검사이며 전체 충돌/생체역학 검증은 아님.
+- [완료] 실제 동작에 맞춘 안내 문구 및 연결 회귀 검사: 관련 3파일 39tests, 전체 TypeScript 통과. 대상 ESLint 오류 0·재사용 studio 미사용 변수 경고 2.
+- 로컬 양테마 검수 완료 503/1351, 남은 미제작·보정 848종. 로컬 manifest 밝은 517/어두운 503.
+- 근거: `tools/media/imports/pause-hip-thrust-20261115/completion.json`, `visual-review.json`, `published-verification.json`, `tests.json`. 완료된 prepare/publish는 재실행하지 않는다.
+- [대기] 커밋·운영 배포·Android 실기기 확인. 템포 푸시업과 이번 영상은 로컬에만 추가되어 있다. 다음 제작은 새 묶음에서 미제작 항목을 선택한다.
+
+## 2026-11-15 추가 제작 — 템포 푸시업 로컬 완료
+
+- [완료] tempo-push-up 밝은·어두운 MP4 및 투명 WebM 3파일 제작·시각 검수·로컬 앱 연결. 8초/480×480/24fps, 3초 하강·1초 하단 정지·1초 상승·3초 상단 정지.
+- [완료] 상단 팔 펴짐 부족을 보정: 팔꿈치 81.89–172.22도. 481자세·17기하표본, 손·발 지지/루프/정지 시간, 양테마 최종 64프레임 검수, 192프레임 알파 가장자리, 전체 decode·재생·탐색·반복 및 게시본 해시 통과. 상단 팔꿈치 약 7.8도 굽힘과 가슴 비접촉 등 한계는 provenance에 기록.
+- [완료] 안내 문구를 실제 템포에 맞춤. 관련 3파일 39tests, 전체 TypeScript 통과. 대상 ESLint 오류 0·재사용 studio 미사용 변수 경고 1. 시스템 Node 20의 ESM 오류는 Node 24.21.0으로 검사해 해결.
+- 검수 완료 502/1351, 로컬 manifest 밝은 516/어두운 502. 이번 작업 전 운영 직접 확인은 밝은 515/어두운 501이며 신규 1종은 미배포.
+- 근거: `tools/media/imports/tempo-20261115/completion.json`, `visual-review.json`, `published-verification.json`, `tests.json`. 완료된 prepare/publish는 재실행하지 않는다.
+- [대기] 운영 배포·Android 실기기 확인. 전체 미제작·보정 대상은 849종으로 남아 있다. 다음 제작은 새 묶음에서 미제작 항목을 골라 이어간다.
+
+
 ## 2026-11-14 100종 커밋·운영 반영 검증
 
 - [완료] 사용자 요청에 따라 100종 영상 작업을 커밋·푸시하고 최신 main에 통합하여 운영에 반영했다. 영상 `710da421`, 운영 통합 `ad17ea48`.

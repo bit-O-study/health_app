@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T06:12:29.948Z",
+  "report": [
+    {
+      "id": "close-grip-incline-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

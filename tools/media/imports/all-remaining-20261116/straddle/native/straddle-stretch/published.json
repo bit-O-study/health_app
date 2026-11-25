@@ -1,0 +1,18 @@
+{
+  "id": "straddle-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "3fedd86701faeccc351556fa30cc27990b8e60765c32f1df706b3202f55fc53b",
+  "rigSourceSha256": "a3e19f08f87b359aabcdb40b45eac238a9285bc7f7001274de7387be919a9a95",
+  "videoSha256": "c8d2abdfb797a1efce015fe04a32ae5a3cdee5b4d038d8cf64ed32f66754c74b",
+  "darkVideoSha256": "597ea21f5e5abf19021622fa0c3a639d56ed69d8a7a99caf574c6d49755fb13a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16239,
+  "darkBytes": 16673,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:10:04.003Z"
+}

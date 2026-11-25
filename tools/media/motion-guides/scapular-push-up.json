@@ -1,0 +1,15 @@
+{
+  "id": "scapular-push-up",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "scapular-push-up-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://ca.physitrack.com/home-exercise-video/scapula-push-up---straight-body"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T06:55:40.466Z"
+}

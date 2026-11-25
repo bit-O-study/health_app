@@ -1,0 +1,18 @@
+{
+  "id": "pilates-hundred",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "eafc15613168a82759d66e5f8e56dd56eba26b794025b0c2a70187edf20df0da",
+  "rigSourceSha256": "65c89828d9a3f7561615b4e84da16d0719d062af08bfb7c66b1974e51bd0068e",
+  "videoSha256": "14d06cdb791a579f0e3bea16f651d450553569db8ee5e967302671493c05cbae",
+  "darkVideoSha256": "e4735bde842e18ff248c477b3b7bb157d5002e8c600313ccd9de73551c144675",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 44319,
+  "darkBytes": 44702,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:07:59.064Z"
+}

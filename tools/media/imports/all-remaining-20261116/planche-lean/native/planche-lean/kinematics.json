@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "elbowRange": [
+    179.0000000683192,
+    179.0000000683192
+  ],
+  "maxStep": 0,
+  "supportDrift": 0,
+  "shoulderLead": 2.4364023134316986,
+  "staticHold": true
+}

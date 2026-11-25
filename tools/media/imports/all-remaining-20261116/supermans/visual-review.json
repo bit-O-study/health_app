@@ -1,0 +1,148 @@
+{
+  "superman": {
+    "reviewedAt": "2026-11-16T07:56:03.863Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "superman",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open empty hands reach overhead; arms lift together or pull elbows toward the ribs according to the exercise.",
+      "feet": "Pelvis stays stable and both legs remain extended; legs lift together or maintain a hover according to the exercise.",
+      "movement": "Prone simultaneous arm, upper chest and straight leg lift. Stable pelvis and neutral neck. Raise gently for 3 seconds, pause 2 seconds, lower 3 seconds."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/final.jpg",
+        "sha256": "42ccfca2773215b782e4512843eacf09e0141d5bba1e52dc05fead001459aa26"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/final-dark.jpg",
+        "sha256": "55fb1ec2d166c2824136933364c125c454c41a9b7827382c11e01d2998e401e1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/full-sheet.png",
+        "sha256": "f841c70474a1c05164035ac17828ecbfa02a1ad7a6a244baf4e2dcfe1745d6d7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/side-sheet.png",
+        "sha256": "50a30221ce0064b19eb70819a1a0715c7198a00d675063708bbc1192d451f575"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/verification.json",
+        "sha256": "ddd3e9a8d797209cf18bd346565159c1406f524ef37da916ff3fe63e9cfe6d78"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/geometry.json",
+        "sha256": "65d94e093943fa26af47c752987f44a33c064cd96619942c9cdd46c07812fbf6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/kinematics.json",
+        "sha256": "9acf52533c12037aba4696ebf6924a40154951633700bea770ecb97835de1682"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/provenance.json",
+        "sha256": "b6b9326e9a6a4e975ea4b0ee31536471581d6e66bf75ab1643ce701fd356de76"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/superman-alpha.webm",
+        "sha256": "b78110599ec18b2f8a46b1ddeb31b1522db20a3fd6ea29538f03989d79573151",
+        "bytes": 160318,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/superman.mp4",
+        "sha256": "edeb4a1e2439d7e5e5caf8ebbd927509becdd1188c5d7c42950f3b8c1261c2dc",
+        "bytes": 59906,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman/superman-dark.mp4",
+        "sha256": "de3d5cde7daf1741c4c8b82b003d23fed4c95793167a30bf77edb71f0777e1e5",
+        "bytes": 65955,
+        "decode": "passed"
+      }
+    ]
+  },
+  "superman-pull": {
+    "reviewedAt": "2026-11-16T07:56:03.870Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "superman-pull",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open empty hands reach overhead; arms lift together or pull elbows toward the ribs according to the exercise.",
+      "feet": "Pelvis stays stable and both legs remain extended; legs lift together or maintain a hover according to the exercise.",
+      "movement": "Maintain gentle upper chest and straight leg hover. Reach arms overhead, pull elbows toward ribs, pause and extend arms. Pelvis remains stable; 3 seconds pull, 2 seconds pause, 3 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/final.jpg",
+        "sha256": "725215bc794262705013ffc9a5a19535aa6d9a0bd07200159ed208662a8c2f38"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/final-dark.jpg",
+        "sha256": "16da36d9273c43c26373b2d6857ca533981022c5ec15ec5a9a10688e48ab8124"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/full-sheet.png",
+        "sha256": "4351b3a65b41d8c67af6cdb5c948af7e3b2bbda7ec785ed7e3acef9e3d276f6c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/side-sheet.png",
+        "sha256": "738cef1e46d021ede6de4e027a698cb72a6ab6ab4de7dbff5db9b3e5accfae06"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/verification.json",
+        "sha256": "90ea2464685ae8247b77f066c715783776f8420918b73e12902205c320a7c018"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/geometry.json",
+        "sha256": "163cd5104c9173d1379892588b90ea0f00a8305fc5cec28311691754060e4438"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/kinematics.json",
+        "sha256": "4f5bf4b7df40a4d05590403315542e5e15cd1414a509557ae78060f0b090ae02"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/provenance.json",
+        "sha256": "df90756aa9647653e065c9d7ccd8382dab0b2f3deda404ccd012900ace61829b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/superman-pull-alpha.webm",
+        "sha256": "d550ab65fce2dc84d51e9ddc10248568de5202aeee05b66222c08c77a75befd9",
+        "bytes": 107542,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/superman-pull.mp4",
+        "sha256": "fd354a4d661c4fafcec82c85846a1aa331fbc5346b7a12a46424efa1d4a48e64",
+        "bytes": 44002,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/supermans/native/superman-pull/superman-pull-dark.mp4",
+        "sha256": "bd065e95ad90a0ef726b2c0e0abb80565526e3a5f6a8bb00aa2a432804a8168f",
+        "bytes": 46350,
+        "decode": "passed"
+      }
+    ]
+  }
+}

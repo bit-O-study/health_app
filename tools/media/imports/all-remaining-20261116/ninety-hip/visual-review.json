@@ -1,0 +1,75 @@
+{
+  "90-90-hip-stretch": {
+    "reviewedAt": "2026-11-24T01:52:26.075Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "90-90-hip-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands rest lightly on respective thighs.",
+      "feet": "Front leg externally rotated and side leg internally rotated with knees near 90 degrees; feet and pelvis supported.",
+      "movement": "Seated 90/90 hip stretch, front hip externally rotated and side hip internally rotated, knees bent 90 degrees, upright torso and supported legs."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second illustrative hold; sampled foot and pelvis clearance remains below 0.15 model units, not exact soft-tissue contact."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/final.jpg",
+        "sha256": "935d2a18d1946b070df149424552a60203b5b9e3da4ec9d6f8c2a19e02965cef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/final-dark.jpg",
+        "sha256": "a6d2bb30012ac88fd1bac92a0f06cdc84ae0ad6710d71205459f5abe44d36c77"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/full-sheet.png",
+        "sha256": "588182431b4f889279f3b2d29fbfed1465368cfa9505fce344c89896d0f3cb37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/side-sheet.png",
+        "sha256": "8b45c7e8caf6fe04f59e2831465fefecd0b87dff6724f71096edb112afad2ce1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/verification.json",
+        "sha256": "7251ebae14b6cb325258a479a169409d998b052ade09c15bcaaaa00d44e5c6cf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/geometry.json",
+        "sha256": "5d0386b612a227c0a612084ac7def50ae7a486dacefb3c1caacdfc4f45a236ed"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/kinematics.json",
+        "sha256": "fa2da451b340dd048af145ffa0593e07a4b2244230fa27d54ac23a72986c7acb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/provenance.json",
+        "sha256": "755f2bf8d4ac0784965c43425cd53a225b9d254553ad35c25dca9d20e4e00054"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/90-90-hip-stretch-alpha.webm",
+        "sha256": "e1de6fc7903cc57a097593582df13413a34a6b272b8227366b47650d8de31863",
+        "bytes": 39689,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/90-90-hip-stretch.mp4",
+        "sha256": "0fbee61fe6d29588f7b183a2c2c370f0d5362b82aa279ed5d224333a02022ac9",
+        "bytes": 17598,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/ninety-hip/native/90-90-hip-stretch/90-90-hip-stretch-dark.mp4",
+        "sha256": "e0cae40635d14335089ba07bbcdf8decb5369270a222a39086ebf264e4c62a38",
+        "bytes": 16979,
+        "decode": "passed"
+      }
+    ]
+  }
+}

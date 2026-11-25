@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "front-split-stretch",
+      "original": "front-split-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "front-split",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/monkey-pose/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supported front split with straight front and rear legs, square pelvis, front toes up and rear instep down; hands support beside the body.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

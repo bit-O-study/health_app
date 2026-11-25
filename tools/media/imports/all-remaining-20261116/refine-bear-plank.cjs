@@ -1,0 +1,2 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const p='tools/media/imports/all-remaining-20261116/bear-plank/bear-plank-motion.mjs';let s=fs.readFileSync(p,'utf8');assert.ok(s.includes('rad(76.9)'));s=s.replace('rad(76.9)','rad(90)').replace('new THREE.Vector3(0,0.1,-1)','new THREE.Vector3(0,.25,-1)').replace('d=axis.length();axis.normalize();',"d=axis.length();if(d>=u.length()+l.length()||d<=Math.abs(u.length()-l.length()))throw Error('Arm target unreachable: '+d);axis.normalize();");fs.writeFileSync(p,s);

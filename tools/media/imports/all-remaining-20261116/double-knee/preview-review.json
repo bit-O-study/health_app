@@ -1,0 +1,39 @@
+{
+  "double-knee-to-chest": {
+    "reviewedAt": "2026-11-24T00:29:20.008Z",
+    "checks": {
+      "exercise": "double-knee-to-chest",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Each palm supports its matching thigh; separate hands without visible overlap.",
+      "feet": "Both knees bend toward chest symmetrically; feet raised with neutral ankles.",
+      "movement": "Supine double knee to chest hold, both thighs supported with relaxed head and back; knees flexed symmetrically."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/full-sheet.png",
+        "sha256": "bb8f07456d22dfa817d7ce1a0e7ff380664f78d0f99b481b36713d1c62b32011"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/side-sheet.png",
+        "sha256": "03d7203e36b20d59310da82845cd5ecbd2b56a54d5f935ce35a9b51b581154b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/poses.json",
+        "sha256": "fbb91d57b6e024e47746256e88f852c2ceee0dd8ea9a796780d9b1c23233e19b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/geometry.json",
+        "sha256": "fa9382938b0137d08bdb1a93025fd2aff5cf1edc3bfd0008c5443d75b8c03207"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/double-knee/native/double-knee-to-chest/kinematics.json",
+        "sha256": "272f573c2c22039f9cb15037279ce4eddd450dc3c6890370d9a938c43d07310b"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "hollow-rock": [
+    {
+      "file": "tools/media/motion-guides/hollow-rock.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hollow-rock.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/hollow-rock-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hollow-rock.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hollow-rock-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/hollow-rock-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T04:35:20.252Z",
+  "report": [
+    {
+      "id": "single-leg-calf-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "single-leg-leg-press-calf-raise",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

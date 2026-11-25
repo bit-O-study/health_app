@@ -1,0 +1,18 @@
+{
+  "id": "high-lunge-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ebd253f336eda479d3130903d6deed30541e132b7be2381eb3dc263bb09354a0",
+  "rigSourceSha256": "05e1c2b30cbdfdefa2ff7a4c2172065643da060e0cbaab6cd2191abe6a64797c",
+  "videoSha256": "a98564c3bf1974b8b5ad4291b0c4688a9f085688afc5b672732085b496b04770",
+  "darkVideoSha256": "dd11e3da6a50400ed63f37dcfcee0d1217f8e30bd32ff14b491fb569cee561f7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15535,
+  "darkBytes": 14946,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:38:03.605Z"
+}

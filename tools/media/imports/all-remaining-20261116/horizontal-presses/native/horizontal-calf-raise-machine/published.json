@@ -1,0 +1,18 @@
+{
+  "id": "horizontal-calf-raise-machine",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "028adb5c1679b22529bbe6aa009d6e4e3daf650da04a69d6e05306ff389821a7",
+  "rigSourceSha256": "7647d99f7884321907b5c20fbbe485787bb3a6de16169f2f858bf97694f46eb0",
+  "videoSha256": "48c5d6c5e0a5178dd138c47e69b28e468badc2e8453b9bae873b5f382dc54ffc",
+  "darkVideoSha256": "5f242071d8fc4d6d4e7fb172e44f175b7c91853d46e7d4f4517dce8e21c7a670",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 69538,
+  "darkBytes": 61978,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:58:05.921Z"
+}

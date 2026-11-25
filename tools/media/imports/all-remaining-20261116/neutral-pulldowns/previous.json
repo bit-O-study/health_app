@@ -1,0 +1,54 @@
+{
+  "neutral-grip-lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/neutral-grip-lat-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/neutral-grip-lat-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/neutral-grip-lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neutral-grip-lat-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neutral-grip-lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neutral-grip-lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "close-neutral-grip-lat-pulldown": [
+    {
+      "file": "tools/media/motion-guides/close-neutral-grip-lat-pulldown.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-neutral-grip-lat-pulldown.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-neutral-grip-lat-pulldown-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-neutral-grip-lat-pulldown.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-neutral-grip-lat-pulldown-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-neutral-grip-lat-pulldown-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

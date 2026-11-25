@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T02:17:34.692Z",
+  "report": [
+    {
+      "id": "1-25-rep-bench-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "1-5-rep-shoulder-press",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

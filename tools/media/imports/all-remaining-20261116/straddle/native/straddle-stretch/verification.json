@@ -1,0 +1,67 @@
+{
+  "sourceHashChecks": "passed",
+  "poseSamples": 481,
+  "loopPoseError": 0,
+  "elbowDegrees": [
+    103.21778911936276,
+    103.21778911936276
+  ],
+  "alpha": {
+    "transparent": 38128320,
+    "opaque": 5725052,
+    "partial": 383428,
+    "all192FrameEdgesClear": true
+  },
+  "playback": [
+    {
+      "theme": "alpha",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 0,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    },
+    {
+      "theme": "light",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    },
+    {
+      "theme": "dark",
+      "playing": true,
+      "seeking": true,
+      "seekTime": 3,
+      "loop": true,
+      "cornerAlpha": 255,
+      "duration": 8,
+      "metadata": {
+        "width": 480,
+        "height": 480,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "192"
+      }
+    }
+  ],
+  "limits": [
+    "Procedural demonstration; not captured human motion.",
+    "Seated straddle hold with straight wide legs, toes up, palms on mat and folded blanket under pelvis.",
+    "Actual phone and production deployment are not verified."
+  ]
+}

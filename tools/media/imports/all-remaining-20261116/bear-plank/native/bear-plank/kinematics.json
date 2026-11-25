@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "holdSeconds": 8,
+  "loopError": 0,
+  "elbows": [
+    160.76258694052024,
+    160.76258694052024
+  ],
+  "handGap": 0.02011947399486047,
+  "toeGap": 0.01999999241666206,
+  "kneeHover": [
+    0.6178689668419635,
+    0.6178689668419635
+  ]
+}

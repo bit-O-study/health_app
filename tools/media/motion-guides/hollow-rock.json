@@ -1,0 +1,15 @@
+{
+  "id": "hollow-rock",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "hollow-rock-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.crossfit.com/essentials/the-hollow-rock"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T06:43:19.399Z"
+}

@@ -1,0 +1,39 @@
+{
+  "bear-plank": {
+    "reviewedAt": "2026-11-16T03:14:08.826Z",
+    "checks": {
+      "exercise": "bear-plank",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms remain on virtual floor below shoulders.",
+      "feet": "Toes remain on virtual floor while knees hover.",
+      "movement": "Static bear plank: hands below shoulders, knees below hips hovering slightly above floor, toes tucked under, torso steady. Eight-second illustrative hold; no entry or exit."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/full-sheet.png",
+        "sha256": "3c0051ecaf89afd6f0cc85c0d26be8ae411828c10d0ce3fa918d03f78f40f36b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/side-sheet.png",
+        "sha256": "28fdbae177a98d05f3d3ddd3cb9cc7b3eaff6f0ac30120bd82ea2fbbc98bca9b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/poses.json",
+        "sha256": "f5933624f66caf23df9ec13d047091b705f5015f23081e9242184df682c73c75"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/geometry.json",
+        "sha256": "3adb840b5dca191ca36d7cb17ba8d7ea8d28a715f1520fd580d8b3f237152c76"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/kinematics.json",
+        "sha256": "da80de273414e90ac4abeabe033e5e1bba4c176f67691cc0db82eb90bfa8c7cf"
+      }
+    ]
+  }
+}

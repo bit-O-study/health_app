@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "maxStep": 0.016746312535965497,
+  "maxGripError": 3.76822190084106e-15,
+  "stagger": 1,
+  "elbows": {
+    "L": {
+      "top": 149.47855494147726,
+      "bottom": 85.73661987561256
+    },
+    "R": {
+      "top": 143.97150687743596,
+      "bottom": 80.18338296018746
+    }
+  },
+  "supportSamples": 17
+}

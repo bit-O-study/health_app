@@ -1,0 +1,18 @@
+{
+  "id": "freestanding-handstand",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "40ce05dfd65f5feebf98d9506d40d1fe7be89eaf9eea66474ee60821ce4198fa",
+  "rigSourceSha256": "aeaf2e609384ac4fab91b040b93e230296c55b5f649cffe362ff04579d1b9899",
+  "videoSha256": "b91fc47980eff570ca648978004ee2cd89962b94f613acccd1ec1ea9f40f4403",
+  "darkVideoSha256": "ce5b1b6d57c6ab9283ec21b6ac4142bcd6b9d4ed71557d70fe42e28d50ea0a9a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14604,
+  "darkBytes": 14192,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T07:22:46.858Z"
+}

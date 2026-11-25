@@ -1,0 +1,68 @@
+{
+  "entries": [
+    {
+      "id": "isometric-squat-hold",
+      "original": "low-bar-squat",
+      "hold": true,
+      "frame": 240,
+      "rig": "popular-three-b20-20261110",
+      "equipment": "barbell",
+      "status": "registered-local",
+      "recipe": {
+        "family": "low-bar-squat",
+        "sourceUrls": [
+          "https://stronglifts.com/squat/"
+        ],
+        "criteria": "Eight-second maintained bottom position, without animated entry or exit.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "isometric-bench-hold",
+      "original": "bench-press",
+      "hold": true,
+      "frame": 240,
+      "rig": "popular-three-20261103",
+      "equipment": "barbell",
+      "status": "registered-local",
+      "recipe": {
+        "family": "bench-press",
+        "sourceUrls": [
+          "https://www.strengthlog.com/bench-press/"
+        ],
+        "criteria": "Eight-second maintained bottom position, without animated entry or exit.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "eccentric-bench-press",
+      "original": "bench-press",
+      "hold": false,
+      "rig": "popular-three-20261103",
+      "equipment": "barbell",
+      "status": "registered-local",
+      "recipe": {
+        "family": "bench-press",
+        "sourceUrls": [
+          "https://www.strengthlog.com/bench-press/"
+        ],
+        "criteria": "Three-second controlled lowering, one-second bottom pause, one-second press, three-second top pause; illustrative timing.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

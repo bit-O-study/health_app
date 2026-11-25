@@ -1,0 +1,18 @@
+{
+  "id": "superman",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e133a7271e5e8212c45f1a1015742179c202f89cb73634984847ee0757075c16",
+  "rigSourceSha256": "b6b9326e9a6a4e975ea4b0ee31536471581d6e66bf75ab1643ce701fd356de76",
+  "videoSha256": "edeb4a1e2439d7e5e5caf8ebbd927509becdd1188c5d7c42950f3b8c1261c2dc",
+  "darkVideoSha256": "de3d5cde7daf1741c4c8b82b003d23fed4c95793167a30bf77edb71f0777e1e5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 59906,
+  "darkBytes": 65955,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:56:07.830Z"
+}

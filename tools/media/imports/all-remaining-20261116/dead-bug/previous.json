@@ -1,0 +1,28 @@
+{
+  "dead-bug-extension": [
+    {
+      "file": "tools/media/motion-guides/dead-bug-extension.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dead-bug-extension.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dead-bug-extension-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-extension.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-extension-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dead-bug-extension-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

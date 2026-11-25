@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/horizontal-calf-raise-machine-alpha.webm",
+      "sha256": "d2a394d9ff8d4d2cef95a47abfe14971111be0a6f2115d06b4adc4f04755df76",
+      "bytes": 168331,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/horizontal-calf-raise-machine.mp4",
+      "sha256": "48c5d6c5e0a5178dd138c47e69b28e468badc2e8453b9bae873b5f382dc54ffc",
+      "bytes": 69538,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/horizontal-calf-raise-machine-dark.mp4",
+      "sha256": "5f242071d8fc4d6d4e7fb172e44f175b7c91853d46e7d4f4517dce8e21c7a670",
+      "bytes": 61978,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/horizontal-calf-raise-machine-studio.mjs",
+      "sha256": "18bb768f13439f8df33ee490d281bf6b092bf533613ed18e925d4891d62acfea"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/horizontal-calf-raise-machine-motion.mjs",
+      "sha256": "ef6e9b4149cb3d87b8876890143998d766a7212d7888edb08e560f9268bdb920"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/horizontal-presses/render.mjs",
+      "sha256": "d94b59d9882aee95b2fa2f2a2ec3bb5ec3b29ff9998c0c8f1edc8c50ac95a915"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

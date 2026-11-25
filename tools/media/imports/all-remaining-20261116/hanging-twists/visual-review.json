@@ -1,0 +1,148 @@
+{
+  "hanging-oblique-raise": {
+    "reviewedAt": "2026-11-16T05:48:00.908Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "hanging-oblique-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Bent knees rise together while the pelvis rotates 25 degrees to one side, then return before alternating sides; hands and upper trunk remain stable.",
+      "movement": "Alternating hanging knee raises with a 25-degree pelvic turn toward the lifting side. Knees bend as thighs rise to hip height, then straighten under control. Each side takes 1.5 seconds up, 1 second pause, 1.5 seconds down; stable grip and upper trunk."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/final.jpg",
+        "sha256": "75e78b39f71737a963aa5ac722cc1c5557afdf53e1486354580c930fc7aed383"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/final-dark.jpg",
+        "sha256": "cc0cdf4d1af3e6f95ee2c4a2519fb8c273c181944beefe0d858281aadd77b6f7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/full-sheet.png",
+        "sha256": "3ec35284177aed3290e95debb22c46961c3ba37f2e15b0c6aa9f3582f437941d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/side-sheet.png",
+        "sha256": "c66db76a02b82ffe31aee8340735bf855abf58dbf7b2b40b1dd0663a18aa55ad"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/verification.json",
+        "sha256": "6882182ad052a18846d0b5562c66e185f92f3f573c602d812f3c98e5de6bc7d3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/geometry.json",
+        "sha256": "9806bb6e517117d3d0ca3739b7356d9a518da66242dbf80ccf2ccf1cf99e7382"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/kinematics.json",
+        "sha256": "9e91d0f73bf428bf9c930c9fe43f805f1e466316a09a22aa7f1d63f4afed0e36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/provenance.json",
+        "sha256": "3455de83da241f10150169a34684537dbc50c836cb81adf634733867d89874e0"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/hanging-oblique-raise-alpha.webm",
+        "sha256": "5f1a75d55d675a5810605706565a53c47545822eb7b484ec10fee831577e3cad",
+        "bytes": 173210,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/hanging-oblique-raise.mp4",
+        "sha256": "d9115dab6d50c3625d21b750e48b6e2a190ad1d3898d17ed595d10570c88eb0c",
+        "bytes": 74608,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/hanging-oblique-raise-dark.mp4",
+        "sha256": "50ae129a3bfdd74c5389feaaf93f61992625872726f132d18c6c5591521b6116",
+        "bytes": 71411,
+        "decode": "passed"
+      }
+    ]
+  },
+  "hanging-knee-raise-twist": {
+    "reviewedAt": "2026-11-16T05:48:00.919Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "hanging-knee-raise-twist",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Bent knees rise together while the pelvis rotates 25 degrees to one side, then return before alternating sides; hands and upper trunk remain stable.",
+      "movement": "Alternating hanging knee raises with a 25-degree pelvic turn toward the lifting side. Knees bend as thighs rise to hip height, then straighten under control. Each side takes 1.5 seconds up, 1 second pause, 1.5 seconds down; stable grip and upper trunk."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/final.jpg",
+        "sha256": "75e78b39f71737a963aa5ac722cc1c5557afdf53e1486354580c930fc7aed383"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/final-dark.jpg",
+        "sha256": "cc0cdf4d1af3e6f95ee2c4a2519fb8c273c181944beefe0d858281aadd77b6f7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/full-sheet.png",
+        "sha256": "3ec35284177aed3290e95debb22c46961c3ba37f2e15b0c6aa9f3582f437941d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/side-sheet.png",
+        "sha256": "c66db76a02b82ffe31aee8340735bf855abf58dbf7b2b40b1dd0663a18aa55ad"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/verification.json",
+        "sha256": "6882182ad052a18846d0b5562c66e185f92f3f573c602d812f3c98e5de6bc7d3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/geometry.json",
+        "sha256": "9806bb6e517117d3d0ca3739b7356d9a518da66242dbf80ccf2ccf1cf99e7382"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/kinematics.json",
+        "sha256": "9e91d0f73bf428bf9c930c9fe43f805f1e466316a09a22aa7f1d63f4afed0e36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/provenance.json",
+        "sha256": "abbcb5bb15fcb2f01f9926b67d0dfc505748fc54e7af23b7a404c92c25a56c2f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/hanging-knee-raise-twist-alpha.webm",
+        "sha256": "6587f13a508603e4f643aa507a695f060ab0031987ca63a06f98676c6e1ed779",
+        "bytes": 173210,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/hanging-knee-raise-twist.mp4",
+        "sha256": "d9115dab6d50c3625d21b750e48b6e2a190ad1d3898d17ed595d10570c88eb0c",
+        "bytes": 74608,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/hanging-knee-raise-twist-dark.mp4",
+        "sha256": "50ae129a3bfdd74c5389feaaf93f61992625872726f132d18c6c5591521b6116",
+        "bytes": 71411,
+        "decode": "passed"
+      }
+    ]
+  }
+}

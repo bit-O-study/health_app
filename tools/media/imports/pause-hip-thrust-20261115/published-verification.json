@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-15T13:27:46.816Z",
+  "report": [
+    {
+      "id": "pause-hip-thrust",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "1-25-rep-bench-press": {
+    "reviewedAt": "2026-11-16T02:16:05.446Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "1-25-rep-bench-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Quarter-extra repetition: lower to chest, press one quarter, lower again, press fully; feet and bench support fixed. Fractional timing is illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Fractional repetition timing is illustrative. Unracking and reracking are omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/final.jpg",
+        "sha256": "c0d153c33771ba3540ce4ab7859f99ec97b3b86ee9330773eee50004016dc616"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/final-dark.jpg",
+        "sha256": "fc3fb29ab9440cc05fa694b95edfc92edc2e89635381a2e2ebed596def70676a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/full-sheet.png",
+        "sha256": "2bbc44930e69d224d2634cb649e2471d6d5e00fd0bc0ab9f08a87165d95d3196"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/side-sheet.png",
+        "sha256": "c98878d995be48aa52993baf86c1e956ad5f18e9f6833c22d9e0c25eb1ed14b7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/verification.json",
+        "sha256": "cd37a338fca702f3171cc763ebdce8132c43bc62ac925610fb3965a5a52c4dbc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/geometry.json",
+        "sha256": "28dd21b73f2623a227d5fc1d5d9796384d323c30cc8bcae1d6f9bfc487954191"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/kinematics.json",
+        "sha256": "6cd3c1cb59baa2f7ae91899241d7fd71f2953f462a31cec7fef51987d81e0786"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/provenance.json",
+        "sha256": "de9fa7cd3a860c5b3e9b300bfa18784290e2e9b455b030f72e9fafd2f8c58adf"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/1-25-rep-bench-press-alpha.webm",
+        "sha256": "88d7f9a870d04a6d009662693208f7b89d748a2f1b4332457cf347629140b308",
+        "bytes": 284525,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/1-25-rep-bench-press.mp4",
+        "sha256": "80e7c0d9fd172cc706fe70620e63c2c28e76f577cc07ffa491efc54e72ab2738",
+        "bytes": 127487,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-25-rep-bench-press/1-25-rep-bench-press-dark.mp4",
+        "sha256": "a12fe876e7428474ee89686a5a03e68692300688151c109338f3d203cabeec7f",
+        "bytes": 111904,
+        "decode": "passed"
+      }
+    ]
+  },
+  "1-5-rep-shoulder-press": {
+    "reviewedAt": "2026-11-16T02:16:05.454Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "1-5-rep-shoulder-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Half-extra standing strict press: half press, lower to shoulders, full press, lower to shoulders. No leg drive; fractional timing is illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Fractional repetition timing is illustrative. Unracking and reracking are omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/final.jpg",
+        "sha256": "b3842bf4603dd7bbd7a00d3b04e876050db7f16ab62e263772f8f453eb90b4a8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/final-dark.jpg",
+        "sha256": "27ba549dda9aabdd8a023bafb566f7ab33266ac5dbcc750729f53232db01ffd7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/full-sheet.png",
+        "sha256": "3b8816791c55f1126fed601fcc57585292504af4921f117636c0b73314b6f9bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/side-sheet.png",
+        "sha256": "7ab75b3a149b158cbc60b8e4291679916574027484dd8db287eb3d25f99e1605"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/verification.json",
+        "sha256": "94ca0fad4c8ef716f4f7dbbd4f98c7c720a6d543ad57c6bece14e7cc45426892"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/geometry.json",
+        "sha256": "8a202ffeb5b24eeb98d94219ba5157d852da7533f13ce6b29b3c2d08c153d35d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/kinematics.json",
+        "sha256": "d7f8f14f1011c099e30677dff527af1f22eeaa190a497004fdfd1f8daea6a66f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/provenance.json",
+        "sha256": "518a9cbde6a3ce87c16cc6731df840f6fb1f9d17d007b5236409fd3f65d42988"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/1-5-rep-shoulder-press-alpha.webm",
+        "sha256": "6a758fdab1827f2a1e67602724e75ace7287b807670e805819210a024eeaed09",
+        "bytes": 302797,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/1-5-rep-shoulder-press.mp4",
+        "sha256": "027570a7de8699646d98c02a39dde28e475bace6ed605d11d38506a7518fac25",
+        "bytes": 116992,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/fractional-presses/native/1-5-rep-shoulder-press/1-5-rep-shoulder-press-dark.mp4",
+        "sha256": "f6346ec8b1eaa8124665881aaf8ad2de85261946334a5721e095e2c9c69b91cc",
+        "bytes": 107453,
+        "decode": "passed"
+      }
+    ]
+  }
+}

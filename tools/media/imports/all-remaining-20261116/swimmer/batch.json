@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "swimmer-exercise",
+      "original": "swimmer-exercise",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "swimmer-exercise",
+        "sourceUrls": [
+          "https://uk.physitrack.com/home-exercise-video/pilates-swimming-level-3"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Lie prone with arms reaching overhead and legs long. Alternate raising each arm with the opposite leg while keeping torso steady; limbs hover and knees/elbows stay extended. Two controlled alternating cycles in eight seconds.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

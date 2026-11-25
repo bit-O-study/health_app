@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T04:12:57.665Z",
+  "report": [
+    {
+      "id": "weighted-plank",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

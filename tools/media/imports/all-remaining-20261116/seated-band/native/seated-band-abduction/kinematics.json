@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "maxStep": 0.013965429049429488,
+  "minWidth": 3.0492430398502237,
+  "maxWidth": 5.963703304566545,
+  "stationaryPelvis": true,
+  "stationaryFeet": true,
+  "symmetricKnees": true,
+  "minSeatGap": 0.01499999999999968,
+  "maxSeatGap": 0.09170938429504938,
+  "minFootGap": 0.01499999999999524,
+  "maxBandStretch": 1.4784846573498713
+}

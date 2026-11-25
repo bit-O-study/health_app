@@ -1,0 +1,76 @@
+{
+  "hanging-oblique-raise": {
+    "reviewedAt": "2026-11-16T05:44:57.460Z",
+    "checks": {
+      "exercise": "hanging-oblique-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Bent knees rise together while the pelvis rotates 25 degrees to one side, then return before alternating sides; hands and upper trunk remain stable.",
+      "movement": "Alternating hanging knee raises with a 25-degree pelvic turn toward the lifting side. Knees bend as thighs rise to hip height, then straighten under control. Each side takes 1.5 seconds up, 1 second pause, 1.5 seconds down; stable grip and upper trunk."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/full-sheet.png",
+        "sha256": "3ec35284177aed3290e95debb22c46961c3ba37f2e15b0c6aa9f3582f437941d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/side-sheet.png",
+        "sha256": "c66db76a02b82ffe31aee8340735bf855abf58dbf7b2b40b1dd0663a18aa55ad"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/poses.json",
+        "sha256": "201ca0c3136425f567c7ea80df53beedb5a722a34cb442338502917b77405e36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/geometry.json",
+        "sha256": "9806bb6e517117d3d0ca3739b7356d9a518da66242dbf80ccf2ccf1cf99e7382"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-oblique-raise/kinematics.json",
+        "sha256": "9e91d0f73bf428bf9c930c9fe43f805f1e466316a09a22aa7f1d63f4afed0e36"
+      }
+    ]
+  },
+  "hanging-knee-raise-twist": {
+    "reviewedAt": "2026-11-16T05:44:57.465Z",
+    "checks": {
+      "exercise": "hanging-knee-raise-twist",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Bent knees rise together while the pelvis rotates 25 degrees to one side, then return before alternating sides; hands and upper trunk remain stable.",
+      "movement": "Alternating hanging knee raises with a 25-degree pelvic turn toward the lifting side. Knees bend as thighs rise to hip height, then straighten under control. Each side takes 1.5 seconds up, 1 second pause, 1.5 seconds down; stable grip and upper trunk."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/full-sheet.png",
+        "sha256": "3ec35284177aed3290e95debb22c46961c3ba37f2e15b0c6aa9f3582f437941d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/side-sheet.png",
+        "sha256": "c66db76a02b82ffe31aee8340735bf855abf58dbf7b2b40b1dd0663a18aa55ad"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/poses.json",
+        "sha256": "201ca0c3136425f567c7ea80df53beedb5a722a34cb442338502917b77405e36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/geometry.json",
+        "sha256": "9806bb6e517117d3d0ca3739b7356d9a518da66242dbf80ccf2ccf1cf99e7382"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-twists/native/hanging-knee-raise-twist/kinematics.json",
+        "sha256": "9e91d0f73bf428bf9c930c9fe43f805f1e466316a09a22aa7f1d63f4afed0e36"
+      }
+    ]
+  }
+}

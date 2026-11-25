@@ -1,0 +1,18 @@
+{
+  "id": "tempo-overhead-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "8c6c2f3552a766e22e9122f6ac483dd1203ce6d57e0b9052cb186b3f162bebe1",
+  "rigSourceSha256": "ac768a4767169f993ee17d0eafd4b0e5883e6710dd60bf36a2e5f64b14a82c13",
+  "videoSha256": "37cb6013ef9ecbb726b7efad87876913afd3fa56d48504cac783da8d37007b9d",
+  "darkVideoSha256": "c0ace75559b818dcf589bb491fb0ba827c8cc058c11d13809d0cec7964b05286",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 95464,
+  "darkBytes": 86846,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:27:14.850Z"
+}

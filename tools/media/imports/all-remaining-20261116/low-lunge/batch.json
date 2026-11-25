@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "low-lunge-stretch",
+      "original": "low-lunge-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "low-lunge",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/low-lunge/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Low lunge with rear knee and instep grounded, front knee over ankle, upright torso, both arms reaching overhead and palms inward.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

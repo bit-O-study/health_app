@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "chin-tuck",
+      "original": "chin-tuck",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "chin-tuck",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/chin--tuck"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Seated upright with feet supported; chin glides backward without nodding, holds briefly then returns; torso and limbs stay still.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second cycle demonstrates small cervical retraction, brief hold and return."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

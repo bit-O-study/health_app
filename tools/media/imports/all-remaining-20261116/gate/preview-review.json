@@ -1,0 +1,39 @@
+{
+  "gate-pose": {
+    "reviewedAt": "2026-11-24T02:25:02.553Z",
+    "checks": {
+      "exercise": "gate-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand rests on extended thigh; opposite straight arm reaches overhead.",
+      "feet": "One knee grounded under hip and other leg extended sideways with foot grounded.",
+      "movement": "One knee supports upright pelvis; opposite leg extended to side. Torso side bends toward extended leg, lower hand rests on thigh and opposite arm reaches overhead."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/full-sheet.png",
+        "sha256": "c7742bc0e6206eae10ca6baa8a479823809a91d912be2bac380ab008879b87dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/side-sheet.png",
+        "sha256": "bb3f26dd56b3e310eee1bd9e0122ce2721866180c650bc68e1296ce2d7fd2f88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/poses.json",
+        "sha256": "ee3e24fdbbc935a879fb1c00e45384f411d46bb436c5e7554081e6bce5745de5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/geometry.json",
+        "sha256": "ef0184bf46a2161835525808fada6bcf5a3af501e13dbebfc0a6c90b54234e26"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/kinematics.json",
+        "sha256": "a4b4695b773e4de463822f3a1ff9b04a78c42e5281efeb2c9df58434de094968"
+      }
+    ]
+  }
+}

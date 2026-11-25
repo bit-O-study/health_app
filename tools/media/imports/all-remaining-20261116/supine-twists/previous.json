@@ -1,0 +1,54 @@
+{
+  "supine-spinal-twist": [
+    {
+      "file": "tools/media/motion-guides/supine-spinal-twist.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/supine-spinal-twist.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/supine-spinal-twist-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/supine-spinal-twist.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/supine-spinal-twist-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/supine-spinal-twist-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "reclined-spinal-twist": [
+    {
+      "file": "tools/media/motion-guides/reclined-spinal-twist.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reclined-spinal-twist.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/reclined-spinal-twist-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reclined-spinal-twist.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reclined-spinal-twist-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/reclined-spinal-twist-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

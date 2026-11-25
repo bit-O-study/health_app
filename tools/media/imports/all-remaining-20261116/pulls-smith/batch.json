@@ -1,0 +1,70 @@
+{
+  "entries": [
+    {
+      "id": "eccentric-chin-up",
+      "original": "chin-up",
+      "equipment": "bodyweight",
+      "rig": "popular-three-b14-20261109",
+      "criteria": "One-second pull, one-second top hold, five-second controlled lowering, one-second bottom hold; illustrative timing.",
+      "status": "registered-local",
+      "hold": false,
+      "recipe": {
+        "family": "chin-up",
+        "criteria": "One-second pull, one-second top hold, five-second controlled lowering, one-second bottom hold; illustrative timing.",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/pull-up/chin-ups/"
+        ],
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "lat-pulldown-2",
+      "original": "lat-pulldown",
+      "equipment": "cable",
+      "rig": "popular-three-b2-20261103",
+      "shared": true,
+      "criteria": "Seated cable pulldown with fixed feet, stable torso and continuous cable/weight stack travel.",
+      "status": "registered-local",
+      "hold": false,
+      "recipe": {
+        "family": "lat-pulldown",
+        "criteria": "Seated cable pulldown with fixed feet, stable torso and continuous cable/weight stack travel.",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/lat-pull-down.html"
+        ],
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "smith-machine-bench-press",
+      "original": "smith-bench-press",
+      "equipment": "smith",
+      "rig": "popular-three-b14-20261109",
+      "criteria": "Smith bar follows vertical rails with stable bench support and planted feet.",
+      "status": "registered-local",
+      "hold": false,
+      "recipe": {
+        "family": "smith-bench-press",
+        "criteria": "Smith bar follows vertical rails with stable bench support and planted feet.",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/node/3827"
+        ],
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

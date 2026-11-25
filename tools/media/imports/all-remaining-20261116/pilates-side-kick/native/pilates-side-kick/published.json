@@ -1,0 +1,18 @@
+{
+  "id": "pilates-side-kick",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6587ee75bcd9448730f3c5eb4d66bcc1b573fd3a66d268cb498177a0da493edf",
+  "rigSourceSha256": "cfaf4a60a0b32a2ddbf53786d545121c482f04951a39b9bd880503a826360cfd",
+  "videoSha256": "a2c0d8b2ee9d0801989ee495ad8811afb4a50fcadb9cb9544352751cb89b45c5",
+  "darkVideoSha256": "04dc93d696b08df94e0572ca646c80c8f2adc2b79b077f9ff99aed8f8c38a430",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 43661,
+  "darkBytes": 42714,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:21:44.664Z"
+}

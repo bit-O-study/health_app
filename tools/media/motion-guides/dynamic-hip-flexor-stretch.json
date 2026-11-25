@@ -1,0 +1,15 @@
+{
+  "id": "dynamic-hip-flexor-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "dynamic-hip-flexor-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://ca.physitrack.com/home-exercise-video/hip-flexor-and-side-stretch-%2528dynamic%2529"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T04:29:34.121Z"
+}

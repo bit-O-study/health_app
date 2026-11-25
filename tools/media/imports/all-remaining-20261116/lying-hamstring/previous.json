@@ -1,0 +1,28 @@
+{
+  "lying-hamstring-stretch": [
+    {
+      "file": "tools/media/motion-guides/lying-hamstring-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-hamstring-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-hamstring-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-hamstring-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-hamstring-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-hamstring-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

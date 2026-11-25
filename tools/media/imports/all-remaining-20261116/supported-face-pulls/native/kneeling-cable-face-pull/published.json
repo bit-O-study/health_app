@@ -1,0 +1,18 @@
+{
+  "id": "kneeling-cable-face-pull",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "969b2995ad53b8b218a9729bf1654f99fe38e582f7a021545c17965d6a074095",
+  "rigSourceSha256": "006f0b98778a2e499a66da4aaf753d6d103a08d560cdc3dd404e2857a278348f",
+  "videoSha256": "62a7a9127bd674de88d027bab671b688f6e21b424e81fc22567fc340c81aa4fd",
+  "darkVideoSha256": "a7ec860bd6b8720f54b1325526f4a246e216ce5035bb59963cdc7f6769e2f9d5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 88093,
+  "darkBytes": 78216,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:54:12.078Z"
+}

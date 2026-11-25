@@ -1,0 +1,39 @@
+{
+  "triangle-pose": {
+    "reviewedAt": "2026-11-24T02:56:53.413Z",
+    "checks": {
+      "exercise": "triangle-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand rests on front shin while upper arm reaches upward.",
+      "feet": "Both feet grounded with straight knees and wide stance.",
+      "movement": "Straight wide legs, front foot forward, rear foot inward, torso extending over front leg, lower hand supported on shin and upper arm reaching upward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/full-sheet.png",
+        "sha256": "b01796084d8c02535145072456dacd45726d24705ae77f2e312c772c6f05ed91"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/side-sheet.png",
+        "sha256": "a45741402b092cf845753a986558ba562b4d667fa0c58d4bfa15c99b0f6cc06f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/poses.json",
+        "sha256": "504a9eb430506185864c819826e1ca706718ba4a569f1d961a7ab192c95728bb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/geometry.json",
+        "sha256": "de58a564e509425fb6c217bcee94c32ae336d47fb270e9f83c84b0cc57826c2a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/kinematics.json",
+        "sha256": "4bd2093aba0bfbc9840d1c04f031df48a35f9781060f32695b5148e7117db893"
+      }
+    ]
+  }
+}

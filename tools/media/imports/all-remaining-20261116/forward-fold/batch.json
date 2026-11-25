@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "seated-forward-fold",
+      "original": "seated-forward-fold",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "forward-fold",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/seated-forward-bend/?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Gentle seated forward fold with long spine, parallel straight legs, flexed toes up and palms on floor beside legs; low folded blanket under pelvis.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

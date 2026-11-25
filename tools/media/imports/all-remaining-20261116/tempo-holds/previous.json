@@ -1,0 +1,106 @@
+{
+  "tempo-pull-up": [
+    {
+      "file": "tools/media/motion-guides/tempo-pull-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-pull-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-pull-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-pull-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-pull-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-pull-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "tempo-leg-press": [
+    {
+      "file": "tools/media/motion-guides/tempo-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "isometric-pull-up-hold": [
+    {
+      "file": "tools/media/motion-guides/isometric-pull-up-hold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-pull-up-hold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-pull-up-hold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-pull-up-hold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-pull-up-hold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-pull-up-hold-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "isometric-push-up-hold": [
+    {
+      "file": "tools/media/motion-guides/isometric-push-up-hold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-push-up-hold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-push-up-hold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-push-up-hold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-push-up-hold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-push-up-hold-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

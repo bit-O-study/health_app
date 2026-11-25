@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 9.305364597889227e-16,
+  "maxStep": 0.20254375796557697,
+  "kneeDegrees": [
+    80.00000000000001,
+    164.99999999999997
+  ],
+  "supportSamples": 17,
+  "timing": "One-second knee flexion, one-second hold, five-second controlled extension, one-second start hold."
+}

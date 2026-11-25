@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "headTravel": 0.36,
+  "maxStep": 0.0037496913694560208,
+  "levelGaze": true,
+  "stationaryTorsoAndLimbs": true,
+  "seatGap": 0.015000000000000124,
+  "footGap": 0.01499999999999968
+}

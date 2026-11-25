@@ -1,0 +1,21 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationarySupport": true,
+  "isY": false,
+  "finalUpperArmDirection": [
+    1,
+    1.7465582758300808e-16,
+    0
+  ],
+  "maxStep": 0.07801415613661816,
+  "elbowRange": [
+    167.59258147259925,
+    167.7395287015402
+  ],
+  "chestGap": 0,
+  "floorGap": 0.007092029057626625,
+  "minimumWeightBodyGap": 3.2755350625869366,
+  "minimumWeightPadGap": 2.3322503536220527
+}

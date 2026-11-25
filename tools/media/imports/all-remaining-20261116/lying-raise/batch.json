@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "lying-leg-raise",
+      "original": "lying-leg-raise",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "lying-leg-raise",
+        "sourceUrls": [
+          "https://www.rpmgym.net/exercises/leg-raise"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Supine, arms beside torso palms down. Straight legs lower together from vertical to 15 degrees above horizontal over 3.5 seconds, pause 1 second and return over 3.5 seconds. Back remains supported without pelvic curl; low head cushion.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

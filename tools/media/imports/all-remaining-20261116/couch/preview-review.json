@@ -1,0 +1,39 @@
+{
+  "couch-stretch": {
+    "reviewedAt": "2026-11-24T04:23:58.017Z",
+    "checks": {
+      "exercise": "couch-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms rest separately on the front thigh; torso upright.",
+      "feet": "Front foot and rear knee grounded; rear foot supported on stable bench.",
+      "movement": "Half-kneeling quadriceps and hip-flexor stretch with rear foot supported on a bench, front foot grounded and hands resting on front thigh."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/full-sheet.png",
+        "sha256": "172509ff481375c12ce30491dcad475e39139ec0f35402e3711cba1bb9c8e776"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/side-sheet.png",
+        "sha256": "7cd58ff30386cffb50c9d531a6c714cde97e84a0621f162267efa340d058b21e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/poses.json",
+        "sha256": "f3577519805e762b733b8024a57f0824772f7363ca6c217d7950dd2444a213f4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/geometry.json",
+        "sha256": "7fee189994261e88e7bb872663a8d55a9e10a15e95676e7d53bc3d6859d523f0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/kinematics.json",
+        "sha256": "cd1ccb01374f6224fe0380b297844a157e37a0844154fbefde2e0fcd3970cc5a"
+      }
+    ]
+  }
+}

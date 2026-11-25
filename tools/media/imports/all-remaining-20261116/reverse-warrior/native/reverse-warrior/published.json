@@ -1,0 +1,18 @@
+{
+  "id": "reverse-warrior",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1b1ceac58a42455460fe18aee685974e76b7018e1dc5a485eea3ec9c33407e22",
+  "rigSourceSha256": "f9d87949dda16fa81ecf1b21931b1d73f27402b5f19a842151fbc905541b16fa",
+  "videoSha256": "6309ebdaf344ca6253ad1f82f1814206711b74a8c8150facdf56fc96f112bcf8",
+  "darkVideoSha256": "1c606253d86c5e2c8cf09e2d619170d2e99a111e55294b1619f755ccba9e7ed5",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15488,
+  "darkBytes": 15269,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:54:04.779Z"
+}

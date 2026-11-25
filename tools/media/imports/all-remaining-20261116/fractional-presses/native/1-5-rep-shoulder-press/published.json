@@ -1,0 +1,18 @@
+{
+  "id": "1-5-rep-shoulder-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "942794ec9ecd09714de20379c8b4a2d9a03065f0bd858f79896f8e9f2ebbbadf",
+  "rigSourceSha256": "518a9cbde6a3ce87c16cc6731df840f6fb1f9d17d007b5236409fd3f65d42988",
+  "videoSha256": "027570a7de8699646d98c02a39dde28e475bace6ed605d11d38506a7518fac25",
+  "darkVideoSha256": "f6346ec8b1eaa8124665881aaf8ad2de85261946334a5721e095e2c9c69b91cc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 116992,
+  "darkBytes": 107453,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T02:16:17.197Z"
+}

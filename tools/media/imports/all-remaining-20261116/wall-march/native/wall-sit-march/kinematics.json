@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryTrunk": true,
+  "alternateSupport": true,
+  "maxStep": 0.023350435278144777,
+  "kneeRange": [
+    75.04888740101869,
+    89.99999999999999
+  ],
+  "leftFootRise": 1.1084276221561975,
+  "rightFootRise": 1.1084276221561975,
+  "backGap": 0.030629350161443858,
+  "hipGap": 0.014999999999999902
+}

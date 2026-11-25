@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T05:24:55.777Z",
+  "report": [
+    {
+      "id": "dead-hang",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

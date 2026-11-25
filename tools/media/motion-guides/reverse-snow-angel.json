@@ -1,0 +1,15 @@
+{
+  "id": "reverse-snow-angel",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "reverse-snow-angel-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://aspireathletics.ca/exercises/reverse-snow-angel/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T07:17:34.304Z"
+}

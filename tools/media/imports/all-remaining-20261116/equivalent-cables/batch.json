@@ -1,0 +1,86 @@
+{
+  "entries": [
+    {
+      "id": "straight-arm-pulldown-2",
+      "original": "straight-arm-pulldown",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "straight-arm-pulldown",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/straight-arm-lat-pull-down.html"
+        ],
+        "criteria": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "cable-lateral-raise-2",
+      "original": "cable-lateral-raise",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "cable-lateral-raise",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/arms-and-shoulders/lateral-raises/cable-lateral-raise/"
+        ],
+        "criteria": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "face-pull-2",
+      "original": "face-pull",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "face-pull",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/face-pull"
+        ],
+        "criteria": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "cable-rope-hammer-curl-2",
+      "original": "cable-rope-hammer-curl",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "cable-rope-hammer-curl",
+        "sourceUrls": [
+          "https://gravitus.com/guides/exercises/cable-rope-hammer-curl/"
+        ],
+        "criteria": "Equivalent catalog entry; reuse the exact reviewed cable exercise, with unchanged apparatus, grip and motion.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Exact reviewed video bytes reused for an equivalent catalog entry; this is a mapping repair, not a newly generated motion."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 4,
+  "status": "completed-local"
+}

@@ -1,0 +1,28 @@
+{
+  "pilates-single-leg-stretch": [
+    {
+      "file": "tools/media/motion-guides/pilates-single-leg-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-single-leg-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-single-leg-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-single-leg-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-single-leg-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-single-leg-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

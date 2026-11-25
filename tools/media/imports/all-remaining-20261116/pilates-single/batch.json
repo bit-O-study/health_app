@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "pilates-single-leg-stretch",
+      "original": "pilates-single-leg-stretch",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pilates-single",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/pilates-single-leg-stretch-level-2"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine curled torso with alternating diagonal straight leg and bent knee; hands transfer smoothly to bent knee.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled alternating leg extension."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

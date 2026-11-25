@@ -1,0 +1,18 @@
+{
+  "id": "puppy-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7ae74280ad07b7869e314db5ac09e6b49e2192812354322d1dc429d569e30516",
+  "rigSourceSha256": "eda7215edbb7445f063ca79fed2984648731e6142bfead33f2e17e78638b4637",
+  "videoSha256": "55483bc41cfbfec398be241fa7b18f42d6af158539901bfb58880e74482c4cf6",
+  "darkVideoSha256": "d5693b19bf3419333dbd7929be6a641ba1bbe28c56918d3d419cc9fb10387d18",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14986,
+  "darkBytes": 14415,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:16:19.089Z"
+}

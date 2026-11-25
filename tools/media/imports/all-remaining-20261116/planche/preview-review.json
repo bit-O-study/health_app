@@ -1,0 +1,39 @@
+{
+  "planche": {
+    "reviewedAt": "2026-11-24T06:56:22.437Z",
+    "checks": {
+      "exercise": "planche",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor with shoulders forward of wrists.",
+      "feet": "Face-down torso and straight horizontal legs remain off floor.",
+      "movement": "Hold body face down and horizontal on straight arms, shoulders ahead of palms, legs extended and feet off floor."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static full planche; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/full-sheet.png",
+        "sha256": "6ac2ab6e7f73acd701c1d615a095a8ac3c59a69472d767d79f40ab1a5262d6c0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/side-sheet.png",
+        "sha256": "c7a113b6ca13f123c17141f5fd14020ed065b99a94543f457963d3b535588dd4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/poses.json",
+        "sha256": "83a918dfcbda5ce0515a5d814bdd569e8e24cca4896aaa1e2b5627ac5fa8fb32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/geometry.json",
+        "sha256": "f4672c50b536108cc5a3e6a491b35d8adc7880ff835e960f87350f0b41978ac0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche/native/planche/kinematics.json",
+        "sha256": "061a02eca579f8218fb9afcebefa449aec650f4b651de6034ee7d79e55c42387"
+      }
+    ]
+  }
+}

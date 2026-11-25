@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/flutter-kick-alpha.webm",
+      "sha256": "12c83f7c1c5514943a44c02c8755896da7888c7b6c0d85d2f81997688ebde1a9",
+      "bytes": 181676,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/flutter-kick.mp4",
+      "sha256": "c26e4c067ae4a8574cd759c222024e9ed29b8098a162387ff27dd9057a2e57d4",
+      "bytes": 85709,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/flutter/native/flutter-kick/flutter-kick-dark.mp4",
+      "sha256": "d05d902d267e87794fd2a40ee2bb5b0fec1858371995d175425038fb7f8fe169",
+      "bytes": 85945,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/flutter/flutter-kick-studio.mjs",
+      "sha256": "d9ccb89536193142bf1a3a42513d20970b257f4df21befed2e3aea63cd019297"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/flutter/flutter-kick-motion.mjs",
+      "sha256": "24d65fd2e37318fa432bc900fec4eb3d15c4ff1f4432635cb2eb3498db10b22b"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/flutter/render.mjs",
+      "sha256": "bcfb5bf0f3106e521094a2b21c5bf0f4d5998b39f922eebf901fa787d87664a0"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

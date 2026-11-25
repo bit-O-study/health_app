@@ -1,0 +1,18 @@
+{
+  "id": "eccentric-leg-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c21980beadff4712ce9e4992d082d6aefe1c6297cf719f02a7d7b3182d57827c",
+  "rigSourceSha256": "201a7eb26a532c559158f87aec0ec9b9f80770f421362f8d2edb72e4e6746f77",
+  "videoSha256": "4f80a052f311b1fd4c704dd7cb9b22048b5574f681d8876b0290147eb7c8e2ce",
+  "darkVideoSha256": "5b4deeaa170ba6a8aae9d6abe82efcd0a610482713cdaaf98b99f125bfd01bfa",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 107829,
+  "darkBytes": 95931,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:03:59.828Z"
+}

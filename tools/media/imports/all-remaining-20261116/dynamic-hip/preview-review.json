@@ -1,0 +1,39 @@
+{
+  "dynamic-hip-flexor-stretch": {
+    "reviewedAt": "2026-11-24T04:28:02.190Z",
+    "checks": {
+      "exercise": "dynamic-hip-flexor-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms rest separately on the front thigh; torso upright.",
+      "feet": "Front foot and rear knee fixed; rear instep stays grounded.",
+      "movement": "Half kneeling controlled forward weight shift and return with fixed front foot and rear knee; optional overhead side bend omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second cycle illustrates a smooth forward shift and return."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/full-sheet.png",
+        "sha256": "ab16b310100134f15063266f03cff86b0fb617d353ee9d9b055ca70d8390b496"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/side-sheet.png",
+        "sha256": "c5b6d48a85a484348ec958594b5e285bcf64b34fe5567a2832d84aaaa5f2dbd9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/poses.json",
+        "sha256": "4b945cd0a7332852a1d29a0356481fcaa3d83f1b25fcd41ebade8fbea4ef25f4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/geometry.json",
+        "sha256": "8a793e456efe6ca66410204bf422e4837c56214550af2be67c229c91792de647"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dynamic-hip/native/dynamic-hip-flexor-stretch/kinematics.json",
+        "sha256": "1d2a5aa360f3abfae0dbf247e545b0ddb7c5751901c9cb91b6c59b43a538d9d7"
+      }
+    ]
+  }
+}

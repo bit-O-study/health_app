@@ -1,0 +1,18 @@
+{
+  "id": "couch-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "add9d79da616db36c17e393f8b14dd860f7bd105820cdd2a4c79ae4ad5997c29",
+  "rigSourceSha256": "1bd73ac7cd717ecb9c886745dd206f5053d09e706259960807294a614def970e",
+  "videoSha256": "3d16691172b646dcd55538f71a3f5679bfee9472e26fe9948c0f91751decbc27",
+  "darkVideoSha256": "4762359fdfe65d5c22ebcc08607ff8652e9071c0a933eb95331312b649d55655",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 17548,
+  "darkBytes": 17222,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T04:25:37.429Z"
+}

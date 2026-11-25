@@ -1,0 +1,23 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 7.232657794854416e-15,
+  "maxStep": 0.04151534668314971,
+  "relativeLegDrift": 7.216449660063518e-16,
+  "bodyRise": 4.65,
+  "elbowRange": [
+    52.6179089038202,
+    178.9999999999994
+  ],
+  "kneeRange": [
+    180,
+    180
+  ],
+  "elevationRange": [
+    89.99999999999997,
+    89.99999999999999
+  ],
+  "minimumFloorClearance": 10.041516612720715,
+  "minimumBarClearance": 0.18793803783248558
+}

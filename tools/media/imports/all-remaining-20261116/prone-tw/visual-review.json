@@ -1,0 +1,148 @@
+{
+  "prone-t-raise": {
+    "reviewedAt": "2026-11-16T07:12:36.501Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "prone-t-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around small dumbbell handles through the arm lift.",
+      "feet": "Prone torso and legs remain stable while the arms lift in T or W shape.",
+      "movement": "Straight arms spread laterally in a T. Light dumbbells held in closed hands. Prone support, stable torso and legs, controlled small arm lift. 3.5 seconds lift, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/final.jpg",
+        "sha256": "934d849cec1b33586e1b88b19eafbe591d056b184b1165217ec118bc07776500"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/final-dark.jpg",
+        "sha256": "02a87fe5daa6eeec142a80bd59f4adb15b0de0c9baae6fdd5307f795117a86fe"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/full-sheet.png",
+        "sha256": "ecbd9d4050f5b90943b70058077441ab59d6f95377918dbc0cefdb91256a02d3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/side-sheet.png",
+        "sha256": "54fd36d8aa47d14915152e950b8faeacb5cb8443cb013828a7bbecca67cd4a83"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/verification.json",
+        "sha256": "5beb7ecf7f7a04aa6bf7491981d4370a1ae3822990bc1c0be480c10304902a1e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/geometry.json",
+        "sha256": "34784695b012d3a731a6b166ecc73a49978727f472e693ae132059e306be2bf6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/kinematics.json",
+        "sha256": "fceaf4a984fefbb3a758caa0a7bd8de879ce250569a61a94068cda1c66e0f92d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/provenance.json",
+        "sha256": "c4ef7a356905a36be83e5792af0f759bbbe600898bb6dc74a5a7b6a955b49d3a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/prone-t-raise-alpha.webm",
+        "sha256": "9b6f4b19f28307256dfccc51fe55521d15b44f41621ace504238c2ae6f7bc175",
+        "bytes": 140580,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/prone-t-raise.mp4",
+        "sha256": "9c042e9bd3c0dee2a21ef3d38378c6665d237ef3705da6a30702d3e550c10180",
+        "bytes": 58904,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-t-raise/prone-t-raise-dark.mp4",
+        "sha256": "bdcc4b94188141882cbe816782df31e6ec6df0fb4c7ffb679bc7a308c5e9a789",
+        "bytes": 49236,
+        "decode": "passed"
+      }
+    ]
+  },
+  "prone-w-raise": {
+    "reviewedAt": "2026-11-16T07:12:36.509Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "prone-w-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around small dumbbell handles through the arm lift.",
+      "feet": "Prone torso and legs remain stable while the arms lift in T or W shape.",
+      "movement": "Elbows bent 90 degrees with upper arms diagonal to trunk in a W. Light dumbbells held in closed hands. Prone support, stable torso and legs, controlled small arm lift. 3.5 seconds lift, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/final.jpg",
+        "sha256": "86ad96096071095ca16135e319a994fba89bebf44cf968b03172064340519034"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/final-dark.jpg",
+        "sha256": "35e904ff51b785a5963e24de3598720ad3d4f1bf6c46dbcba99acd82c4db3b18"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/full-sheet.png",
+        "sha256": "34fa3cef49dc46ac23f768f8b985d24d4eb99054882e7759a453ea667feb8b8b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/side-sheet.png",
+        "sha256": "8a874ff86214e344b172c85bc346e36ac7e940f7202e9077050912aa67947f94"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/verification.json",
+        "sha256": "ba61621d57bb2e4198ba30e54a2143c9ab976ed6832883430992a7fea97eb230"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/geometry.json",
+        "sha256": "4136433ff4fe6e191135d76f735521033a4715dd2fcaf1ea3fcde37c01267937"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/kinematics.json",
+        "sha256": "23b85445cfde4e77317fb26fac46b2aca5e4eabb88627b52eb48f415fd5c6649"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/provenance.json",
+        "sha256": "c74b80506dff7495e234fa5ac4b658534eb6b9117a1489f779aa9205928224cf"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/prone-w-raise-alpha.webm",
+        "sha256": "c3a2a74edc4273ae9ca65067bd11dd9bd515a0681e69f8209ee5135c00f0b4d9",
+        "bytes": 107177,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/prone-w-raise.mp4",
+        "sha256": "5c61509053e1891809eb3303096305601f48eab35f554cdd8f2202800668e039",
+        "bytes": 46373,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/prone-tw/native/prone-w-raise/prone-w-raise-dark.mp4",
+        "sha256": "bb98fa9ffffdc6eaecbab6222845065e2ec0bd09ac0d1fa91333eaaae1fa6b2a",
+        "bytes": 40035,
+        "decode": "passed"
+      }
+    ]
+  }
+}

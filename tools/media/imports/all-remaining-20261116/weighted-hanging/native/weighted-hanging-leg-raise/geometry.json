@@ -1,0 +1,376 @@
+[
+  {
+    "frame": 0,
+    "footMin": -8.797029631288382,
+    "floorClearance": 1.377970368711619,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.15901075424756583
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.15901075424756583
+      }
+    ]
+  },
+  {
+    "frame": 30,
+    "footMin": -8.791245605235108,
+    "floorClearance": 1.3837543947648925,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.16403261367914546
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.16403261367914546
+      }
+    ]
+  },
+  {
+    "frame": 60,
+    "footMin": -8.574195549398738,
+    "floorClearance": 1.600804450601263,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.18991809902266055
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.18991809902266055
+      }
+    ]
+  },
+  {
+    "frame": 90,
+    "footMin": -7.3903203846172945,
+    "floorClearance": 2.7846796153827063,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2350722176915263
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2350722176915263
+      }
+    ]
+  },
+  {
+    "frame": 120,
+    "footMin": -4.865855975754372,
+    "floorClearance": 5.3091440242456285,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2769237258035022
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2769237258035022
+      }
+    ]
+  },
+  {
+    "frame": 150,
+    "footMin": -2.085767105987423,
+    "floorClearance": 8.089232894012579,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2987932591986051
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2987932591986051
+      }
+    ]
+  },
+  {
+    "frame": 180,
+    "footMin": -0.4500065292780117,
+    "floorClearance": 9.724993470721989,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.30349787836441333
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.30349787836441333
+      }
+    ]
+  },
+  {
+    "frame": 210,
+    "footMin": -0.13348338727928585,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.30376106963507077
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.30376106963507077
+      }
+    ]
+  },
+  {
+    "frame": 240,
+    "footMin": -0.13348338727928585,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.30376106963507077
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.30376106963507077
+      }
+    ]
+  },
+  {
+    "frame": 270,
+    "footMin": -0.13348338727928585,
+    "floorClearance": 10.041516612720715,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.30376106963507077
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.30376106963507077
+      }
+    ]
+  },
+  {
+    "frame": 300,
+    "footMin": -0.45000652927801976,
+    "floorClearance": 9.72499347072198,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.3034978783644142
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.3034978783644142
+      }
+    ]
+  },
+  {
+    "frame": 330,
+    "footMin": -2.0857671059874203,
+    "floorClearance": 8.08923289401258,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.298793259198604
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.02999999999999997,
+        "anchorError": 0,
+        "otherCuffGap": 0.298793259198604
+      }
+    ]
+  },
+  {
+    "frame": 360,
+    "footMin": -4.865855975754372,
+    "floorClearance": 5.3091440242456285,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2769237258035022
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.2769237258035022
+      }
+    ]
+  },
+  {
+    "frame": 390,
+    "footMin": -7.3903203846172945,
+    "floorClearance": 2.7846796153827063,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.23507221769152564
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.23507221769152564
+      }
+    ]
+  },
+  {
+    "frame": 420,
+    "footMin": -8.574195549398738,
+    "floorClearance": 1.600804450601263,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.18991809902266032
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.18991809902266032
+      }
+    ]
+  },
+  {
+    "frame": 450,
+    "footMin": -8.791245605235108,
+    "floorClearance": 1.3837543947648925,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.1640326136791439
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.1640326136791439
+      }
+    ]
+  },
+  {
+    "frame": 480,
+    "footMin": -8.797029631288382,
+    "floorClearance": 1.377970368711619,
+    "barClearance": 2.404535433310083,
+    "cuffs": [
+      {
+        "side": "L",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.15901075424756583
+      },
+      {
+        "side": "R",
+        "radius": 0.5803926611642032,
+        "minimumGap": 0.030000000000000027,
+        "anchorError": 0,
+        "otherCuffGap": 0.15901075424756583
+      }
+    ]
+  }
+]

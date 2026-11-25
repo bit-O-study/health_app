@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "kneeMinimum": 180,
+  "verticalLegs": true,
+  "legDrift": 0.09246111447053273,
+  "maxStep": 0.023764468521483766,
+  "headRise": 2.043257059080106,
+  "shoulderRise": 0.221245948635433
+}

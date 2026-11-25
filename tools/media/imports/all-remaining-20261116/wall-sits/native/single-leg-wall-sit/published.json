@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-wall-sit",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b4467199f70fc7968452ac326a2aff5a5a90493bc32fafaf315387c7a21b95df",
+  "rigSourceSha256": "b79ba97c43015b26c899772dc15c67d26b2b1ab78a5f9581e456c97979d40fbb",
+  "videoSha256": "c01bda04fe35f29f2a619983d71c257d062d8678c3d87ae2a1a3e967a9e47633",
+  "darkVideoSha256": "448db6e3a11976b87611391ddf1c07d675f0c10661b87aedf20bc8082502d712",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16566,
+  "darkBytes": 15908,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:34:19.449Z"
+}

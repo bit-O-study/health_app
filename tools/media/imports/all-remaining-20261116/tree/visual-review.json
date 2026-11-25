@@ -1,0 +1,75 @@
+{
+  "tree-pose": {
+    "reviewedAt": "2026-11-24T03:04:57.477Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "tree-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms reach overhead with palms inward.",
+      "feet": "Standing foot grounded; raised sole on inner thigh above knee with knee opened outward.",
+      "movement": "Upright single-leg balance, raised sole on inner thigh above knee, open knee, level pelvis and arms overhead."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/final.jpg",
+        "sha256": "70a1bc9e9f916caf8082703e3065a98e387ab2edbc5d16e310025bfc6f3b79f8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/final-dark.jpg",
+        "sha256": "b74989d2e58e5c09db7dbac674627eb05c2ec5fffe10b0b9ba8aac92c633b305"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/full-sheet.png",
+        "sha256": "e7fc866333296cef5f92eba83da3ba65cc273cba3bd1315904b046e8685c7025"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/side-sheet.png",
+        "sha256": "91b9057f02b0e269bd2cc871f107a6c4b26523fc443efb0daa395680dbbf0760"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/verification.json",
+        "sha256": "a7edb71cf4be4881f30929e69604965358dfdee6424ebbd7578b3949e9d525b3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/geometry.json",
+        "sha256": "d1dfaf6571a435198b6374ce56af82d9122d115cab928aed12578961947eb1a6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/kinematics.json",
+        "sha256": "c9de211601a8dc2b212daefe1deea1479eb4ab5a015d5cf183f84a6dd82ac2ce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/provenance.json",
+        "sha256": "d8068187516c12e61b09a502f6b753dde6666c5a6e27dcafb0f689f94c7151d4"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/tree-pose-alpha.webm",
+        "sha256": "d9fe1cead412bf4efa6152e30f69680b65572c099f4af08da0a513d341d1ef3a",
+        "bytes": 37167,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/tree-pose.mp4",
+        "sha256": "57105d800f1d41ee121e3d36e1bed99861f9e93446d2f1518fb530ff2815af2a",
+        "bytes": 14997,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/tree/native/tree-pose/tree-pose-dark.mp4",
+        "sha256": "532a9f37a918f6188882fc395041c735e10bf7057585209a5ce99f650e7f9e5e",
+        "bytes": 14971,
+        "decode": "passed"
+      }
+    ]
+  }
+}

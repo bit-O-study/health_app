@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "side-reaching-child-s-pose",
+      "original": "side-reaching-child-s-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "side-child",
+        "sourceUrls": [
+          "https://www.connecticutchildrens.org/specialties-conditions/sports-medicine/home-exercise-programs/back-streteching-home-exercise-program"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Knees bent apart and hips toward heels; torso side bends with both straight arms reaching to one side, palms down and forehead supported.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

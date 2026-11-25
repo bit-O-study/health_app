@@ -1,0 +1,18 @@
+{
+  "id": "seated-band-abduction",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "cea7d0162f24dcb81228590869f3d5d631d6ecbbdbe39bfc2dc76f5f075d371e",
+  "rigSourceSha256": "5c0251227fdad76b61af577ee4ca1d4bb0be0014bdb3c29129c447cffb538233",
+  "videoSha256": "f778fe3f39c6cf88f0f1682d6be9391768ec35de5e76c38a9617345db47b190d",
+  "darkVideoSha256": "8b54ee7767f108df503640ede9abfe240f2e33effe00dba2fe175a007c01b822",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 80089,
+  "darkBytes": 80447,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T03:22:51.834Z"
+}

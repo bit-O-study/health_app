@@ -1,0 +1,785 @@
+{
+  "id": "close-grip-chin-up",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/grip-pulls/close-grip-chin-up-studio.mjs",
+      "sha256": "a577f4ce422b2993bcdf93be8c7da3a74a59b4bbfe41afc83a0e8f44b177f795"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/grip-pulls/close-grip-chin-up-motion.mjs",
+      "sha256": "6ee67f9ad095fc09e4cf48b73e3f50c21d9d6f1b53e24d76fc0efb2113017a0b"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/grip-pulls/render.mjs",
+      "sha256": "9ed2f1ffce5148c858baeaa1d0ffb6f73e75fba2bb04d8a78011d941de92c89f"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "close-grip-chin-up",
+    "sourceUrls": [
+      "https://www.muscleandstrength.com/exercises/close-grip-chin-up"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Underhand narrow grip, span 2.2 model units inside shoulder width. Straight-leg hang; start with extended arms, pull chin above bar, return without swinging. 3.5 seconds up, 1 second pause, 3.5 seconds down.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "footMin": -8.702395533828627,
+      "floorClearance": 1.472604466171374,
+      "barClearance": 2.4497008072039614,
+      "nearest": {
+        "vertex": 24172,
+        "rest": [
+          0,
+          9.175225,
+          1.1599625
+        ],
+        "world": [
+          0,
+          8.685875795712912,
+          0.05996253490447989
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 1
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 30,
+      "footMin": -8.584911747311105,
+      "floorClearance": 1.5900882526888953,
+      "barClearance": 2.3448564699392707,
+      "nearest": {
+        "vertex": 24172,
+        "rest": [
+          0,
+          9.175225,
+          1.1599625
+        ],
+        "world": [
+          0,
+          8.803359582230435,
+          0.05996253490447989
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 1
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 60,
+      "footMin": -7.97165239109048,
+      "floorClearance": 2.203347608909521,
+      "barClearance": 1.8126240446049011,
+      "nearest": {
+        "vertex": 1097,
+        "rest": [
+          0,
+          9.143921875,
+          1.219915625
+        ],
+        "world": [
+          0,
+          9.385315532689338,
+          0.11991562843322745
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 1
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 90,
+      "footMin": -6.8445892626321,
+      "floorClearance": 3.3304107373679006,
+      "barClearance": 0.9917352692321907,
+      "nearest": {
+        "vertex": 1110,
+        "rest": [
+          0,
+          8.9560375,
+          1.404465625
+        ],
+        "world": [
+          0,
+          10.324494061166035,
+          0.3044656674144426
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 0.9900099900099901
+          },
+          {
+            "bone": "oculi01.L",
+            "weight": 0.004995004995004996
+          },
+          {
+            "bone": "oculi01.R",
+            "weight": 0.004995004995004996
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 120,
+      "footMin": -5.51020180502515,
+      "floorClearance": 4.664798194974851,
+      "barClearance": 0.5624595614235192,
+      "nearest": {
+        "vertex": 298,
+        "rest": [
+          0,
+          7.93385625,
+          1.710496875
+        ],
+        "world": [
+          0,
+          10.636700753917022,
+          0.6104969024658202
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 0.768
+          },
+          {
+            "bone": "levator06.L",
+            "weight": 0.116
+          },
+          {
+            "bone": "levator06.R",
+            "weight": 0.116
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 150,
+      "footMin": -4.383138676566772,
+      "floorClearance": 5.791861323433229,
+      "barClearance": 0.6281482323404002,
+      "nearest": {
+        "vertex": 23467,
+        "rest": [
+          0,
+          7.2455125,
+          1.5456125
+        ],
+        "world": [
+          0,
+          11.075420045642,
+          0.44561246105451063
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.6862730894603405
+          },
+          {
+            "bone": "head",
+            "weight": 0.15936254980079684
+          },
+          {
+            "bone": "oris01",
+            "weight": 0.08475190148496921
+          },
+          {
+            "bone": "oris07.L",
+            "weight": 0.06961245925389352
+          }
+        ]
+      }
+    },
+    {
+      "frame": 180,
+      "footMin": -3.7698793203461465,
+      "floorClearance": 6.405120679653854,
+      "barClearance": 0.8538689520961343,
+      "nearest": {
+        "vertex": 23374,
+        "rest": [
+          0,
+          7.1378,
+          1.505975
+        ],
+        "world": [
+          0,
+          11.580966795426805,
+          0.40597500196136516
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.8108037236134785
+          },
+          {
+            "bone": "head",
+            "weight": 0.13058869804641407
+          },
+          {
+            "bone": "levator05.L",
+            "weight": 0.029303789170053766
+          },
+          {
+            "bone": "levator05.R",
+            "weight": 0.02930378917005376
+          }
+        ]
+      }
+    },
+    {
+      "frame": 210,
+      "footMin": -3.652395533828625,
+      "floorClearance": 6.522604466171376,
+      "barClearance": 0.9275012579109024,
+      "nearest": {
+        "vertex": 23374,
+        "rest": [
+          0,
+          7.1378,
+          1.505975
+        ],
+        "world": [
+          0,
+          11.69845058019368,
+          0.40597500196136516
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.8108037236134785
+          },
+          {
+            "bone": "head",
+            "weight": 0.13058869804641407
+          },
+          {
+            "bone": "levator05.L",
+            "weight": 0.029303789170053766
+          },
+          {
+            "bone": "levator05.R",
+            "weight": 0.02930378917005376
+          }
+        ]
+      }
+    },
+    {
+      "frame": 240,
+      "footMin": -3.652395533828625,
+      "floorClearance": 6.522604466171376,
+      "barClearance": 0.9275012579109024,
+      "nearest": {
+        "vertex": 23374,
+        "rest": [
+          0,
+          7.1378,
+          1.505975
+        ],
+        "world": [
+          0,
+          11.69845058019368,
+          0.40597500196136516
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.8108037236134785
+          },
+          {
+            "bone": "head",
+            "weight": 0.13058869804641407
+          },
+          {
+            "bone": "levator05.L",
+            "weight": 0.029303789170053766
+          },
+          {
+            "bone": "levator05.R",
+            "weight": 0.02930378917005376
+          }
+        ]
+      }
+    },
+    {
+      "frame": 270,
+      "footMin": -3.652395533828625,
+      "floorClearance": 6.522604466171376,
+      "barClearance": 0.9275012579109024,
+      "nearest": {
+        "vertex": 23374,
+        "rest": [
+          0,
+          7.1378,
+          1.505975
+        ],
+        "world": [
+          0,
+          11.69845058019368,
+          0.40597500196136516
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.8108037236134785
+          },
+          {
+            "bone": "head",
+            "weight": 0.13058869804641407
+          },
+          {
+            "bone": "levator05.L",
+            "weight": 0.029303789170053766
+          },
+          {
+            "bone": "levator05.R",
+            "weight": 0.02930378917005376
+          }
+        ]
+      }
+    },
+    {
+      "frame": 300,
+      "footMin": -3.7698793203461483,
+      "floorClearance": 6.4051206796538525,
+      "barClearance": 0.8538689520961343,
+      "nearest": {
+        "vertex": 23374,
+        "rest": [
+          0,
+          7.1378,
+          1.505975
+        ],
+        "world": [
+          0,
+          11.580966795426805,
+          0.40597500196136516
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.8108037236134785
+          },
+          {
+            "bone": "head",
+            "weight": 0.13058869804641407
+          },
+          {
+            "bone": "levator05.L",
+            "weight": 0.029303789170053766
+          },
+          {
+            "bone": "levator05.R",
+            "weight": 0.02930378917005376
+          }
+        ]
+      }
+    },
+    {
+      "frame": 330,
+      "footMin": -4.383138676566771,
+      "floorClearance": 5.7918613234332295,
+      "barClearance": 0.6281482323404002,
+      "nearest": {
+        "vertex": 23467,
+        "rest": [
+          0,
+          7.2455125,
+          1.5456125
+        ],
+        "world": [
+          0,
+          11.075420045642,
+          0.44561246105451063
+        ],
+        "weights": [
+          {
+            "bone": "jaw",
+            "weight": 0.6862730894603405
+          },
+          {
+            "bone": "head",
+            "weight": 0.15936254980079684
+          },
+          {
+            "bone": "oris01",
+            "weight": 0.08475190148496921
+          },
+          {
+            "bone": "oris07.L",
+            "weight": 0.06961245925389352
+          }
+        ]
+      }
+    },
+    {
+      "frame": 360,
+      "footMin": -5.51020180502515,
+      "floorClearance": 4.664798194974851,
+      "barClearance": 0.5624595614235192,
+      "nearest": {
+        "vertex": 298,
+        "rest": [
+          0,
+          7.93385625,
+          1.710496875
+        ],
+        "world": [
+          0,
+          10.636700753917022,
+          0.6104969024658202
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 0.768
+          },
+          {
+            "bone": "levator06.L",
+            "weight": 0.116
+          },
+          {
+            "bone": "levator06.R",
+            "weight": 0.116
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 390,
+      "footMin": -6.844589262632101,
+      "floorClearance": 3.3304107373678997,
+      "barClearance": 0.9917352692321907,
+      "nearest": {
+        "vertex": 1110,
+        "rest": [
+          0,
+          8.9560375,
+          1.404465625
+        ],
+        "world": [
+          0,
+          10.324494061166035,
+          0.3044656674144426
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 0.9900099900099901
+          },
+          {
+            "bone": "oculi01.L",
+            "weight": 0.004995004995004996
+          },
+          {
+            "bone": "oculi01.R",
+            "weight": 0.004995004995004996
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 420,
+      "footMin": -7.971652391090479,
+      "floorClearance": 2.203347608909522,
+      "barClearance": 1.8126240446049011,
+      "nearest": {
+        "vertex": 1097,
+        "rest": [
+          0,
+          9.143921875,
+          1.219915625
+        ],
+        "world": [
+          0,
+          9.385315532689338,
+          0.11991562843322745
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 1
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 450,
+      "footMin": -8.584911747311107,
+      "floorClearance": 1.5900882526888935,
+      "barClearance": 2.344856469939274,
+      "nearest": {
+        "vertex": 24172,
+        "rest": [
+          0,
+          9.175225,
+          1.1599625
+        ],
+        "world": [
+          0,
+          8.803359582230431,
+          0.05996253490447989
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 1
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    },
+    {
+      "frame": 480,
+      "footMin": -8.702395533828627,
+      "floorClearance": 1.472604466171374,
+      "barClearance": 2.4497008072039614,
+      "nearest": {
+        "vertex": 24172,
+        "rest": [
+          0,
+          9.175225,
+          1.1599625
+        ],
+        "world": [
+          0,
+          8.685875795712912,
+          0.05996253490447989
+        ],
+        "weights": [
+          {
+            "bone": "head",
+            "weight": 1
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          },
+          {
+            "bone": "breast.L",
+            "weight": 0
+          }
+        ]
+      }
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "gripSpan": 2.2,
+    "gripError": 5.497566137053743e-15,
+    "maxStep": 0.04508655930105476,
+    "relativeLegDrift": 1.7763568394002505e-15,
+    "bodyRise": 5.05,
+    "elbowRange": [
+      56.43331946155026,
+      178.9999999999994
+    ],
+    "kneeRange": [
+      180,
+      180
+    ],
+    "elevationRange": [
+      2.9423391890496452e-15,
+      2.9423391890496456e-15
+    ],
+    "minimumFloorClearance": 1.472604466171374,
+    "minimumBarClearance": 0.5624595614235192
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      56.43331946155026,
+      178.9999999999994
+    ],
+    "alpha": {
+      "transparent": 39465698,
+      "opaque": 3625127,
+      "partial": 1145975,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/grip-pulls/native/close-grip-chin-up/source.jpg",
+    "sha256": "7b6c0b013826708a7f621ee19ae146af7f907adcb5c4f9cb177d395cb9b1e1b9",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

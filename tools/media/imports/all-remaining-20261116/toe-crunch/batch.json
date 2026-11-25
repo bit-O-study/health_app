@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "toe-touch-crunch",
+      "original": "toe-touch-crunch",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "toe-crunch",
+        "sourceUrls": [
+          "https://www.vaco.org/AchievementAwards/Entries2016/HenricoFireFitIntensiveFocus/HenricoFireFitIntensiveFocus.pdf"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Hold straight legs vertical, lift shoulder blades by curling upper torso while reaching arms toward toes, then lower with control.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled crunch demonstration."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

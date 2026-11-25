@@ -1,0 +1,75 @@
+{
+  "sleeper-stretch": {
+    "reviewedAt": "2026-11-24T01:44:42.534Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "sleeper-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower arm extends forward, elbow bent 90 degrees; upper hand gently contacts wrist region.",
+      "feet": "Side lying legs rest on mat, head on pillow; forearm rotates toward feet.",
+      "movement": "Side lying sleeper stretch; lower arm forward with elbow 90 degrees, forearm internally rotated toward surface and gently assisted by upper hand; head supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/final.jpg",
+        "sha256": "eaaba45d23b3c601589816b9c80fad9fd4d827cc5c9de541392f869d10fd7052"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/final-dark.jpg",
+        "sha256": "6446ee1d71e2ff8f818406ed3816b068f3cb7a2ebbef27de94fa51d167122af8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/full-sheet.png",
+        "sha256": "bda002a513f5ff53b92f721c00950a3696ac833743cb7ca661374cd054cb0dd3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/side-sheet.png",
+        "sha256": "ada547f004cbd3d2882f0913855d2bb6c0856d830c1f8e0e781ffb98c95492a2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/verification.json",
+        "sha256": "67bc951e1c35e1c56282a41b619a3f1affd05dbb02e8ab6e92739621433609e1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/geometry.json",
+        "sha256": "cddc2fcbb22b85c7fca34a944386c27dc8264c9d2fc85b05484f0f5c84398c3b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/kinematics.json",
+        "sha256": "0906d67de255bae06a2b9f51cc9b9aaaa2ab9351cbfe953e5bc38c79337b4c39"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/provenance.json",
+        "sha256": "5f27ff7c40b0a92daa5f1c208b08c492fd9c29defb03b236ef216796164d4998"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/sleeper-stretch-alpha.webm",
+        "sha256": "6199dc43edc1aeb18a8780bf5325fa169c1b26f9df5ac123e6c3bf8b11d03b4c",
+        "bytes": 34102,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/sleeper-stretch.mp4",
+        "sha256": "7571c5bfa40693041f95698973aafae0f150004f7bdaddb369a3dd434b7e42e4",
+        "bytes": 15310,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/sleeper-stretch-dark.mp4",
+        "sha256": "b1997c2ab40a99ad9856e60dda10ddcba11f8b2851e711fbee8f20b60be2421d",
+        "bytes": 14962,
+        "decode": "passed"
+      }
+    ]
+  }
+}

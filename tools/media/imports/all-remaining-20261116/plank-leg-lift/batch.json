@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "plank-with-leg-lift",
+      "original": "plank-with-leg-lift",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "plank-with-leg-lift",
+        "sourceUrls": [
+          "https://ca.physitrack.com/home-exercise-video/forearm-plank-with-straight-leg-lift"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Forearm plank with alternating straight-leg lifts: each side 1.5 seconds up, 1 second hold, 1.5 seconds down; limited 12-degree hip lift toward trunk level without pelvis or torso motion.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

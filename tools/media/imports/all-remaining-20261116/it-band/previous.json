@@ -1,0 +1,28 @@
+{
+  "it-band-stretch": [
+    {
+      "file": "tools/media/motion-guides/it-band-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/it-band-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/it-band-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/it-band-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/it-band-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/it-band-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

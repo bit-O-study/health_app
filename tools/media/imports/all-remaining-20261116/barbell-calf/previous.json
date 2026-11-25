@@ -1,0 +1,28 @@
+{
+  "barbell-calf-raise": [
+    {
+      "file": "tools/media/motion-guides/barbell-calf-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/barbell-calf-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/barbell-calf-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-calf-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-calf-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/barbell-calf-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

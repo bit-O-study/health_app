@@ -1,0 +1,659 @@
+{
+  "id": "front-split-stretch",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "hold"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/front-split/front-split-stretch-studio.mjs",
+      "sha256": "2161494a8a5c89a6b53ebdab8fed61c8e29bd715b87d095635c27771e7bfaa68"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/front-split/front-split-stretch-motion.mjs",
+      "sha256": "34f879e51b064cc100935dfcc7c9f1ec1d3215e9d2a5302954afd8a5d087529f"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/front-split/render.mjs",
+      "sha256": "f4d0f081d74635d4a5de850f75ad98d522c173ff5093cc07608a383ce4140774"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "front-split",
+    "sourceUrls": [
+      "https://www.yogajournal.com/poses/monkey-pose/?scope=anon"
+    ],
+    "sourcesCheckedAt": "2026-11-24",
+    "criteria": "Supported front split with straight front and rear legs, square pelvis, front toes up and rear instep down; hands support beside the body.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 30,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 60,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 90,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 120,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 150,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 180,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 210,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 240,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 270,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 300,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 330,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 360,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 390,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 420,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 450,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    },
+    {
+      "frame": 480,
+      "footFloorGaps": [
+        0.016450440314245363,
+        0.019743467246649438
+      ],
+      "seatSupportGap": 0.01499999999999968,
+      "footFootGap": 16.68807165053934,
+      "handFootGaps": [
+        3.6484960169798617,
+        11.259553137189666
+      ],
+      "handThighGaps": [
+        0.43302245430108627,
+        2.128066067363302
+      ],
+      "handHandGap": 3.4807732891823235,
+      "supportFootGap": 0.019743467246649438,
+      "head": -2.3464860104480527,
+      "upperBack": -3.8895835499467326,
+      "heelMaxZ": 9.918471497494531,
+      "maxZ": 9.974689414102318,
+      "body": -7.884571027779336,
+      "toes": -7.867911442792676,
+      "cloth": -7.884999978924932,
+      "palms": -7.884571027779336,
+      "kneeL": -7.597862605951828,
+      "kneeR": -7.42724799169287,
+      "floorClearance": 0.015428972220663972
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "staticHold": true,
+    "kneeDegrees": {
+      "L": 180,
+      "R": 180
+    },
+    "footWidth": 2.1953000000000005,
+    "supportGaps": {
+      "body": 0.015428972220663972,
+      "seat": 0.01499999999999968,
+      "foot": 0.019743467246649438,
+      "palms": 0.015428972220663972
+    }
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      117.48934617321342,
+      117.48934617321342
+    ],
+    "alpha": {
+      "transparent": 38592970,
+      "opaque": 5150390,
+      "partial": 493440,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Supported front split with straight opposing legs, front toes up, rear instep down and palms grounded.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/source.jpg",
+    "sha256": "f9c1bca7ca2535523c0d88db4d558711d3607cc79ec5739801a908daca8204e3",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Eight-second video illustrates a gentle static hold."
+}

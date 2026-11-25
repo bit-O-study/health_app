@@ -1,0 +1,28 @@
+{
+  "locust-pose": [
+    {
+      "file": "tools/media/motion-guides/locust-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/locust-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/locust-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/locust-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/locust-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/locust-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

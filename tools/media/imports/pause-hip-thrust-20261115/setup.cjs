@@ -1,0 +1,17 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const base='tools/media/imports/pause-hip-thrust-20261115',old='tools/media/imports/tempo-20261115',rig='tools/media/imports/popular-three-b3-20261103',id='pause-hip-thrust';
+const read=p=>fs.readFileSync(p,'utf8'),write=(p,x)=>fs.writeFileSync(p,JSON.stringify(x,null,2)+'\n');
+assert.ok(!fs.existsSync(base+'/batch.json'));
+const section='\n## 2026-11-15 추가 제작 — 포즈 힙 쓰러스트\n\n- [진행중] pause-hip-thrust 영상 제작·검수·로컬 등록.\n  - [완료] 기존 힙 쓰러스트 장비·접촉 검사 및 미제작 목록 확인.\n  - [진행중] 3초 상승·2초 상단 정지·3초 하강, 양테마/알파 제작.\n  - [대기] 자세·벤치/발/그립 지지·시각·재생·앱 연결 검사.\n  - [대기] 운영 배포·Android 실기기 확인.\n';
+for(const p of ['docs/DEVELOPMENT-ROADMAP.md','docs/EXERCISE-VIDEO-RESUME.md']){const s=read(p),at=s.indexOf('\n');fs.writeFileSync(p,s.slice(0,at+1)+section+s.slice(at+1));}
+write(base+'/batch.json',{createdAt:new Date().toISOString(),entries:[{id,status:'awaiting-preview-review',recipe:{family:id,sourceUrls:['https://www.puregym.com/exercises/glutes/hip-thrusts/barbell-hip-thrust/'],sourcesCheckedAt:'2026-11-15',criteria:'Upper back supported on bench, feet planted, padded bar at hip crease, hands secure. Demonstration timing: 3 seconds ascent, 2 seconds top hold, 3 seconds descent. Duration is illustrative, not prescribed by source.'}}]});
+fs.writeFileSync(base+'/'+id+'-motion.mjs',read(rig+'/hip-thrust-motion.mjs').replaceAll("'hip-thrust'","'pause-hip-thrust'"));
+fs.writeFileSync(base+'/'+id+'-studio.mjs',read(rig+'/hip-thrust-studio.mjs').replaceAll("'hip-thrust'","'pause-hip-thrust'").replace('lift=t<.4375?smooth(t/.4375):t<.5625?1:1-smooth((t-.5625)/.4375)','lift=t<.375?smooth(t/.375):t<.625?1:1-smooth((t-.625)/.375)'));
+for(const name of ['render.mjs','verify.mjs','finalize.mjs']){let s=read(old+'/'+name).replaceAll(old,base);if(name==='render.mjs')s=s.replace('...await page.evaluate(f=>window.inspectGeometry(f),frame)','contacts:poses[frame].joints.contacts');fs.writeFileSync(base+'/'+name,s);}
+fs.writeFileSync(base+'/check-poses.mjs',read(rig+'/check-poses.mjs').replaceAll("'hip-thrust'","'pause-hip-thrust'").replace('f=210;f<=270','f=180;f<=300').replace('One-second','Two-second').replace('topHoldSeconds:1','topHoldSeconds:2'));
+fs.writeFileSync(base+'/check.mjs',`import {readFileSync,writeFileSync} from 'node:fs';\nimport {checkPoses} from './check-poses.mjs';\nconst dir='${base}/native/${id}';\nconst report={status:'numeric-checks-passed',...checkPoses('${id}',JSON.parse(readFileSync(dir+'/poses.json')))};\nwriteFileSync(dir+'/kinematics.json',JSON.stringify(report,null,2));console.log(report);\n`);
+let review=read(old+'/record-review.cjs').replaceAll(old,base).replaceAll('tempo-push-up',id).replace("equipment: 'bodyweight'","equipment: 'barbell'");
+review=review.replace(/const limitations = .*?;\r?\n/,"const limitations = ['Procedural demonstration; contact samples do not constitute full collision or biomechanical validation.', '3-2-3 timing chosen for demonstration, not prescribed by the source.'];\n");
+review=review.replace(/const checks = .*?;\r?\n/,"const checks = {exercise:'Pause hip thrust, 2-second top hold.',equipment:'Barbell with hip pad and bench.',setup:'Front oblique and side views inspected; full body and apparatus visible.',hands:'Both hands retain bar grip.',feet:'Both feet stay planted.',movement:'3 seconds ascent, 2 seconds top hold, 3 seconds descent; upper back supported on bench.'};\n");
+fs.writeFileSync(base+'/record-review.cjs',review);
+console.log('Prepared '+id);

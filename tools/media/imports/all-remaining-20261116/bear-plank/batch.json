@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "bear-plank",
+      "original": "bear-plank",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "bear-plank",
+        "sourceUrls": [
+          "https://www.the-fit-edit.com/library/bear-plank"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Static bear plank: hands below shoulders, knees below hips hovering slightly above floor, toes tucked under, torso steady. Eight-second illustrative hold; no entry or exit.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

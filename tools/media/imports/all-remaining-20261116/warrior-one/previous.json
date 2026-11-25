@@ -1,0 +1,28 @@
+{
+  "warrior-i-pose": [
+    {
+      "file": "tools/media/motion-guides/warrior-i-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/warrior-i-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/warrior-i-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-i-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-i-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-i-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

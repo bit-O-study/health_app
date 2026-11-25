@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "dynamic-hip-flexor-stretch",
+      "original": "dynamic-hip-flexor-stretch",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "dynamic-hip",
+        "sourceUrls": [
+          "https://ca.physitrack.com/home-exercise-video/hip-flexor-and-side-stretch-%2528dynamic%2529"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Half kneeling controlled forward weight shift and return with fixed front foot and rear knee; optional overhead side bend omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second cycle illustrates a smooth forward shift and return."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

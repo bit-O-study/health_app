@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T00:28:35.670Z",
+  "report": [
+    {
+      "id": "lying-hamstring-stretch",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

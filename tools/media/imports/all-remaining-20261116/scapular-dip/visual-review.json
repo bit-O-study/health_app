@@ -1,0 +1,75 @@
+{
+  "scapular-dip": {
+    "reviewedAt": "2026-11-16T08:18:43.854Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "scapular-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Straight arms support the body while shoulder elevation and depression lower and raise the torso; feet remain clear of the floor.",
+      "movement": "Keep arms straight and hands fixed on parallel bars. Depress shoulder girdle to raise body, pause, then return slowly. Legs remain slightly forward without swinging."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/final.jpg",
+        "sha256": "e4cd445b77629c4a6c8118d9185e9631f06eed330a3db0787b55d6117ad9ebae"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/final-dark.jpg",
+        "sha256": "803b90fc76ea21bee6b5a29e0c8f5ba704d23d7ca83e61ec493576eeb833c44e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/full-sheet.png",
+        "sha256": "4a79fc01e919ee90a5c68e483eadf6640d96d815ff8916003bc4561cd0065f50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/side-sheet.png",
+        "sha256": "f0a524df2a88c1cffd76d47b4b894e1a04b0fc4d73aa54592c1b20cc11a50ce8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/verification.json",
+        "sha256": "4450ffd8de811b660577bb4f2460699ae00b0d0eba9bdbbe344a0172f39e3e42"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/geometry.json",
+        "sha256": "d2fbb4d9d6e9c19244162b3becf4bc1c5e6eeec89e7288b7dbbedc1f06ae0a27"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/kinematics.json",
+        "sha256": "b7d22a6998db5e3158f17a9bb97d2c70a2583aea00d0f6d95716974c7ecf6563"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/provenance.json",
+        "sha256": "1200b2afef418f0e8d4d312dbfddd9bcb7385430e5e431fa313a458005d186e9"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/scapular-dip-alpha.webm",
+        "sha256": "dd1c1ef7b95f941edea871049c70bf82886b36b96f0d1ea617a80b044a7e24fd",
+        "bytes": 107624,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/scapular-dip.mp4",
+        "sha256": "6fdbe78f4118d751dee9b79fb741207d95e6f456c64e68f3ceea7e52959fc8ef",
+        "bytes": 44022,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/scapular-dip-dark.mp4",
+        "sha256": "145a0973471e60a69ac807f71190a14bfeb63fa2ff9691c66076ee6b77d184c7",
+        "bytes": 45905,
+        "decode": "passed"
+      }
+    ]
+  }
+}

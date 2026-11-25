@@ -1,0 +1,18 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "minElbow": 179.99999809090406,
+  "minKnee": 52.4389931161742,
+  "maxStep": 0.018044655159682933,
+  "stationaryFeet": true,
+  "alternatingHeelContact": true,
+  "heelGaps": {
+    "left": 0.05148056433407491,
+    "right": 0.05148056433407491
+  },
+  "supportGaps": {
+    "feet": 0.032494020080565456,
+    "pelvis": 0.01974696865081782
+  }
+}

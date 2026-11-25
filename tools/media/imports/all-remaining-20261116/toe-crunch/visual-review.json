@@ -1,0 +1,75 @@
+{
+  "toe-touch-crunch": {
+    "reviewedAt": "2026-11-24T06:32:06.180Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "toe-touch-crunch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms reach upward toward toes as shoulder blades rise.",
+      "feet": "Both legs remain straight and vertical while upper torso curls and lowers.",
+      "movement": "Hold straight legs vertical, lift shoulder blades by curling upper torso while reaching arms toward toes, then lower with control."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled crunch demonstration."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/final.jpg",
+        "sha256": "ec34e258e1f07701dd051bdfc84bc0ce37dc50a97a417ab64fb6894102ec35c8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/final-dark.jpg",
+        "sha256": "fffd26df35d333efb33b9372ed98df0bcc6fcd1d06dda6ba11dc065b44735c3c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/full-sheet.png",
+        "sha256": "d93ea89e71f2c696f296b2ba91b99fa7d811f7f25c3de471cec49a18064d130b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/side-sheet.png",
+        "sha256": "06ea1d58d3ac6f3c1765cdb6fb6b8f08d40c6b93af0dafb16f41886812c0ec2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/verification.json",
+        "sha256": "a7f3e575fdaf93bc7a00c0c265de950a9c82965ec56619071f11d8ca84670f15"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/geometry.json",
+        "sha256": "e16c8cfd9337ada864dad548572ac3ce2775a48c73c898aaed6b8c2753120edc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/kinematics.json",
+        "sha256": "162332a8cda5075194a058c828c7af62dc6450c45686835bb979c4e819d03c1e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/provenance.json",
+        "sha256": "77d2c42336022a9192cf9fd296170963a3bb182f65bb74e0bc4c9f046ca4a326"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/toe-touch-crunch-alpha.webm",
+        "sha256": "3635f6b79b9344a3e739ebb280502025df2727e1fa546825587662e9512842a6",
+        "bytes": 178832,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/toe-touch-crunch.mp4",
+        "sha256": "3a9ef854724d0a9998624ecf4a567ae6b60f62caf7f629e90392f2c3837fb30a",
+        "bytes": 65176,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/toe-crunch/native/toe-touch-crunch/toe-touch-crunch-dark.mp4",
+        "sha256": "d120879c4897f44545ab455e2a3452102ce578baa181a35f55ee982f3040343e",
+        "bytes": 72731,
+        "decode": "passed"
+      }
+    ]
+  }
+}

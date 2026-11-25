@@ -1,0 +1,28 @@
+{
+  "bow-pose": [
+    {
+      "file": "tools/media/motion-guides/bow-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bow-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bow-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bow-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bow-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bow-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

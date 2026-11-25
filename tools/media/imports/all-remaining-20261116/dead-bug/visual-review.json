@@ -1,0 +1,75 @@
+{
+  "dead-bug-extension": {
+    "reviewedAt": "2026-11-24T06:38:10.562Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "dead-bug-extension",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Opposite arm reaches overhead as one leg extends; the other arm stays vertical.",
+      "feet": "One leg extends from tabletop, returns, then the other leg extends with the trunk stationary.",
+      "movement": "From supine tabletop, extend one leg and the opposite arm, return, then alternate without lifting or twisting the trunk."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second alternating opposite arm and leg demonstration."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/final.jpg",
+        "sha256": "2316e192c348fae14f5b16001ff69088850112fd513db8a185baa4a22c0a650e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/final-dark.jpg",
+        "sha256": "35c6a2a6610727bd7ae9cbed178acbadfa8411437641f1e723a9e88c65a5ef8d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/full-sheet.png",
+        "sha256": "6d90e7bd69c18ee14e611aca4b21bf86c659d02b6cbd0df76aabd8240c70fc7f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/side-sheet.png",
+        "sha256": "3d17889dce325aaf8e28f2484e06f5516dc92a9acd40216ef7469dddd713055f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/verification.json",
+        "sha256": "a726224a345cead1ff79ad971124d44da64a5b76aaa03d6286ac5a94652fa51e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/geometry.json",
+        "sha256": "b849f612e831e5cd35ef1e2e6703001817bb63f4a19de8be15b9200551efb8d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/kinematics.json",
+        "sha256": "9a1f97ee74b003f23c3b8b1d0396490da10fcebfb2508c24667cdec13988aa8e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/provenance.json",
+        "sha256": "79e316ebf8ab8005b72e83dcdf401953dc2ed74b315124012f120ac4e6217585"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/dead-bug-extension-alpha.webm",
+        "sha256": "45c1174b32c4fd0507f39bfdf0c2a40dbef5f30e3c1ec14b69cc8f2d7fde3ba4",
+        "bytes": 235427,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/dead-bug-extension.mp4",
+        "sha256": "33e711150d2408d3267d817673bc9677c8e613972dee3973a12fa6f2f6bb4f5c",
+        "bytes": 101477,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/dead-bug-extension-dark.mp4",
+        "sha256": "2418f9e36ea3fae9964310e6a568f5ebb08e3c4265b01489e1362c4c849be9d9",
+        "bytes": 108141,
+        "decode": "passed"
+      }
+    ]
+  }
+}

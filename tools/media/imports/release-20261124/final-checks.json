@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-11-25T01:09:27.931Z",
+  "unit": {
+    "passed": 4120,
+    "files": 536,
+    "skipped": 1
+  },
+  "schema": {
+    "passed": 116
+  },
+  "lint": {
+    "errors": 0
+  },
+  "types": "passed",
+  "build": {
+    "status": "completed",
+    "buildId": "NO5sNZCQ403oFOdBNSuhP",
+    "note": "Network-enabled retry completed; PowerShell stderr forwarding returned a nonzero wrapper status after recovered font download warnings."
+  },
+  "changedVideos": {
+    "files": 537,
+    "hashes": "passed",
+    "renderInputs": "passed",
+    "decode": "Existing passing records matched by SHA; fresh complete re-decode interrupted"
+  },
+  "browser": {
+    "cases": 15,
+    "status": "passed",
+    "scope": "Direct video elements at 390px, play/seek/loop/overflow"
+  },
+  "e2e": {
+    "passed": 1,
+    "failed": 3,
+    "notRun": 490,
+    "reason": "App Supabase project differs from test DB; fixture users absent in DB",
+    "cleanup": "0 test accounts found in configured test DB; app-account cleanup not confirmed"
+  },
+  "android": "not-verified",
+  "production": "approved-pending-deployment",
+  "exceptionApproval": {
+    "date": "2026-11-25",
+    "user": "그냥 배포해줘도 돼",
+    "scope": "Commit and deploy despite recorded E2E environment failures and Android verification gap"
+  }
+}

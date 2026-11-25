@@ -1,0 +1,148 @@
+{
+  "tempo-overhead-press": {
+    "reviewedAt": "2026-11-16T01:27:07.609Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "tempo-overhead-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Press uses fixed-width bar grip; Nordic hands stay ready in front of the torso.",
+      "feet": "Press feet remain planted; Nordic knees and ankles remain supported by pads.",
+      "movement": "Standing strict press: 3 seconds up, 1 second overhead, 3 seconds down, 1 second at shoulders; no leg drive."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Illustrative tempo. Nordic shows a limited 45-degree eccentric-emphasis repetition and unassisted return, not a full descent or assisted reset."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/final.jpg",
+        "sha256": "368444a20d82661dcea1371b943613f94725f93932dd7947f895fd978645a004"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/final-dark.jpg",
+        "sha256": "b2988e12453430a98bd36be6ab5c66670eb6e70b23bfa29760f866890a867088"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/full-sheet.png",
+        "sha256": "75bfa2622873c6b73bb0b75b71574c2a1b6106cdfca32e4a61d52716eb8afe5d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/side-sheet.png",
+        "sha256": "73b9498bdab539bbf1be610d42f830c80d11efcfff9e23ea940973f3e9fc902e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/verification.json",
+        "sha256": "5dfbb81acc9672adf416362ccd0220871c3936212f279fd2fb3de194aeeac29b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/geometry.json",
+        "sha256": "388090535684892c10c3fddb7e1fa18afc45fdba06e606fed968b8c963a77cc7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/kinematics.json",
+        "sha256": "bdb9eee6dd2e66e5ebf9a832f1ec5f165ebe740560a18cc4057c0e0cd667c950"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/provenance.json",
+        "sha256": "ac768a4767169f993ee17d0eafd4b0e5883e6710dd60bf36a2e5f64b14a82c13"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/tempo-overhead-press-alpha.webm",
+        "sha256": "a46852ec035367b3bea21213f0193959150c7b22202efa439561a85a4e43dde9",
+        "bytes": 241592,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/tempo-overhead-press.mp4",
+        "sha256": "37cb6013ef9ecbb726b7efad87876913afd3fa56d48504cac783da8d37007b9d",
+        "bytes": 95464,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/tempo-overhead-press-dark.mp4",
+        "sha256": "c0ace75559b818dcf589bb491fb0ba827c8cc058c11d13809d0cec7964b05286",
+        "bytes": 86846,
+        "decode": "passed"
+      }
+    ]
+  },
+  "eccentric-nordic-curl": {
+    "reviewedAt": "2026-11-16T01:27:07.619Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "eccentric-nordic-curl",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Press uses fixed-width bar grip; Nordic hands stay ready in front of the torso.",
+      "feet": "Press feet remain planted; Nordic knees and ankles remain supported by pads.",
+      "movement": "Eccentric-emphasis limited-range Nordic: 5-second controlled 45-degree lean, 1-second hold, 1-second unassisted return, 1-second upright pause. Not an eccentric-only full descent or assisted reset."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Illustrative tempo. Nordic shows a limited 45-degree eccentric-emphasis repetition and unassisted return, not a full descent or assisted reset."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/final.jpg",
+        "sha256": "da809c4cc3f11db58fddf32ea39a4cd4af0af73cdbc974c900ec3e67ce27578d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/final-dark.jpg",
+        "sha256": "cb95e34f8a586d8d1522ce1df9c961edcaaac44a00cf5e5d2cbef65227d53a36"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/full-sheet.png",
+        "sha256": "8a42a37f534c253f15f2aef1e2d24d00d6e842a160930916d4cd2e3a91982975"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/side-sheet.png",
+        "sha256": "1096d6acc67188bafa8679bb634eaf9ac2ae0d6ed4e877c56c085b844dda7f09"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/verification.json",
+        "sha256": "53d87cfec81ff3699d7bf18f2d45dc451189929fd30133123961e0213dfb0dc3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/geometry.json",
+        "sha256": "25acb9a4936de28f83a348dbc4f456aecfa35ae661b6bfeddf86d204163f4bc0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/kinematics.json",
+        "sha256": "25f1be37cb6eb3d012c44c56cd79f68c5770696123c92f1b89c2ab71179e5969"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/provenance.json",
+        "sha256": "881f6b6a2c2aa7ccde0b0de7ae6173b8386eaf9026e49c9c9c21696e8fced743"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/eccentric-nordic-curl-alpha.webm",
+        "sha256": "7e884876a21bb661b85ea92f668b92186ac2b9533d81fbb46d3415fa9a238fb3",
+        "bytes": 238072,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/eccentric-nordic-curl.mp4",
+        "sha256": "f20ba6425fdcae055c22fd53a5fc6c183f740b4668fc9ecf096ec8c8063c6cb5",
+        "bytes": 113496,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/eccentric-nordic-curl-dark.mp4",
+        "sha256": "f3014fd43700214f31be2984f258c0a5340402d52ad64430313aa8d7833fa0b3",
+        "bytes": 114494,
+        "decode": "passed"
+      }
+    ]
+  }
+}

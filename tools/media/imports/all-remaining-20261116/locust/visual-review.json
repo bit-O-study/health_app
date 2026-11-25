@@ -1,0 +1,75 @@
+{
+  "locust-pose": {
+    "reviewedAt": "2026-11-16T08:24:17.273Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "locust-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands reach backward beside the hips with straight arms.",
+      "feet": "Prone torso and straight legs remain gently lifted while abdomen and pelvis contact the mat.",
+      "movement": "Maintain a low prone back extension with arms reaching back beside torso, straight legs raised and neck long. Eight-second hold, entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/final.jpg",
+        "sha256": "c1cdaa3e38543fa1a667e4b688b6e55e6f6e6ebec060c80b9d3352b2e4ddccf4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/final-dark.jpg",
+        "sha256": "6e7913a67f1ab335a84f6218113aa592f581d57bc1c2bdd2bf156f1dd9831558"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/full-sheet.png",
+        "sha256": "e14ead0d775aa7f457fdd59d84d5e036a734583e020969f91fc4cc83d867c26c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/side-sheet.png",
+        "sha256": "f3a944069c732e336881a5406d22177e300b3ae0b49aa07dca7d3cf56687d0e3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/verification.json",
+        "sha256": "31dfe02adb64f0e3e735910b65a0c9f0dbbe96763640f77daad7f3e86a8a409f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/geometry.json",
+        "sha256": "b17776518f1978672f554c713da22d38c9189d08e2a8bbb57d75cb0b0b0595cc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/kinematics.json",
+        "sha256": "9e0cacd99307a3dbe9a52073ab3e46b5e882f0b5b87c5d84e8070b057b3e7263"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/provenance.json",
+        "sha256": "e0df0771cc30edc11faf52545002dbd7b78f2563fb656322d7d59508a96f57ae"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/locust-pose-alpha.webm",
+        "sha256": "4d4a1c8aa827e8e9369e8e1fd23051c396b1eaf788b813f1063961b27ef43da3",
+        "bytes": 32918,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/locust-pose.mp4",
+        "sha256": "73f2b3a0c3fa0c699319229b9d12a59887913cbd36342654dce4470a14566348",
+        "bytes": 13355,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/locust/native/locust-pose/locust-pose-dark.mp4",
+        "sha256": "cfb1c8f969901c0ade229789d25aaab72af29db18aa029d1334d64c38fd6d3c8",
+        "bytes": 13061,
+        "decode": "passed"
+      }
+    ]
+  }
+}

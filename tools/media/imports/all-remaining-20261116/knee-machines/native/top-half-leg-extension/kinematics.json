@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 9.305364597889227e-16,
+  "maxStep": 0.031795270211614525,
+  "kneeDegrees": [
+    130,
+    170.00000000000003
+  ],
+  "supportSamples": 17,
+  "timing": "Upper-half knee extension, 130 to 170 degrees, three seconds each way and two-second top pause."
+}

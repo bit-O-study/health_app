@@ -1,0 +1,28 @@
+{
+  "band-clamshell": [
+    {
+      "file": "tools/media/motion-guides/band-clamshell.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-clamshell.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/band-clamshell-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-clamshell.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-clamshell-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/band-clamshell-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

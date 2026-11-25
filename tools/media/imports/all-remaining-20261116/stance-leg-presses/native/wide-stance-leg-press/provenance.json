@@ -1,0 +1,536 @@
+{
+  "id": "wide-stance-leg-press",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/stance-leg-presses/wide-stance-leg-press-studio.mjs",
+      "sha256": "4abe5b466445d569f25977a294349eafbe10d8884e34e10f0251abbd10f0032f"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/stance-leg-presses/wide-stance-leg-press-motion.mjs",
+      "sha256": "ade9113f7b90a5a5aba98422273f85ee06bdb77cbd71618fb0009971d44d8423"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/stance-leg-presses/render.mjs",
+      "sha256": "2b81c5ac709f51045cc5af7e228f9ac66475acdf2a99ab61a96b64391f283446"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "wide-stance-leg-press",
+    "sourceUrls": [
+      "https://www.muscleandstrength.com/exercises/wide-stance-45-degree-leg-press.html"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Wide ankle span 4.8, toes turned out 10 degrees. Full feet on plate, fixed pelvis/back and handle grips.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "feet": {
+        "L": {
+          "sole": 3.312087578494216,
+          "tMin": -0.6015476743350467,
+          "tMax": 2.0028186849074374,
+          "xMin": 2.0971793533072924,
+          "xMax": 3.1489261834605937,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 3.312087578494216,
+          "tMin": -0.6015476743350467,
+          "tMax": 2.0028186849074374,
+          "xMin": -3.1489261834605937,
+          "xMax": -2.0971793533072924,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 30,
+      "feet": {
+        "L": {
+          "sole": 3.3776219043345845,
+          "tMin": -0.6015613273287246,
+          "tMax": 2.002818684907437,
+          "xMin": 2.0971848342685018,
+          "xMax": 3.148926183460589,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 3.3776219043345845,
+          "tMin": -0.6015613273287246,
+          "tMax": 2.002818684907437,
+          "xMin": -3.148926183460589,
+          "xMax": -2.0971848342685018,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 60,
+      "feet": {
+        "L": {
+          "sole": 3.721733339969794,
+          "tMin": -0.6016186292842483,
+          "tMax": 2.002818684907438,
+          "xMin": 2.0972170367797887,
+          "xMax": 3.148926183460591,
+          "supportGap": 0.01499999999999968
+        },
+        "R": {
+          "sole": 3.721733339969794,
+          "tMin": -0.6016186292842483,
+          "tMax": 2.002818684907438,
+          "xMin": -3.148926183460591,
+          "xMax": -2.0972170367797887,
+          "supportGap": 0.01499999999999968
+        }
+      },
+      "crossbarClearance": 1.431807879164275,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 90,
+      "feet": {
+        "L": {
+          "sole": 4.330942234386725,
+          "tMin": -0.6016433079113139,
+          "tMax": 2.0028186849074365,
+          "xMin": 2.0972922376919603,
+          "xMax": 3.14892618346059,
+          "supportGap": 0.01499999999999968
+        },
+        "R": {
+          "sole": 4.330942234386725,
+          "tMin": -0.6016433079113139,
+          "tMax": 2.0028186849074365,
+          "xMin": -3.14892618346059,
+          "xMax": -2.0972922376919603,
+          "supportGap": 0.01499999999999968
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 120,
+      "feet": {
+        "L": {
+          "sole": 4.987066525932426,
+          "tMin": -0.6014858862287373,
+          "tMax": 2.002818684907438,
+          "xMin": 2.097417687101458,
+          "xMax": 3.14892618346059,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 4.987066525932426,
+          "tMin": -0.6014858862287373,
+          "tMax": 2.002818684907438,
+          "xMin": -3.14892618346059,
+          "xMax": -2.097417687101458,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642763,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 150,
+      "feet": {
+        "L": {
+          "sole": 5.471545693172053,
+          "tMin": -0.6010894417402138,
+          "tMax": 2.002818684907437,
+          "xMin": 2.097580787413906,
+          "xMax": 3.14892618346059,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.471545693172053,
+          "tMin": -0.6010894417402138,
+          "tMax": 2.002818684907437,
+          "xMin": -3.14892618346059,
+          "xMax": -2.097580787413906,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.431807879164275,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 180,
+      "feet": {
+        "L": {
+          "sole": 5.719986751825923,
+          "tMin": -0.6006028736632265,
+          "tMax": 2.002818684907437,
+          "xMin": 2.0977380239197405,
+          "xMax": 3.1489261834605893,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.719986751825923,
+          "tMin": -0.6006028736632265,
+          "tMax": 2.002818684907437,
+          "xMin": -3.1489261834605893,
+          "xMax": -2.0977380239197405,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.431807879164275,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 210,
+      "feet": {
+        "L": {
+          "sole": 5.8049319402220725,
+          "tMin": -0.6002849529002015,
+          "tMax": 2.002818684907438,
+          "xMin": 2.097831682477988,
+          "xMax": 3.1489261834605893,
+          "supportGap": 0.015000000000001457
+        },
+        "R": {
+          "sole": 5.8049319402220725,
+          "tMin": -0.6002849529002015,
+          "tMax": 2.002818684907438,
+          "xMin": -3.1489261834605893,
+          "xMax": -2.097831682477988,
+          "supportGap": 0.015000000000001457
+        }
+      },
+      "crossbarClearance": 1.4318078791642763,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 240,
+      "feet": {
+        "L": {
+          "sole": 5.817437566119277,
+          "tMin": -0.6002209611350386,
+          "tMax": 2.0028186849074365,
+          "xMin": 2.0978500066147148,
+          "xMax": 3.1489261834605893,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.817437566119277,
+          "tMin": -0.6002209611350386,
+          "tMax": 2.0028186849074365,
+          "xMin": -3.1489261834605893,
+          "xMax": -2.0978500066147148,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 270,
+      "feet": {
+        "L": {
+          "sole": 5.8049319402220725,
+          "tMin": -0.6002849529002015,
+          "tMax": 2.002818684907438,
+          "xMin": 2.097831682477988,
+          "xMax": 3.1489261834605893,
+          "supportGap": 0.015000000000001457
+        },
+        "R": {
+          "sole": 5.8049319402220725,
+          "tMin": -0.6002849529002015,
+          "tMax": 2.002818684907438,
+          "xMin": -3.1489261834605893,
+          "xMax": -2.097831682477988,
+          "supportGap": 0.015000000000001457
+        }
+      },
+      "crossbarClearance": 1.4318078791642763,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 300,
+      "feet": {
+        "L": {
+          "sole": 5.719986751825923,
+          "tMin": -0.6006028736632265,
+          "tMax": 2.002818684907437,
+          "xMin": 2.0977380239197405,
+          "xMax": 3.1489261834605893,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.719986751825923,
+          "tMin": -0.6006028736632265,
+          "tMax": 2.002818684907437,
+          "xMin": -3.1489261834605893,
+          "xMax": -2.0977380239197405,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.431807879164275,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 330,
+      "feet": {
+        "L": {
+          "sole": 5.471545693172053,
+          "tMin": -0.6010894417402138,
+          "tMax": 2.002818684907437,
+          "xMin": 2.097580787413906,
+          "xMax": 3.14892618346059,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.471545693172053,
+          "tMin": -0.6010894417402138,
+          "tMax": 2.002818684907437,
+          "xMin": -3.14892618346059,
+          "xMax": -2.097580787413906,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.431807879164275,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 360,
+      "feet": {
+        "L": {
+          "sole": 4.987066525932426,
+          "tMin": -0.6014858862287373,
+          "tMax": 2.002818684907438,
+          "xMin": 2.097417687101458,
+          "xMax": 3.14892618346059,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 4.987066525932426,
+          "tMin": -0.6014858862287373,
+          "tMax": 2.002818684907438,
+          "xMin": -3.14892618346059,
+          "xMax": -2.097417687101458,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642763,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 390,
+      "feet": {
+        "L": {
+          "sole": 4.330942234386725,
+          "tMin": -0.6016433079113139,
+          "tMax": 2.0028186849074365,
+          "xMin": 2.0972922376919603,
+          "xMax": 3.14892618346059,
+          "supportGap": 0.01499999999999968
+        },
+        "R": {
+          "sole": 4.330942234386725,
+          "tMin": -0.6016433079113139,
+          "tMax": 2.0028186849074365,
+          "xMin": -3.14892618346059,
+          "xMax": -2.0972922376919603,
+          "supportGap": 0.01499999999999968
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 420,
+      "feet": {
+        "L": {
+          "sole": 3.721733339969794,
+          "tMin": -0.6016186292842483,
+          "tMax": 2.002818684907438,
+          "xMin": 2.0972170367797887,
+          "xMax": 3.148926183460591,
+          "supportGap": 0.01499999999999968
+        },
+        "R": {
+          "sole": 3.721733339969794,
+          "tMin": -0.6016186292842483,
+          "tMax": 2.002818684907438,
+          "xMin": -3.148926183460591,
+          "xMax": -2.0972170367797887,
+          "supportGap": 0.01499999999999968
+        }
+      },
+      "crossbarClearance": 1.431807879164275,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 450,
+      "feet": {
+        "L": {
+          "sole": 3.3776219043345845,
+          "tMin": -0.6015613273287246,
+          "tMax": 2.002818684907437,
+          "xMin": 2.0971848342685018,
+          "xMax": 3.148926183460589,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 3.3776219043345845,
+          "tMin": -0.6015613273287246,
+          "tMax": 2.002818684907437,
+          "xMin": -3.148926183460589,
+          "xMax": -2.0971848342685018,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    },
+    {
+      "frame": 480,
+      "feet": {
+        "L": {
+          "sole": 3.312087578494216,
+          "tMin": -0.6015476743350467,
+          "tMax": 2.0028186849074374,
+          "xMin": 2.0971793533072924,
+          "xMax": 3.1489261834605937,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 3.312087578494216,
+          "tMin": -0.6015476743350467,
+          "tMax": 2.0028186849074374,
+          "xMin": -3.1489261834605937,
+          "xMax": -2.0971793533072924,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "crossbarClearance": 1.4318078791642759,
+      "plateHalfWidth": 4
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "gripError": 1.831026719408895e-15,
+    "maxStep": 0.0226745787560733,
+    "ankleSpan": 4.8,
+    "kneeRange": [
+      90,
+      165.00000000000023
+    ],
+    "supportSamples": 17
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      137.9035227637148,
+      137.9035227637148
+    ],
+    "alpha": {
+      "transparent": 35530717,
+      "opaque": 7435761,
+      "partial": 1270322,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/stance-leg-presses/native/wide-stance-leg-press/source.jpg",
+    "sha256": "4bf55162926589cbf49662cf082a8aa8a2ab46e7493c17c10602de181d885eba",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

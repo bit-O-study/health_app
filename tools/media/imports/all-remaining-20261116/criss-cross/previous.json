@@ -1,0 +1,56 @@
+{
+  "pilates-criss-cross": [
+    {
+      "file": "tools/media/motion-guides/pilates-criss-cross.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-criss-cross.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-criss-cross-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-criss-cross.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-criss-cross-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-criss-cross-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "bicycle-crunch": [
+    {
+      "file": "tools/media/motion-guides/bicycle-crunch.json",
+      "backup": "tools/media/imports/all-remaining-20261116/criss-cross/backup/bicycle-crunch-0.json",
+      "sha256": "bc976f81fedd234624ee7664389549408a5d4eec86bfa224bccfa00f32782169"
+    },
+    {
+      "file": "tools/media/motion-guides/bicycle-crunch.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/criss-cross/backup/bicycle-crunch-1.jpg",
+      "sha256": "e785296d7fbf6eff4a6635b26b7b59dc5360024a47f15b28d86290615ad30266"
+    },
+    {
+      "file": "tools/media/motion-guides/bicycle-crunch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bicycle-crunch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bicycle-crunch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bicycle-crunch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

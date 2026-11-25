@@ -1,0 +1,18 @@
+{
+  "id": "lying-hamstring-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f85c776736b1a921513f5622fbfca89d9c4dad6f682d735e3b90403dd7883dda",
+  "rigSourceSha256": "f1f44c5a63fa6e8c7ee1cc2649e8cb57ba5e5d63dbff2ac0b6ae9eb32396b1fe",
+  "videoSha256": "24d6a4db30fa9cdc8d77b7ca7b05e3e32bcbf025784667e2d79dc7d4be650662",
+  "darkVideoSha256": "8669d20eb975351bc4c29b894839301c4a2ac0c98277ad76821b52694cce4149",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15341,
+  "darkBytes": 15022,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T00:27:03.482Z"
+}

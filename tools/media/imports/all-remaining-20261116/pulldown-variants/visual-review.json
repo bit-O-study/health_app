@@ -1,0 +1,148 @@
+{
+  "v-bar-lat-pulldown": {
+    "reviewedAt": "2026-11-16T02:05:53.031Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "v-bar-lat-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Narrow neutral grip stays on the V handle.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Narrow neutral V handle pulldown, fixed seated torso, thighs and feet supported; 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/final.jpg",
+        "sha256": "3540e0d8288891cd9145039c99f65f39e93b0a8b03bb336feca1101980a058ab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/final-dark.jpg",
+        "sha256": "15f8b5901a6ee74652a387e0dc25661b83cc47e10729508206a82e3f4bf37fb1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/full-sheet.png",
+        "sha256": "2b3bbbb1cbe5abec48a7a63e306e72718e4807a3908b74c3a745d61e1c1705cd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/side-sheet.png",
+        "sha256": "69c31a5b5f6bc1377174780737c05882fb6ec1e4757b4b3706ccfcd7099feaa3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/verification.json",
+        "sha256": "875baa4916a3971231813ff043e781e921eb2bb8261d6e765f6289cd6399897e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/geometry.json",
+        "sha256": "dc6c573db294d1159c1ad9f3aa2a03ad7f3678704ed0107ffdc0cf36d6cefc07"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/kinematics.json",
+        "sha256": "0312d50eea4ec7e6027490afdb95cef8972ad48e87c8407d8c399fe9f777c6be"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/provenance.json",
+        "sha256": "81edbbb56b007784b3f1278ab4510f2c217703406870c6a5a9141019e55d8f42"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/v-bar-lat-pulldown-alpha.webm",
+        "sha256": "e78b9efe154664a1152ca18e92dddf9d95861861352160161e97145f950d037d",
+        "bytes": 157501,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/v-bar-lat-pulldown.mp4",
+        "sha256": "102f549c5799cd273feed265672f2c04201e172ec9174040c9a873984fb84e61",
+        "bytes": 64224,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/v-bar-lat-pulldown-dark.mp4",
+        "sha256": "28dff55bf542fa3a1a86fa28442781136f6aa60803c0c2e3cc4820c4db454296",
+        "bytes": 65439,
+        "decode": "passed"
+      }
+    ]
+  },
+  "partial-pulldown": {
+    "reviewedAt": "2026-11-16T02:05:53.041Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "partial-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Overhand grip stays on the straight bar during upper-half travel.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Illustrative upper-half pulldown: overhand grip, from overhead only halfway toward chest; 3.5 seconds pull, 1 second pause, 3.5 seconds return. Partial range is an explicit demonstration choice, not a claim that the reference prescribes it."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/final.jpg",
+        "sha256": "30031e3b72b99dc8cd6da5fe1d50f8da9a50a315779f30b1960d29616347da4b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/final-dark.jpg",
+        "sha256": "a4a45a6114f72827a6968a241734b08236db433ae21282863b28cd8972828020"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/full-sheet.png",
+        "sha256": "564e8ac0be4f92fe947acbdd72d42d88f3e56a791669b4bb13d237cfb76c774f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/side-sheet.png",
+        "sha256": "c9fb1839d0e278eea9ac38662a8ab4fa2516fb7098baa53f513875d98e22b8ea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/verification.json",
+        "sha256": "ceb214d1ebd7e2f16bebbf94327d7253cabb8f76ad9fb489880c662441ff5c58"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/geometry.json",
+        "sha256": "2239246c8f663085e1dc5f4b1f5ebf917532ee87c1dbbce1d88ed108d2d453e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/kinematics.json",
+        "sha256": "2498c0554421ceff21db4f3fb68c97bae4646848da3b8f2803369d998ad01fd1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/provenance.json",
+        "sha256": "c4b090943a268dab64544e23d323e9a605d6bf89592c1a59cc429772fd22a81d"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/partial-pulldown-alpha.webm",
+        "sha256": "c32e1267a36b9ef1c24b83b221c9e1137fc44ed6069f9ec55c5f9c3d112f4c3e",
+        "bytes": 157833,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/partial-pulldown.mp4",
+        "sha256": "f5ab81514fa1964cf372525e771b768cea3010ea9f691be2a1a782f341b5c6e7",
+        "bytes": 57865,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/partial-pulldown-dark.mp4",
+        "sha256": "8b29625ca4c1f88d451144647639d271785f871f7b1c5ae829e451486bb29ba5",
+        "bytes": 56008,
+        "decode": "passed"
+      }
+    ]
+  }
+}

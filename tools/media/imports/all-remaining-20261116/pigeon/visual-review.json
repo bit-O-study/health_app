@@ -1,0 +1,75 @@
+{
+  "pigeon-pose": {
+    "reviewedAt": "2026-11-24T07:38:06.460Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pigeon-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Hands supported by low blocks, front knee on a small pad; upright torso.",
+      "feet": "Front knee bent and shin angled across mat; opposite leg straight behind, top of rear foot near mat.",
+      "movement": "Supported upright pigeon: front knee bent with shin angled across mat, rear leg straight back, hands supported; static left-side demonstration."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second supported left pigeon hold; repeat opposite side separately."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/final.jpg",
+        "sha256": "837adade94a7b73a2bec91e80f58476d9a69266496038888bc1a487d0906d541"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/final-dark.jpg",
+        "sha256": "554d1389bce1dda93a820ecaeb1405faf941f5d8db249dfaa4aa872a16c14928"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/full-sheet.png",
+        "sha256": "fe21e33439ced87942b37765e38a2d32c891b1b3e5d2db42dec4727fb184852b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/side-sheet.png",
+        "sha256": "0ce55e45feb12161856a7d3ae2784cce10a89689225913e5c596c5fc117071d4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/verification.json",
+        "sha256": "cefe572063d09215be10d626a6453688bb571dd105d87ad40fb1090c5963d6f9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/geometry.json",
+        "sha256": "601f77cfa0eb2392710fc3abc43e1dfb07f8b98ac17b6736745373bde29fd36c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/kinematics.json",
+        "sha256": "cf6eba7e2f9c1028bf788c9603db856567e9bf95d95d3d90a3fa09c34e640ccc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/provenance.json",
+        "sha256": "f814ccd94b5875fda86526e546643379b97aef3be8a67ebabab3e8e94986c2e5"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/pigeon-pose-alpha.webm",
+        "sha256": "2cae65656b53a3d76dc74ec1c684ec0253682b5b1f5227775b6622ac81e88bb8",
+        "bytes": 36468,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/pigeon-pose.mp4",
+        "sha256": "ea3105324ec57cebd0fa7cb81f6bef8a5104133720806579031a79c613592324",
+        "bytes": 15858,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pigeon/native/pigeon-pose/pigeon-pose-dark.mp4",
+        "sha256": "f0f113bade3953fa54997814bea1b5a300ffba6ca1391fc0eb8410dc8c24a838",
+        "bytes": 15526,
+        "decode": "passed"
+      }
+    ]
+  }
+}

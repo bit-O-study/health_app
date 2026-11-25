@@ -1,0 +1,75 @@
+{
+  "bow-pose": {
+    "reviewedAt": "2026-11-24T04:09:59.946Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "bow-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands grasp outside ankles; chest lifted with neck following upper back.",
+      "feet": "Both knees bent and elevated at hip width, feet flexed and abdomen supported.",
+      "movement": "Prone backbend balancing on abdomen, chest and thighs lifted, knees bent hip-width and both hands holding outside ankles."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/final.jpg",
+        "sha256": "ded8ae6a8e76ae0945668365ddc1f2fbb4d710ac30e4033d7ab257d89ac56bf9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/final-dark.jpg",
+        "sha256": "1d79a47b2bf88686abb8c87b1def6a1d080586cea45f8e8b52635e988817b4d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/full-sheet.png",
+        "sha256": "7484412662b391f21fc488078d46f5829cd15625fa1f12294d7259c28180f233"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/side-sheet.png",
+        "sha256": "eba6a61977b88f849bcb7ee9ec6f679729106146f5a01c3e36bbbe20051a2454"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/verification.json",
+        "sha256": "ec11bcd4c710a4b0efc54c2b0046e2179f7f1fb7eb28e3e6db6bac7862076b7c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/geometry.json",
+        "sha256": "67a20d36159f0900b227186e336895756ebe2ed5afb52f90685194cf40832e66"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/kinematics.json",
+        "sha256": "2cf8bb89fbae2c89ff1b5eefd503cc7e58bcd2e00af3a56acf51af06958b18cf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/provenance.json",
+        "sha256": "6fe48fb9afc571c38cc511c52a773348f0bd40064b2ccb1188e6a3a3cc2f23a8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/bow-pose-alpha.webm",
+        "sha256": "f59606045ad4561a3481051e3e2b2ac0ea7d4c27c70fa6256cb78530ce62bba1",
+        "bytes": 38835,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/bow-pose.mp4",
+        "sha256": "5364b0facea6e89808688a7da0490e91b61e54276151316aa6120327499c797b",
+        "bytes": 15594,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/bow/native/bow-pose/bow-pose-dark.mp4",
+        "sha256": "e9ec037cc0b4a41ef2589c9e37df020156f7e0a044306a68af216904fde5d5fb",
+        "bytes": 15468,
+        "decode": "passed"
+      }
+    ]
+  }
+}

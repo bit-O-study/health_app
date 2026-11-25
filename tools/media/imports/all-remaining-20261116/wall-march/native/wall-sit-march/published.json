@@ -1,0 +1,18 @@
+{
+  "id": "wall-sit-march",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "808ddb20e1dcb6da5ce094566263612826dbf427dc6375c46fcb563797ad6bff",
+  "rigSourceSha256": "849ac635230292c43830ff23e16d382c00a928839944f8878c363a8e65b08ba1",
+  "videoSha256": "5ecd20dfdb36e519a75a25aea90a1be30e187e9e97020f2970786537bc850d0c",
+  "darkVideoSha256": "cc0e9e5113b0e554fc7b7338f5932bf73fbfab16230db0043c0b7aa3bf5ddfef",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 41984,
+  "darkBytes": 41415,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:40:40.649Z"
+}

@@ -1,0 +1,75 @@
+{
+  "straddle-stretch": {
+    "reviewedAt": "2026-11-24T01:10:00.945Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "straddle-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support on mat ahead of pelvis.",
+      "feet": "Both straight legs widen with knees and toes upward, heels supported and low folded blanket under pelvis.",
+      "movement": "Gentle seated straddle forward lean, legs wide and straight with toes up, spine long, hands on floor in front for support. Low folded blanket supports pelvis."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/final.jpg",
+        "sha256": "7b7749ffac12e951d61b14b35a7373c6b3b6571d767dcfbb05d304f362b219e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/final-dark.jpg",
+        "sha256": "a8c417e17b6bf5252a104bd75a33deab82288319daa3e3e163da1aecf5ffce1e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/full-sheet.png",
+        "sha256": "f23e2a56fa91557523e90e93953e18f3af3ef43114cc06110cbc4e80358eae7d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/side-sheet.png",
+        "sha256": "21c9558ae1b12e2b0eafc117b6805370c4574767b457afcc14635ea6fcf50921"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/verification.json",
+        "sha256": "398ae66350edee8559d15c24fb8a3654ef57ef24b1ed084bdcf15875022d42ac"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/geometry.json",
+        "sha256": "296c0ab767e7f3fec4d1121ea5ed5f6a3b9d37010933c2201475634e03c401da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/kinematics.json",
+        "sha256": "318da3cff14d946fc51c4e1277b573dcad56ac76a62d6845d86177c51f77766f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/provenance.json",
+        "sha256": "a3e19f08f87b359aabcdb40b45eac238a9285bc7f7001274de7387be919a9a95"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/straddle-stretch-alpha.webm",
+        "sha256": "6df202328688d44880e9d0e2d9b17970651ba90c74c8544ab62e0998872b51ad",
+        "bytes": 36486,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/straddle-stretch.mp4",
+        "sha256": "c8d2abdfb797a1efce015fe04a32ae5a3cdee5b4d038d8cf64ed32f66754c74b",
+        "bytes": 16239,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/straddle-stretch-dark.mp4",
+        "sha256": "597ea21f5e5abf19021622fa0c3a639d56ed69d8a7a99caf574c6d49755fb13a",
+        "bytes": 16673,
+        "decode": "passed"
+      }
+    ]
+  }
+}

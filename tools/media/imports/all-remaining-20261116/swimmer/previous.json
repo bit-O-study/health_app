@@ -1,0 +1,28 @@
+{
+  "swimmer-exercise": [
+    {
+      "file": "tools/media/motion-guides/swimmer-exercise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/swimmer-exercise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/swimmer-exercise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/swimmer-exercise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/swimmer-exercise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/swimmer-exercise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

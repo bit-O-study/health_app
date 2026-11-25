@@ -1,0 +1,75 @@
+{
+  "butterfly-stretch": {
+    "reviewedAt": "2026-11-24T01:00:18.950Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "butterfly-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms rest over matching feet; hands stay separated.",
+      "feet": "Soles meet centrally with knees relaxed outward; ankles and seated pelvis supported above mat.",
+      "movement": "Seated butterfly hold, knees relaxed outward and soles together, hands supporting feet, long spine with gentle forward inclination."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/final.jpg",
+        "sha256": "d7903fa3c5022245fe8b6ac9ef8106773eb1983664f236fe2d9d7465764d0172"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/final-dark.jpg",
+        "sha256": "a8651ddd3a14532d2a76e7a6ceb58bc5ac343f2c7c0b15428a6f5a57fa966717"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/full-sheet.png",
+        "sha256": "c5627f94ffb123b47592a08a5dc3b11b75d8de97dff9974f56e69354ed8015e8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/side-sheet.png",
+        "sha256": "c49c31bc49f858296a411c3a6600669ad8de47e6d1d0038ca86a7aa16a415480"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/verification.json",
+        "sha256": "63e36ace3916ace135bc76584e271f4f2b6856c20f1afbd82da283ab44b046ce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/geometry.json",
+        "sha256": "55744eca3dbff2368ebe5cfa819d82c9d62f92204557b816a33cd175c90e158e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/kinematics.json",
+        "sha256": "be85c35f837df1bc348e607f47865b6618e1a465dde68a73c2f15c018a9db4d1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/provenance.json",
+        "sha256": "d30d026c5e4d26de4973f4d1a7c8d7f1e13a1a9d2a4d49288bd235557163ddfb"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/butterfly-stretch-alpha.webm",
+        "sha256": "8d8dc65833481a8e6572adfc92fda420fe60d96e4a4a04696fb82771ef6071ec",
+        "bytes": 38587,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/butterfly-stretch.mp4",
+        "sha256": "d8ba7ada18a08d0a97ab60057f1c3e0eb97cf5542c43a8c2925fbe309f562c82",
+        "bytes": 17140,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/butterfly/native/butterfly-stretch/butterfly-stretch-dark.mp4",
+        "sha256": "27d11411ef1c60971c770eb161cd6c377c90c57cd530469467d0831596a1bd88",
+        "bytes": 16945,
+        "decode": "passed"
+      }
+    ]
+  }
+}

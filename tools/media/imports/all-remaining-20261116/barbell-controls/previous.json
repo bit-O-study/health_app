@@ -1,0 +1,80 @@
+{
+  "isometric-squat-hold": [
+    {
+      "file": "tools/media/motion-guides/isometric-squat-hold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-squat-hold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-squat-hold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-squat-hold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-squat-hold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-squat-hold-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "isometric-bench-hold": [
+    {
+      "file": "tools/media/motion-guides/isometric-bench-hold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-bench-hold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/isometric-bench-hold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-bench-hold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-bench-hold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/isometric-bench-hold-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "eccentric-bench-press": [
+    {
+      "file": "tools/media/motion-guides/eccentric-bench-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-bench-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-bench-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-bench-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-bench-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-bench-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

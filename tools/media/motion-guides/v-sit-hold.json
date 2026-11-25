@@ -1,0 +1,15 @@
+{
+  "id": "v-sit-hold",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "v-sit-hold-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://sport.education.nsw.gov.au/File/4666"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T05:25:36.090Z"
+}

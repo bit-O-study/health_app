@@ -1,0 +1,28 @@
+{
+  "lying-leg-raise": [
+    {
+      "file": "tools/media/motion-guides/lying-leg-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-leg-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-leg-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-leg-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-leg-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-leg-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "wide-cable-face-pull": {
+    "reviewedAt": "2026-11-16T06:59:04.183Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "wide-cable-face-pull",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the rope ends; split rope and cable follow the hands.",
+      "feet": "Standing with feet planted, trunk fixed, long rope branches spread widely toward the sides of the head.",
+      "movement": "Standing long-rope face pull. Stable feet and torso, hands spread wider than shoulders, elbows out. Rope branches length 5.5, wider final wrist span 7.6. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/final.jpg",
+        "sha256": "4db86b9f1e1d4c58e0f7aed33fb02fe5f7166c6b9e913fcf70d627155aa63b45"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/final-dark.jpg",
+        "sha256": "4dfdabfe45a9aa55f6db3ae92267ee766e076e98142a74eb675dd8dce1db5731"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/full-sheet.png",
+        "sha256": "4745147d4c2f938f8e2ea92d115b356866ea006a230073a4655ff3022948b37d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/side-sheet.png",
+        "sha256": "528f1481ff1a57bdf703b41adb0f4bcc758c0d368d16515a84b797e097d07cdb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/verification.json",
+        "sha256": "fa674b0a6a42803850972eb0911332f2b8fc74ce30ace5a0986e7474dae16e2e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/geometry.json",
+        "sha256": "18645268630287fe48b2f2070552d0b45160a866986a3a01b86c6a643b3bce89"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/kinematics.json",
+        "sha256": "396637282d64b8f10455c2a6d4516c6da264e9b331c4e1cc9d9c0ff32e9f690a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/provenance.json",
+        "sha256": "13ea5e6a7ec2b13591a9dd4673120863454f263c912d6b41e9473a95dde80585"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/wide-cable-face-pull-alpha.webm",
+        "sha256": "737e8395be3c4b7cb550b199e58dcdda8a698eb851bcf922c3a183948eff5a43",
+        "bytes": 210404,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/wide-cable-face-pull.mp4",
+        "sha256": "ad44f67253795d4c0945497a8900ca22cca392a43136d4dbc2ca5610eb955718",
+        "bytes": 92470,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/wide-face-pull/native/wide-cable-face-pull/wide-cable-face-pull-dark.mp4",
+        "sha256": "8bfa2e44cf7d276987a0f501473eb3922679e975edffea1e312c057d3562cb53",
+        "bytes": 80683,
+        "decode": "passed"
+      }
+    ]
+  }
+}

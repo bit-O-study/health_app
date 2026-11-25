@@ -1,0 +1,75 @@
+{
+  "reverse-warrior": {
+    "reviewedAt": "2026-11-24T05:54:00.534Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "reverse-warrior",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Front arm reaches overhead toward back leg, rear hand rests lightly on rear thigh.",
+      "feet": "Front knee stays bent over ankle, rear leg straight and both feet grounded.",
+      "movement": "Warrior II legs, front knee bent and rear leg straight, side bend toward back leg with front arm overhead and rear hand resting lightly on rear thigh."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static hold; one side, entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/final.jpg",
+        "sha256": "efc610a3be7ea5a8d18eba1c1d9ce8d348e2b7362b805f1b67ef5d7c3af6cbb7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/final-dark.jpg",
+        "sha256": "f54c236f241fa1058e4e92737c4789afa44d4227a18feaea0a3b09a63adc626e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/full-sheet.png",
+        "sha256": "67e9ed9b95a326a82ba0d5e66796845cd45eaa51b2833c41db652114df35ec00"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/side-sheet.png",
+        "sha256": "e5ce27a50bef928133d6817b1ed68085b5d851d7e305919bb7db3c5b9cfe0d2b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/verification.json",
+        "sha256": "af28a558cbc6bdb28bfbe77c9528caa79580676dc9a352df25d80d7d7ba5d9ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/geometry.json",
+        "sha256": "991fc19cfdc3951d92058157a224157b72b04115ad6512cea883e147f38b4450"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/kinematics.json",
+        "sha256": "d43ff9d21234ae29ed9f29a98fe7327a049f0e62300fe2661a0f8ca8b3671175"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/provenance.json",
+        "sha256": "f9d87949dda16fa81ecf1b21931b1d73f27402b5f19a842151fbc905541b16fa"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/reverse-warrior-alpha.webm",
+        "sha256": "eefd6bbe9f9cb121baac890432db0919b9ce2b16119c1a8d6ed97c0a0096b256",
+        "bytes": 41027,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/reverse-warrior.mp4",
+        "sha256": "6309ebdaf344ca6253ad1f82f1814206711b74a8c8150facdf56fc96f112bcf8",
+        "bytes": 15488,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/reverse-warrior/native/reverse-warrior/reverse-warrior-dark.mp4",
+        "sha256": "1c606253d86c5e2c8cf09e2d619170d2e99a111e55294b1619f755ccba9e7ed5",
+        "bytes": 15269,
+        "decode": "passed"
+      }
+    ]
+  }
+}

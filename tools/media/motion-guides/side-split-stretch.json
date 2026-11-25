@@ -1,0 +1,15 @@
+{
+  "id": "side-split-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "side-split-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://lim.univ-reunion.fr/staff/fred/Perso/Stretch/pm_ba-stretching.pdf"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T04:43:39.196Z"
+}

@@ -1,0 +1,75 @@
+{
+  "couch-stretch": {
+    "reviewedAt": "2026-11-24T04:25:36.037Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "couch-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms rest separately on the front thigh; torso upright.",
+      "feet": "Front foot and rear knee grounded; rear foot supported on stable bench.",
+      "movement": "Half-kneeling quadriceps and hip-flexor stretch with rear foot supported on a bench, front foot grounded and hands resting on front thigh."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/final.jpg",
+        "sha256": "94226097ce738d7efc196db8d2aee229f2f750ca1229c58aa8d13de2f8efe068"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/final-dark.jpg",
+        "sha256": "97f144e7e23e9544dda7eb61f0bd4734fc161561e34ad3b49a20a16811f2d757"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/full-sheet.png",
+        "sha256": "172509ff481375c12ce30491dcad475e39139ec0f35402e3711cba1bb9c8e776"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/side-sheet.png",
+        "sha256": "7cd58ff30386cffb50c9d531a6c714cde97e84a0621f162267efa340d058b21e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/verification.json",
+        "sha256": "579b9201f55bdc0972860b379cd2c4e1e8a3abf1b86f1b9ca2b0d9f67f6ec461"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/geometry.json",
+        "sha256": "7fee189994261e88e7bb872663a8d55a9e10a15e95676e7d53bc3d6859d523f0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/kinematics.json",
+        "sha256": "cd1ccb01374f6224fe0380b297844a157e37a0844154fbefde2e0fcd3970cc5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/provenance.json",
+        "sha256": "1bd73ac7cd717ecb9c886745dd206f5053d09e706259960807294a614def970e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/couch-stretch-alpha.webm",
+        "sha256": "7c4abe230ccceb6cb14824bd8747d9a4ef585981f649b8f32f0891c28d8ceae9",
+        "bytes": 43069,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/couch-stretch.mp4",
+        "sha256": "3d16691172b646dcd55538f71a3f5679bfee9472e26fe9948c0f91751decbc27",
+        "bytes": 17548,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/couch/native/couch-stretch/couch-stretch-dark.mp4",
+        "sha256": "4762359fdfe65d5c22ebcc08607ff8652e9071c0a933eb95331312b649d55655",
+        "bytes": 17222,
+        "decode": "passed"
+      }
+    ]
+  }
+}

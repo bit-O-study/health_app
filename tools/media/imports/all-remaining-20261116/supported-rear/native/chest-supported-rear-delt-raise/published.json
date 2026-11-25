@@ -1,0 +1,18 @@
+{
+  "id": "chest-supported-rear-delt-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "323ad355901645e26457d6cb7e5dad9552f6cdeb9d936ab98472aa0aa5f8e4be",
+  "rigSourceSha256": "081e3d19f00fb634845a1c0420d37e9f195ae15af562cdd412a0609c8a151790",
+  "videoSha256": "41f3d54a68327f4203650f5ee95d65d56a419df8f8ced1568574acc83e900e96",
+  "darkVideoSha256": "348fa452ea59654eff56a49229cb2b47eb451eee148022d22197de08058c8fa3",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101166,
+  "darkBytes": 83631,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:36:09.174Z"
+}

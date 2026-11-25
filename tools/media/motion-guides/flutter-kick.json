@@ -1,0 +1,15 @@
+{
+  "id": "flutter-kick",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "flutter-kick-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://spotebi.com/exercise-guide/flutter-kicks/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-18T00:39:11.273Z"
+}

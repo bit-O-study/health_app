@@ -1,0 +1,80 @@
+{
+  "single-leg-extension": [
+    {
+      "file": "tools/media/motion-guides/single-leg-extension.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-extension.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-extension-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-extension.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-extension-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-extension-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-leg-curl": [
+    {
+      "file": "tools/media/motion-guides/single-leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "leg-curl": [
+    {
+      "file": "tools/media/motion-guides/leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

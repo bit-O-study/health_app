@@ -1,0 +1,18 @@
+{
+  "id": "standing-leg-curl-machine",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0f71701ea5fe02e3acfb12402ebd1ffc73e4c00fabd01463b00acafafafc2d4e",
+  "rigSourceSha256": "b33cedfe9633de423f5c55d7adf2fc0159e2d425fbcb591be408a60c5e84a045",
+  "videoSha256": "dd90058e3d437aad50710f014db7330b9b15cd797773b5b9a90056c08afb29d8",
+  "darkVideoSha256": "7c7fcc94512e15215a2d0ca2008ac42a267997cc19f50dd14cbbcca72e3263c6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 94020,
+  "darkBytes": 77472,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:09:02.755Z"
+}

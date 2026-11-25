@@ -1,0 +1,75 @@
+{
+  "heel-touch": {
+    "reviewedAt": "2026-11-18T00:54:59.223Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "heel-touch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms reach along the sides to touch the same-side heel.",
+      "feet": "Feet remain planted with knees bent while the raised upper torso bends side to side.",
+      "movement": "Supine with bent knees and feet flat. Lift shoulder blades slightly, reach left hand to left heel then return and repeat right. Keep neck neutral and feet stationary."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/final.jpg",
+        "sha256": "24a1297b055dbae763ae60d813f544483adf5ffd9f96e1bfdd02e16ffd682a5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/final-dark.jpg",
+        "sha256": "b792e3475f9d783c520d8b168e6e4218ef4b6aeda5b53b43178348e3fc242d41"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/full-sheet.png",
+        "sha256": "d4ebad40e49ea59ce8da48e864cf6fb1ada594542a4a8ca5c847e99b9d54e3ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/side-sheet.png",
+        "sha256": "29cc22e708fad70e74557d37f4886651c2ccd86286ead0d7067f77a063f4ce29"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/verification.json",
+        "sha256": "345c56e3677be0f7776374b25a25e50fceb4bb2a01d988180e83222d7b8f3300"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/geometry.json",
+        "sha256": "ff0150d27cee478f3295e0eb73f755586d50c6e9a51071753dd30bbf5f8b843a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/kinematics.json",
+        "sha256": "336f416af13c316380700641e59b8f0aa4798880fb6b78cd8fb6783afce520d3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/provenance.json",
+        "sha256": "b4744aeaa942a49767806daeb4075e705761427af692dfab7ab88ab4268dc493"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/heel-touch-alpha.webm",
+        "sha256": "8923f4aedc11130634a6b41d47a836755e93c81b8d80eac64bc684ec183cdb2b",
+        "bytes": 124937,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/heel-touch.mp4",
+        "sha256": "38ef09ff66abdea8b41d6645b39b04f718f720d2fec148600dd2e652ba30a998",
+        "bytes": 49584,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/heel-touch/native/heel-touch/heel-touch-dark.mp4",
+        "sha256": "77e6b44ca9762ded4a4d16f521bbdb387d7963914cdffb5968699716fe63d04f",
+        "bytes": 56039,
+        "decode": "passed"
+      }
+    ]
+  }
+}

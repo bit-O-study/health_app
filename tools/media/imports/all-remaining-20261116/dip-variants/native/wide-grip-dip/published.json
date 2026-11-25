@@ -1,0 +1,18 @@
+{
+  "id": "wide-grip-dip",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "922683efc9124b81258f6da0c0e7d8e264e9acc69deee9cc223e178e54c72201",
+  "rigSourceSha256": "d2afebe6fcf3688615ebcd490c3e3feab3720b604f864a390f1492ba26a94468",
+  "videoSha256": "eb7f6b3f682a75e9be143af2b3c8faefc1fae4e0f67aa49c09b42e31c8705d5b",
+  "darkVideoSha256": "a3b18b52e423a8675e1eb3e32c12006b027e07d6dce4b52579576bab8c0bf89a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 84722,
+  "darkBytes": 88565,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:14:44.519Z"
+}

@@ -1,0 +1,54 @@
+{
+  "tempo-overhead-press": [
+    {
+      "file": "tools/media/motion-guides/tempo-overhead-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-overhead-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tempo-overhead-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-overhead-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-overhead-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tempo-overhead-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "eccentric-nordic-curl": [
+    {
+      "file": "tools/media/motion-guides/eccentric-nordic-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-nordic-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-nordic-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-nordic-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-nordic-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-nordic-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

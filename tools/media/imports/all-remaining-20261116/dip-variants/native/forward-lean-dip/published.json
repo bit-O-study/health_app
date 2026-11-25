@@ -1,0 +1,18 @@
+{
+  "id": "forward-lean-dip",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d201340aa9bf5e8b4be1f1edfc6b2132b389161b54689fd866640cde8c5bad9c",
+  "rigSourceSha256": "f73655c13565e840ed71bf845080d38ad3754823038fe7cb1d18da1c088d3e4e",
+  "videoSha256": "3c873590f7db2ebe0c14c7bb96338cc1bc411095aea358aa0efe3460aeb9c1b6",
+  "darkVideoSha256": "c72e741cde6e06e2f2902ea071bb96856f2e54301a873cd4cda97b22c7dc4110",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 78005,
+  "darkBytes": 81229,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:15:00.418Z"
+}

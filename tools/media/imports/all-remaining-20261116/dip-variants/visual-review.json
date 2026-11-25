@@ -1,0 +1,221 @@
+{
+  "wide-grip-dip": {
+    "reviewedAt": "2026-11-16T08:14:40.740Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "wide-grip-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Body lowers and rises between parallel bars; feet remain clear of the floor, with grip width and trunk lean matched to each exercise.",
+      "movement": "Wider parallel bars, slight forward torso lean and bent knees. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/final.jpg",
+        "sha256": "383023836e9e9c6917810d7403c31a092e51709a96be7fd222b55f420a86a51d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/final-dark.jpg",
+        "sha256": "afa7d7524c76f8422e5c3255198268e7939e38df8014c71a6fd9566844c51e6f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/full-sheet.png",
+        "sha256": "b7c5f0dad0cc028e4f388b93b071366ab5c74d17f19026246b74bfc97b91014a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/side-sheet.png",
+        "sha256": "801048368122fe6018aac00d57323fcb6e606eca92f5f0e9c3440bca4e3cbc58"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/verification.json",
+        "sha256": "cbe20b890f6691c079234b01718a25264233d5546a5d96026ee62c4fb4f34a8e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/geometry.json",
+        "sha256": "175cba0772e6630847d3d984153e1f2f923ad6c28f8a6622b0471889950e4d1c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/kinematics.json",
+        "sha256": "dd1f097258d6e47d204482f5dafad49c818b2d945ec9cb56db7cffd4c890a68d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/provenance.json",
+        "sha256": "d2afebe6fcf3688615ebcd490c3e3feab3720b604f864a390f1492ba26a94468"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/wide-grip-dip-alpha.webm",
+        "sha256": "e6f539fba05843498d60b0a9243d3ced3864362925462365028ee54bdfe66e4a",
+        "bytes": 229120,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/wide-grip-dip.mp4",
+        "sha256": "eb7f6b3f682a75e9be143af2b3c8faefc1fae4e0f67aa49c09b42e31c8705d5b",
+        "bytes": 84722,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/wide-grip-dip/wide-grip-dip-dark.mp4",
+        "sha256": "a3b18b52e423a8675e1eb3e32c12006b027e07d6dce4b52579576bab8c0bf89a",
+        "bytes": 88565,
+        "decode": "passed"
+      }
+    ]
+  },
+  "close-grip-dip": {
+    "reviewedAt": "2026-11-16T08:14:40.748Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "close-grip-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Body lowers and rises between parallel bars; feet remain clear of the floor, with grip width and trunk lean matched to each exercise.",
+      "movement": "Narrower parallel bars, upright torso and straight hanging legs. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/final.jpg",
+        "sha256": "0139d64450bc8a5894ee90e969ae8db05c5e878f01f00cf8a77890d4a47a0781"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/final-dark.jpg",
+        "sha256": "4f2a557e817b9aba6bc092116998337742aaf483e8351c25784d778a46f29784"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/full-sheet.png",
+        "sha256": "359fe6adba746ca978b1a8efaaa6dc56ef95cdb78cb9a4185fe3ad612182cef5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/side-sheet.png",
+        "sha256": "37aef730c3470fb3f0bc39994442b09b5d82b4fdb36f6b6c156e1402e2efb23c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/verification.json",
+        "sha256": "eaf2fa1a668ae3acb89529cb2a21cf2546bad3f2c744e507b4d71239cbfbfe93"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/geometry.json",
+        "sha256": "b32969e2a702f79fe3bc02a10eb00c1ddd9fb3de5ee662865eed6ca8d20ba261"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/kinematics.json",
+        "sha256": "5633df52bac23f93373931c8a1d45cd5a036c67693aba447493fbca14b5ffb0a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/provenance.json",
+        "sha256": "ca96b222055ca5ba0978df4074bb9a879849409f176fea1eb41d29c0df463980"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/close-grip-dip-alpha.webm",
+        "sha256": "0f68e9d7cb8a533908fe91fabe16a3822f66e9e923ddba4d1bde32def2ef9143",
+        "bytes": 250017,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/close-grip-dip.mp4",
+        "sha256": "eb80247eb74acd6e2931a86e0488d1b1bba9697988587b49b0faf611ae6d4821",
+        "bytes": 97541,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/close-grip-dip/close-grip-dip-dark.mp4",
+        "sha256": "428b9a62c102ce6788c095a59f245e5224a1dec1107cfab07e08808f0f12efb3",
+        "bytes": 98250,
+        "decode": "passed"
+      }
+    ]
+  },
+  "forward-lean-dip": {
+    "reviewedAt": "2026-11-16T08:14:40.754Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "forward-lean-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Body lowers and rises between parallel bars; feet remain clear of the floor, with grip width and trunk lean matched to each exercise.",
+      "movement": "Parallel bars with deliberate forward torso lean and bent knees. Keep hands fixed on bars, lower with elbow flexion then press up. 3.5 seconds lower, 1 second pause, 3.5 seconds rise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/final.jpg",
+        "sha256": "3b80fb155c325bd7714c5ef41f7b77b4255788994204223facf95a075217f44a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/final-dark.jpg",
+        "sha256": "e22a931964cd1bd67fb00182abff7455ef2bd0f2844d041c3c7bb011c4777f34"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/full-sheet.png",
+        "sha256": "25d789830fc1f1cb9f8d50a1a48ca5802835680c532ece83644448a98e701761"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/side-sheet.png",
+        "sha256": "47d7c59b5a6f8610e3043f1c5bdf05a25a63445e2486f17c39ec6a519d3ede07"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/verification.json",
+        "sha256": "da2fb054baec6abddb8dd76d6d9ada8fc1d181304ec6b92cbe14cb9cf20aa0f9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/geometry.json",
+        "sha256": "ae4db4828cac267ab235ef0da810d3f0a9aee64800904273b33d4b581e6ddc2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/kinematics.json",
+        "sha256": "54706c8cb88e964b55203540bfc7d6a3219fa6ad441439b8e33fa3bc9a16d24b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/provenance.json",
+        "sha256": "f73655c13565e840ed71bf845080d38ad3754823038fe7cb1d18da1c088d3e4e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/forward-lean-dip-alpha.webm",
+        "sha256": "096f0ac36bf42ebb7b8775bb9e3356d5f3ff4b37d8e2149432d59b1679196bac",
+        "bytes": 202205,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/forward-lean-dip.mp4",
+        "sha256": "3c873590f7db2ebe0c14c7bb96338cc1bc411095aea358aa0efe3460aeb9c1b6",
+        "bytes": 78005,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/dip-variants/native/forward-lean-dip/forward-lean-dip-dark.mp4",
+        "sha256": "c72e741cde6e06e2f2902ea071bb96856f2e54301a873cd4cda97b22c7dc4110",
+        "bytes": 81229,
+        "decode": "passed"
+      }
+    ]
+  }
+}

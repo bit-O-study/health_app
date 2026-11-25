@@ -1,0 +1,75 @@
+{
+  "dead-hang": {
+    "reviewedAt": "2026-11-16T05:23:46.727Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "dead-hang",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor; arms extended at 179 degrees and hands stay on the overhead bar. Maintained static hang without swinging.",
+      "movement": "Static overhead overhand hang; arms extended at 179 degrees, feet clear floor, fixed grip and no swing. Eight seconds illustrates the held position; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/final.jpg",
+        "sha256": "7f62db01617408c417cec6d48f54765e9ad629f389ab2db11c1d1ca8e30733ff"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/final-dark.jpg",
+        "sha256": "ba23251d56f6337148285c1797c26389f84deb2aeed39bd0828f1cc1e58d2d5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/full-sheet.png",
+        "sha256": "16f76de1a8ce94c5987e39c0acfb8043a14ae54679f04c9fa6c2673a2ed1d8f0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/side-sheet.png",
+        "sha256": "a8c34e92ebb5019e2cffc584b79f31cfd481c61a3527cb9867a702006742cf0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/verification.json",
+        "sha256": "dbfff46b993655c515f3ffbb08333c789e2b924f5e79cf522905e7a33b472700"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/geometry.json",
+        "sha256": "5a0b761951e440655d386d7a1a1ed21e5797f35d76a1ecc7b51271b045970fd3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/kinematics.json",
+        "sha256": "9233dc3b5e0c383a1ed3458a693b90e774ea5ba026da64e9f8aaceb70e86c5da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/provenance.json",
+        "sha256": "e7bcdff15b059a897fa9d15b4390457d1891cc44c5aecc4daca302464f7509ab"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/dead-hang-alpha.webm",
+        "sha256": "c4235bd675ec12e590771b97eb14643fd852e91461a9e4911c5466cc08a0654b",
+        "bytes": 40497,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/dead-hang.mp4",
+        "sha256": "5e4d908091a9e9c2eed7ee1980d30f495abd4e0a199c88ca7d82049c84a96e00",
+        "bytes": 15486,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/dead-hang-dark.mp4",
+        "sha256": "533207ad47810e0c854651cd86d8ce2b9305487e1894f5a3ebe6ede184c86d3e",
+        "bytes": 15454,
+        "decode": "passed"
+      }
+    ]
+  }
+}

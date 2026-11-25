@@ -1,0 +1,18 @@
+{
+  "id": "cable-leg-curl",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "57a9e81891f65f9d3cefefd7c53d9fd614fc267940a561e9e9b0ac15d4ea407b",
+  "rigSourceSha256": "a3711a43fc25aea151cfa92b1be6a145572be8b1ed6b0d952d5240df0511f450",
+  "videoSha256": "5b3b0a5bcb13ceeed95ae617f0a5f935dbd74f11cc09d107755e1612edcca8f6",
+  "darkVideoSha256": "9519a5f7c18e41e596006997afb109006f41f1dc1ca9cc3ab5f1ee9e4a4759ad",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 86314,
+  "darkBytes": 70621,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:14:44.029Z"
+}

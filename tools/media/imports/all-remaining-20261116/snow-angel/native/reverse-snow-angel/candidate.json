@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/reverse-snow-angel-alpha.webm",
+      "sha256": "521896ccd177cc473bf7745ff84319a172f77af574e458230497f43832c3d2fa",
+      "bytes": 141622,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/reverse-snow-angel.mp4",
+      "sha256": "da0773ee9925967ebab5c3d2cd864274d97a2ebe44593b9fb8d44a1ba2a7c10d",
+      "bytes": 64021,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/snow-angel/native/reverse-snow-angel/reverse-snow-angel-dark.mp4",
+      "sha256": "0ef994917b04d84180a8858c7af198eda887753217192c8c4e4aea1294b42e3a",
+      "bytes": 65620,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/snow-angel/reverse-snow-angel-studio.mjs",
+      "sha256": "0e272107f507b55812dab0c496a73f5498fb749ced2d5a1b6cf03ba4f6065e03"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/snow-angel/reverse-snow-angel-motion.mjs",
+      "sha256": "cea8ea3e30cd3517bc143fe26323b3eea3243c2583b4820fa260eb69581275f1"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/snow-angel/render.mjs",
+      "sha256": "e8ab33a350da92be1442f40e49c3d2edcaf3b9ccc5f66125489278420b7c98b6"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

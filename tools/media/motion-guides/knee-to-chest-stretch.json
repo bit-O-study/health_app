@@ -1,0 +1,15 @@
+{
+  "id": "knee-to-chest-stretch",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "knee-to-chest-stretch-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://au.physitrack.com/home-exercise-video/supine-knee-to-chest-stretch"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-18T03:33:23.275Z"
+}

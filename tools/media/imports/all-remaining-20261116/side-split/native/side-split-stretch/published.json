@@ -1,0 +1,18 @@
+{
+  "id": "side-split-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b696855406f02d1fd1f67acd1ef39566c2ae539726279e0bd2d424d8feca957b",
+  "rigSourceSha256": "ea9ec3107f0c874253afd99f7a51340d7081c954220542909453c996c51021f1",
+  "videoSha256": "f13dd74feed003ddcdd70d129205850cf29bbc0f9cf23ce90ca47c2f59dcce7d",
+  "darkVideoSha256": "33cfc1e0310f5de7629cbc0916b97dcbddebfe93f885614c6bdb164a46bab491",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15126,
+  "darkBytes": 14802,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T04:43:39.205Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "superman",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "superman-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://weighttraining.guide/exercises/superman-exercise/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T07:56:07.824Z"
+}

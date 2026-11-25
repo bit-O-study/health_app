@@ -1,0 +1,18 @@
+{
+  "id": "gate-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "911fd994e57970f6be927367f6a35c734c1aa770cfe346ee2167a04fd037bef6",
+  "rigSourceSha256": "2f123c365abf8bbb72b8017921234265fcec3eea5100c3ecca9745b06d813eb5",
+  "videoSha256": "ce139903c421b7c5fe84a965a90d87910b26df3a5f91a7159a15f8d466724b0a",
+  "darkVideoSha256": "0e2dfbb11ab590727c4ba2d47f04daeb7f4aee551d3e15402c5b38ed0945bbc0",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16854,
+  "darkBytes": 16112,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:28:35.799Z"
+}

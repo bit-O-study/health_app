@@ -1,0 +1,18 @@
+{
+  "id": "isometric-squat-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6f9863a38a8cefb2b2548465a6a21da44a991584e91e81e89be992341a0e4ecc",
+  "rigSourceSha256": "9ac13de2542467b15eea1975ba0bba3c54da076d5bcb57c5a0a27844a4f8951f",
+  "videoSha256": "3660969e9fb8d371c0641d6233ef0f542d49434d9ab1d3bb0eef433428d963bf",
+  "darkVideoSha256": "9cad36f0fbbfc0451036a57e5ae253bfa154e41f8e0bf6e9d92bfa9126e003c8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14125,
+  "darkBytes": 13434,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:38:01.038Z"
+}

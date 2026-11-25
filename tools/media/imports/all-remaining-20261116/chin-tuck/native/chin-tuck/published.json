@@ -1,0 +1,18 @@
+{
+  "id": "chin-tuck",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9b91ee6e0f44021607c15d89326083aab487decf3cb4be29171f4a92d59f79b5",
+  "rigSourceSha256": "66a045ef908af7e636121e76174a8c5a131a60f59fedc052192019314717387a",
+  "videoSha256": "2750d3baf43a114c2452bf750924186d9077b1a6f70b09653f7cf55200fc0034",
+  "darkVideoSha256": "2db11b5b97e696785c8d9ce3c980b01d7ef20e13b87ee71ca8bd3b6a3141f90b",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 27338,
+  "darkBytes": 28490,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T06:01:05.133Z"
+}

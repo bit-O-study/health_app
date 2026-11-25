@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 6.217248937900877e-15,
+  "supportDrift": 0,
+  "maxStep": 0.04520268032208915,
+  "gripSpan": 4,
+  "elbowRange": [
+    38.11415546699707,
+    173.37627834056693
+  ],
+  "maxWristDeviation": 29.699538676257536,
+  "minimumNonChestClearance": 0.22349224282723612,
+  "maxBackGap": 0.03211034870376439
+}

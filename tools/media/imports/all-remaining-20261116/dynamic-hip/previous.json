@@ -1,0 +1,28 @@
+{
+  "dynamic-hip-flexor-stretch": [
+    {
+      "file": "tools/media/motion-guides/dynamic-hip-flexor-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dynamic-hip-flexor-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/dynamic-hip-flexor-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dynamic-hip-flexor-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dynamic-hip-flexor-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/dynamic-hip-flexor-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

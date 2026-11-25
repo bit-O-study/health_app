@@ -1,0 +1,39 @@
+{
+  "chin-tuck": {
+    "reviewedAt": "2026-11-24T05:58:41.618Z",
+    "checks": {
+      "exercise": "chin-tuck",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms relaxed beside torso.",
+      "feet": "Feet flat on mat, pelvis supported by chair; head glides backward with level gaze.",
+      "movement": "Seated upright with feet supported; chin glides backward without nodding, holds briefly then returns; torso and limbs stay still."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second cycle demonstrates small cervical retraction, brief hold and return."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/full-sheet.png",
+        "sha256": "e3d4a6bed4db7586e48b1a6692ad18b4ac9eda062434fa395238f122e52885e3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/side-sheet.png",
+        "sha256": "3d32171156d758d9186918a02ac649859b79f68f02e3ea347a6d728d2eaf4e1b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/poses.json",
+        "sha256": "06a1786503d664c5ed784bf14e41d686f7c9319906602dba0a7d6d92b2c2ac7b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/geometry.json",
+        "sha256": "975d833d47907d895acd4e473b99c6a840ba7ad5571b86b32d051bc02236e949"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/kinematics.json",
+        "sha256": "67ed1f2478a0cf8458701035ed3f5cfb51594fb09363820885aa2da43f6949ab"
+      }
+    ]
+  }
+}

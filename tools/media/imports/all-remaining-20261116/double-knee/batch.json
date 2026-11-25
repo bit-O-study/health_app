@@ -1,0 +1,27 @@
+{
+  "entries": [
+    {
+      "id": "double-knee-to-chest",
+      "original": "double-knee-to-chest",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "double-knee",
+        "sourceUrls": [
+          "https://nafc.org/s/Double-Knee-to-Chest-Stretch.pdf",
+          "https://myhealth.alberta.ca/Health/healthy-living/pages/conditions.aspx?hwid=abk4460"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine double knee to chest hold, both thighs supported with relaxed head and back; knees flexed symmetrically.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

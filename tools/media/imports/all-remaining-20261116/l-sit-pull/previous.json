@@ -1,0 +1,28 @@
+{
+  "l-sit-pull-up": [
+    {
+      "file": "tools/media/motion-guides/l-sit-pull-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/l-sit-pull-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/l-sit-pull-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-pull-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-pull-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/l-sit-pull-up-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

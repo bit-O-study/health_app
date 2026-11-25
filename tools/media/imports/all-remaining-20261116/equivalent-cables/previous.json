@@ -1,0 +1,118 @@
+{
+  "straight-arm-pulldown-2": [
+    {
+      "file": "tools/media/motion-guides/straight-arm-pulldown-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/straight-arm-pulldown-2-0.json",
+      "sha256": "863f106ae25ab78dda23e1fdce780654aaab06bd5486f2062e60fcb4001bccfe"
+    },
+    {
+      "file": "tools/media/motion-guides/straight-arm-pulldown-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/straight-arm-pulldown-2-1.jpg",
+      "sha256": "230669eaaea0d1ce2339c9e9e13d70ffcc068361c2755a4f8c9dcea4f3237921"
+    },
+    {
+      "file": "tools/media/motion-guides/straight-arm-pulldown-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/straight-arm-pulldown-2-3.mp4",
+      "sha256": "31d003c0fb95cac4861d5ad34da8fc18395f74c82eaa7f9c13044e7c0fc85e78"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/straight-arm-pulldown-2-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-lateral-raise-2": [
+    {
+      "file": "tools/media/motion-guides/cable-lateral-raise-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/cable-lateral-raise-2-0.json",
+      "sha256": "6f4178e32823975cdab02e6d36d255e9b1e7b489578ebc0ac45a8c2c9b27358a"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-lateral-raise-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/cable-lateral-raise-2-1.jpg",
+      "sha256": "7e5c24df26ea861e82a3f8ea49cf5107e44806f6ad917f96901928308e0e03d2"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-lateral-raise-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/cable-lateral-raise-2-3.mp4",
+      "sha256": "f2ab45a3de1c4869061ffcc8179493a8f706101a00aa1f12893b7c260491db0a"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-lateral-raise-2-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "face-pull-2": [
+    {
+      "file": "tools/media/motion-guides/face-pull-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/face-pull-2-0.json",
+      "sha256": "7edcabb17555b928f5e2d060641910a0e57dd487ef161d1d947bbdc648283566"
+    },
+    {
+      "file": "tools/media/motion-guides/face-pull-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/face-pull-2-1.jpg",
+      "sha256": "345aa2b52d6588b42ff2d6d73ea4baba40d292efe7b022e95781bb8ec33ec63d"
+    },
+    {
+      "file": "tools/media/motion-guides/face-pull-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/face-pull-2-3.mp4",
+      "sha256": "b2dfbff6c5d046077e2a8beff9b9bd69034c007310637ec77c76cb0b22779514"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/face-pull-2-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "cable-rope-hammer-curl-2": [
+    {
+      "file": "tools/media/motion-guides/cable-rope-hammer-curl-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/cable-rope-hammer-curl-2-0.json",
+      "sha256": "35a370aaa2df5bbf9993fd9c29126e568d3844656bf10a92eaec8b3b625c3911"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-rope-hammer-curl-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/cable-rope-hammer-curl-2-1.jpg",
+      "sha256": "4addd84f5fce7210c1df4e5eb88c25fff8f579fd2e5be2c16caec55a51963b5d"
+    },
+    {
+      "file": "tools/media/motion-guides/cable-rope-hammer-curl-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/equivalent-cables/backup/cable-rope-hammer-curl-2-3.mp4",
+      "sha256": "78821398ce0639e1257c3a7022130a7cac9707e9df95d009c03e61952db6f457"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-rope-hammer-curl-2-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

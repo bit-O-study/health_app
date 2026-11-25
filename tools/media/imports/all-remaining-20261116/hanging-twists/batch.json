@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "hanging-oblique-raise",
+      "original": "hanging-oblique-raise",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "hanging-oblique-raise",
+        "sourceUrls": [
+          "https://www.muscleandfitness.com/exercise/workouts/abs-and-core-exercises/hanging-knee-raise-oblique-crunch/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Alternating hanging knee raises with a 25-degree pelvic turn toward the lifting side. Knees bend as thighs rise to hip height, then straighten under control. Each side takes 1.5 seconds up, 1 second pause, 1.5 seconds down; stable grip and upper trunk.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "hanging-knee-raise-twist",
+      "original": "hanging-knee-raise-twist",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "hanging-knee-raise-twist",
+        "sourceUrls": [
+          "https://www.muscleandfitness.com/exercise/workouts/abs-and-core-exercises/hanging-knee-raise-oblique-crunch/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Alternating hanging knee raises with a 25-degree pelvic turn toward the lifting side. Knees bend as thighs rise to hip height, then straighten under control. Each side takes 1.5 seconds up, 1 second pause, 1.5 seconds down; stable grip and upper trunk.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

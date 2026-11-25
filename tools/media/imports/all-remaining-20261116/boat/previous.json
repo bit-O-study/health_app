@@ -1,0 +1,28 @@
+{
+  "boat-pose": [
+    {
+      "file": "tools/media/motion-guides/boat-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/boat-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/boat-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/boat-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

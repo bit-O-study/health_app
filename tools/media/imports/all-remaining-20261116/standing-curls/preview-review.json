@@ -1,0 +1,76 @@
+{
+  "standing-single-leg-curl": {
+    "reviewedAt": "2026-11-16T05:04:20.256Z",
+    "checks": {
+      "exercise": "standing-single-leg-curl",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Standing left foot supports body; right knee flexes against a plate-loaded roller. Fixed torso, thigh support, heel path and roller contact checked.",
+      "movement": "Single right leg knee curl from 180 to 80 degrees, torso leaning forward 30 degrees, fixed thigh pad and hand grips, left foot on platform, ankle roller and plate-loaded side lever. Four seconds curl and four seconds return; switch legs between sets."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/full-sheet.png",
+        "sha256": "269d46cd7fb274b3b35f145f94faa383419db61f40e4108e84fdcd27595784b9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/side-sheet.png",
+        "sha256": "4b6420a3b3fe05b07b180a5d6eaf60f29dae42bf7488c10df3d0cb3077f54c99"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/poses.json",
+        "sha256": "6c405973c14092736068bb0968fce45cac88e53db1162f12cff4b9d5bcab5359"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/geometry.json",
+        "sha256": "aa26689f251f4e39a12a96b78111d51a1e229a4e3bf556b5f53fa99a0a22fc32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-single-leg-curl/kinematics.json",
+        "sha256": "685dcb73bab5b20d9fa638c56cf125c8f6c98c85f700b45e36a586d2ae20602e"
+      }
+    ]
+  },
+  "standing-leg-curl-machine": {
+    "reviewedAt": "2026-11-16T05:04:20.262Z",
+    "checks": {
+      "exercise": "standing-leg-curl-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Standing left foot supports body; right knee flexes against a plate-loaded roller. Fixed torso, thigh support, heel path and roller contact checked.",
+      "movement": "Single right leg knee curl from 180 to 80 degrees, torso leaning forward 30 degrees, fixed thigh pad and hand grips, left foot on platform, ankle roller and plate-loaded side lever. Four seconds curl and four seconds return; switch legs between sets."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/full-sheet.png",
+        "sha256": "269d46cd7fb274b3b35f145f94faa383419db61f40e4108e84fdcd27595784b9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/side-sheet.png",
+        "sha256": "4b6420a3b3fe05b07b180a5d6eaf60f29dae42bf7488c10df3d0cb3077f54c99"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/poses.json",
+        "sha256": "6c405973c14092736068bb0968fce45cac88e53db1162f12cff4b9d5bcab5359"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/geometry.json",
+        "sha256": "aa26689f251f4e39a12a96b78111d51a1e229a4e3bf556b5f53fa99a0a22fc32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/standing-curls/native/standing-leg-curl-machine/kinematics.json",
+        "sha256": "685dcb73bab5b20d9fa638c56cf125c8f6c98c85f700b45e36a586d2ae20602e"
+      }
+    ]
+  }
+}

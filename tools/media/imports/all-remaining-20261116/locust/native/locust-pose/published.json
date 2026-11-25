@@ -1,0 +1,18 @@
+{
+  "id": "locust-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "a84d384f32ef13294c06bfdf167c9cecf2c5fd33cb44fa563cf5285a23307a26",
+  "rigSourceSha256": "e0df0771cc30edc11faf52545002dbd7b78f2563fb656322d7d59508a96f57ae",
+  "videoSha256": "73f2b3a0c3fa0c699319229b9d12a59887913cbd36342654dce4470a14566348",
+  "darkVideoSha256": "cfb1c8f969901c0ade229789d25aaab72af29db18aa029d1334d64c38fd6d3c8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 13355,
+  "darkBytes": 13061,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:24:23.005Z"
+}

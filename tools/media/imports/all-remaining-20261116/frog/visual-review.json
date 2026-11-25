@@ -1,0 +1,75 @@
+{
+  "frog-stretch": {
+    "reviewedAt": "2026-11-24T02:24:06.015Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "frog-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Forearms and palms supported with elbows near right angles.",
+      "feet": "Knees wide and bent near right angles; shins back with feet turned out.",
+      "movement": "Knees wide apart, bent near right angles, shins back and feet turned out; torso neutral with forearms and palms supported on mat."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/final.jpg",
+        "sha256": "f22cde9c54badb504d87d6d7f12cfdce652993a0b69b347446e1eb6556f70087"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/final-dark.jpg",
+        "sha256": "1a3073cf20de12c48486a6af44eb1c7f35ef9531d04fccf10b5764a73c41e633"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/full-sheet.png",
+        "sha256": "f8a14bfb635465ec88175e1027a2d026d23afeca786b2a616d63ef7177ea76cc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/side-sheet.png",
+        "sha256": "5a8813fde6803fa9c5c6150dfc57292267303f63fc09415a215e3dfbe4dd0ca8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/verification.json",
+        "sha256": "d4e3b2d62f7f0cd5992d7373c22649291ee81fe734b302faba62f50d2c7a2b2a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/geometry.json",
+        "sha256": "2b1f7c7c83a5372ce6b6b792249949aced12041ba2cfd41d6d5c0af041adf5cc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/kinematics.json",
+        "sha256": "7024d3ce43628b7cba4bdf6d95576c9496614db7f8a5fdec86055568a59d1c79"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/provenance.json",
+        "sha256": "a83525a954b284a055483c7c0023a8d81d2d1cd3822aef19fbb6bdd8501375fe"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/frog-stretch-alpha.webm",
+        "sha256": "059d1136a95fa5f6f97da8fee948aba8e4a04219674c2e869c2f1051d2594e96",
+        "bytes": 32660,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/frog-stretch.mp4",
+        "sha256": "b734948521a20fb74a8c28ce406ba4d0ff7c1f6c5cdc827f1518eeb3e0a863a4",
+        "bytes": 14564,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/frog-stretch-dark.mp4",
+        "sha256": "6bb97940d8da6c4597cb478aa67da202bb15ccc70006e82069a20166715ab670",
+        "bytes": 14653,
+        "decode": "passed"
+      }
+    ]
+  }
+}

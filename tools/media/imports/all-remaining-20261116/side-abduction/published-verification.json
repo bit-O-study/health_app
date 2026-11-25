@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-18T01:56:42.128Z",
+  "report": [
+    {
+      "id": "side-lying-hip-abduction",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "entries": [
+    {
+      "id": "hanging-leg-raise",
+      "original": "hanging-leg-raise",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "hanging-leg-raise",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/hanging-leg-raise.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Overhand hanging straight-leg raise to hip height, 3.5 seconds up, 1 second pause, 3.5 seconds down. Fixed trunk and arms without swinging; legs travel together.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "hanging-leg-raise-2",
+      "original": "hanging-leg-raise-2",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "hanging-leg-raise-2",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/hanging-leg-raise.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Overhand hanging straight-leg raise to hip height, 3.5 seconds up, 1 second pause, 3.5 seconds down. Fixed trunk and arms without swinging; legs travel together.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "hanging-l-sit",
+      "original": "hanging-l-sit",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "hanging-l-sit",
+        "sourceUrls": [
+          "https://crossfitos.com/exercises/hanging-l-sit"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Static hanging L-sit with straight legs at hip height, pointed toes, fixed overhead grip and trunk. Eight seconds shows maintained hold; entry and exit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

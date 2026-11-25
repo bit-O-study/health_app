@@ -1,0 +1,39 @@
+{
+  "seated-band-abduction": {
+    "reviewedAt": "2026-11-18T03:18:07.582Z",
+    "checks": {
+      "exercise": "seated-band-abduction",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms relaxed beside chair; torso upright.",
+      "feet": "Both feet remain flat and fixed while both knees open symmetrically against band.",
+      "movement": "Sit upright on stool, band above knees, feet flat. Open both knees against band without moving pelvis, then return slowly. 3.5 seconds open, 1 second pause, 3.5 seconds close."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Sampled garment-seat clearance is 0.015 to 0.1 model units; full mesh collision is not certified."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/full-sheet.png",
+        "sha256": "3d9df79b7a6e35e9f1dcde103381d7df3f769374e441e6cb1e1cda0c33823fab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/side-sheet.png",
+        "sha256": "6c97f745bdd6ea2edf586d41f8da9d8f62a2f17b7b763cad08d36a02d1a296da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/poses.json",
+        "sha256": "40899a35f8f04dc1182b6976b55ddf07988cc25b273726440038b0512420171a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/geometry.json",
+        "sha256": "ca455b1d5b8d2c1564488fe26d19d40e378b399826ca6405d02a36d732835314"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/seated-band/native/seated-band-abduction/kinematics.json",
+        "sha256": "3689a8a60bfbb8c03fa2e99fb8d1885f78ab68babc51043d85d46a89612fe342"
+      }
+    ]
+  }
+}

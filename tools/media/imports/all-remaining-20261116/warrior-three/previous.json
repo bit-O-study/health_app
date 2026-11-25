@@ -1,0 +1,28 @@
+{
+  "warrior-iii-pose": [
+    {
+      "file": "tools/media/motion-guides/warrior-iii-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/warrior-iii-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/warrior-iii-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-iii-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-iii-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/warrior-iii-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

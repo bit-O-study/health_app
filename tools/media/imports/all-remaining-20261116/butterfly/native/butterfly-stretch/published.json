@@ -1,0 +1,18 @@
+{
+  "id": "butterfly-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "d137fa3981a91a67bcc72222b9a7655f41ca6881026844a7cafc7193dd2cdd5c",
+  "rigSourceSha256": "d30d026c5e4d26de4973f4d1a7c8d7f1e13a1a9d2a4d49288bd235557163ddfb",
+  "videoSha256": "d8ba7ada18a08d0a97ab60057f1c3e0eb97cf5542c43a8c2925fbe309f562c82",
+  "darkVideoSha256": "27d11411ef1c60971c770eb161cd6c377c90c57cd530469467d0831596a1bd88",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 17140,
+  "darkBytes": 16945,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:00:24.210Z"
+}

@@ -1,0 +1,39 @@
+{
+  "dead-hang": {
+    "reviewedAt": "2026-11-16T05:21:16.794Z",
+    "checks": {
+      "exercise": "dead-hang",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor; arms extended at 179 degrees and hands stay on the overhead bar. Maintained static hang without swinging.",
+      "movement": "Static overhead overhand hang; arms extended at 179 degrees, feet clear floor, fixed grip and no swing. Eight seconds illustrates the held position; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/full-sheet.png",
+        "sha256": "16f76de1a8ce94c5987e39c0acfb8043a14ae54679f04c9fa6c2673a2ed1d8f0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/side-sheet.png",
+        "sha256": "a8c34e92ebb5019e2cffc584b79f31cfd481c61a3527cb9867a702006742cf0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/poses.json",
+        "sha256": "b07b3d93698d32a3fd81d905bde91943cbd35c77e98420d9b30f728a0f47c754"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/geometry.json",
+        "sha256": "5a0b761951e440655d386d7a1a1ed21e5797f35d76a1ecc7b51271b045970fd3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-hang/native/dead-hang/kinematics.json",
+        "sha256": "9233dc3b5e0c383a1ed3458a693b90e774ea5ba026da64e9f8aaceb70e86c5da"
+      }
+    ]
+  }
+}

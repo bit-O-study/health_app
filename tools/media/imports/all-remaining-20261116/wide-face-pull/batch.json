@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "wide-cable-face-pull",
+      "original": "wide-cable-face-pull",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "wide-cable-face-pull",
+        "sourceUrls": [
+          "https://www.youtube.com/watch?v=ljgqer1ZpXg"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Standing long-rope face pull. Stable feet and torso, hands spread wider than shoulders, elbows out. Rope branches length 5.5, wider final wrist span 7.6. 3.5 seconds pull, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

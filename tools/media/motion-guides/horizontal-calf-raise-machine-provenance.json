@@ -1,0 +1,589 @@
+{
+  "id": "horizontal-calf-raise-machine",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/horizontal-presses/horizontal-calf-raise-machine-studio.mjs",
+      "sha256": "18bb768f13439f8df33ee490d281bf6b092bf533613ed18e925d4891d62acfea"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/horizontal-presses/horizontal-calf-raise-machine-motion.mjs",
+      "sha256": "ef6e9b4149cb3d87b8876890143998d766a7212d7888edb08e560f9268bdb920"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/horizontal-presses/render.mjs",
+      "sha256": "d94b59d9882aee95b2fa2f2a2ec3bb5ec3b29ff9998c0c8f1edc8c50ac95a915"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "horizontal-calf-raise-machine",
+    "sourceUrls": [
+      "https://www.uwo.ca/campusrec/orientation/equipment_guides/legs.html"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Horizontal calf raise on upright seated cable-linked machine. Knees fixed at 165 degrees, forefeet on footplate edge and free heels, ankle plantarflexion with horizontal sled travel, 4 seconds each direction.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "feet": {
+        "L": {
+          "sole": 5.903315197260935,
+          "tMin": -0.449618947378164,
+          "tMax": 0.37197297917059724,
+          "heelMax": -1.4357883272310683,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.903315197260935,
+          "tMin": -0.449618947378164,
+          "tMax": 0.37197297917059724,
+          "heelMax": -1.4357883272310683,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0,
+      "plateTravel": 0,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 30,
+      "feet": {
+        "L": {
+          "sole": 5.921010221250783,
+          "tMin": -0.4493613063831523,
+          "tMax": 0.37119957590801483,
+          "heelMax": -1.4437068621496116,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.921010221250783,
+          "tMin": -0.4493613063831523,
+          "tMax": 0.37119957590801483,
+          "heelMax": -1.4437068621496116,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.017695023989848124,
+      "plateTravel": 0.017695023989848124,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 60,
+      "feet": {
+        "L": {
+          "sole": 6.01629257991474,
+          "tMin": -0.45144931161524327,
+          "tMax": 0.3612076991253365,
+          "heelMax": -1.4875349135422196,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.01629257991474,
+          "tMin": -0.45144931161524327,
+          "tMax": 0.3612076991253365,
+          "heelMax": -1.4875349135422196,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.11297738265380541,
+      "plateTravel": 0.11297738265380541,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 90,
+      "feet": {
+        "L": {
+          "sole": 6.196985492937671,
+          "tMin": -0.47264074682966206,
+          "tMax": 0.313404400717041,
+          "heelMax": -1.5692672339888767,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.196985492937671,
+          "tMin": -0.47264074682966206,
+          "tMax": 0.313404400717041,
+          "heelMax": -1.5692672339888767,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.2936702956767361,
+      "plateTravel": 0.2936702956767361,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 120,
+      "feet": {
+        "L": {
+          "sole": 6.477829764920403,
+          "tMin": -0.5869316767072356,
+          "tMax": 0.1973226106541366,
+          "heelMax": -1.629526103007585,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.477829764920403,
+          "tMin": -0.5869316767072356,
+          "tMax": 0.1973226106541366,
+          "heelMax": -1.629526103007585,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.5745145676594685,
+      "plateTravel": 0.5745145676594685,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 150,
+      "feet": {
+        "L": {
+          "sole": 6.773144702283517,
+          "tMin": -0.7521881906668224,
+          "tMax": 0.02243517323859856,
+          "heelMax": -1.6479158750636678,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.773144702283517,
+          "tMin": -0.7521881906668224,
+          "tMax": 0.02243517323859856,
+          "heelMax": -1.6479158750636678,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.8698295050225822,
+      "plateTravel": 0.8698295050225822,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 180,
+      "feet": {
+        "L": {
+          "sole": 6.9759742467116075,
+          "tMin": -0.8985635339485067,
+          "tMax": -0.14682978476518715,
+          "heelMax": -1.6626976825062205,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.9759742467116075,
+          "tMin": -0.8985635339485067,
+          "tMax": -0.14682978476518715,
+          "heelMax": -1.6626976825062205,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 1.0726590494506727,
+      "plateTravel": 1.0726590494506727,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 210,
+      "feet": {
+        "L": {
+          "sole": 7.0711335452827315,
+          "tMin": -0.9789025635788438,
+          "tMax": -0.24396088998617182,
+          "heelMax": -1.6703766320781699,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 7.0711335452827315,
+          "tMin": -0.9789025635788438,
+          "tMax": -0.24396088998617182,
+          "heelMax": -1.6703766320781699,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 1.1678183480217967,
+      "plateTravel": 1.1678183480217967,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 240,
+      "feet": {
+        "L": {
+          "sole": 7.08792168527092,
+          "tMin": -0.9940281562781499,
+          "tMax": -0.2625474649703978,
+          "heelMax": -1.6717927590215056,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 7.08792168527092,
+          "tMin": -0.9940281562781499,
+          "tMax": -0.2625474649703978,
+          "heelMax": -1.6717927590215056,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 1.184606488009985,
+      "plateTravel": 1.184606488009985,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 270,
+      "feet": {
+        "L": {
+          "sole": 7.0711335452827315,
+          "tMin": -0.9789025635788438,
+          "tMax": -0.24396088998617182,
+          "heelMax": -1.6703766320781699,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 7.0711335452827315,
+          "tMin": -0.9789025635788438,
+          "tMax": -0.24396088998617182,
+          "heelMax": -1.6703766320781699,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 1.1678183480217967,
+      "plateTravel": 1.1678183480217967,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 300,
+      "feet": {
+        "L": {
+          "sole": 6.9759742467116075,
+          "tMin": -0.8985635339485067,
+          "tMax": -0.14682978476518715,
+          "heelMax": -1.6626976825062205,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.9759742467116075,
+          "tMin": -0.8985635339485067,
+          "tMax": -0.14682978476518715,
+          "heelMax": -1.6626976825062205,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 1.0726590494506727,
+      "plateTravel": 1.0726590494506727,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 330,
+      "feet": {
+        "L": {
+          "sole": 6.773144702283517,
+          "tMin": -0.7521881906668224,
+          "tMax": 0.02243517323859856,
+          "heelMax": -1.6479158750636678,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.773144702283517,
+          "tMin": -0.7521881906668224,
+          "tMax": 0.02243517323859856,
+          "heelMax": -1.6479158750636678,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.8698295050225822,
+      "plateTravel": 0.8698295050225822,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 360,
+      "feet": {
+        "L": {
+          "sole": 6.477829764920403,
+          "tMin": -0.5869316767072356,
+          "tMax": 0.1973226106541366,
+          "heelMax": -1.629526103007585,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.477829764920403,
+          "tMin": -0.5869316767072356,
+          "tMax": 0.1973226106541366,
+          "heelMax": -1.629526103007585,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.5745145676594685,
+      "plateTravel": 0.5745145676594685,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 390,
+      "feet": {
+        "L": {
+          "sole": 6.196985492937671,
+          "tMin": -0.47264074682966206,
+          "tMax": 0.313404400717041,
+          "heelMax": -1.5692672339888767,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.196985492937671,
+          "tMin": -0.47264074682966206,
+          "tMax": 0.313404400717041,
+          "heelMax": -1.5692672339888767,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.2936702956767361,
+      "plateTravel": 0.2936702956767361,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 420,
+      "feet": {
+        "L": {
+          "sole": 6.01629257991474,
+          "tMin": -0.45144931161524327,
+          "tMax": 0.3612076991253365,
+          "heelMax": -1.4875349135422196,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 6.01629257991474,
+          "tMin": -0.45144931161524327,
+          "tMax": 0.3612076991253365,
+          "heelMax": -1.4875349135422196,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.11297738265380541,
+      "plateTravel": 0.11297738265380541,
+      "cableLength": 35.19331519726094
+    },
+    {
+      "frame": 450,
+      "feet": {
+        "L": {
+          "sole": 5.921010221250783,
+          "tMin": -0.4493613063831523,
+          "tMax": 0.37119957590801483,
+          "heelMax": -1.4437068621496116,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.921010221250783,
+          "tMin": -0.4493613063831523,
+          "tMax": 0.37119957590801483,
+          "heelMax": -1.4437068621496116,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0.017695023989848124,
+      "plateTravel": 0.017695023989848124,
+      "cableLength": 35.19331519726093
+    },
+    {
+      "frame": 480,
+      "feet": {
+        "L": {
+          "sole": 5.903315197260935,
+          "tMin": -0.449618947378164,
+          "tMax": 0.37197297917059724,
+          "heelMax": -1.4357883272310683,
+          "supportGap": 0.015000000000000568
+        },
+        "R": {
+          "sole": 5.903315197260935,
+          "tMin": -0.449618947378164,
+          "tMax": 0.37197297917059724,
+          "heelMax": -1.4357883272310683,
+          "supportGap": 0.015000000000000568
+        }
+      },
+      "seatBottom": -2.6591652585459524,
+      "backPlane": -3.856133652259518,
+      "seatGap": 0.034999999999999865,
+      "backGap": 0.014999999999999847,
+      "stackTravel": 0,
+      "plateTravel": 0,
+      "cableLength": 35.19331519726093
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "gripError": 6.280369834735101e-16,
+    "maxStep": 0.010833929243508678,
+    "kneeRange": [
+      165.00000000000017,
+      165.00000000000017
+    ],
+    "supportSamples": 17,
+    "cableLengthError": 7.105427357601002e-15,
+    "stackTravel": 1.184606488009985,
+    "minSeatGap": 0.034999999999999865
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      97.180419529456,
+      97.180419529456
+    ],
+    "alpha": {
+      "transparent": 37211722,
+      "opaque": 5610534,
+      "partial": 1414544,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/horizontal-presses/native/horizontal-calf-raise-machine/source.jpg",
+    "sha256": "028adb5c1679b22529bbe6aa009d6e4e3daf650da04a69d6e05306ff389821a7",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

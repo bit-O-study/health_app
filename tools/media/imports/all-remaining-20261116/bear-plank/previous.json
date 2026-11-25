@@ -1,0 +1,28 @@
+{
+  "bear-plank": [
+    {
+      "file": "tools/media/motion-guides/bear-plank.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bear-plank.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/bear-plank-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bear-plank.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bear-plank-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/bear-plank-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

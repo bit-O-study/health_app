@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-reaching-child-s-pose-alpha.webm",
+      "sha256": "c872e9ab41cb3eed2854c5a74ba7ac3e736e34b5ac6a84a092347b2161a9d718",
+      "bytes": 32650,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-reaching-child-s-pose.mp4",
+      "sha256": "196388b19e2d2f6fcf28c2e704ef14880282b48d923d5a6d3e5f3b35b61e9c96",
+      "bytes": 14232,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/side-child/native/side-reaching-child-s-pose/side-reaching-child-s-pose-dark.mp4",
+      "sha256": "733a33667ba1ef55a9eba1a7dc59bb5af17c531c84d287d14280adf2daf8389d",
+      "bytes": 14163,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/side-child/side-reaching-child-s-pose-studio.mjs",
+      "sha256": "93d89dc369e44c3de443a9efd0af2249a4c7e20d402f96f08af9b5338c022898"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/side-child/side-reaching-child-s-pose-motion.mjs",
+      "sha256": "4e535392b2f93fd67c8e5e17f2cb8ee3c79b862823729a41171f0634ee7c9d5c"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/side-child/render.mjs",
+      "sha256": "07af5f918cefd5cf345d7bc7decc7f04d6d02349f0899438e43acf2bacb45007"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

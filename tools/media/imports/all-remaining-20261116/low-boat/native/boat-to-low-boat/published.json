@@ -1,0 +1,18 @@
+{
+  "id": "boat-to-low-boat",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "dda2ad355f0b0467948b80c478686c617be55a9b0558cbb3428ef1c4a4d84add",
+  "rigSourceSha256": "084351317113bf03039bb17fb5cc3d7faf2b41f1282f1396eaa9398148e6bfd6",
+  "videoSha256": "5f3948ce7d9d1adc67850c4b076017ed8f3cfab92bab837321f5131bb4b35795",
+  "darkVideoSha256": "e47954e00663174a514e87b11ca0a2de3a5df1e9175d6e9fb7e0f286424c5010",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 104450,
+  "darkBytes": 114522,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:30:07.181Z"
+}

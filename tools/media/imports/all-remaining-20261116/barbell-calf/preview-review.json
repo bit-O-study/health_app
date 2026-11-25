@@ -1,0 +1,39 @@
+{
+  "barbell-calf-raise": {
+    "reviewedAt": "2026-11-16T05:53:10.833Z",
+    "checks": {
+      "exercise": "barbell-calf-raise",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the barbell.",
+      "feet": "Forefeet stay on the step, heels move freely below and above step level. Straight knees and stable bar across the upper back.",
+      "movement": "Standing barbell calf raise on a step. Forefeet stay supported while both heels rise and lower; knees remain straight and bar stays across the upper back. 3.5 seconds rise, 1 second pause, 3.5 seconds lower."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-calf/native/barbell-calf-raise/full-sheet.png",
+        "sha256": "b4a441d0293ea8277a6201c650c36f90022ee375a594bd7b672afa00ab91bd85"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-calf/native/barbell-calf-raise/side-sheet.png",
+        "sha256": "2f3e36f9d5e92c251392bdaaed8530e3faba3eb35f7f86a8d8fec7584bf3c596"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-calf/native/barbell-calf-raise/poses.json",
+        "sha256": "1330fb4365b2893bca6a5730ac9797c517e0baccd383edd7e007056ee795b497"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-calf/native/barbell-calf-raise/geometry.json",
+        "sha256": "78265b95990c6ca69e6740b16daa0d72e0a37c9b398c143017abc5495a42df33"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-calf/native/barbell-calf-raise/kinematics.json",
+        "sha256": "24ec642c115f33e1661d929b88791c1c9465f6a3905123544ca669a0358dfbd1"
+      }
+    ]
+  }
+}

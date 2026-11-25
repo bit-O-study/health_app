@@ -1,0 +1,18 @@
+{
+  "straight-arm-pulldown-2": {
+    "equipment": "cable",
+    "url": "https://www.muscleandstrength.com/exercises/straight-arm-lat-pull-down.html"
+  },
+  "cable-lateral-raise-2": {
+    "equipment": "cable",
+    "url": "https://www.puregym.com/exercises/arms-and-shoulders/lateral-raises/cable-lateral-raise/"
+  },
+  "face-pull-2": {
+    "equipment": "cable",
+    "url": "https://www.nasm.org/resource-center/exercise-library/face-pull"
+  },
+  "cable-rope-hammer-curl-2": {
+    "equipment": "cable",
+    "url": "https://gravitus.com/guides/exercises/cable-rope-hammer-curl/"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "tree-pose": [
+    {
+      "file": "tools/media/motion-guides/tree-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tree-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/tree-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tree-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tree-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/tree-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

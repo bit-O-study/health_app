@@ -1,0 +1,28 @@
+{
+  "couch-stretch": [
+    {
+      "file": "tools/media/motion-guides/couch-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/couch-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/couch-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/couch-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/couch-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/couch-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

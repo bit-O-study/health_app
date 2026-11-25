@@ -1,0 +1,16 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryBody": true,
+  "minElbow": 179.99999852122065,
+  "maxStep": 0.02398138054664216,
+  "bandLengthRange": [
+    7.116364344563977,
+    12.71882549203295
+  ],
+  "maximumBandStretch": 1.7872645182576354,
+  "minimumBandBodyGap": 0.46527830551245963,
+  "minimumBandFloorGap": 2.086454410258806,
+  "maximumGripError": 4.58853980699185e-14
+}

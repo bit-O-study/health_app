@@ -1,0 +1,75 @@
+{
+  "v-sit-hold": {
+    "reviewedAt": "2026-11-24T05:25:34.503Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "v-sit-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms reach forward horizontally beside legs.",
+      "feet": "Straight legs maintained at 45 degrees, seated torso leaning back with garment supporting pelvis.",
+      "movement": "Seated core V-sit balance: torso leans back, straight legs at 45 degrees and arms reach forward; maintain still position."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Seated eight-second static hold; entry and exit omitted. Not suspended calisthenics V-sit."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/final.jpg",
+        "sha256": "9f911c784d84b2553cb1be0017ba4ea33dc89dd9067dbcf194387a9005fce3e4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/final-dark.jpg",
+        "sha256": "9eeeebda09f962468f651c99be593d7a25a462a487cd8c269fbe5110f32b46b8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/full-sheet.png",
+        "sha256": "7cf99db07c93246c197481109e6c817972f4ee894a0fb07b946be6d24a01b10e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/side-sheet.png",
+        "sha256": "fbb025aeb3544927f9d829aa76f0254f7b41fc079428ee1c68f43da17485a4dc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/verification.json",
+        "sha256": "5014beabc978a2d594c36afb14e56f4ba4a72af4b42ad088e12520193437834d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/geometry.json",
+        "sha256": "35f9b1e48160b1aa61cc5ae974b66efca960ee0af3002f962685a616c80d3b2d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/kinematics.json",
+        "sha256": "d045e32a31742730546d7967c2b12fb174abf4f31d8bf5c74a28ec00cdce62eb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/provenance.json",
+        "sha256": "910ca1b1f6431078f2c214271cecbcab425d11f910b327322b4e704526cbb30e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/v-sit-hold-alpha.webm",
+        "sha256": "f8f7f356d6d713f1e03819e83aff5cd8578aa2431c560b69806151d80287cec3",
+        "bytes": 38697,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/v-sit-hold.mp4",
+        "sha256": "450e003bcf863da855f1be4ca41ff0de9750f89a7805bba06ede059d2dbfbb40",
+        "bytes": 15180,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/v-sit/native/v-sit-hold/v-sit-hold-dark.mp4",
+        "sha256": "07026af55b09966c5977774ff346e931b17d026919a96807ef5a5f23baa9f1f2",
+        "bytes": 14941,
+        "decode": "passed"
+      }
+    ]
+  }
+}

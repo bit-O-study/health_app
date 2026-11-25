@@ -1,0 +1,39 @@
+{
+  "kneeling-leg-curl-machine": {
+    "reviewedAt": "2026-11-16T05:57:35.914Z",
+    "checks": {
+      "exercise": "kneeling-leg-curl-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left knee and shin rest on an elevated pad; right knee flexes against a plate-loaded roller. Fixed torso, thigh support, heel path and roller contact checked.",
+      "movement": "Plate-loaded kneeling leg curl: left knee/shin and both elbows supported, right thigh on front pad and knee aligned with side lever pivot. Right leg curls from 180 to 80 degrees against a roller above the ankle. Four seconds curl and four seconds return; switch sides between sets. Generic apparatus, not a dimensional replica."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/kneeling-curl/native/kneeling-leg-curl-machine/full-sheet.png",
+        "sha256": "1b433c38dedd5679f5353448d0f004c3394b4fd3da880f7a8371abb41b6983b8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/kneeling-curl/native/kneeling-leg-curl-machine/side-sheet.png",
+        "sha256": "b62ae54a0edcb2e452016208b0f6bf73f779e60f6371472f6f8d56b5627aafa4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/kneeling-curl/native/kneeling-leg-curl-machine/poses.json",
+        "sha256": "a839d85222861f1ecd1732a7a0464c5cb3557cd683a048074f88fc8ce3cbc834"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/kneeling-curl/native/kneeling-leg-curl-machine/geometry.json",
+        "sha256": "2b123a882dc36f6b9eddfede7d1ae258718c19f4e1ee9c8cdd21fd0ff11050a0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/kneeling-curl/native/kneeling-leg-curl-machine/kinematics.json",
+        "sha256": "48ae2cc6d8c5e0d439ae73da30bb5f12cbf82e73312a50d46a1c73bf6a429430"
+      }
+    ]
+  }
+}

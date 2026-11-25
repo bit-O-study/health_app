@@ -1,0 +1,75 @@
+{
+  "triangle-pose": {
+    "reviewedAt": "2026-11-24T02:58:38.607Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "triangle-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand rests on front shin while upper arm reaches upward.",
+      "feet": "Both feet grounded with straight knees and wide stance.",
+      "movement": "Straight wide legs, front foot forward, rear foot inward, torso extending over front leg, lower hand supported on shin and upper arm reaching upward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/final.jpg",
+        "sha256": "b5e6a86193182626a5b13ab05d0138ab079276ece5681f94941e274d31704f68"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/final-dark.jpg",
+        "sha256": "98b279f7d569cb20efab33a4b632f2ac381b6786f7d0023eea8d80bd25636cd1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/full-sheet.png",
+        "sha256": "b01796084d8c02535145072456dacd45726d24705ae77f2e312c772c6f05ed91"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/side-sheet.png",
+        "sha256": "a45741402b092cf845753a986558ba562b4d667fa0c58d4bfa15c99b0f6cc06f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/verification.json",
+        "sha256": "d4f27fdd8b680a2e5f672fa9a2c1b6be7ea46facca5f5f72ea62bc5ccf1f2d90"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/geometry.json",
+        "sha256": "de58a564e509425fb6c217bcee94c32ae336d47fb270e9f83c84b0cc57826c2a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/kinematics.json",
+        "sha256": "4bd2093aba0bfbc9840d1c04f031df48a35f9781060f32695b5148e7117db893"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/provenance.json",
+        "sha256": "edcb1313662a457d4b10b63ebd567198bec96299f031a3af2b33e18f4e02e70a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/triangle-pose-alpha.webm",
+        "sha256": "c8316935136dbadfdecfcd7e4f26b5ea198b8fea54ec229962cd6319644ac249",
+        "bytes": 41117,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/triangle-pose.mp4",
+        "sha256": "424d5969805822849cd5bf49cb746a49e308ee1e6ebb3bc2913a0c5c4dc88a93",
+        "bytes": 16041,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/triangle/native/triangle-pose/triangle-pose-dark.mp4",
+        "sha256": "721f7236022253ce1566d66a4794e2594cc8f7423fefad0e5bffdf963529dfdd",
+        "bytes": 15266,
+        "decode": "passed"
+      }
+    ]
+  }
+}

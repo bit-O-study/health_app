@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "front-lever",
+      "original": "front-lever",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "levers",
+        "sourceUrls": [
+          "https://gmb.io/levers/0/"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Face-up horizontal straight-body lever suspended beneath a bar with straight arms. Entry and exit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static straight-bar lever hold; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "back-lever",
+      "original": "back-lever",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "levers",
+        "sourceUrls": [
+          "https://gmb.io/levers/0/"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Face-down horizontal straight-body lever suspended beneath a bar with straight arms. Entry and exit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second static straight-bar lever hold; entry and exit omitted."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

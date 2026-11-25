@@ -1,0 +1,39 @@
+{
+  "staggered-push-up": {
+    "reviewedAt": "2026-11-16T04:21:47.725Z",
+    "checks": {
+      "exercise": "staggered-push-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms retain floor contact, right hand forward and left hand back; wrist targets stay fixed.",
+      "feet": "Both toes retain floor contact throughout the lowering and pressing cycle.",
+      "movement": "Push-up with right hand slightly forward and left hand slightly back. Fixed staggered palms and toes, straight trunk, 3.5 seconds down, 1 second bottom pause, 3.5 seconds up. One hand arrangement demonstrated; change sides between sets."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/staggered-push-up/native/staggered-push-up/full-sheet.png",
+        "sha256": "c36ef46525063ea3112c6671f47d578b1c70372b63de4cb7005e893a7dcacb7a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/staggered-push-up/native/staggered-push-up/side-sheet.png",
+        "sha256": "251047f67241429b3ed3daf12bcf66c6d6da0b2e38dd0e58f4b14adb4d537c56"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/staggered-push-up/native/staggered-push-up/poses.json",
+        "sha256": "ef9ddc4c831857ba47d1ed16b49d4c0b0c3f87ae0b0512edda620bbedc334717"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/staggered-push-up/native/staggered-push-up/geometry.json",
+        "sha256": "fe7568fba2d4bad229dd4b27f31c0b3cf90512591475053429b7398d97681ed2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/staggered-push-up/native/staggered-push-up/kinematics.json",
+        "sha256": "53a6b51bf394afae4d6612df43401d06a166dc51e37a343f31560ae6107007f6"
+      }
+    ]
+  }
+}

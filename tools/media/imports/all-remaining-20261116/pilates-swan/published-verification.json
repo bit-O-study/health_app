@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T05:12:10.145Z",
+  "report": [
+    {
+      "id": "pilates-swan",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

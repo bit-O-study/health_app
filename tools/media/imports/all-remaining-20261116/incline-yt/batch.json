@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "incline-dumbbell-y-raise",
+      "original": "incline-dumbbell-y-raise",
+      "equipment": "dumbbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "incline-dumbbell-y-raise",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/arms-and-shoulders/rear-delt-exercises/y-raises/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Chest supported on 45-degree incline bench, stable feet, dumbbells held with long arms. Raise arms diagonally overhead into Y. 3.5 seconds lift, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "incline-dumbbell-t-raise",
+      "original": "incline-dumbbell-t-raise",
+      "equipment": "dumbbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "incline-dumbbell-t-raise",
+        "sourceUrls": [
+          "https://www.motra.com/exercises/dumbbellProneYtwRaise"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Chest supported on 45-degree incline bench, stable feet, dumbbells held with long arms. Raise arms laterally to shoulder level into T. 3.5 seconds lift, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

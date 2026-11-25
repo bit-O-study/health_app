@@ -1,0 +1,336 @@
+{
+  "id": "prone-incline-dumbbell-shrug",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/incline-shrug/prone-incline-dumbbell-shrug-studio.mjs",
+      "sha256": "5b171791ecc572d7a631883503f046ccd85e9f766a3df0faf3033cf03aeaae1d"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/incline-shrug/prone-incline-dumbbell-shrug-motion.mjs",
+      "sha256": "039b2808e206cd85bbbb33851228d98b1c7124e05c93b7135696525f297fe973"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/incline-shrug/render.mjs",
+      "sha256": "ffcb0c9fe199b004e90f6ecc13eeab26f4e2b3a160a93f5a3304e4f9930ef831"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "prone-incline-dumbbell-shrug",
+    "sourceUrls": [
+      "https://www.motra.com/exercises/dumbbellChestSupportedShrug"
+    ],
+    "sourcesCheckedAt": "2026-11-16",
+    "criteria": "Chest supported on 45-degree incline bench with feet stationary. Dumbbells hang from straight arms. Elevate shoulders toward ears with slight retraction; pause and lower without elbow flexion or torso movement. 3.5 seconds lift, 1 second pause, 3.5 seconds lower.",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 2.6782376319053878,
+      "equipmentPadClearance": 1.8304776773369038,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 30,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.0003422136614630311,
+      "equipmentBodyClearance": 2.679191555505889,
+      "equipmentPadClearance": 1.8257949612174318,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 60,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.002128551469763318,
+      "equipmentBodyClearance": 2.6847121308573914,
+      "equipmentPadClearance": 1.8023356931163204,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 90,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.005411527030240615,
+      "equipmentBodyClearance": 2.6950200345962867,
+      "equipmentPadClearance": 1.7641355669426748,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 120,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.00916188421304387,
+      "equipmentBodyClearance": 2.6510870232313586,
+      "equipmentPadClearance": 1.7191978662020644,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 150,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.011440607246810064,
+      "equipmentBodyClearance": 2.6061160246799138,
+      "equipmentPadClearance": 1.6781206542735863,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 180,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.012680509596028733,
+      "equipmentBodyClearance": 2.5810171423189763,
+      "equipmentPadClearance": 1.6581648354511993,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 210,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.012918041109278855,
+      "equipmentBodyClearance": 2.5764696150755038,
+      "equipmentPadClearance": 1.6535247453917312,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 240,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.012918041109278855,
+      "equipmentBodyClearance": 2.5764696150755038,
+      "equipmentPadClearance": 1.6535247453917312,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 270,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.012918041109278855,
+      "equipmentBodyClearance": 2.5764696150755038,
+      "equipmentPadClearance": 1.6535247453917312,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 300,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.012680509596028733,
+      "equipmentBodyClearance": 2.5810171423189763,
+      "equipmentPadClearance": 1.6581648354511993,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 330,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.011440607246810064,
+      "equipmentBodyClearance": 2.6061160246799138,
+      "equipmentPadClearance": 1.6781206542735863,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 360,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.00916188421304387,
+      "equipmentBodyClearance": 2.6510870232313586,
+      "equipmentPadClearance": 1.7191978662020644,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 390,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.005411527030240615,
+      "equipmentBodyClearance": 2.6950200345962867,
+      "equipmentPadClearance": 1.7641355669426748,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 420,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.002128551469763318,
+      "equipmentBodyClearance": 2.6847121308573914,
+      "equipmentPadClearance": 1.8023356931163204,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 450,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0.0003422136614630311,
+      "equipmentBodyClearance": 2.679191555505889,
+      "equipmentPadClearance": 1.8257949612174318,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    },
+    {
+      "frame": 480,
+      "floorClearance": 0.007092029057626625,
+      "clothFloorClearance": 4.948040253863542,
+      "chestGap": 0,
+      "equipmentBodyClearance": 2.6782376319053878,
+      "equipmentPadClearance": 1.8304776773369038,
+      "padPlane": -1.072102106069184,
+      "padLow": -0.8406155704017934,
+      "padHigh": 5.1512113409578575
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "stationarySupport": true,
+    "straightArms": true,
+    "shoulderRise": 0.6010407640085651,
+    "minElbow": 180,
+    "maxStep": 0.0060717178878583,
+    "chestGapRange": [
+      0,
+      0.012918041109278855
+    ],
+    "floorGap": 0.007092029057626625,
+    "minimumWeightBodyGap": 2.5764696150755038,
+    "minimumWeightPadGap": 1.6535247453917312
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      180,
+      180
+    ],
+    "alpha": {
+      "transparent": 39883880,
+      "opaque": 3650399,
+      "partial": 702521,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "Incline bench supported straight-arm dumbbell shrug; eight-second controlled cycle.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/incline-shrug/native/prone-incline-dumbbell-shrug/source.jpg",
+    "sha256": "e10d5cbcbff03bf5b9d19cf9426adb051df7db1055fe3d5bafd137dba4c34433",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

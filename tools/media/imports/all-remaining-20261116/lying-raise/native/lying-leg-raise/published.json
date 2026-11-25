@@ -1,0 +1,18 @@
+{
+  "id": "lying-leg-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "9afb2795c354a607cd9d029610ec982e90690e822423d805388b37e8fdf66504",
+  "rigSourceSha256": "411417ef79e2ea7b55a1da9f3d79c5181a6f66308a1566d23e18888c5dbcf056",
+  "videoSha256": "564ca43689c795361f44ecd9d47adc37e0794d296963b4b5b62136608374a982",
+  "darkVideoSha256": "a31a723ad1777ddcaec6405f682d627934d65c97d494b624ad748018c0ef57c6",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 81678,
+  "darkBytes": 84585,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T00:26:56.451Z"
+}

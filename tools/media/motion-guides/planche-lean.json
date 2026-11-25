@@ -1,0 +1,15 @@
+{
+  "id": "planche-lean",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "planche-lean-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://gmb.io/planche/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T07:05:31.578Z"
+}

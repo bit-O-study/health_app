@@ -1,0 +1,66 @@
+{
+  "entries": [
+    {
+      "id": "v-up",
+      "original": "v-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "v-up",
+        "sourceUrls": [
+          "https://au.physitrack.com/home-exercise-video/jack-knife-sit-ups-%2528v-ups%2529-version-1"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "v-up-2",
+      "original": "v-up-2",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "v-up",
+        "sourceUrls": [
+          "https://au.physitrack.com/home-exercise-video/jack-knife-sit-ups-%2528v-ups%2529-version-1"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "jackknife-sit-up",
+      "original": "jackknife-sit-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "v-up",
+        "sourceUrls": [
+          "https://au.physitrack.com/home-exercise-video/jack-knife-sit-ups-%2528v-ups%2529-version-1"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Straight-leg V-up: raise torso and legs together from low extended position, arms arc from overhead toward feet, then lower with control.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

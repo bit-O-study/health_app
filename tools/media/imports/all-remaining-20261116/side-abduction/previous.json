@@ -1,0 +1,28 @@
+{
+  "side-lying-hip-abduction": [
+    {
+      "file": "tools/media/motion-guides/side-lying-hip-abduction.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/side-lying-hip-abduction.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/side-lying-hip-abduction-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-hip-abduction.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-hip-abduction-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/side-lying-hip-abduction-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

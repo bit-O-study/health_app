@@ -1,0 +1,18 @@
+{
+  "id": "knee-to-chest-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5022bfd3642e9ec046e3ac525ab1e4e9f96c0403f49306c75bbc42c37e91e38b",
+  "rigSourceSha256": "1af446b3797c0cacf4d3edbe12ad551cc25de773f04ead66656f7eaeb0e8823f",
+  "videoSha256": "f200c288d081c34f8ac46816fd5c8a33e5113f3e4ddcc932e3b2f8ee4a94d3e3",
+  "darkVideoSha256": "6112d102143f76773e15023d71843e91ac8ea7e6392fe6ab3abfb23e53504efe",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16735,
+  "darkBytes": 15847,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T03:33:23.290Z"
+}

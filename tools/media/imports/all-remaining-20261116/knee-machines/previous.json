@@ -1,0 +1,106 @@
+{
+  "pause-leg-extension": [
+    {
+      "file": "tools/media/motion-guides/pause-leg-extension.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-leg-extension.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-leg-extension-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-extension.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-extension-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-extension-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "top-half-leg-extension": [
+    {
+      "file": "tools/media/motion-guides/top-half-leg-extension.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/top-half-leg-extension.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/top-half-leg-extension-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/top-half-leg-extension.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/top-half-leg-extension-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/top-half-leg-extension-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "pause-leg-curl": [
+    {
+      "file": "tools/media/motion-guides/pause-leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pause-leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pause-leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "eccentric-leg-curl": [
+    {
+      "file": "tools/media/motion-guides/eccentric-leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

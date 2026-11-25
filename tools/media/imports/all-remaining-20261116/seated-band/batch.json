@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "seated-band-abduction",
+      "original": "seated-band-abduction",
+      "equipment": "band",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "seated-band",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/resisted-hip-abduction-in-perched-sitting"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Sit upright on stool, band above knees, feet flat. Open both knees against band without moving pelvis, then return slowly. 3.5 seconds open, 1 second pause, 3.5 seconds close.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Sampled garment-seat clearance is 0.015 to 0.1 model units; full mesh collision is not certified."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

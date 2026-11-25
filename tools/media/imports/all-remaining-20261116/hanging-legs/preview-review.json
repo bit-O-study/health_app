@@ -1,0 +1,113 @@
+{
+  "hanging-leg-raise": {
+    "reviewedAt": "2026-11-16T05:25:51.193Z",
+    "checks": {
+      "exercise": "hanging-leg-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Straight legs raise together to hip height or remain horizontal for the L hold; fixed hands and trunk, no swing.",
+      "movement": "Overhand hanging straight-leg raise to hip height, 3.5 seconds up, 1 second pause, 3.5 seconds down. Fixed trunk and arms without swinging; legs travel together."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise/full-sheet.png",
+        "sha256": "0e483549662a962f84234580be20c6413c683ca8a9aae38588899d621a68959a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise/side-sheet.png",
+        "sha256": "19d1674fc171ff49badf58f6bc0be3239edb83b331aba74b89b054ba3e71cf21"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise/poses.json",
+        "sha256": "e6c56763d17da5da18cae7af79985ccd77ef494859c5bc286792c0d881226188"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise/geometry.json",
+        "sha256": "077d5576e29b5d15ec946af5f5bcbadce8a6a70467e8f5878f8b0ac220a370b5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise/kinematics.json",
+        "sha256": "05341f9f07a698388962df3bf15f0df82b6b9e94f1dd426a3b2bca9addbd833c"
+      }
+    ]
+  },
+  "hanging-leg-raise-2": {
+    "reviewedAt": "2026-11-16T05:25:51.197Z",
+    "checks": {
+      "exercise": "hanging-leg-raise-2",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Straight legs raise together to hip height or remain horizontal for the L hold; fixed hands and trunk, no swing.",
+      "movement": "Overhand hanging straight-leg raise to hip height, 3.5 seconds up, 1 second pause, 3.5 seconds down. Fixed trunk and arms without swinging; legs travel together."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise-2/full-sheet.png",
+        "sha256": "0e483549662a962f84234580be20c6413c683ca8a9aae38588899d621a68959a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise-2/side-sheet.png",
+        "sha256": "19d1674fc171ff49badf58f6bc0be3239edb83b331aba74b89b054ba3e71cf21"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise-2/poses.json",
+        "sha256": "e6c56763d17da5da18cae7af79985ccd77ef494859c5bc286792c0d881226188"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise-2/geometry.json",
+        "sha256": "077d5576e29b5d15ec946af5f5bcbadce8a6a70467e8f5878f8b0ac220a370b5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-leg-raise-2/kinematics.json",
+        "sha256": "05341f9f07a698388962df3bf15f0df82b6b9e94f1dd426a3b2bca9addbd833c"
+      }
+    ]
+  },
+  "hanging-l-sit": {
+    "reviewedAt": "2026-11-16T05:25:51.200Z",
+    "checks": {
+      "exercise": "hanging-l-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor. Straight legs raise together to hip height or remain horizontal for the L hold; fixed hands and trunk, no swing.",
+      "movement": "Static hanging L-sit with straight legs at hip height, pointed toes, fixed overhead grip and trunk. Eight seconds shows maintained hold; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-l-sit/full-sheet.png",
+        "sha256": "1a405d69923616ddd7002cd741ff2e361e3f8c83d79c719cffc783cf97bd5d6b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-l-sit/side-sheet.png",
+        "sha256": "6d2be295322cbdb86eb06cb181c5713f218ab0be81886ef1934a813a8158db0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-l-sit/poses.json",
+        "sha256": "7c08ecc02353c75c791d062946a6d0a908d0e52070bfa100d6a30099c3e6414c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-l-sit/geometry.json",
+        "sha256": "fb71f3751339fd4dc2b95863cce2a72e0c1131e1bee7fcaaccc5794ad3391321"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/hanging-legs/native/hanging-l-sit/kinematics.json",
+        "sha256": "0a1a489e8b309cb7f8faaf9e4d3f692f80d3e736d0e40f2e796bdbea5862d869"
+      }
+    ]
+  }
+}

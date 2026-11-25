@@ -1,0 +1,15 @@
+{
+  "id": "seated-forward-fold",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-forward-fold-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.yogajournal.com/poses/seated-forward-bend/?scope=anon"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T01:13:12.836Z"
+}

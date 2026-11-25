@@ -1,0 +1,286 @@
+{
+  "id": "pause-hip-thrust",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "continuous"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/pause-hip-thrust-20261115/pause-hip-thrust-studio.mjs",
+      "sha256": "2f1db16768044e878c1f4fedc00676d6f30b1464252436a0a42ce228ee6bbac0"
+    },
+    {
+      "path": "tools/media/imports/pause-hip-thrust-20261115/pause-hip-thrust-motion.mjs",
+      "sha256": "e69ef93ae7a692ecbe615f8c6ed1f6cac08c791d514eaf931b67a9048a950d81"
+    },
+    {
+      "path": "tools/media/imports/pause-hip-thrust-20261115/render.mjs",
+      "sha256": "1c03c13a36d11bf4cd6d2295b4fb6020b4cd79f0560c205421e7ab61dce538f0"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "pause-hip-thrust",
+    "sourceUrls": [
+      "https://www.puregym.com/exercises/glutes/hip-thrusts/barbell-hip-thrust/"
+    ],
+    "sourcesCheckedAt": "2026-11-15",
+    "criteria": "Upper back supported on bench, feet planted, padded bar at hip crease, hands secure. Demonstration timing: 3 seconds ascent, 2 seconds top hold, 3 seconds descent. Duration is illustrative, not prescribed by source.",
+    "limitations": [
+      "Procedural demonstration; contact samples do not constitute full collision or biomechanical validation.",
+      "3-2-3 timing chosen for demonstration, not prescribed by the source."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "contacts": [
+        -6.867505979919438,
+        -0.0039249211266727535,
+        0.01945685329232083
+      ]
+    },
+    {
+      "frame": 30,
+      "contacts": [
+        -6.867505979919435,
+        -0.0039031297509275475,
+        0.01945685341600789
+      ]
+    },
+    {
+      "frame": 60,
+      "contacts": [
+        -6.867505979919428,
+        -0.0037880962521192885,
+        0.017821638012723295
+      ]
+    },
+    {
+      "frame": 90,
+      "contacts": [
+        -6.867505979919433,
+        -0.0031301547511985994,
+        0.015622771846742323
+      ]
+    },
+    {
+      "frame": 120,
+      "contacts": [
+        -6.867505979919437,
+        -0.0037620169898651135,
+        0.01573429062579479
+      ]
+    },
+    {
+      "frame": 150,
+      "contacts": [
+        -6.867505979919433,
+        -0.008406150449757899,
+        0.019661851355430082
+      ]
+    },
+    {
+      "frame": 180,
+      "contacts": [
+        -6.867505979919435,
+        -0.014118495700936595,
+        0.015333512150174422
+      ]
+    },
+    {
+      "frame": 210,
+      "contacts": [
+        -6.867505979919435,
+        -0.014118495700936595,
+        0.015333512150174422
+      ]
+    },
+    {
+      "frame": 240,
+      "contacts": [
+        -6.867505979919435,
+        -0.014118495700936595,
+        0.015333512150174422
+      ]
+    },
+    {
+      "frame": 270,
+      "contacts": [
+        -6.867505979919435,
+        -0.014118495700936595,
+        0.015333512150174422
+      ]
+    },
+    {
+      "frame": 300,
+      "contacts": [
+        -6.867505979919435,
+        -0.014118495700936595,
+        0.015333512150174422
+      ]
+    },
+    {
+      "frame": 330,
+      "contacts": [
+        -6.867505979919435,
+        -0.008406150449757899,
+        0.019661851355430415
+      ]
+    },
+    {
+      "frame": 360,
+      "contacts": [
+        -6.867505979919437,
+        -0.0037620169898651135,
+        0.01573429062579479
+      ]
+    },
+    {
+      "frame": 390,
+      "contacts": [
+        -6.867505979919433,
+        -0.0031301547511985994,
+        0.015622771846742323
+      ]
+    },
+    {
+      "frame": 420,
+      "contacts": [
+        -6.867505979919428,
+        -0.0037880962521192885,
+        0.017821638012723295
+      ]
+    },
+    {
+      "frame": 450,
+      "contacts": [
+        -6.867505979919435,
+        -0.0039031297509275475,
+        0.01945685341600789
+      ]
+    },
+    {
+      "frame": 480,
+      "contacts": [
+        -6.867505979919438,
+        -0.0039249211266727535,
+        0.01945685329232083
+      ]
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loop": 0,
+    "footDrift": 9.082140078317007e-15,
+    "gripError": 3.021866884883597e-15,
+    "elbowDegrees": [
+      117.48936299892718,
+      165.52846289719994
+    ],
+    "kneeDegrees": [
+      71.30702364483822,
+      89.37202465253407
+    ],
+    "backGap": 0.014195219805488879,
+    "padClearance": 0.015007464496395895,
+    "topHoldSeconds": 2
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      117.48936299892718,
+      165.52846289719994
+    ],
+    "alpha": {
+      "transparent": 38718163,
+      "opaque": 4562666,
+      "partial": 955971,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/source.jpg",
+    "sha256": "37e61e04b549d082e3ffba3d391234841e6366715db7a644ede93b730d2b0e56",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; contact samples do not constitute full collision or biomechanical validation. 3-2-3 timing chosen for demonstration, not prescribed by the source."
+}

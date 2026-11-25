@@ -1,0 +1,39 @@
+{
+  "rkc-plank": {
+    "reviewedAt": "2026-11-16T02:45:41.348Z",
+    "checks": {
+      "exercise": "rkc-plank",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands clenched in fists; forearms supported on virtual floor.",
+      "feet": "Toes retain floor contact with feet close together.",
+      "movement": "Static forearm plank, closed fists and close feet. Whole-body contraction and isometric elbow-to-toe pull are coached in text; muscle tension cannot be demonstrated by pose alone. Eight-second illustrative hold, no entry or exit."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/full-sheet.png",
+        "sha256": "cc3cbae6de818cae9ec7e38da4022182838b061f70d4a0d49a0f1fd89ca6b96b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/side-sheet.png",
+        "sha256": "954006490e63ebde2afeeea6d51e8619e3e63cfb226a3b07b038085a782de7d7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/poses.json",
+        "sha256": "371c2ee855d236f0bba6492a8065efa4f7ea7d7bf79a7a478b482507ad0b5c2f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/geometry.json",
+        "sha256": "59c3a1ba9833162c5dd9ba1115ae68ed594cbb5ac14ee4e181376c7fb77eecc6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/rkc-plank/native/rkc-plank/kinematics.json",
+        "sha256": "30071368c91cde33cd60be715bff25452d50adad4b257bda411e77fcdbffb739"
+      }
+    ]
+  }
+}

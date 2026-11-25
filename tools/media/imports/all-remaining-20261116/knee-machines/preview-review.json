@@ -1,0 +1,150 @@
+{
+  "pause-leg-extension": {
+    "reviewedAt": "2026-11-16T00:59:22.136Z",
+    "checks": {
+      "exercise": "pause-leg-extension",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Ankles follow the moving roller; knees stay aligned with the lever pivot.",
+      "movement": "Three-second working phase, two-second contracted pause, three-second controlled return; seated machine, maintained hip and hand supports."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-extension/full-sheet.png",
+        "sha256": "79028b6e8a96959ade180759dc281cd10e1233fead832b164d998eb570d329fe"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-extension/side-sheet.png",
+        "sha256": "0d65cb1333f8e71211371950215ac75e9c50bb742d23a85704fac4b3ba8770a7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-extension/poses.json",
+        "sha256": "0bbe9f6435f2fbf813c4fad34bed3ee8627903ce6617135b03e66f668f1679cb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-extension/geometry.json",
+        "sha256": "e154ec437e8d0f165500448c6c299255d580c6551b477345a20705f05a9b9230"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-extension/kinematics.json",
+        "sha256": "38d1824f20f8dd13a9cd995fc144e5bf2fdf818f32baaca5e755b2fd70f43b2e"
+      }
+    ]
+  },
+  "top-half-leg-extension": {
+    "reviewedAt": "2026-11-16T00:59:22.141Z",
+    "checks": {
+      "exercise": "top-half-leg-extension",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Ankles follow the moving roller; knees stay aligned with the lever pivot.",
+      "movement": "Upper-half knee extension, 130 to 170 degrees, three seconds each way and two-second top pause."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/top-half-leg-extension/full-sheet.png",
+        "sha256": "cc1aa3103a71885fa14d00e64ccb4d6338b8ef3aa89d87db7f76c0b021c367ab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/top-half-leg-extension/side-sheet.png",
+        "sha256": "8eb94406c14e1740c5b1b8528bab6822e305e9fd8fb4c89008c8683bc6859ec6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/top-half-leg-extension/poses.json",
+        "sha256": "70eb77b638df2bea2204b836ce4cb1a4e058e285e7561dfb633b65f836ae39e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/top-half-leg-extension/geometry.json",
+        "sha256": "1833add8cdf6746b79aa58c86b6943a2d363d35f9e3ff9fba3ba26fba1468932"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/top-half-leg-extension/kinematics.json",
+        "sha256": "491fe74cdb27fe9c3b788fff3e6478130b671c5db95f4accfa49779295d5f595"
+      }
+    ]
+  },
+  "pause-leg-curl": {
+    "reviewedAt": "2026-11-16T00:59:22.143Z",
+    "checks": {
+      "exercise": "pause-leg-curl",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Ankles follow the moving roller; knees stay aligned with the lever pivot.",
+      "movement": "Three-second working phase, two-second contracted pause, three-second controlled return; seated machine, maintained hip and hand supports."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-curl/full-sheet.png",
+        "sha256": "d7d103f0876e6d86ed9b4f597d432500cee8739bb4d5557537e6f0fe55a75719"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-curl/side-sheet.png",
+        "sha256": "95efdde539fa67d585e398bbc31d9bec9684e84db8c773e94f5655fccecfef0e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-curl/poses.json",
+        "sha256": "f88e20204d3a2e1b36c87d9b60233a81a5a7353783d90564d78440030a1ad318"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-curl/geometry.json",
+        "sha256": "02738287c551be7fdee66aff503f1db9cf4b7540d87cbb480ce8095a3b248919"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/pause-leg-curl/kinematics.json",
+        "sha256": "f035a31929f441a3b8b6f06c35846ba00f80ebd5bdd1ad93c8912097795812a6"
+      }
+    ]
+  },
+  "eccentric-leg-curl": {
+    "reviewedAt": "2026-11-16T00:59:22.146Z",
+    "checks": {
+      "exercise": "eccentric-leg-curl",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Ankles follow the moving roller; knees stay aligned with the lever pivot.",
+      "movement": "One-second knee flexion, one-second hold, five-second controlled extension, one-second start hold."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Generic selectorized apparatus, with simplified cam and cable rather than a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/eccentric-leg-curl/full-sheet.png",
+        "sha256": "d4be899dba45479ca60fee8ba59ef8ebe6d3bfb1b77a4719e81b574ff942227b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/eccentric-leg-curl/side-sheet.png",
+        "sha256": "b3dfeb9f0954e1778600c6ca064c09590569f4fb9ceedb9c87ed98ff32d47d06"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/eccentric-leg-curl/poses.json",
+        "sha256": "19ef4deb7f5fb134bb868169e57c0553789bb41bd31fe6ee3a412b0c7a9cfd50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/eccentric-leg-curl/geometry.json",
+        "sha256": "b63ef597ff328b855930e37a65e702a77dcb4d8a6703616032a465c7fb729f6b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/knee-machines/native/eccentric-leg-curl/kinematics.json",
+        "sha256": "e22cc4d45fb6ad2de6d4dc45e65ca211a14a7ede5d90281e4460028a6b2bb8dc"
+      }
+    ]
+  }
+}

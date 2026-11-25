@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "scapular-push-up",
+      "original": "scapular-push-up",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "scapular-push",
+        "sourceUrls": [
+          "https://ca.physitrack.com/home-exercise-video/scapula-push-up---straight-body"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Keep elbows straight in high plank; let chest lower through scapular retraction, then press floor away through protraction with stable hands and toes.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second scapular push-up demonstration."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

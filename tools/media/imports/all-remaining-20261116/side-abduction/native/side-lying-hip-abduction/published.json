@@ -1,0 +1,18 @@
+{
+  "id": "side-lying-hip-abduction",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f2c4714c82ac7f024505c34421d231720d8237f56ed11424ae703b510994a8f2",
+  "rigSourceSha256": "603c7bc25e61fdd50436c19633b4955140fd7ed69ed333511f2e77da5bf85162",
+  "videoSha256": "13b53351a4974aaea5abc79438ace3827380892ff731eeea10e0bfe4c5cb2fe0",
+  "darkVideoSha256": "260145f2a5db474c65991f1d0e028cac26ad7c63bcdc761cdc0de528acad8b54",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 57742,
+  "darkBytes": 55493,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T01:53:22.566Z"
+}

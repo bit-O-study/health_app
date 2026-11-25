@@ -1,0 +1,76 @@
+{
+  "single-leg-calf-press": {
+    "reviewedAt": "2026-11-16T04:28:22.717Z",
+    "checks": {
+      "exercise": "single-leg-calf-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left forefoot contacts the plate edge with heel free; right foot remains on a separate fixed rest.",
+      "movement": "Unilateral calf press on a 45-degree leg press. Left knee fixed at 165 degrees, ankle plantarflexes over 4 seconds and returns over 4 seconds. Left forefoot only on the plate; right leg bent with foot on separate fixed support. Hands retain handles, pelvis and back fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/full-sheet.png",
+        "sha256": "8ac4074aa52cc6eae84d915c860aae782d323f8ee13cd5e1c035b38fcaad082f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/side-sheet.png",
+        "sha256": "d20cd252fa51b4267d9b2f578505bb19d4907a7c3012e6c553ac5a8495b8a201"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/poses.json",
+        "sha256": "056cc2eb4df0f2c7d5d56e1ca674913531c8ec100888917715ab6bb225e00689"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/geometry.json",
+        "sha256": "16ae7fa48c107ac1a415e88751f50036f8cb272c8be5968bed983a79a9d7721d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/kinematics.json",
+        "sha256": "d0b0e379841dc43d6e9dc4f07619aaf6e6d2ed05cb6af1fe4d4d519b47d09157"
+      }
+    ]
+  },
+  "single-leg-leg-press-calf-raise": {
+    "reviewedAt": "2026-11-16T04:28:22.724Z",
+    "checks": {
+      "exercise": "single-leg-leg-press-calf-raise",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left forefoot contacts the plate edge with heel free; right foot remains on a separate fixed rest.",
+      "movement": "Unilateral calf press on a 45-degree leg press. Left knee fixed at 165 degrees, ankle plantarflexes over 4 seconds and returns over 4 seconds. Left forefoot only on the plate; right leg bent with foot on separate fixed support. Hands retain handles, pelvis and back fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/full-sheet.png",
+        "sha256": "8ac4074aa52cc6eae84d915c860aae782d323f8ee13cd5e1c035b38fcaad082f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/side-sheet.png",
+        "sha256": "d20cd252fa51b4267d9b2f578505bb19d4907a7c3012e6c553ac5a8495b8a201"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/poses.json",
+        "sha256": "056cc2eb4df0f2c7d5d56e1ca674913531c8ec100888917715ab6bb225e00689"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/geometry.json",
+        "sha256": "16ae7fa48c107ac1a415e88751f50036f8cb272c8be5968bed983a79a9d7721d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/kinematics.json",
+        "sha256": "d0b0e379841dc43d6e9dc4f07619aaf6e6d2ed05cb6af1fe4d4d519b47d09157"
+      }
+    ]
+  }
+}

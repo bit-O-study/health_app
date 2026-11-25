@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-15T13:29:14.350Z",
+  "id": "pause-hip-thrust",
+  "files": 3,
+  "status": "completed-local",
+  "bothThemesReviewed": 503,
+  "tests": 39,
+  "testFiles": 3,
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "warnings": 2,
+    "detail": "Unused radians and bench variables in reused studio."
+  },
+  "deployment": "pending",
+  "device": "pending"
+}

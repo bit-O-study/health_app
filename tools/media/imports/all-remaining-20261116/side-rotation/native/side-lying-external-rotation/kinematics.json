@@ -1,0 +1,21 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "minActiveElbow": 89.99999999999997,
+  "maxActiveElbow": 90.00000000000001,
+  "minKnee": 180,
+  "maxStep": 0.02453449839084142,
+  "minRotation": 2.7424796652085093e-14,
+  "maxRotation": 59.99999999999999,
+  "stationaryUpperArm": true,
+  "stationaryLegs": true,
+  "minimumWeightBodyGap": 0.02649537448754786,
+  "minimumWeightFloorGap": 3.455534440291098,
+  "supportGaps": {
+    "body": 0.018737837012443137,
+    "hip": 0.014999998860222519,
+    "foot": 0.018737837012443137,
+    "headHand": 0.026020117701675675
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "neck-stretch": {
+    "reviewedAt": "2026-11-18T03:13:57.277Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "neck-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Right hand rests lightly on the front of the left shoulder; opposite arm relaxed at side.",
+      "feet": "Feet flat on mat, pelvis supported by chair; head tilts laterally with upright torso.",
+      "movement": "Sit upright, support one shoulder lightly with opposite hand, side bend head away from supported shoulder without rotating torso. Hold gently with feet flat and pelvis supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video demonstrates a hold; actual hold duration remains user controlled."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/final.jpg",
+        "sha256": "2de31309639ceef3a5f295517a956a840a9485cb148d55d0aa14d8f1f005091f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/final-dark.jpg",
+        "sha256": "38e1d4b0bddefb330e4d7ecca70de159424ed471cc0e485eda7fc7e9a89e36e0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/full-sheet.png",
+        "sha256": "3163dad56bcb2b394c2a98a074954ee7f2698b3b3fe9440c6614c4424bc78323"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/side-sheet.png",
+        "sha256": "f6b8f52c0a7843ab00e9fa341dc38dea9aa998319210f4acf726154d754ae135"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/verification.json",
+        "sha256": "e1edc9e34b09cd930178b565947afbed8acf4351137bab176764004ece1c5512"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/geometry.json",
+        "sha256": "32c96b08e2ae3f792bdb24475c16845fb5e203dcddce622d4f648d84a35d698f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/kinematics.json",
+        "sha256": "dafb2322531840a346306898cd535484e9e99f2ee2048fba9667e78f2ebe32b5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/provenance.json",
+        "sha256": "4e60e762cdb73a2f5b5d0863236d272ddcd9553d729148e5332cafc155431816"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/neck-stretch-alpha.webm",
+        "sha256": "22bf5849986d7e886ceda86a751063c173e245c919f1d4301d7e304c3e8287ad",
+        "bytes": 44621,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/neck-stretch.mp4",
+        "sha256": "375ca3ef11444a2d4affaf92d8c4dad2f225c32640ebcf0a82645bf069592957",
+        "bytes": 18692,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/neck-stretch/native/neck-stretch/neck-stretch-dark.mp4",
+        "sha256": "62aeb07d8ba9f141eb1ac221f010b681d6b797b099896916fc605d6461f5f05f",
+        "bytes": 18098,
+        "decode": "passed"
+      }
+    ]
+  }
+}

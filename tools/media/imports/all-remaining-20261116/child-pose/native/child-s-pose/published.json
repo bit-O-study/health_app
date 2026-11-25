@@ -1,0 +1,18 @@
+{
+  "id": "child-s-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "216a680bd65f8ed380123a0cfa37ea7a074ea236c8f89726deed482218b5ee9c",
+  "rigSourceSha256": "e35f08779d6da0949c9fab85ad76a2ba2e69529e2b26260634e57ebef01daba8",
+  "videoSha256": "6346a14654383ecd1f6b9f15e2c5e72cdd134026605c55e6ef70716489095ef4",
+  "darkVideoSha256": "1c26acb852fa37b70575d0f1b9d350f8ac706e11da62d9f291614bb9281e1252",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14349,
+  "darkBytes": 13383,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:04:00.017Z"
+}

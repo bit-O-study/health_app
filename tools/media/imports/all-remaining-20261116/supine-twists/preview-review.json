@@ -1,0 +1,76 @@
+{
+  "supine-spinal-twist": {
+    "reviewedAt": "2026-11-24T01:37:52.719Z",
+    "checks": {
+      "exercise": "supine-spinal-twist",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend out in T with palms upward and relaxed mat support.",
+      "feet": "Bent knees stacked to one side; head turned opposite on a low pillow.",
+      "movement": "Supine bent-knee spinal twist, arms extended in T, knees together to one side and head turned opposite, relaxed supported hold."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/full-sheet.png",
+        "sha256": "893071db57a85f201a5406855e5c52b1806f8ddd692eaa13d82ab236a502b13c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/side-sheet.png",
+        "sha256": "19e743adf95d921e3bab4f1103053c5a26534c372d33421a831622ae07269a5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/poses.json",
+        "sha256": "08b024eabe70e9bd8987f4d9f0c50e9d936a0fb786bbb06f00e2475d5ed3d474"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/geometry.json",
+        "sha256": "a6fcdbc2ff32440f45eef2256e099667ea0cc389dc1ac5bb5a3f1bcb589c2fd0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/supine-spinal-twist/kinematics.json",
+        "sha256": "76a057158997ca45209b205ecd07036e69b394a466207807659db53555b5c3de"
+      }
+    ]
+  },
+  "reclined-spinal-twist": {
+    "reviewedAt": "2026-11-24T01:37:52.730Z",
+    "checks": {
+      "exercise": "reclined-spinal-twist",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend out in T with palms upward and relaxed mat support.",
+      "feet": "Bent knees stacked to one side; head turned opposite on a low pillow.",
+      "movement": "Supine bent-knee spinal twist, arms extended in T, knees together to one side and head turned opposite, relaxed supported hold."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/full-sheet.png",
+        "sha256": "893071db57a85f201a5406855e5c52b1806f8ddd692eaa13d82ab236a502b13c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/side-sheet.png",
+        "sha256": "19e743adf95d921e3bab4f1103053c5a26534c372d33421a831622ae07269a5a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/poses.json",
+        "sha256": "08b024eabe70e9bd8987f4d9f0c50e9d936a0fb786bbb06f00e2475d5ed3d474"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/geometry.json",
+        "sha256": "a6fcdbc2ff32440f45eef2256e099667ea0cc389dc1ac5bb5a3f1bcb589c2fd0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/supine-twists/native/reclined-spinal-twist/kinematics.json",
+        "sha256": "76a057158997ca45209b205ecd07036e69b394a466207807659db53555b5c3de"
+      }
+    ]
+  }
+}

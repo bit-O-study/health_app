@@ -1,0 +1,75 @@
+{
+  "gate-pose": {
+    "reviewedAt": "2026-11-24T02:28:33.622Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "gate-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand rests on extended thigh; opposite straight arm reaches overhead.",
+      "feet": "One knee grounded under hip and other leg extended sideways with foot grounded.",
+      "movement": "One knee supports upright pelvis; opposite leg extended to side. Torso side bends toward extended leg, lower hand rests on thigh and opposite arm reaches overhead."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/final.jpg",
+        "sha256": "24f1680f1a7ecef3345d495147a1599111e84d8bc7cd71b00dee1c82116cc69e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/final-dark.jpg",
+        "sha256": "1f76055b14a939e02de137f2800cb08ff54d5d19f3b256fa32187f98ff6f0b01"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/full-sheet.png",
+        "sha256": "c7742bc0e6206eae10ca6baa8a479823809a91d912be2bac380ab008879b87dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/side-sheet.png",
+        "sha256": "bb3f26dd56b3e310eee1bd9e0122ce2721866180c650bc68e1296ce2d7fd2f88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/verification.json",
+        "sha256": "6b10e382e77782f25057f4ffe75ab93271366c3c4eafe7fb43e194dc026bfe53"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/geometry.json",
+        "sha256": "ef0184bf46a2161835525808fada6bcf5a3af501e13dbebfc0a6c90b54234e26"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/kinematics.json",
+        "sha256": "a4b4695b773e4de463822f3a1ff9b04a78c42e5281efeb2c9df58434de094968"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/provenance.json",
+        "sha256": "2f123c365abf8bbb72b8017921234265fcec3eea5100c3ecca9745b06d813eb5"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/gate-pose-alpha.webm",
+        "sha256": "c2e93e1da9b261925e9d0f1d65f9bcc316cf1d3d595d209659bcbb2a186dc803",
+        "bytes": 42809,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/gate-pose.mp4",
+        "sha256": "ce139903c421b7c5fe84a965a90d87910b26df3a5f91a7159a15f8d466724b0a",
+        "bytes": 16854,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/gate/native/gate-pose/gate-pose-dark.mp4",
+        "sha256": "0e2dfbb11ab590727c4ba2d47f04daeb7f4aee551d3e15402c5b38ed0945bbc0",
+        "bytes": 16112,
+        "decode": "passed"
+      }
+    ]
+  }
+}

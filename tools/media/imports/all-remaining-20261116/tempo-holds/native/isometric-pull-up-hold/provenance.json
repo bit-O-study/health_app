@@ -1,0 +1,292 @@
+{
+  "id": "isometric-pull-up-hold",
+  "renderer": "skinned-pilot-v1",
+  "render": {
+    "width": 480,
+    "height": 480,
+    "fps": 24,
+    "frames": 192,
+    "seconds": 8,
+    "timing": "hold"
+  },
+  "inputs": [
+    {
+      "path": "tools/media/imports/all-remaining-20261116/tempo-holds/isometric-pull-up-hold-studio.mjs",
+      "sha256": "fbad702a3075b2bcd2428045aa32bff920ea435cf2d0adfd84d040fd5c80b7d1"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/tempo-holds/isometric-pull-up-hold-motion.mjs",
+      "sha256": "ea48f91eab87da8c74895207e2985a0cc966d6bc30ba40a8cad9b04eba3d043c"
+    },
+    {
+      "path": "tools/media/imports/all-remaining-20261116/tempo-holds/render.mjs",
+      "sha256": "56efa9a2743ad30b81e004ee1c3221af7e15e245f1339cfe832dd858f96ff6e5"
+    },
+    {
+      "path": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "path": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "path": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ],
+  "recipe": {
+    "family": "pull-up",
+    "sourceUrls": [
+      "https://www.puregym.com/exercises/back/pull-up/pull-ups/"
+    ],
+    "criteria": "Eight-second static hold at the demonstrated position; duration illustrative.",
+    "sourcesCheckedAt": "2026-11-16",
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ]
+  },
+  "geometry": [
+    {
+      "frame": 0,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 30,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 60,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 90,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 120,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 150,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 180,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 210,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 240,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 270,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 300,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 330,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 360,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 390,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 420,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 450,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    },
+    {
+      "frame": 480,
+      "contacts": [
+        -4.075230979919433,
+        3.3037562727928167,
+        3.3664822980702938,
+        0.4142413593672123
+      ]
+    }
+  ],
+  "kinematics": {
+    "status": "numeric-checks-passed",
+    "poseSamples": 481,
+    "loopError": 0,
+    "gripError": 1.8444410139024814e-15,
+    "holdSeconds": 8
+  },
+  "verification": {
+    "sourceHashChecks": "passed",
+    "poseSamples": 481,
+    "loopPoseError": 0,
+    "elbowDegrees": [
+      52.62541438924686,
+      52.62541438924686
+    ],
+    "alpha": {
+      "transparent": 39427006,
+      "opaque": 3889524,
+      "partial": 920270,
+      "all192FrameEdgesClear": true
+    },
+    "playback": [
+      {
+        "theme": "alpha",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 0,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "light",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      },
+      {
+        "theme": "dark",
+        "playing": true,
+        "seeking": true,
+        "seekTime": 3,
+        "loop": true,
+        "cornerAlpha": 255,
+        "duration": 8,
+        "metadata": {
+          "width": 480,
+          "height": 480,
+          "r_frame_rate": "24/1",
+          "nb_read_frames": "192"
+        }
+      }
+    ],
+    "limits": [
+      "Procedural demonstration; not captured human motion.",
+      "No floor is rendered; eight-second demonstration cycle; hold duration is illustrative.",
+      "Actual phone and production deployment are not verified."
+    ]
+  },
+  "sourceContact": {
+    "path": "tools/media/imports/all-remaining-20261116/tempo-holds/native/isometric-pull-up-hold/source.jpg",
+    "sha256": "29660ab42a0f973bbc2ef6da6e20cbf05983f29a01c35436675b65f3251680c2",
+    "panels": 16
+  },
+  "status": "passed-isolated-candidate",
+  "limitations": "Procedural demonstration; support samples are not full collision or biomechanical certification. Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+}

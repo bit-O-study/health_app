@@ -1,0 +1,18 @@
+{
+  "id": "flutter-kick",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "5a9ca4e192276a8e4562f26a238c48eeece0449a2457d73021cde37646b97c55",
+  "rigSourceSha256": "09f8b6bf23bc362c7d230769606eb7778f1383db8dc91c0c8eb8480753ea185e",
+  "videoSha256": "c26e4c067ae4a8574cd759c222024e9ed29b8098a162387ff27dd9057a2e57d4",
+  "darkVideoSha256": "d05d902d267e87794fd2a40ee2bb5b0fec1858371995d175425038fb7f8fe169",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 85709,
+  "darkBytes": 85945,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T00:39:11.285Z"
+}

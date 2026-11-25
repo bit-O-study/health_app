@@ -1,0 +1,39 @@
+{
+  "boat-pose": {
+    "reviewedAt": "2026-11-24T01:22:49.588Z",
+    "checks": {
+      "exercise": "boat-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend parallel to floor, palms facing inward.",
+      "feet": "Straight legs raised 45 degrees; pelvis balances on mat.",
+      "movement": "Full boat balance on seated pelvis, long reclining torso, straight legs raised about 45 degrees, arms extended parallel to floor with palms inward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/full-sheet.png",
+        "sha256": "3b4ffef3a0e0ad18b46511c7081e6ad77652f737dcc657ecce3aa717c63e7ee9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/side-sheet.png",
+        "sha256": "9687302fe686a381af5f4be577d829ec35558ccf25b947493a0e705d70cf5d81"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/poses.json",
+        "sha256": "a13b793a785234a6b053151665f22a9e1fa7c68b7da729c766249f3ca1116073"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/geometry.json",
+        "sha256": "dc8173964401fca42f3b5cae960f170569f27c9b01916cad9eca02a8e898f1cf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/kinematics.json",
+        "sha256": "3ac72c3d6fe13cb036ed4589f4f5af5d8a788cd8c3ad0ffaef6b86d7b9f8cd01"
+      }
+    ]
+  }
+}

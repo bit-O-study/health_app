@@ -1,0 +1,18 @@
+{
+  "id": "l-sit-pull-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "62f2b796157dcb2b0070eaa35480785d8557a5be94d14fadcd278bc3a9b22a96",
+  "rigSourceSha256": "bda759cdd94f80239aac8d5a7cd2587feb538d3569c2463d1ea0d974c8f3d8f8",
+  "videoSha256": "55e4dd80069c602834022a62ad21275f4265265afa6a061cb641daff0efe21d9",
+  "darkVideoSha256": "57f8f2657bac8088a3023fe373958b64c3fb853e206d8d3f6441d94182fd6f48",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 97743,
+  "darkBytes": 98125,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:18:24.477Z"
+}

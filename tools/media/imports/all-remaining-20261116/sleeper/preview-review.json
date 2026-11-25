@@ -1,0 +1,39 @@
+{
+  "sleeper-stretch": {
+    "reviewedAt": "2026-11-24T01:43:21.734Z",
+    "checks": {
+      "exercise": "sleeper-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower arm extends forward, elbow bent 90 degrees; upper hand gently contacts wrist region.",
+      "feet": "Side lying legs rest on mat, head on pillow; forearm rotates toward feet.",
+      "movement": "Side lying sleeper stretch; lower arm forward with elbow 90 degrees, forearm internally rotated toward surface and gently assisted by upper hand; head supported."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/full-sheet.png",
+        "sha256": "bda002a513f5ff53b92f721c00950a3696ac833743cb7ca661374cd054cb0dd3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/side-sheet.png",
+        "sha256": "ada547f004cbd3d2882f0913855d2bb6c0856d830c1f8e0e781ffb98c95492a2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/poses.json",
+        "sha256": "1b21fa8eb8db244a67f253f2f26fb686b0380096165e360cade9e1b1bafa7646"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/geometry.json",
+        "sha256": "cddc2fcbb22b85c7fca34a944386c27dc8264c9d2fc85b05484f0f5c84398c3b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/sleeper/native/sleeper-stretch/kinematics.json",
+        "sha256": "0906d67de255bae06a2b9f51cc9b9aaaa2ab9351cbfe953e5bc38c79337b4c39"
+      }
+    ]
+  }
+}

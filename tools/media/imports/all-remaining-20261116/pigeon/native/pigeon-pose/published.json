@@ -1,0 +1,18 @@
+{
+  "id": "pigeon-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c797dab3871fb145a631badbb32aa6a1b4ba2478667eba5963a92603849ff59b",
+  "rigSourceSha256": "f814ccd94b5875fda86526e546643379b97aef3be8a67ebabab3e8e94986c2e5",
+  "videoSha256": "ea3105324ec57cebd0fa7cb81f6bef8a5104133720806579031a79c613592324",
+  "darkVideoSha256": "f0f113bade3953fa54997814bea1b5a300ffba6ca1391fc0eb8410dc8c24a838",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15858,
+  "darkBytes": 15526,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T07:38:08.046Z"
+}

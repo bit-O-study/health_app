@@ -1,0 +1,76 @@
+{
+  "single-leg-leg-press": {
+    "reviewedAt": "2026-11-16T04:33:35.218Z",
+    "checks": {
+      "exercise": "single-leg-leg-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Entire left foot stays within the plate; right foot remains on a separate fixed rest.",
+      "movement": "Single left-leg press on a 45-degree sled. Working knee extends from 95 to 165 degrees over 4 seconds and returns over 4 seconds. Entire foot on plate, other foot on a separate fixed support; hands, back and pelvis remain fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/full-sheet.png",
+        "sha256": "9c4d72e1e24d5d29cad34a705abd23d1fa0234168d653d16d8d45aa69eb562ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/side-sheet.png",
+        "sha256": "dce1b4e83e047481303c4996ac93a68c60551d26034244f171139c9676ea7d88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/poses.json",
+        "sha256": "3c6e3790912f4ab625011124c4abf8a9fd1d486faeed58fc9a05b637c4ced0c9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/geometry.json",
+        "sha256": "79554d4f29dd5d2808e9152a5208f0c6357fffdeb2d4b6d28ac493f4de73b8dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press/kinematics.json",
+        "sha256": "09f7c5adbd31c11add3dd4beb41cf834195d62fd561bcd1e1ee031c778ee9672"
+      }
+    ]
+  },
+  "single-leg-leg-press-2": {
+    "reviewedAt": "2026-11-16T04:33:35.224Z",
+    "checks": {
+      "exercise": "single-leg-leg-press-2",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Entire left foot stays within the plate; right foot remains on a separate fixed rest.",
+      "movement": "Single left-leg press on a 45-degree sled. Working knee extends from 95 to 165 degrees over 4 seconds and returns over 4 seconds. Entire foot on plate, other foot on a separate fixed support; hands, back and pelvis remain fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/full-sheet.png",
+        "sha256": "9c4d72e1e24d5d29cad34a705abd23d1fa0234168d653d16d8d45aa69eb562ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/side-sheet.png",
+        "sha256": "dce1b4e83e047481303c4996ac93a68c60551d26034244f171139c9676ea7d88"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/poses.json",
+        "sha256": "3c6e3790912f4ab625011124c4abf8a9fd1d486faeed58fc9a05b637c4ced0c9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/geometry.json",
+        "sha256": "79554d4f29dd5d2808e9152a5208f0c6357fffdeb2d4b6d28ac493f4de73b8dd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-leg-presses/native/single-leg-leg-press-2/kinematics.json",
+        "sha256": "09f7c5adbd31c11add3dd4beb41cf834195d62fd561bcd1e1ee031c778ee9672"
+      }
+    ]
+  }
+}

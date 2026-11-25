@@ -1,0 +1,37 @@
+{
+  "reviewedAt": "2026-11-15T13:22:26.839Z",
+  "checks": {
+    "exercise": "Pause hip thrust, 2-second top hold.",
+    "equipment": "Barbell with hip pad and bench.",
+    "setup": "Front oblique and side views inspected; full body and apparatus visible.",
+    "hands": "Both hands retain bar grip.",
+    "feet": "Both feet stay planted.",
+    "movement": "3 seconds ascent, 2 seconds top hold, 3 seconds descent; upper back supported on bench."
+  },
+  "limitations": [
+    "Procedural demonstration; contact samples do not constitute full collision or biomechanical validation.",
+    "3-2-3 timing chosen for demonstration, not prescribed by the source."
+  ],
+  "artifacts": [
+    {
+      "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/full-sheet.png",
+      "sha256": "93f682fc287b0d436b92722eab5d22363ef24f2486648bd7239a7e8a92242355"
+    },
+    {
+      "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/side-sheet.png",
+      "sha256": "debfa33ab43931bb64c33288f34e4536a8869a0031911793d244e1632ec647c4"
+    },
+    {
+      "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/poses.json",
+      "sha256": "5d1b76b735e008205d3940e698c4ee71588b759896efadacd8fbfcf6eedfc51a"
+    },
+    {
+      "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/geometry.json",
+      "sha256": "bb0ee050bf33ae16884b07ae4d217ad59f11bfa0c5e347cd94796337a085a462"
+    },
+    {
+      "file": "tools/media/imports/pause-hip-thrust-20261115/native/pause-hip-thrust/kinematics.json",
+      "sha256": "c50ebe46a06baefaa21d3d1f5f0e782a48d9359b2bfc1caff93a03b7e7d452b3"
+    }
+  ]
+}

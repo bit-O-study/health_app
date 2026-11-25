@@ -1,0 +1,15 @@
+{
+  "id": "wide-cable-face-pull",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "wide-cable-face-pull-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.youtube.com/watch?v=ljgqer1ZpXg"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T06:59:08.037Z"
+}

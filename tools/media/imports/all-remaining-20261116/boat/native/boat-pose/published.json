@@ -1,0 +1,18 @@
+{
+  "id": "boat-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "154eb16818b72505414c362394644f83fc26c821f356714ec32524244781aad0",
+  "rigSourceSha256": "17fd11ba0ecc3de0ad4a2f5112083806552898bedad24def1a0a7e41393e2067",
+  "videoSha256": "e93d2652f4273d4fa8d9435a1924d23442b81feae1e1fdc057af9888b6db647b",
+  "darkVideoSha256": "792edaf72e8e86166bf0c90a7319b55fe647459f4233bd5dd35c54ae881d899a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15266,
+  "darkBytes": 15046,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:25:31.724Z"
+}

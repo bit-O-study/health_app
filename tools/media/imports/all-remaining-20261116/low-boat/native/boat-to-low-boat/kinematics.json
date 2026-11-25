@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "kneeMinimum": 179.99999829245272,
+  "legElevationRange": [
+    14.999999999999986,
+    44.999999999999986
+  ],
+  "maxFrameStep": 0.042615021628653695,
+  "armsHorizontal": true,
+  "minimumFootGap": 2.548685548047607,
+  "minimumShoulderGap": 1.1473459068531122
+}

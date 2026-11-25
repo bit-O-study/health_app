@@ -1,0 +1,17 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "minElbow": 180,
+  "minKnee": 180,
+  "supportGaps": {
+    "body": 0.017491040193684526,
+    "cloth": 0.01499999999999968,
+    "upperBack": 0.017491040193684526,
+    "hands": 0.01767042411835895,
+    "head": 0.01499999999999968,
+    "heels": 0.015000000000000124
+  },
+  "minimumWallGap": 0.015000000000000124
+}

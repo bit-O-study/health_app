@@ -1,0 +1,17 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "stationaryTrunk": true,
+  "stationaryLegs": true,
+  "elbowRange": [
+    179.99999852122065,
+    180
+  ],
+  "sweepDegrees": 150.00000000000003,
+  "heightDrift": 3.552713678800501e-15,
+  "maxStep": 0.1199042824383068,
+  "minimumBodyGap": 0.07312005055389825,
+  "minimumClothGap": 0.05108539790529232,
+  "minimumPalmGap": 1.7425151505802603
+}

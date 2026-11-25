@@ -1,0 +1,75 @@
+{
+  "it-band-stretch": {
+    "reviewedAt": "2026-11-24T06:06:19.212Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "it-band-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms relaxed beside torso.",
+      "feet": "Left leg crosses behind right, both feet grounded, torso leans away from left hip.",
+      "movement": "Standing lateral hip stretch: left leg crossed behind right, feet grounded, torso leans away from left hip with relaxed arms."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/final.jpg",
+        "sha256": "b434cdde573a7d83d9b1e704618f8f95fe263188ce4d3867a99c42e5d9df34ce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/final-dark.jpg",
+        "sha256": "fbfc6223c9b36687d0b1d8df8645c18702d5417b027363e4a80fbd782a3d3c7a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/full-sheet.png",
+        "sha256": "b67947f95bc9fbf6895f6d3a8525c503fca448552d3946edc0a658a622c58c3b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/side-sheet.png",
+        "sha256": "6116253cd5a0b745843b1e6e7e58fd63e411247b3aa5e95fe486cb224baa490f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/verification.json",
+        "sha256": "eb4aef6e24fbca3c12257354acfb84025bbd175ec0e50154413332fbeb7580e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/geometry.json",
+        "sha256": "2297b1bcca3be703f128d77880122484a2ea5971a64327c75c56970740062ba2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/kinematics.json",
+        "sha256": "911b09c04aec2d6eff09cab80ed28c845a671acfb3ccd69530345bdb5ec93f84"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/provenance.json",
+        "sha256": "1ca74a021d336ef69c03eca9be677c701386e509b5fe013e440bc3f4bfc5332f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/it-band-stretch-alpha.webm",
+        "sha256": "5004fcbe57b6241dd1919288eb6b264b423423d88854c50679faddfed2ddea30",
+        "bytes": 40993,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/it-band-stretch.mp4",
+        "sha256": "8dc518de7b21e8385f1f46374b5200b80aa487d1e2721a118627270aa7909023",
+        "bytes": 16719,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/it-band/native/it-band-stretch/it-band-stretch-dark.mp4",
+        "sha256": "6f1256424ba7a4cde5be59511248af15090cc070669f21266eb168028305eaf2",
+        "bytes": 16245,
+        "decode": "passed"
+      }
+    ]
+  }
+}

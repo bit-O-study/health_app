@@ -1,0 +1,75 @@
+{
+  "l-sit": {
+    "reviewedAt": "2026-11-24T06:47:09.902Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "l-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor beside hips.",
+      "feet": "Straight horizontal legs and pelvis remain off floor.",
+      "movement": "Support body on flat palms with straight arms, keep hips and straight horizontal legs off the floor."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static floor L-sit; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/final.jpg",
+        "sha256": "40c87b0d36562b97102ce0e21fc2b2c95234d6a030bc39568b5a3e2f3f02c31b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/final-dark.jpg",
+        "sha256": "dcc5c20b011273830e925f93523685e4ef1a0e772d95181395fac6b747c4e04f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/full-sheet.png",
+        "sha256": "4149beb851668c77cfaa99d3731e841e755a55cc372fd6d27738780c9a15ca52"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/side-sheet.png",
+        "sha256": "85db0220b02bea4259acdcf6b7fa214afca8b7b36d1ed8b22da5390545a697ca"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/verification.json",
+        "sha256": "779502646a3ac8e77f1125e768be54600154eb2d6a22121de99696e03c90fa50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/geometry.json",
+        "sha256": "41ec844e59ed1ffe815f1e18373f50dead1d0f3dadf535afb15d2ad59dfd3c74"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/kinematics.json",
+        "sha256": "6ce61880cd3b57a616830e6019dd4e3e6780b2179a7e8b31028f11e6803528f0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/provenance.json",
+        "sha256": "795be61c49f1a5c8bdbed9ead559b11c7eef0222318e080d200dd0eff8bb224f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/l-sit-alpha.webm",
+        "sha256": "24f84d4404becb5f2794b67bf120db423261aba4b1c5c5b5939d23778b2bac90",
+        "bytes": 36768,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/l-sit.mp4",
+        "sha256": "a7c87216abc79cc2c2d0f430b7896ad8696c42cd7109c6a5229adea1ac73ae32",
+        "bytes": 15505,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/l-sit-dark.mp4",
+        "sha256": "efa331c0234e8e39ced5b2aa0fb89880fe91d517ff9f40eed87fee1463413dc2",
+        "bytes": 15269,
+        "decode": "passed"
+      }
+    ]
+  }
+}

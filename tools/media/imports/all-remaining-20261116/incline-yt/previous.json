@@ -1,0 +1,54 @@
+{
+  "incline-dumbbell-y-raise": [
+    {
+      "file": "tools/media/motion-guides/incline-dumbbell-y-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-dumbbell-y-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-dumbbell-y-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-y-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-y-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-y-raise-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "incline-dumbbell-t-raise": [
+    {
+      "file": "tools/media/motion-guides/incline-dumbbell-t-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-dumbbell-t-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/incline-dumbbell-t-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-t-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-t-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/incline-dumbbell-t-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

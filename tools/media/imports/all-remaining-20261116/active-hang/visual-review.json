@@ -1,0 +1,75 @@
+{
+  "active-hang": {
+    "reviewedAt": "2026-11-16T05:36:19.376Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "active-hang",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Both feet clear the floor; arms extended at 179 degrees and hands stay on the overhead bar. Shoulders depressed relative to the dead-hang reference; torso rises without bending the elbows. Static hold without swinging.",
+      "movement": "Static active overhead hang with shoulder girdle depressed by 12-degree clavicle rotations, arms at 179 degrees and fixed grip. Body rises relative to passive reference without elbow flexion. Eight-second maintained hold; entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/final.jpg",
+        "sha256": "83fe929821e8f43e1e0f7aff2f5634f736163b772e2385328eb710994b59bfd4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/final-dark.jpg",
+        "sha256": "5313a21b0d9ac7824e5f95aeef041439ef942bd7cd8e600cebb31087f2eaf2b5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/full-sheet.png",
+        "sha256": "1ba4adf53ce87a96a7c387b6f80a155fbb18847fee0316ee3c0f2f06785985d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/side-sheet.png",
+        "sha256": "c36c3a6bd809d5c5b29084f313a55fd0ed74283ad4742ae77bd23a2c41a54798"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/verification.json",
+        "sha256": "897c4f45619693f38ea426a538df0891ad5aa685b758eb34b6827ca837262aef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/geometry.json",
+        "sha256": "05bbe943939da8cd320caa4bbb7e762219105e4b9587344e88991d04161bbb32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/kinematics.json",
+        "sha256": "9ca6cdf33a7e27abecc822ba9c7bcda90b0c9b70b2604c6666a77bc81f599a65"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/provenance.json",
+        "sha256": "55c019a9c3c5c9e38c7ffa10db4f17dc6470930544d356682a5b8c4544b674e8"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/active-hang-alpha.webm",
+        "sha256": "33b9031953a4687d86cd1ef8ee01c5fd2dacb443cfad0f318517a5e1d6fbbf51",
+        "bytes": 39995,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/active-hang.mp4",
+        "sha256": "ddedf3484b53ad12494b9529e8da31feefc409bef90dea6eea0017594bd34188",
+        "bytes": 15063,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/active-hang/native/active-hang/active-hang-dark.mp4",
+        "sha256": "fa2cfdc067f48f57fadaec66f1fb597acdf8fdbbd80dd43650bc4fc2911c75d6",
+        "bytes": 15211,
+        "decode": "passed"
+      }
+    ]
+  }
+}

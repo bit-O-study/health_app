@@ -1,0 +1,28 @@
+{
+  "butterfly-stretch": [
+    {
+      "file": "tools/media/motion-guides/butterfly-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/butterfly-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/butterfly-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butterfly-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butterfly-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/butterfly-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

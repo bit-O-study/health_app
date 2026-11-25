@@ -1,0 +1,14 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const root='tools/media/imports/all-remaining-20261116',base=root+'/bear-plank',old=root+'/deep-squat',id='bear-plank',read=p=>fs.readFileSync(p,'utf8'),write=(p,x)=>fs.writeFileSync(p,JSON.stringify(x,null,2)+'\n');
+assert.ok(!fs.existsSync(base+'/batch.json'));fs.mkdirSync(base,{recursive:true});
+const master=JSON.parse(read(root+'/batch.json')),entry=master.entries.find(e=>e.id===id);assert.equal(entry.status,'awaiting-motion-implementation');entry.status='motion-preview';entry.group='bear-plank';
+let motion=read('tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/motion.mjs').replaceAll('quadruped-hip-extension',id).replace("const working=side==='R'","const working=false").replace('rad(160)','rad(60)').replace('working?.25*(1-a):.25','0.1');
+const anchor="for(const side of ['L','R']){const sign=side==='L'?1:-1;";assert.ok(motion.includes(anchor));
+motion=motion.replace(anchor,`mesh.updateMatrixWorld(true);mesh.skeleton.update();let toeY=Infinity;for(let i=0;i<mesh.geometry.attributes.position.count;i++){let k=0;const si=mesh.geometry.attributes.skinIndex,sw=mesh.geometry.attributes.skinWeight,indices=[si.getX(i),si.getY(i),si.getZ(i),si.getW(i)],weights=[sw.getX(i),sw.getY(i),sw.getZ(i),sw.getW(i)];for(let a=1;a<4;a++)if(weights[a]>weights[k])k=a;if(/^toe/.test(mesh.skeleton.bones[indices[k]].name))toeY=Math.min(toeY,mesh.applyBoneTransform(i,new THREE.Vector3().fromBufferAttribute(mesh.geometry.attributes.position,i)).y);}byName.root.position.y+=-7.88-toeY;
+`+anchor);
+motion=motion.replace('target=new THREE.Vector3(shoulder.x,-7.411375,shoulder.z+.3)','target=new THREE.Vector3(shoulder.x,-7.411375,shoulder.z+.3)');
+const studio=read('tools/media/imports/hundred-20261111/donkey-kick-studio.mjs').replaceAll('donkey-kick',id);
+fs.writeFileSync(base+'/'+id+'-motion.mjs',motion);fs.writeFileSync(base+'/'+id+'-studio.mjs',studio);
+for(const name of ['render','verify','finalize','prepare','publish','check-published'])fs.writeFileSync(base+'/'+name+'.mjs',read(old+'/'+name+'.mjs').replaceAll(old,base).replaceAll('deep-squat-hold',id));
+fs.writeFileSync(root+'/review-bear-plank.cjs',read(root+'/review-deep-squat.cjs').replaceAll(old,base).replace('Empty hands held comfortably in front of the torso.','Both palms remain on virtual floor below shoulders.').replace('Both feet retain their planted support positions.','Toes remain on virtual floor while knees hover.'));
+write(base+'/batch.json',{entries:[{id,original:id,equipment:'bodyweight',hold:true,status:'awaiting-preview-review',recipe:{family:id,sourceUrls:['https://www.the-fit-edit.com/library/bear-plank'],sourcesCheckedAt:'2026-11-16',criteria:'Static bear plank: hands below shoulders, knees below hips hovering slightly above floor, toes tucked under, torso steady. Eight-second illustrative hold; no entry or exit.'}}]});write(root+'/batch.json',master);

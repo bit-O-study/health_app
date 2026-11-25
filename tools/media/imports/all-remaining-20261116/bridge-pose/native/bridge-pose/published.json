@@ -1,0 +1,18 @@
+{
+  "id": "bridge-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "99a5b2c0ca31437f281b387bd2284b38038b4aea7f1af1c79149c0084f162b7a",
+  "rigSourceSha256": "7f3025cd1fa8355a66301c49a582fedd03cd89bc02d76cb0e6db6eee6537d7bf",
+  "videoSha256": "115c77c41a4739574158d2d9271d6090b4385dcb5c6f8d762e8c60750eef7aff",
+  "darkVideoSha256": "4023cec750da2eea97e629988ec03a1f65c758d35702da67c76cc385f52e2087",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14519,
+  "darkBytes": 14033,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:31:33.032Z"
+}

@@ -1,0 +1,39 @@
+{
+  "frog-stretch": {
+    "reviewedAt": "2026-11-24T02:22:00.413Z",
+    "checks": {
+      "exercise": "frog-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Forearms and palms supported with elbows near right angles.",
+      "feet": "Knees wide and bent near right angles; shins back with feet turned out.",
+      "movement": "Knees wide apart, bent near right angles, shins back and feet turned out; torso neutral with forearms and palms supported on mat."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/full-sheet.png",
+        "sha256": "f8a14bfb635465ec88175e1027a2d026d23afeca786b2a616d63ef7177ea76cc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/side-sheet.png",
+        "sha256": "5a8813fde6803fa9c5c6150dfc57292267303f63fc09415a215e3dfbe4dd0ca8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/poses.json",
+        "sha256": "e2904c9d7e3df8619f04ca543f9191c9be928604425dc094d82d51a107cd8930"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/geometry.json",
+        "sha256": "2b1f7c7c83a5372ce6b6b792249949aced12041ba2cfd41d6d5c0af041adf5cc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/frog/native/frog-stretch/kinematics.json",
+        "sha256": "7024d3ce43628b7cba4bdf6d95576c9496614db7f8a5fdec86055568a59d1c79"
+      }
+    ]
+  }
+}

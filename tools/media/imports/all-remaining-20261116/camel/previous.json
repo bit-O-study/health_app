@@ -1,0 +1,28 @@
+{
+  "camel-pose": [
+    {
+      "file": "tools/media/motion-guides/camel-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/camel-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/camel-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/camel-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/camel-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/camel-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

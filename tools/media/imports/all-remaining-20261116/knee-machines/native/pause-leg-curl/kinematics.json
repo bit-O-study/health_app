@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 9.305364597889227e-16,
+  "maxStep": 0.06756442587297214,
+  "kneeDegrees": [
+    80.00000000000001,
+    164.99999999999997
+  ],
+  "supportSamples": 17,
+  "timing": "Three-second working phase, two-second contracted pause, three-second controlled return; seated machine, maintained hip and hand supports."
+}

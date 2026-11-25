@@ -1,0 +1,18 @@
+{
+  "id": "wide-stance-leg-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4bf55162926589cbf49662cf082a8aa8a2ab46e7493c17c10602de181d885eba",
+  "rigSourceSha256": "11025f7a284f9426d473ee80298b8ec7b455037ae08417d86240cb6c2b620794",
+  "videoSha256": "de69de8eed77b4154d2076c531ec173341cd4ea4b04533af18cebc31849e3cc2",
+  "darkVideoSha256": "b822e6e8c0e611c00c6b69af884ccbdd2df76842bc6d4fabcd97defa07380d0a",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 121375,
+  "darkBytes": 99943,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:49:41.461Z"
+}

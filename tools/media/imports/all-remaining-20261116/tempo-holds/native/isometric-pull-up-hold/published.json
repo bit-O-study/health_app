@@ -1,0 +1,18 @@
+{
+  "id": "isometric-pull-up-hold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "29660ab42a0f973bbc2ef6da6e20cbf05983f29a01c35436675b65f3251680c2",
+  "rigSourceSha256": "6a202544a8fd5b7ef307e7cdc71f2c7b3f8f812ced6c4e8b67d9f48bd09319d7",
+  "videoSha256": "7d26b9ae86583c99aa076d1ed06e23eee88b5f4ef07126bf81591183b3f1e3cb",
+  "darkVideoSha256": "a18af51eb60acf0398a074ed42756173dbfd2e584cbdf6d38bb176fc31de9aca",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 14492,
+  "darkBytes": 14338,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:18:13.421Z"
+}

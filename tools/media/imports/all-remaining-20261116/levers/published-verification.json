@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-24T07:30:49.344Z",
+  "report": [
+    {
+      "id": "front-lever",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "back-lever",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

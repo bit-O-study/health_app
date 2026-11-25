@@ -1,0 +1,18 @@
+{
+  "id": "wide-cable-face-pull",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "84c6433995fb64cde9fa62c7f1177f5689896987da370f764b22fc4df5fa7305",
+  "rigSourceSha256": "13ea5e6a7ec2b13591a9dd4673120863454f263c912d6b41e9473a95dde80585",
+  "videoSha256": "ad44f67253795d4c0945497a8900ca22cca392a43136d4dbc2ca5610eb955718",
+  "darkVideoSha256": "8bfa2e44cf7d276987a0f501473eb3922679e975edffea1e312c057d3562cb53",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 92470,
+  "darkBytes": 80683,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:59:08.042Z"
+}

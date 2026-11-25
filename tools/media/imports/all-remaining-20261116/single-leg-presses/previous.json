@@ -1,0 +1,54 @@
+{
+  "single-leg-leg-press": [
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-leg-leg-press-2": [
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-2.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-2.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-2.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-2-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

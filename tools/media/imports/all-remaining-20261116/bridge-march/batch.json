@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "glute-bridge-march",
+      "original": "glute-bridge-march",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "glute-bridge-march",
+        "sourceUrls": [
+          "https://na.physitrack.com/home-exercise-video/bridge-marching"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Maintain a raised level pelvis and upper back support, alternate bent-knee foot lifts. Each side rises for 1.5 seconds, pauses for 1 second, lowers for 1.5 seconds.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

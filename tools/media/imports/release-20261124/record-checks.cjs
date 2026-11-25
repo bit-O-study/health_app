@@ -1,0 +1,14 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const read=p=>{const bytes=fs.readFileSync(p);return bytes.toString(bytes[0]===255&&bytes[1]===254?'utf16le':'utf8').replace(/^\uFEFF/,'');};
+assert.match(read('.release-unit.log'),/4120 passed/);
+assert.match(read('.release-schema-online.log'),/116 passed/);
+assert.equal(read('.release-lint-final.log').trim(),'');
+assert.equal(read('.release-types.log').trim(),'');
+assert.match(read('.release-build-online.log'),/Compiled successfully/);
+assert.ok(read('.next/BUILD_ID').trim());
+assert.match(read('.release-e2e.log'),/3 failed/);
+const files=JSON.parse(read('tools/media/imports/release-20261124/files.json'));
+const browser=JSON.parse(read('tools/media/imports/release-20261124/browser.json'));
+const report={checkedAt:new Date().toISOString(),unit:{passed:4120,files:536,skipped:1},schema:{passed:116},lint:{errors:0},types:'passed',build:{status:'completed',buildId:read('.next/BUILD_ID').trim(),note:'Network-enabled retry completed; PowerShell stderr forwarding returned a nonzero wrapper status after recovered font download warnings.'},changedVideos:{files:files.files.length,hashes:'passed',renderInputs:'passed',decode:'Existing passing records matched by SHA; fresh complete re-decode interrupted'},browser:{cases:browser.results.length,status:'passed',scope:'Direct video elements at 390px, play/seek/loop/overflow'},e2e:{passed:1,failed:3,notRun:490,reason:'App Supabase project differs from test DB; fixture users absent in DB',cleanup:'0 test accounts found in configured test DB; app-account cleanup not confirmed'},android:'not-verified',production:'pending-user-exception-approval'};
+fs.writeFileSync('tools/media/imports/release-20261124/final-checks.json',JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report));

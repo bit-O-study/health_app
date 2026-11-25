@@ -1,0 +1,54 @@
+{
+  "1-25-rep-bench-press": [
+    {
+      "file": "tools/media/motion-guides/1-25-rep-bench-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-25-rep-bench-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-25-rep-bench-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-25-rep-bench-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-25-rep-bench-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-25-rep-bench-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "1-5-rep-shoulder-press": [
+    {
+      "file": "tools/media/motion-guides/1-5-rep-shoulder-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-5-rep-shoulder-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/1-5-rep-shoulder-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-shoulder-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-shoulder-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/1-5-rep-shoulder-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

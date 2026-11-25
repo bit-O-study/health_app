@@ -1,0 +1,39 @@
+{
+  "side-lying-quad-stretch": {
+    "reviewedAt": "2026-11-18T02:06:44.284Z",
+    "checks": {
+      "exercise": "side-lying-quad-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower hand supports head while upper hand holds the upper ankle.",
+      "feet": "Side lying torso stays stable; upper knee bends to bring heel toward glute and upper thigh stays nearly parallel to floor.",
+      "movement": "Lie on side, head supported by lower arm. Hold upper ankle behind body with knee bent and thigh parallel to floor. Keep abdomen engaged without arching. Eight-second maintained hold, entry and exit omitted; repeat opposite side after set."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/full-sheet.png",
+        "sha256": "f7a11a8efd9e5efffdb64d1325de205606db395e5dfc78b3e694cd30bb092cdf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/side-sheet.png",
+        "sha256": "6aa74be8791707880ef436d2903790ebb6679a31b5738088710b9a280c8b0143"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/poses.json",
+        "sha256": "3a3560bd9b757ee65c2a1064458a21edf87d0c530662308f9b11f18bea49bcec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/geometry.json",
+        "sha256": "b4a902625743ff71622e2d9cb49a1c9c0d9d872793507546b045361242c62bbc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-quad/native/side-lying-quad-stretch/kinematics.json",
+        "sha256": "2cf26710006d0608b50294dd3fee28a0f8d717038faa7053ab243763c9188c69"
+      }
+    ]
+  }
+}

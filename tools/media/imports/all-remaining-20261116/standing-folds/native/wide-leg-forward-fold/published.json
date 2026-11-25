@@ -1,0 +1,18 @@
+{
+  "id": "wide-leg-forward-fold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0e6551a3813e23fe816752d35abec1399559d39baddd7d4c5be763a4bbb2be1f",
+  "rigSourceSha256": "1087630d604cece8fa63f1ac35e4b19d5aed1433721cc9daafba8954b9afa751",
+  "videoSha256": "863b7fbc3569942c1db78289ed91870ec14b7518aed8cfa58bb755cf6b86d1ad",
+  "darkVideoSha256": "d993a4146bcef85a8f86b92707ac77737ee31d83e6eb79db3d4f9c91785ea45e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 17408,
+  "darkBytes": 17248,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:54:09.371Z"
+}

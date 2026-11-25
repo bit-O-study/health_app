@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-18T02:21:27.955Z",
+  "report": [
+    {
+      "id": "side-lying-quad-stretch",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

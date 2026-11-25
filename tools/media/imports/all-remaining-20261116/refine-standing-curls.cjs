@@ -1,0 +1,2 @@
+const fs=require('node:fs'),root='tools/media/imports/all-remaining-20261116';
+for(const file of [root+'/standing-curl-studio-tail.mjs',...['standing-single-leg-curl','standing-leg-curl-machine'].map(id=>root+'/standing-curls/'+id+'-studio.mjs')]){let s=fs.readFileSync(file,'utf8');s=s.replace('thighPad.position.z=contact.thighFront+.315;window.renderSkinned(0);','thighPad.position.z=contact.thighFront+.315;for(const x of [.1,2.1])for(const z of [0,2])rod([x,-9,z],[x,platform.position.y-.175,z],.18);window.renderSkinned(0);');fs.writeFileSync(file,s);}

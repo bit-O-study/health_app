@@ -1,0 +1,75 @@
+{
+  "tempo-row": {
+    "reviewedAt": "2026-11-16T00:03:25.559Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "Tempo barbell row with controlled lowering.",
+      "equipment": "Barbell.",
+      "setup": "Front oblique and side views inspected; full body and bar visible.",
+      "hands": "Both hands retain overhand bar grip.",
+      "feet": "Feet remain planted, torso fixed.",
+      "movement": "1-second pull, 1-second top hold, 3-second lowering, 3-second bottom hold."
+    },
+    "limitations": [
+      "Procedural demonstration; joint samples are not full mesh collision or biomechanical validation.",
+      "1-1-3-3 timing is illustrative, not prescribed by the source."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/final.jpg",
+        "sha256": "8e498abbe40ff9d3232c7956dd851439c019c789e8de846652e233b253995d0d"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/final-dark.jpg",
+        "sha256": "8943cb4a4f085b48c89d3c95386f515c4807b18b90b3b13946145b8b6da29baa"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/full-sheet.png",
+        "sha256": "09b267987ee1dc0a9724244d359a65a2c091e794b8df1e3c243f94cbfa0f23a6"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/side-sheet.png",
+        "sha256": "260516db053289dfa379efe5c815dab38e45ce0e74c490b33022c738ea12ba43"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/verification.json",
+        "sha256": "4d48fc58a58410b748f6a36df896605878ee6d6e10b3de8491e52ea41e7bcc0b"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/geometry.json",
+        "sha256": "7b644399a59b8cc4b47146eca7f3ae7ca675daff06176c53cdde447b33f8efe1"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/kinematics.json",
+        "sha256": "b729c20406f5ecc37b7cf52f65d523cec5e2548277b1116eda27d0534e14520d"
+      },
+      {
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/provenance.json",
+        "sha256": "26ca7f234314bee0b6aebd74706b075686e1598273d7e332ea733070d5130315"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/tempo-row-alpha.webm",
+        "sha256": "0b587bb901205ff9b13e0588dac11f35a76af81085fbcac79dd79ec620f09187",
+        "bytes": 158015,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/tempo-row.mp4",
+        "sha256": "b3e42757414b215de810ae5513c1f028870ae5672159810ff8b16d2369a8598a",
+        "bytes": 74657,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/tempo-row-20261115/native/tempo-row/tempo-row-dark.mp4",
+        "sha256": "7718ee9e09052042f60c8f19f80ddf422e3beb1a585dddf55661c022938fdcd6",
+        "bytes": 64648,
+        "decode": "passed"
+      }
+    ]
+  }
+}

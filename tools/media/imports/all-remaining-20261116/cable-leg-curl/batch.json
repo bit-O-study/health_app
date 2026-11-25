@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "cable-leg-curl",
+      "original": "cable-leg-curl",
+      "equipment": "cable",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "cable-leg-curl",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/node/3928"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Standing unilateral cable knee curl, left foot on step, right ankle cuff attached to a low front pulley. Hands hold frame, torso fixed, knees 180 to 80 degrees; four seconds each direction. Stack follows cable extension.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

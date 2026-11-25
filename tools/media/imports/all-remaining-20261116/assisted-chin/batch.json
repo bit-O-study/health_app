@@ -1,0 +1,27 @@
+{
+  "entries": [
+    {
+      "id": "assisted-chin-up",
+      "original": "assisted-chin-up",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "assisted-chin-up",
+        "sourceUrls": [
+          "https://www.strengthlog.com/assisted-pull-up/",
+          "https://www.strengthlog.com/chin-up/"
+        ],
+        "criteria": "Supinated shoulder-width chin-up on a counterweighted knee pad; 3.5 seconds up, 1 second top, 3.5 seconds down.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic assisted pull-up apparatus with simplified cable transmission. Entry and exit are omitted; not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

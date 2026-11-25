@@ -1,0 +1,54 @@
+{
+  "front-lever": [
+    {
+      "file": "tools/media/motion-guides/front-lever.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-lever.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-lever-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-lever.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-lever-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-lever-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "back-lever": [
+    {
+      "file": "tools/media/motion-guides/back-lever.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/back-lever.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/back-lever-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/back-lever.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/back-lever-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/back-lever-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

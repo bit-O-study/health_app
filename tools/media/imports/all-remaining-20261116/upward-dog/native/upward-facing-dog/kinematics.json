@@ -1,0 +1,15 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "kneeMinimum": 180,
+  "elbowMinimum": 180,
+  "shouldersStacked": true,
+  "thighsLifted": true,
+  "kneeGap": 0.6799724926963515,
+  "clothGap": 0.27721329694680463,
+  "palmGap": 0.015000001068444568,
+  "headGap": 6.976945140165419,
+  "footGap": 0.01500002755876828
+}

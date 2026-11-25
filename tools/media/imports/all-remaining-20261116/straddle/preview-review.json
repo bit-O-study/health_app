@@ -1,0 +1,39 @@
+{
+  "straddle-stretch": {
+    "reviewedAt": "2026-11-24T01:06:47.414Z",
+    "checks": {
+      "exercise": "straddle-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support on mat ahead of pelvis.",
+      "feet": "Both straight legs widen with knees and toes upward, heels supported and low folded blanket under pelvis.",
+      "movement": "Gentle seated straddle forward lean, legs wide and straight with toes up, spine long, hands on floor in front for support. Low folded blanket supports pelvis."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/full-sheet.png",
+        "sha256": "f23e2a56fa91557523e90e93953e18f3af3ef43114cc06110cbc4e80358eae7d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/side-sheet.png",
+        "sha256": "21c9558ae1b12e2b0eafc117b6805370c4574767b457afcc14635ea6fcf50921"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/poses.json",
+        "sha256": "e3288420676e75baced509249d8a608cc0dea5afdf98df9718f4cb0defcb72e5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/geometry.json",
+        "sha256": "296c0ab767e7f3fec4d1121ea5ed5f6a3b9d37010933c2201475634e03c401da"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/straddle/native/straddle-stretch/kinematics.json",
+        "sha256": "318da3cff14d946fc51c4e1277b573dcad56ac76a62d6845d86177c51f77766f"
+      }
+    ]
+  }
+}

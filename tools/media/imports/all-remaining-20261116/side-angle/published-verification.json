@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T03:10:56.174Z",
+  "report": [
+    {
+      "id": "extended-side-angle-pose",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

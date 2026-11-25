@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "calf-press-machine",
+      "original": "leg-press-calf-raise",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "calf-press-machine",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/leg-press-calf-raise"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Seated 45-degree calf press: fixed knee angle, forefeet on narrow sled plate and heels below its edge; ankle-driven travel. 4 seconds up and 4 seconds down.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Range and timing are illustrative; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "pause-calf-raise",
+      "original": "leg-press-calf-raise",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pause-calf-raise",
+        "sourceUrls": [
+          "https://www.nasm.org/resource-center/exercise-library/leg-press-calf-raise"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Seated 45-degree calf press: fixed knee angle, forefeet on narrow sled plate and heels below its edge; ankle-driven travel. 3 seconds up, 2 seconds at top, 3 seconds down; leg-press-machine example of paused calf raise.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Range and timing are illustrative; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

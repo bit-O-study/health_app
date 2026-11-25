@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "side-lying-quad-stretch",
+      "original": "side-lying-quad-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "side-lying-quad-stretch",
+        "sourceUrls": [
+          "https://au.physitrack.com/home-exercise-video/side-lying-quadriceps-stretch"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie on side, head supported by lower arm. Hold upper ankle behind body with knee bent and thigh parallel to floor. Keep abdomen engaged without arching. Eight-second maintained hold, entry and exit omitted; repeat opposite side after set.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

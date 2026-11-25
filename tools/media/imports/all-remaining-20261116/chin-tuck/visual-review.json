@@ -1,0 +1,75 @@
+{
+  "chin-tuck": {
+    "reviewedAt": "2026-11-24T06:01:00.446Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "chin-tuck",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both arms relaxed beside torso.",
+      "feet": "Feet flat on mat, pelvis supported by chair; head glides backward with level gaze.",
+      "movement": "Seated upright with feet supported; chin glides backward without nodding, holds briefly then returns; torso and limbs stay still."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second cycle demonstrates small cervical retraction, brief hold and return."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/final.jpg",
+        "sha256": "79baebdb1471d77ca6857eec80b0bf703a38adbf4a09d69bfaa745790c5e7582"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/final-dark.jpg",
+        "sha256": "65d32b1aa4e394faead4bb9e025c7c4c875075b60be60903fc27f7834322564a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/full-sheet.png",
+        "sha256": "e3d4a6bed4db7586e48b1a6692ad18b4ac9eda062434fa395238f122e52885e3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/side-sheet.png",
+        "sha256": "3d32171156d758d9186918a02ac649859b79f68f02e3ea347a6d728d2eaf4e1b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/verification.json",
+        "sha256": "25374d64bba86b237503fe33809d7b1f2933f0e17bd8e7d9592b2c11066b723e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/geometry.json",
+        "sha256": "975d833d47907d895acd4e473b99c6a840ba7ad5571b86b32d051bc02236e949"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/kinematics.json",
+        "sha256": "67ed1f2478a0cf8458701035ed3f5cfb51594fb09363820885aa2da43f6949ab"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/provenance.json",
+        "sha256": "66a045ef908af7e636121e76174a8c5a131a60f59fedc052192019314717387a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/chin-tuck-alpha.webm",
+        "sha256": "8ed9c02c339857c8eb7cd0b76f333d12385855951d6569f60de7ae514230b449",
+        "bytes": 66153,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/chin-tuck.mp4",
+        "sha256": "2750d3baf43a114c2452bf750924186d9077b1a6f70b09653f7cf55200fc0034",
+        "bytes": 27338,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/chin-tuck/native/chin-tuck/chin-tuck-dark.mp4",
+        "sha256": "2db11b5b97e696785c8d9ce3c980b01d7ef20e13b87ee71ca8bd3b6a3141f90b",
+        "bytes": 28490,
+        "decode": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "front-split-stretch": {
+    "reviewedAt": "2026-11-24T04:36:35.255Z",
+    "checks": {
+      "exercise": "front-split-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support on the mat beside the front leg.",
+      "feet": "Both legs straight in opposite directions, front toes up, rear instep down; pelvis supported.",
+      "movement": "Supported front split with straight front and rear legs, square pelvis, front toes up and rear instep down; hands support beside the body."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/full-sheet.png",
+        "sha256": "c44435150f14ac34de3e94448f7cd6461240aee1fb8bdedf5d288a513468cb5f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/side-sheet.png",
+        "sha256": "f1976705c2da9483a71b7f1a41b320e8d4347c43a458048deea0361323c05157"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/poses.json",
+        "sha256": "ccfe29219ef386debc460ed7a38ae8956b5d51f81de98c937149d91d06aa8eb5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/geometry.json",
+        "sha256": "82be11279a6aea069df40144922cf7928559c141e3eacce52ff29dcda64bdab9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/front-split/native/front-split-stretch/kinematics.json",
+        "sha256": "ee279afb4baa6640fd44a183b6a25f217c01a1e74b1e55e7647ec17b090cc5de"
+      }
+    ]
+  }
+}

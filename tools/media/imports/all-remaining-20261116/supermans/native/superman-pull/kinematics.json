@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "pull": true,
+  "armRise": 0.02622376039166241,
+  "legRise": 0,
+  "chestRise": 0,
+  "elbowRetraction": 4.712755864884619,
+  "rootRange": 0,
+  "elbowRange": [
+    53.818313974882116,
+    180
+  ],
+  "maxStep": 0.06917620853714104,
+  "minimumBodyGap": 0.08517865206657138,
+  "minimumClothGap": 0.015000005125521021,
+  "matContactGap": 0.015
+}

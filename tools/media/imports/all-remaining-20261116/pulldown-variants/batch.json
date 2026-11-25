@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "id": "v-bar-lat-pulldown",
+      "original": "close-neutral-grip-lat-pulldown",
+      "equipment": "cable",
+      "hold": false,
+      "halfWidth": 0.85,
+      "stroke": 5.1,
+      "grip": "neutral",
+      "status": "registered-local",
+      "recipe": {
+        "family": "v-bar-lat-pulldown",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/lat-exercises/close-grip-lat-pulldown/"
+        ],
+        "criteria": "Narrow neutral V handle pulldown, fixed seated torso, thighs and feet supported; 3.5 seconds pull, 1 second pause, 3.5 seconds return.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "partial-pulldown",
+      "original": "super-wide-grip-pulldown",
+      "equipment": "cable",
+      "hold": false,
+      "halfWidth": 3.6,
+      "stroke": 2.15,
+      "grip": "pronated",
+      "status": "registered-local",
+      "recipe": {
+        "family": "partial-pulldown",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/lat-exercises/wide-grip-lat-pulldown/"
+        ],
+        "criteria": "Illustrative upper-half pulldown: overhand grip, from overhead only halfway toward chest; 3.5 seconds pull, 1 second pause, 3.5 seconds return. Partial range is an explicit demonstration choice, not a claim that the reference prescribes it.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

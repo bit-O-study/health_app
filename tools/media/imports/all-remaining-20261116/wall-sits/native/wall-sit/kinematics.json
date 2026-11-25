@@ -1,0 +1,13 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "staticPose": true,
+  "loopError": 0,
+  "leftKnee": 89.99999999999999,
+  "rightKnee": 89.99999999999999,
+  "leftSoleGap": 0.015000000000000568,
+  "rightSoleGap": 0.015000000000000568,
+  "backGap": 0.030629350161443858,
+  "hipGap": 0.014999999999999902,
+  "bodyWallClearance": 0.014999999999999902
+}

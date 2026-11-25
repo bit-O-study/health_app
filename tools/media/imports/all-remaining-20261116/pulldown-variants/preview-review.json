@@ -1,0 +1,76 @@
+{
+  "v-bar-lat-pulldown": {
+    "reviewedAt": "2026-11-16T02:02:28.126Z",
+    "checks": {
+      "exercise": "v-bar-lat-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Narrow neutral grip stays on the V handle.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Narrow neutral V handle pulldown, fixed seated torso, thighs and feet supported; 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/full-sheet.png",
+        "sha256": "2b3bbbb1cbe5abec48a7a63e306e72718e4807a3908b74c3a745d61e1c1705cd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/side-sheet.png",
+        "sha256": "69c31a5b5f6bc1377174780737c05882fb6ec1e4757b4b3706ccfcd7099feaa3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/poses.json",
+        "sha256": "e43faf7222386b4b3edd29613355a42b40e0315addf8cde15479ad0f616d2d9b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/geometry.json",
+        "sha256": "dc6c573db294d1159c1ad9f3aa2a03ad7f3678704ed0107ffdc0cf36d6cefc07"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/v-bar-lat-pulldown/kinematics.json",
+        "sha256": "0312d50eea4ec7e6027490afdb95cef8972ad48e87c8407d8c399fe9f777c6be"
+      }
+    ]
+  },
+  "partial-pulldown": {
+    "reviewedAt": "2026-11-16T02:02:28.133Z",
+    "checks": {
+      "exercise": "partial-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Overhand grip stays on the straight bar during upper-half travel.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Illustrative upper-half pulldown: overhand grip, from overhead only halfway toward chest; 3.5 seconds pull, 1 second pause, 3.5 seconds return. Partial range is an explicit demonstration choice, not a claim that the reference prescribes it."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/full-sheet.png",
+        "sha256": "564e8ac0be4f92fe947acbdd72d42d88f3e56a791669b4bb13d237cfb76c774f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/side-sheet.png",
+        "sha256": "c9fb1839d0e278eea9ac38662a8ab4fa2516fb7098baa53f513875d98e22b8ea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/poses.json",
+        "sha256": "b513d443f38469021d1a27f70c65ddf4aede3669f13b6e24799cdf671859f178"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/geometry.json",
+        "sha256": "2239246c8f663085e1dc5f4b1f5ebf917532ee87c1dbbce1d88ed108d2d453e2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulldown-variants/native/partial-pulldown/kinematics.json",
+        "sha256": "2498c0554421ceff21db4f3fb68c97bae4646848da3b8f2803369d998ad01fd1"
+      }
+    ]
+  }
+}

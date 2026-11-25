@@ -1,0 +1,75 @@
+{
+  "extended-side-angle-pose": {
+    "reviewedAt": "2026-11-24T03:10:32.533Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "extended-side-angle-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower forearm supported on front thigh with opposite arm reaching over ear.",
+      "feet": "Both feet grounded, front knee over ankle and back leg straight.",
+      "movement": "Front knee bent over ankle, rear leg straight, feet grounded, lower forearm resting on front thigh and upper arm reaching over ear."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/final.jpg",
+        "sha256": "7324facfc1d6417edf784083671a0aab04414c43cbdf7d48f9be2c7d8ae9b3a3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/final-dark.jpg",
+        "sha256": "d66829f3148f7ad935e0faccc603785859169374d6de413ea613d6e50dd1b09c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/full-sheet.png",
+        "sha256": "2c6aa95fa99bc335e5c42c450fb8fc74883b4bf351c6e5fdb88d1763cfc3d2d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/side-sheet.png",
+        "sha256": "c352ec145390f72a32d02712968985204948b3125b3096b4f88979a6be4d668d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/verification.json",
+        "sha256": "7d6c697d7cca5e8b53a558940669580e8f6328308f697e72fd52121be4d59c4e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/geometry.json",
+        "sha256": "bc3684245290248df9637aec20b45a89c97e50aea6d66efcefd595131c0ada10"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/kinematics.json",
+        "sha256": "f3a93fd461719c168b3705a82ebc864235ef0e6be4dc917386c7a79f77b90a3e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/provenance.json",
+        "sha256": "d7f7be4a551780add49f45c3b54d37267877bcef676d3f27029440993f17f00a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/extended-side-angle-pose-alpha.webm",
+        "sha256": "28e719e19d8e8258fadc52825147f4dec967f454b2e338755255a4081bdc86c0",
+        "bytes": 39969,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/extended-side-angle-pose.mp4",
+        "sha256": "5b3eca977b9af8ee6035b50729b9d14b418f84013e995b68a8ae88dd12240038",
+        "bytes": 15277,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/side-angle/native/extended-side-angle-pose/extended-side-angle-pose-dark.mp4",
+        "sha256": "9d817fd2d733eabe6ee8fd637f7e05f6d35f57d77aa0e235d673c464f8e97c95",
+        "bytes": 14902,
+        "decode": "passed"
+      }
+    ]
+  }
+}

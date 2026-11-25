@@ -1,0 +1,18 @@
+{
+  "id": "single-leg-leg-press-calf-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "44d66daf591e835295b6b5f228a459ef1a656d5910845a70e661c22f89745067",
+  "rigSourceSha256": "e042397858fb3b937618e2ae37d75fa40a4e12391e9b1e9cc6638b4ee91fdbee",
+  "videoSha256": "d907ffdc77511b17a6bd111c8144a0e186fbcbbff2b70d4d694ca90581cf37f8",
+  "darkVideoSha256": "9c857985ef1da4d394defc1dae6a358c7a6fd4ad440181116d13cb7d7dc9230f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 79345,
+  "darkBytes": 62432,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T04:33:32.691Z"
+}

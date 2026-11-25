@@ -1,0 +1,10 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "maxSupportError": 5.9746092726847654e-15,
+  "maxAlignmentError": 3.885780586188048e-16,
+  "maxStep": 0.05990274403364138,
+  "backwardHeadTravel": 6.385129988415677,
+  "supportSamples": 17
+}

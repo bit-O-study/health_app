@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "kneeling-leg-curl-machine",
+      "original": "kneeling-leg-curl-machine",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "kneeling-leg-curl-machine",
+        "sourceUrls": [
+          "https://www.manualslib.com/manual/1070990/Hammer-Strength-Iso-Lateral.html?page=20"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Plate-loaded kneeling leg curl: left knee/shin and both elbows supported, right thigh on front pad and knee aligned with side lever pivot. Right leg curls from 180 to 80 degrees against a roller above the ankle. Four seconds curl and four seconds return; switch sides between sets. Generic apparatus, not a dimensional replica.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

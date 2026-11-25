@@ -1,0 +1,18 @@
+{
+  "id": "lat-pulldown-2",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b7747a67ff1389d6bb9618ba473f8f5e51701b9a0b0b1ca45885c1118e3d2a12",
+  "rigSourceSha256": "761e1dd2968135d790383599a451ec8058961ca8715cfd0f4a3a479456be0600",
+  "videoSha256": "8aab96c03849225f766296c1f3b7c2079c1250e7a82fe9237606cfdfa942dce8",
+  "darkVideoSha256": "316ea48d951a51bbf7f07decd1cebdb215329f5a9793250b191980c4bdf79137",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 85281,
+  "darkBytes": 82144,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T00:50:03.009Z"
+}

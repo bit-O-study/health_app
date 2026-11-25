@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "wall-sit",
+      "original": "wall-sit",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "wall-sit",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/legs/quad-exercises/wall-sits/wall-sit/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Static wall sit with both thighs horizontal, knees 90 degrees, feet flat and back supported. Arms extended in front. Eight seconds shows maintained hold; entry and exit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "single-leg-wall-sit",
+      "original": "single-leg-wall-sit",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "single-leg-wall-sit",
+        "sourceUrls": [
+          "https://www.catalystathletics.com/exercise/744/Single-Leg-Wall-Sit/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Static single-leg wall sit supported on left leg, thigh horizontal and knee 90 degrees. Right leg extended horizontally, back supported and arms extended forward. Eight seconds shows maintained hold; entry, exit and side change omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

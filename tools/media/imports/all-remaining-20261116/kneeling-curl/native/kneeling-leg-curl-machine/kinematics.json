@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 3.1086244689504383e-15,
+  "maxStep": 0.05181239763187363,
+  "kneeRange": [
+    80.00000000000004,
+    180
+  ],
+  "supportSamples": 17,
+  "supportKneeDegrees": 90,
+  "elbowPads": 2,
+  "rollerGapRange": [
+    0.034455376202539245,
+    0.040919708950032385
+  ],
+  "loadRise": 5.274430554889577
+}

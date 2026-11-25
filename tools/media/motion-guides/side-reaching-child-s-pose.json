@@ -1,0 +1,15 @@
+{
+  "id": "side-reaching-child-s-pose",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "hold",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "side-reaching-child-s-pose-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.connecticutchildrens.org/specialties-conditions/sports-medicine/home-exercise-programs/back-streteching-home-exercise-program"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-24T02:11:04.417Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "legs-up-the-wall-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7c2d7b8f6c63d8edbfb8e31892c6ed86380240d0467ba47eacbbc36b681893cf",
+  "rigSourceSha256": "ef8b403df4db9da79aeaf37ea40bfc885000ede496feebb579dfaf98b40d44ed",
+  "videoSha256": "fd80171c7d8dbfbd62c0f35b970765deb03bc5770a6638c614445331c88ec66b",
+  "darkVideoSha256": "a14b4a668dfc45171f08af73e47b3ef1a4a65a5ee13e5803ef245ae6a2956fcc",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 13687,
+  "darkBytes": 13756,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:49:15.246Z"
+}

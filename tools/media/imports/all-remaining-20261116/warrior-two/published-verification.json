@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T02:50:16.986Z",
+  "report": [
+    {
+      "id": "warrior-ii-pose",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

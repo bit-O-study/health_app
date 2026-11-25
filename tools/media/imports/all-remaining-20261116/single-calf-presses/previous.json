@@ -1,0 +1,54 @@
+{
+  "single-leg-calf-press": [
+    {
+      "file": "tools/media/motion-guides/single-leg-calf-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-calf-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-calf-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-calf-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-calf-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-calf-press-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "single-leg-leg-press-calf-raise": [
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-calf-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-calf-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/single-leg-leg-press-calf-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-calf-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-calf-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/single-leg-leg-press-calf-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

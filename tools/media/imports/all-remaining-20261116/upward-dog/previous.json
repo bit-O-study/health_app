@@ -1,0 +1,28 @@
+{
+  "upward-facing-dog": [
+    {
+      "file": "tools/media/motion-guides/upward-facing-dog.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/upward-facing-dog.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/upward-facing-dog-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upward-facing-dog.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upward-facing-dog-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/upward-facing-dog-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

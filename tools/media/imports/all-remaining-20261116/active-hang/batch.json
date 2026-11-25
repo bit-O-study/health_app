@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "active-hang",
+      "original": "active-hang",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "active-hang",
+        "sourceUrls": [
+          "https://theprehabguys.com/vimeo-video/active-hang/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Static active overhead hang with shoulder girdle depressed by 12-degree clavicle rotations, arms at 179 degrees and fixed grip. Body rises relative to passive reference without elbow flexion. Eight-second maintained hold; entry and exit omitted.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

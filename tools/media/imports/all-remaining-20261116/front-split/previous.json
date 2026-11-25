@@ -1,0 +1,28 @@
+{
+  "front-split-stretch": [
+    {
+      "file": "tools/media/motion-guides/front-split-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-split-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/front-split-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-split-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-split-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/front-split-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

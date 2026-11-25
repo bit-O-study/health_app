@@ -1,0 +1,28 @@
+{
+  "prone-l-raise": [
+    {
+      "file": "tools/media/motion-guides/prone-l-raise.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-l-raise.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-l-raise-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-l-raise.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-l-raise-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-l-raise-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

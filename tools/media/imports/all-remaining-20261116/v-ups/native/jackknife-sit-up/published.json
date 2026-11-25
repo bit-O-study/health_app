@@ -1,0 +1,18 @@
+{
+  "id": "jackknife-sit-up",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "38a0981d5d9514f1a2ab8d96a9fcd9326a838a826f5c9bb63d8f115b93258a82",
+  "rigSourceSha256": "65024113bd9228df26ad4775190adebf47ab729b98763631ceaa4fdee9e7ad4c",
+  "videoSha256": "ad0689af69ea72df591dd5b286b3c3e1cdc9cd99f3e171172928621452b5fb3b",
+  "darkVideoSha256": "616e1ef6267e3bdc4820e080b334ae7b025ef67215b92ef4bd6b3f821be9b0b7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 111476,
+  "darkBytes": 122214,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T06:18:58.314Z"
+}

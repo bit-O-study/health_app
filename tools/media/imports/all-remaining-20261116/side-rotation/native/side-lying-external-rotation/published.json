@@ -1,0 +1,18 @@
+{
+  "id": "side-lying-external-rotation",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "e72d9128d748d525c7aa7390d34f577e1a2c77168e61f7d0f3d62095f07c163d",
+  "rigSourceSha256": "ad227e30f41017ef8fb0dfed1c36066bba2a81da773679ff03075f2d6045a9e0",
+  "videoSha256": "c99dd0690757a2723985a84b7bdddcce0d781e016304d0b5e067aacb316c3f75",
+  "darkVideoSha256": "ab9f3dc75f272b6d2a105b14959372b557ed8dc9169756531d7ffe9f18bd7295",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 32762,
+  "darkBytes": 30265,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T02:04:48.318Z"
+}

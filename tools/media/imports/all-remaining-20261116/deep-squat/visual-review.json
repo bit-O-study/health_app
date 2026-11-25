@@ -1,0 +1,75 @@
+{
+  "deep-squat-hold": {
+    "reviewedAt": "2026-11-16T02:21:47.161Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "deep-squat-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Empty hands held comfortably in front of the torso.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Eight-second static deep squat, hips below knees, heels down, empty hands in front. Entry and exit omitted; duration illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/final.jpg",
+        "sha256": "566caba9663fc14413ebf5c3b0be2051a1406f4656cfd56d9ba6d525f0c07c94"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/final-dark.jpg",
+        "sha256": "829b632a84524f9bca789930915a16550bc6a6d7f7d3f642e7be163c609ca3d2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/full-sheet.png",
+        "sha256": "5c4022ff5f31a61e90710ba9a08c8c51b71c53a301363cbcd964edb827f6fd6a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/side-sheet.png",
+        "sha256": "2f23ec0db0adfbdd547c187da8f0ff0e5203e36c843b8a819e256105bc52a150"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/verification.json",
+        "sha256": "e1e7f05bf89b56caaf39f9f40c2afb3fbcb469936dd7f6a83d455c55f2cdc3d1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/geometry.json",
+        "sha256": "80b1e8f9d9cd62d0fb867e30fc90ba6292f9a3e1749d2916771abe9a6a2d3d0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/kinematics.json",
+        "sha256": "864486c0f569c85e522e74564155843005bdc5ebf17451229640abd686cfb5d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/provenance.json",
+        "sha256": "8c704567b1568792b8a84678a8f52949b44f2770386a94e6458779687931815f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/deep-squat-hold-alpha.webm",
+        "sha256": "3de0278c0ae2086561b117cc1ef622b41965a895911d9d0aca43e6fd23ea6dce",
+        "bytes": 32396,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/deep-squat-hold.mp4",
+        "sha256": "cbff1c86b24295f7ca3a6d73785934248ad48529858c7757828863e5be7ca2bc",
+        "bytes": 13789,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/deep-squat-hold-dark.mp4",
+        "sha256": "5a070191b3acf79fd79bd2cf9ae084b5afff7a59759f27f1758dea5709d09f49",
+        "bytes": 13564,
+        "decode": "passed"
+      }
+    ]
+  }
+}

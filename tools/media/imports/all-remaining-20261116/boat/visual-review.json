@@ -1,0 +1,75 @@
+{
+  "boat-pose": {
+    "reviewedAt": "2026-11-24T01:25:29.731Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "boat-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend parallel to floor, palms facing inward.",
+      "feet": "Straight legs raised 45 degrees; pelvis balances on mat.",
+      "movement": "Full boat balance on seated pelvis, long reclining torso, straight legs raised about 45 degrees, arms extended parallel to floor with palms inward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/final.jpg",
+        "sha256": "4f9005e25ea22c3170ead291422d0f99c44fa75ced3cde0edb8f20d91a928390"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/final-dark.jpg",
+        "sha256": "9da9d02fd09070310fbe09474742a5db94025b89497b355dca3f81a054a07257"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/full-sheet.png",
+        "sha256": "3b4ffef3a0e0ad18b46511c7081e6ad77652f737dcc657ecce3aa717c63e7ee9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/side-sheet.png",
+        "sha256": "9687302fe686a381af5f4be577d829ec35558ccf25b947493a0e705d70cf5d81"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/verification.json",
+        "sha256": "be28b1c5383794656060875a0ea85f9a785bf5e89f81762557f72a3990b92124"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/geometry.json",
+        "sha256": "dc8173964401fca42f3b5cae960f170569f27c9b01916cad9eca02a8e898f1cf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/kinematics.json",
+        "sha256": "3ac72c3d6fe13cb036ed4589f4f5af5d8a788cd8c3ad0ffaef6b86d7b9f8cd01"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/provenance.json",
+        "sha256": "17fd11ba0ecc3de0ad4a2f5112083806552898bedad24def1a0a7e41393e2067"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/boat-pose-alpha.webm",
+        "sha256": "09d5f7970d893ca84b8a7aa9d2ec09b729a6f9eccc8da375b549fc5d81e9df9a",
+        "bytes": 38243,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/boat-pose.mp4",
+        "sha256": "e93d2652f4273d4fa8d9435a1924d23442b81feae1e1fdc057af9888b6db647b",
+        "bytes": 15266,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/boat/native/boat-pose/boat-pose-dark.mp4",
+        "sha256": "792edaf72e8e86166bf0c90a7319b55fe647459f4233bd5dd35c54ae881d899a",
+        "bytes": 15046,
+        "decode": "passed"
+      }
+    ]
+  }
+}

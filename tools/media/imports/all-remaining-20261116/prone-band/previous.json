@@ -1,0 +1,28 @@
+{
+  "prone-band-pull-apart": [
+    {
+      "file": "tools/media/motion-guides/prone-band-pull-apart.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-band-pull-apart.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/prone-band-pull-apart-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-band-pull-apart.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-band-pull-apart-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/prone-band-pull-apart-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

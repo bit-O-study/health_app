@@ -1,0 +1,39 @@
+{
+  "deep-squat-hold": {
+    "reviewedAt": "2026-11-16T02:19:33.742Z",
+    "checks": {
+      "exercise": "deep-squat-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Empty hands held comfortably in front of the torso.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Eight-second static deep squat, hips below knees, heels down, empty hands in front. Entry and exit omitted; duration illustrative."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/full-sheet.png",
+        "sha256": "5c4022ff5f31a61e90710ba9a08c8c51b71c53a301363cbcd964edb827f6fd6a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/side-sheet.png",
+        "sha256": "2f23ec0db0adfbdd547c187da8f0ff0e5203e36c843b8a819e256105bc52a150"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/poses.json",
+        "sha256": "9c80ed9c4c22475880bd9704980c63e84893cc290a5a4072f1ab6a418f427142"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/geometry.json",
+        "sha256": "80b1e8f9d9cd62d0fb867e30fc90ba6292f9a3e1749d2916771abe9a6a2d3d0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/deep-squat/native/deep-squat-hold/kinematics.json",
+        "sha256": "864486c0f569c85e522e74564155843005bdc5ebf17451229640abd686cfb5d9"
+      }
+    ]
+  }
+}

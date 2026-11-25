@@ -1,0 +1,75 @@
+{
+  "camel-pose": {
+    "reviewedAt": "2026-11-24T04:18:14.649Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "camel-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms supported on heels with chest lifted and neck following upper back.",
+      "feet": "Hip-width knees and tops of feet grounded; thighs vertical and pelvis over knees.",
+      "movement": "Kneeling backbend with hip-width vertical thighs, knees grounded, chest lifted and palms supported on heels."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/final.jpg",
+        "sha256": "e8f0950888184aa6afb16e8fdea49e9d5db428b174ac18cdde89eeee87c01811"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/final-dark.jpg",
+        "sha256": "e5b50f14c2bbb4e09b22232f6bb086b37ea99a08c216781baf8be56bc315ce6c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/full-sheet.png",
+        "sha256": "44790004d7ecf71ad2a37eac141c2142f68e2554c45fd6442096694c7ac2ab73"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/side-sheet.png",
+        "sha256": "f4810d6f53355c42106d6b87d7a2fbc5683f3f42b69a70f77bd0a3eed3a91b37"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/verification.json",
+        "sha256": "9ed2cabf30e5b53b7c4dad6053348aae55699c182724b5ab87169b398be45242"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/geometry.json",
+        "sha256": "5338cee8f8a3cd9a1e59d450ceebb5a5e9ca91b1fd23dfb65b0dfbb1a114c978"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/kinematics.json",
+        "sha256": "0f127e30a6424c8450d4f9fb75b91aa114002e448e49446f027317d75e58f84f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/provenance.json",
+        "sha256": "d2a49b79b7f8bd8d8e981a659e9a1c6b24a8c9f2af903edaa3d0bd19eeb964d9"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/camel-pose-alpha.webm",
+        "sha256": "4a8de105342e73d8091c38d3e735f914eae20e5316087b639e61105884a57241",
+        "bytes": 34722,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/camel-pose.mp4",
+        "sha256": "de49d8aa81aad4d154df77d0d9d71e595c1f13d10f6fb45974fee66d38675475",
+        "bytes": 14768,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/camel/native/camel-pose/camel-pose-dark.mp4",
+        "sha256": "e27d528f5b10884c3e821824ddc248ef6a1be33dcf479dfc1bc4590026c04a63",
+        "bytes": 14703,
+        "decode": "passed"
+      }
+    ]
+  }
+}

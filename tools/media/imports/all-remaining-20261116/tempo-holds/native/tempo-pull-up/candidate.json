@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/tempo-pull-up-alpha.webm",
+      "sha256": "6a3afe0449cd65eb0bfaa4b7c7413c1fba9e46ce393b25140a428ddd9f217af9",
+      "bytes": 169076,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/tempo-pull-up.mp4",
+      "sha256": "d7803323c3f084a76a4fffe52bc12f6012695dce908d8dff4d67bcbd38f80389",
+      "bytes": 67591,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/tempo-holds/native/tempo-pull-up/tempo-pull-up-dark.mp4",
+      "sha256": "51986dc61afb26adef4a3f052ee2e97191b54420ef32fb3b0dcc230eedc51ac2",
+      "bytes": 68914,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/tempo-holds/tempo-pull-up-studio.mjs",
+      "sha256": "903451f7e37eb2b1e518a52734c8cf2ccddfb5d7e9ff23d3c60572934949bf35"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/tempo-holds/tempo-pull-up-motion.mjs",
+      "sha256": "4eb394f2839f7f6221980131fbd927eb4ceb2c2e8d3779c42c09c6125c69d691"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/tempo-holds/render.mjs",
+      "sha256": "56efa9a2743ad30b81e004ee1c3221af7e15e245f1339cfe832dd858f96ff6e5"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

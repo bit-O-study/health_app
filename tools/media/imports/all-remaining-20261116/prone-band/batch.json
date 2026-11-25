@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "prone-band-pull-apart",
+      "original": "prone-band-pull-apart",
+      "equipment": "band",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "prone-band-pull-apart",
+        "sourceUrls": [
+          "https://www.nsca.com/contentassets/8dd49e5ea0e547d69bc9dde749bdcbad/volt_rotator_cuff_injury_prevention_primer.pdf"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Lie prone holding a resistance band overhead. Keep arms long and torso steady; separate hands laterally into a small Y, pause, return with tension. Band remains attached to both closed grips and clear of the head. 3.5 seconds pull, 1 second pause, 3.5 seconds return.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

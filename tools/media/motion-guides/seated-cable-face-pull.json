@@ -1,0 +1,15 @@
+{
+  "id": "seated-cable-face-pull",
+  "equipment": "cable",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "seated-cable-face-pull-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.youtube.com/watch?v=QOlqL0DN1_4"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T06:53:49.092Z"
+}

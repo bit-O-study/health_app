@@ -1,0 +1,11 @@
+{
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "reverse",
+  "sources": [
+    "https://macrosinc.net/exercises/back/assisted-machine-pull-up/"
+  ],
+  "prompt": "Scientific educational animation sprite sheet. Original gray anatomical 3D adult mannequin wearing teal shorts and gray trainers. Opaque uniform gray studio. Exactly 16 equal square frames in a 4 by 4 square sheet, no borders text or numbers. Fixed front three-quarter view, same scale, full assisted pull-up machine and body inside central 70 percent of EACH cell. Machine has fixed overhead overhand pull-up grips and a vertically sliding knee support pad mechanically attached to its guided carriage. Both hands remain fixed on the overhead grips at identical pixel coordinates in every cell, slightly wider than shoulders. Both knees kneel on the assistance pad, lower legs bent back, feet off floor. Start at bottom with arms straight overhead. Over all 16 consecutive poses gradually raise torso and knee pad together until chin clears handle height, elbows drawing down toward ribs. Hands and machine frame NEVER move. Pad rises with knees, never detaches. Spine neutral, ribs down, no leg kicking, no back arch, no shrug. Smooth evenly spaced half repetition from bottom to top across all rows, no resets or repeated rows, no return phase. Clear visibility of closed overhand grips, elbows, knees on pad and mechanical support. Same machine geometry, camera and background all frames. No transparent background, no gridlines, no cropping. CRITICAL final four poses: continue upwards until chin is visibly ABOVE handgrip level, no jutting head forward. Last pose elbows down beside ribs, chest close to handgrip height, chin higher than hands. Leave 12 percent empty margin above entire machine in every tile.",
+  "id": "assisted-pull-up-2",
+  "registeredAt": "2026-09-10T12:40:59.447Z"
+}

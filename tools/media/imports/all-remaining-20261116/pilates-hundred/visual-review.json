@@ -1,0 +1,75 @@
+{
+  "pilates-hundred": {
+    "reviewedAt": "2026-11-24T05:07:57.348Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "pilates-hundred",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Long arms pulse beside hips with palms down.",
+      "feet": "Both legs remain straight and diagonal with a stable curled torso.",
+      "movement": "Curled head and chest, straight diagonal legs held still; long arms pulse by sides with palms down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight seconds demonstrates ten arm pulses, not the full hundred."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/final.jpg",
+        "sha256": "7f4dfe009c7a62c956ba403d430fc7e3a57742c5c8384f21809918a9fe3b6ebb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/final-dark.jpg",
+        "sha256": "71a39f4bb4461cb042b1d3ae1b2a9b40963a57be21f603ead743178250106634"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/full-sheet.png",
+        "sha256": "3531f9a72f02cada0df8e49e6378146d1fd67e25dabb5b6bd6f6c881feab2d28"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/side-sheet.png",
+        "sha256": "475e282f2288081779d39000051749015da85402818b41af7a3462fecd800296"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/verification.json",
+        "sha256": "03bcb820658dc099214b883b91e5e3536f40fd8da99d23ac232f571c3d064f24"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/geometry.json",
+        "sha256": "74267886f96a427db8aad3425c6a69640b19ed47da9e5f4f9b354e62965ccdd6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/kinematics.json",
+        "sha256": "771b620a5dbaf351a269bb19d424f25eaa19b1d4de6c68608ab8a4bfccf2b00b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/provenance.json",
+        "sha256": "65c89828d9a3f7561615b4e84da16d0719d062af08bfb7c66b1974e51bd0068e"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/pilates-hundred-alpha.webm",
+        "sha256": "563e8dd51eaf4bc7414764263efd851392802e16ad9e6e77a772e076b34fe9f4",
+        "bytes": 94978,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/pilates-hundred.mp4",
+        "sha256": "14d06cdb791a579f0e3bea16f651d450553569db8ee5e967302671493c05cbae",
+        "bytes": 44319,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/pilates-hundred-dark.mp4",
+        "sha256": "e4735bde842e18ff248c477b3b7bb157d5002e8c600313ccd9de73551c144675",
+        "bytes": 44702,
+        "decode": "passed"
+      }
+    ]
+  }
+}

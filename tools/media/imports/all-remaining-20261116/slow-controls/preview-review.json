@@ -1,0 +1,76 @@
+{
+  "tempo-overhead-press": {
+    "reviewedAt": "2026-11-16T01:20:45.205Z",
+    "checks": {
+      "exercise": "tempo-overhead-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Press uses fixed-width bar grip; Nordic hands stay ready in front of the torso.",
+      "feet": "Press feet remain planted; Nordic knees and ankles remain supported by pads.",
+      "movement": "Standing strict press: 3 seconds up, 1 second overhead, 3 seconds down, 1 second at shoulders; no leg drive."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Illustrative tempo. Nordic shows a limited 45-degree eccentric-emphasis repetition and unassisted return, not a full descent or assisted reset."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/full-sheet.png",
+        "sha256": "75bfa2622873c6b73bb0b75b71574c2a1b6106cdfca32e4a61d52716eb8afe5d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/side-sheet.png",
+        "sha256": "73b9498bdab539bbf1be610d42f830c80d11efcfff9e23ea940973f3e9fc902e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/poses.json",
+        "sha256": "52f5159751b5b34b46008a26c30bdca5d9aaa02e27eea9a4bce2f598bc17952d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/geometry.json",
+        "sha256": "388090535684892c10c3fddb7e1fa18afc45fdba06e606fed968b8c963a77cc7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/tempo-overhead-press/kinematics.json",
+        "sha256": "bdb9eee6dd2e66e5ebf9a832f1ec5f165ebe740560a18cc4057c0e0cd667c950"
+      }
+    ]
+  },
+  "eccentric-nordic-curl": {
+    "reviewedAt": "2026-11-16T01:20:45.209Z",
+    "checks": {
+      "exercise": "eccentric-nordic-curl",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Press uses fixed-width bar grip; Nordic hands stay ready in front of the torso.",
+      "feet": "Press feet remain planted; Nordic knees and ankles remain supported by pads.",
+      "movement": "Eccentric-emphasis limited-range Nordic: 5-second controlled 45-degree lean, 1-second hold, 1-second unassisted return, 1-second upright pause. Not an eccentric-only full descent or assisted reset."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Illustrative tempo. Nordic shows a limited 45-degree eccentric-emphasis repetition and unassisted return, not a full descent or assisted reset."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/full-sheet.png",
+        "sha256": "8a42a37f534c253f15f2aef1e2d24d00d6e842a160930916d4cd2e3a91982975"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/side-sheet.png",
+        "sha256": "1096d6acc67188bafa8679bb634eaf9ac2ae0d6ed4e877c56c085b844dda7f09"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/poses.json",
+        "sha256": "b49a11fb7c89a14d69527cfee95b45b4e0c38c32ec3f6100d614e7f9e438c2d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/geometry.json",
+        "sha256": "25acb9a4936de28f83a348dbc4f456aecfa35ae661b6bfeddf86d204163f4bc0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/slow-controls/native/eccentric-nordic-curl/kinematics.json",
+        "sha256": "25f1be37cb6eb3d012c44c56cd79f68c5770696123c92f1b89c2ab71179e5969"
+      }
+    ]
+  }
+}

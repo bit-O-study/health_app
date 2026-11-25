@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "band-clamshell",
+      "original": "band-clamshell",
+      "equipment": "band",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "band-clamshell",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/resisted-hip-lateral-rotation-in-side-lying-%2528clam%2529"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie on side with bent knees, feet together, and resistance band above knees. Keep pelvis and back still while lifting top knee against band; slowly close without rolling backward. 3.5 seconds open, 1 second pause, 3.5 seconds close.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

@@ -1,0 +1,39 @@
+{
+  "plank-toe-tap": {
+    "reviewedAt": "2026-11-16T04:10:19.970Z",
+    "checks": {
+      "exercise": "plank-toe-tap",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both forearms remain on virtual floor; hands open.",
+      "feet": "Supporting toes retain floor contact; the other foot clears the floor, taps laterally and returns. Sides alternate.",
+      "movement": "Forearm plank with alternating lateral toe taps: each side 1.5 seconds out, 1 second toe contact, 1.5 seconds back. Moving toes briefly clear floor during each step; pelvis and arms remain fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/full-sheet.png",
+        "sha256": "b24388c13480d10f55cffa1290dfada05cd3737603568aac2a9cc5e029ddbdbf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/side-sheet.png",
+        "sha256": "b9a0c4e326945585ca737089f19822092af41ebd6a3a033d742da72794089e16"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/poses.json",
+        "sha256": "2b0edae4cb89251b5d1d1735588d54f43dbc5ca0e03bca8b3e5e5b779c93fe2c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/geometry.json",
+        "sha256": "7142edfcc42cb6b4f088b500f48700420920ae4be82f01a3b3e6fe49850e719c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/plank-toe-tap/native/plank-toe-tap/kinematics.json",
+        "sha256": "5e9e902d1066d7a7a931db445200be837f9ba1bf91ede9112e554b502ab12dec"
+      }
+    ]
+  }
+}

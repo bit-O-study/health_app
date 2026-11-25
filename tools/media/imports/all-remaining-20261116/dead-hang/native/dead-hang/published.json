@@ -1,0 +1,18 @@
+{
+  "id": "dead-hang",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "c0e31564b54c6706729b86156eb72528460cca286b66ac6d88234886fb586131",
+  "rigSourceSha256": "e7bcdff15b059a897fa9d15b4390457d1891cc44c5aecc4daca302464f7509ab",
+  "videoSha256": "5e4d908091a9e9c2eed7ee1980d30f495abd4e0a199c88ca7d82049c84a96e00",
+  "darkVideoSha256": "533207ad47810e0c854651cd86d8ce2b9305487e1894f5a3ebe6ede184c86d3e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15486,
+  "darkBytes": 15454,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:23:50.477Z"
+}

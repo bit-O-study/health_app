@@ -1,0 +1,28 @@
+{
+  "active-hang": [
+    {
+      "file": "tools/media/motion-guides/active-hang.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/active-hang.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/active-hang-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/active-hang.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/active-hang-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/active-hang-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "calf-press-machine": {
+    "reviewedAt": "2026-11-16T02:27:29.369Z",
+    "checks": {
+      "exercise": "calf-press-machine",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Forefeet stay on the moving plate; heels remain outside its lower edge.",
+      "movement": "Seated 45-degree calf press: fixed knee angle, forefeet on narrow sled plate and heels below its edge; ankle-driven travel. 4 seconds up and 4 seconds down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/full-sheet.png",
+        "sha256": "61588bac7b37be21c3dac9a59d8060828bb4e51de03e4094670ad31912b41748"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/side-sheet.png",
+        "sha256": "29838ce66a8a158a2b2534110abc9d5ddbcfaae6bddf2e78ccb7de79a4cf78c0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/poses.json",
+        "sha256": "4925b399b4b46c002bd4861c6fce919e90a1389226018cc86aeaea11b881d238"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/geometry.json",
+        "sha256": "6aacb346a50678c90dd920139b6b3d7135da52d2776afc9d7e6a4a8d98db1b0c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/calf-press-machine/kinematics.json",
+        "sha256": "0b1e41dc372089535cae42a0870ac5a490a4793a8a054b7074d72d45566c598f"
+      }
+    ]
+  },
+  "pause-calf-raise": {
+    "reviewedAt": "2026-11-16T02:27:29.374Z",
+    "checks": {
+      "exercise": "pause-calf-raise",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Forefeet stay on the moving plate; heels remain outside its lower edge.",
+      "movement": "Seated 45-degree calf press: fixed knee angle, forefeet on narrow sled plate and heels below its edge; ankle-driven travel. 3 seconds up, 2 seconds at top, 3 seconds down; leg-press-machine example of paused calf raise."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Range and timing are illustrative; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/full-sheet.png",
+        "sha256": "79040f96375aa71441422464d855b32dbb68df7b788dfe8986fc08bcae05a440"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/side-sheet.png",
+        "sha256": "db1a2765c28c1a13f61f6fee76fe51e8b62b1c160f023d22c1b029a310370c3b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/poses.json",
+        "sha256": "d04da6a88630ecd8493f43469c8da3e1153b3d07db292cfc79b2b8d89f03a0ff"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/geometry.json",
+        "sha256": "e17926ec4a5e9df73955bbcba146248450e76832b0b6b9e1ff90005414babaf6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/calf-presses/native/pause-calf-raise/kinematics.json",
+        "sha256": "66cec142dd02e48f6cbe9b348fec3ef00459bf0adb89dc7893411c5b95909e82"
+      }
+    ]
+  }
+}

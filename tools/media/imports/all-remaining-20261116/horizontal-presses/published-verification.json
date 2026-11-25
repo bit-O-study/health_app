@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-16T04:58:50.599Z",
+  "report": [
+    {
+      "id": "seated-leg-press-machine",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    },
+    {
+      "id": "horizontal-calf-raise-machine",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

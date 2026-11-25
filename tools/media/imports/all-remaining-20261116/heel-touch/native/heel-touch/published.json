@@ -1,0 +1,18 @@
+{
+  "id": "heel-touch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4540e8d031f4072e757584f41e292a5d2d9374299606e5754a3299b9e9e524a6",
+  "rigSourceSha256": "b4744aeaa942a49767806daeb4075e705761427af692dfab7ab88ab4268dc493",
+  "videoSha256": "38ef09ff66abdea8b41d6645b39b04f718f720d2fec148600dd2e652ba30a998",
+  "darkVideoSha256": "77e6b44ca9762ded4a4d16f521bbdb387d7963914cdffb5968699716fe63d04f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 49584,
+  "darkBytes": 56039,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T00:55:16.984Z"
+}

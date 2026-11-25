@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "band-leg-curl",
+      "original": "band-leg-curl",
+      "equipment": "band",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "band-leg-curl",
+        "sourceUrls": [
+          "https://seto.fit/exercises/standing-resistance-band-leg-curl/"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Standing right knee curl against a red resistance band secured to the low front rack. Left foot on step, fixed hands and torso, knee 180 to 80 degrees; four seconds each direction. Band length increases while its thickness decreases.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

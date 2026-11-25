@@ -1,0 +1,75 @@
+{
+  "legs-up-the-wall-pose": {
+    "reviewedAt": "2026-11-16T08:49:03.825Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "legs-up-the-wall-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands rest beside the body, palms upward.",
+      "feet": "Supine body rests on mat with straight raised legs supported by a wall.",
+      "movement": "Lie on back with legs extended against wall and arms resting to sides palms upward. Keep head and torso supported. Eight-second hold with entry and exit omitted. A low head cushion supports a neutral head position."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/final.jpg",
+        "sha256": "44f35cd257aaf37c70e470f7701b34715569cf6abde2a4b7a11ee132df90013b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/final-dark.jpg",
+        "sha256": "9e3cc3402e2707484055d873b005b1f50342c790ae3df4132a32b695baee848e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/full-sheet.png",
+        "sha256": "f3d920f6a793cf258c87efc4f8317125112e9002a336af006f99fc2c7dff8c7a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/side-sheet.png",
+        "sha256": "10abb45d175b423135f1b3e7851eed753f82eb6ec483491661b1b2260ecdf4bb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/verification.json",
+        "sha256": "aafc61ea479b5841115b56401f0b7f577a0828474308cabd66615bfb6d1dc535"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/geometry.json",
+        "sha256": "30af16d6cfb9ab348e0209f24e62c36612f17da47a821f95d5a7079a7365fa6e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/kinematics.json",
+        "sha256": "2dcd5edb882b597e56cc557803f6529ba9c24934f1dd600401cb69bc88c217fc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/provenance.json",
+        "sha256": "ef8b403df4db9da79aeaf37ea40bfc885000ede496feebb579dfaf98b40d44ed"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/legs-up-the-wall-pose-alpha.webm",
+        "sha256": "28a644ae48e6471cbe7ae5a8fcc46d9a6b4463c40e414da947f6665cd7f9e737",
+        "bytes": 30084,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/legs-up-the-wall-pose.mp4",
+        "sha256": "fd80171c7d8dbfbd62c0f35b970765deb03bc5770a6638c614445331c88ec66b",
+        "bytes": 13687,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/legs-wall/native/legs-up-the-wall-pose/legs-up-the-wall-pose-dark.mp4",
+        "sha256": "a14b4a668dfc45171f08af73e47b3ef1a4a65a5ee13e5803ef245ae6a2956fcc",
+        "bytes": 13756,
+        "decode": "passed"
+      }
+    ]
+  }
+}

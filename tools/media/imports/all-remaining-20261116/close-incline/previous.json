@@ -1,0 +1,28 @@
+{
+  "close-grip-incline-press": [
+    {
+      "file": "tools/media/motion-guides/close-grip-incline-press.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-incline-press.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/close-grip-incline-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-incline-press.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-incline-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/close-grip-incline-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

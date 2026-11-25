@@ -1,0 +1,22 @@
+{
+  "alternatingCrossings": true,
+  "openSpan": 7.177252034408806,
+  "crossedSpan": -1.2049031248859836,
+  "minimumLegCenterlineDistance": 1.5829284644782693,
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "minElbow": 180,
+  "minKnee": 179.99999829245272,
+  "minLegAngle": 13.000000000000002,
+  "maxLegAngle": 37,
+  "maxStep": 0.05903794857331511,
+  "torsoStationary": true,
+  "supportGaps": {
+    "body": 0.018540207631319916,
+    "cloth": 0.01499999999999968,
+    "upperBack": 0.018540207631319916,
+    "hands": 0.029458476172425918,
+    "head": 0.01499999999999968
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "l-sit": {
+    "reviewedAt": "2026-11-24T06:44:31.202Z",
+    "checks": {
+      "exercise": "l-sit",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor beside hips.",
+      "feet": "Straight horizontal legs and pelvis remain off floor.",
+      "movement": "Support body on flat palms with straight arms, keep hips and straight horizontal legs off the floor."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static floor L-sit; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/full-sheet.png",
+        "sha256": "4149beb851668c77cfaa99d3731e841e755a55cc372fd6d27738780c9a15ca52"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/side-sheet.png",
+        "sha256": "85db0220b02bea4259acdcf6b7fa214afca8b7b36d1ed8b22da5390545a697ca"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/poses.json",
+        "sha256": "1626a35e1b78b001f2c23920180e2c62091f6e1d6e95dd5b496ab5f5dd7c2d56"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/geometry.json",
+        "sha256": "41ec844e59ed1ffe815f1e18373f50dead1d0f3dadf535afb15d2ad59dfd3c74"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit/native/l-sit/kinematics.json",
+        "sha256": "6ce61880cd3b57a616830e6019dd4e3e6780b2179a7e8b31028f11e6803528f0"
+      }
+    ]
+  }
+}

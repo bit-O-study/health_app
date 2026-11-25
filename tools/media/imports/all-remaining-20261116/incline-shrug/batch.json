@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "prone-incline-dumbbell-shrug",
+      "original": "prone-incline-dumbbell-shrug",
+      "equipment": "dumbbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "prone-incline-dumbbell-shrug",
+        "sourceUrls": [
+          "https://www.motra.com/exercises/dumbbellChestSupportedShrug"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Chest supported on 45-degree incline bench with feet stationary. Dumbbells hang from straight arms. Elevate shoulders toward ears with slight retraction; pause and lower without elbow flexion or torso movement. 3.5 seconds lift, 1 second pause, 3.5 seconds lower.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

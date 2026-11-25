@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "id": "pilates-criss-cross",
+      "original": "pilates-criss-cross",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "criss-cross",
+        "sourceUrls": [
+          "https://au.physitrack.com/home-exercise-video/pilates-criss-cross-level-2"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Curled torso alternates rotation toward bent knee while opposite leg extends; hands lightly support head with wide elbows; stable pelvis and level feet.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled alternating leg extension."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "bicycle-crunch",
+      "original": "bicycle-crunch",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "criss-cross",
+        "sourceUrls": [
+          "https://au.physitrack.com/home-exercise-video/pilates-criss-cross-level-2"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Curled torso alternates rotation toward bent knee while opposite leg extends; hands lightly support head with wide elbows; stable pelvis and level feet.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second controlled alternating leg extension."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 2,
+  "status": "completed-local"
+}

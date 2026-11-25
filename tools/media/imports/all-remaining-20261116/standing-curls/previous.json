@@ -1,0 +1,54 @@
+{
+  "standing-single-leg-curl": [
+    {
+      "file": "tools/media/motion-guides/standing-single-leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-single-leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-single-leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-single-leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-single-leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-single-leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "standing-leg-curl-machine": [
+    {
+      "file": "tools/media/motion-guides/standing-leg-curl-machine.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-leg-curl-machine.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/standing-leg-curl-machine-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-leg-curl-machine.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-leg-curl-machine-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/standing-leg-curl-machine-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

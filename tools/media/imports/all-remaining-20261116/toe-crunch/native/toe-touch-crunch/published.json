@@ -1,0 +1,18 @@
+{
+  "id": "toe-touch-crunch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "50acd0a264ba8314942defbe05773220cadc3181fb352eecdee8935b9fe9aefd",
+  "rigSourceSha256": "77d2c42336022a9192cf9fd296170963a3bb182f65bb74e0bc4c9f046ca4a326",
+  "videoSha256": "3a9ef854724d0a9998624ecf4a567ae6b60f62caf7f629e90392f2c3837fb30a",
+  "darkVideoSha256": "d120879c4897f44545ab455e2a3452102ce578baa181a35f55ee982f3040343e",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 65176,
+  "darkBytes": 72731,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T06:32:10.349Z"
+}

@@ -1,0 +1,39 @@
+{
+  "cable-leg-curl": {
+    "reviewedAt": "2026-11-16T05:10:33.536Z",
+    "checks": {
+      "exercise": "cable-leg-curl",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left foot on a step; right ankle cuff connected to low pulley. Fixed torso, hands and support leg; cuff attachment and constant cable length checked.",
+      "movement": "Standing unilateral cable knee curl, left foot on step, right ankle cuff attached to a low front pulley. Hands hold frame, torso fixed, knees 180 to 80 degrees; four seconds each direction. Stack follows cable extension."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cable-leg-curl/native/cable-leg-curl/full-sheet.png",
+        "sha256": "96e30cd94e54accc82c51c4e609d50c8ba17a89c3da9dc4108dedb21ec2f8c0f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cable-leg-curl/native/cable-leg-curl/side-sheet.png",
+        "sha256": "0cf06c1c5140622c8b2bf8141cb9638a5021d73c68cc28d486c1613575ad05b4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cable-leg-curl/native/cable-leg-curl/poses.json",
+        "sha256": "6f4342b131c1848d26013cf30a896b6b068990e7cec94493824426992e3f142b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cable-leg-curl/native/cable-leg-curl/geometry.json",
+        "sha256": "4eb4bf211e8699e1146e6ed04c67f0401013197ab996e80800ee9faa6b23f47f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/cable-leg-curl/native/cable-leg-curl/kinematics.json",
+        "sha256": "a50b38970cd6b1606668fd6d3ae181f384e1e3305513022fc60ae0e6680be9d4"
+      }
+    ]
+  }
+}

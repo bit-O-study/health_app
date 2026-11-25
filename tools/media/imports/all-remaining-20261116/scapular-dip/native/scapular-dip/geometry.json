@@ -1,0 +1,155 @@
+[
+  {
+    "frame": 0,
+    "barBodyGap": 0.46542812545776135,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.655353402765801,
+    "cableLength": 0
+  },
+  {
+    "frame": 30,
+    "barBodyGap": 0.4637009414991412,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.6681486666439476,
+    "cableLength": 0
+  },
+  {
+    "frame": 60,
+    "barBodyGap": 0.458985090119868,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 1.3322676295501878e-15,
+    "floorClearance": 3.7349392895986675,
+    "cableLength": 0
+  },
+  {
+    "frame": 90,
+    "barBodyGap": 0.45450333398618026,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.8576887392327492,
+    "cableLength": 0
+  },
+  {
+    "frame": 120,
+    "barBodyGap": 0.45607772808891567,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.003018066298854,
+    "cableLength": 0
+  },
+  {
+    "frame": 150,
+    "barBodyGap": 0.45895892263035387,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.125767515932935,
+    "cableLength": 0
+  },
+  {
+    "frame": 180,
+    "barBodyGap": 0.4619607638186577,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.192558138887656,
+    "cableLength": 0
+  },
+  {
+    "frame": 210,
+    "barBodyGap": 0.462050820829889,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.205353402765802,
+    "cableLength": 0
+  },
+  {
+    "frame": 240,
+    "barBodyGap": 0.462050820829889,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.205353402765802,
+    "cableLength": 0
+  },
+  {
+    "frame": 270,
+    "barBodyGap": 0.462050820829889,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.205353402765802,
+    "cableLength": 0
+  },
+  {
+    "frame": 300,
+    "barBodyGap": 0.4619607638186577,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 1.336885555457667e-15,
+    "floorClearance": 4.192558138887656,
+    "cableLength": 0
+  },
+  {
+    "frame": 330,
+    "barBodyGap": 0.45895892263035387,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.125767515932935,
+    "cableLength": 0
+  },
+  {
+    "frame": 360,
+    "barBodyGap": 0.45607772808891567,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 4.003018066298854,
+    "cableLength": 0
+  },
+  {
+    "frame": 390,
+    "barBodyGap": 0.45450333398618026,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.8576887392327492,
+    "cableLength": 0
+  },
+  {
+    "frame": 420,
+    "barBodyGap": 0.458985090119868,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.7349392895986693,
+    "cableLength": 0
+  },
+  {
+    "frame": 450,
+    "barBodyGap": 0.4637009414991412,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.6681486666439476,
+    "cableLength": 0
+  },
+  {
+    "frame": 480,
+    "barBodyGap": 0.46542812545776135,
+    "gripSpan": 4.8,
+    "torsoTilt": 0,
+    "gripError": 4.440892098500626e-16,
+    "floorClearance": 3.655353402765801,
+    "cableLength": 0
+  }
+]

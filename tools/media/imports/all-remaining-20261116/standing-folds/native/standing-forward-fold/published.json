@@ -1,0 +1,18 @@
+{
+  "id": "standing-forward-fold",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "0c7ed88a8100e022a0db8ad548ea74783af9c3436286f4f1a38025b3b237901e",
+  "rigSourceSha256": "12d2e7406a85c87648a3885618445f7b89fca748491d61d5b53390d8ff8ced01",
+  "videoSha256": "b3a66f68e299522ab22ad22cba568e0caefc92c64864138447a04475fdae1489",
+  "darkVideoSha256": "48fa04fe5ae5065609c8f8d349a51606c6d03056080ebf86c6ae0c74b0cf5136",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15499,
+  "darkBytes": 15457,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T05:52:54.796Z"
+}

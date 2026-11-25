@@ -1,0 +1,15 @@
+{
+  "id": "single-leg-extension",
+  "equipment": "machine",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "single-leg-extension-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://hawkesphysiotherapy.co.uk/exercise/seated-leg-extensions/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T01:15:20.287Z"
+}

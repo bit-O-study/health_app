@@ -1,0 +1,12 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "kneeRange": [
+    90.00000000000001,
+    180
+  ],
+  "maxStep": 0.10584161409928204,
+  "torsoDrift": 0.02605600613978254,
+  "oppositeArmLeg": true
+}

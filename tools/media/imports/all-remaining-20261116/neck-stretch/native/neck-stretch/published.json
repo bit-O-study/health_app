@@ -1,0 +1,18 @@
+{
+  "id": "neck-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "4eae0b416f5b4316a8b51095849ebbabbf631ce45c61ff5b2c78b882a226d61f",
+  "rigSourceSha256": "4e60e762cdb73a2f5b5d0863236d272ddcd9553d729148e5332cafc155431816",
+  "videoSha256": "375ca3ef11444a2d4affaf92d8c4dad2f225c32640ebcf0a82645bf069592957",
+  "darkVideoSha256": "62aeb07d8ba9f141eb1ac221f010b681d6b797b099896916fc605d6461f5f05f",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 18692,
+  "darkBytes": 18098,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T03:14:06.765Z"
+}

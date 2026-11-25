@@ -1,0 +1,14 @@
+{
+  "eccentric-chin-up": {
+    "equipment": "bodyweight",
+    "url": "https://www.puregym.com/exercises/back/pull-up/chin-ups/"
+  },
+  "lat-pulldown-2": {
+    "equipment": "cable",
+    "url": "https://www.muscleandstrength.com/exercises/lat-pull-down.html"
+  },
+  "smith-machine-bench-press": {
+    "equipment": "smith",
+    "url": "https://www.muscleandstrength.com/node/3827"
+  }
+}

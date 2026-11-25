@@ -1,0 +1,18 @@
+{
+  "id": "top-half-leg-extension",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "166ceb8b9f0979655962e5fa775a82a466c0724421cfe6520a417d354696522b",
+  "rigSourceSha256": "f741e4581ef3c2aabe76734abb93dbe7c4ed5dcaf9030a99a44f1356f356b591",
+  "videoSha256": "58651bade34d006329b8dc7e6f048e81580deb259135a7e6289871850c5e848e",
+  "darkVideoSha256": "365e01bc7cd8862f818af672a95a81c84eed4ae19826b34a01a3c19c595ba5d1",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 88503,
+  "darkBytes": 77299,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T01:03:44.012Z"
+}

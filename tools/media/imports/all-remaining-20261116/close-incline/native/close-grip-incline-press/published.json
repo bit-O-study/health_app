@@ -1,0 +1,18 @@
+{
+  "id": "close-grip-incline-press",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7db062d915f0f45f8e1dba6544e79cb5e8e68aa540b281d81f5e97dd93ef4bdf",
+  "rigSourceSha256": "3f1642d490a64a991853572eff03f97356856b96a486bba7b53e0ecff991982c",
+  "videoSha256": "239e175a03d6b9eccea4aeae9ffca6735b7ba2fc5eac69c4d70317cd1b1d3c31",
+  "darkVideoSha256": "ee61d3f2209f8a28081c6a8589c30617b96050f33e375a6517e0070a4e918752",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 123463,
+  "darkBytes": 108551,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:12:02.362Z"
+}

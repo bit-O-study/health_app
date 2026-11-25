@@ -1,0 +1,24 @@
+{
+  "createdAt": "2026-11-15T13:21:41.665Z",
+  "entries": [
+    {
+      "id": "pause-hip-thrust",
+      "status": "registered-local",
+      "recipe": {
+        "family": "pause-hip-thrust",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/glutes/hip-thrusts/barbell-hip-thrust/"
+        ],
+        "sourcesCheckedAt": "2026-11-15",
+        "criteria": "Upper back supported on bench, feet planted, padded bar at hip crease, hands secure. Demonstration timing: 3 seconds ascent, 2 seconds top hold, 3 seconds descent. Duration is illustrative, not prescribed by source.",
+        "limitations": [
+          "Procedural demonstration; contact samples do not constitute full collision or biomechanical validation.",
+          "3-2-3 timing chosen for demonstration, not prescribed by the source."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "updatedAt": "2026-11-15T13:29:14.347Z"
+}

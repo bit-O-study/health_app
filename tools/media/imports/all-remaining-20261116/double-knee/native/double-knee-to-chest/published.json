@@ -1,0 +1,18 @@
+{
+  "id": "double-knee-to-chest",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "19aedb129ee88ca8df0c832be5eb18a35ffe50325a19aeedb43334d7cfc69bfc",
+  "rigSourceSha256": "981e3d000bd3a35f8c22d2c8083c61919da6407e20638809e580662603881879",
+  "videoSha256": "8debe42fd57d027343704dcb9e465497c669b2e3d307c01e23f30aaebc27d227",
+  "darkVideoSha256": "13b8034abb06f6021b671334cd79c02c7f8dd6d828caa7aac1064c08625d1a02",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16056,
+  "darkBytes": 15336,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T00:32:12.033Z"
+}

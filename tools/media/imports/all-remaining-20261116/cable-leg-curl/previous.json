@@ -1,0 +1,28 @@
+{
+  "cable-leg-curl": [
+    {
+      "file": "tools/media/motion-guides/cable-leg-curl.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-leg-curl.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/cable-leg-curl-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-leg-curl.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-leg-curl-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/cable-leg-curl-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

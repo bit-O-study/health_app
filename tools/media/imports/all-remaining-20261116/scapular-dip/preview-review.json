@@ -1,0 +1,39 @@
+{
+  "scapular-dip": {
+    "reviewedAt": "2026-11-16T08:17:01.985Z",
+    "checks": {
+      "exercise": "scapular-dip",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands remain fixed to the parallel bars.",
+      "feet": "Straight arms support the body while shoulder elevation and depression lower and raise the torso; feet remain clear of the floor.",
+      "movement": "Keep arms straight and hands fixed on parallel bars. Depress shoulder girdle to raise body, pause, then return slowly. Legs remain slightly forward without swinging."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/full-sheet.png",
+        "sha256": "4a79fc01e919ee90a5c68e483eadf6640d96d815ff8916003bc4561cd0065f50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/side-sheet.png",
+        "sha256": "f0a524df2a88c1cffd76d47b4b894e1a04b0fc4d73aa54592c1b20cc11a50ce8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/poses.json",
+        "sha256": "5341172f3be785f45f18dbbc023b38b7d1b495866aad824dd6e62d3a2ea51fde"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/geometry.json",
+        "sha256": "d2fbb4d9d6e9c19244162b3becf4bc1c5e6eeec89e7288b7dbbedc1f06ae0a27"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/kinematics.json",
+        "sha256": "b7d22a6998db5e3158f17a9bb97d2c70a2583aea00d0f6d95716974c7ecf6563"
+      }
+    ]
+  }
+}

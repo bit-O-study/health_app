@@ -1,0 +1,15 @@
+{
+  "id": "medium-grip-pull-up",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "medium-grip-pull-up-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.muscleandfitness.com/workouts/back-exercises/the-pull-up-setup-secrets-that-build-more-back-and-biceps-strength/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T06:26:10.522Z"
+}

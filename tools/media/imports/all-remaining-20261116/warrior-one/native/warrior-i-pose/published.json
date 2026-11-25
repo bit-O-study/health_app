@@ -1,0 +1,18 @@
+{
+  "id": "warrior-i-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1773e9db469c4192779f75e0bf0398436accd90c3ede7c9a4af1b66026e517ea",
+  "rigSourceSha256": "acc27031fbf8c92bebe8cb29edb0ab69ba12a02e7355bd0c5b63dafe5024feb4",
+  "videoSha256": "ce5211a3957cbaecc4830ae7ea8c9008045bed52d5c49e4ecab0390d6b5f8865",
+  "darkVideoSha256": "699c05ccd44778ced47acd51525c59597079044cd5527567929f4cc86e9eed28",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 15259,
+  "darkBytes": 15017,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:40:52.789Z"
+}

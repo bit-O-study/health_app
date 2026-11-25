@@ -1,0 +1,18 @@
+{
+  "id": "hanging-leg-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1199539d5da79f22ee5c9ae14025a35ce8d1470a6b7546d5922cf25a7514d332",
+  "rigSourceSha256": "491a782ac7140e0e3c371e97ebc9b2db2e2152c53b28f8691d390f3d22d737e7",
+  "videoSha256": "6a77a2497b7f6db3373cde5d5dc2ce99ff979fcada771880232109fb3a6124f8",
+  "darkVideoSha256": "605d510f088adf4ff899a01f0f580ead883e1d5ececcd99f8a9327bafaea7faa",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 73122,
+  "darkBytes": 68905,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:33:43.318Z"
+}

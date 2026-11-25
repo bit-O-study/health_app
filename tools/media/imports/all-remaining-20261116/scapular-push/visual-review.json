@@ -1,0 +1,75 @@
+{
+  "scapular-push-up": {
+    "reviewedAt": "2026-11-24T06:55:34.875Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "scapular-push-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight elbows are maintained while shoulder girdle protracts and retracts; hands remain fixed.",
+      "feet": "Both feet stay fixed with toes supporting the straight plank posture.",
+      "movement": "Keep elbows straight in high plank; let chest lower through scapular retraction, then press floor away through protraction with stable hands and toes."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second scapular push-up demonstration."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/final.jpg",
+        "sha256": "f72fd4acc16d69bfd6b304c31cb1a980cf66bea6d0c16c0f0d8c5da105281dff"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/final-dark.jpg",
+        "sha256": "70084d45c243d4581e56cc4f7d1a75f83e64dd487be3e209153703fd19e091ae"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/full-sheet.png",
+        "sha256": "dedc38d76ec89ecfef384deb2ad2a5d5449e6f5139e4272c0255caeb2692477d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/side-sheet.png",
+        "sha256": "7a7e089d190428179ae941bf6687d0a059b27d88a1abc18662ee589ad9f5842a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/verification.json",
+        "sha256": "f8d100977da5717612cb7833f604487003464f1fbba47bfeaa7ed7db264a9a45"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/geometry.json",
+        "sha256": "a9a68cee90d4d992164e0ef306ac6c92ae141e89b920e9b605302e649144abec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/kinematics.json",
+        "sha256": "f1cf823e40f022d426982b7a4c738f03af00aa24a503b77d3119cd1c655b6ae7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/provenance.json",
+        "sha256": "da1241c5295c431f7894e415de37a8beec60f7c4d801be5d8fea40239721867b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/scapular-push-up-alpha.webm",
+        "sha256": "bd851f86e5df5db57c895f5b092c90501747e8df1adc02b07f9942110e01dd2e",
+        "bytes": 137959,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/scapular-push-up.mp4",
+        "sha256": "621d5bccb855e61834f2ad71d5a39cd72ef2b8b2e7a03975c3f87576f0e6ccad",
+        "bytes": 59295,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/scapular-push/native/scapular-push-up/scapular-push-up-dark.mp4",
+        "sha256": "3e46c430fa017daeaaef1d0ffeb74199d6eb5df52681cf8c75f4f7f0ce3964f0",
+        "bytes": 61808,
+        "decode": "passed"
+      }
+    ]
+  }
+}

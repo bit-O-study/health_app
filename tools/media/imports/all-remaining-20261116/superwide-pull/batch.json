@@ -1,0 +1,27 @@
+{
+  "entries": [
+    {
+      "id": "super-wide-grip-pulldown",
+      "original": "wide-grip-lat-pulldown",
+      "equipment": "cable",
+      "halfWidth": 4.8,
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "super-wide-grip-pulldown",
+        "sourceUrls": [
+          "https://www.puregym.com/exercises/back/lat-exercises/wide-grip-lat-pulldown/"
+        ],
+        "criteria": "Extra-wide pronated grip, twice the shoulder-width neutral handle span; fixed seated torso, 3.5 seconds pull, 1 second contracted pause, 3.5 seconds return. Illustrative comfortable range, not a recommendation to force grip width.",
+        "sourcesCheckedAt": "2026-11-16",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

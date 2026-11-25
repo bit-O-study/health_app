@@ -1,0 +1,28 @@
+{
+  "heel-touch": [
+    {
+      "file": "tools/media/motion-guides/heel-touch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/heel-touch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/heel-touch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/heel-touch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/heel-touch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/heel-touch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

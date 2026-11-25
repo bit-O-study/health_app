@@ -1,0 +1,221 @@
+{
+  "isometric-squat-hold": {
+    "reviewedAt": "2026-11-16T00:37:59.260Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "isometric-squat-hold",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Eight-second maintained bottom position, without animated entry or exit."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/final.jpg",
+        "sha256": "deeafceda44fcc30699b4c48986b64b29f4f4529169567f391adb3774c4698d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/final-dark.jpg",
+        "sha256": "9557a3df39ee300be8cc3021be3a79975ebb346cdb80379eccc05391ad0e22c7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/full-sheet.png",
+        "sha256": "0907fab8b174e5ebe2191a04187ce24adf9454e7efa4824d46f207cc56586f6b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/side-sheet.png",
+        "sha256": "ccee56936b1512b779ed26b1a9faee83b851ade94c80aa17d40aedbb3f083fce"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/verification.json",
+        "sha256": "849de8436653085e6dfe808107e148da531a167148e312b0f1ce2833b8d5dc04"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/geometry.json",
+        "sha256": "e03868a74389c42c64d4d759d46878f21b5380539c3a35f097125ffb807d5ec7"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/kinematics.json",
+        "sha256": "d6c088698070135c4d1d4c645205546f6a7c12fc9a0cfc6614e47625090f1856"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/provenance.json",
+        "sha256": "9ac13de2542467b15eea1975ba0bba3c54da076d5bcb57c5a0a27844a4f8951f"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/isometric-squat-hold-alpha.webm",
+        "sha256": "688527a2ead32824c9007cb0f8ad7c702369e2993ff49913079b07a35d1a1918",
+        "bytes": 34056,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/isometric-squat-hold.mp4",
+        "sha256": "3660969e9fb8d371c0641d6233ef0f542d49434d9ab1d3bb0eef433428d963bf",
+        "bytes": 14125,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-squat-hold/isometric-squat-hold-dark.mp4",
+        "sha256": "9cad36f0fbbfc0451036a57e5ae253bfa154e41f8e0bf6e9d92bfa9126e003c8",
+        "bytes": 13434,
+        "decode": "passed"
+      }
+    ]
+  },
+  "isometric-bench-hold": {
+    "reviewedAt": "2026-11-16T00:37:59.288Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "isometric-bench-hold",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Eight-second maintained bottom position, without animated entry or exit."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/final.jpg",
+        "sha256": "6332bb2093115b6dcb7110ec5e29348e0227720ee179b3b3dfd1b5a6ec168421"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/final-dark.jpg",
+        "sha256": "3fbf6ad7062786f8adb4e33f0968d0616d1fa787d2cf89651776a510ac8f1f9c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/full-sheet.png",
+        "sha256": "d96976744b2b2fe39406f9e834eaeb9f8aca5157e0568ce5fa11463614f887c5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/side-sheet.png",
+        "sha256": "732aff2938dbc0e4208584266875807f04c85be67acc413f9e0730807a851aa6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/verification.json",
+        "sha256": "5c9ccb6b7cc68a4075277985e9736947fb12cdaa3537f7edd1b2216ae2195591"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/geometry.json",
+        "sha256": "eddace0b9293c73665d52354cc67945c134ba31c01c10aa5c859b63475ca20db"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/kinematics.json",
+        "sha256": "152873c239a36b0110c981dd492a85098fb18c476cc6cf0921d14d95453d73f9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/provenance.json",
+        "sha256": "c976aa6b62028504e75053cbbd359c8c69405e380e8f2c2d7636476fb6ff4afb"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/isometric-bench-hold-alpha.webm",
+        "sha256": "a11cd52e6088f6d02f9acd8877be57adefee870f5f7428797e7d3ff19c3de4a7",
+        "bytes": 41887,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/isometric-bench-hold.mp4",
+        "sha256": "3fe0f8eec6676979f19f2536e36fedd11e62c575ca6a4b382b65d21d6b9ef8a4",
+        "bytes": 17392,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/isometric-bench-hold/isometric-bench-hold-dark.mp4",
+        "sha256": "fc111971ae73e04957c43c65ed6e052dcdf30050fa32df75cd914fd3646ab0d3",
+        "bytes": 17085,
+        "decode": "passed"
+      }
+    ]
+  },
+  "eccentric-bench-press": {
+    "reviewedAt": "2026-11-16T00:37:59.310Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "eccentric-bench-press",
+      "equipment": "barbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Both feet retain their planted support positions.",
+      "movement": "Three-second controlled lowering, one-second bottom pause, one-second press, three-second top pause; illustrative timing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/final.jpg",
+        "sha256": "cf49f0797e5fe3f50bcf708f2593c49aa864f7f34544225142ff21126729c65a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/final-dark.jpg",
+        "sha256": "bf78acfd323e7bf75229cfaa9d2540b8ec0b8e1808be71344039874dc4ef40ef"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/full-sheet.png",
+        "sha256": "9890f7081f1d6b5abc873a9c924af133cda6fd74387a7e562e9fcbc0ad435036"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/side-sheet.png",
+        "sha256": "7f0f261ccd13fa3666e19a60d13a1a1c30a36b5de1d2ffa216f8bde6f817fa64"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/verification.json",
+        "sha256": "906921b89ab583458839afadb88654b595ea8fbecc4f60177230457ea6e549f0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/geometry.json",
+        "sha256": "923b014d9b72c2abab409b759a525455b917cf7f1edcb3abf75bbffdf02f4a7c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/kinematics.json",
+        "sha256": "437b3bb9bf5133ee2615aa34ebe1381ab070b3b8b3e86029299a5b2c255f4019"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/provenance.json",
+        "sha256": "7c12b931d9449810bcd8106db061e1a82a3fb489a5c07089b18d92c662900aba"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/eccentric-bench-press-alpha.webm",
+        "sha256": "780845dce18377c71c9b9922e4dbd86b20d939aaec1440d3168d64496035629a",
+        "bytes": 190423,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/eccentric-bench-press.mp4",
+        "sha256": "5a982dcd615e744f5bb5dffc3b0ae357591765851cb354c5539e37d256d611ad",
+        "bytes": 90542,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/barbell-controls/native/eccentric-bench-press/eccentric-bench-press-dark.mp4",
+        "sha256": "9132c436bc491ebe0cdcc84a70c44eceef47efcc21111c8221753585e939e563",
+        "bytes": 80348,
+        "decode": "passed"
+      }
+    ]
+  }
+}

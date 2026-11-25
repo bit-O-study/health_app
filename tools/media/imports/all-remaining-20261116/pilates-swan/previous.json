@@ -1,0 +1,28 @@
+{
+  "pilates-swan": [
+    {
+      "file": "tools/media/motion-guides/pilates-swan.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-swan.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-swan-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-swan.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-swan-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-swan-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

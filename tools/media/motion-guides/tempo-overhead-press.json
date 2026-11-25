@@ -1,0 +1,15 @@
+{
+  "id": "tempo-overhead-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "tempo-overhead-press-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://www.strengthlog.com/overhead-press/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T01:27:14.844Z"
+}

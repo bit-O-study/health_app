@@ -1,0 +1,76 @@
+{
+  "front-lever": {
+    "reviewedAt": "2026-11-24T07:25:09.365Z",
+    "checks": {
+      "exercise": "front-lever",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Closed hands contact the bar, straight arms support the suspended body.",
+      "feet": "Straight legs remain horizontal with torso; entire body clear of floor.",
+      "movement": "Face-up horizontal straight-body lever suspended beneath a bar with straight arms. Entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static straight-bar lever hold; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/front-lever/full-sheet.png",
+        "sha256": "3de7cc1e826ecd921d80ef425a6fb25668a3e846434f1e529ec53d717b6a68bd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/front-lever/side-sheet.png",
+        "sha256": "853ee7b2a983f19c1d84039b737ed8801095a337e0e6bbd7a497703e120bafd6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/front-lever/poses.json",
+        "sha256": "18a4ef84bb23cd311874331edefa1fcdf0baf135f2652579e0d750f80188b01d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/front-lever/geometry.json",
+        "sha256": "676fee25d277593de7e8c215b58f5174ce894a134f0286f76a4e8566d4cedd7b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/front-lever/kinematics.json",
+        "sha256": "61d36ff6594849326a9c40c91b278bb3ec1b55ded127edbb20481661e43ad7f2"
+      }
+    ]
+  },
+  "back-lever": {
+    "reviewedAt": "2026-11-24T07:25:09.369Z",
+    "checks": {
+      "exercise": "back-lever",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Closed hands contact the bar, straight arms support the suspended body.",
+      "feet": "Straight legs remain horizontal with torso; entire body clear of floor.",
+      "movement": "Face-down horizontal straight-body lever suspended beneath a bar with straight arms. Entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static straight-bar lever hold; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/back-lever/full-sheet.png",
+        "sha256": "ce15f5a326b69630f217ecb082b0ac1eb3175b9b3d4bacb6b1f9d2b7398db4f6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/back-lever/side-sheet.png",
+        "sha256": "e67824042752f0e7e469f5eebe7e21cdcddc80accd6ab88d5df2571c43e0d544"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/back-lever/poses.json",
+        "sha256": "43771380215a46ce6950e140bd2f912785ff6481fd8b3c0569e4ec96f588c2d0"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/back-lever/geometry.json",
+        "sha256": "d1567b212417879fcc5b4561747de9b3be3f0a15d824b5293e937ece9e7cd12d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/levers/native/back-lever/kinematics.json",
+        "sha256": "9c679c49962f7bafa6fb8ecb1f9a71c413876952959aaca591f1a3daadd48b53"
+      }
+    ]
+  }
+}

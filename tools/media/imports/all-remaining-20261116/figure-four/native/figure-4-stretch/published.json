@@ -1,0 +1,18 @@
+{
+  "id": "figure-4-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f2aac8c949b8ab5252bec973483a7e417dd46aadcad344a045cf6be0c16e3662",
+  "rigSourceSha256": "01716e80646293d020c6269c26d691d1b43eea44ebdb3c026c518a862a7a3e9a",
+  "videoSha256": "cd38495be4c687cc0025da0528779416734f0438d3764cd6c49a9ee85270e38f",
+  "darkVideoSha256": "dda030c6aa72b65b54306c6eafcefd3037e6d5d491f3e5c5901faec6f579c154",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16287,
+  "darkBytes": 16044,
+  "decode": "passed",
+  "verifiedAt": "2026-11-18T03:45:47.111Z"
+}

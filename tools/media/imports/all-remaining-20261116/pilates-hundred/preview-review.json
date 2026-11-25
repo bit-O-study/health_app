@@ -1,0 +1,39 @@
+{
+  "pilates-hundred": {
+    "reviewedAt": "2026-11-24T05:06:04.739Z",
+    "checks": {
+      "exercise": "pilates-hundred",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Long arms pulse beside hips with palms down.",
+      "feet": "Both legs remain straight and diagonal with a stable curled torso.",
+      "movement": "Curled head and chest, straight diagonal legs held still; long arms pulse by sides with palms down."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight seconds demonstrates ten arm pulses, not the full hundred."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/full-sheet.png",
+        "sha256": "3531f9a72f02cada0df8e49e6378146d1fd67e25dabb5b6bd6f6c881feab2d28"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/side-sheet.png",
+        "sha256": "475e282f2288081779d39000051749015da85402818b41af7a3462fecd800296"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/poses.json",
+        "sha256": "f13466b33784b5af0aac03d81542344cc09414582cca8cb249394152690d4f9c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/geometry.json",
+        "sha256": "74267886f96a427db8aad3425c6a69640b19ed47da9e5f4f9b354e62965ccdd6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pilates-hundred/native/pilates-hundred/kinematics.json",
+        "sha256": "771b620a5dbaf351a269bb19d424f25eaa19b1d4de6c68608ab8a4bfccf2b00b"
+      }
+    ]
+  }
+}

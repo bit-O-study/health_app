@@ -1,0 +1,18 @@
+{
+  "id": "scapular-dip",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "7339f7486677b793b8194055c06c41f62157977110e54ba1e18992a5bd186eec",
+  "rigSourceSha256": "1200b2afef418f0e8d4d312dbfddd9bcb7385430e5e431fa313a458005d186e9",
+  "videoSha256": "6fdbe78f4118d751dee9b79fb741207d95e6f456c64e68f3ceea7e52959fc8ef",
+  "darkVideoSha256": "145a0973471e60a69ac807f71190a14bfeb63fa2ff9691c66076ee6b77d184c7",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 44022,
+  "darkBytes": 45905,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T08:18:49.171Z"
+}

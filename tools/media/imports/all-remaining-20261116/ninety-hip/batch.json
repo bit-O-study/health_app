@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "90-90-hip-stretch",
+      "original": "90-90-hip-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "ninety-hip",
+        "sourceUrls": [
+          "https://health.clevelandclinic.org/90-90-stretch"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Seated 90/90 hip stretch, front hip externally rotated and side hip internally rotated, knees bent 90 degrees, upright torso and supported legs.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second illustrative hold; sampled foot and pelvis clearance remains below 0.15 model units, not exact soft-tissue contact."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

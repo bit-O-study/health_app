@@ -1,0 +1,28 @@
+{
+  "child-s-pose": [
+    {
+      "file": "tools/media/motion-guides/child-s-pose.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/child-s-pose.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/child-s-pose-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/child-s-pose.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/child-s-pose-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/child-s-pose-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

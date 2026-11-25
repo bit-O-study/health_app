@@ -1,0 +1,39 @@
+{
+  "boat-to-low-boat": {
+    "reviewedAt": "2026-11-24T01:27:54.050Z",
+    "checks": {
+      "exercise": "boat-to-low-boat",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extend parallel to floor, palms facing inward.",
+      "feet": "Straight legs lower from 45 to 15 degrees while torso reclines; pelvis stays supported.",
+      "movement": "Controlled high-to-low boat transition, straight legs, arms horizontal, balanced pelvic support; return to high boat."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second controlled transition is illustrative, not a prescribed training tempo."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-boat/native/boat-to-low-boat/full-sheet.png",
+        "sha256": "333326d60d557990b201f74afcff4b4360ae2943834a1455e1b3e745cf90caec"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-boat/native/boat-to-low-boat/side-sheet.png",
+        "sha256": "ee14840d1006e56aea30b4858db1102799931889f6f236d480d831244fd7ec1b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-boat/native/boat-to-low-boat/poses.json",
+        "sha256": "dd02f40b4f83df270c47a251bddabaf95be63d3ec3555c0767908ed83ce8193c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-boat/native/boat-to-low-boat/geometry.json",
+        "sha256": "0c98d82d61112213e0689a360164c79d602ef6189a59ce4e246d9b09d0d6b786"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/low-boat/native/boat-to-low-boat/kinematics.json",
+        "sha256": "3f027e2b11ef3952da50ea828c7e9cb5e54c006a767b7b8d5eec964416e63ff7"
+      }
+    ]
+  }
+}

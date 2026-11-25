@@ -1,0 +1,54 @@
+{
+  "superman": [
+    {
+      "file": "tools/media/motion-guides/superman.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/superman.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/superman-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "superman-pull": [
+    {
+      "file": "tools/media/motion-guides/superman-pull.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/superman-pull.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/superman-pull-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-pull.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-pull-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/superman-pull-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

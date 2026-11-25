@@ -1,0 +1,75 @@
+{
+  "happy-baby-pose": {
+    "reviewedAt": "2026-11-24T00:52:05.208Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "happy-baby-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands hold outer edges of feet.",
+      "feet": "Both shins vertical above widened knees; flexed soles face ceiling.",
+      "movement": "Supine happy baby hold: knees wider than torso toward armpits, shins vertical, soles face ceiling, hands on outside edges of feet, relaxed supported head and back."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/final.jpg",
+        "sha256": "56dc3c702d14dc0cd791549ec15fe1b5f827b456c27bca0b0ba8d232f50fd906"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/final-dark.jpg",
+        "sha256": "2b31bdb0c3345e224c43caa90bbf96d1c1cf861a3bd6ac211f4917cc620c3b2a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/full-sheet.png",
+        "sha256": "2455bc63769492aa3b7dcc16802d9682dbbac8c6e0fb9276009cc9f8e30ced5d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/side-sheet.png",
+        "sha256": "536794e509259dd1777e5700a934fc863499f113da3440ea9cf0a6cefe64e433"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/verification.json",
+        "sha256": "a4a8664a51cbd86f8b872c7664c08745c0b95bb9104916c4f2593eec683df458"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/geometry.json",
+        "sha256": "620f27430dad665fe30015e574d0b5083c5084e105877837f5e40a32bd2e01b1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/kinematics.json",
+        "sha256": "73bd148e2d8369ade8546bb00a988c4ef347920dc0e1555eb15843a7cd811c25"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/provenance.json",
+        "sha256": "e8b5e0fb057834e5a8ed493c9530f282cb13d42c0a63e14bb147ccb5fca4d7d6"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/happy-baby-pose-alpha.webm",
+        "sha256": "0e15b5774cd9273e0b784ab27ff9855a404a3870c3e19b113f9315b4d43d0e07",
+        "bytes": 38023,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/happy-baby-pose.mp4",
+        "sha256": "6b0ee718f4345d85f0858301d59dbe560bf19abeeadce29f87702e0b300ed15b",
+        "bytes": 16001,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/happy-baby/native/happy-baby-pose/happy-baby-pose-dark.mp4",
+        "sha256": "0a2e24b5579f93d6be49825887d82cdec6efa93ff85cd684adfa42dc2540aa50",
+        "bytes": 15289,
+        "decode": "passed"
+      }
+    ]
+  }
+}

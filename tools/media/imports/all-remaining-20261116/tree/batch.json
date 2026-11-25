@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "tree-pose",
+      "original": "tree-pose",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "tree",
+        "sourceUrls": [
+          "https://www.yogajournal.com/poses/tree-pose-2?scope=anon"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Upright single-leg balance, raised sole on inner thigh above knee, open knee, level pelvis and arms overhead.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

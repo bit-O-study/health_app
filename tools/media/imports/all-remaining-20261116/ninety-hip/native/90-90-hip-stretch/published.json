@@ -1,0 +1,18 @@
+{
+  "id": "90-90-hip-stretch",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "6f72d521f4a0b21b8e64d2e132d72225bc96442b9bb5e0a2e7b81e41781e5011",
+  "rigSourceSha256": "755f2bf8d4ac0784965c43425cd53a225b9d254553ad35c25dca9d20e4e00054",
+  "videoSha256": "0fbee61fe6d29588f7b183a2c2c370f0d5362b82aa279ed5d224333a02022ac9",
+  "darkVideoSha256": "e0cae40635d14335089ba07bbcdf8decb5369270a222a39086ebf264e4c62a38",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 17598,
+  "darkBytes": 16979,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T01:52:27.562Z"
+}

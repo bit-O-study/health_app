@@ -1,0 +1,54 @@
+{
+  "piriformis-stretch": [
+    {
+      "file": "tools/media/motion-guides/piriformis-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/piriformis-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/piriformis-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/piriformis-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/piriformis-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/piriformis-stretch-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "lying-glute-stretch": [
+    {
+      "file": "tools/media/motion-guides/lying-glute-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-glute-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/lying-glute-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-glute-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-glute-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lying-glute-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

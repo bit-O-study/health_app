@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 9.305364597889227e-16,
+  "maxStep": 0.05791378246792444,
+  "restFootDrift": 0,
+  "kneeDegrees": [
+    80.00000000000001,
+    164.99999999999997
+  ],
+  "supportSamples": 17,
+  "timing": "Left leg demonstrated; right foot remains on support platform. Three-and-a-half seconds each way and one-second contracted pause. Switch sides for the other leg."
+}

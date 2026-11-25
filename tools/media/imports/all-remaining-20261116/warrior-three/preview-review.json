@@ -1,0 +1,39 @@
+{
+  "warrior-iii-pose": {
+    "reviewedAt": "2026-11-24T02:44:30.153Z",
+    "checks": {
+      "exercise": "warrior-iii-pose",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both straight arms reach forward alongside head with palms facing inward.",
+      "feet": "Standing foot grounded, opposite leg straight and horizontal, pelvis level.",
+      "movement": "Single-leg balance with torso and raised leg near horizontal, level hips, standing foot grounded, both arms reaching forward and palms inward."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/full-sheet.png",
+        "sha256": "778ca9a32f256a7d4b064db4fcdde3165e2c2d147ae8e85582c4a6158c42eef6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/side-sheet.png",
+        "sha256": "b44373c531a2efc4812a591d9c5d1d3b1d9440a507fdff165d6ea14afbbbd2f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/poses.json",
+        "sha256": "0c9235c2cd240063676fc8e5421ef934ecbc9e29dabea776fe15523bde5ffa7a"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/geometry.json",
+        "sha256": "f641d65bc62121c6637f0e936672755593d3e785cef5a92c13222ae1b7bd7ed3"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/warrior-three/native/warrior-iii-pose/kinematics.json",
+        "sha256": "6c2f2b90ebecd1debe2ec987cdc985d74c9c6666807e6e3f9c90c90b6ff0fb74"
+      }
+    ]
+  }
+}

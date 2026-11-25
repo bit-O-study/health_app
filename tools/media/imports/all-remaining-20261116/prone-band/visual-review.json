@@ -1,0 +1,75 @@
+{
+  "prone-band-pull-apart": {
+    "reviewedAt": "2026-11-16T08:01:41.230Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "prone-band-pull-apart",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Closed hands keep contact with the resistance band while arms separate overhead.",
+      "feet": "Prone torso and legs remain stable while straight arms separate into a small Y and stretch the band.",
+      "movement": "Lie prone holding a resistance band overhead. Keep arms long and torso steady; separate hands laterally into a small Y, pause, return with tension. Band remains attached to both closed grips and clear of the head. 3.5 seconds pull, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/final.jpg",
+        "sha256": "d17c0307e113d545049ee3fe42f73b0641daebb7d3af2fdc2b5cb267f36fe056"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/final-dark.jpg",
+        "sha256": "5f0c147425b54bc1ab51a4cc0d9ee04e4e11f85892a7fde948bbffb6753c9069"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/full-sheet.png",
+        "sha256": "f9b29fa0417aa76984cbef70452e1e91e33f94b7e1011448d2d9e202899907af"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/side-sheet.png",
+        "sha256": "c590b05cea5eb1f484cc22b4615a14790eb611191ec426c329ca1afdae65b00d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/verification.json",
+        "sha256": "a64d5aaf45fb3b69320535bca5367aaf23faec1bd751b2091b71b20b70b541e6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/geometry.json",
+        "sha256": "a0b26df8f16f6870c36883a53ad063873f7e991a801624437f3d6795470a595b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/kinematics.json",
+        "sha256": "1ea77b223c889ebb0ea3e09d6fdaf256b7356f0bccffb800dca71d2c53af7d6d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/provenance.json",
+        "sha256": "7140d1a95539a98ab5a39a204f4239748d516d80dbe7bd8ee9af84d8e73ebde7"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/prone-band-pull-apart-alpha.webm",
+        "sha256": "514d10ce907382429afc501ca1df362bec34c5a75ed7dc595add4edb4b08e37e",
+        "bytes": 104627,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/prone-band-pull-apart.mp4",
+        "sha256": "d700f194e6dc8a95027daa645ec13c176d40289d1906b0c0f49ddc875c49bedf",
+        "bytes": 40923,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/prone-band/native/prone-band-pull-apart/prone-band-pull-apart-dark.mp4",
+        "sha256": "9eda6feadaf80c71bf0c9a8507c131da0cef51f33c5199a5e6c88ae4c7a5e7a9",
+        "bytes": 44952,
+        "decode": "passed"
+      }
+    ]
+  }
+}

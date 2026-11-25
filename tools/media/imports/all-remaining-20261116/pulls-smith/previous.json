@@ -1,0 +1,86 @@
+{
+  "eccentric-chin-up": [
+    {
+      "file": "tools/media/motion-guides/eccentric-chin-up.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-chin-up.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/eccentric-chin-up-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-chin-up.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-chin-up-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/eccentric-chin-up-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "lat-pulldown-2": [
+    {
+      "file": "tools/media/motion-guides/lat-pulldown-2.json",
+      "backup": "tools/media/imports/all-remaining-20261116/pulls-smith/backup/lat-pulldown-2-0.json",
+      "sha256": "32b55d0663844f0614e8b0a3385f89dbd384065a3606d1df3b83ad55af70612f"
+    },
+    {
+      "file": "tools/media/motion-guides/lat-pulldown-2.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/pulls-smith/backup/lat-pulldown-2-1.jpg",
+      "sha256": "01ca44df630deccccecab07b00e4b2b7e8efafaa68df1a1bfc24f9a9e899c062"
+    },
+    {
+      "file": "tools/media/motion-guides/lat-pulldown-2-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-2.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/pulls-smith/backup/lat-pulldown-2-3.mp4",
+      "sha256": "442fb6d45e742c06459ed4aff72b292ddcf5a4ae55d4f7f54b630d2f86a81dee"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-2-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/lat-pulldown-2-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "smith-machine-bench-press": [
+    {
+      "file": "tools/media/motion-guides/smith-machine-bench-press.json",
+      "backup": "tools/media/imports/all-remaining-20261116/pulls-smith/backup/smith-machine-bench-press-0.json",
+      "sha256": "c2db76da0635cd84217c8427db38dd6d3b61dcafd512b21f67e58785e595ee6e"
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-bench-press.jpg",
+      "backup": "tools/media/imports/all-remaining-20261116/pulls-smith/backup/smith-machine-bench-press-1.jpg",
+      "sha256": "c36f24b07305737b72cefba1c3b8bb8c953edaf921ba87711604ca7bee469026"
+    },
+    {
+      "file": "tools/media/motion-guides/smith-machine-bench-press-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bench-press.mp4",
+      "backup": "tools/media/imports/all-remaining-20261116/pulls-smith/backup/smith-machine-bench-press-3.mp4",
+      "sha256": "03aeeaa2c69573918b2761c1c44ee10e384ece7b7ae726766b916ccba64a1f77"
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bench-press-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/smith-machine-bench-press-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

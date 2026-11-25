@@ -1,0 +1,18 @@
+{
+  "id": "incline-dumbbell-t-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "f559c523e7a7392637c395bc65af204464e52d466b77838972edd8abf90f3a48",
+  "rigSourceSha256": "5941ab1ce36145bda2b036184cfea0e3d96d5969fdc0393c843f6dfe9c1eab4a",
+  "videoSha256": "f24267e8c8dfd6e982be61a86b7126ae65e7da83ebb7ce986f2a82e6ee4782bc",
+  "darkVideoSha256": "a69c9e32042f7105e9c16d65d482b75236b89935bc501cb2e7d8578f529e7ac8",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 101631,
+  "darkBytes": 84605,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T07:31:40.441Z"
+}

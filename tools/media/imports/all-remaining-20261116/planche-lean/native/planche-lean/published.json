@@ -1,0 +1,18 @@
+{
+  "id": "planche-lean",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "ceb7752808906d7db27c3bdbb28e30f2720b5d4dfdb8aa44ecd51ba6e7fdba4f",
+  "rigSourceSha256": "d066e8a47abb6550a42f7062a140a1da24ac6da4cfe5b2c4be7c44dcbca95858",
+  "videoSha256": "a0be4596b44598a1ae0473b716b29d57dab248fabef00e4e43846a1ea5a02cbc",
+  "darkVideoSha256": "24d371014dfe7e53f49347810ec289d67fa3b5918f3b3228bcbe65fb5849327d",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 13560,
+  "darkBytes": 13582,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T07:05:31.597Z"
+}

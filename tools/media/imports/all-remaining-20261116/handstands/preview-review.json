@@ -1,0 +1,76 @@
+{
+  "handstand-hold": {
+    "reviewedAt": "2026-11-24T07:13:30.492Z",
+    "checks": {
+      "exercise": "handstand-hold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor with shoulders stacked above wrists.",
+      "feet": "Straight legs point upward above hips, with head clear of floor.",
+      "movement": "Freestanding handstand with palms supporting, straight arms and legs, shoulders stacked over wrists and feet above hips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static freestanding handstand; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/full-sheet.png",
+        "sha256": "48a3a39e8b9f5387a797b8b87121239a2b6fde62f2387e0758ced07807e899b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/side-sheet.png",
+        "sha256": "ae18b72bdd0426793dd4c6e1267bf57dea1200acffadb4b02dccb3bfe9f83f76"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/poses.json",
+        "sha256": "d3351c0092b0415cbfe847fbaeb0cd55dcaf1de914fbcc9f424ad2cf2e47ac1c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/geometry.json",
+        "sha256": "a4893c699cd272d7f0efdbc8c549a52bd7cdb510c4b41f80ba1055f901c74347"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/handstand-hold/kinematics.json",
+        "sha256": "efb0b3523f5e6f284a7c1ab136b2a0da7449870deabaa294ec335c69c7b31d1d"
+      }
+    ]
+  },
+  "freestanding-handstand": {
+    "reviewedAt": "2026-11-24T07:13:30.502Z",
+    "checks": {
+      "exercise": "freestanding-handstand",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight arms press flat palms into floor with shoulders stacked above wrists.",
+      "feet": "Straight legs point upward above hips, with head clear of floor.",
+      "movement": "Freestanding handstand with palms supporting, straight arms and legs, shoulders stacked over wrists and feet above hips."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static freestanding handstand; entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/full-sheet.png",
+        "sha256": "48a3a39e8b9f5387a797b8b87121239a2b6fde62f2387e0758ced07807e899b2"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/side-sheet.png",
+        "sha256": "ae18b72bdd0426793dd4c6e1267bf57dea1200acffadb4b02dccb3bfe9f83f76"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/poses.json",
+        "sha256": "d3351c0092b0415cbfe847fbaeb0cd55dcaf1de914fbcc9f424ad2cf2e47ac1c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/geometry.json",
+        "sha256": "a4893c699cd272d7f0efdbc8c549a52bd7cdb510c4b41f80ba1055f901c74347"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/handstands/native/freestanding-handstand/kinematics.json",
+        "sha256": "efb0b3523f5e6f284a7c1ab136b2a0da7449870deabaa294ec335c69c7b31d1d"
+      }
+    ]
+  }
+}

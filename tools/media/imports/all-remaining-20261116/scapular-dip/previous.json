@@ -1,0 +1,28 @@
+{
+  "scapular-dip": [
+    {
+      "file": "tools/media/motion-guides/scapular-dip.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/scapular-dip.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/scapular-dip-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-dip.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-dip-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/scapular-dip-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

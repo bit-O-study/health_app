@@ -1,0 +1,18 @@
+{
+  "id": "weighted-hanging-leg-raise",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "b433387d06a241c560c4178fcf4ac296d5e05ba3e7ec59f0a01bca71d42c48ad",
+  "rigSourceSha256": "7f5d9907300cd603aa5a332c80c1f01cd61f934bbe4cb5a8bd192bc1231b9e45",
+  "videoSha256": "964a9ecb6f75870c93156cfdaba72139122cd9978e5b7f46644ee1f45fd0985a",
+  "darkVideoSha256": "669cb98d5301fe7f4620f04ac870f549ece14156935732264e957560569fa454",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 90934,
+  "darkBytes": 86355,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T05:43:17.912Z"
+}

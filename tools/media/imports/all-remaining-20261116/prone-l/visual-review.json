@@ -1,0 +1,75 @@
+{
+  "prone-l-raise": {
+    "reviewedAt": "2026-11-16T07:21:19.914Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "prone-l-raise",
+      "equipment": "dumbbell",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around small dumbbell handles through the arm lift.",
+      "feet": "Prone torso and legs remain stable. Upper arms extend laterally, elbows remain at 90 degrees and forearms point forward in an L shape while both arms lift.",
+      "movement": "Light dumbbell variation of prone L raise. Upper arms lateral at shoulder level, forearms point forward, elbows fixed 90 degrees. Lift arms a small distance while trunk and legs remain stable. 3.5 seconds lift, 1 second pause, 3.5 seconds return."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/final.jpg",
+        "sha256": "c972abd8b4857b70e55e02c3ecd25da53937442b34096e782a0585f01a0728cb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/final-dark.jpg",
+        "sha256": "4d245d644cb6f53fc6c9c57844136b0bb752ee28fbeb6dcb00131affb75d1afa"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/full-sheet.png",
+        "sha256": "798cfed3e17d33a7802d9df4be62572b35c24a4332c8717fb6e0cbfb1cdea2d9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/side-sheet.png",
+        "sha256": "1fa6ab07b1bb8696e08dd21731687818b8f2f2cb07b55cf75b34a032ccb4c9d5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/verification.json",
+        "sha256": "73345f635f4b2aeca9bcebe15e1b5950507a7296a4ff191c21adfd80134082fc"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/geometry.json",
+        "sha256": "16f86f33cb3883cc57150a75269411c1d70f67c9e92663dbd60f8de7bb507ec9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/kinematics.json",
+        "sha256": "dfd8299d9a98be6d2a1e0a72fc1eb1032302202409061f1a9a1f6f0d4df84df8"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/provenance.json",
+        "sha256": "6912a97bfb0811567f880914f9b6af054a707639fa704471641c8a58ea6662c6"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/prone-l-raise-alpha.webm",
+        "sha256": "93f39f78f65c8e2e2eb50574a129fa4e3b7feffa84bb843813caad980b4e7e72",
+        "bytes": 101662,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/prone-l-raise.mp4",
+        "sha256": "6a792f461b1e0b230d9836690cebb3492eb136eff57e90e066b4eaf4abf2db50",
+        "bytes": 44526,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/prone-l/native/prone-l-raise/prone-l-raise-dark.mp4",
+        "sha256": "7384c6be10e4b0b413989c0ab32f5e39ca95436664d046926c63c8bce206d20b",
+        "bytes": 40716,
+        "decode": "passed"
+      }
+    ]
+  }
+}

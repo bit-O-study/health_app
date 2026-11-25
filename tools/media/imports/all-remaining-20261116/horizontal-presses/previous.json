@@ -1,0 +1,54 @@
+{
+  "seated-leg-press-machine": [
+    {
+      "file": "tools/media/motion-guides/seated-leg-press-machine.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-leg-press-machine.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-leg-press-machine-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-leg-press-machine.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-leg-press-machine-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-leg-press-machine-alpha.webm",
+      "sha256": null
+    }
+  ],
+  "horizontal-calf-raise-machine": [
+    {
+      "file": "tools/media/motion-guides/horizontal-calf-raise-machine.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/horizontal-calf-raise-machine.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/horizontal-calf-raise-machine-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/horizontal-calf-raise-machine.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/horizontal-calf-raise-machine-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/horizontal-calf-raise-machine-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

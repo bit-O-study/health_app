@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-24T06:38:44.668Z",
+  "report": [
+    {
+      "id": "dead-bug-extension",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

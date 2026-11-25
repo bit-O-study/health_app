@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "pilates-leg-circle",
+      "original": "pilates-leg-circle",
+      "equipment": "bodyweight",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "pilates-leg-circle",
+        "sourceUrls": [
+          "https://www.pilatesanytime.com/blog/mat/mat-sequences-for-every-level"
+        ],
+        "sourcesCheckedAt": "2026-11-24",
+        "criteria": "Supine single straight raised leg circles while opposite leg rests long on mat and palms support stable pelvis.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Two small circles in eight seconds; one side and direction shown."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

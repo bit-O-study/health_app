@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-16T06:19:01.773Z",
+  "report": [
+    {
+      "id": "l-sit-pull-up",
+      "inputs": 7,
+      "outputs": 3,
+      "hashes": "passed",
+      "fullDecode": "passed",
+      "bothManifests": true
+    }
+  ]
+}

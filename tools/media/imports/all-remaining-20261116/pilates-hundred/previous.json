@@ -1,0 +1,28 @@
+{
+  "pilates-hundred": [
+    {
+      "file": "tools/media/motion-guides/pilates-hundred.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-hundred.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/pilates-hundred-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-hundred.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-hundred-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/pilates-hundred-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "bear-plank": {
+    "reviewedAt": "2026-11-16T03:16:41.495Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "bear-plank",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms remain on virtual floor below shoulders.",
+      "feet": "Toes remain on virtual floor while knees hover.",
+      "movement": "Static bear plank: hands below shoulders, knees below hips hovering slightly above floor, toes tucked under, torso steady. Eight-second illustrative hold; no entry or exit."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/final.jpg",
+        "sha256": "bd90d8d0abcc51cb8ef0673916988d96ab9803b6d7f53a1dcaae5873106bdc54"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/final-dark.jpg",
+        "sha256": "1389346c881ffbd9beecfef5db510ca4eb369e8e30d85983a418aef3630c23c6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/full-sheet.png",
+        "sha256": "3c0051ecaf89afd6f0cc85c0d26be8ae411828c10d0ce3fa918d03f78f40f36b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/side-sheet.png",
+        "sha256": "28fdbae177a98d05f3d3ddd3cb9cc7b3eaff6f0ac30120bd82ea2fbbc98bca9b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/verification.json",
+        "sha256": "addf71e7106845cf8187077c21e0874ec592bef1b33287afe579b4a0339e5cca"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/geometry.json",
+        "sha256": "3adb840b5dca191ca36d7cb17ba8d7ea8d28a715f1520fd580d8b3f237152c76"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/kinematics.json",
+        "sha256": "da80de273414e90ac4abeabe033e5e1bba4c176f67691cc0db82eb90bfa8c7cf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/provenance.json",
+        "sha256": "ca0b76d26fd17340822e8722aec9340d16d23bca8658249c348de62a6042f880"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/bear-plank-alpha.webm",
+        "sha256": "6d326bf34b76ef606118c4afbeca7476020810338c7e3fc9327b8d9d24e93b7f",
+        "bytes": 33638,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/bear-plank.mp4",
+        "sha256": "05cfd5f6683b0cfd81062bbbc93cd06631c69d74375f07465722321cd35479ce",
+        "bytes": 14050,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/bear-plank/native/bear-plank/bear-plank-dark.mp4",
+        "sha256": "d6242a28224cda90b1f0a33811b95c7d3af0c816e800ef8bb876b76df546a20d",
+        "bytes": 13776,
+        "decode": "passed"
+      }
+    ]
+  }
+}

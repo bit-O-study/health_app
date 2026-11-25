@@ -1,0 +1,14 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "gripError": 3.820199830714189e-15,
+  "kneeDegrees": [
+    173.83236709677178,
+    173.83236709677178
+  ],
+  "elbowDegrees": [
+    52.617939245479995,
+    170.85574022024204
+  ]
+}

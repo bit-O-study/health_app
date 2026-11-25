@@ -1,0 +1,39 @@
+{
+  "super-wide-grip-pulldown": {
+    "reviewedAt": "2026-11-16T01:55:50.705Z",
+    "checks": {
+      "exercise": "super-wide-grip-pulldown",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Extra-wide pronated grip remains on the long straight bar.",
+      "feet": "Both feet remain on the platform and thighs under the fixed restraint.",
+      "movement": "Extra-wide pronated grip, twice the shoulder-width neutral handle span; fixed seated torso, 3.5 seconds pull, 1 second contracted pause, 3.5 seconds return. Illustrative comfortable range, not a recommendation to force grip width."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Generic cable pulldown with simplified pulley transmission, not a specific manufacturer model."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/full-sheet.png",
+        "sha256": "9ab4523723012b3bd3161f4682ffafae0e1adea396e738e0be8436532a1db2f5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/side-sheet.png",
+        "sha256": "65d46e07f9d79343e81f8e8a93b228d6284574a8108d314626b360447b357175"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/poses.json",
+        "sha256": "360e2dddc9c624c12bf9932b5fe49cd312601e93c7529a962f3a10f6bcbdbb50"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/geometry.json",
+        "sha256": "b4801a93ac2a1e94b5bf33891fa8ba2eb97473e9a9a7226272815618b00174e5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/superwide-pull/native/super-wide-grip-pulldown/kinematics.json",
+        "sha256": "5f4be0aa916e1e2c0c87a3aa41834ac063d53c308504f5f8b674988331e7110e"
+      }
+    ]
+  }
+}

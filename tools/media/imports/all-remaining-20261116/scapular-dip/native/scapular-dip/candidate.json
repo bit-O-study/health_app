@@ -1,0 +1,61 @@
+{
+  "status": "pending-visual-review",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "frames": 192,
+  "seconds": 8,
+  "outputs": [
+    {
+      "theme": "alpha",
+      "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/scapular-dip-alpha.webm",
+      "sha256": "dd1c1ef7b95f941edea871049c70bf82886b36b96f0d1ea617a80b044a7e24fd",
+      "bytes": 107624,
+      "decode": "passed"
+    },
+    {
+      "theme": "light",
+      "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/scapular-dip.mp4",
+      "sha256": "6fdbe78f4118d751dee9b79fb741207d95e6f456c64e68f3ceea7e52959fc8ef",
+      "bytes": 44022,
+      "decode": "passed"
+    },
+    {
+      "theme": "dark",
+      "file": "tools/media/imports/all-remaining-20261116/scapular-dip/native/scapular-dip/scapular-dip-dark.mp4",
+      "sha256": "145a0973471e60a69ac807f71190a14bfeb63fa2ff9691c66076ee6b77d184c7",
+      "bytes": 45905,
+      "decode": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tools/media/imports/all-remaining-20261116/scapular-dip/scapular-dip-studio.mjs",
+      "sha256": "60884a77425e69a3cc7de0b00e4c8a47234f9a4bf62c02bde091cba02dbd7ac7"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/scapular-dip/scapular-dip-motion.mjs",
+      "sha256": "9842c9ffe483276c83cc740aff9e65e124d067a69372d0ffe42b2aa2c30026a3"
+    },
+    {
+      "file": "tools/media/imports/all-remaining-20261116/scapular-dip/render.mjs",
+      "sha256": "5d43415e7c05c23a342272db45125a5c5cd157049b89e7adab3396ae5227a248"
+    },
+    {
+      "file": "tools/media/imports/all-exercises-20261007/skinned-quadruped-hip-extension-20261014/human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    },
+    {
+      "file": "node_modules/three/build/three.module.js",
+      "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+    },
+    {
+      "file": "node_modules/three/build/three.core.js",
+      "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+    },
+    {
+      "file": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    }
+  ]
+}

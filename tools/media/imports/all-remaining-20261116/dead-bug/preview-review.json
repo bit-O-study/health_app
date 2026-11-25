@@ -1,0 +1,39 @@
+{
+  "dead-bug-extension": {
+    "reviewedAt": "2026-11-24T06:35:47.650Z",
+    "checks": {
+      "exercise": "dead-bug-extension",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Opposite arm reaches overhead as one leg extends; the other arm stays vertical.",
+      "feet": "One leg extends from tabletop, returns, then the other leg extends with the trunk stationary.",
+      "movement": "From supine tabletop, extend one leg and the opposite arm, return, then alternate without lifting or twisting the trunk."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second alternating opposite arm and leg demonstration."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/full-sheet.png",
+        "sha256": "6d90e7bd69c18ee14e611aca4b21bf86c659d02b6cbd0df76aabd8240c70fc7f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/side-sheet.png",
+        "sha256": "3d17889dce325aaf8e28f2484e06f5516dc92a9acd40216ef7469dddd713055f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/poses.json",
+        "sha256": "e051c17a4f2f9baf559af633db70ad09a492588bdf7ccb1543d1bb6c708ed693"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/geometry.json",
+        "sha256": "b849f612e831e5cd35ef1e2e6703001817bb63f4a19de8be15b9200551efb8d6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/dead-bug/native/dead-bug-extension/kinematics.json",
+        "sha256": "9a1f97ee74b003f23c3b8b1d0396490da10fcebfb2508c24667cdec13988aa8e"
+      }
+    ]
+  }
+}

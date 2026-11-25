@@ -1,0 +1,39 @@
+{
+  "weighted-hanging-leg-raise": {
+    "reviewedAt": "2026-11-16T05:40:27.790Z",
+    "checks": {
+      "exercise": "weighted-hanging-leg-raise",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Two fitted weighted ankle cuffs stay on the lower legs throughout the lift. Both feet clear the floor. Straight legs raise together to hip height or remain horizontal for the L hold; fixed hands and trunk, no swing.",
+      "movement": "Straight-leg hanging raise with two weighted ankle cuffs; 3.5 seconds up to hip height, 1 second pause, 3.5 seconds down. Fixed trunk and overhead grip without swinging. Cuffs stay secured on the lower shins."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/full-sheet.png",
+        "sha256": "3c9420cc220a11f8a5a8c1c00a1a2084b830652f2dd2617f463a56a7723f2aea"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/side-sheet.png",
+        "sha256": "70b7403fe13f0e7093491bc4e178787cf1882bd45de7397d8a01b9bc81a0b570"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/poses.json",
+        "sha256": "1df641726db11b1f1caf179527ad7870a4f4418eb3c7f811c4c756fc707d3ae4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/geometry.json",
+        "sha256": "8f6a285f9164f8f5590c7ab642ce314d24eef137e4097f0fd932e2c88ae50d18"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-hanging/native/weighted-hanging-leg-raise/kinematics.json",
+        "sha256": "f8b2cb1d0ab12747cc50a73624e429031e1f2988b4b6cf41d83a703a33648324"
+      }
+    ]
+  }
+}

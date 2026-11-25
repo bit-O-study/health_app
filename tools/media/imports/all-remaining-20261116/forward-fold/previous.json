@@ -1,0 +1,28 @@
+{
+  "seated-forward-fold": [
+    {
+      "file": "tools/media/motion-guides/seated-forward-fold.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-forward-fold.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/seated-forward-fold-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-forward-fold.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-forward-fold-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/seated-forward-fold-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "seated-cable-face-pull",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "1ece30e63680bcae3b39721a4868b6d17c55dd99500280009832d040b3d83781",
+  "rigSourceSha256": "9296a4673214224db6bc830c84ed3e1162ec699694e85c69361944650f52599f",
+  "videoSha256": "a545eb11aff3fbe78bc25028e9ca61061c54436cfbadc26b3b594b693655dc6b",
+  "darkVideoSha256": "25de2ebb764f161c25f60069fd5df2620f029308496141034fe6e1bfab2c62b9",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 89519,
+  "darkBytes": 78180,
+  "decode": "passed",
+  "verifiedAt": "2026-11-16T06:53:49.100Z"
+}

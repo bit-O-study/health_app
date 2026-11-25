@@ -1,0 +1,75 @@
+{
+  "seated-forward-fold": {
+    "reviewedAt": "2026-11-24T01:13:08.128Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "seated-forward-fold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support on mat ahead of pelvis.",
+      "feet": "Both legs remain parallel and straight with toes upward; palms and heels on mat and folded blanket under pelvis.",
+      "movement": "Gentle seated forward fold with long spine, parallel straight legs, flexed toes up and palms on floor beside legs; low folded blanket under pelvis."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/final.jpg",
+        "sha256": "41360033cfbb4a18db03564809e2422999880a0df73d71e41b402bfc571be80f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/final-dark.jpg",
+        "sha256": "92677e2b15712eb74ffdd2fa608cfeb1d50065485cfd50d9fe9ad27ce0f4e8a9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/full-sheet.png",
+        "sha256": "2f4a03a360da5d234235bcea203c6dafd47c5f8ca307e9a597df3d672cc65c2e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/side-sheet.png",
+        "sha256": "1ef619e64b4583eb9b5b28657b9f70151d416f710c899fb4cb7fb04184a36b7c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/verification.json",
+        "sha256": "87c433d4e69c644a5838db418dd8d9b2b6bc13273bf3e9b59f3c63a8f7ed67ee"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/geometry.json",
+        "sha256": "c94f86021f81e349de95d4101664214bbbf8336ed44ecae269a8b89577403af9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/kinematics.json",
+        "sha256": "dfaa34e8b2fc46a51c1193daa47e2cd5192cb63baca0b7b4da6f5a0e2345bf4e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/provenance.json",
+        "sha256": "ff88f908c5ebb290e06316a929549afbf1f28d8701415f18019c6940a353e6e3"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/seated-forward-fold-alpha.webm",
+        "sha256": "6266bd305e17bfcb4d5e7a7ea75418cc7e0c27087a4eda5a065289bfc48027ff",
+        "bytes": 37909,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/seated-forward-fold.mp4",
+        "sha256": "97e8dc110114f37a4ccc5df2c7e623a1ebc374cc60ab842f7b2522226a67c14b",
+        "bytes": 16301,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/seated-forward-fold-dark.mp4",
+        "sha256": "3780d4052c04f18b5142607ec1b0f6c5075bab4612899880cdfa63605cbd94a6",
+        "bytes": 15858,
+        "decode": "passed"
+      }
+    ]
+  }
+}

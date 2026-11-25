@@ -1,0 +1,39 @@
+{
+  "seated-forward-fold": {
+    "reviewedAt": "2026-11-24T01:09:33.677Z",
+    "checks": {
+      "exercise": "seated-forward-fold",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support on mat ahead of pelvis.",
+      "feet": "Both legs remain parallel and straight with toes upward; palms and heels on mat and folded blanket under pelvis.",
+      "movement": "Gentle seated forward fold with long spine, parallel straight legs, flexed toes up and palms on floor beside legs; low folded blanket under pelvis."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/full-sheet.png",
+        "sha256": "2f4a03a360da5d234235bcea203c6dafd47c5f8ca307e9a597df3d672cc65c2e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/side-sheet.png",
+        "sha256": "1ef619e64b4583eb9b5b28657b9f70151d416f710c899fb4cb7fb04184a36b7c"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/poses.json",
+        "sha256": "5fb8710e6c15f4a655b0d5b12329ef77151223753b76fbee6e239edb250a6662"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/geometry.json",
+        "sha256": "c94f86021f81e349de95d4101664214bbbf8336ed44ecae269a8b89577403af9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/forward-fold/native/seated-forward-fold/kinematics.json",
+        "sha256": "dfaa34e8b2fc46a51c1193daa47e2cd5192cb63baca0b7b4da6f5a0e2345bf4e"
+      }
+    ]
+  }
+}

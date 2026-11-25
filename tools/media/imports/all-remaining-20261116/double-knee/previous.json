@@ -1,0 +1,28 @@
+{
+  "double-knee-to-chest": [
+    {
+      "file": "tools/media/motion-guides/double-knee-to-chest.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/double-knee-to-chest.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/double-knee-to-chest-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-knee-to-chest.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-knee-to-chest-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/double-knee-to-chest-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

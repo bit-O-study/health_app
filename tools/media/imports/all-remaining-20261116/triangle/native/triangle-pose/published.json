@@ -1,0 +1,18 @@
+{
+  "id": "triangle-pose",
+  "renderVersion": "skinned-pilot-v1",
+  "panels": 16,
+  "cutout": true,
+  "sourceSha256": "33b3aa0831323fc6195a934b7d338ff5016f01e786d6ddbe98171d5691ee8995",
+  "rigSourceSha256": "edcb1313662a457d4b10b63ebd567198bec96299f031a3af2b33e18f4e02e70a",
+  "videoSha256": "424d5969805822849cd5bf49cb746a49e308ee1e6ebb3bc2913a0c5c4dc88a93",
+  "darkVideoSha256": "721f7236022253ce1566d66a4794e2594cc8f7423fefad0e5bffdf963529dfdd",
+  "width": 480,
+  "height": 480,
+  "fps": 24,
+  "seconds": 8,
+  "bytes": 16041,
+  "darkBytes": 15266,
+  "decode": "passed",
+  "verifiedAt": "2026-11-24T02:58:39.995Z"
+}

@@ -1,0 +1,39 @@
+{
+  "lying-hamstring-stretch": {
+    "reviewedAt": "2026-11-24T00:24:35.352Z",
+    "checks": {
+      "exercise": "lying-hamstring-stretch",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both palms support behind the raised thigh; separate hands without visible overlap.",
+      "feet": "Opposite leg remains straight with heel on mat; raised knee is straight and toes point toward head.",
+      "movement": "Lie supine with opposite leg straight, support the raised thigh with both hands, extend raised knee toward ceiling and hold gentle hamstring stretch with head and torso relaxed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second video illustrates a gentle static hold."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/full-sheet.png",
+        "sha256": "82748e791315ee285bcd176bfac42882a1993e6f078eb224b3b88fc5e469e449"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/side-sheet.png",
+        "sha256": "01bd95b5bd523eca73f23030263d7d0860ffe1c1250f0206fb2e25f342781726"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/poses.json",
+        "sha256": "c3de2d0f2079b75796e583ad0a9a3454f1cb5ea28a37a297e80b6562fd22e9fd"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/geometry.json",
+        "sha256": "8525b63f7b2a39b83f28b6b587a01897256bf79c12a7675b3f1a3d97fc9d96df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/lying-hamstring/native/lying-hamstring-stretch/kinematics.json",
+        "sha256": "85ee08682d464b346b270da80f92dc068f4999913ee862c4a0d7397daa336fb8"
+      }
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "entries": [
+    {
+      "id": "wide-stance-leg-press",
+      "original": "wide-stance-leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "wide-stance-leg-press",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/wide-stance-45-degree-leg-press.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Wide ankle span 4.8, toes turned out 10 degrees. Full feet on plate, fixed pelvis/back and handle grips.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "close-stance-leg-press",
+      "original": "close-stance-leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "close-stance-leg-press",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/narrow-stance-45-degree-leg-press.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Close ankle span 1.6, toes forward. Full feet on plate, fixed pelvis/back and handle grips.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    },
+    {
+      "id": "full-rom-leg-press",
+      "original": "full-rom-leg-press",
+      "equipment": "machine",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "full-rom-leg-press",
+        "sourceUrls": [
+          "https://www.muscleandstrength.com/exercises/45-degree-leg-press.html"
+        ],
+        "sourcesCheckedAt": "2026-11-16",
+        "criteria": "Bilateral 45-degree leg press, knees 90 to 165 degrees, 4 seconds press and 4 seconds return. Regular ankle span 3.2; full demonstrated range without pelvis lifting. Individual range depends on mobility. Full feet on plate, fixed pelvis/back and handle grips.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 3,
+  "status": "completed-local"
+}

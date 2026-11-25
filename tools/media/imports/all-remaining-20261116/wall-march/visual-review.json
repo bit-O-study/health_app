@@ -1,0 +1,75 @@
+{
+  "wall-sit-march": {
+    "reviewedAt": "2026-11-16T06:40:30.143Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "wall-sit-march",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Arms extended forward without resting on thighs.",
+      "feet": "Back and hip position remain stable against wall. Alternate small foot lifts with the opposite foot flat; return to two-foot support between lifts.",
+      "movement": "Wall sit with alternating foot lifts: right then left, each 4 seconds (1.5 seconds up, 1 second pause, 1.5 seconds down). Hip flexion increases 15 degrees while the opposite foot stays flat, support thigh horizontal and knee 90 degrees. Stable trunk and pelvis against wall. Entry and exit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/final.jpg",
+        "sha256": "d891cb8a576db92c9028710df8af52550338cfcc1c6d4b635d7f86ad4de2308d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/final-dark.jpg",
+        "sha256": "68988c22a45505fb66da776d5ebdd9a74544afce9318ebbb139e35b648065dfe"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/full-sheet.png",
+        "sha256": "79bdcaab7fc4063dfbc05a5ff06acf0c5915bd7c6aa95c30dc61fdf688071052"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/side-sheet.png",
+        "sha256": "e79ab7b16c21c72053e342b69639fc8deb1a44c58bd217f652c89accf760d7a4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/verification.json",
+        "sha256": "6cc56d419d88cce0b944e8889b8c9e46caf535fd29907052187c0ece29e4ed65"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/geometry.json",
+        "sha256": "40c6158f695f8b7ee0282b2d9552357ecfd6f9c0e9b5575bcda3c0055b828ffb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/kinematics.json",
+        "sha256": "de0ba6f17a6ef0a650262631fb10d1fa8bd7aab522268b4b6bc4f36dd6524c98"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/provenance.json",
+        "sha256": "849ac635230292c43830ff23e16d382c00a928839944f8878c363a8e65b08ba1"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/wall-sit-march-alpha.webm",
+        "sha256": "2c1ec45ddce4740723ea9878dbf889a15d4d1a30604247eb78aacfecfd116be5",
+        "bytes": 74484,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/wall-sit-march.mp4",
+        "sha256": "5ecd20dfdb36e519a75a25aea90a1be30e187e9e97020f2970786537bc850d0c",
+        "bytes": 41984,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/wall-march/native/wall-sit-march/wall-sit-march-dark.mp4",
+        "sha256": "cc0e9e5113b0e554fc7b7338f5932bf73fbfab16230db0043c0b7aa3bf5ddfef",
+        "bytes": 41415,
+        "decode": "passed"
+      }
+    ]
+  }
+}

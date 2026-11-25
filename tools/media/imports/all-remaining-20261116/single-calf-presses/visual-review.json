@@ -1,0 +1,148 @@
+{
+  "single-leg-calf-press": {
+    "reviewedAt": "2026-11-16T04:33:18.435Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-calf-press",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left forefoot contacts the plate edge with heel free; right foot remains on a separate fixed rest.",
+      "movement": "Unilateral calf press on a 45-degree leg press. Left knee fixed at 165 degrees, ankle plantarflexes over 4 seconds and returns over 4 seconds. Left forefoot only on the plate; right leg bent with foot on separate fixed support. Hands retain handles, pelvis and back fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/final.jpg",
+        "sha256": "da8094efb1cd646178e58e0e4c9e78cda4e948562a80ee8d561e502c036f0f91"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/final-dark.jpg",
+        "sha256": "dcee472072cf5ba8a2eba3ec0e86af758fbf10702463e71ab7edabbd06ccfc7d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/full-sheet.png",
+        "sha256": "8ac4074aa52cc6eae84d915c860aae782d323f8ee13cd5e1c035b38fcaad082f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/side-sheet.png",
+        "sha256": "d20cd252fa51b4267d9b2f578505bb19d4907a7c3012e6c553ac5a8495b8a201"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/verification.json",
+        "sha256": "651795f4269ebf657eca7d912cb289677c34bca1e9c23edce8e5e1aeb426d8bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/geometry.json",
+        "sha256": "16ae7fa48c107ac1a415e88751f50036f8cb272c8be5968bed983a79a9d7721d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/kinematics.json",
+        "sha256": "d0b0e379841dc43d6e9dc4f07619aaf6e6d2ed05cb6af1fe4d4d519b47d09157"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/provenance.json",
+        "sha256": "27ded3c092cc19c8c0c5ada03ba34c306cc9efbc01f5b60d07e1cad4f49f337a"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/single-leg-calf-press-alpha.webm",
+        "sha256": "16ad2cb882540e6bb706b8bc80bf43e5b642fa6940c1709c49ed2d34236add18",
+        "bytes": 175934,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/single-leg-calf-press.mp4",
+        "sha256": "d907ffdc77511b17a6bd111c8144a0e186fbcbbff2b70d4d694ca90581cf37f8",
+        "bytes": 79345,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-calf-press/single-leg-calf-press-dark.mp4",
+        "sha256": "9c857985ef1da4d394defc1dae6a358c7a6fd4ad440181116d13cb7d7dc9230f",
+        "bytes": 62432,
+        "decode": "passed"
+      }
+    ]
+  },
+  "single-leg-leg-press-calf-raise": {
+    "reviewedAt": "2026-11-16T04:33:18.444Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "single-leg-leg-press-calf-raise",
+      "equipment": "machine",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both closed hands stay on machine handles.",
+      "feet": "Left forefoot contacts the plate edge with heel free; right foot remains on a separate fixed rest.",
+      "movement": "Unilateral calf press on a 45-degree leg press. Left knee fixed at 165 degrees, ankle plantarflexes over 4 seconds and returns over 4 seconds. Left forefoot only on the plate; right leg bent with foot on separate fixed support. Hands retain handles, pelvis and back fixed."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/final.jpg",
+        "sha256": "da8094efb1cd646178e58e0e4c9e78cda4e948562a80ee8d561e502c036f0f91"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/final-dark.jpg",
+        "sha256": "dcee472072cf5ba8a2eba3ec0e86af758fbf10702463e71ab7edabbd06ccfc7d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/full-sheet.png",
+        "sha256": "8ac4074aa52cc6eae84d915c860aae782d323f8ee13cd5e1c035b38fcaad082f"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/side-sheet.png",
+        "sha256": "d20cd252fa51b4267d9b2f578505bb19d4907a7c3012e6c553ac5a8495b8a201"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/verification.json",
+        "sha256": "651795f4269ebf657eca7d912cb289677c34bca1e9c23edce8e5e1aeb426d8bf"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/geometry.json",
+        "sha256": "16ae7fa48c107ac1a415e88751f50036f8cb272c8be5968bed983a79a9d7721d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/kinematics.json",
+        "sha256": "d0b0e379841dc43d6e9dc4f07619aaf6e6d2ed05cb6af1fe4d4d519b47d09157"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/provenance.json",
+        "sha256": "e042397858fb3b937618e2ae37d75fa40a4e12391e9b1e9cc6638b4ee91fdbee"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/single-leg-leg-press-calf-raise-alpha.webm",
+        "sha256": "68dab1da0906ba0688e11533e9db8a1aed98eeabc8826e98ac24a2f3a53e08de",
+        "bytes": 175934,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/single-leg-leg-press-calf-raise.mp4",
+        "sha256": "d907ffdc77511b17a6bd111c8144a0e186fbcbbff2b70d4d694ca90581cf37f8",
+        "bytes": 79345,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/single-calf-presses/native/single-leg-leg-press-calf-raise/single-leg-leg-press-calf-raise-dark.mp4",
+        "sha256": "9c857985ef1da4d394defc1dae6a358c7a6fd4ad440181116d13cb7d7dc9230f",
+        "bytes": 62432,
+        "decode": "passed"
+      }
+    ]
+  }
+}

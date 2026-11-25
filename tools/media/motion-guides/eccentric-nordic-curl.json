@@ -1,0 +1,15 @@
+{
+  "id": "eccentric-nordic-curl",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "eccentric-nordic-curl-provenance.json",
+  "cutout": true,
+  "sources": [
+    "https://theprehabguys.com/vimeo-video/nordic-curl/"
+  ],
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T01:27:31.843Z"
+}

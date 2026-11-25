@@ -1,0 +1,75 @@
+{
+  "weighted-plank": {
+    "reviewedAt": "2026-11-16T04:09:46.294Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "weighted-plank",
+      "equipment": "plate",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Open hands and forearms supported on virtual floor.",
+      "feet": "Both feet retain toe contact. Plate rests on the back with a measured contact gap.",
+      "movement": "Static weighted forearm plank with a centered weight plate on the back; forearms and toes supported. Eight-second illustrative hold. Plate placement and removal are omitted; guidance calls for a training partner."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/final.jpg",
+        "sha256": "2cbf19197a4b8ff1e4d9ea529a06fdf89aa4f9afd65016aeedb2954821afea8d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/final-dark.jpg",
+        "sha256": "274e1b016c608b63e523226f075ce74aee9f96b4abade7ee73dc17e7afeb4639"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/full-sheet.png",
+        "sha256": "998021031982fbf5d87c0ee7f2b5a9d3ca30f574280927a62184afd0cef23c64"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/side-sheet.png",
+        "sha256": "0811f451a05483a138c477c3d18967266edb354559e30d70b53bab8d74bdf964"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/verification.json",
+        "sha256": "e94144f3725ea44ab10ea5bcdbff72ce0c52c8b2fa9a3bdb9b3a74a0a65516f1"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/geometry.json",
+        "sha256": "4d861c9516f284c759a515984afc1d8c03c619c328f5a20d7d137e3174ffb147"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/kinematics.json",
+        "sha256": "8a098c91cc692ba72a5db7730fe2ce771357ec4e656e0c7c28b1a3dfc05b741b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/provenance.json",
+        "sha256": "3952e99870ed0f64eaff084ef0709f3252f718bfda089be7ad8988476edaf909"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/weighted-plank-alpha.webm",
+        "sha256": "c004a8f0ad11a4bb7bd90f0c58a89e75b5a67e51357e9e0967d2fbd814dad645",
+        "bytes": 35888,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/weighted-plank.mp4",
+        "sha256": "e7ac72d51375827c13672ee2ee3959ce4192a2d1787d1b999c28b27caf24f818",
+        "bytes": 15151,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/weighted-plank/native/weighted-plank/weighted-plank-dark.mp4",
+        "sha256": "3f13e71b8b576f5bbda0d69384bb264a7ff4ffa1164ffa5ea359715d0afa6e27",
+        "bytes": 14485,
+        "decode": "passed"
+      }
+    ]
+  }
+}

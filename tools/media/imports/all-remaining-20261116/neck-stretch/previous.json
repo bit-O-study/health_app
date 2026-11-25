@@ -1,0 +1,28 @@
+{
+  "neck-stretch": [
+    {
+      "file": "tools/media/motion-guides/neck-stretch.json",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/neck-stretch.jpg",
+      "sha256": null
+    },
+    {
+      "file": "tools/media/motion-guides/neck-stretch-provenance.json",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neck-stretch.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neck-stretch-dark.mp4",
+      "sha256": null
+    },
+    {
+      "file": "public/exercise-guides/ai-v3/neck-stretch-alpha.webm",
+      "sha256": null
+    }
+  ]
+}

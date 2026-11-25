@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "lying-hamstring-stretch",
+      "original": "lying-hamstring-stretch",
+      "equipment": "bodyweight",
+      "hold": true,
+      "status": "registered-local",
+      "recipe": {
+        "family": "lying-hamstring",
+        "sourceUrls": [
+          "https://na.physitrack.com/home-exercise-video/hamstring-stretch-version-2"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie supine with opposite leg straight, support the raised thigh with both hands, extend raised knee toward ceiling and hold gentle hamstring stretch with head and torso relaxed.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Eight-second video illustrates a gentle static hold."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

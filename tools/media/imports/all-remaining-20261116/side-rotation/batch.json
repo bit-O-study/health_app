@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "side-lying-external-rotation",
+      "original": "side-lying-external-rotation",
+      "equipment": "dumbbell",
+      "hold": false,
+      "status": "registered-local",
+      "recipe": {
+        "family": "side-lying-external-rotation",
+        "sourceUrls": [
+          "https://us.physitrack.com/home-exercise-video/external-rotation-in-side-lying-position-with-dumbbell"
+        ],
+        "sourcesCheckedAt": "2026-11-18",
+        "criteria": "Lie on side, lower arm supporting head. Hold a light dumbbell with upper elbow bent ninety degrees and upper arm kept alongside torso. Rotate forearm upward sixty degrees and lower with control; pelvis and legs stay still. 3.5 seconds raise, 1 second pause, 3.5 seconds lower.",
+        "limitations": [
+          "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+          "Timing is illustrative; lower only while keeping the back supported."
+        ]
+      },
+      "numericChecks": "passed"
+    }
+  ],
+  "completed": 1,
+  "status": "completed-local"
+}

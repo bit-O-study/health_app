@@ -1,0 +1,15 @@
+{
+  "poseSamples": 481,
+  "loop": 0,
+  "footDrift": 0,
+  "maxStep": 0.04007277062330524,
+  "elbowDegrees": [
+    72.3611529403632,
+    164.94643805908163
+  ],
+  "ropeLengthError": 8.881784197001252e-16,
+  "topHoldSeconds": 1,
+  "status": "numeric-checks-passed",
+  "sourceId": "cable-rope-hammer-curl",
+  "sourceProvenanceSha256": "f76d364cc7d894715cadacb965ac9639696fc0c1ad738c04db63cfcd76e92790"
+}

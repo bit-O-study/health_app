@@ -1,11 +1,15 @@
 {
-  "prompt": "Eight-pose high fixed bar straight-leg raise, shoes remain above floor, both legs straight together lift to horizontal, controlled reverse",
+  "id": "hanging-leg-raise-2",
   "equipment": "bodyweight",
+  "panels": 16,
+  "cycle": "full",
+  "timing": "continuous",
+  "renderer": "skinned-pilot-v1",
+  "rigSource": "hanging-leg-raise-2-provenance.json",
+  "cutout": true,
   "sources": [
     "https://www.muscleandstrength.com/exercises/hanging-leg-raise.html"
   ],
-  "panels": 8,
-  "cycle": "reverse",
-  "id": "hanging-leg-raise-2",
-  "registeredAt": "2026-09-13T01:57:02.828Z"
+  "sourceKind": "Diagnostic front/side contact sheet; procedural motion and character recorded in provenance",
+  "registeredAt": "2026-11-16T05:33:51.098Z"
 }

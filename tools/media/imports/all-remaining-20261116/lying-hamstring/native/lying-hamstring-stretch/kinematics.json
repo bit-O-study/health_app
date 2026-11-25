@@ -1,0 +1,19 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "raisedKneeDegrees": 180,
+  "kneeTowardChest": 0.7460477989383202,
+  "handThighGaps": [
+    0.004278101056222388,
+    0.004526747444242998
+  ],
+  "handHandGap": 0.14633541336425415,
+  "supportGaps": {
+    "back": 0.0184345952779168,
+    "hip": 0.01499999999999968,
+    "head": 0.01499999999999968,
+    "foot": 0.02452507866412912
+  }
+}

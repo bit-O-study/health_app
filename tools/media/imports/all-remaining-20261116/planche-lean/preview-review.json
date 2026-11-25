@@ -1,0 +1,39 @@
+{
+  "planche-lean": {
+    "reviewedAt": "2026-11-24T06:59:29.845Z",
+    "checks": {
+      "exercise": "planche-lean",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Straight elbows maintained with shoulders ahead of the wrists and hands fixed.",
+      "feet": "Both feet stay fixed with toes supporting the straight plank posture.",
+      "movement": "Hold a straight-arm plank with shoulders ahead of wrists and toes supporting the body; maintain trunk alignment."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Eight-second static planche lean, entry and exit omitted."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/full-sheet.png",
+        "sha256": "3fef94ea8e4dab1a0c64332f1d6bc5c1c5fb51ab6510e4f6050f959fcb34f42b"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/side-sheet.png",
+        "sha256": "b96bed7af823652180ad1acfd705ad0e9274fb26c051e13ad722c97e48aa81d5"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/poses.json",
+        "sha256": "644f560208a3e015a50d8568154bab369c04ca34aa6a6ce4696b232c65c598df"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/geometry.json",
+        "sha256": "93b0d5851026b4f70585f404806e18b188de7e312b0b398c3f9547d8056ceccb"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/planche-lean/native/planche-lean/kinematics.json",
+        "sha256": "5b7a973296df310c1e7ea3f3cde56b2a6d86e49140d2e89c2b7b54a374afcd63"
+      }
+    ]
+  }
+}

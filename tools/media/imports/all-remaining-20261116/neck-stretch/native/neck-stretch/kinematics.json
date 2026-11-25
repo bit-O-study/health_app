@@ -1,0 +1,11 @@
+{
+  "status": "numeric-checks-passed",
+  "poseSamples": 481,
+  "loopError": 0,
+  "staticHold": true,
+  "headSideBendDegrees": 20,
+  "stationaryUprightTorso": true,
+  "seatGap": 0.015000000000000124,
+  "footGap": 0.01499999999999968,
+  "handShoulderGap": 0.045399757428015
+}

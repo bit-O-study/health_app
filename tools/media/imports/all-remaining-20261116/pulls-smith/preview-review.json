@@ -1,0 +1,113 @@
+{
+  "eccentric-chin-up": {
+    "reviewedAt": "2026-11-16T00:45:23.198Z",
+    "checks": {
+      "exercise": "eccentric-chin-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Support remains stable: feet planted for seated exercises, legs travel with torso for chin-up.",
+      "movement": "One-second pull, one-second top hold, five-second controlled lowering, one-second bottom hold; illustrative timing."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/full-sheet.png",
+        "sha256": "ec66c5716451ead3d939bb80413060071b72583a9eb8bd7ab02c5759d94ecc32"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/side-sheet.png",
+        "sha256": "3251a9f55b3be0d7959dabedfb2285749f90055c4491fbcadf328f298c64e908"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/poses.json",
+        "sha256": "c3a3208afc9b9c256c4467fb70bb8e45c7f5d1360b8ef4f778a45a9291d9ae42"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/geometry.json",
+        "sha256": "6e275790a535615bac88a3287ef08c0b79409663aac4bb27ec4eb0a2fc6a8729"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/eccentric-chin-up/kinematics.json",
+        "sha256": "58a8796da472c0d4d9391bf7230803e0d1b873f2a8ac1fce91ef737fd344ff50"
+      }
+    ]
+  },
+  "lat-pulldown-2": {
+    "reviewedAt": "2026-11-16T00:45:23.203Z",
+    "checks": {
+      "exercise": "lat-pulldown-2",
+      "equipment": "cable",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Support remains stable: feet planted for seated exercises, legs travel with torso for chin-up.",
+      "movement": "Seated cable pulldown with fixed feet, stable torso and continuous cable/weight stack travel."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/full-sheet.png",
+        "sha256": "49ca3d8d3784d7b54b27037f7295effebd3eec1b30fece87ad9863ec36e7189e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/side-sheet.png",
+        "sha256": "08489bae108c4137eb2184d78336d6d85c6034f6cb22b9f58e9d4eb1ca6c0957"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/poses.json",
+        "sha256": "f949a1af2ba75f34431ad7a1f0908c5b7169665dbda5726086e1376e34f5bd10"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/geometry.json",
+        "sha256": "a3f8b059e377eeb5d516a459d76262047cc6a2311e8901a2dc40c56d531a7a9e"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/lat-pulldown-2/kinematics.json",
+        "sha256": "223459cab46509999fea275f31286951901425c2dc09df7a56b3cb1af99eeecd"
+      }
+    ]
+  },
+  "smith-machine-bench-press": {
+    "reviewedAt": "2026-11-16T00:45:23.206Z",
+    "checks": {
+      "exercise": "smith-machine-bench-press",
+      "equipment": "smith",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands retain apparatus grip.",
+      "feet": "Support remains stable: feet planted for seated exercises, legs travel with torso for chin-up.",
+      "movement": "Smith bar follows vertical rails with stable bench support and planted feet."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Chin-up lowering lasts five seconds. Cable and Smith variations show their specific apparatus."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/full-sheet.png",
+        "sha256": "ad9a37b39eb8b92a72cfcdfd26eee07adc4b5f6522cadd01fc83710699587504"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/side-sheet.png",
+        "sha256": "71e715f45f8bae4736a82512834c5340e17c376b42bc811c9aa5e61782d4ec08"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/poses.json",
+        "sha256": "eed2b9ce4170afff7a4dbabcd8655e18421a7386f3e296d009c07e4a85714579"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/geometry.json",
+        "sha256": "98d9696a84a3712eb44cb445d1019f59aed0f1a0e52668459a7008567b6bf9b6"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/pulls-smith/native/smith-machine-bench-press/kinematics.json",
+        "sha256": "062c94ff9f2e83aa648a54bd39612a0de248a7f55a0abe2b32dc4689036a959c"
+      }
+    ]
+  }
+}

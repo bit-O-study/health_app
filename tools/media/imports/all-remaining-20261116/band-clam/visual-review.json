@@ -1,0 +1,75 @@
+{
+  "band-clamshell": {
+    "reviewedAt": "2026-11-18T02:29:47.468Z",
+    "status": "passed-isolated-candidate",
+    "checks": {
+      "exercise": "band-clamshell",
+      "equipment": "band",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Lower arm supports the head while upper hand rests at the hip.",
+      "feet": "Both feet stay together; upper knee opens while pelvis and lower leg remain fixed.",
+      "movement": "Lie on side with bent knees, feet together, and resistance band above knees. Keep pelvis and back still while lifting top knee against band; slowly close without rolling backward. 3.5 seconds open, 1 second pause, 3.5 seconds close."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative; lower only while keeping the back supported."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/final.jpg",
+        "sha256": "3feb396f29372c5b56d744553b4e8f6cd5f7628f8a60165fefbccd7cc0c6496d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/final-dark.jpg",
+        "sha256": "6b6db4cdb65ebe6841bf86bb09e393e61bbb5524868cff931c3101f43622d8e4"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/full-sheet.png",
+        "sha256": "e61c72f5a1cd879ae98da41fe156ff1093d9f9dfcb06740d2315d9e2e8e84480"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/side-sheet.png",
+        "sha256": "7cdb879803ff3b9797bd75a7d1e540c10f9d384984ca2e71c3aa35684301afc9"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/verification.json",
+        "sha256": "eeab90f8611e98282555f8b7bd66c5f01502dea69507a65105a2d85024d1f154"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/geometry.json",
+        "sha256": "ba62506df6bba7ee33397dbd8f835773d87670db927cd5757a93e50a8bfd7c11"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/kinematics.json",
+        "sha256": "cb205b5be6603ed5f58048a43283c71f41597d8e0b83ca564eb5159c3e7a5b26"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/provenance.json",
+        "sha256": "6e6f5526378234d15b0ec23b1665e4f1552dbbdfe85641caac94b5fd6885e41b"
+      }
+    ],
+    "outputs": [
+      {
+        "theme": "alpha",
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/band-clamshell-alpha.webm",
+        "sha256": "5a8bc3ae544e5f795a34c48aae514b08103309c97f98ca0f2ade4439db0703f4",
+        "bytes": 117951,
+        "decode": "passed"
+      },
+      {
+        "theme": "light",
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/band-clamshell.mp4",
+        "sha256": "1ee2defdd57b5645dc2e1dcef9146b9aa33d4935428579f14eab8907bb1c126b",
+        "bytes": 51979,
+        "decode": "passed"
+      },
+      {
+        "theme": "dark",
+        "file": "tools/media/imports/all-remaining-20261116/band-clam/native/band-clamshell/band-clamshell-dark.mp4",
+        "sha256": "b43680ef1692388769966bdeb96e1026bf9b13308622e6795319cf27eb533565",
+        "bytes": 52311,
+        "decode": "passed"
+      }
+    ]
+  }
+}

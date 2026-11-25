@@ -1,0 +1,39 @@
+{
+  "l-sit-pull-up": {
+    "reviewedAt": "2026-11-16T06:16:01.150Z",
+    "checks": {
+      "exercise": "l-sit-pull-up",
+      "equipment": "bodyweight",
+      "setup": "Front oblique and side sheets inspected; complete body and apparatus visible.",
+      "hands": "Both hands remain closed around the fixed overhead bar.",
+      "feet": "Both legs remain horizontal with straight knees throughout the pull-up. Fixed grip, controlled vertical trunk motion, chin above bar at top.",
+      "movement": "Overhand L-sit pull-up, straight horizontal legs maintained throughout. Start with extended arms, pull chin above bar, return under control; 3.5 seconds up, 1 second pause, 3.5 seconds down. Entry into L-sit omitted."
+    },
+    "limitations": [
+      "Procedural demonstration; support samples are not full collision or biomechanical certification.",
+      "Timing is illustrative. Holds show the maintained position only; entry and exit are not animated."
+    ],
+    "artifacts": [
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/full-sheet.png",
+        "sha256": "16caca315ca79c6380e010ce102aeea9203f4d2d9b22052991398b4a492b7a0d"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/side-sheet.png",
+        "sha256": "ea868052728603f9de397cb55ec12f048c30ac6357553137d86ea9e2a2bc9f52"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/poses.json",
+        "sha256": "805f2162bbc664f6212755c8263278e3d7eddcdb8842a0f96e418629926d6107"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/geometry.json",
+        "sha256": "73312a6db84c901a9e11623e2ccf9fa467af623784125f14c2a56d94f696e521"
+      },
+      {
+        "file": "tools/media/imports/all-remaining-20261116/l-sit-pull/native/l-sit-pull-up/kinematics.json",
+        "sha256": "bce67e331875d7bd59ec27adf7820935b95f3357588a86ebebb4daa894f791d0"
+      }
+    ]
+  }
+}

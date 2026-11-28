@@ -25,6 +25,7 @@ test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메�
  await expect(ticketLink).toHaveAttribute('href',`/support/${ticket}`);
  await expect(page.getByRole('article').filter({has:ticketLink})).not.toContainText(/문의\s*\d+번|#\d+/);
  await ticketLink.click();
+ await expect(page.getByLabel('문의 대화').getByText('나',{exact:true})).toBeVisible();
  const otherContext=await browser.newContext();const adminContext=await browser.newContext();
  try{
   const other=await otherContext.newPage();await createOnboardedAccount(other);await other.goto(`/support/${ticket}`);await expect(other.getByText('운동 편집 저장 버튼을 눌렀는데 반응이 없어요.')).toHaveCount(0);
@@ -41,6 +42,10 @@ test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메�
   const [row]=await dbQuery<{status:string}>('select status from support_tickets where id=$1',[ticket]);expect(row.status).toBe('in_progress');
   const moved = await admin.request.get('/admin/support/notifications', { maxRedirects: 0 }); expect(moved.status()).toBe(307); expect(moved.headers().location).toBe('https://admin.helthssu.co.kr/admin/health/support/notifications');
   const photo=await sharp({create:{width:80,height:80,channels:3,background:'#36a878'}}).png().toBuffer();
+  await page.getByLabel('스크린샷 첨부',{exact:true}).setInputFiles({name:'support.png',mimeType:'image/png',buffer:photo});
+  await expect(page.getByText('support.png',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'선택 취소',exact:true}).click();
+  await expect(page.getByText('선택한 사진 없음',{exact:true})).toBeVisible();
   await page.getByLabel('스크린샷 첨부',{exact:true}).setInputFiles({name:'support.png',mimeType:'image/png',buffer:photo});
   await page.getByRole('button',{name:'사진 첨부',exact:true}).click();
   await expect(page.getByRole('img',{name:'문의 첨부 사진',exact:true})).toBeVisible();

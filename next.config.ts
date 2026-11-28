@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 
 import { securityHeaders } from "./src/lib/security/headers";
 import { supportConsoleRedirects } from "./src/features/support/console-redirects";
@@ -62,4 +63,13 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default function config(phase: string): NextConfig {
+  const backendUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (phase === PHASE_DEVELOPMENT_SERVER && backendUrl && URL.canParse(backendUrl)) {
+    const hostname = new URL(backendUrl).hostname.replace(/\.$/, "");
+    if (hostname === "hgfsfupazyjcrmophmzc.supabase.co") {
+      throw new Error("이전 헬쑤 DB는 로컬 개발에서 사용할 수 없습니다. .env.local의 NEXT_PUBLIC_SUPABASE_URL과 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY를 같은 백엔드 설정으로 바꿔 주세요.");
+    }
+  }
+  return nextConfig;
+}

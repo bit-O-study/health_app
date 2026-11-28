@@ -23,10 +23,10 @@ pnpm dev
 
 ## 환경변수 설정
 
-`.env.example`을 참고해 로컬용 `.env.local` 파일을 만들고 Supabase 값을 설정합니다.
+`.env.example`을 참고해 로컬용 `.env.local` 파일을 만들고, 연결할 백엔드 주소와 해당 백엔드의 공개 키를 함께 설정합니다. 운영 데이터를 확인하는 경우 운영 API 주소 `https://api.helthssu.co.kr/health`와 그 공개 키를 사용하며, 이때 로컬의 로그인과 데이터 저장도 운영 환경을 사용합니다. 이전 헬쑤 DB 주소로는 개발 서버가 시작되지 않습니다.
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
